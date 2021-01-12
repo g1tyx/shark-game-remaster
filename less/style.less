@@ -1,13 +1,6 @@
 /*------------------------------------------------------
   MIXINS
 -------------------------------------------------------*/
-// default theme (marine)
-@color-lighter: #7788aa;
-@color-light: #4e638e;
-@color-med: #2e4372;
-@color-dark: #152a55;
-@color-darker: #061639;
-
 //abandoned theme
 @color-lighter-abandoned: #565168;
 @color-light-abandoned: #363241;
@@ -23,18 +16,25 @@
 @color-darker-chaotic: #113a2d;
 
 //frigid theme
-@color-lighter-frigid: hsl(204, 13%, 73%);
-@color-light-frigid: hsl(204, 19%, 58%);
-@color-med-frigid: hsl(204, 33%, 45%);
-@color-dark-frigid: hsl(204, 50%, 34%);
-@color-darker-frigid: hsl(204, 71%, 24%);
+@color-lighter-frigid: #b1bcc3;
+@color-light-frigid: #8098a8;
+@color-med-frigid: #4d7a99;
+@color-dark-frigid: #2b5f82;
+@color-darker-frigid: #124669;
 
 //haven theme
-@color-lighter-haven: hsl(200, 23%, 67%);
-@color-light-haven: hsl(200, 29%, 53%);
-@color-med-haven: hsl(200, 43%, 41%);
-@color-dark-haven: hsl(200, 60%, 31%);
-@color-darker-haven: hsl(200, 81%, 22%);
+@color-lighter-haven: #97b1be;
+@color-light-haven: #6493aa;
+@color-med-haven: #3c7896;
+@color-dark-haven: #205f7e;
+@color-darker-haven: #0b4766;
+
+// marine theme (default)
+@color-lighter: #7788aa;
+@color-light: #4e638e;
+@color-med: #2e4372;
+@color-dark: #152a55;
+@color-darker: #061639;
 
 //shrouded theme
 @color-lighter-shrouded: #565168;
@@ -43,13 +43,13 @@
 @color-dark-shrouded: #171226;
 @color-darker-shrouded: #0e091c;
 
-/*//tempestuous theme
-@color-lighter-tempestuous: #7788aa;
-@color-light-tempestuous: #4e638e;
-@color-med-tempestuous: #2e4372;
-@color-dark-tempestuous: #152a55;
-@color-darker-tempestuous: #061639;
-*/
+//tempestuous theme
+@color-lighter-tempestuous: #858d9e;
+@color-light-tempestuous: #5e687e;
+@color-med-tempestuous: #3e4960;
+@color-dark-tempestuous: #253046;
+@color-darker-tempestuous: #121a2b;
+
 //violent theme
 @color-lighter-violent: #975f5f;
 @color-light-violent: #714141;
@@ -231,7 +231,7 @@
             --color-darker: @color-darker-shrouded;
             --color-title: rgba(red(@color-med-shrouded), green(@color-med-shrouded), blue(@color-med-shrouded), 0.2);
         }
-        /*&.tempestuous {
+        &.tempestuous {
             --color-lighter: @color-lighter-tempestuous;
             --color-light: @color-light-tempestuous;
             --color-med: @color-med-tempestuous;
@@ -243,7 +243,7 @@
                 blue(@color-med-tempestuous),
                 0.2
             );
-        }*/
+        }
         &.violent {
             --color-lighter: @color-lighter-violent;
             --color-light: @color-light-violent;

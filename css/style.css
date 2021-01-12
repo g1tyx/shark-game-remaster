@@ -1,13 +1,6 @@
 /*------------------------------------------------------
   MIXINS
 -------------------------------------------------------*/
-/*//tempestuous theme
-@color-lighter-tempestuous: #7788aa;
-@color-light-tempestuous: #4e638e;
-@color-med-tempestuous: #2e4372;
-@color-dark-tempestuous: #152a55;
-@color-darker-tempestuous: #061639;
-*/
 .clear-fix {
   display: block;
   zoom: 1;
@@ -31,21 +24,6 @@
   --color-darker: #061639;
   --color-title: rgba(46, 67, 114, 0.2);
 }
-:root :not(.no-theme) {
-  /*&.tempestuous {
-            --color-lighter: @color-lighter-tempestuous;
-            --color-light: @color-light-tempestuous;
-            --color-med: @color-med-tempestuous;
-            --color-dark: @color-dark-tempestuous;
-            --color-darker: @color-darker-tempestuous;
-            --color-title: rgba(
-                red(@color-med-tempestuous),
-                green(@color-med-tempestuous),
-                blue(@color-med-tempestuous),
-                0.2
-            );
-        }*/
-}
 :root :not(.no-theme).abandoned {
   --color-lighter: #565168;
   --color-light: #363241;
@@ -63,19 +41,19 @@
   --color-title: rgba(69, 105, 93, 0.2);
 }
 :root :not(.no-theme).frigid {
-  --color-lighter: hsl(204, 13%, 73%);
-  --color-light: hsl(204, 19%, 58%);
-  --color-med: hsl(204, 33%, 45%);
-  --color-dark: hsl(204, 50%, 34%);
-  --color-darker: hsl(204, 71%, 24%);
+  --color-lighter: #b1bcc3;
+  --color-light: #8098a8;
+  --color-med: #4d7a99;
+  --color-dark: #2b5f82;
+  --color-darker: #124669;
   --color-title: rgba(77, 122, 153, 0.2);
 }
 :root :not(.no-theme).haven {
-  --color-lighter: hsl(200, 23%, 67%);
-  --color-light: hsl(200, 29%, 53%);
-  --color-med: hsl(200, 43%, 41%);
-  --color-dark: hsl(200, 60%, 31%);
-  --color-darker: hsl(200, 81%, 22%);
+  --color-lighter: #97b1be;
+  --color-light: #6493aa;
+  --color-med: #3c7896;
+  --color-dark: #205f7e;
+  --color-darker: #0b4766;
   --color-title: rgba(60, 120, 150, 0.2);
 }
 :root :not(.no-theme).shrouded {
@@ -85,6 +63,14 @@
   --color-dark: #171226;
   --color-darker: #0e091c;
   --color-title: rgba(31, 27, 44, 0.2);
+}
+:root :not(.no-theme).tempestuous {
+  --color-lighter: hsl(220, 11.5%, 57%);
+  --color-light: hsl(220, 14.5%, 43%);
+  --color-med: hsl(221, 21.5%, 31%);
+  --color-dark: hsl(220, 30%, 21%);
+  --color-darker: hsl(221, 40.5%, 12%);
+  --color-title: rgba(62, 73, 96, 0.2);
 }
 :root :not(.no-theme).violent {
   --color-lighter: #975f5f;
