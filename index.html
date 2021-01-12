@@ -20,16 +20,7 @@
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <link rel="image_src" href="img/sharkgame.png" />
         <link rel="apple-touch-icon" href="https://cirri.al/sharks/img/sharkgame.png" />
-        <link href="css/style.css" rel="stylesheet" type="text/css" title="default" />
-
-        <!-- custom stylesheets -->
-        <link href="css/abandoned.css" rel="alternate stylesheet" type="text/css" title="abandoned" />
-        <link href="css/chaotic.css" rel="alternate stylesheet" type="text/css" title="chaotic" />
-        <link href="css/frigid.css" rel="alternate stylesheet" type="text/css" title="frigid" />
-        <link href="css/haven.css" rel="alternate stylesheet" type="text/css" title="haven" />
-        <link href="css/shrouded.css" rel="alternate stylesheet" type="text/css" title="shrouded" />
-        <link href="css/tempestuous.css" rel="alternate stylesheet" type="text/css" title="tempestuous" />
-        <link href="css/violent.css" rel="alternate stylesheet" type="text/css" title="violent" />
+        <link href="css/style-min.css" rel="stylesheet" type="text/css" title="default" />
 
         <!-- load frameworks -->
         <!-- jQuery -->
@@ -46,6 +37,7 @@
 
         <!-- Cirr's code starts here. I hope you find it insightful if you came here to peer at it,
         but Javascript is hardly my most familiar language. The code here likely stinks. -->
+
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/util.js"></script>
 
@@ -69,10 +61,256 @@
         <script type="text/javascript" src="js/tabs/recycler.js"></script>
         <script type="text/javascript" src="js/tabs/gate.js"></script>
         <script type="text/javascript" src="js/tabs/reflection.js"></script>
+        <script>
+            var r = SharkGame.Resources;
+            var m = SharkGame.Main;
+            var y = SharkGame.Recycler;
+            var g = SharkGame.Gateway;
+            var s = SharkGame.Stats;
+            var w = SharkGame.World;
+            var h = SharkGame.Home;
+            var cad = SharkGame.cheatsAndDebug;
+            var cheats = "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
+            var cheatcodes =
+                "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
+            var cheatCodes =
+                "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
+            var cheatsPlease =
+                "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
+            function sgdebug() {
+                // debug is a command-line API
+                SharkGame.HomeActions.debugbutton.unauthorized = false;
+            }
+            function pause() {
+                if (cad.stop) {
+                    SharkGame.Log.addError("The game is stopped. You can't also pause it.");
+                    return "The game is stopped. You can't also pause it.";
+                }
+                if (!cad.pause) {
+                    cad.pause = true;
+                    return "Paused game.";
+                } else {
+                    SharkGame.Log.addError("The game is already paused.");
+                }
+            }
+            function unpause() {
+                if (cad.pause || cad.stop) {
+                    cad.pause = false;
+                    cad.stop = false;
+                } else {
+                    SharkGame.Log.addError("The game is not paused or stopped.");
+                    return "Resumed game.";
+                }
+            }
+            function stop() {
+                if (cad.pause) {
+                    SharkGame.Log.addError("The game is paused. You can't also stop it.");
+                    return "The game is paused. You can't also stop it.";
+                }
+                if (!cad.stop) {
+                    cad.stop = true;
+                    return "Stopped game.";
+                } else {
+                    SharkGame.Log.addError("The game is already stopped.");
+                }
+            }
+            function freeze() {
+                w.forceExistence("ice");
+                SharkGame.PlayerResources.get("ice").discovered = true;
+                r.clearNetworks();
+                r.buildApplicableNetworks();
+                r.setResource("ice", 1000);
+                r.setTotalResource("ice", 1000);
+                r.rebuildTable = true;
+                SharkGame.Log.addMessage("ICE going, doofus!");
+                return "Game frozen.";
+            }
+            function unfreeze() {
+                r.setResource("ice", 0);
+                SharkGame.Log.addMessage("What, did you need some bailing out?");
+                return "Game unfrozen.";
+            }
+            function exponentialGrowthPlease() {
+                if (w.doesResourceExist("sponge")) {
+                    r.addNetworkNode(
+                        SharkGame.ResourceIncomeAffectedApplicable,
+                        "sponge",
+                        "multiply",
+                        "sponge",
+                        0.00000001
+                    );
+                    if (w.doesResourceExist("algae") && w.doesResourceExist("shrimp")) {
+                        r.addNetworkNode(
+                            SharkGame.ResourceIncomeAffectedApplicable,
+                            "algae",
+                            "multiply",
+                            "sponge",
+                            0.00000001
+                        );
+                        r.addNetworkNode(
+                            SharkGame.GeneratorIncomeAffectedApplicable,
+                            "shrimp",
+                            "multiply",
+                            "algae",
+                            0.0000001
+                        );
+                    }
+                }
+                if (w.doesResourceExist("shark") && w.doesResourceExist("fish")) {
+                    r.addNetworkNode(
+                        SharkGame.GeneratorIncomeAffectedApplicable,
+                        "shark",
+                        "multiply",
+                        "fish",
+                        0.000001
+                    );
+                }
+                if (w.doesResourceExist("ray") && w.doesResourceExist("sand")) {
+                    r.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "ray", "multiply", "sand", 0.000001);
+                }
+                if (w.doesResourceExist("crab") && w.doesResourceExist("crystal")) {
+                    r.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "crab", "multiply", "crystal", 0.001);
+                }
+                if (w.doesResourceExist("science") && w.doesResourceExist("scientist")) {
+                    r.addNetworkNode(
+                        SharkGame.GeneratorIncomeAffectedApplicable,
+                        "scientist",
+                        "multiply",
+                        "science",
+                        0.000001
+                    );
+                }
+                if (w.doesResourceExist("kelp") && w.doesResourceExist("seaApple")) {
+                    r.addNetworkNode(
+                        SharkGame.GeneratorIncomeAffectedApplicable,
+                        "kelp",
+                        "multiply",
+                        "seaApple",
+                        0.0001
+                    );
+                }
+                return "Growing exponentially.";
+            }
+            function stupidExponentialGrowthPlease() {
+                if (w.doesResourceExist("sponge")) {
+                    r.addNetworkNode(SharkGame.ResourceIncomeAffectedApplicable, "sponge", "multiply", "sponge", 0.001);
+                    if (w.doesResourceExist("algae") && w.doesResourceExist("shrimp")) {
+                        r.addNetworkNode(
+                            SharkGame.ResourceIncomeAffectedApplicable,
+                            "algae",
+                            "multiply",
+                            "sponge",
+                            0.001
+                        );
+                        r.addNetworkNode(
+                            SharkGame.GeneratorIncomeAffectedApplicable,
+                            "shrimp",
+                            "multiply",
+                            "algae",
+                            0.001
+                        );
+                    }
+                }
+                if (w.doesResourceExist("shark") && w.doesResourceExist("fish")) {
+                    r.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "shark", "multiply", "fish", 0.001);
+                }
+                if (w.doesResourceExist("ray") && w.doesResourceExist("sand")) {
+                    r.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "ray", "multiply", "sand", 0.001);
+                }
+                if (w.doesResourceExist("crab") && w.doesResourceExist("crystal")) {
+                    r.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "crab", "multiply", "crystal", 0.01);
+                }
+                if (w.doesResourceExist("science") && w.doesResourceExist("scientist")) {
+                    r.addNetworkNode(
+                        SharkGame.GeneratorIncomeAffectedApplicable,
+                        "scientist",
+                        "multiply",
+                        "science",
+                        0.001
+                    );
+                }
+                if (w.doesResourceExist("kelp") && w.doesResourceExist("seaApple")) {
+                    r.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "kelp", "multiply", "seaApple", 0.01);
+                }
+                return "Growing really fast.";
+            }
+            function freeEssencePlease() {
+                r.changeResource("essence", 1000);
+                return "Okay, but only because you asked nicely.";
+            }
+            function goFasterPlease() {
+                if (cad.speed === 512) {
+                    return "I think you've had enough.";
+                }
+                let msg = "";
+                cad.speed *= 2;
+                switch (cad.speed) {
+                    case 2:
+                        msg = "Going twice as fast.";
+                        break;
+                    case 512:
+                        msg = "Going...really fast.";
+                        break;
+                    default:
+                        msg = "Going " + cad.speed + " times as fast.";
+                        break;
+                }
+                return msg;
+            }
+            function giveMeLotsOfEverythingPlease() {
+                r.giveMeSomeOfEverything(100000000000000000000000000000000000000000);
+                return "Gave you lots of everything.";
+            }
+            function doSomethingCoolPlease() {
+                return "Did something really cool.";
+                // this doesn't do anything
+            }
+            function lowerClimatePlease() {
+                w.planetLevel -= 10;
+                if (w.planetLevel < 1) {
+                    w.planetLevel = 1;
+                }
+                w.apply();
+                return "Made the climate easier.";
+            }
+            function higherClimatePlease() {
+                w.planetLevel += 10;
+                w.apply();
+                return "Made the climate harder.";
+            }
+            function listAllCheatsPlease() {
+                return "Nice try.";
+            }
+            function makeEverythingCheapPlease() {
+                return "WIP.";
+            }
+            function goSlowerPlease() {
+                cad.speed *= 0.5;
+                return "Slowed things down to " + cad.speed + " times as fast.";
+            }
+            function chunkyPlease() {
+                if (cad.chunky) {
+                    return "Game is already chunky.";
+                }
+                cad.chunky = true;
+                SharkGame.INTERVAL = 500;
+                SharkGame.dt = 1 / 2;
+                return "I uh...okay.";
+            }
+            function smoothPlease() {
+                if (!cad.chunky) {
+                    return "Game is already smooth.";
+                }
+                cad.chunky = false;
+                SharkGame.INTERVAL = 100;
+                SharkGame.dt = 1 / 10;
+                return "Returned game to smoothness.";
+            }
+        </script>
     </head>
     <body>
         <div id="wrapper">
-            <span id="tooltipbox", class='tooltip'></span>
+            <span id="tooltipbox" class="tooltip"></span>
             <noscript>
                 <div class="section">
                     <h1>Shark Game??</h1>

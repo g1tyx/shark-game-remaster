@@ -11,7 +11,7 @@ SharkGame.Save = {
             settings: {},
             upgrades: {},
             gateCostsMet: [],
-            world: { type: SharkGame.World.worldType, level: SharkGame.World.planetLevel },
+            world: { type: w.worldType, level: w.planetLevel },
             artifacts: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
             completedWorlds: {},
@@ -76,7 +76,7 @@ SharkGame.Save = {
             }
         );
 
-        $.each(SharkGame.Gateway.completedWorlds, (k, v) => {
+        $.each(g.completedWorlds, (k, v) => {
             saveData.completedWorlds[v] = true;
         });
 
@@ -243,15 +243,15 @@ SharkGame.Save = {
 
             // load world type and level and apply world properties
             if (saveData.world) {
-                SharkGame.World.init();
-                SharkGame.World.worldType = saveData.world.type;
-                SharkGame.World.planetLevel = saveData.world.level;
-                SharkGame.World.apply();
-                SharkGame.Home.init();
+                w.init();
+                w.worldType = saveData.world.type;
+                w.planetLevel = saveData.world.level;
+                w.apply();
+                h.init();
             }
 
             // hacky kludge: force table creation
-            SharkGame.Resources.reconstructResourcesTable();
+            r.reconstructResourcesTable();
 
             if (saveData.upgrades) {
                 $.each(saveData.upgrades, (k, v) => {
@@ -261,11 +261,11 @@ SharkGame.Save = {
                 });
             }
 
-            SharkGame.Gateway.init();
+            g.init();
             if (saveData.completedWorlds) {
                 $.each(saveData.completedWorlds, (k, v) => {
                     if (v) {
-                        SharkGame.Gateway.markWorldCompleted(k);
+                        g.markWorldCompleted(k);
                     }
                 });
             }
@@ -276,7 +276,7 @@ SharkGame.Save = {
                     SharkGame.Artifacts[k].level = v;
                 });
                 // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
-                SharkGame.Gateway.applyArtifacts(true);
+                g.applyArtifacts(true);
             }
 
             if (saveData.tabs) {
@@ -339,7 +339,7 @@ SharkGame.Save = {
                 if (saveData.gateway.betweenRuns) {
                     simulateOffline = false;
                     SharkGame.wonGame = saveData.gateway.wonGame;
-                    SharkGame.Main.endGame(true);
+                    m.endGame(true);
                 }
             }
 
@@ -354,8 +354,8 @@ SharkGame.Save = {
                 }
 
                 // process this
-                SharkGame.Resources.recalculateIncomeTable();
-                SharkGame.Main.processSimTime(secondsElapsed);
+                r.recalculateIncomeTable();
+                m.processSimTime(secondsElapsed);
 
                 // acknowledge long time gaps
                 if (secondsElapsed > 3600) {
@@ -429,10 +429,10 @@ SharkGame.Save = {
             SharkGame.Save.loadGame(saveData);
         } catch (err) {
             SharkGame.Log.addError(err.message);
-            console.log(err.trace);
+            console.error(err.trace);
         }
         // refresh current tab
-        SharkGame.Main.setUpTab();
+        m.setUpTab();
     },
 
     exportData() {
@@ -443,7 +443,7 @@ SharkGame.Save = {
                 saveData = SharkGame.Save.saveGame(true);
             } catch (err) {
                 SharkGame.Log.addError(err.message);
-                console.log(err.trace);
+                console.error(err.trace);
             }
         }
         // check if save isn't encoded
@@ -833,27 +833,11 @@ SharkGame.Save = {
             save = $.extend(true, save, {
                 completedWorlds: {},
             });
+            _.each(["iterativeDesign", "superprocessing"], (v) => {
+                save.upgrades[v] = false;
+            });
             _.each(
-                [
-                    "iterativeDesign",
-                    "superprocessing",
-                ],
-                (v) => {
-                    save.upgrades[v] = false;
-                }
-            );
-            _.each(
-                [
-                    "start",
-                    "marine",
-                    "chaotic",
-                    "haven",
-                    "tempestuous",
-                    "violent",
-                    "abandoned",
-                    "shrouded",
-                    "frigid",
-                ],
+                ["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"],
                 (v) => {
                     save.completedWorlds[v] = false;
                 }

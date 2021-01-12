@@ -20,7 +20,6 @@ SharkGame.Stats = {
         "</br>Disposing specialists returns them to their normal, previous lives.",
 
     init() {
-        const s = SharkGame.Stats;
         // register tab
         SharkGame.Tabs[s.tabId] = {
             id: s.tabId,
@@ -33,7 +32,6 @@ SharkGame.Stats = {
     },
 
     switchTo() {
-        const s = SharkGame.Stats;
         const content = $("#content");
         content.append($("<div>").attr("id", "tabMessage"));
         const statsContainer = $("<div>").attr("id", "statsContainer");
@@ -87,13 +85,10 @@ SharkGame.Stats = {
 
         const genStats = $("#generalStats");
         genStats.append($("<h3>").html("General Stats"));
-        const firstTime = SharkGame.Main.isFirstTime();
+        const firstTime = m.isFirstTime();
         if (!firstTime) {
             genStats.append(
-                $("<p>").html(
-                    "<span class='medDesc'>Climate Level</span><br>" +
-                        SharkGame.Main.beautify(SharkGame.World.planetLevel)
-                )
+                $("<p>").html("<span class='medDesc'>Climate Level</span><br>" + m.beautify(w.planetLevel))
             );
         }
         genStats.append(
@@ -118,13 +113,10 @@ SharkGame.Stats = {
         }
         genStats.append(s.createTotalAmountTable());
 
-        SharkGame.Main.createBuyButtons("rid");
+        m.createBuyButtons("rid");
     },
 
     update() {
-        const m = SharkGame.Main;
-        const s = SharkGame.Stats;
-
         s.updateDisposeButtons();
         s.updateIncomeTable();
         s.updateTotalAmountTable();
@@ -141,26 +133,21 @@ SharkGame.Stats = {
     },
 
     createDisposeButtons() {
-        const r = SharkGame.Resources;
-        const s = SharkGame.Stats;
-        const m = SharkGame.Main;
         const buttonDiv = $("#disposeResource");
-        SharkGame.ResourceMap.forEach((v, k, _map) => {
+        SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
                 SharkGame.Button.makeButton(
                     "dispose-" + k,
                     "Dispose of " + r.getResourceName(k),
                     buttonDiv,
-                    SharkGame.Stats.onDispose
+                    s.onDispose
                 );
             }
         });
     },
 
     updateDisposeButtons() {
-        const r = SharkGame.Resources;
-        const m = SharkGame.Main;
-        SharkGame.ResourceMap.forEach((v, k, _map) => {
+        SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0) {
                 const button = $("#dispose-" + k);
                 const resourceAmount = r.getResource(k);
@@ -181,13 +168,17 @@ SharkGame.Stats = {
                     label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular);
                 }
 
-                button.html(label).prop("disabled", disableButton);
+                button.html(label);
+                if (disableButton) {
+                    button.addClass("disabled");
+                } else {
+                    button.removeClass("disabled");
+                }
             }
         });
     },
 
     onDispose() {
-        const r = SharkGame.Resources;
         const l = SharkGame.Log;
         const resourceName = $(this).attr("id").split("-")[1];
         const resourceAmount = r.getResource(resourceName);
@@ -211,9 +202,7 @@ SharkGame.Stats = {
     },
 
     updateIncomeTable() {
-        const r = SharkGame.Resources;
-        const m = SharkGame.Main;
-        SharkGame.ResourceMap.forEach((v, k, _map) => {
+        SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0 && SharkGame.ResourceMap.get(k).income) {
                 const income = SharkGame.ResourceMap.get(k).income;
                 $.each(income, (incomeKey, incomeValue) => {
@@ -233,9 +222,7 @@ SharkGame.Stats = {
     },
 
     updateTotalAmountTable() {
-        const r = SharkGame.Resources;
-        const m = SharkGame.Main;
-        SharkGame.ResourceMap.forEach((v, k, _map) => {
+        SharkGame.ResourceMap.forEach((v, k) => {
             const totalResource = r.getTotalResource(k);
             if (totalResource > 0) {
                 const cell = $("#totalAmount-" + k);
@@ -245,9 +232,6 @@ SharkGame.Stats = {
     },
 
     createIncomeTable() {
-        const r = SharkGame.Resources;
-        const m = SharkGame.Main;
-        const w = SharkGame.World;
         let incomesTable = $("#incomeTable");
         if (incomesTable.length === 0) {
             incomesTable = $("<table>").attr("id", "incomeTable");
@@ -260,6 +244,7 @@ SharkGame.Stats = {
         let formatCounter = 0;
 
         let drawnResourceMap = new Map();
+
         SharkGame.ResourceMap.forEach((generatorData, generatorName) => {
             if (r.getTotalResource(generatorName) > 0 && generatorData.income) {
                 // if the resource has an income requiring any costs
@@ -396,8 +381,6 @@ SharkGame.Stats = {
     },
 
     createTotalAmountTable() {
-        const r = SharkGame.Resources;
-        const m = SharkGame.Main;
         let totalAmountTable = $("#totalAmountTable");
         if (totalAmountTable.length === 0) {
             totalAmountTable = $("<table>").attr("id", "totalAmountTable");
@@ -405,15 +388,15 @@ SharkGame.Stats = {
             totalAmountTable.empty();
         }
 
-        SharkGame.ResourceMap.forEach((v, k, _map) => {
-            if (r.getTotalResource(k) > 0) {
+        SharkGame.ResourceMap.forEach((v, key) => {
+            if (r.getTotalResource(key) > 0) {
                 const row = $("<tr>");
 
-                row.append($("<td>").html(r.getResourceName(k)));
+                row.append($("<td>").html(r.getResourceName(key)));
                 row.append(
                     $("<td>")
-                        .html(m.beautify(r.getTotalResource(k)))
-                        .attr("id", "totalAmount-" + k)
+                        .html(m.beautify(r.getTotalResource(key)))
+                        .attr("id", "totalAmount-" + key)
                 );
 
                 totalAmountTable.append(row);

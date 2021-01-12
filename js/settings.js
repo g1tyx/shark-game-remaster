@@ -20,7 +20,7 @@ SharkGame.Settings = {
         show: true,
         options: [true, false],
         onChange() {
-            SharkGame.Resources.rebuildTable = true;
+            r.rebuildTable = true;
         },
     },
 
@@ -31,7 +31,7 @@ SharkGame.Settings = {
         show: true,
         options: ["list", "pile"],
         onChange() {
-            SharkGame.Main.changeTab(SharkGame.Tabs.current);
+            m.changeTab(SharkGame.Tabs.current);
         },
     },
 
@@ -51,11 +51,8 @@ SharkGame.Settings = {
         show: true,
         options: [1, 2, 5, 10, 30],
         onChange() {
-            clearInterval(SharkGame.Main.autosaveHandler);
-            SharkGame.Main.autosaveHandler = setInterval(
-                SharkGame.Main.autosave,
-                SharkGame.Settings.current.autosaveFrequency * 60000
-            );
+            clearInterval(m.autosaveHandler);
+            m.autosaveHandler = setInterval(m.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
             SharkGame.Log.addMessage(
                 "Now autosaving every " +
                     SharkGame.Settings.current.autosaveFrequency +
@@ -134,8 +131,23 @@ SharkGame.Settings = {
         show: true,
         options: [true, false],
         onChange() {
-            SharkGame.Resources.rebuildTable = true;
-            SharkGame.Stats.recreateIncomeTable = true;
+            r.rebuildTable = true;
+            s.recreateIncomeTable = true;
+        },
+    },
+
+    enableThemes: {
+        defaultSetting: true,
+        name: "Enable Planet-dependent Styles",
+        desc: "Makes your game look like the planet you're on.",
+        show: true,
+        options: [true, false],
+        onChange() {
+            if (SharkGame.Settings.current["enableThemes"]) {
+                document.querySelector("body").classList.remove("no-theme");
+            } else {
+                document.querySelector("body").classList.add("no-theme");
+            }
         },
     },
 
@@ -154,7 +166,7 @@ SharkGame.Settings = {
         show: true,
         options: [true, false],
         onChange() {
-            SharkGame.Main.changeTab(SharkGame.Tabs.current);
+            m.changeTab(SharkGame.Tabs.current);
         },
     },
 };
