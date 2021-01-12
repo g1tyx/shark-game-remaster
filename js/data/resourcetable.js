@@ -832,7 +832,7 @@ SharkGame.ResourceTable = {
         name: "residue",
         singleName: "residue",
         //desc: "Industrial potential.",
-        color: "#605050",
+        color: "#ABABAB",
         value: 1,
     },
 
