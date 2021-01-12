@@ -1,13 +1,6 @@
 /*------------------------------------------------------
   MIXINS
 -------------------------------------------------------*/
-// default theme (marine)
-@color-lighter: #7788aa;
-@color-light: #4e638e;
-@color-med: #2e4372;
-@color-dark: #152a55;
-@color-darker: #061639;
-
 //abandoned theme
 @color-lighter-abandoned: #565168;
 @color-light-abandoned: #363241;
@@ -23,32 +16,39 @@
 @color-darker-chaotic: #113a2d;
 
 //frigid theme
-@color-lighter-frigid: #7788aa;
-@color-light-frigid: #4e638e;
-@color-med-frigid: #2e4372;
-@color-dark-frigid: #152a55;
-@color-darker-frigid: #061639;
+@color-lighter-frigid: #b1bcc3;
+@color-light-frigid: #8098a8;
+@color-med-frigid: #4d7a99;
+@color-dark-frigid: #2b5f82;
+@color-darker-frigid: #124669;
 
 //haven theme
-@color-lighter-haven: #7788aa;
-@color-light-haven: #4e638e;
-@color-med-haven: #2e4372;
-@color-dark-haven: #152a55;
-@color-darker-haven: #061639;
+@color-lighter-haven: #97b1be;
+@color-light-haven: #6493aa;
+@color-med-haven: #3c7896;
+@color-dark-haven: #205f7e;
+@color-darker-haven: #0b4766;
+
+// marine theme (default)
+@color-lighter: #7788aa;
+@color-light: #4e638e;
+@color-med: #2e4372;
+@color-dark: #152a55;
+@color-darker: #061639;
 
 //shrouded theme
-@color-lighter-shrouded: #565168;
-@color-light-shrouded: #363241;
-@color-med-shrouded: #1f1b2c;
-@color-dark-shrouded: #171226;
-@color-darker-shrouded: #0e091c;
+@color-lighter-shrouded: #22bec3;
+@color-light-shrouded: #302d39;
+@color-med-shrouded: #121019;
+@color-dark-shrouded: #0f0b18;
+@color-darker-shrouded: #0a0613;
 
 //tempestuous theme
-@color-lighter-tempestuous: #7788aa;
-@color-light-tempestuous: #4e638e;
-@color-med-tempestuous: #2e4372;
-@color-dark-tempestuous: #152a55;
-@color-darker-tempestuous: #061639;
+@color-lighter-tempestuous: #858d9e;
+@color-light-tempestuous: #5e687e;
+@color-med-tempestuous: #3e4960;
+@color-dark-tempestuous: #253046;
+@color-darker-tempestuous: #121a2b;
 
 //violent theme
 @color-lighter-violent: #975f5f;
@@ -846,9 +846,8 @@ button {
 
     &.disabled {
         background-color: var(--color-darker);
-        color: var(--color-med);
+        color: var(--color-lighter);
         filter: brightness(80%);
-        backdrop-filter: brightness(70%);
         cursor: default;
         border-color: var(--color-med);
 

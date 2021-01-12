@@ -68,6 +68,24 @@ $.extend(SharkGame, {
         pause: false,
         stop: false,
         speed: 1,
+        cycling: false,
+        cycleStyles(time = 2000) {
+            if (cad.cycling) return;
+            cad.cycling = true;
+            let i = 0;
+            let intervalId = NaN;
+            function nextStyle() {
+                if (i >= g.allowedWorlds.length && !isNaN(intervalId)) {
+                    clearInterval(intervalId);
+                } else {
+                    w.worldType = g.allowedWorlds[i++];
+                    console.debug(`worldType now ${w.worldType}`);
+                }
+            }
+            setTimeout(nextStyle);
+            intervalId = setInterval(nextStyle, time);
+            cad.cycling = false;
+        },
     },
 
     credits:
