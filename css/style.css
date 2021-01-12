@@ -57,7 +57,7 @@
   --color-title: rgba(60, 120, 150, 0.2);
 }
 :root :not(.no-theme).shrouded {
-  --color-lighter: #52dce1;
+  --color-lighter: #22bec3;
   --color-light: #302d39;
   --color-med: #121019;
   --color-dark: #0f0b18;
