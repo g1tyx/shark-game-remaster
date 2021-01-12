@@ -111,7 +111,17 @@ SharkGame.Lab = {
                     );
                     l.updateLabButton(key);
                     if (SharkGame.Settings.current.showAnimations) {
-                        buttonSelector.hide().css("opacity", 0).slideDown(50).animate({ opacity: 1.0 }, 50);
+                        buttonSelector
+                            .hide()
+                            .css("opacity", 0)
+                            .slideDown(50)
+                            .animate(
+                                { opacity: 1.0 },
+                                {
+                                    duration: 50,
+                                    done: (anim) => (anim.elem.style = null),
+                                }
+                            );
                     }
                 }
             } else {

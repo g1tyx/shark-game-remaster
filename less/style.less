@@ -22,20 +22,20 @@
 @color-dark-chaotic: #26453b;
 @color-darker-chaotic: #113a2d;
 
-//frigid theme
+/*//frigid theme
 @color-lighter-frigid: #7788aa;
 @color-light-frigid: #4e638e;
 @color-med-frigid: #2e4372;
 @color-dark-frigid: #152a55;
 @color-darker-frigid: #061639;
-
-//haven theme
+*/
+/*//haven theme
 @color-lighter-haven: #7788aa;
 @color-light-haven: #4e638e;
 @color-med-haven: #2e4372;
 @color-dark-haven: #152a55;
 @color-darker-haven: #061639;
-
+*/
 //shrouded theme
 @color-lighter-shrouded: #565168;
 @color-light-shrouded: #363241;
@@ -43,13 +43,13 @@
 @color-dark-shrouded: #171226;
 @color-darker-shrouded: #0e091c;
 
-//tempestuous theme
+/*//tempestuous theme
 @color-lighter-tempestuous: #7788aa;
 @color-light-tempestuous: #4e638e;
 @color-med-tempestuous: #2e4372;
 @color-dark-tempestuous: #152a55;
 @color-darker-tempestuous: #061639;
-
+*/
 //violent theme
 @color-lighter-violent: #975f5f;
 @color-light-violent: #714141;
@@ -207,22 +207,22 @@
             --color-darker: @color-darker-chaotic;
             --color-title: rgba(red(@color-med-chaotic), green(@color-med-chaotic), blue(@color-med-chaotic), 0.2);
         }
-        &.frigid {
+        /*&.frigid {
             --color-lighter: @color-lighter-frigid;
             --color-light: @color-light-frigid;
             --color-med: @color-med-frigid;
             --color-dark: @color-dark-frigid;
             --color-darker: @color-darker-frigid;
             --color-title: rgba(red(@color-med-frigid), green(@color-med-frigid), blue(@color-med-frigid), 0.2);
-        }
-        &.haven {
+        }*/
+        /*&.haven {
             --color-lighter: @color-lighter-haven;
             --color-light: @color-light-haven;
             --color-med: @color-med-haven;
             --color-dark: @color-dark-haven;
             --color-darker: @color-darker-haven;
             --color-title: rgba(red(@color-med-haven), green(@color-med-haven), blue(@color-med-haven), 0.2);
-        }
+        }*/
         &.shrouded {
             --color-lighter: @color-lighter-shrouded;
             --color-light: @color-light-shrouded;
@@ -231,7 +231,7 @@
             --color-darker: @color-darker-shrouded;
             --color-title: rgba(red(@color-med-shrouded), green(@color-med-shrouded), blue(@color-med-shrouded), 0.2);
         }
-        &.tempestuous {
+        /*&.tempestuous {
             --color-lighter: @color-lighter-tempestuous;
             --color-light: @color-light-tempestuous;
             --color-med: @color-med-tempestuous;
@@ -243,7 +243,7 @@
                 blue(@color-med-tempestuous),
                 0.2
             );
-        }
+        }*/
         &.violent {
             --color-lighter: @color-lighter-violent;
             --color-light: @color-light-violent;
@@ -846,9 +846,8 @@ button {
 
     &:disabled {
         background-color: var(--color-darker);
-        color: var(--color-med);
+        color: var(--color-light);
         filter: brightness(80%);
-        backdrop-filter: brightness(70%);
         cursor: default;
         border-color: var(--color-med);
 
