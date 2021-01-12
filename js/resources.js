@@ -1,6 +1,6 @@
-SharkGame.PlayerResources = new Map();
-SharkGame.PlayerIncomeTable = new Map();
-SharkGame.ResourceMap = new Map();
+SharkGame.PlayerResources = new Map(); // stats about resources player has
+SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
+SharkGame.ResourceMap = new Map(); // every resource and what it produces
 
 SharkGame.Resources = {
     INCOME_COLOR: "#808080",
