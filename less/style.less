@@ -22,20 +22,20 @@
 @color-dark-chaotic: #26453b;
 @color-darker-chaotic: #113a2d;
 
-/*//frigid theme
-@color-lighter-frigid: #7788aa;
-@color-light-frigid: #4e638e;
-@color-med-frigid: #2e4372;
-@color-dark-frigid: #152a55;
-@color-darker-frigid: #061639;
-*/
-/*//haven theme
-@color-lighter-haven: #7788aa;
-@color-light-haven: #4e638e;
-@color-med-haven: #2e4372;
-@color-dark-haven: #152a55;
-@color-darker-haven: #061639;
-*/
+//frigid theme
+@color-lighter-frigid: hsl(204, 13%, 73%);
+@color-light-frigid: hsl(204, 19%, 58%);
+@color-med-frigid: hsl(204, 33%, 45%);
+@color-dark-frigid: hsl(204, 50%, 34%);
+@color-darker-frigid: hsl(204, 71%, 24%);
+
+//haven theme
+@color-lighter-haven: hsl(200, 23%, 67%);
+@color-light-haven: hsl(200, 29%, 53%);
+@color-med-haven: hsl(200, 43%, 41%);
+@color-dark-haven: hsl(200, 60%, 31%);
+@color-darker-haven: hsl(200, 81%, 22%);
+
 //shrouded theme
 @color-lighter-shrouded: #565168;
 @color-light-shrouded: #363241;
@@ -207,22 +207,22 @@
             --color-darker: @color-darker-chaotic;
             --color-title: rgba(red(@color-med-chaotic), green(@color-med-chaotic), blue(@color-med-chaotic), 0.2);
         }
-        /*&.frigid {
+        &.frigid {
             --color-lighter: @color-lighter-frigid;
             --color-light: @color-light-frigid;
             --color-med: @color-med-frigid;
             --color-dark: @color-dark-frigid;
             --color-darker: @color-darker-frigid;
             --color-title: rgba(red(@color-med-frigid), green(@color-med-frigid), blue(@color-med-frigid), 0.2);
-        }*/
-        /*&.haven {
+        }
+        &.haven {
             --color-lighter: @color-lighter-haven;
             --color-light: @color-light-haven;
             --color-med: @color-med-haven;
             --color-dark: @color-dark-haven;
             --color-darker: @color-darker-haven;
             --color-title: rgba(red(@color-med-haven), green(@color-med-haven), blue(@color-med-haven), 0.2);
-        }*/
+        }
         &.shrouded {
             --color-lighter: @color-lighter-shrouded;
             --color-light: @color-light-shrouded;
