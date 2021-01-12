@@ -67,6 +67,7 @@ $.extend(SharkGame, {
     cheatsAndDebug: {
         pause: false,
         stop: false,
+        speed: 1,
         cycling: false,
         cycleStyles(time = 2000) {
             if (cad.cycling) return;
