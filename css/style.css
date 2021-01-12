@@ -57,19 +57,19 @@
   --color-title: rgba(60, 120, 150, 0.2);
 }
 :root :not(.no-theme).shrouded {
-  --color-lighter: #565168;
-  --color-light: #363241;
-  --color-med: #1f1b2c;
-  --color-dark: #171226;
-  --color-darker: #0e091c;
-  --color-title: rgba(31, 27, 44, 0.2);
+  --color-lighter: #34313f;
+  --color-light: #1f1d25;
+  --color-med: #121019;
+  --color-dark: #0f0b18;
+  --color-darker: #0a0613;
+  --color-title: rgba(18, 16, 25, 0.2);
 }
 :root :not(.no-theme).tempestuous {
-  --color-lighter: hsl(220, 11.5%, 57%);
-  --color-light: hsl(220, 14.5%, 43%);
-  --color-med: hsl(221, 21.5%, 31%);
-  --color-dark: hsl(220, 30%, 21%);
-  --color-darker: hsl(221, 40.5%, 12%);
+  --color-lighter: #858d9e;
+  --color-light: #5e687e;
+  --color-med: #3e4960;
+  --color-dark: #253046;
+  --color-darker: #121a2b;
   --color-title: rgba(62, 73, 96, 0.2);
 }
 :root :not(.no-theme).violent {
@@ -685,7 +685,7 @@ button:focus {
 }
 button.disabled {
   background-color: var(--color-darker);
-  color: var(--color-light);
+  color: var(--color-lighter);
   filter: brightness(80%);
   cursor: default;
   border-color: var(--color-med);
