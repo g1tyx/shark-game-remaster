@@ -848,6 +848,7 @@ SharkGame.Main = {
                     .on("click", () => {
                         if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
                             SharkGame.Save.deleteSave();
+                            m.resetTimers()
                             g.deleteArtifacts(); // they're out of the save data, but not the working game memory!
                             r.reconstructResourcesTable();
                             w.worldType = "start"; // nothing else will reset this
@@ -1097,6 +1098,12 @@ SharkGame.Main = {
             return "";
         }
     },
+    
+    resetTimers() {
+        SharkGame.timestampLastSave = _.now();
+        SharkGame.timestampGameStart = _.now();
+        SharkGame.timestampRunStart = _.now();
+    }
 };
 
 SharkGame.Button = {
