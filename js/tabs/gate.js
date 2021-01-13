@@ -99,8 +99,6 @@ SharkGame.Gate = {
         const required = gt.costs[resourceName];
         if (amount < required) {
             button.html("Need <span class='click-passthrough' style='color:#FFDE0A'>" + m.beautify(required - amount) + "</span> more " + r.getResourceName(resourceName) + " for " + r.getResourceName(resourceName) + " slot");
-        } else {
-            button.html("<span class='click-passthrough' style='color:#FFDE0A'>Insert " + m.beautify(required) + "</span> " + r.getResourceName(resourceName) + " into " + r.getResourceName(resourceName) + " slot");
         }
     },
     

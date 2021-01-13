@@ -97,9 +97,9 @@
                 if (cad.pause || cad.stop) {
                     cad.pause = false;
                     cad.stop = false;
+                    return "Resumed game.";
                 } else {
                     SharkGame.Log.addError("The game is not paused or stopped.");
-                    return "Resumed game.";
                 }
             }
             function stop() {
@@ -288,24 +288,22 @@
                 cad.speed *= 0.5;
                 return "Slowed things down to " + cad.speed + " times as fast.";
             }
-            function chunkyPlease() {
-                if (cad.chunky) {
-                    return "Game is already chunky.";
-                }
-                cad.chunky = true;
-                SharkGame.INTERVAL = 500;
-                SharkGame.dt = 1 / 2;
-                return "I uh...okay.";
-            }
-            function smoothPlease() {
-                if (!cad.chunky) {
-                    return "Game is already smooth.";
-                }
-                cad.chunky = false;
-                SharkGame.INTERVAL = 100;
-                SharkGame.dt = 1 / 10;
-                return "Returned game to smoothness.";
-            }
+            <!-- function discretePlease() { -->
+                <!-- if (cad.chunky) { -->
+                    <!-- return "Game is already discrete."; -->
+                <!-- } -->
+                <!-- cad.chunky = true; -->
+                <!-- return "Forced discrete ticks."; -->
+            <!-- } -->
+            <!-- function smoothPlease() { -->
+                <!-- if (!cad.chunky) { -->
+                    <!-- return "Game is already smooth."; -->
+                <!-- } -->
+                <!-- cad.chunky = false; -->
+                <!-- SharkGame.INTERVAL = 100; -->
+                <!-- SharkGame.dt = 1 / 10; -->
+                <!-- return "Returned game to smoothness."; -->
+            <!-- } -->
         </script>
     </head>
     <body>

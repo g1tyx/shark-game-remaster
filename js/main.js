@@ -68,6 +68,7 @@ $.extend(SharkGame, {
         pause: false,
         stop: false,
         speed: 1,
+        chunky: false,
         cycling: false,
         cycleStyles(time = 2000) {
             if (cad.cycling) return;
@@ -375,6 +376,15 @@ SharkGame.Main = {
         }
         return number;
     },
+    
+    applyFramerate() {
+        SharkGame.INTERVAL = 1000 / SharkGame.Settings.current.framerate;
+        SharkGame.dt = 1 / SharkGame.Settings.current.framerate;
+        if (m.tickHandler) {
+            clearInterval(m.tickHandler);
+        }
+        m.tickHandler = setInterval(m.tick, SharkGame.INTERVAL);
+    },
 
     formatTime(milliseconds) {
         const numSeconds = Math.floor(milliseconds / 1000);
@@ -498,10 +508,9 @@ SharkGame.Main = {
 
         // set up tab after load
         m.setUpTab();
-
-        if (m.tickHandler === -1) {
-            m.tickHandler = setInterval(m.tick, SharkGame.INTERVAL);
-        }
+        
+        // apply tick settings
+        m.applyFramerate();
 
         if (m.autosaveHandler === -1) {
             m.autosaveHandler = setInterval(m.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
@@ -532,9 +541,6 @@ SharkGame.Main = {
                 // Compensate for lost time.
                 m.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
             } else {
-                if (cad.chunky) {
-                    return;
-                }
                 m.processSimTime(SharkGame.dt);
             }
             r.updateResourcesTable();

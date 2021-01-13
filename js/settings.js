@@ -8,9 +8,20 @@ SharkGame.Settings = {
     },
 
     showTabHelp: {
-        defaultSetting: false,
+        defaultSetting: true,
         show: false,
         options: [true, false],
+    },
+    
+    framerate: {
+        defaultSetting: 10,
+        name: "Framerate/TPS",
+        desc: "Lower the TPS to save power or increase performance. Set higher to get a smoother game. Defaults to 10.",
+        show: true,
+        options: [1, 2, 5, 10, 15, 20],
+        onChange() {
+            m.applyFramerate();
+        }
     },
 
     groupResources: {

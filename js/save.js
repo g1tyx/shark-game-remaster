@@ -622,7 +622,7 @@ SharkGame.Save = {
             save = $.extend(true, save, {
                 resources: { sandDigger: { amount: 0, totalAmount: 0 }, junk: { amount: 0, totalAmount: 0 } },
                 upgrades: { statsDiscovery: null, recyclerDiscovery: null },
-                settings: { showTabHelp: false, groupResources: false },
+                settings: { showTabHelp: false, groupResources: true },
                 timestampLastSave: save.timestamp,
                 timestampGameStart: null,
                 timestampRunStart: null,
@@ -786,7 +786,7 @@ SharkGame.Save = {
         // a little tweak here and there
         function update(save) {
             save = $.extend(true, save, {
-                settings: { buttonDisplayType: "list" },
+                settings: { buttonDisplayType: "pile" },
             });
             return save;
         },
@@ -828,7 +828,7 @@ SharkGame.Save = {
             return save;
         },
 
-        // MODDED
+        // MODDED, v0.1
         function update(save) {
             save = $.extend(true, save, {
                 completedWorlds: {},
@@ -842,6 +842,13 @@ SharkGame.Save = {
                     save.completedWorlds[v] = false;
                 }
             );
+            return save;
+        },
+
+        function update(save) {
+            save = $.extend(true, save, {
+                settings: { enableThemes: true, framerate: 10 },
+            });
             return save;
         },
     ],
