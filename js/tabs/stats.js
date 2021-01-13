@@ -156,7 +156,10 @@ SharkGame.Stats = {
                     label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular);
                 }
 
-                button.html(label);
+                if (button.html() != label.replace(/'/g, '"')) {
+                    button.html(label);
+                }
+                
                 if (disableButton) {
                     button.addClass("disabled");
                 } else {
@@ -196,14 +199,17 @@ SharkGame.Stats = {
                 $.each(income, (incomeKey, incomeValue) => {
                     const cell = $("#income-" + k + "-" + incomeKey);
                     const changeChar = incomeValue > 0 ? "+" : "";
-                    cell.html(
-                        "<span style='color: " +
+                    const newValue = "<span style='color: " +
                             r.TOTAL_INCOME_COLOR +
                             "'>" +
                             changeChar +
                             m.beautify(r.getProductAmountFromGeneratorResource(k, incomeKey), false, 2) +
-                            "/s</span>"
-                    );
+                            "/s</span>";
+                    const oldValue = cell.html();
+
+                    if (oldValue != newValue.replace(/'/g, '"')) {
+                        cell.html(newValue);
+                    }
                 });
             }
         });
@@ -214,7 +220,12 @@ SharkGame.Stats = {
             const totalResource = r.getTotalResource(k);
             if (totalResource > 0) {
                 const cell = $("#totalAmount-" + k);
-                cell.html(m.beautify(totalResource));
+                const newValue = m.beautify(totalResource);
+                const oldValue = cell.html();
+
+                if (oldValue != newValue.replace(/'/g, '"')) {
+                    cell.html(newValue);
+                }
             }
         });
     },
