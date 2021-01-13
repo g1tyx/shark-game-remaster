@@ -485,7 +485,7 @@ SharkGame.Home = {
             h.onHomeUnhover();
         }
 
-        label = '<span id="' + actionName + 'Label">' + label + "</span>";
+        label = '<span id="' + actionName + 'Label" class="click-passthrough">' + label + "</span>";
 
         // Only redraw the whole button when necessary.
         // This is necessary when buttons are new, or the icon setting has been changed.
