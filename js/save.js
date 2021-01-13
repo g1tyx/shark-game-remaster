@@ -253,6 +253,8 @@ SharkGame.Save = {
             // hacky kludge: force table creation
             r.reconstructResourcesTable();
 
+            SharkGame.Lab.resetUpgrades();
+
             if (saveData.upgrades) {
                 $.each(saveData.upgrades, (k, v) => {
                     if (saveData.upgrades[k]) {

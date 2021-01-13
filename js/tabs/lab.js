@@ -29,10 +29,12 @@ SharkGame.Lab = {
             discoverReq: l.discoverReq,
             code: l,
         };
-
-        const ups = SharkGame.Upgrades.getUpgradeTable();
-
         // add default purchased state to each upgrade
+        l.resetUpgrades();
+    },
+    
+    resetUpgrades() {
+        const ups = SharkGame.Upgrades.getUpgradeTable();
         $.each(ups, (k, v) => {
             ups[k].purchased = false;
         });
