@@ -614,10 +614,18 @@ SharkGame.Resources = {
         return row;
     },
 
-    getResourceName(resourceName, darken, forceSingle) {
+    getResourceName(resourceName, darken, forceSingle, arbitraryAmount) {
+        if (r.isCategory(resourceName)) {
+            return SharkGame.ResourceCategories[resourceName].name;
+        }
         const resource = SharkGame.ResourceMap.get(resourceName);
+        if (!arbitraryAmount) {
+            amount = Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
+        } else {
+            amount = arbitraryAmount;
+        }
         let name =
-            Math.floor(SharkGame.PlayerResources.get(resourceName).amount) - 1 < SharkGame.EPSILON || forceSingle
+            amount - 1 < SharkGame.EPSILON || forceSingle
                 ? resource.singleName
                 : resource.name;
 

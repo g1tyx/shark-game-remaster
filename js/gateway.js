@@ -577,21 +577,10 @@ SharkGame.Gateway = {
             for (let i = 0; i < Math.min(numberKnown, modifiers); i++) {
                 const modifier = worldData.modifiers[i];
                 const target = modifier.resource;
-                let resourceName = "";
-                if (r.isCategory(target)) {
-                    resourceName = SharkGame.ResourceCategories[target].name;
-                } else {
-                    resourceName = m.toTitleCase(SharkGame.ResourceMap.get(target).name);
-                }
                 modifierList.append(
                     $("<li>")
                         .html(
-                            SharkGame.WorldModifiers[modifier.modifier].name +
-                                " - " +
-                                resourceName +
-                                " (" +
-                                modifier.amount +
-                                ")"
+                            SharkGame.WorldModifiers[modifier.modifier].getMessage(planetLevel, target, modifier.amount)
                         )
                         .addClass("medDesc")
                 );

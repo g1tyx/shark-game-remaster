@@ -236,10 +236,10 @@ SharkGame.WorldTypes = {
         absentResources: ["tar", "ice", "heater", "purifier", "octopus", "eel", "chimaera", "whale", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "breeders", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 0.1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.01 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "coral", amount: 0.01 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "algae", amount: 0.1 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "coral", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "algae", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "sand", amount: 1 },
         ],
         gateCosts: {
@@ -307,7 +307,7 @@ SharkGame.WorldTypes = {
             },
         ],
         gateCosts: {
-            jellyfish: 1e8,
+            jellyfish: 1e7,
             clam: 1e6,
             crystal: 1e8,
             science: 1e7,

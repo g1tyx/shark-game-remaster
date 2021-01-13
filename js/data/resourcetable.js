@@ -370,9 +370,9 @@ SharkGame.ResourceTable = {
         singleName: "chimaera transmuter",
         color: "#6A4BA3",
         income: {
-            sharkonium: 1,
-            sand: -5,
-            crystal: -15,
+            sharkonium: 15,
+            sand: -15,
+            crystal: -45,
         },
         value: 3000,
     },
@@ -383,7 +383,7 @@ SharkGame.ResourceTable = {
         color: "#64685A",
         income: {
             science: 5,
-            jellyfish: 0.5,
+            jellyfish: 1,
         },
 
         value: 3000,
@@ -495,7 +495,7 @@ SharkGame.ResourceTable = {
             junk: 60,
             sand: -16,
             fish: -6,
-            tar: 0.02,
+            tar: 0.005,
         },
         value: 50000,
     },
@@ -647,7 +647,7 @@ SharkGame.ResourceTable = {
         color: "#8E8F91",
         income: {
             tar: -0.2,
-            junk: 40,
+            junk: 80,
         },
         value: 50000,
         forceIncome: true,

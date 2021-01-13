@@ -1,9 +1,15 @@
 SharkGame.WorldModifiers = {
     planetaryIncome: {
-        name: "Planetary Income",
+        name: "Income per Climate Level",
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).income = level * amount;
+        },
+        getEffect(level, amount) {
+            return level * amount;
+        },
+        getMessage(level, resourceName, amount) {
+            return (level * amount) + " " + r.getResourceName(resourceName, false, false, (level * amount)) + " per Second";
         },
     },
     planetaryConstantIncome: {
@@ -12,12 +18,24 @@ SharkGame.WorldModifiers = {
             const wr = w.worldResources;
             wr.get(resourceName).income = amount;
         },
+        getEffect(level, amount) {
+            return amount;
+        },
+        getMessage(level, resourceName, amount) {
+            return amount + " " + r.getResourceName(resourceName, false, false, amount) + " per Second";
+        },
     },
     planetaryIncomeMultiplier: {
         name: "Planetary Income Multiplier",
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = 1 + level * amount;
+        },
+        getEffect(level, amount) {
+            return 1 + level * amount;
+        },
+        getMessage(level, resourceName, amount) {
+            return "Income from " + r.getResourceName(resourceName, false, false, 2) + " x" + (1 + level * amount).toFixed(2);
         },
     },
     planetaryFixedIncomeMultiplier: {
@@ -26,12 +44,24 @@ SharkGame.WorldModifiers = {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = amount;
         },
+        getEffect(level, amount) {
+            return amount;
+        },
+        getMessage(level, resourceName, amount) {
+            return "Income from " + r.getResourceName(resourceName, false, false, 2) + " x" + amount;
+        },
     },
     planetaryIncomeReciprocalMultiplier: {
         name: "Planetary Income Reciprocal Multiplier",
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = 1 / (1 + level * amount);
+        },
+        getEffect(level, amount) {
+            return 1 / (1 + level * amount);
+        },
+        getMessage(level, resourceName, amount) {
+            return "Income from " + r.getResourceName(resourceName, false, false, 2) + " x" + (1 / (1 + level * amount)).toFixed(2);
         },
     },
     planetaryFixedIncomeReciprocalMultiplier: {
@@ -40,6 +70,12 @@ SharkGame.WorldModifiers = {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = 1 / amount;
         },
+        getEffect(level, amount) {
+            return 1 / amount;
+        },
+        getMessage(level, resourceName, amount) {
+            return "Income from " + r.getResourceName(resourceName, false, false, 2) + " x" + (1 / amount).toFixed(2);
+        },
     },
     planetaryResourceBoost: {
         name: "Planetary Boost",
@@ -47,12 +83,24 @@ SharkGame.WorldModifiers = {
             const wr = w.worldResources;
             wr.get(resourceName).boostMultiplier = 1 + level * amount;
         },
+        getEffect(level, amount) {
+            return 1 + level * amount;
+        },
+        getMessage(level, resourceName, amount) {
+            return "All " + r.getResourceName(resourceName, false, false, 2) + " x" + (1 + level * amount).toFixed(2);
+        },
     },
     planetaryResourceReciprocalBoost: {
         name: "Planetary Reciprocal Boost",
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).boostMultiplier = 1 / (1 + level * amount);
+        },
+        getEffect(level, amount) {
+            return 1 / (1 + level * amount);
+        },
+        getMessage(level, resourceName, amount) {
+            return "All " + r.getResourceName(resourceName, false, false, 2) + " x" + (1 / (1 + level * amount)).toFixed(2);
         },
     },
     planetaryStartingResources: {
@@ -63,6 +111,12 @@ SharkGame.WorldModifiers = {
             if (res < bonus) {
                 r.changeResource(resourceName, bonus);
             }
+        },
+        getEffect(level, amount) {
+            return level * amount;
+        },
+        getMessage(level, resourceName, amount) {
+            return "Start with " + (level * amount) + " " + r.getResourceName(resourceName, false, false, (level * amount));
         },
     },
     planetaryGeneratorRestriction: {
