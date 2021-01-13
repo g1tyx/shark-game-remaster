@@ -497,19 +497,26 @@ SharkGame.Resources = {
         } else {
             // loop over table rows, update values
             SharkGame.PlayerResources.forEach((resource, resourceName) => {
-                $("#amount-" + resourceName).html(m.beautify(resource.amount, true));
+                const oldValue = $("#amount-" + resourceName).html();
+                const newValue = m.beautify(resource.amount, true);
+                if (oldValue != newValue.replace(/'/g, '"')) {
+                    $("#amount-" + resourceName).html(newValue)
+                }
 
                 const income = r.getIncome(resourceName);
                 if (Math.abs(income) > SharkGame.EPSILON) {
                     const changeChar = income > 0 ? "+" : "";
-                    $("#income-" + resourceName).html(
+                    const newIncome = 
                         "<span style='color:" +
                             r.INCOME_COLOR +
                             "'>" +
                             changeChar +
                             m.beautifyIncome(income) +
-                            "</span>"
-                    );
+                            "</span>";
+                    const oldIncome = $("#income-" + resourceName).html();
+                    if (oldIncome != newIncome.replace(/'/g, '"')) {
+                        $("#income-" + resourceName).html(newIncome)
+                    }
                 } else {
                     $("#income-" + resourceName).html("");
                 }
