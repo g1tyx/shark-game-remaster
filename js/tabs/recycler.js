@@ -104,19 +104,27 @@ SharkGame.Recycler = {
             junkString = m.beautify(junkAmount);
         }
 
-        junkDisplay.html(
-            "CONTAINS:<br/>" +
+        const newValue = "CONTAINS:<br/>" +
                 junkString.bold() +
                 " RESIDUE<br/><br/>" +
                 y.getRecyclerEfficiencyString() +
-                y.getTarString().bold()
-        );
+                y.getTarString().bold();
+        const oldValue = junkDisplay.html();
+
+        // Fix up beautified strings to match jquery returns for matching purposes.
+        if (oldValue != newValue.replace(/'/g, '"').replace(/<br\/>/g, "<br>")) {
+            junkDisplay.html(newValue);
+        }
     },
 
     updateButtons() {
         SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0) {
                 const inputButton = $("#input-" + k);
+                // If this is a resource that's not in the recycler, skip it entirely.
+                if (inputButton.length == 0) {
+                    return true;
+                }
                 const outputButton = $("#output-" + k);
                 const resourceAmount = r.getResource(k);
 
@@ -153,7 +161,10 @@ SharkGame.Recycler = {
                     }
                 }
                 label += r.getResourceName(k, disableButton, forceSingular);
-                inputButton.html(label);
+                if (inputButton.html() != label.replace(/'/g, '"')) {
+                    inputButton.html(label);
+                }
+
                 if (disableButton) {
                     inputButton.addClass("disabled");
                 } else {
@@ -175,7 +186,10 @@ SharkGame.Recycler = {
                 }
 
                 label += r.getResourceName(k, disableButton, forceSingular);
-                outputButton.html(label);
+                if (outputButton.html() != label.replace(/'/g, '"')) {
+                    outputButton.html(label);
+                }
+                
                 if (disableButton) {
                     outputButton.addClass("disabled");
                 } else {
