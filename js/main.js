@@ -514,6 +514,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (m.autosaveHandler === -1) {
             m.autosaveHandler = setInterval(m.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
+
+        if (SharkGame.Settings.current.updateCheck) {
+            SharkGame.Main.checkForUpdateHandler = setInterval(m.checkForUpdate, 300000);
+        }
     },
 
     tick() {
@@ -601,6 +605,17 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.Log.addError(err.message);
             console.error(err.trace);
         }
+    },
+
+    checkForUpdate() {
+        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", data => {
+            if (data.sha !== SharkGame.COMMIT_SHA) {
+                $('#updategamebox')
+                    .css({"bottom": '15px', "right": "15px"})
+                    .html("You see a new update swimming towards you. Click to update.")
+                    .on("click", () => {SharkGame.Save.saveGame(); history.go(0)})
+            }
+        })
     },
 
     setUpTitleBar() {

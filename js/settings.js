@@ -84,20 +84,7 @@ SharkGame.Settings = {
         onChange() {
             clearInterval(SharkGame.Main.checkForUpdateHandler);
             if (SharkGame.Settings.current.updateCheck) {
-                SharkGame.Main.checkForUpdateHandler = setInterval(
-                    () => {
-                        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", data => {
-                            if (data.sha !== SharkGame.COMMIT_SHA) {
-                                // $('#updateGame').html("A new update swam to you! Click <a href='javascript:history.go(0)'>here</a> to update.")
-                                    // .css("color", "red")
-                                $('#updategamebox')
-                                    .css({"bottom": '15px', "right": "15px"})
-                                    .html("A new update swam to you! Click <a onclick='SharkGame.Save.saveGame(); history.go(0)'>here</a> to update.")
-                            }
-                        })
-                    },
-                    300000
-                );
+                SharkGame.Main.checkForUpdateHandler = setInterval(m.checkForUpdates, 300000);
             }
         },
     },
