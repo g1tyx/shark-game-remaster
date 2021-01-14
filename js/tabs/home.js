@@ -488,7 +488,7 @@ SharkGame.Home = {
             ) ||
             (button.html().includes("button-icon") && SharkGame.Settings.current.iconPositions === "off")
         ) {
-            button.append(label);
+            button.html(label);
 
             const spritename = "actions/" + actionName;
             if (SharkGame.Settings.current.iconPositions !== "off") {
