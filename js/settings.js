@@ -74,6 +74,21 @@ SharkGame.Settings = {
         },
     },
 
+    updateCheck: {
+        // times given in minutes
+        defaultSetting: true,
+        name: "Check for updates",
+        desc: "Do you want it to give you a warning when there's a new update?",
+        show: true,
+        options: [true, false],
+        onChange() {
+            clearInterval(SharkGame.Main.checkForUpdateHandler);
+            if (SharkGame.Settings.current.updateCheck) {
+                SharkGame.Main.checkForUpdateHandler = setInterval(m.checkForUpdates, 300000);
+            }
+        },
+    },
+
     logMessageMax: {
         defaultSetting: 15,
         name: "Max Log Messages",

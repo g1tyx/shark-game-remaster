@@ -1067,7 +1067,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Chimaeras can now become dedicated transmuters or explorers, using our knowledge to assist our industry or sharing their knowledge as they journey through the deeper seas.",
             cost: {
-                science: 12000,
+                science: 10000,
                 jellyfish: 700,
             },
             required: {
@@ -1087,7 +1087,7 @@ SharkGame.Upgrades = {
                 "Chimaeras and their specialists are twice as effective thanks to stronger trust and friendship. Also we still don't know what these things they found do.",
             cost: {
                 science: 40000,
-                jellyfish: 2000,
+                jellyfish: 5000,
             },
             required: {
                 upgrades: ["chimaeraMysticism"],
@@ -1095,7 +1095,7 @@ SharkGame.Upgrades = {
             },
             effect: {
                 multiplier: {
-                    chimaera: 2,
+                    chimaera: 4,
                     transmuter: 2,
                     explorer: 2,
                 },
@@ -1208,7 +1208,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Sharks, rays and chimaeras, and their roles, are all four times as effective. We have had a glorious past. Now, on to a glorious future.",
             cost: {
-                science: 1e10,
+                science: 1e7,
             },
             required: {
                 upgrades: ["gateDiscovery"],
@@ -1238,7 +1238,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Crabs, shrimp and lobsters, and their roles, are all four times as effective. A shell protects, and a shell interfaces.",
             cost: {
-                science: 1e10,
+                science: 1e7,
             },
             required: {
                 upgrades: ["gateDiscovery", "coralglassSmelting"],
@@ -1268,7 +1268,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Dolphins and whales, and their roles, are all four times as effective. The song of the ocean is older than life itself.",
             cost: {
-                science: 1e10,
+                science: 1e7,
             },
             required: {
                 upgrades: ["gateDiscovery", "eternalSong"],
@@ -1294,7 +1294,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Eels and their roles are all four times as effective. The power of determination can overcome many odds.",
             cost: {
-                science: 1e10,
+                science: 5e6,
             },
             required: {
                 upgrades: ["gateDiscovery", "bioelectricity"],
@@ -1317,7 +1317,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Octopuses and their roles, as well as their machines, are all four times as effective. Optimised.",
             cost: {
-                science: 8e10,
+                science: 8e6,
             },
             required: {
                 upgrades: ["gateDiscovery", "octalEfficiency"],
@@ -1344,7 +1344,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Shark machines are all four times as effective. We work better with the machines, not against them.",
             cost: {
-                science: 1e10,
+                science: 2e7,
             },
             required: {
                 upgrades: ["gateDiscovery", "iterativeDesign"],
@@ -1371,7 +1371,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Crustacean machines are all four times as effective. Their glass shells defy all reason and geometry.",
             cost: {
-                science: 1e9,
+                science: 2e6,
             },
             required: {
                 upgrades: ["gateDiscovery", "coralCircuitry"],
@@ -1395,7 +1395,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Cetacean machines are all four times as effective. We begrudingly admit their quality is not entirely terrible.",
             cost: {
-                science: 1e9,
+                science: 1e6,
             },
             required: {
                 upgrades: ["gateDiscovery", "dolphinTechnology"],

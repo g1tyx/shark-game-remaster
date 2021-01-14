@@ -507,14 +507,14 @@ button.newlyDiscovered.disabled div {
   margin-left: auto;
   margin-right: auto;
   padding: 0.1em;
-  border: 1px solid var(--color-lighter);
+  border: 2px solid var(--color-lighter);
   border-collapse: collapse;
   background: var(--color-darker);
 }
 .statsInnerContainer td {
-  margin: 0;
+  margin: 0.2em;
   font-size: 0.9em;
-  padding: 0.2em;
+  padding: 0.4em;
 }
 #statsLeftContainer {
   float: left;
@@ -525,14 +525,14 @@ button.newlyDiscovered.disabled div {
   margin-left: auto;
   margin-right: auto;
   padding: 0.1em;
-  border: 1px solid var(--color-lighter);
+  border: 2px solid var(--color-lighter);
   border-collapse: collapse;
   background: var(--color-darker);
 }
 #statsLeftContainer td {
-  margin: 0;
+  margin: 0.2em;
   font-size: 0.9em;
-  padding: 0.2em;
+  padding: 0.4em;
 }
 #statsRightContainer {
   float: right;
@@ -543,14 +543,14 @@ button.newlyDiscovered.disabled div {
   margin-left: auto;
   margin-right: auto;
   padding: 0.1em;
-  border: 1px solid var(--color-lighter);
+  border: 2px solid var(--color-lighter);
   border-collapse: collapse;
   background: var(--color-darker);
 }
 #statsRightContainer td {
-  margin: 0;
+  margin: 0.2em;
   font-size: 0.9em;
-  padding: 0.2em;
+  padding: 0.4em;
 }
 #incomeData {
   padding: 0.1em 0.1em 1em;
@@ -1209,4 +1209,18 @@ button.planetButton:active {
 }
 .tooltip .littleTooltipText {
   font-size: 0.6em;
+}
+.disposeArrangement ul {
+  display: inline-block;
+}
+.disposeArrangement li {
+  display: inline-block;
+}
+.disposeArrangement button {
+  display: inline-block;
+  margin: 0.4em;
+  max-width: 12em;
+}
+.disposeArrangement button.newlyDiscovered {
+  max-width: 12em;
 }

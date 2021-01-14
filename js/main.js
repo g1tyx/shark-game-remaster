@@ -425,13 +425,12 @@ SharkGame.Main = {
         overlay.hide();
         $("#gameName").html("- " + SharkGame.GAME_NAME + " -");
         $("#versionNumber").html(
-            "New Frontiers v " +
-                SharkGame.VERSION +
-                " - " +
-                SharkGame.VERSION_NAME +
-                "<br/> Mod of v " +
-                SharkGame.ORIGINAL_VERSION
+            `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
+Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
+        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", data => {
+            SharkGame.COMMIT_SHA = data.sha;
+        })
         SharkGame.sidebarHidden = true;
         SharkGame.gameOver = false;
 
@@ -514,6 +513,10 @@ SharkGame.Main = {
 
         if (m.autosaveHandler === -1) {
             m.autosaveHandler = setInterval(m.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
+        }
+
+        if (SharkGame.Settings.current.updateCheck) {
+            SharkGame.Main.checkForUpdateHandler = setInterval(m.checkForUpdate, 300000);
         }
     },
 
@@ -602,6 +605,17 @@ SharkGame.Main = {
             SharkGame.Log.addError(err.message);
             console.error(err.trace);
         }
+    },
+
+    checkForUpdate() {
+        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", data => {
+            if (data.sha !== SharkGame.COMMIT_SHA) {
+                $('#updategamebox')
+                    .css({"bottom": '15px', "right": "15px"})
+                    .html("You see a new update swimming towards you. Click to update.")
+                    .on("click", () => {SharkGame.Save.saveGame(); history.go(0)})
+            }
+        })
     },
 
     setUpTitleBar() {
@@ -848,6 +862,7 @@ SharkGame.Main = {
                     .on("click", () => {
                         if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
                             SharkGame.Save.deleteSave();
+                            m.resetTimers()
                             g.deleteArtifacts(); // they're out of the save data, but not the working game memory!
                             r.reconstructResourcesTable();
                             w.worldType = "start"; // nothing else will reset this
@@ -1097,6 +1112,12 @@ SharkGame.Main = {
             return "";
         }
     },
+    
+    resetTimers() {
+        SharkGame.timestampLastSave = _.now();
+        SharkGame.timestampGameStart = _.now();
+        SharkGame.timestampRunStart = _.now();
+    }
 };
 
 SharkGame.Button = {

@@ -1,6 +1,6 @@
-SharkGame.PlayerResources = new Map();
-SharkGame.PlayerIncomeTable = new Map();
-SharkGame.ResourceMap = new Map();
+SharkGame.PlayerResources = new Map(); // stats about resources player has
+SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
+SharkGame.ResourceMap = new Map(); // every resource and what it produces
 
 SharkGame.Resources = {
     INCOME_COLOR: "#808080",
@@ -621,10 +621,18 @@ SharkGame.Resources = {
         return row;
     },
 
-    getResourceName(resourceName, darken, forceSingle) {
+    getResourceName(resourceName, darken, forceSingle, arbitraryAmount) {
+        if (r.isCategory(resourceName)) {
+            return SharkGame.ResourceCategories[resourceName].name;
+        }
         const resource = SharkGame.ResourceMap.get(resourceName);
+        if (!arbitraryAmount) {
+            amount = Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
+        } else {
+            amount = arbitraryAmount;
+        }
         let name =
-            Math.floor(SharkGame.PlayerResources.get(resourceName).amount) - 1 < SharkGame.EPSILON || forceSingle
+            amount - 1 < SharkGame.EPSILON || forceSingle
                 ? resource.singleName
                 : resource.name;
 
