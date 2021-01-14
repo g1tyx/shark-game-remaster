@@ -2,10 +2,12 @@
 var SharkGame = SharkGame || {};
 
 window.onmousemove = (e) => {
+    const tooltip = document.getElementById("tooltipbox")
+    if(tooltip.innerHTML === "") return;
     const x = e.clientX;
     const y = e.clientY;
-    document.getElementById("tooltipbox").style.top = y - 20 + "px";
-    document.getElementById("tooltipbox").style.left = x + 15 + "px";
+    tooltip.style.top = y - 20 + "px";
+    tooltip.style.left = x + 15 + "px";
 };
 
 // CORE VARIABLES AND HELPER FUNCTIONS
