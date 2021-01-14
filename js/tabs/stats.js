@@ -80,7 +80,7 @@ SharkGame.Stats = {
         // TODO NAME BUTTON BETTER
         SharkGame.Button.makeButton(
             "switchButton",
-            "&nbsp Switch view &nbsp",
+            "&nbsp Swap Producers and Produced &nbsp",
             switchButtonDiv,
             s.toggleSwitch
         ).addClass("min-block");
@@ -138,12 +138,12 @@ SharkGame.Stats = {
     },
 
     createDisposeButtons() {
-        const buttonDiv = $("#disposeResource");
+        const buttonDiv = $("#disposeResource").addClass("disposeArrangement");
         SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
                 SharkGame.Button.makeButton(
                     "dispose-" + k,
-                    "Dispose of " + r.getResourceName(k),
+                    "Dispose of<br/>" + r.getResourceName(k),
                     buttonDiv,
                     s.onDispose
                 );
@@ -167,7 +167,7 @@ SharkGame.Stats = {
                 let label =
                     "Dispose of " +
                     m.beautify(amountToDispose) +
-                    " " +
+                    "<br/>" +
                     r.getResourceName(k, disableButton, forceSingular);
                 if (amountToDispose <= 0) {
                     label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular);
