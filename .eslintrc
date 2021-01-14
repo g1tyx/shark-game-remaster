@@ -38,6 +38,7 @@
         "no-inner-declarations": "off",
         "prefer-const": "error",
         "no-var": "error",
-        "no-shadow": "error"
+        "no-shadow": "error",
+        "eqeqeq": ["error", "smart"]
     }
 }

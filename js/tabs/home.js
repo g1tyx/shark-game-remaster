@@ -135,8 +135,7 @@ SharkGame.Home = {
         },
         {
             unlock: { resource: { whale: 1 } },
-            message:
-                "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
+            message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
         },
         {
             unlock: { resource: { chimaera: 5 } },
@@ -212,9 +211,7 @@ SharkGame.Home = {
         // help button
         const helpButtonDiv = $("<div>");
         helpButtonDiv.css({ margin: "auto", clear: "both" });
-        SharkGame.Button.makeButton("helpButton", "Toggle hover descriptions", helpButtonDiv, h.toggleHelp).addClass(
-            "min-block"
-        );
+        SharkGame.Button.makeButton("helpButton", "Toggle hover descriptions", helpButtonDiv, h.toggleHelp).addClass("min-block");
         content.append(helpButtonDiv);
         // button list
         const buttonList = $("<div>").attr("id", "buttonList");
@@ -362,24 +359,14 @@ SharkGame.Home = {
                 });
                 sceneDiv.animate({ opacity: 0 }, 500, () => {
                     if (SharkGame.Settings.current.showTabImages) {
-                        SharkGame.changeSprite(
-                            SharkGame.spriteHomeEventPath,
-                            "homesea-" + (selectedIndex + 1),
-                            sceneDiv,
-                            "homesea-missing"
-                        );
+                        SharkGame.changeSprite(SharkGame.spriteHomeEventPath, "homesea-" + (selectedIndex + 1), sceneDiv, "homesea-missing");
                     }
                     $(sceneDiv).animate({ opacity: 1 }, 500);
                 });
             } else {
                 extraMessageSel.html(h.extraMessages[selectedIndex].message);
                 if (SharkGame.Settings.current.showTabImages) {
-                    SharkGame.changeSprite(
-                        SharkGame.spriteHomeEventPath,
-                        "homesea-" + (selectedIndex + 1),
-                        sceneDiv,
-                        "homesea-missing"
-                    );
+                    SharkGame.changeSprite(SharkGame.spriteHomeEventPath, "homesea-" + (selectedIndex + 1), sceneDiv, "homesea-missing");
                 }
             }
         }
@@ -493,20 +480,19 @@ SharkGame.Home = {
         // class that matches the setting.
         // The icon-off setting is a little trickier.  It needs two cases.  We check for a lack of spans to
         // see if the button is new, then check for the presence of any icon to see if the setting changed.
-        if (!((button.html().includes("button-icon-top") && SharkGame.Settings.current.iconPositions == "top")
-           || (button.html().includes("button-icon-side") && SharkGame.Settings.current.iconPositions == "side")
-           || (button.html().includes("span") && SharkGame.Settings.current.iconPositions == "off"))
-           || (button.html().includes("button-icon") && SharkGame.Settings.current.iconPositions == "off")) {
+        if (
+            !(
+                (button.html().includes("button-icon-top") && SharkGame.Settings.current.iconPositions === "top") ||
+                (button.html().includes("button-icon-side") && SharkGame.Settings.current.iconPositions === "side") ||
+                (button.html().includes("span") && SharkGame.Settings.current.iconPositions === "off")
+            ) ||
+            (button.html().includes("button-icon") && SharkGame.Settings.current.iconPositions === "off")
+        ) {
             button.html(label);
 
             const spritename = "actions/" + actionName;
             if (SharkGame.Settings.current.iconPositions !== "off") {
-                const iconDiv = SharkGame.changeSprite(
-                    SharkGame.spriteIconPath,
-                    spritename,
-                    null,
-                    "general/missing-action"
-                );
+                const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-action");
                 if (iconDiv) {
                     iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
                     button.prepend(iconDiv);
@@ -519,7 +505,7 @@ SharkGame.Home = {
 
             // Quote-insensitive comparison, because the helper methods beautify the labels using single quotes
             // but jquery returns the same elements back with double quotes.
-            if (label.replace(/'/g, '"') != labelSpan.html()) {
+            if (label.replace(/'/g, '"') !== labelSpan.html()) {
                 labelSpan.html(label);
             }
         }
@@ -768,12 +754,7 @@ SharkGame.Home = {
             $.each(effects.resource, (resource) => {
                 const determiner = m.getDeterminer(resource);
                 if (determiner !== "") {
-                    text =
-                        m.getDeterminer(resource) +
-                        " " +
-                        r.getResourceName(resource, false, true).bold() +
-                        "<br>" +
-                        text;
+                    text = m.getDeterminer(resource) + " " + r.getResourceName(resource, false, true).bold() + "<br>" + text;
                 } else {
                     text = r.getResourceName(resource, false, true).bold() + "<br>" + text;
                 }

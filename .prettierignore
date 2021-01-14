@@ -1,5 +1,6 @@
 /js/lib/*.js
 /js/reference/*.js
+/js/menu/page.js
 /.yarn/*
 /node_modules/*
 /css/*

@@ -192,12 +192,7 @@
             --color-med: @color-med-abandoned;
             --color-dark: @color-dark-abandoned;
             --color-darker: @color-darker-abandoned;
-            --color-title: rgba(
-                red(@color-med-abandoned),
-                green(@color-med-abandoned),
-                blue(@color-med-abandoned),
-                0.2
-            );
+            --color-title: rgba(red(@color-med-abandoned), green(@color-med-abandoned), blue(@color-med-abandoned), 0.2);
         }
         &.chaotic {
             --color-lighter: @color-lighter-chaotic;
@@ -237,12 +232,7 @@
             --color-med: @color-med-tempestuous;
             --color-dark: @color-dark-tempestuous;
             --color-darker: @color-darker-tempestuous;
-            --color-title: rgba(
-                red(@color-med-tempestuous),
-                green(@color-med-tempestuous),
-                blue(@color-med-tempestuous),
-                0.2
-            );
+            --color-title: rgba(red(@color-med-tempestuous), green(@color-med-tempestuous), blue(@color-med-tempestuous), 0.2);
         }
         &.violent {
             --color-lighter: @color-lighter-violent;
@@ -377,8 +367,7 @@ pre {
 #title {
     clear: both;
     .section;
-    background: linear-gradient(var(--color-title), var(--color-title)),
-        var(--color-med) url("../img/sharklogo.png") no-repeat center;
+    background: linear-gradient(var(--color-title), var(--color-title)), var(--color-med) url("../img/sharklogo.png") no-repeat center;
     text-shadow: 2px 2px 3px var(--color-darker);
 
     h1 {
@@ -1239,8 +1228,7 @@ button.planetButton {
     }
 
     &:hover {
-        text-shadow: 0 0 0.3em lighten(@color-discovery, 5%), 0 0 0.6em lighten(@color-discovery, 10%),
-            0 0 0.9em lighten(@color-discovery, 15%);
+        text-shadow: 0 0 0.3em lighten(@color-discovery, 5%), 0 0 0.6em lighten(@color-discovery, 10%), 0 0 0.9em lighten(@color-discovery, 15%);
         .clear-box-shadow();
 
         div {

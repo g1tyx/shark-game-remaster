@@ -1,4 +1,12 @@
 {
-    "printWidth": 120,
-    "tabWidth": 4
+    "printWidth": 150,
+    "tabWidth": 4,
+    "overrides": [
+        {
+            "files": "js/data/homeactions.js",
+            "options": {
+                "printWidth": 120
+            }
+        }
+    ]
 }

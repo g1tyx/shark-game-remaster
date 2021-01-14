@@ -376,7 +376,7 @@ SharkGame.Main = {
         }
         return number;
     },
-    
+
     applyFramerate() {
         SharkGame.INTERVAL = 1000 / SharkGame.Settings.current.framerate;
         SharkGame.dt = 1 / SharkGame.Settings.current.framerate;
@@ -428,9 +428,9 @@ SharkGame.Main = {
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
 Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
-        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", data => {
+        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", (data) => {
             SharkGame.COMMIT_SHA = data.sha;
-        })
+        });
         SharkGame.sidebarHidden = true;
         SharkGame.gameOver = false;
 
@@ -507,7 +507,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         // set up tab after load
         m.setUpTab();
-        
+
         // apply tick settings
         m.applyFramerate();
 
@@ -608,14 +608,23 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     checkForUpdate() {
-        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", data => {
+        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", (data) => {
             if (data.sha !== SharkGame.COMMIT_SHA) {
-                $('#updategamebox')
-                    .css({"bottom": '15px', "right": "15px"})
+                $("#updategamebox")
+                    .css({ bottom: "15px", right: "15px" })
                     .html("You see a new update swimming towards you. Click to update.")
-                    .on("click", () => {SharkGame.Save.saveGame(); history.go(0)})
+                    .on("click", () => {
+                        try {
+                            SharkGame.Save.saveGame();
+                            history.go(0);
+                        } catch (err) {
+                            SharkGame.Log.addError(err);
+                            console.error(err);
+                            SharkGame.Log.addMessage("Something went wrong while saving.");
+                        }
+                    });
             }
-        })
+        });
     },
 
     setUpTitleBar() {
@@ -644,9 +653,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // empty out content div
         const content = $("#content");
         content.empty();
-        content.append(
-            '<div id="contentMenu"><ul id="tabList"></ul><ul id="tabButtons"></ul></div><div id="tabBorder" class="clear-fix"></div>'
-        );
+        content.append('<div id="contentMenu"><ul id="tabList"></ul><ul id="tabButtons"></ul></div><div id="tabBorder" class="clear-fix"></div>');
 
         m.createTabNavigation();
         m.createBuyButtons();
@@ -841,18 +848,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             )
         );
         // add the actual text box
-        row.append(
-            $("<td>").attr("colSpan", 4).append($("<input>").attr("type", "text").attr("id", "importExportField"))
-        );
+        row.append($("<td>").attr("colSpan", 4).append($("<input>").attr("type", "text").attr("id", "importExportField")));
         optionsTable.append(row);
 
         // SAVE WIPE
         // add save wipe
         row = $("<tr>");
         row.append(
-            $("<td>").html(
-                "Wipe Save<br/><span class='smallDesc'>(Completely wipe your save and reset the game. COMPLETELY. FOREVER.)</span>"
-            )
+            $("<td>").html("Wipe Save<br/><span class='smallDesc'>(Completely wipe your save and reset the game. COMPLETELY. FOREVER.)</span>")
         );
         row.append(
             $("<td>").append(
@@ -862,7 +865,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .on("click", () => {
                         if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
                             SharkGame.Save.deleteSave();
-                            m.resetTimers()
+                            m.resetTimers();
                             g.deleteArtifacts(); // they're out of the save data, but not the working game memory!
                             r.reconstructResourcesTable();
                             w.worldType = "start"; // nothing else will reset this
@@ -990,13 +993,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         titleDiv.append(
             $("<div>")
                 .attr("id", "paneHeaderCloseButtonDiv")
-                .append(
-                    $("<button>")
-                        .attr("id", "paneHeaderCloseButton")
-                        .addClass("min")
-                        .html("&nbsp x &nbsp")
-                        .on("click", m.hidePane)
-                )
+                .append($("<button>").attr("id", "paneHeaderCloseButton").addClass("min").html("&nbsp x &nbsp").on("click", m.hidePane))
         );
         pane.append(titleDiv);
         pane.append($("<div>").attr("id", "paneHeaderEnd").addClass("clear-fix"));
@@ -1093,31 +1090,18 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             return "an";
             //note to self: make the next line not suck
             // Possibly add an "uncountable" property to resources somehow? Manual works fine though
-        } else if (
-            ![
-                "algae",
-                "coral",
-                "spronge",
-                "delphinium",
-                "coralglass",
-                "sharkonium",
-                "residue",
-                "tar",
-                "ice",
-                "science",
-            ].includes(name)
-        ) {
+        } else if (!["algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science"].includes(name)) {
             return "a";
         } else {
             return "";
         }
     },
-    
+
     resetTimers() {
         SharkGame.timestampLastSave = _.now();
         SharkGame.timestampGameStart = _.now();
         SharkGame.timestampRunStart = _.now();
-    }
+    },
 };
 
 SharkGame.Button = {
@@ -1234,9 +1218,7 @@ SharkGame.Changelog = {
     "0.531 (2014/08/20)": [
         "Banned sea apples from the recycler because the feedback loop is actually far more crazy powerful than I was expecting. Whoops!",
     ],
-    "0.53 (2014/08/18)": [
-        "Changed Recycler so that residue into new machines is linear, but into new resources is constant.",
-    ],
+    "0.53 (2014/08/18)": ["Changed Recycler so that residue into new machines is linear, but into new resources is constant."],
     "0.52 (2014/08/18)": [
         "Emergency bug-fixes.",
         "Cost to assemble residue into new things is now LINEAR (gets more expensive as you have more things) instead of CONSTANT.",

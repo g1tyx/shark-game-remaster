@@ -65,12 +65,7 @@ SharkGame.Reflection = {
 
                 const spritename = "artifacts/" + artifactKey;
                 if (SharkGame.Settings.current.iconPositions !== "off") {
-                    const iconDiv = SharkGame.changeSprite(
-                        SharkGame.spriteIconPath,
-                        spritename,
-                        null,
-                        "general/missing-artifact"
-                    );
+                    const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-artifact");
                     if (iconDiv) {
                         iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
                         iconDiv.addClass("gatewayButton");
