@@ -482,11 +482,11 @@ SharkGame.Home = {
         // see if the button is new, then check for the presence of any icon to see if the setting changed.
         if (
             !(
-                (button.html().includes("button-icon-top") && SharkGame.Settings.current.iconPositions == "top") ||
-                (button.html().includes("button-icon-side") && SharkGame.Settings.current.iconPositions == "side") ||
-                (button.html().includes("span") && SharkGame.Settings.current.iconPositions == "off")
+                (button.html().includes("button-icon-top") && SharkGame.Settings.current.iconPositions === "top") ||
+                (button.html().includes("button-icon-side") && SharkGame.Settings.current.iconPositions === "side") ||
+                (button.html().includes("span") && SharkGame.Settings.current.iconPositions === "off")
             ) ||
-            (button.html().includes("button-icon") && SharkGame.Settings.current.iconPositions == "off")
+            (button.html().includes("button-icon") && SharkGame.Settings.current.iconPositions === "off")
         ) {
             button.html(label);
 
@@ -505,7 +505,7 @@ SharkGame.Home = {
 
             // Quote-insensitive comparison, because the helper methods beautify the labels using single quotes
             // but jquery returns the same elements back with double quotes.
-            if (label.replace(/'/g, '"') != labelSpan.html()) {
+            if (label.replace(/'/g, '"') !== labelSpan.html()) {
                 labelSpan.html(label);
             }
         }

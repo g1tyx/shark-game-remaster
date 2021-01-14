@@ -102,7 +102,7 @@ SharkGame.Recycler = {
         const oldValue = junkDisplay.html();
 
         // Fix up beautified strings to match jquery returns for matching purposes.
-        if (oldValue != newValue.replace(/'/g, '"').replace(/<br\/>/g, "<br>")) {
+        if (oldValue !== newValue.replace(/'/g, '"').replace(/<br\/>/g, "<br>")) {
             junkDisplay.html(newValue);
         }
     },
@@ -112,7 +112,7 @@ SharkGame.Recycler = {
             if (r.getTotalResource(k) > 0) {
                 const inputButton = $("#input-" + k);
                 // If this is a resource that's not in the recycler, skip it entirely.
-                if (inputButton.length == 0) {
+                if (inputButton.length === 0) {
                     return true;
                 }
                 const outputButton = $("#output-" + k);
@@ -146,7 +146,7 @@ SharkGame.Recycler = {
                     }
                 }
                 label += r.getResourceName(k, disableButton, forceSingular);
-                if (inputButton.html() != label.replace(/'/g, '"')) {
+                if (inputButton.html() !== label.replace(/'/g, '"')) {
                     inputButton.html(label);
                 }
 
@@ -168,7 +168,7 @@ SharkGame.Recycler = {
                 }
 
                 label += r.getResourceName(k, disableButton, forceSingular);
-                if (outputButton.html() != label.replace(/'/g, '"')) {
+                if (outputButton.html() !== label.replace(/'/g, '"')) {
                     outputButton.html(label);
                 }
 

@@ -493,7 +493,7 @@ SharkGame.Resources = {
             SharkGame.PlayerResources.forEach((resource, resourceName) => {
                 const oldValue = $("#amount-" + resourceName).html();
                 const newValue = m.beautify(resource.amount, true);
-                if (oldValue != newValue.replace(/'/g, '"')) {
+                if (oldValue !== newValue.replace(/'/g, '"')) {
                     $("#amount-" + resourceName).html(newValue);
                 }
 
@@ -502,7 +502,7 @@ SharkGame.Resources = {
                     const changeChar = income > 0 ? "+" : "";
                     const newIncome = "<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>";
                     const oldIncome = $("#income-" + resourceName).html();
-                    if (oldIncome != newIncome.replace(/'/g, '"')) {
+                    if (oldIncome !== newIncome.replace(/'/g, '"')) {
                         $("#income-" + resourceName).html(newIncome);
                     }
                 } else {

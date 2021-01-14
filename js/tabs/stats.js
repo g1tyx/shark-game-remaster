@@ -142,7 +142,7 @@ SharkGame.Stats = {
                     label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular);
                 }
 
-                if (button.html() != label.replace(/'/g, '"').replace("<br/>", "<br>")) {
+                if (button.html() !== label.replace(/'/g, '"').replace("<br/>", "<br>")) {
                     button.html(label);
                 }
 
@@ -194,7 +194,7 @@ SharkGame.Stats = {
                         "/s</span>";
                     const oldValue = cell.html();
 
-                    if (oldValue != newValue.replace(/'/g, '"')) {
+                    if (oldValue !== newValue.replace(/'/g, '"')) {
                         cell.html(newValue);
                     }
                 });
@@ -210,7 +210,7 @@ SharkGame.Stats = {
                 const newValue = m.beautify(totalResource);
                 const oldValue = cell.html();
 
-                if (oldValue != newValue.replace(/'/g, '"')) {
+                if (oldValue !== newValue.replace(/'/g, '"')) {
                     cell.html(newValue);
                 }
             }
@@ -278,7 +278,7 @@ SharkGame.Stats = {
             function addCell(text, rowspan) {
                 row.append(
                     $("<td>")
-                        .attr("rowspan", rowspan == "inline" ? 1 : subheadings)
+                        .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
                         .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
                         .addClass(rowStyle)
                 );

@@ -169,7 +169,7 @@ SharkGame.Lab = {
             }
         }
 
-        if (button.html() != newButton.html()) {
+        if (button.html() !== newButton.html()) {
             button.html(newButton.html());
         }
     },
