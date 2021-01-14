@@ -472,7 +472,7 @@ SharkGame.Home = {
             h.onHomeUnhover();
         }
 
-        label = '<span id="' + actionName + 'Label" class="click-passthrough">' + label + "</span>";
+        label = $('<span id="' + actionName + 'Label" class="click-passthrough">' + label + "</span>");
 
         // Only redraw the whole button when necessary.
         // This is necessary when buttons are new, or the icon setting has been changed.
@@ -488,7 +488,7 @@ SharkGame.Home = {
             ) ||
             (button.html().includes("button-icon") && SharkGame.Settings.current.iconPositions === "off")
         ) {
-            button.html(label);
+            button.append(label);
 
             const spritename = "actions/" + actionName;
             if (SharkGame.Settings.current.iconPositions !== "off") {
@@ -505,8 +505,8 @@ SharkGame.Home = {
 
             // Quote-insensitive comparison, because the helper methods beautify the labels using single quotes
             // but jquery returns the same elements back with double quotes.
-            if (label.replace(/'/g, '"') !== labelSpan.html()) {
-                labelSpan.html(label);
+            if (label.html() !== labelSpan.html()) {
+                labelSpan.html(label.html());
             }
         }
     },
