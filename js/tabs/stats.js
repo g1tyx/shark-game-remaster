@@ -232,15 +232,14 @@ SharkGame.Stats = {
         const drawnResourceMap = new Map();
         SharkGame.ResourceMap.forEach((generatorData, generatorName) => {
             if (r.getTotalResource(generatorName) > 0 && generatorData.income) {
+                if(generatorData.name.includes("ray")) console.log(2, generatorData.name, generatorData.income)
                 // if the resource has an income requiring any costs
                 // and it isn't a forced income
                 // do not display the resource's income if it requires a non-existent resource (looking at you, sponge)
                 for (const incomeResourceName in generatorData.income) {
                     // skip income that doesn't exist
-                    if (generatorData.income[incomeResourceName] < 0 && !generatorData.forceIncome) return;
+                    if ((SharkGame.PlayerResources.get(incomeResourceName) < generatorData.income[incomeResourceName]) && !generatorData.forceIncome) return;
                 }
-
-                if (!SharkGame.Settings.current.switchStats) drawnResourceMap.set(generatorName, { subheading: {} });
 
                 $.each(generatorData.income, (incomeKey, incomeValue) => {
                     if (w.doesResourceExist(incomeKey) && r.getTotalResource(incomeKey) > 0) {
@@ -250,6 +249,8 @@ SharkGame.Stats = {
 
                             drawnResourceMap.get(incomeKey).subheading[generatorName] = incomeValue;
                         } else {
+                            if (!drawnResourceMap.has(generatorName)) drawnResourceMap.set(generatorName, { subheading: {} });
+
                             // Copy all the good incomes over
                             drawnResourceMap.get(generatorName).subheading[incomeKey] = incomeValue;
                         }
@@ -259,9 +260,9 @@ SharkGame.Stats = {
         });
 
         // You would filter or sort here if you want to filter or sort using higher order operations
-        // You would filter or sort above the statement where its check if the view is switched if u want to do an if statement
+        // You would filter or sort above the statement where it's checked if the view is switched if you want to do an if statement
 
-        drawnResourceMap.forEach((headingData, headingName, _map) => {
+        drawnResourceMap.forEach((headingData, headingName) => {
             // if the resource has an income requiring any costs
             // and it isn't a forced income
             // do not display the resource's income if it requires a non-existent resource (looking at you, sponge)
