@@ -323,16 +323,13 @@ SharkGame.Stats = {
                 // the income was formerly the subheadingKey, but then it got changed so it could be flipped
                 
                 let incomeKey = SharkGame.Settings.current.switchStats ? headingName : subheadingKey;
-                // debugger;
                 let generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName
-                // let generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName
-                // let incomeValue = SharkGame.Settings.current.switchStats ? headingData : subheadingValue
                 let incomeValue = subheadingValue
 
 
                 let resourceBoostRowspan = SharkGame.Settings.current.switchStats ? undefined : 'inline';
                 let generatorBoostRowspan = SharkGame.Settings.current.switchStats ? 'inline' : undefined;
-// debugger;
+
                 const changeChar = incomeValue > 0 ? "+" : "";
                 row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
                 addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + '/s'], 'inline')
