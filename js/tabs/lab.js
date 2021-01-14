@@ -157,7 +157,9 @@ SharkGame.Lab = {
         } else {
             button.addClass("disabled");
         }
-        button.html(label);
+
+        var newButton = $(document.createElement("button"));
+        newButton.html(label);
 
         const spritename = "technologies/" + upgradeName;
         if (SharkGame.Settings.current.iconPositions !== "off") {
@@ -169,8 +171,12 @@ SharkGame.Lab = {
             );
             if (iconDiv) {
                 iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
-                button.prepend(iconDiv);
+                newButton.prepend(iconDiv);
             }
+        }
+        
+        if (button.html() != newButton.html()) {
+            button.html(newButton.html());
         }
     },
 
