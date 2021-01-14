@@ -173,7 +173,7 @@ SharkGame.Stats = {
                     label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular);
                 }
 
-                if (button.html() != label.replace(/'/g, '"')) {
+                if (button.html() != label.replace(/'/g, '"').replace("<br/>", "<br>")) {
                     button.html(label);
                 }
                 
