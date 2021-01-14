@@ -9,7 +9,7 @@ SharkGame.WorldModifiers = {
             return level * amount;
         },
         getMessage(level, resourceName, amount) {
-            return (level * amount) + " " + r.getResourceName(resourceName, false, false, (level * amount)) + " per Second";
+            return level * amount + " " + r.getResourceName(resourceName, false, false, level * amount) + " per Second";
         },
     },
     planetaryConstantIncome: {
@@ -116,7 +116,7 @@ SharkGame.WorldModifiers = {
             return level * amount;
         },
         getMessage(level, resourceName, amount) {
-            return "Start with " + (level * amount) + " " + r.getResourceName(resourceName, false, false, (level * amount));
+            return "Start with " + level * amount + " " + r.getResourceName(resourceName, false, false, level * amount);
         },
     },
     planetaryGeneratorRestriction: {
@@ -206,18 +206,10 @@ SharkGame.World = {
                 if (r.isCategory(modifierData.resource)) {
                     const resourceList = r.getResourcesInCategory(modifierData.resource);
                     _.each(resourceList, (resourceName) => {
-                        SharkGame.WorldModifiers[modifierData.modifier].apply(
-                            effectiveLevel,
-                            resourceName,
-                            modifierData.amount
-                        );
+                        SharkGame.WorldModifiers[modifierData.modifier].apply(effectiveLevel, resourceName, modifierData.amount);
                     });
                 } else {
-                    SharkGame.WorldModifiers[modifierData.modifier].apply(
-                        effectiveLevel,
-                        modifierData.resource,
-                        modifierData.amount
-                    );
+                    SharkGame.WorldModifiers[modifierData.modifier].apply(effectiveLevel, modifierData.resource, modifierData.amount);
                 }
             } else {
                 let resourceList = [modifierData.resource];

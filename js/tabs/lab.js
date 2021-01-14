@@ -13,8 +13,7 @@ SharkGame.Lab = {
         },
     },
 
-    message:
-        "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.",
+    message: "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.",
     messageDone:
         "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.<br/>" +
         "Looks like that's it! No more things to figure out.",
@@ -32,7 +31,7 @@ SharkGame.Lab = {
         // add default purchased state to each upgrade
         l.resetUpgrades();
     },
-    
+
     resetUpgrades() {
         const ups = SharkGame.Upgrades.getUpgradeTable();
         $.each(ups, (k, v) => {
@@ -158,23 +157,18 @@ SharkGame.Lab = {
             button.addClass("disabled");
         }
 
-        var newButton = $(document.createElement("button"));
+        const newButton = $(document.createElement("button"));
         newButton.html(label);
 
         const spritename = "technologies/" + upgradeName;
         if (SharkGame.Settings.current.iconPositions !== "off") {
-            const iconDiv = SharkGame.changeSprite(
-                SharkGame.spriteIconPath,
-                spritename,
-                null,
-                "general/missing-technology"
-            );
+            const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-technology");
             if (iconDiv) {
                 iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
                 newButton.prepend(iconDiv);
             }
         }
-        
+
         if (button.html() != newButton.html()) {
             button.html(newButton.html());
         }

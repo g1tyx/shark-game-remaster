@@ -8,15 +8,12 @@ SharkGame.Gate = {
         upgrade: ["gateDiscovery"],
     },
 
-    message:
-        "A foreboding circular structure, closed shut.<br/>There are many slots, and a sign you know to mean 'insert items here'.",
+    message: "A foreboding circular structure, closed shut.<br/>There are many slots, and a sign you know to mean 'insert items here'.",
     messageOneSlot: "A foreboding circular structure, closed shut.<br/>One slot remains.",
-    messageOpened:
-        "A foreboding circular structure, wide open.<br/>The water glows and shimmers within it. A gentle tug pulls at you.",
+    messageOpened: "A foreboding circular structure, wide open.<br/>The water glows and shimmers within it. A gentle tug pulls at you.",
     messagePaid: "The slot accepts your donation and ceases to be.",
     messageCantPay: "The slot spits everything back out. You get the sense it wants more at once.",
-    messageAllPaid:
-        "The last slot closes. The structure opens. The water glows and shimmers within it.<br/>A gentle tug pulls at you.",
+    messageAllPaid: "The last slot closes. The structure opens. The water glows and shimmers within it.<br/>A gentle tug pulls at you.",
     messageEnter: "You swim through the gate...",
 
     sceneClosedImage: "img/events/misc/scene-gate-closed.png",
@@ -84,13 +81,12 @@ SharkGame.Gate = {
         let message = gt.shouldBeOpen() ? gt.messageOpened : amountOfSlots > 1 ? gt.message : gt.messageOneSlot;
         const tabMessageSel = $("#tabMessage");
         if (SharkGame.Settings.current.showTabImages) {
-            message =
-                "<img width=400 height=200 src='" + gt.getSceneImagePath() + "' id='tabSceneImageEssence'>" + message;
+            message = "<img width=400 height=200 src='" + gt.getSceneImagePath() + "' id='tabSceneImageEssence'>" + message;
             tabMessageSel.css("background-image", "url('" + gt.tabBg + "')");
         }
         tabMessageSel.html(message);
     },
-    
+
     onHover() {
         const gt = SharkGame.Gate;
         const button = $(this);
@@ -98,10 +94,12 @@ SharkGame.Gate = {
         const amount = r.getResource(resourceName);
         const required = gt.costs[resourceName];
         if (amount < required) {
-            button.html("Need <span class='click-passthrough' style='color:#FFDE0A'>" + m.beautify(required - amount) + "</span> more " + r.getResourceName(resourceName) + " for " + r.getResourceName(resourceName) + " slot");
+            button.html(
+                `Need <span class='click-passthrough' style='color:#FFDE0A'>${m.beautify(required - amount)}</span> more ${r.getResourceName(resourceName)} for ${r.getResourceName(resourceName)} slot`
+            );
         }
     },
-    
+
     onUnhover() {
         const gt = SharkGame.Gate;
         const button = $(this);
@@ -135,8 +133,7 @@ SharkGame.Gate = {
             message += m.beautify(diff) + " more.";
         }
         if (SharkGame.Settings.current.showTabImages) {
-            message =
-                "<img width=400 height=200 src='" + gt.getSceneImagePath() + "' id='tabSceneImageEssence'>" + message;
+            message = "<img width=400 height=200 src='" + gt.getSceneImagePath() + "' id='tabSceneImageEssence'>" + message;
         }
         $("#tabMessage").html(message);
     },
@@ -164,11 +161,13 @@ SharkGame.Gate = {
             if (v) amountOfSlots++;
         });
         amountOfSlots = _.size(gt.costs) - amountOfSlots;
-        const sceneImagePath = gt.shouldBeOpen()
-            ? gt.sceneOpenImage
-            : amountOfSlots > 1
-            ? gt.sceneClosedImage
-            : gt.sceneAlmostOpenImage;
-        return sceneImagePath;
+
+        if(gt.shouldBeOpen()) {
+            return gt.sceneOpenImage
+        } else if (amountOfSlots > 1) {
+            return gt.sceneClosedImage
+        } else {
+            return gt.sceneAlmostOpenImage
+        }
     },
 };

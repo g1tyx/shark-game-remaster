@@ -347,12 +347,7 @@ SharkGame.Artifacts = {
         required: ["octopus"],
         cost: SharkGame.ArtifactUtil.totemCost,
         effect(level) {
-            SharkGame.ArtifactUtil.totemEffect(level, [
-                "clamCollector",
-                "sprongeSmelter",
-                "seaScourer",
-                "prostheticPolyp",
-            ]);
+            SharkGame.ArtifactUtil.totemEffect(level, ["clamCollector", "sprongeSmelter", "seaScourer", "prostheticPolyp"]);
         },
     },
     wardingTotem: {

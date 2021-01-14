@@ -38,14 +38,9 @@ SharkGame.Stats = {
         content.append(statsContainer);
 
         statsContainer.append(
-            $("<div>")
-                .attr("id", "statsLeftContainer")
-                .append($("<div>").attr("id", "incomeData"))
-                .append($("<div>").attr("id", "disposeResource"))
+            $("<div>").attr("id", "statsLeftContainer").append($("<div>").attr("id", "incomeData")).append($("<div>").attr("id", "disposeResource"))
         );
-        statsContainer.append(
-            $("<div>").attr("id", "statsRightContainer").append($("<div>").attr("id", "generalStats"))
-        );
+        statsContainer.append($("<div>").attr("id", "statsRightContainer").append($("<div>").attr("id", "generalStats")));
 
         statsContainer.append($("<div>").addClass("clear-fix"));
         let message = s.message;
@@ -65,9 +60,7 @@ SharkGame.Stats = {
         incomeDataSel.append($("<h3>").html("Income Details"));
         incomeDataSel.append(
             $("<p>")
-                .html(
-                    "(Listed below are resources, the income each resource gives you, and the total income you're getting from each thing.)"
-                )
+                .html("(Listed below are resources, the income each resource gives you, and the total income you're getting from each thing.)")
                 .addClass("medDesc")
         );
 
@@ -75,15 +68,10 @@ SharkGame.Stats = {
         switchButtonDiv.css({
             margin: "auto",
             "margin-bottom": "15px",
-            clear: "both" 
-        })
+            clear: "both",
+        });
         // TODO NAME BUTTON BETTER
-        SharkGame.Button.makeButton(
-            "switchButton",
-            "&nbsp Swap Producers and Produced &nbsp",
-            switchButtonDiv,
-            s.toggleSwitch
-        ).addClass("min-block");
+        SharkGame.Button.makeButton("switchButton", "&nbsp Swap Producers and Produced &nbsp", switchButtonDiv, s.toggleSwitch).addClass("min-block");
         incomeDataSel.append(switchButtonDiv);
 
         incomeDataSel.append(table);
@@ -92,28 +80,18 @@ SharkGame.Stats = {
         genStats.append($("<h3>").html("General Stats"));
         const firstTime = m.isFirstTime();
         if (!firstTime) {
-            genStats.append(
-                $("<p>").html("<span class='medDesc'>Climate Level</span><br>" + m.beautify(w.planetLevel))
-            );
+            genStats.append($("<p>").html("<span class='medDesc'>Climate Level</span><br>" + m.beautify(w.planetLevel)));
         }
-        genStats.append(
-            $("<p>")
-                .html("Time since you began:<br/><span id='gameTime' class='timeDisplay'></span>")
-                .addClass("medDesc")
-        );
+        genStats.append($("<p>").html("Time since you began:<br/><span id='gameTime' class='timeDisplay'></span>").addClass("medDesc"));
         if (!firstTime) {
             genStats.append(
-                $("<p>")
-                    .html("Time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>")
-                    .addClass("medDesc")
+                $("<p>").html("Time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>").addClass("medDesc")
             );
         }
         genStats.append($("<h3>").html("Total Ocean Resources Acquired"));
         if (!firstTime) {
             genStats.append(
-                $("<p>")
-                    .html("Essence given is the total acquired for the entire game and not just for this world.")
-                    .addClass("medDesc")
+                $("<p>").html("Essence given is the total acquired for the entire game and not just for this world.").addClass("medDesc")
             );
         }
         genStats.append(s.createTotalAmountTable());
@@ -141,12 +119,7 @@ SharkGame.Stats = {
         const buttonDiv = $("#disposeResource").addClass("disposeArrangement");
         SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
-                SharkGame.Button.makeButton(
-                    "dispose-" + k,
-                    "Dispose of<br/>" + r.getResourceName(k),
-                    buttonDiv,
-                    s.onDispose
-                );
+                SharkGame.Button.makeButton("dispose-" + k, "Dispose of<br/>" + r.getResourceName(k), buttonDiv, s.onDispose);
             }
         });
     },
@@ -164,11 +137,7 @@ SharkGame.Stats = {
                 }
                 const forceSingular = amountToDispose === 1;
                 const disableButton = resourceAmount < amountToDispose || amountToDispose <= 0;
-                let label =
-                    "Dispose of " +
-                    m.beautify(amountToDispose) +
-                    "<br/>" +
-                    r.getResourceName(k, disableButton, forceSingular);
+                let label = "Dispose of " + m.beautify(amountToDispose) + "<br/>" + r.getResourceName(k, disableButton, forceSingular);
                 if (amountToDispose <= 0) {
                     label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular);
                 }
@@ -176,7 +145,7 @@ SharkGame.Stats = {
                 if (button.html() != label.replace(/'/g, '"').replace("<br/>", "<br>")) {
                     button.html(label);
                 }
-                
+
                 if (disableButton) {
                     button.addClass("disabled");
                 } else {
@@ -216,12 +185,13 @@ SharkGame.Stats = {
                 $.each(income, (incomeKey, incomeValue) => {
                     const cell = $("#income-" + k + "-" + incomeKey);
                     const changeChar = incomeValue > 0 ? "+" : "";
-                    const newValue = "<span style='color: " +
-                            r.TOTAL_INCOME_COLOR +
-                            "'>" +
-                            changeChar +
-                            m.beautify(r.getProductAmountFromGeneratorResource(k, incomeKey), false, 2) +
-                            "/s</span>";
+                    const newValue =
+                        "<span style='color: " +
+                        r.TOTAL_INCOME_COLOR +
+                        "'>" +
+                        changeChar +
+                        m.beautify(r.getProductAmountFromGeneratorResource(k, incomeKey), false, 2) +
+                        "/s</span>";
                     const oldValue = cell.html();
 
                     if (oldValue != newValue.replace(/'/g, '"')) {
@@ -259,37 +229,34 @@ SharkGame.Stats = {
 
         let formatCounter = 0;
 
-        let drawnResourceMap = new Map();
+        const drawnResourceMap = new Map();
         SharkGame.ResourceMap.forEach((generatorData, generatorName) => {
             if (r.getTotalResource(generatorName) > 0 && generatorData.income) {
                 // if the resource has an income requiring any costs
                 // and it isn't a forced income
                 // do not display the resource's income if it requires a non-existent resource (looking at you, sponge)
-                for (let incomeResourceName in generatorData.income) {
+                for (const incomeResourceName in generatorData.income) {
                     // skip income that doesn't exist
-                    if (generatorData.income[incomeResourceName] < 0 && !generatorData.forceIncome)
-                    return;
+                    if (generatorData.income[incomeResourceName] < 0 && !generatorData.forceIncome) return;
                 }
 
-                if (!SharkGame.Settings.current.switchStats) drawnResourceMap.set(generatorName, {"subheading": {}});
+                if (!SharkGame.Settings.current.switchStats) drawnResourceMap.set(generatorName, { subheading: {} });
 
                 $.each(generatorData.income, (incomeKey, incomeValue) => {
                     if (w.doesResourceExist(incomeKey) && r.getTotalResource(incomeKey) > 0) {
                         if (SharkGame.Settings.current.switchStats) {
                             // Switch it!
-                            if (!drawnResourceMap.has(incomeKey)) 
-                                drawnResourceMap.set(incomeKey, {"subheading": {}})
+                            if (!drawnResourceMap.has(incomeKey)) drawnResourceMap.set(incomeKey, { subheading: {} });
 
-                            drawnResourceMap.get(incomeKey).subheading[generatorName] = incomeValue                               
+                            drawnResourceMap.get(incomeKey).subheading[generatorName] = incomeValue;
                         } else {
                             // Copy all the good incomes over
-                            drawnResourceMap.get(generatorName).subheading[incomeKey] = incomeValue
+                            drawnResourceMap.get(generatorName).subheading[incomeKey] = incomeValue;
                         }
                     }
                 });
             }
         });
-
 
         // You would filter or sort here if you want to filter or sort using higher order operations
         // You would filter or sort above the statement where its check if the view is switched if u want to do an if statement
@@ -300,78 +267,71 @@ SharkGame.Stats = {
             // do not display the resource's income if it requires a non-existent resource (looking at you, sponge)
             const subheading = headingData.subheading;
 
-            let subheadings = Object.keys(subheading).length
+            const subheadings = Object.keys(subheading).length;
 
             let row = $("<tr>");
             let counter = 0;
 
             const rowStyle = formatCounter % 2 === 0 ? "evenRow" : "oddRow";
-            row.append(
-                $("<td>").html(r.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle)
-            );
+            row.append($("<td>").html(r.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
 
             function addCell(text, rowspan) {
                 row.append(
                     $("<td>")
-                    .attr("rowspan", rowspan=='inline' ? 1 : subheadings)
-                    .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
-                    .addClass(rowStyle)
+                        .attr("rowspan", rowspan == "inline" ? 1 : subheadings)
+                        .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
+                        .addClass(rowStyle)
                 );
             }
 
             $.each(subheading, (subheadingKey, subheadingValue) => {
                 // the income was formerly the subheadingKey, but then it got changed so it could be flipped
-                
-                let incomeKey = SharkGame.Settings.current.switchStats ? headingName : subheadingKey;
-                let generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName
-                let incomeValue = subheadingValue
 
+                const incomeKey = SharkGame.Settings.current.switchStats ? headingName : subheadingKey;
+                const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
+                const incomeValue = subheadingValue;
 
-                let resourceBoostRowspan = SharkGame.Settings.current.switchStats ? undefined : 'inline';
-                let generatorBoostRowspan = SharkGame.Settings.current.switchStats ? 'inline' : undefined;
+                const resourceBoostRowspan = SharkGame.Settings.current.switchStats ? undefined : "inline";
+                const generatorBoostRowspan = SharkGame.Settings.current.switchStats ? "inline" : undefined;
                 const changeChar = incomeValue > 0 ? "+" : "";
                 row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
-                addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + '/s'], 'inline')
+                addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + "/s"], "inline");
 
                 // if its inline then many rowspans will fill the gap
-                if (resourceBoostRowspan === 'inline' || counter === 0) {
+                if (resourceBoostRowspan === "inline" || counter === 0) {
                     // does this resource get a boost multiplier?
                     const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
                     if (boostMultiplier !== 1)
                         // boost impacts the material being produced, so when its sorted by material being produced u only need one
-                        addCell([r.BOOST_MULTIPLIER_COLOR, 'x' + m.beautify(boostMultiplier)], resourceBoostRowspan)
-                    else addCell(undefined, resourceBoostRowspan) // empty cell
+                        addCell([r.BOOST_MULTIPLIER_COLOR, "x" + m.beautify(boostMultiplier)], resourceBoostRowspan);
+                    else addCell(undefined, resourceBoostRowspan); // empty cell
                 }
-                
 
-                if (generatorBoostRowspan === 'inline' || counter === 0) {
-                    addCell([r.UPGRADE_MULTIPLIER_COLOR, 'x' + r.getMultiplier(generatorName)], generatorBoostRowspan)
+                if (generatorBoostRowspan === "inline" || counter === 0) {
+                    addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName)], generatorBoostRowspan);
 
                     // does this generator get a world multiplier?
                     // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
                     const worldMultiplier = w.getWorldIncomeMultiplier(generatorName);
-                    if (worldMultiplier !== 1)   addCell([r.WORLD_MULTIPLIER_COLOR, 'x' + m.beautify(worldMultiplier)], generatorBoostRowspan)
-                    else addCell(undefined, generatorBoostRowspan)
+                    if (worldMultiplier !== 1) addCell([r.WORLD_MULTIPLIER_COLOR, "x" + m.beautify(worldMultiplier)], generatorBoostRowspan);
+                    else addCell(undefined, generatorBoostRowspan);
 
                     // does this income get an artifact multiplier?
                     const artifactMultiplier = w.getArtifactMultiplier(generatorName);
-                    if (artifactMultiplier !== 1) 
-                        addCell([r.ARTIFACT_MULTIPLIER_COLOR, 'x' + m.beautify(artifactMultiplier)], generatorBoostRowspan)
-                    else addCell(undefined, generatorBoostRowspan)
+                    if (artifactMultiplier !== 1) addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
+                    else addCell(undefined, generatorBoostRowspan);
 
                     // does this income get a research multiplier?
                     const resourceAffectMultiplier = r.getResourceGeneratorMultiplier(generatorName);
-                    if (resourceAffectMultiplier !== 1) 
-                        addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, 'x' + b.beautify(resourceAffectMultiplier)], generatorBoostRowspan)
-                    else addCell(undefined, generatorBoostRowspan)
+                    if (resourceAffectMultiplier !== 1)
+                        addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + b.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
+                    else addCell(undefined, generatorBoostRowspan);
                 }
 
-                addCell([r.TOTAL_INCOME_COLOR, changeChar +
-                    m.beautify(
-                        r.getProductAmountFromGeneratorResource(generatorName, incomeKey),
-                        false,
-                        2
-                    )], 'inline')
+                addCell(
+                    [r.TOTAL_INCOME_COLOR, changeChar + m.beautify(r.getProductAmountFromGeneratorResource(generatorName, incomeKey), false, 2)],
+                    "inline"
+                );
 
                 counter++;
                 incomesTable.append(row);
@@ -420,6 +380,6 @@ SharkGame.Stats = {
     toggleSwitch() {
         SharkGame.Settings.current.switchStats = !SharkGame.Settings.current.switchStats;
         // s.createIncomeTable();
-        SharkGame.Stats.createIncomeTable()
-    }
+        SharkGame.Stats.createIncomeTable();
+    },
 };
