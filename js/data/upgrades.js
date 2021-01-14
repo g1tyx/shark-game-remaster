@@ -1037,6 +1037,7 @@ SharkGame.Upgrades = {
                 jellyfish: 5000,
             },
             required: {
+                worlds: ["shrouded"],
                 upgrades: ["chimaeraMysticism"],
                 resources: ["chimaera"],
             },
@@ -1210,7 +1211,7 @@ SharkGame.Upgrades = {
                 science: 1e7,
             },
             required: {
-                upgrades: ["gateDiscovery", "eternalSong"],
+                upgrades: ["gateDiscovery"],
                 resources: ["dolphin", "whale"],
                 seen: ["dolphin", "whale"],
             },

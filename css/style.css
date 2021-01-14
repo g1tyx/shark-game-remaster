@@ -594,21 +594,21 @@ button.newlyDiscovered.disabled div {
 #recyclerContainer {
   margin: 0 auto;
   overflow: hidden;
-  width: 40em;
+  width: 50em;
 }
 #inputButtons {
   float: left;
   margin: auto;
-  min-width: 14em;
+  min-width: 18em;
 }
 #junkDisplay {
   position: relative;
   float: left;
   margin: auto;
-  width: 10em;
+  width: 12em;
   background: #450808 url("../img/recyclerbg.png") center;
   color: #d4bbbb;
-  border: 0.1em solid #975f5f;
+  border: 0.2em solid #975f5f;
   -webkit-box-shadow: 0 0 15px 15px #450808 inset;
   -moz-box-shadow: 0 0 15px 15px #450808 inset;
   box-shadow: 0 0 15px 15px #450808 inset;
@@ -618,7 +618,7 @@ button.newlyDiscovered.disabled div {
 #outputButtons {
   float: left;
   margin: auto;
-  min-width: 14em;
+  min-width: 18em;
 }
 #tabBorder {
   border-bottom: 0.5em double var(--color-light);

@@ -2128,12 +2128,12 @@ SharkGame.HomeActions = {
         },
         cost: [
             { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
-            { resource: "sharkonium", costFunction: "linear", priceIncrease: 200 },
+            { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
         ],
         max: "autoTransmuter",
         prereq: {
             resource: {
-                sharkonium: 200,
+                sharkonium: 100,
             },
             upgrade: ["engineering"],
         },
@@ -2151,7 +2151,7 @@ SharkGame.HomeActions = {
             "Change is all.",
             "The machines know many secrets, yet cannot speak of them.",
         ],
-        helpText: "Construct a machine to automatically transmute sand and crystal to sharkonium.",
+        helpText: "Construct a machine to automatically and efficiently transmute sand and crystal to sharkonium.",
     },
 
     getSkimmer: {
@@ -2163,12 +2163,12 @@ SharkGame.HomeActions = {
         },
         cost: [
             { resource: "junk", costFunction: "linear", priceIncrease: 400 },
-            { resource: "sharkonium", costFunction: "linear", priceIncrease: 250 },
+            { resource: "sharkonium", costFunction: "linear", priceIncrease: 200 },
         ],
         max: "skimmer",
         prereq: {
             resource: {
-                junk: 100,
+                junk: 1,
             },
             upgrade: ["engineering"],
         },
@@ -2185,7 +2185,7 @@ SharkGame.HomeActions = {
             "Consumption and production are two halves of the greater whole.",
             "The creations of sharks emerge from a pattern as old as their species.",
         ],
-        helpText: "Construct a machine to automatically recycle fish and sand into residue.",
+        helpText: "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.",
     },
 
     getPurifier: {

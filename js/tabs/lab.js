@@ -13,6 +13,8 @@ SharkGame.Lab = {
         },
     },
 
+    notEmptyList: true,
+
     message: "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.",
     messageDone:
         "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.<br/>" +
@@ -42,6 +44,7 @@ SharkGame.Lab = {
     switchTo() {
         const l = SharkGame.Lab;
         const content = $("#content");
+        const ups = SharkGame.Upgrades.getUpgradeTable();
 
         const allResearchDone = l.allResearchDone();
         let message = allResearchDone ? l.messageDone : l.message;
@@ -60,8 +63,37 @@ SharkGame.Lab = {
         content.append($("<div>").addClass("clear-fix"));
 
         l.updateUpgradeList();
+        l.update();
         if (allResearchDone) {
             $("#buttonList").append($("<p>").html("All clear here!"));
+        } else if (!l.notEmptyList) {
+            $("#buttonList").append($("<p>").html("The scientists are out of ideas, but there are always more discoveries to be made."));
+            let hintResource = "";
+            $.each(ups, (k, v) => {
+                if (l.isUpgradePossible(k) && !l.isUpgradeSeeable(k)) {
+                    if (hintResource === "") {
+                        if (v.required.upgrades) {
+                            let prereqsMet = true;
+                            $.each(v.required.upgrades, (_, value) => {
+                                prereqsMet = prereqsMet && ups[value].purchased;
+                            });
+                            if (prereqsMet) {
+                                _.each(v.required.seen, (resource) => {
+                                    if (w.doesResourceExist(resource)) {
+                                        hintResource = resource;
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+            if (hintResource) {
+                $("#buttonList").append($("<p>").html("You get the feeling that " + r.getResourceName(hintResource, false, false, 2) + " may be the key."));
+            } else {
+                SharkGame.Log.addError("There is a possible, undiscovered upgrade, but no valid hint resource.");
+            }
         }
     },
 
@@ -72,6 +104,7 @@ SharkGame.Lab = {
         const buttonList = $("#buttonList");
 
         const ups = SharkGame.Upgrades.getUpgradeTable();
+        l.notEmptyList = false;
 
         // for each upgrade not yet bought
         $.each(ups, (key, value) => {
@@ -99,9 +132,11 @@ SharkGame.Lab = {
                         });
                     }
                     // validate if upgrade is possible
-                    prereqsMet = prereqsMet && l.isUpgradePossible(key);
+                    prereqsMet = prereqsMet && l.isUpgradePossible(key) && l.isUpgradeSeeable(key);
                 }
                 if (prereqsMet) {
+                    l.notEmptyList = true;
+
                     // add button
                     const effects = SharkGame.Lab.getResearchEffects(value);
                     const buttonSelector = SharkGame.Button.makeButton(
@@ -231,7 +266,7 @@ SharkGame.Lab = {
         let allDone = true;
         $.each(u, (k, v) => {
             if (l.isUpgradePossible(k)) {
-                allDone = allDone && v.purchased;
+                allDone = allDone && v.purchased && l.isUpgradeSeeable(k);
             }
         });
         return allDone;
@@ -272,13 +307,6 @@ SharkGame.Lab = {
                     isPossible = isPossible && l.isUpgradePossible(v);
                 });
             }
-            if (upgradeData.required.seen) {
-                let seenOne = false;
-                _.each(upgradeData.required.seen, (v) => {
-                    seenOne = seenOne || r.getTotalResource(v) > 0;
-                });
-                isPossible = isPossible && seenOne;
-            }
 
             // check existence of resource cost
             // this is the final check, everything that was permitted previously will be made false
@@ -288,6 +316,21 @@ SharkGame.Lab = {
         }
 
         return isPossible;
+    },
+    
+    isUpgradeSeeable(u) {
+        const ups = SharkGame.Upgrades.getUpgradeTable();
+        const upgradeData = ups[u];
+        if (upgradeData.required) {
+            if (upgradeData.required.seen) {
+                let seenOne = false;
+                _.each(upgradeData.required.seen, (v) => {
+                    seenOne = seenOne || r.getTotalResource(v) > 0;
+                });
+                return seenOne;
+            }
+        }
+        return true;
     },
 
     getResearchEffects(upgrade, darken) {

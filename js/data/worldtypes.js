@@ -249,6 +249,12 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "fishMachine", amount: 1 },
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "silentArchivist", amount: 1 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "tar", amount: 0.1 },
+            {
+                type: "multiplier",
+                modifier: "planetaryFixedIncomeReciprocalMultiplier",
+                resource: "sponge",
+                amount: 100,
+            },
         ],
         gateCosts: {
             junk: 4e6,

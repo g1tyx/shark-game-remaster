@@ -357,7 +357,7 @@ SharkGame.Recycler = {
 
     getRecyclerEfficiencyString() {
         if (y.efficiency === "NA") {
-            return "<br/><br/><br/><br/><br/><br/><br/>";
+            return "<br/><br/><br/><br/><br/><br/>";
         }
 
         let amountstring = "";
