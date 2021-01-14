@@ -424,7 +424,6 @@ SharkGame.Main = {
         const overlay = $("#overlay");
         overlay.hide();
         $("#gameName").html("- " + SharkGame.GAME_NAME + " -");
-
         $("#versionNumber").html(
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
 Mod of v ${SharkGame.ORIGINAL_VERSION}`

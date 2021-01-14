@@ -329,7 +329,6 @@ SharkGame.Stats = {
 
                 let resourceBoostRowspan = SharkGame.Settings.current.switchStats ? undefined : 'inline';
                 let generatorBoostRowspan = SharkGame.Settings.current.switchStats ? 'inline' : undefined;
-
                 const changeChar = incomeValue > 0 ? "+" : "";
                 row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
                 addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + '/s'], 'inline')
