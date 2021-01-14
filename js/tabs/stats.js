@@ -324,7 +324,7 @@ SharkGame.Stats = {
                     // does this income get a research multiplier?
                     const resourceAffectMultiplier = r.getResourceGeneratorMultiplier(generatorName);
                     if (resourceAffectMultiplier !== 1)
-                        addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + b.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
+                        addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + m.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
                     else addCell(undefined, generatorBoostRowspan);
                 }
 
