@@ -95,7 +95,9 @@ SharkGame.Gate = {
         const required = gt.costs[resourceName];
         if (amount < required) {
             button.html(
-                `Need <span class='click-passthrough' style='color:#FFDE0A'>${m.beautify(required - amount)}</span> more ${r.getResourceName(resourceName)} for ${r.getResourceName(resourceName)} slot`
+                `Need <span class='click-passthrough' style='color:#FFDE0A'>${m.beautify(required - amount)}</span> more ${r.getResourceName(
+                    resourceName
+                )} for ${r.getResourceName(resourceName)} slot`
             );
         }
     },
@@ -162,12 +164,12 @@ SharkGame.Gate = {
         });
         amountOfSlots = _.size(gt.costs) - amountOfSlots;
 
-        if(gt.shouldBeOpen()) {
-            return gt.sceneOpenImage
+        if (gt.shouldBeOpen()) {
+            return gt.sceneOpenImage;
         } else if (amountOfSlots > 1) {
-            return gt.sceneClosedImage
+            return gt.sceneClosedImage;
         } else {
-            return gt.sceneAlmostOpenImage
+            return gt.sceneAlmostOpenImage;
         }
     },
 };

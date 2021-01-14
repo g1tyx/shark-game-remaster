@@ -614,8 +614,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .css({ bottom: "15px", right: "15px" })
                     .html("You see a new update swimming towards you. Click to update.")
                     .on("click", () => {
-                        SharkGame.Save.saveGame();
-                        history.go(0);
+                        try {
+                            SharkGame.Save.saveGame();
+                            history.go(0);
+                        } catch (err) {
+                            SharkGame.Log.addError(err);
+                            console.error(err);
+                            SharkGame.Log.addMessage("Something went wrong while saving.");
+                        }
                     });
             }
         });

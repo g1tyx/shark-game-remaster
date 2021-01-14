@@ -1167,7 +1167,12 @@ SharkGame.HomeActions = {
             },
             upgrade: ["biology"],
         },
-        outcomes: ["A nurse shark is ready!", "Shark manufacturer primed.", "Nurse shark trained.", "Medical exam passed! Nurse shark is go!"],
+        outcomes: [
+            "A nurse shark is ready!",
+            "Shark manufacturer primed.",
+            "Nurse shark trained.",
+            "Medical exam passed! Nurse shark is go!",
+        ],
         multiOutcomes: [
             "More sharks are on the way soon.",
             "Shark swarm begins!",
@@ -1691,7 +1696,8 @@ SharkGame.HomeActions = {
             "You're might be playing a dangerous game trusting these guys.",
             "The treasury grows!",
         ],
-        helpText: "Promote a dolphin to a harder job involving interest on precious coral and crystal or something like that.",
+        helpText:
+            "Promote a dolphin to a harder job involving interest on precious coral and crystal or something like that.",
     },
 
     getBiologist: {
@@ -1726,7 +1732,8 @@ SharkGame.HomeActions = {
             "Smug hedonists, the lot of them!",
             "The dolphin population regretfully grows.",
         ],
-        helpText: "Train a dolphin to specialise in biology. Dolphin biology, specifically, and production, apparently.",
+        helpText:
+            "Train a dolphin to specialise in biology. Dolphin biology, specifically, and production, apparently.",
     },
 
     // WHALE JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -1814,7 +1821,12 @@ SharkGame.HomeActions = {
             },
             upgrade: ["eelHabitats"],
         },
-        outcomes: ["We have a technician!", "Technical problems no more!", "No, the eel won't fix your computer.", "Eel technician!"],
+        outcomes: [
+            "We have a technician!",
+            "Technical problems no more!",
+            "No, the eel won't fix your computer.",
+            "Eel technician!",
+        ],
         multiOutcomes: [
             "Let's get technical!",
             "Qualified and certified!",
@@ -2029,7 +2041,12 @@ SharkGame.HomeActions = {
             "Construction complete.",
             "Carve rock. Remove sand. Retrieve target.",
         ],
-        multiOutcomes: ["The machines rise.", "The miners dig.", "The crystal shall be harvested.", "Crystal miners are complete."],
+        multiOutcomes: [
+            "The machines rise.",
+            "The miners dig.",
+            "The crystal shall be harvested.",
+            "Crystal miners are complete.",
+        ],
         helpText: "Construct a machine to automatically harvest crystals efficiently.",
     },
 
@@ -2213,7 +2230,13 @@ SharkGame.HomeActions = {
         prereq: {
             upgrade: ["thermalConditioning"],
         },
-        outcomes: ["Heater activated.", "Heater constructed.", "Climate control online.", "Construction complete.", "The end of ice."],
+        outcomes: [
+            "Heater activated.",
+            "Heater constructed.",
+            "Climate control online.",
+            "Construction complete.",
+            "The end of ice.",
+        ],
         multiOutcomes: [
             "The ice age comes to a close.",
             "Is this replacing one form of destruction for another?",
@@ -2415,7 +2438,8 @@ SharkGame.HomeActions = {
             "Coralglass. So fragile, so beautiful, yet so durable. They make the machines in their own image.",
             "The fine intricacies of these machines are lost on us, given how much of our technological development involves our mouths.",
         ],
-        helpText: "This crustacean machine automatically makes coralglass out of coral and sand through processes we don't fully understand.",
+        helpText:
+            "This crustacean machine automatically makes coralglass out of coral and sand through processes we don't fully understand.",
     },
 
     // DOLPHIN MACHINES /////////////////////////////////////////////////////////
@@ -2485,7 +2509,8 @@ SharkGame.HomeActions = {
             "Delphinium. We don't understand it. It feels a lot like sharkonium, but warmer.",
             "The complexity of these machines is unwarranted. The dolphins think themselves smarter, but we have simpler, more effective solutions.",
         ],
-        helpText: "This dolphin machine creates delphinium. What good that is to us is a mystery. Use it to make their useless machines, I guess?",
+        helpText:
+            "This dolphin machine creates delphinium. What good that is to us is a mystery. Use it to make their useless machines, I guess?",
     },
 
     // OCTOPUS MACHINES /////////////////////////////////////////////////////////
@@ -2674,7 +2699,18 @@ SharkGame.HomeActionCategories = {
 
     frenzy: {
         name: "Frenzy",
-        actions: ["getShark", "getManta", "getCrab", "getShrimp", "getLobster", "getDolphin", "getWhale", "getEel", "getChimaera", "getOctopus"],
+        actions: [
+            "getShark",
+            "getManta",
+            "getCrab",
+            "getShrimp",
+            "getLobster",
+            "getDolphin",
+            "getWhale",
+            "getEel",
+            "getChimaera",
+            "getOctopus",
+        ],
     },
 
     professions: {
