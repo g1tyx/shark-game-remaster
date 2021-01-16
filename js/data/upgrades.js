@@ -515,7 +515,7 @@ SharkGame.Upgrades = {
                     skimmer: 2,
                     heater: 2,
                     purifier: 2,
-                    scientist: 2,
+                    scientist: 4,
                 },
             },
         },
@@ -1156,6 +1156,7 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["gateDiscovery"],
                 resources: ["shark", "ray", "chimaera"],
+                notWorlds: ["start"],
             },
             effect: {
                 multiplier: {
@@ -1286,6 +1287,7 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["gateDiscovery", "iterativeDesign"],
                 resources: ["sharkonium"],
+                notWorlds: ["start"],
             },
             effect: {
                 multiplier: {

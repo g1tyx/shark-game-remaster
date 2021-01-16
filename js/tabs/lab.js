@@ -39,6 +39,9 @@ SharkGame.Lab = {
         $.each(ups, (k, v) => {
             ups[k].purchased = false;
         });
+        SharkGame.ResourceMap.forEach((v, key) => {
+            r.setMultiplier(key, 1);
+        });
     },
 
     switchTo() {
