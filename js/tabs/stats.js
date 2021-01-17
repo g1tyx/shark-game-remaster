@@ -232,7 +232,6 @@ SharkGame.Stats = {
         const drawnResourceMap = new Map();
         SharkGame.ResourceMap.forEach((generatorData, generatorName) => {
             if (r.getTotalResource(generatorName) > 0 && generatorData.income) {
-                if (generatorData.name.includes("ray")) console.log(2, generatorData.name, generatorData.income);
                 // if the resource has an income requiring any costs
                 // and it isn't a forced income
                 // do not display the resource's income if it requires a non-existent resource (looking at you, sponge)

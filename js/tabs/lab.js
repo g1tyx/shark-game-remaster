@@ -261,9 +261,9 @@ SharkGame.Lab = {
                 }
 
                 // Add upgrade to DOM
-                let list = $("#upgradeList > ul");
-                let upgradeElt = $("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`);
-                let showAnims = SharkGame.Settings.current.showAnimations;
+                const list = $("#upgradeList > ul");
+                const upgradeElt = $("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`);
+                const showAnims = SharkGame.Settings.current.showAnimations;
                 if (showAnims) {
                     upgradeElt.hide().css("opacity", 0).prependTo(list).slideDown(50).animate({ opacity: 1.0 }, 100);
                 } else {
@@ -371,7 +371,7 @@ SharkGame.Lab = {
     },
 
     updateUpgradeList() {
-        const u = SharkGame.Upgrades.getUpgradeTable();
+        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
         const upgradeList = $("#upgradeList");
         upgradeList.empty();
         upgradeList.append($("<h3>").html("Researched Upgrades"));
@@ -379,16 +379,15 @@ SharkGame.Lab = {
 
         // reverse object keys
         let keys = [];
-        $.each(u, (k, v) => {
+        $.each(upgradeTable, (k, v) => {
             if (v.purchased) {
-                keys.push(k)
+                keys.unshift(k);
             }
         });
-        keys = keys.reverse();
 
-        for (let key of keys) {
-            let v = u[key]
-            list.append($("<li>").html(`${v.name}<br/><span class='medDesc'>${v.effectDesc}</span>`));
+        for (const key of keys) {
+            const upgrade = upgradeTable[key];
+            list.append($("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`));
         }
         upgradeList.append(list);
     },
