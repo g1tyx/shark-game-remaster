@@ -1,23 +1,26 @@
 {
     "name": "shark_game",
-    "version": "0.8",
+    "version": "0.8.1",
     "repository": "https://github.com/spencers145/SharkGame",
     "author": "spencers145 <smartypantsspencer@gmail.com>",
     "license": "MIT",
     "scripts": {
         "lint": "eslint . --format visualstudio && prettier . --check",
         "fix": "eslint . --fix && prettier . --write",
-        "less": "lessc ./less/style.less ./css/style.css && lessc -clean-css ./less/style.less ./css/style-min.css"
+        "less:w:big": "less-watch -c ./less/style.less ./css/style.css",
+        "less:w": "less-watch -cm ./less/style.less ./css/style.min.css",
+        "less": "lessc ./less/style.less ./css/style.css && lessc -clean-css ./less/style.less ./css/style.min.css"
     },
     "devDependencies": {
         "@types/jquery": "^3.5.5",
         "@types/lodash": "^4.14.167",
         "@types/pako": "^1.0.1",
-        "eslint": "^7.17.0",
+        "eslint": "^7.18.0",
         "eslint-config-prettier": "^7.1.0",
         "eslint-plugin-standard": "^5.0.0",
         "less": "^4.1.0",
         "less-plugin-clean-css": "^1.5.1",
+        "less-watch-cli": "^1.0.1",
         "prettier": "^2.2.1"
     }
 }

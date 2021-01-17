@@ -90,7 +90,9 @@ SharkGame.Lab = {
                 }
             });
             if (hintResource) {
-                $("#buttonList").append($("<p>").html("You get the feeling that " + r.getResourceName(hintResource, false, false, 2) + " may be the key."));
+                $("#buttonList").append(
+                    $("<p>").html("You get the feeling that " + r.getResourceName(hintResource, false, false, 2) + " may be the key.")
+                );
             } else {
                 SharkGame.Log.addError("There is a possible, undiscovered upgrade, but no valid hint resource.");
             }
@@ -317,7 +319,7 @@ SharkGame.Lab = {
 
         return isPossible;
     },
-    
+
     isUpgradeSeeable(u) {
         const ups = SharkGame.Upgrades.getUpgradeTable();
         const upgradeData = ups[u];

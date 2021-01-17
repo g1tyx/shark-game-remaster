@@ -2,8 +2,8 @@
 var SharkGame = SharkGame || {};
 
 window.onmousemove = (e) => {
-    const tooltip = document.getElementById("tooltipbox")
-    if(tooltip.innerHTML === "") return;
+    const tooltip = document.getElementById("tooltipbox");
+    if (tooltip.innerHTML === "") return;
     const x = e.clientX;
     const y = e.clientY;
     tooltip.style.top = y - 20 + "px";
