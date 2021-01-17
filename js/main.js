@@ -1086,7 +1086,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     getDeterminer(name) {
-        const firstLetter = name.charAt(0);
+        const firstLetter = SharkGame.ResourceMap.get(name).name.charAt(0);
         if ("aeiou".includes(firstLetter)) {
             return "an";
             //note to self: make the next line not suck

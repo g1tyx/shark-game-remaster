@@ -39,6 +39,9 @@ SharkGame.Lab = {
         $.each(ups, (k, v) => {
             ups[k].purchased = false;
         });
+        SharkGame.ResourceMap.forEach((v, key) => {
+            r.setMultiplier(key, 1);
+        });
     },
 
     switchTo() {
@@ -231,8 +234,6 @@ SharkGame.Lab = {
             r.changeManyResources(upgradeCost, true);
             // purchase upgrade
             l.addUpgrade(upgradeId);
-            // update upgrade list
-            l.updateUpgradeList();
 
             if (upgrade.researchedMessage) {
                 SharkGame.Log.addMessage(upgrade.researchedMessage);
@@ -257,6 +258,16 @@ SharkGame.Lab = {
                             r.setMultiplier(k, newMultiplier);
                         });
                     }
+                }
+
+                // Add upgrade to DOM
+                let list = $("#upgradeList > ul");
+                let upgradeElt = $("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`);
+                let showAnims = SharkGame.Settings.current.showAnimations;
+                if (showAnims) {
+                    upgradeElt.hide().css("opacity", 0).prependTo(list).slideDown(50).animate({ opacity: 1.0 }, 100);
+                } else {
+                    upgradeElt.prependTo(list);
                 }
             }
         }
@@ -365,11 +376,20 @@ SharkGame.Lab = {
         upgradeList.empty();
         upgradeList.append($("<h3>").html("Researched Upgrades"));
         const list = $("<ul>");
+
+        // reverse object keys
+        let keys = [];
         $.each(u, (k, v) => {
             if (v.purchased) {
-                list.append($("<li>").html(v.name + "<br/><span class='medDesc'>" + v.effectDesc + "</span>"));
+                keys.push(k)
             }
         });
+        keys = keys.reverse();
+
+        for (let key of keys) {
+            let v = u[key]
+            list.append($("<li>").html(`${v.name}<br/><span class='medDesc'>${v.effectDesc}</span>`));
+        }
         upgradeList.append(list);
     },
 };

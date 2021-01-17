@@ -822,7 +822,7 @@ SharkGame.Home = {
                 let subMax = -1;
                 switch (costFunction) {
                     case "constant":
-                        subMax = SharkGame.MathUtil.constantMax(currAmount, costResource.amount, k) - currAmount;
+                        subMax = SharkGame.MathUtil.constantMax(0, costResource.amount, k);
                         break;
                     case "linear":
                         subMax = SharkGame.MathUtil.linearMax(currAmount, costResource.amount, k) - currAmount;
