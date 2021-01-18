@@ -14,6 +14,8 @@ SharkGame.Resources = {
     specialMultiplier: null,
     rebuildTable: false,
 
+    collapsedRows: [],
+
     init() {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (key, value) => {
@@ -546,14 +548,21 @@ SharkGame.Resources = {
         if (SharkGame.Settings.current.groupResources) {
             $.each(SharkGame.ResourceCategories, (_, category) => {
                 if (r.isCategoryVisible(category)) {
+                    let isCollapsed = !!r.collapsedRows[category.name]
                     const headerRow = $("<tr>").append(
-                        $("<td>").attr("colSpan", 3).append($("<h3>").html(category.name))
-                    );
+                        $("<td>").attr("colSpan", 3).append($("<h3>").html(
+                            `<span class="collapser">${isCollapsed ? '⯈' : '⯆'}</span><span>${category.name}</span>`
+                        ).css('text-align', 'left').css('padding-right', '1em')
+                    )).attr('id', `${category.name}Collapser`);
+                    headerRow.on('click', e => SharkGame.Resources.collapseResourceTableRow(e.currentTarget.id))
+                    // headerRow.on('click', e => {currentTarget.id})
                     rTable.append(headerRow);
                     $.each(category.resources, (k, value) => {
                         if (r.getTotalResource(value) > 0 || SharkGame.PlayerResources.get(value).discovered) {
-                            const row = r.constructResourceTableRow(value);
-                            rTable.append(row);
+                            if (!isCollapsed) {
+                                const row = r.constructResourceTableRow(value);
+                                rTable.append(row);
+                            }
                             anyResourcesInTable = true;
                         }
                     });
@@ -582,6 +591,12 @@ SharkGame.Resources = {
         }
 
         r.rebuildTable = false;
+    },
+
+    collapseResourceTableRow(id) {
+        let row = id.replace('Collapser','');
+        this.collapsedRows[row] = !this.collapsedRows[row];
+        this.reconstructResourcesTable()
     },
 
     constructResourceTableRow(resourceKey) {
