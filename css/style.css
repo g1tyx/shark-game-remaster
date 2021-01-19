@@ -594,18 +594,18 @@ button.newlyDiscovered.disabled div {
 #recyclerContainer {
   margin: 0 auto;
   overflow: hidden;
-  width: 50em;
+  width: 55em;
 }
-#inputButtons {
+#recyclerContainer > #inputButtons {
   float: left;
   margin: auto;
-  min-width: 18em;
+  width: 35%;
 }
-#junkDisplay {
+#recyclerContainer > #junkDisplay {
   position: relative;
   float: left;
   margin: auto;
-  width: 12em;
+  width: 25%;
   background: #450808 url("../img/recyclerbg.png") center;
   color: #d4bbbb;
   border: 0.2em solid #975f5f;
@@ -615,13 +615,18 @@ button.newlyDiscovered.disabled div {
   padding: 0.5em;
   z-index: 5;
 }
-#outputButtons {
+#recyclerContainer > #outputButtons {
   float: left;
   margin: auto;
-  min-width: 18em;
+  width: 35%;
 }
 #tabBorder {
   border-bottom: 0.5em double var(--color-light);
+}
+#updateGameBox {
+  bottom: 15px;
+  right: 15px;
+  cursor: pointer;
 }
 button {
   background-color: var(--color-light);
