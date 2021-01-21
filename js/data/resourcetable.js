@@ -371,8 +371,8 @@ SharkGame.ResourceTable = {
         color: "#6A4BA3",
         income: {
             sharkonium: 15,
-            sand: -15,
-            crystal: -45,
+            sand: -90,
+            crystal: -30,
         },
         value: 3000,
     },
@@ -385,7 +385,6 @@ SharkGame.ResourceTable = {
             science: 5,
             jellyfish: 1,
         },
-
         value: 3000,
     },
 
@@ -467,8 +466,8 @@ SharkGame.ResourceTable = {
         //desc: "Mystic processes automated.",
         color: "#B5A7D1",
         income: {
-            crystal: -50,
-            sand: -150,
+            crystal: -90,
+            sand: -250,
             sharkonium: 20,
             tar: 0.01,
         },
@@ -492,10 +491,10 @@ SharkGame.ResourceTable = {
         singleName: "skimmer",
         color: "#8D4863",
         income: {
-            junk: 60,
-            sand: -16,
-            fish: -6,
-            tar: 0.005,
+            junk: 750,
+            sand: -50,
+            fish: -300,
+            tar: 0.002,
         },
         value: 50000,
     },
@@ -586,7 +585,7 @@ SharkGame.ResourceTable = {
         singleName: "glass maker",
         color: "#E39E66",
         income: {
-            coralglass: 20,
+            coralglass: 30,
             coral: -300,
             sand: -300,
         },
@@ -609,7 +608,7 @@ SharkGame.ResourceTable = {
         singleName: "tireless crafter",
         color: "#9AEBCF",
         income: {
-            delphinium: 20,
+            delphinium: 30,
             coral: -300,
             crystal: -100,
             tar: 0.001,
@@ -647,7 +646,7 @@ SharkGame.ResourceTable = {
         color: "#8E8F91",
         income: {
             tar: -0.2,
-            junk: 80,
+            junk: 400,
         },
         value: 50000,
         forceIncome: true,

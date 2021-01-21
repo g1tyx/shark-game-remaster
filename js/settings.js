@@ -12,7 +12,7 @@ SharkGame.Settings = {
         show: false,
         options: [true, false],
     },
-    
+
     framerate: {
         defaultSetting: 10,
         name: "Framerate/TPS",
@@ -21,7 +21,7 @@ SharkGame.Settings = {
         options: [1, 2, 5, 10, 15, 20],
         onChange() {
             m.applyFramerate();
-        }
+        },
     },
 
     groupResources: {

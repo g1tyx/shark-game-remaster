@@ -58,23 +58,9 @@ SharkGame.Save = {
             saveData.artifacts[k] = v.level;
         });
 
-        $.each(
-            [
-                "start",
-                "marine",
-                "chaotic",
-                "haven",
-                "tempestuous",
-                "violent",
-                "abandoned",
-                "shrouded",
-                "frigid",
-                "stone",
-            ],
-            (k, v) => {
-                saveData.completedWorlds[v] = false;
-            }
-        );
+        $.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid", "stone"], (k, v) => {
+            saveData.completedWorlds[v] = false;
+        });
 
         $.each(g.completedWorlds, (k, v) => {
             saveData.completedWorlds[v] = true;
@@ -130,8 +116,7 @@ SharkGame.Save = {
                 saveDataString = ascii85.decode(saveDataString);
             } catch (err) {
                 throw new Error(
-                    "Saved data looked like it was encoded in ascii85, but it couldn't be decoded. Can't load. Your save: " +
-                        saveDataString
+                    "Saved data looked like it was encoded in ascii85, but it couldn't be decoded. Can't load. Your save: " + saveDataString
                 );
             }
         }
@@ -142,9 +127,7 @@ SharkGame.Save = {
             try {
                 saveDataString = pako.inflate(saveDataString, { to: "string" });
             } catch (err) {
-                throw new Error(
-                    "Saved data is compressed, but it can't be decompressed. Can't load. Your save: " + saveDataString
-                );
+                throw new Error("Saved data is compressed, but it can't be decompressed. Can't load. Your save: " + saveDataString);
             }
         }
 
@@ -167,12 +150,7 @@ SharkGame.Save = {
                 //check version
                 const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
                 const saveVersion = saveData.shift();
-                if (
-                    typeof saveVersion !== "number" ||
-                    saveVersion % 1 !== 0 ||
-                    saveVersion < 0 ||
-                    saveVersion > currentVersion
-                ) {
+                if (typeof saveVersion !== "number" || saveVersion % 1 !== 0 || saveVersion < 0 || saveVersion > currentVersion) {
                     throw new Error("Invalid save version!");
                 }
                 //create matching template
@@ -207,9 +185,7 @@ SharkGame.Save = {
                     throw new Error("Order appears to be corrupt.");
                 }
             } catch (err) {
-                throw new Error(
-                    "Couldn't unpack packed save data. Reason: " + err.message + ". Your save: " + saveDataString
-                );
+                throw new Error("Couldn't unpack packed save data. Reason: " + err.message + ". Your save: " + saveDataString);
             }
         }
 
@@ -226,9 +202,7 @@ SharkGame.Save = {
                     saveData.saveVersion = i;
                 }
                 // let player know update went fine
-                SharkGame.Log.addMessage(
-                    "Updated save data from v " + saveData.version + " to " + SharkGame.VERSION + "."
-                );
+                SharkGame.Log.addMessage("Updated save data from v " + saveData.version + " to " + SharkGame.VERSION + ".");
             }
 
             if (saveData.resources) {
@@ -387,33 +361,22 @@ SharkGame.Save = {
                                 }
                             } else {
                                 notification +=
-                                    "about " +
-                                    (numWeeks === 1 ? "a" : numWeeks) +
-                                    " week" +
-                                    SharkGame.plural(numWeeks) +
-                                    ", you were gone a while!";
+                                    "about " + (numWeeks === 1 ? "a" : numWeeks) + " week" + SharkGame.plural(numWeeks) + ", you were gone a while!";
                             }
                         } else {
                             notification +=
-                                (numDays === 1 ? "a" : numDays) +
-                                " day" +
-                                SharkGame.plural(numDays) +
-                                ", and look at all the stuff you have now!";
+                                (numDays === 1 ? "a" : numDays) + " day" + SharkGame.plural(numDays) + ", and look at all the stuff you have now!";
                         }
                     } else {
                         notification +=
-                            (numHours === 1 ? "an" : numHours) +
-                            " hour" +
-                            SharkGame.plural(numHours) +
-                            " since you were seen around here!";
+                            (numHours === 1 ? "an" : numHours) + " hour" + SharkGame.plural(numHours) + " since you were seen around here!";
                     }
                     SharkGame.Log.addMessage(notification);
                 }
             }
         } else {
             throw new Error(
-                "Couldn't load saved game. I don't know how to break this to you, but I think your save is corrupted. Your save: " +
-                    saveDataString
+                "Couldn't load saved game. I don't know how to break this to you, but I think your save is corrupted. Your save: " + saveDataString
             );
         }
     },
@@ -838,12 +801,9 @@ SharkGame.Save = {
             _.each(["iterativeDesign", "superprocessing"], (v) => {
                 save.upgrades[v] = false;
             });
-            _.each(
-                ["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"],
-                (v) => {
-                    save.completedWorlds[v] = false;
-                }
-            );
+            _.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"], (v) => {
+                save.completedWorlds[v] = false;
+            });
             return save;
         },
 

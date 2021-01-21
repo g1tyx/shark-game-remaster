@@ -106,23 +106,9 @@ SharkGame.WorldTypes = {
         name: "Chaotic",
         desc: "A frenetic world, torn by immaterial force.",
         shortDesc: "swirling teal",
-        entry:
-            "You enter a chaotic fray, with no recollection of your former journey. New creatures charge at you from all directions.",
+        entry: "You enter a chaotic fray, with no recollection of your former journey. New creatures charge at you from all directions.",
         style: "chaotic",
-        absentResources: [
-            "tar",
-            "ice",
-            "heater",
-            "purifier",
-            "eel",
-            "whale",
-            "octopus",
-            "shrimp",
-            "chimaera",
-            "pit",
-            "queen",
-            "jellyfish",
-        ],
+        absentResources: ["tar", "ice", "heater", "purifier", "eel", "whale", "octopus", "shrimp", "chimaera", "pit", "queen", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncome", resource: "frenzy", amount: 0.02 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "crab", amount: 0.04 },
@@ -175,8 +161,7 @@ SharkGame.WorldTypes = {
         name: "Tempestuous",
         desc: "A swirling maelstrom of storms where nothing rests.",
         shortDesc: "stormy grey",
-        entry:
-            "You recall nothing and know only the storms. The unrelenting, restless storms scattering your possessions and allies.",
+        entry: "You recall nothing and know only the storms. The unrelenting, restless storms scattering your possessions and allies.",
         style: "tempestuous",
         /* includedResources: [
             "sharks",
@@ -216,8 +201,7 @@ SharkGame.WorldTypes = {
         name: "Violent",
         desc: "An ocean close to boiling and choking under sulphuric fumes.",
         shortDesc: "searing red",
-        entry:
-            "The burning waters sear the last traces of your past experiences from you. From beneath, the vents spew forth a heavy cloud of sand.",
+        entry: "The burning waters sear the last traces of your past experiences from you. From beneath, the vents spew forth a heavy cloud of sand.",
         style: "violent",
         /* includedResources: [
             "sharks",
@@ -255,8 +239,7 @@ SharkGame.WorldTypes = {
         name: "Abandoned",
         desc: "A dying world filled with machinery.",
         shortDesc: "murky dark green",
-        entry:
-            "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
+        entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
         absentResources: ["ice", "heater", "shrimp", "chimaera", "eel", "jellyfish", "algae", "whale"],
         modifiers: [
@@ -266,6 +249,12 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "fishMachine", amount: 1 },
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "silentArchivist", amount: 1 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "tar", amount: 0.1 },
+            {
+                type: "multiplier",
+                modifier: "planetaryFixedIncomeReciprocalMultiplier",
+                resource: "sponge",
+                amount: 100,
+            },
         ],
         gateCosts: {
             junk: 4e6,
@@ -280,8 +269,7 @@ SharkGame.WorldTypes = {
         name: "Shrouded",
         desc: "A dark, murky ocean of secrecy and danger.",
         shortDesc: "dark mysterious",
-        entry:
-            "Blackness. You know only blindness in these dark forsaken waters. Foggy memory leads you to follow a stream of crystals.",
+        entry: "Blackness. You know only blindness in these dark forsaken waters. Foggy memory leads you to follow a stream of crystals.",
         style: "shrouded",
         /* includedResources: [
             "sharks",
@@ -321,19 +309,7 @@ SharkGame.WorldTypes = {
         shortDesc: "freezing white",
         entry: "As you struggle with sudden amnesia, you notice crystals forming in front of you. So cold.",
         style: "frigid",
-        absentResources: [
-            "tar",
-            "purifier",
-            "dolphin",
-            "whale",
-            "lobster",
-            "chimaera",
-            "shrimp",
-            "seaApple",
-            "coral",
-            "algae",
-            "jellyfish",
-        ],
+        absentResources: ["tar", "purifier", "dolphin", "whale", "lobster", "chimaera", "shrimp", "seaApple", "coral", "algae", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "machines", amount: 0.5 },
             {
