@@ -316,6 +316,7 @@ pre {
   border-top: 0.1em dashed var(--color-lighter);
   border-bottom: 0.1em dashed var(--color-lighter);
   background: #135;
+  cursor: pointer;
 }
 #sidebar td {
   font-size: 1.1em;
