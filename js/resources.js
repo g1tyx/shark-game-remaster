@@ -271,7 +271,7 @@ SharkGame.Resources = {
         if (node) {
             if (node.multiply) {
                 $.each(node.multiply, (key, val) => {
-                    multiplier = multiplier + val * r.getResource(key);
+                    multiplier = multiplier * (1 + val * r.getResource(key));
                 });
             }
             if (node.reciprocate) {
@@ -286,7 +286,7 @@ SharkGame.Resources = {
             }
             if (node.polynomial) {
                 $.each(node.polynomial, (key, val) => {
-                    multiplier = multiplier + Math.pow(r.getResource(key), val);
+                    multiplier = multiplier * (1 + Math.pow(r.getResource(key), val));
                 });
             }
         }

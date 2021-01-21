@@ -37,7 +37,7 @@ SharkGame.Artifacts = {
     permanentMultiplier: {
         name: "Time Anemone",
         desc: "Applies a multiplier to all income.",
-        flavour: "As creatures dwell within the sea, so too do creature dwell within causality.",
+        flavour: "As creatures dwell within the sea, so too do creatures dwell within causality.",
         max: 5,
         cost(level) {
             return Math.floor(Math.pow(10, level + 1));

@@ -195,10 +195,26 @@
                 }
                 return msg;
             }
+            function goSlowerPlease() {
+                cad.speed *= 0.5;
+                return "Slowed things down to " + cad.speed + " times as fast.";
+            }
+            function resetSpeedPlease() {
+                cad.speed = 1;
+                return "Reset game speed to 1x.";
+            }
             function giveMeLotsOfEverythingPlease() {
                 r.giveMeSomeOfEverything(100000000000000000000000000000000000000000);
                 return "Gave you lots of everything.";
             }
+            /*
+            function fixMyGamePlease() {
+                SharkGame.ResourceMap.forEach((v, key) => {
+                    r.setResource(key, 0);
+                });
+                return "Set everything back to 0. This should 'fix' everything.";
+            }
+            */
             function doSomethingCoolPlease() {
                 return "Did something really cool.";
                 // this doesn't do anything
@@ -216,12 +232,39 @@
                 w.apply();
                 return "Made the climate harder.";
             }
+            function beatWorldPlease() {
+                SharkGame.wonGame = true;
+                m.endGame();
+                return "You got it, boss.";
+            }
+            /*
+            function rollTheDicePlease() {
+                switch Math.floor(Math.random()*20+1) {
+                    case 1:
+                        SharkGame.ResourceMap.forEach((v, key) => {
+                            if (key !== "essence") {
+                                r.setResource(key, Math.floor(r.getResource(key)/3));
+                            }
+                        });
+                        return "Rolled a one...you lost a third of all your resources.";
+                    case 2:
+                        r.changeResource("shark",r.getResource("shark")*3);
+                        return "Rolled a two. Your sharks have been quadrupled.";
+                    case 3:
+                        return "Rolled a three. Nothing happened.";
+                    case 4:
+                        r.
+                        return "
+                        
+                }
+            }
+            function easyModePlease() {
+                
+                return "And isn't that what cheats are all about?";
+            }
+            */
             function listAllCheatsPlease() {
                 return "Nice try.";
-            }
-            function goSlowerPlease() {
-                cad.speed *= 0.5;
-                return "Slowed things down to " + cad.speed + " times as fast.";
             }
             /*
             function discretePlease() {
