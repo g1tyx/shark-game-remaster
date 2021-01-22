@@ -95,13 +95,7 @@ SharkGame.Gate = {
         const required = gt.costs[resourceName];
         if (amount < required) {
             button.html(
-                `Need <span class='click-passthrough' style='color:#FFDE0A'>${m.beautify(required - amount)}</span> more ${r.getResourceName(
-                    resourceName,
-                    false,
-                    false,
-                    false,
-                    SharkGame.getElementColor(button.attr("id"), "background-color")
-                )} for ${r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color"))} slot`
+                `Need <span class='click-passthrough' style='color:#FFDE0A'>${m.beautify(required - amount)}</span> more ${r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color"))} for ${r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color"))} slot`
             );
         }
     },
@@ -111,15 +105,7 @@ SharkGame.Gate = {
         const button = $(this);
         const resourceName = button.attr("id").split("-")[1];
         const required = gt.costs[resourceName];
-        button.html(
-            "Insert " +
-                m.beautify(required) +
-                " " +
-                r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
-                " into " +
-                r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
-                " slot"
-        );
+        button.html("Insert " + m.beautify(required) + " " + r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) + " into " + r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) + " slot");
     },
 
     update() {},

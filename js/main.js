@@ -163,10 +163,7 @@ $.extend(SharkGame, {
         return Math.max(parseInt(color.substr(0, 2), 16), parseInt(color.substr(2, 2), 16), parseInt(color.substr(4, 2), 16));
     },
     convertColorString(color) {
-        const colors = color
-            .substring(4)
-            .replace(/[^0-9a-f]/gi, " ")
-            .split(" ");
+        const colors = color.substring(4).replace(/[^0-9a-f]/gi, " ").split(" ");
         let colorstring = "#";
         for (let i = 0; i < 3; i++) {
             colorstring += ("00" + parseInt(colors[i * 2]).toString(16)).substr(parseInt(colors[i * 2]).toString(16).length);
@@ -672,7 +669,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         const tabs = SharkGame.Tabs;
         // empty out content div
         const content = $("#content");
-
         content.empty();
         content.append('<div id="contentMenu"><ul id="tabList"></ul><ul id="tabButtons"></ul></div><div id="tabBorder" class="clear-fix"></div>');
 
@@ -771,34 +767,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     thisButton.addClass("disabled");
                 });
         });
-        buttonList.prepend(
-            $("<li>").append(
-                $("<input>")
-                    .prop("type", "number")
-                    .addClass("inputbox")
-                    .attr("id", "custom-input")
-                    .attr("min", "1")
-                    .attr("disabled", SharkGame.Settings.current.buyAmount !== "custom")
-            )
-        );
-        document.getElementById("custom-input").addEventListener("input", m.onCustomChange);
-        if (SharkGame.Settings.current.customSetting) {
-            $("#custom-input")[0].value = SharkGame.Settings.current.customSetting;
-        }
-    },
-    
-    onCustomChange() {
-        SharkGame.Settings.current.customSetting = $("#custom-input")[0].value;
+        buttonList.prepend($("<li>").append($("<input>").prop("type", "number").addClass("inputbox").attr("id", "custom-input").attr("min", "1").attr("disabled", SharkGame.Settings.current.buyAmount !== "custom")));
     },
 
     getBuyAmount() {
         if (SharkGame.Settings.current.buyAmount === "custom") {
-            return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1000000000000000000
-                ? Math.floor($("#custom-input")[0].valueAsNumber)
-                : 1;
+            return $("#custom-input")[0].valueAsNumber >= 1 && $("#custom-input")[0].valueAsNumber < 1000000000000000000 ? $("#custom-input")[0].valueAsNumber : 1;
         } else {
             return SharkGame.Settings.current.buyAmount;
         }
+        return SharkGame.Settings.current.buyAmount === "custom" ? $("#custom-input")[0].valueAsNumber : SharkGame.Settings.current.buyAmount;
     },
 
     changeTab(tab) {

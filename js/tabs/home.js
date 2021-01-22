@@ -1011,14 +1011,7 @@ SharkGame.Home = {
                     appendedProduce = true;
                     text += "<span class='littleTooltipText'>PRODUCES</span>";
                 }
-                text +=
-                    "<br/>" +
-                    m
-                        .beautifyIncome(
-                            amount,
-                            " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
-                        )
-                        .bold();
+                text += "<br/>" + m.beautifyIncome(amount, " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))).bold();
             }
         });
 
@@ -1032,14 +1025,7 @@ SharkGame.Home = {
                         text += "<br/> <span class='littleTooltipText'>CONSUMES</span>";
                     }
                 }
-                text +=
-                    "<br/>" +
-                    m
-                        .beautifyIncome(
-                            -amount,
-                            " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
-                        )
-                        .bold();
+                text += "<br/>" + m.beautifyIncome(-amount, " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))).bold();
             }
         });
 
@@ -1055,17 +1041,9 @@ SharkGame.Home = {
             $.each(effects.resource, (resource) => {
                 const determiner = m.getDeterminer(resource);
                 if (determiner !== "") {
-                    text =
-                        m.getDeterminer(resource) +
-                        " " +
-                        r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
-                        "<br>" +
-                        text;
+                    text = m.getDeterminer(resource) + " " + r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() + "<br>" + text;
                 } else {
-                    text =
-                        r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
-                        "<br>" +
-                        text;
+                    text = r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() + "<br>" + text;
                 }
             });
         }

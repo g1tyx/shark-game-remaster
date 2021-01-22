@@ -670,20 +670,9 @@ SharkGame.Resources = {
             if (darken) {
                 color = SharkGame.colorLum(resource.color, -0.5);
             } else if (background) {
-                // this code takes the HSV of the text and its background, if its color is provided,
-                // and compares their Values. If they are less than 40 away, then they're too close
-                // then calculate exactly how much it takes to get them up to 40 away
-                // if the text's value is less, make it 40 below that of the background
-                // if the text's value is more, make it 40 above that of the background
                 const backValue = SharkGame.getColorValue(background);
                 const colorValue = SharkGame.getColorValue(color);
-                if (Math.abs(colorValue - backValue) < 20) {
-                    if (colorValue > backValue) {
-                        color = SharkGame.colorLum(color, (backValue + 20) / colorValue - 1);
-                    } else {
-                        color = SharkGame.colorLum(color, (backValue - 20) / colorValue - 1);
-                    }
-                }
+                color = Math.abs(colorValue - backValue) > 40 ? color : SharkGame.colorLum(color, colorValue > backValue ? (backValue + 40)/colorValue - 1 : (backValue - 40)/colorValue - 1);
             }
             name = "<span class='click-passthrough' style='color:" + color + "'>" + name + "</span>";
         }
