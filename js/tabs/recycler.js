@@ -119,7 +119,7 @@ SharkGame.Recycler = {
                 const resourceAmount = r.getResource(k);
 
                 // determine amounts for input and what would be retrieved from output
-                const buy = SharkGame.Settings.current.buyAmount;
+                const buy = m.getBuyAmount();
                 const forceSingular = buy === 1;
                 let inputAmount = buy;
                 let outputAmount = buy;
@@ -145,15 +145,16 @@ SharkGame.Recycler = {
                         label += m.beautify(inputAmount) + " ";
                     }
                 }
-                label += r.getResourceName(k, disableButton, forceSingular);
-                if (inputButton.html() !== label.replace(/'/g, '"')) {
-                    inputButton.html(label);
-                }
 
                 if (disableButton) {
                     inputButton.addClass("disabled");
                 } else {
                     inputButton.removeClass("disabled");
+                }
+
+                label += r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("input-" + k, "background-color"));
+                if (inputButton.html() !== label.replace(/'/g, '"')) {
+                    inputButton.html(label);
                 }
 
                 // update output button
@@ -167,15 +168,15 @@ SharkGame.Recycler = {
                     }
                 }
 
-                label += r.getResourceName(k, disableButton, forceSingular);
-                if (outputButton.html() !== label.replace(/'/g, '"')) {
-                    outputButton.html(label);
-                }
-
                 if (disableButton) {
                     outputButton.addClass("disabled");
                 } else {
                     outputButton.removeClass("disabled");
+                }
+
+                label += r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("output-" + k, "background-color"));
+                if (outputButton.html() !== label.replace(/'/g, '"')) {
+                    outputButton.html(label);
                 }
             }
         });
@@ -224,7 +225,7 @@ SharkGame.Recycler = {
             l.addMessage("You don't have enough for that!");
         }
 
-        y.updateEfficiency(resourceName, r.getResource(resourceName));
+        y.updateEfficiency(resourceName);
 
         // disable button until next frame
         button.addClass("disabled");
@@ -242,7 +243,7 @@ SharkGame.Recycler = {
             return;
         }
 
-        const selectedAmount = SharkGame.Settings.current.buyAmount;
+        const selectedAmount = m.getBuyAmount();
         let amount = selectedAmount;
         if (selectedAmount < 0) {
             const divisor = Math.floor(selectedAmount) * -1;
@@ -295,14 +296,13 @@ SharkGame.Recycler = {
     onInputHover() {
         const button = $(this);
         const resource = button.attr("id").split("-")[1];
-        const amount = r.getResource(resource);
 
         if (button.is(".disabled")) {
             return;
         }
 
         y.hoveredResource = resource;
-        y.updateEfficiency(resource, amount);
+        y.updateEfficiency(resource);
         y.updateExpectedOutput();
     },
 
@@ -331,7 +331,7 @@ SharkGame.Recycler = {
     },
 
     getTarString() {
-        const buy = SharkGame.Settings.current.buyAmount;
+        const buy = m.getBuyAmount();
 
         if (w.worldType === "abandoned") {
             if (y.efficiency === "NA") {
@@ -361,10 +361,10 @@ SharkGame.Recycler = {
         }
 
         let amountstring = "";
-        if (SharkGame.Settings.current.buyAmount > 0) {
-            amountstring = m.beautify(y.efficiency * SharkGame.Settings.current.buyAmount);
+        if (m.getBuyAmount() > 0) {
+            amountstring = m.beautify(y.efficiency * m.getBuyAmount());
         } else {
-            amountstring = m.beautify((y.efficiency * r.getResource(y.hoveredResource)) / -SharkGame.Settings.current.buyAmount);
+            amountstring = m.beautify((y.efficiency * r.getResource(y.hoveredResource)) / -m.getBuyAmount());
         }
 
         return (
@@ -384,7 +384,7 @@ SharkGame.Recycler = {
             return;
         }
         const amount = r.getResource(resource);
-        const buy = SharkGame.Settings.current.buyAmount;
+        const buy = m.getBuyAmount();
 
         if (buy > 0) {
             y.expectedOutput = buy * y.getEfficiency() * SharkGame.ResourceMap.get(resource).value;
@@ -400,7 +400,7 @@ SharkGame.Recycler = {
             return;
         }
         const junkAmount = r.getResource("junk");
-        const buy = SharkGame.Settings.current.buyAmount;
+        const buy = m.getBuyAmount();
 
         if (buy > 0) {
             y.expectedJunkSpent = buy * SharkGame.ResourceMap.get(resource).value;
@@ -413,12 +413,11 @@ SharkGame.Recycler = {
         if (y.efficiency === "NA") {
             return 1;
         }
-        y.updateEfficiency(y.hoveredResource, r.getResource(y.hoveredResource));
+        y.updateEfficiency(y.hoveredResource);
         return y.efficiency.toFixed(4);
     },
 
-    updateEfficiency(resource, amount) {
-        const buy = SharkGame.Settings.current.buyAmount;
+    updateEfficiency(resource) {
         let evalue = 5;
         let baseEfficiency = 0.5;
 
@@ -429,26 +428,16 @@ SharkGame.Recycler = {
             }
         }
 
-        // no efficiency change if only eating up to 100
-        if (buy > 0) {
+        const n = r.getPurchaseAmount(resource);
+        // check if the amount to eat is less than the threshold, currently 100K
+        if (n < Math.pow(10, evalue)) {
             y.efficiency = baseEfficiency;
-            return;
-        }
-
-        if (amount) {
-            const n = amount / -buy;
-            // check if the amount to eat is less than the threshold, currently 100K
-            if (n < Math.pow(10, evalue)) {
-                y.efficiency = baseEfficiency;
-            } else {
-                y.efficiency = 1 / (Math.log10(n) - evalue + Math.round(1 / baseEfficiency));
-                //otherwise, scale back based purely on the number to process
-                // 'cheating' by lowering the value of n is ok if the player wants to put in a ton of effort
-                // the system is more sensible, and people can get a feel for it easier if i make this change
-                // the amount that this effects things isn't crazy high either, so
-            }
         } else {
-            y.efficiency = baseEfficiency;
+            y.efficiency = 1 / (Math.log10(n) - evalue + Math.round(1 / baseEfficiency));
+            //otherwise, scale back based purely on the number to process
+            // 'cheating' by lowering the value of n is ok if the player wants to put in a ton of effort
+            // the system is more sensible, and people can get a feel for it easier if i make this change
+            // the amount that this effects things isn't crazy high either, so
         }
     },
 };

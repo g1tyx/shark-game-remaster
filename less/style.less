@@ -450,7 +450,7 @@ pre {
 
     #tabButtons {
         float: right;
-        width: 30em;
+        width: 50em;
         overflow: auto;
     }
 }
@@ -865,6 +865,25 @@ button {
             .clear-box-shadow();
             background-color: var(--color-darker);
         }
+    }
+}
+
+.inputbox {
+    padding: 0.1em;
+    margin: 1%;
+    width: 6em;
+    float: right;
+    background-color: var(--color-light);
+    border-color: var(--color-lighter);
+    color: @color-text;
+    font-size: 90%;
+    
+    &[disabled] {
+        background-color: var(--color-darker);
+        color: var(--color-lighter);
+        filter: brightness(80%);
+        cursor: default;
+        border-color: var(--color-med);
     }
 }
 

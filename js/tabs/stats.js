@@ -119,17 +119,17 @@ SharkGame.Stats = {
         const buttonDiv = $("#disposeResource").addClass("disposeArrangement");
         SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
-                SharkGame.Button.makeButton("dispose-" + k, "Dispose of<br/>" + r.getResourceName(k), buttonDiv, s.onDispose);
+                SharkGame.Button.makeButton("dispose-" + k, "Dispose of<br/>" + r.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")), buttonDiv, s.onDispose);
             }
         });
     },
 
     updateDisposeButtons() {
         SharkGame.ResourceMap.forEach((v, k) => {
-            if (r.getTotalResource(k) > 0) {
+            if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
                 const button = $("#dispose-" + k);
                 const resourceAmount = r.getResource(k);
-                let amountToDispose = SharkGame.Settings.current.buyAmount;
+                let amountToDispose = m.getBuyAmount();
                 if (amountToDispose < 0) {
                     const max = resourceAmount;
                     const divisor = Math.floor(amountToDispose) * -1;
@@ -137,9 +137,9 @@ SharkGame.Stats = {
                 }
                 const forceSingular = amountToDispose === 1;
                 const disableButton = resourceAmount < amountToDispose || amountToDispose <= 0;
-                let label = "Dispose of " + m.beautify(amountToDispose) + "<br/>" + r.getResourceName(k, disableButton, forceSingular);
+                let label = "Dispose of " + m.beautify(amountToDispose) + "<br/>" + r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
                 if (amountToDispose <= 0) {
-                    label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular);
+                    label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
                 }
 
                 if (button.html() !== label.replace(/'/g, '"').replace("<br/>", "<br>")) {
