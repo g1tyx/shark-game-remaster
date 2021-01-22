@@ -378,7 +378,7 @@ SharkGame.Lab = {
         const list = $("<ul>");
 
         // reverse object keys
-        let keys = [];
+        const keys = [];
         $.each(upgradeTable, (k, v) => {
             if (v.purchased) {
                 keys.unshift(k);
