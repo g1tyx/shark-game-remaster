@@ -292,6 +292,7 @@ pre {
   border-radius: 10px;
   padding: 5px;
   overflow: hidden;
+  text-shadow: 0px 0px 2px #000000;
 }
 #sidebar #resourceTableContainer {
   margin-left: auto;
@@ -557,6 +558,7 @@ button.newlyDiscovered.disabled div {
 #incomeData {
   padding: 0.1em 0.1em 1em;
   border-bottom: 0.1em dashed var(--color-lighter);
+  text-shadow: 0px 0px 2px #000000;
 }
 #incomeData .oddRow {
   background: var(--color-darker);
@@ -583,6 +585,7 @@ button.newlyDiscovered.disabled div {
   width: 40%;
   padding: 0.2em 0.2em 0.2em 2em;
   border-left: 0.1em dashed var(--color-lighter);
+  text-shadow: 0px 0px 2px #000000;
 }
 #upgradeList ul {
   list-style-type: square;
@@ -602,6 +605,7 @@ button.newlyDiscovered.disabled div {
   float: left;
   margin: auto;
   width: 35%;
+  text-shadow: 0px 0px 2px #000000;
 }
 #recyclerContainer > #junkDisplay {
   position: relative;
@@ -616,11 +620,13 @@ button.newlyDiscovered.disabled div {
   box-shadow: 0 0 15px 15px #450808 inset;
   padding: 0.5em;
   z-index: 5;
+  text-shadow: 0px 0px 2px #000000;
 }
 #recyclerContainer > #outputButtons {
   float: left;
   margin: auto;
   width: 35%;
+  text-shadow: 0px 0px 2px #000000;
 }
 #tabBorder {
   border-bottom: 0.5em double var(--color-light);
@@ -648,6 +654,7 @@ button {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  text-shadow: 0px 0px 2px #000000;
   font-size: 90%;
 }
 button.min {
@@ -1226,6 +1233,7 @@ button.planetButton:active {
   z-index: 1;
   opacity: 1;
   transition: opacity 0.3s;
+  text-shadow: 0px 0px 3px #000000;
 }
 .tooltip:empty {
   opacity: 0;
