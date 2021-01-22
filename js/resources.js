@@ -14,6 +14,8 @@ SharkGame.Resources = {
     specialMultiplier: null,
     rebuildTable: false,
 
+    collapsedRows: [],
+
     init() {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (key, value) => {
@@ -514,6 +516,24 @@ SharkGame.Resources = {
 
     // add rows to table (more expensive than updating existing DOM elements)
     reconstructResourcesTable() {
+        // function getHiddenWidth(elt) {
+        //     // https://stackoverflow.com/questions/1841124/find-the-potential-width-of-a-hidden-element
+        //     // get the width of an element that isnt shown
+
+        //     // save a reference to a cloned element that can be measured
+        //     var $hiddenElement = elt.clone().appendTo('body');
+        
+        //     // calculate the width of the clone
+        //     var width = $hiddenElement.outerWidth();
+        
+        //     // remove the clone from the DOM
+        //     $hiddenElement.remove();
+        
+        //     return width;
+        // };
+
+
+
         let rTable = $("#resourceTable");
 
         const statusDiv = $("#status");
@@ -532,14 +552,40 @@ SharkGame.Resources = {
         let anyResourcesInTable = false;
 
         if (SharkGame.Settings.current.groupResources) {
+            // calculate the mininum width for the resource table
+            // minWidth = '0px';
+            // $.each(SharkGame.ResourceCategories, (_, category) => {
+            //     if (r.isCategoryVisible(category)) {
+            //         $.each(category.resources, (k, value) => {
+            //             if (r.getTotalResource(value) > 0 || SharkGame.PlayerResources.get(value).discovered) {
+            //                 if (!isCollapsed) {
+            //                     const row = r.constructResourceTableRow(value);
+            //                     rTable.append(row);
+            //                 }
+            //                 anyResourcesInTable = true;
+            //             }
+            //         });
+            //     }
+            // }
+
+
             $.each(SharkGame.ResourceCategories, (_, category) => {
                 if (r.isCategoryVisible(category)) {
-                    const headerRow = $("<tr>").append($("<td>").attr("colSpan", 3).append($("<h3>").html(category.name)));
+                    let isCollapsed = !!r.collapsedRows[category.name]
+                    const headerRow = $("<tr>").append(
+                        $("<td>").attr("colSpan", 3).append($("<h3>").html(
+                            `<span class="collapser">${isCollapsed ? '⯈' : '⯆'}</span><span>${category.name}</span>`
+                        ).css('text-align', 'left')
+                    )).attr('id', `${category.name}Collapser`);
+                    headerRow.on('click', e => SharkGame.Resources.collapseResourceTableRow(e.currentTarget.id))
+
                     rTable.append(headerRow);
                     $.each(category.resources, (k, value) => {
                         if (r.getTotalResource(value) > 0 || SharkGame.PlayerResources.get(value).discovered) {
-                            const row = r.constructResourceTableRow(value);
-                            rTable.append(row);
+                            if (!isCollapsed) {
+                                const row = r.constructResourceTableRow(value);
+                                rTable.append(row);
+                            }
                             anyResourcesInTable = true;
                         }
                     });
@@ -564,7 +610,16 @@ SharkGame.Resources = {
             statusDiv.show();
         }
 
+        // debugger;
+        rTable.css('min-width', rTable.outerWidth() + 'px');
+
         r.rebuildTable = false;
+    },
+
+    collapseResourceTableRow(id) {
+        let row = id.replace('Collapser','');
+        this.collapsedRows[row] = !this.collapsedRows[row];
+        this.reconstructResourcesTable()
     },
 
     constructResourceTableRow(resourceKey) {

@@ -310,12 +310,14 @@ pre {
   padding: 0.2em;
   width: auto;
   margin: auto;
-  text-align: center;
   font-size: 0.9em;
   color: var(--color-lighter), 20%;
   filter: brightness(120%);
   border-top: 0.1em dashed var(--color-lighter);
   border-bottom: 0.1em dashed var(--color-lighter);
+  background: var(--color-dark);
+  cursor: pointer;
+  user-select: none;
 }
 #sidebar td {
   font-size: 1.1em;
@@ -1231,6 +1233,10 @@ button.planetButton:active {
 }
 .tooltip .littleTooltipText {
   font-size: 0.6em;
+}
+.collapser {
+  padding-right: 1em;
+  padding-left: 0.7em;
 }
 .disposeArrangement ul {
   display: inline-block;
