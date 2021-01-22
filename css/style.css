@@ -276,7 +276,7 @@ pre {
 }
 #contentMenu #tabButtons {
   float: right;
-  width: 30em;
+  width: 50em;
   overflow: auto;
 }
 #sidebar {
@@ -711,6 +711,23 @@ button.disabled div {
   -moz-box-shadow: none;
   box-shadow: none;
   background-color: var(--color-darker);
+}
+.inputbox {
+  padding: 0.1em;
+  margin: 1%;
+  width: 6em;
+  float: right;
+  background-color: var(--color-light);
+  border-color: var(--color-lighter);
+  color: white;
+  font-size: 90%;
+}
+.inputbox[disabled] {
+  background-color: var(--color-darker);
+  color: var(--color-lighter);
+  filter: brightness(80%);
+  cursor: default;
+  border-color: var(--color-med);
 }
 .button-icon {
   vertical-align: middle;

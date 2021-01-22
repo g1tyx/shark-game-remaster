@@ -158,6 +158,22 @@ $.extend(SharkGame, {
 
         return rgb;
     },
+    getColorValue(color) {
+        color = String(color).replace(/[^0-9a-f]/gi, "");
+        return Math.max(parseInt(color.substr(0, 2), 16), parseInt(color.substr(2, 2), 16), parseInt(color.substr(4, 2), 16));
+    },
+    convertColorString(color) {
+        const colors = color.substring(4).replace(/[^0-9a-f]/gi, " ").split(" ");
+        let colorstring = "#";
+        for (let i = 0; i < 3; i++) {
+            colorstring += ("00" + parseInt(colors[i * 2]).toString(16)).substr(parseInt(colors[i * 2]).toString(16).length);
+        }
+        return colorstring;
+    },
+    getElementColor(id, style) {
+        const color = getComputedStyle(document.getElementById(id)).getPropertyValue(style);
+        return SharkGame.convertColorString(color);
+    },
     getImageIconHTML(imagePath, width, height) {
         if (!imagePath) {
             imagePath = "http://placekitten.com/g/" + Math.floor(width) + "/" + Math.floor(height);
@@ -731,6 +747,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 } else {
                     label += "max";
                 }
+            } else if (amount === "custom") {
+                label += "custom";
             } else {
                 label += m.beautify(amount);
             }
@@ -739,11 +757,26 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 .on("click", function callback() {
                     const thisButton = $(this);
                     if (thisButton.hasClass("disabled")) return;
-                    SharkGame.Settings.current.buyAmount = parseInt(thisButton.attr("id").slice(4));
+                    if (thisButton[0].id === "buy-custom") {
+                        $("#custom-input").attr("disabled", false);
+                    } else {
+                        $("#custom-input").attr("disabled", true);
+                    }
+                    SharkGame.Settings.current.buyAmount = amount === "custom" ? "custom" : parseInt(thisButton.attr("id").slice(4));
                     $("button[id^='buy-']").removeClass("disabled");
                     thisButton.addClass("disabled");
                 });
         });
+        buttonList.prepend($("<li>").append($("<input>").prop("type", "number").addClass("inputbox").attr("id", "custom-input").attr("min", "1").attr("disabled", SharkGame.Settings.current.buyAmount !== "custom")));
+    },
+
+    getBuyAmount() {
+        if (SharkGame.Settings.current.buyAmount === "custom") {
+            return $("#custom-input")[0].valueAsNumber >= 1 && $("#custom-input")[0].valueAsNumber < 1000000000000000000 ? $("#custom-input")[0].valueAsNumber : 1;
+        } else {
+            return SharkGame.Settings.current.buyAmount;
+        }
+        return SharkGame.Settings.current.buyAmount === "custom" ? $("#custom-input")[0].valueAsNumber : SharkGame.Settings.current.buyAmount;
     },
 
     changeTab(tab) {

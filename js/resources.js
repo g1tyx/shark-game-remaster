@@ -597,7 +597,7 @@ SharkGame.Resources = {
         return row;
     },
 
-    getResourceName(resourceName, darken, forceSingle, arbitraryAmount) {
+    getResourceName(resourceName, darken, forceSingle, arbitraryAmount, background) {
         if (r.isCategory(resourceName)) {
             return SharkGame.ResourceCategories[resourceName].name;
         }
@@ -614,6 +614,10 @@ SharkGame.Resources = {
             let color = resource.color;
             if (darken) {
                 color = SharkGame.colorLum(resource.color, -0.5);
+            } else if (background) {
+                const backValue = SharkGame.getColorValue(background);
+                const colorValue = SharkGame.getColorValue(color);
+                color = Math.abs(colorValue - backValue) > 40 ? color : SharkGame.colorLum(color, colorValue > backValue ? (backValue + 40)/colorValue - 1 : (backValue - 40)/colorValue - 1);
             }
             name = "<span class='click-passthrough' style='color:" + color + "'>" + name + "</span>";
         }
@@ -621,7 +625,7 @@ SharkGame.Resources = {
     },
 
     // make a resource list object into a string describing its contents
-    resourceListToString(resourceList, darken) {
+    resourceListToString(resourceList, darken, backgroundcolor) {
         if ($.isEmptyObject(resourceList)) {
             return "";
         }
@@ -632,7 +636,7 @@ SharkGame.Resources = {
             if (listResource > 0 && w.doesResourceExist(key)) {
                 const isSingular = Math.floor(listResource) - 1 < SharkGame.EPSILON;
                 formattedResourceList += m.beautify(listResource);
-                formattedResourceList += " " + r.getResourceName(key, darken, isSingular) + ", ";
+                formattedResourceList += " " + r.getResourceName(key, darken, isSingular, false, backgroundcolor) + ", ";
             }
         });
         // snip off trailing suffix
@@ -757,7 +761,7 @@ SharkGame.Resources = {
     },
 
     getPurchaseAmount(resource) {
-        const buy = SharkGame.Settings.current.buyAmount;
+        const buy = m.getBuyAmount();
         const owned = r.getResource(resource);
 
         if (buy > 0) {

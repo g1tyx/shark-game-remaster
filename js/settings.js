@@ -4,7 +4,7 @@ SharkGame.Settings = {
     buyAmount: {
         defaultSetting: 1,
         show: false,
-        options: [1, 10, 100, -3, -2, -1],
+        options: [1, 10, 100, -3, -2, -1, "custom"],
     },
 
     showTabHelp: {
