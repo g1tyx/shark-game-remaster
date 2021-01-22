@@ -119,7 +119,12 @@ SharkGame.Stats = {
         const buttonDiv = $("#disposeResource").addClass("disposeArrangement");
         SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
-                SharkGame.Button.makeButton("dispose-" + k, "Dispose of<br/>" + r.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")), buttonDiv, s.onDispose);
+                SharkGame.Button.makeButton(
+                    "dispose-" + k,
+                    "Dispose of<br/>" + r.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
+                    buttonDiv,
+                    s.onDispose
+                );
             }
         });
     },
@@ -137,9 +142,15 @@ SharkGame.Stats = {
                 }
                 const forceSingular = amountToDispose === 1;
                 const disableButton = resourceAmount < amountToDispose || amountToDispose <= 0;
-                let label = "Dispose of " + m.beautify(amountToDispose) + "<br/>" + r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
+                let label =
+                    "Dispose of " +
+                    m.beautify(amountToDispose) +
+                    "<br/>" +
+                    r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
                 if (amountToDispose <= 0) {
-                    label = "Can't dispose any more " + r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
+                    label =
+                        "Can't dispose any more " +
+                        r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
                 }
 
                 if (button.html() !== label.replace(/'/g, '"').replace("<br/>", "<br>")) {
