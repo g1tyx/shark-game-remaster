@@ -357,14 +357,14 @@ SharkGame.Gateway = {
                 if (essenceHeld < cost || maxedOut) {
                     enableButton = false;
                 }
-                const purchaseLevel = maxedOut ? "Max" : artifactData.level + 1;
+                const purchaseLevel = maxedOut ? "Max" : artifactData.level;
                 let label =
                     artifactData.name +
                     "<br><span class='medDesc'>( Pwr <span class='essenceCountBrighter'>" +
                     purchaseLevel +
                     "</span> )</span>" +
                     "<br>" +
-                    artifactData.desc +
+                    artifactData.desc(purchaseLevel, true) +
                     "<br><br><span class='medDesc'>" +
                     artifactData.flavour +
                     "</span><br>";
