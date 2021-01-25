@@ -114,7 +114,7 @@ SharkGame.Artifacts = {
             if (level === "Max") {
                 return "Bring " + m.beautify(9765625) + " sharks with you to the next world.";
             } else if (level > 0) {
-                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + "" : "") + "  sharks with you to the next world.";
+                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + "  sharks with you to the next world.";
             } else {
                 return "Bring 5 sharks with you to the next world.";
             }
@@ -133,7 +133,7 @@ SharkGame.Artifacts = {
             if (level === "Max") {
                 return "Bring " + m.beautify(9765625) + " rays with you to the next world.";
             } else if (level > 0) {
-                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + "" : "") + " rays with you to the next world.";
+                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + " rays with you to the next world.";
             } else {
                 return "Bring 5 rays with you to the next world.";
             }
@@ -152,7 +152,7 @@ SharkGame.Artifacts = {
             if (level === "Max") {
                 return "Bring " + m.beautify(9765625) + " crabs with you to the next world.";
             } else if (level > 0) {
-                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + "" : "") + " crabs with you to the next world.";
+                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + " crabs with you to the next world.";
             } else {
                 return "Bring 5 crabs with you to the next world.";
             }
@@ -171,7 +171,7 @@ SharkGame.Artifacts = {
             if (level === "Max") {
                 return "Bring " + m.beautify(9765625) + " shrimp with you to the next world.";
             } else if (level > 0) {
-                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + "" : "") + " shrimp with you to the next world.";
+                return "Bring " + m.beautify(Math.pow(5, level)) + (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") + " shrimp with you to the next world.";
             } else {
                 return "Bring 5 shrimp with you to the next world.";
             }

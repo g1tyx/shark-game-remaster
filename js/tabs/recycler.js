@@ -340,11 +340,11 @@ SharkGame.Recycler = {
 
             let amountstring = "";
             if (buy > 0) {
-                amountstring = m.beautify(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.00001 * buy * (w.planetLevel / 16 + 0.9375));
+                amountstring = m.beautify(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000001 * buy * (w.planetLevel / 16 + 0.9375));
             } else {
                 amountstring = m.beautify(
                     (SharkGame.ResourceMap.get(y.hoveredResource).value *
-                        0.00001 *
+                        0.0000001 *
                         (w.planetLevel / 16 + 0.9375) *
                         r.getResource(y.hoveredResource)) /
                         -buy

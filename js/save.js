@@ -813,6 +813,13 @@ SharkGame.Save = {
             });
             return save;
         },
+        
+        function update(save) {
+            save = $.extend(true, save, {
+                settings: { boldCosts: true },
+            });
+            return save;
+        },
     ],
 };
 

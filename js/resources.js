@@ -215,17 +215,19 @@ SharkGame.Resources = {
         if (!r.getResourceCombinationAllowed(generator, product)) {
             return 0;
         }
-        const generated =
+        let generated =
             SharkGame.ResourceMap.get(generator).income[product] *
             numGenerator *
             playerResource.incomeMultiplier *
             w.getWorldIncomeMultiplier(generator) *
-            w.getWorldBoostMultiplier(product) *
             w.getArtifactMultiplier(generator) *
             r.getSpecialMultiplier() *
             r.getResourceGeneratorMultiplier(generator) *
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
+        if (generated > 0) {
+            generated *= w.getWorldBoostMultiplier(product);
+        }
         if (rp.incomeCap[product]) {
             if (SharkGame.PlayerIncomeTable.get(product) + generated > rp.incomeCap[product]) {
                 return rp.incomeCap[product] - SharkGame.PlayerIncomeTable.get(product);
@@ -240,17 +242,19 @@ SharkGame.Resources = {
         if (!r.getResourceCombinationAllowed(generator, product)) {
             return 0;
         }
-        const generated =
+        let generated =
             SharkGame.ResourceMap.get(generator).income[product] *
             r.getResource(generator) *
             playerResource.incomeMultiplier *
             w.getWorldIncomeMultiplier(generator) *
-            w.getWorldBoostMultiplier(product) *
             w.getArtifactMultiplier(generator) *
             r.getSpecialMultiplier() *
             r.getResourceGeneratorMultiplier(generator) *
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
+        if (generated > 0) {
+            generated *= w.getWorldBoostMultiplier(product);
+        }
         if (rp.incomeCap[product]) {
             if (SharkGame.PlayerIncomeTable.get(product) + generated > rp.incomeCap[product]) {
                 return rp.incomeCap[product] - SharkGame.PlayerIncomeTable.get(product);
@@ -646,7 +650,7 @@ SharkGame.Resources = {
 
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
-                incomeId.html("<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautify(income, false, 2) + "/s</span>");
+                incomeId.html("<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>");
             }
         }
         return row;
@@ -687,7 +691,11 @@ SharkGame.Resources = {
             }
             name = "<span class='click-passthrough' style='color:" + color + "'>" + name + "</span>";
         }
-        return name;
+        if (SharkGame.Settings.current.boldCosts) {
+            return name.bold();
+        } else {
+            return name;
+        }
     },
 
     // make a resource list object into a string describing its contents

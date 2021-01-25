@@ -221,10 +221,12 @@ SharkGame.WorldTypes = {
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "coral", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "algae", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.1 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "coral", amount: 0.5 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "algae", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "sand", amount: 1 },
+            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "kelp", amount: 1 },
+            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "algae", amount: 1 },
         ],
         gateCosts: {
             sand: 1e8,
@@ -248,7 +250,7 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "sandDigger", amount: 1 },
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "fishMachine", amount: 1 },
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "silentArchivist", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "tar", amount: 0.1 },
+            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "tar", amount: 0.2 },
             {
                 type: "multiplier",
                 modifier: "planetaryFixedIncomeReciprocalMultiplier",
@@ -282,17 +284,13 @@ SharkGame.WorldTypes = {
         ], */
         absentResources: ["tar", "ice", "heater", "purifier", "lobster", "crab", "shrimp", "sponge"],
         modifiers: [
-            { type: "multiplier", modifier: "planetaryIncome", resource: "crystal", amount: 0.05 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "crystal", amount: 0.01 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "crystal", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "animals", amount: 1 },
+            { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "fish", amount: 1 },
+            { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "clam", amount: 1 },
+            { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "seaApple", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "kelp", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "coral", amount: 1 },
-            {
-                type: "multiplier",
-                modifier: "planetaryIncomeReciprocalMultiplier",
-                resource: "specialists",
-                amount: 0.5,
-            },
         ],
         gateCosts: {
             jellyfish: 1e7,

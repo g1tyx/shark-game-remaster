@@ -1019,9 +1019,14 @@ SharkGame.Upgrades = {
                 jellyfish: 700,
             },
             required: {
-                upgrades: ["farExploration"],
+                upgrades: ["exploration"],
                 resources: ["chimaera"],
                 seen: ["chimaera"],
+            },
+            effect: {
+                multiplier: {
+                    chimaera: 2,
+                },
             },
         },
 
@@ -1043,7 +1048,7 @@ SharkGame.Upgrades = {
             },
             effect: {
                 multiplier: {
-                    chimaera: 4,
+                    chimaera: 2,
                     transmuter: 2,
                     explorer: 2,
                 },

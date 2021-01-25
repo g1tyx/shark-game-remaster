@@ -128,7 +128,19 @@ SharkGame.Settings = {
     colorCosts: {
         defaultSetting: true,
         name: "Color Resource Names",
-        desc: "When displaying costs, color names of stuff.",
+        desc: "Color names of resources.",
+        show: true,
+        options: [true, false],
+        onChange() {
+            r.rebuildTable = true;
+            s.recreateIncomeTable = true;
+        },
+    },
+    
+    boldCosts: {
+        defaultSetting: true,
+        name: "Bold Resource Names",
+        desc: "Bold names of resources.",
         show: true,
         options: [true, false],
         onChange() {

@@ -926,7 +926,7 @@ SharkGame.HomeActions = {
             resource: {
                 jellyfish: 20,
             },
-            upgrade: ["exploration"],
+            upgrade: ["jellyfishHunting"],
         },
         outcomes: [
             "A ploughnose chimaera joins you.",

@@ -195,14 +195,15 @@ SharkGame.Stats = {
                 const income = SharkGame.ResourceMap.get(k).income;
                 $.each(income, (incomeKey, incomeValue) => {
                     const cell = $("#income-" + k + "-" + incomeKey);
-                    const changeChar = incomeValue > 0 ? "+" : "";
+                    const realIncome = r.getProductAmountFromGeneratorResource(k, incomeKey);
+                    const changeChar = realIncome > 0 ? "+" : "";
                     const newValue =
                         "<span style='color: " +
                         r.TOTAL_INCOME_COLOR +
                         "'>" +
                         changeChar +
-                        m.beautify(r.getProductAmountFromGeneratorResource(k, incomeKey), false, 2) +
-                        "/s</span>";
+                        m.beautifyIncome(realIncome) +
+                        "</span>";
                     const oldValue = cell.html();
 
                     if (oldValue !== newValue.replace(/'/g, '"')) {
@@ -305,7 +306,8 @@ SharkGame.Stats = {
 
                 const resourceBoostRowspan = SharkGame.Settings.current.switchStats ? undefined : "inline";
                 const generatorBoostRowspan = SharkGame.Settings.current.switchStats ? "inline" : undefined;
-                const changeChar = incomeValue > 0 ? "+" : "";
+                const realIncome = r.getProductAmountFromGeneratorResource(generatorName, incomeKey);
+                const changeChar = realIncome > 0 ? "+" : "";
                 row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
                 addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + "/s"], "inline");
 
@@ -313,7 +315,7 @@ SharkGame.Stats = {
                 if (resourceBoostRowspan === "inline" || counter === 0) {
                     // does this resource get a boost multiplier?
                     const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
-                    if (boostMultiplier !== 1)
+                    if (boostMultiplier !== 1 && incomeValue > 0)
                         // boost impacts the material being produced, so when its sorted by material being produced u only need one
                         addCell([r.BOOST_MULTIPLIER_COLOR, "x" + m.beautify(boostMultiplier)], resourceBoostRowspan);
                     else addCell(undefined, resourceBoostRowspan); // empty cell
@@ -341,7 +343,7 @@ SharkGame.Stats = {
                 }
 
                 addCell(
-                    [r.TOTAL_INCOME_COLOR, changeChar + m.beautify(r.getProductAmountFromGeneratorResource(generatorName, incomeKey), false, 2)],
+                    [r.TOTAL_INCOME_COLOR, changeChar + m.beautifyIncome(realIncome)],
                     "inline"
                 );
 
