@@ -3,12 +3,12 @@ SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produ
 SharkGame.ResourceMap = new Map(); // every resource and what it produces
 
 SharkGame.Resources = {
-    INCOME_COLOR: "#808080",
+    INCOME_COLOR: "#909090",
     TOTAL_INCOME_COLOR: "#A0A0A0",
-    UPGRADE_MULTIPLIER_COLOR: "#606060",
+    UPGRADE_MULTIPLIER_COLOR: "#707070",
     BOOST_MULTIPLIER_COLOR: "#60A060",
     WORLD_MULTIPLIER_COLOR: "#6060A0",
-    ARTIFACT_MULTIPLIER_COLOR: "#6F968A",
+    ARTIFACT_MULTIPLIER_COLOR: "#70B5A0",
     RESOURCE_AFFECT_MULTIPLIER_COLOR: "#BFBF5A",
 
     specialMultiplier: null,
@@ -27,6 +27,7 @@ SharkGame.Resources = {
                 amount: 0,
                 totalAmount: 0,
                 incomeMultiplier: 1,
+                upgradeBoostMultiplier: 1,
             });
         });
 
@@ -41,6 +42,11 @@ SharkGame.Resources = {
     },
 
     processIncomes(timeDelta, debug) {
+        r.recalculateIncomeTable();
+        if (r.testGracePeriod()) {
+            return;
+        }
+        
         if (!debug && timeDelta > 51) {
             for (let i = 0; i < 50; i++) {
                 SharkGame.PlayerIncomeTable.forEach((value, key) => {
@@ -226,7 +232,8 @@ SharkGame.Resources = {
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
         if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product);
+            generated *= w.getWorldBoostMultiplier(product) *
+            playerResource.upgradeBoostMultiplier;
         }
         if (rp.incomeCap[product]) {
             if (SharkGame.PlayerIncomeTable.get(product) + generated > rp.incomeCap[product]) {
@@ -253,7 +260,8 @@ SharkGame.Resources = {
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
         if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product);
+            generated *= w.getWorldBoostMultiplier(product) *
+            r.getBoost(product);
         }
         if (rp.incomeCap[product]) {
             if (SharkGame.PlayerIncomeTable.get(product) + generated > rp.incomeCap[product]) {
@@ -309,6 +317,15 @@ SharkGame.Resources = {
 
     getIncome(resource) {
         return SharkGame.PlayerIncomeTable.get(resource);
+    },
+    
+    getBoost(resource) {
+        return SharkGame.PlayerResources.get(resource).upgradeBoostMultiplier;
+    },
+
+    setBoost(resource, multiplier) {
+        SharkGame.PlayerResources.get(resource).upgradeBoostMultiplier = multiplier;
+        r.recalculateIncomeTable();
     },
 
     getMultiplier(resource) {
@@ -451,20 +468,11 @@ SharkGame.Resources = {
     // false if they are not
     checkResources(resourceList, checkTotal) {
         let sufficientResources = true;
-        SharkGame.ResourceMap.forEach((v, resource) => {
-            let currentResource;
-            if (!checkTotal) {
-                currentResource = r.getResource(resource);
-            } else {
-                currentResource = r.getTotalResource(resource);
-            }
-            let listResource = resourceList[resource];
-            // amend for unspecified resources (assume zero)
-            if (typeof listResource === "undefined") {
-                listResource = 0;
-            }
-            if (currentResource < listResource) {
+        $.each(resourceList, (resource, required) => {
+            const currentResource = checkTotal ? r.getTotalResource(resource) : r.getResource(resource);
+            if (currentResource < required) {
                 sufficientResources = false;
+                return false;
             }
         });
         return sufficientResources;
@@ -661,13 +669,13 @@ SharkGame.Resources = {
             return SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
-        let amount = NaN;
-        if (!arbitraryAmount) {
-            amount = Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
-        } else {
-            amount = arbitraryAmount;
-        }
+        const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
         let name = amount - 1 < SharkGame.EPSILON || forceSingle ? resource.singleName : resource.name;
+        let extraStyle = "";
+
+        if (SharkGame.Settings.current.boldCosts) {
+            name = name.bold();
+        }
 
         if (SharkGame.Settings.current.colorCosts) {
             let color = resource.color;
@@ -675,10 +683,10 @@ SharkGame.Resources = {
                 color = SharkGame.colorLum(resource.color, -0.5);
             } else if (background) {
                 // this code takes the HSV of the text and its background, if its color is provided,
-                // and compares their Values. If they are less than 40 away, then they're too close
-                // then calculate exactly how much it takes to get them up to 40 away
-                // if the text's value is less, make it 40 below that of the background
-                // if the text's value is more, make it 40 above that of the background
+                // and compares their Values. If they are less than 20 away, then they're too close
+                // then calculate exactly how much it takes to get them up to 20 away
+                // if the text's value is less, make it 20 below that of the background
+                // if the text's value is more, make it 20 above that of the background
                 const backValue = SharkGame.getColorValue(background);
                 const colorValue = SharkGame.getColorValue(color);
                 if (Math.abs(colorValue - backValue) < 20) {
@@ -689,13 +697,9 @@ SharkGame.Resources = {
                     }
                 }
             }
-            name = "<span class='click-passthrough' style='color:" + color + "'>" + name + "</span>";
+            extraStyle = " style='color:" + color + "'"
         }
-        if (SharkGame.Settings.current.boldCosts) {
-            return name.bold();
-        } else {
-            return name;
-        }
+        return "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
     },
 
     // make a resource list object into a string describing its contents
@@ -730,7 +734,7 @@ SharkGame.Resources = {
             }
         });
         // go through all actions
-        $.each(SharkGame.HomeActions, (homeActionName, homeAction) => {
+        $.each(SharkGame.HomeActions.getActionList(), (homeActionName, homeAction) => {
             const resourceEffect = homeAction.effect.resource;
             if (resourceEffect) {
                 if (resourceEffect[resource] > 0) {
@@ -844,6 +848,18 @@ SharkGame.Resources = {
             return Math.floor(owned / -buy);
         }
     },
+    
+    testGracePeriod() {
+        let grace = true;
+        SharkGame.PlayerIncomeTable.forEach((v, key) => {
+            if (!r.isInCategory(key, "harmful")) {
+                if (v !== 0) {
+                    grace = false;
+                }
+            }
+        });
+        return grace;
+    },
 
     // TESTING FUNCTIONS
     giveMeSomeOfEverything(amount) {
@@ -865,7 +881,7 @@ SharkGame.Resources = {
         // get resource costs for actions that directly get this
         // only care about the resource types required
         $.each(sources.actions, (_key, action) => {
-            const actionCost = SharkGame.HomeActions[action].cost;
+            const actionCost = SharkGame.HomeActions.getActionList()[action].cost;
             $.each(actionCost, (k, costProp) => {
                 const costResource = costProp.resource;
                 if (w.doesResourceExist(costResource)) {

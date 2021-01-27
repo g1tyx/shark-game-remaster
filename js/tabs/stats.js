@@ -75,6 +75,17 @@ SharkGame.Stats = {
         incomeDataSel.append(switchButtonDiv);
 
         incomeDataSel.append(table);
+        if (w.worldType != "start") {
+            incomeDataSel.append($("<div>").html("<br> <b><u>TABLE KEY</b></u>" +
+            "<br> <span style='color:" + r.UPGRADE_MULTIPLIER_COLOR + "'><b>This color</b></span> is for upgrade effects." +
+            "<br> <span style='color:" + r.BOOST_MULTIPLIER_COLOR + "'><b>This color</b></span> is for how the world affects certain resources." +
+            "<br> <span style='color:" + r.WORLD_MULTIPLIER_COLOR + "'><b>This color</b></span> is for how the world affects certain producers." +
+            "<br> <span style='color:" + r.RESOURCE_AFFECT_MULTIPLIER_COLOR + "'><b>This color</b></span> is for how some resources affect eachother." +
+            "<br> <span style='color:" + r.ARTIFACT_MULTIPLIER_COLOR + "'><b>This color</b></span> is for artifact effects."));
+        } else {
+            incomeDataSel.append($("<div>").html("<br> <b><u>TABLE KEY</b></u>" +
+            "<br> <span style='color:" + r.UPGRADE_MULTIPLIER_COLOR + "'><b>This color</b></span> is for upgrade effects."));
+        }
 
         const genStats = $("#generalStats");
         genStats.append($("<h3>").html("General Stats"));
@@ -288,13 +299,23 @@ SharkGame.Stats = {
             const rowStyle = formatCounter % 2 === 0 ? "evenRow" : "oddRow";
             row.append($("<td>").html(r.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
 
-            function addCell(text, rowspan) {
-                row.append(
+            function addCell(text, rowspan, id) {
+                if (id) {
+                    row.append(
+                    $("<td>")
+                        .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
+                        .attr("id", id)
+                        .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
+                        .addClass(rowStyle)
+                    );
+                } else {
+                    row.append(
                     $("<td>")
                         .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
                         .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
                         .addClass(rowStyle)
-                );
+                    );
+                }
             }
 
             $.each(subheading, (subheadingKey, subheadingValue) => {
@@ -312,7 +333,16 @@ SharkGame.Stats = {
                 addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + "/s"], "inline");
 
                 // if its inline then many rowspans will fill the gap
-                if (resourceBoostRowspan === "inline" || counter === 0) {
+                if (generatorBoostRowspan === "inline") {
+                    // does this resource get a boost multiplier?
+                    const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
+                    if (boostMultiplier !== 1 && incomeValue > 0)
+                        // boost impacts the material being produced, so when its sorted by material being produced u only need one
+                        addCell([r.BOOST_MULTIPLIER_COLOR, "x" + m.beautify(boostMultiplier)], generatorBoostRowspan);
+                    else addCell(undefined, generatorBoostRowspan); // empty cell
+                }
+
+                if (resourceBoostRowspan === "inline") {
                     // does this resource get a boost multiplier?
                     const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
                     if (boostMultiplier !== 1 && incomeValue > 0)
@@ -321,8 +351,10 @@ SharkGame.Stats = {
                     else addCell(undefined, resourceBoostRowspan); // empty cell
                 }
 
+                
+
                 if (generatorBoostRowspan === "inline" || counter === 0) {
-                    addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName)], generatorBoostRowspan);
+                    addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey)], generatorBoostRowspan);
 
                     // does this generator get a world multiplier?
                     // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
@@ -344,7 +376,8 @@ SharkGame.Stats = {
 
                 addCell(
                     [r.TOTAL_INCOME_COLOR, changeChar + m.beautifyIncome(realIncome)],
-                    "inline"
+                    "inline",
+                    "income-" + generatorName + "-" + incomeKey
                 );
 
                 counter++;

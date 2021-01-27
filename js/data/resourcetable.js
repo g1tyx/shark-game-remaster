@@ -719,7 +719,7 @@ SharkGame.ResourceTable = {
         singleName: "sponge",
         color: "#ED9847",
         income: {
-            sponge: 0.001,
+            sponge: 0.002,
             algae: -0.01,
         },
         value: 9,

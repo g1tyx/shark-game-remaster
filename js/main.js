@@ -40,7 +40,11 @@ $.extend(SharkGame, {
         "Shark Box",
         "Dolphin Heroes",
         "Maws",
-        "Sharky's Awkward Escapade: Part 6",
+        "Sharky's Strange Crusade: Part 6",
+        "Sailor Crab",
+        "League of Lobsters",
+        "Eel Team Six",
+        "Dungeons And Dolphins",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
@@ -98,8 +102,8 @@ $.extend(SharkGame, {
         "He has a rarely updated <a href='https://twitter.com/Cirrial'>Twitter</a> though.</p>" +
         "<p>Additional code and credit help provided by Dylan and Sam Red.<br/>" +
         "<span class='smallDesc'>Dylan is also graciously hosting the original game.</span></p>" +
-        "<p><a href='https://github.com/spencers145/SharkGame'>Mod</a> created by base4/spencers145,<br/>" +
-        "with sprite help from <a href='https://twitter.com/vhs_static'>@vhs_static</a> and friends." +
+        "<br><p><a href='https://github.com/spencers145/SharkGame'>NEW FRONTIERS</a> created by base4/spencers145,<br/>" +
+        "with spritework help from <a href='https://twitter.com/vhs_static'>@vhs_static</a> and friends." +
         '<br/><span style="color: rgba(0,0,0,0);">With some help by <a href="https://github.com/Toby222" style="color: rgba(0,0,0,0);">Toby</a></span>',
 
     ending:

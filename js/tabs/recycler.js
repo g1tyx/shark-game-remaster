@@ -222,7 +222,7 @@ SharkGame.Recycler = {
             r.changeResource("tar", amount * junkPerResource * 0.0000001 * (w.planetLevel / 16 + 0.9375));
             l.addMessage(SharkGame.choose(y.recyclerInputMessages));
         } else {
-            l.addMessage("You don't have enough for that!");
+            l.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
         }
 
         y.updateEfficiency(resourceName);
@@ -356,7 +356,7 @@ SharkGame.Recycler = {
     },
 
     getRecyclerEfficiencyString() {
-        if (y.efficiency === "NA") {
+        if (y.efficiency === "NA" || y.hoveredResource === "NA") {
             return "<br/><br/><br/><br/><br/><br/>";
         }
 

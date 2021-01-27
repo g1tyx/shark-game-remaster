@@ -50,10 +50,8 @@ SharkGame.Reflection = {
         const listSel = $("#artifactList");
         $.each(SharkGame.Artifacts, (artifactKey, artifactData) => {
             if (artifactData.level > 0 && !artifactData.ignore) {
-                const maxedOut = artifactData.level >= artifactData.max;
-                const item = $("<div>").addClass("artifactDiv");
                 let artifactLabel = artifactData.name + "<br><span class='medDesc'>";
-                if (maxedOut) {
+                if (artifactData.level >= artifactData.max) {
                     artifactLabel += "(Maximum Power)";
                 } else {
                     artifactLabel += "(Power: " + m.beautify(artifactData.level) + ")";
@@ -61,12 +59,12 @@ SharkGame.Reflection = {
                 artifactLabel += "<br>" + artifactData.desc(artifactData.level);
                 artifactLabel += "</span><br><em>" + artifactData.flavour + "</em>";
 
+                const item = $("<div>").addClass("artifactDiv");
                 item.append(artifactLabel);
                 listSel.append(item);
 
-                const spritename = "artifacts/" + artifactKey;
                 if (SharkGame.Settings.current.iconPositions !== "off") {
-                    const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-artifact");
+                    const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, "artifacts/" + artifactKey, null, "general/missing-artifact");
                     if (iconDiv) {
                         iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
                         iconDiv.addClass("gatewayButton");

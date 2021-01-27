@@ -41,6 +41,7 @@ SharkGame.Lab = {
         });
         SharkGame.ResourceMap.forEach((v, key) => {
             r.setMultiplier(key, 1);
+            r.setBoost(key, 1);
         });
     },
 
@@ -254,8 +255,12 @@ SharkGame.Lab = {
                 if (upgrade.effect) {
                     if (upgrade.effect.multiplier) {
                         $.each(upgrade.effect.multiplier, (k, v) => {
-                            const newMultiplier = v * r.getMultiplier(k);
-                            r.setMultiplier(k, newMultiplier);
+                            r.setMultiplier(k, v * r.getMultiplier(k));
+                        });
+                    }
+                    if (upgrade.effect.boost) {
+                        $.each(upgrade.effect.boost, (k, v) => {
+                            r.setBoost(k, v * r.getBoost(k));
                         });
                     }
                 }
@@ -348,9 +353,9 @@ SharkGame.Lab = {
 
     getResearchEffects(upgrade, darken) {
         let effects = "<span class='medDesc' class='click-passthrough'>(Effects: ";
+        let anyeffects = false;
         if (upgrade.effect) {
             if (upgrade.effect.multiplier) {
-                let anyeffects = false;
                 $.each(upgrade.effect.multiplier, (k, v) => {
                     if (w.doesResourceExist(k)) {
                         effects += r.getResourceName(k, darken, true) + " power x " + v + ", ";
@@ -359,9 +364,24 @@ SharkGame.Lab = {
                 });
                 if (anyeffects) {
                     effects = effects.slice(0, -2); // remove trailing suffix
-                } else {
-                    effects += "???";
                 }
+            }
+            let anyeffect = anyeffects;
+            if (upgrade.effect.boost) {
+                anyeffects = false;
+                $.each(upgrade.effect.boost, (k, v) => {
+                    if (w.doesResourceExist(k)) {
+                        effects += "all " + r.getResourceName(k, darken, true) + " production x " + v + ", ";
+                        anyeffects = true;
+                    }
+                });
+                if (anyeffects) {
+                    effects = effects.slice(0, -2); // remove trailing suffix
+                }
+            }
+            anyeffect = anyeffect || anyeffects;
+            if (!anyeffect) {
+                effects += "???";
             }
         } else {
             effects += "???";

@@ -471,7 +471,7 @@ SharkGame.Home = {
             code: h,
         };
         // populate action discoveries (and reset removals)
-        $.each(SharkGame.HomeActions, (actionName, actionData) => {
+        $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {
             actionData.discovered = false;
             actionData.newlyDiscovered = false;
             actionData.isRemoved = false;
@@ -511,7 +511,7 @@ SharkGame.Home = {
     },
 
     discoverActions() {
-        $.each(SharkGame.HomeActions, (actionName, actionData) => {
+        $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {
             actionData.discovered = h.areActionPrereqsMet(actionName);
             actionData.newlyDiscovered = false;
         });
@@ -533,7 +533,9 @@ SharkGame.Home = {
                 categoryDiscovered = true;
             } else {
                 $.each(v.actions, (_, actionName) => {
-                    categoryDiscovered = categoryDiscovered || SharkGame.HomeActions[actionName].discovered;
+                    if (SharkGame.HomeActions.getActionList()[actionName]) {
+                        categoryDiscovered = categoryDiscovered || SharkGame.HomeActions.getActionList()[actionName].discovered;
+                    }
                 });
             }
 
@@ -619,7 +621,7 @@ SharkGame.Home = {
                 }
                 if (extraMessage.unlock.homeAction) {
                     $.each(extraMessage.unlock.homeAction, (key, action) => {
-                        showThisMessage = showThisMessage && SharkGame.HomeActions[action].discovered && !SharkGame.HomeActions[action].newlyDiscovered;
+                        showThisMessage = showThisMessage && SharkGame.HomeActions.getActionList()[action].discovered && !SharkGame.HomeActions.getActionList()[action].newlyDiscovered;
                     });
                 }
             }
@@ -666,7 +668,7 @@ SharkGame.Home = {
 
     update() {
         // for each button entry in the home tab,
-        $.each(SharkGame.HomeActions, (actionName, actionData) => {
+        $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {
             const actionTab = h.getActionCategory(actionName);
             const onTab = actionTab === h.currentButtonTab || h.currentButtonTab === "all";
             if (onTab && !actionData.isRemoved) {
@@ -702,7 +704,7 @@ SharkGame.Home = {
         const amountToBuy = m.getBuyAmount();
 
         const button = $("#" + actionName);
-        const actionData = SharkGame.HomeActions[actionName];
+        const actionData = SharkGame.HomeActions.getActionList()[actionName];
 
         if (actionData.removedBy) {
             if (h.shouldRemoveHomeButton(actionData)) {
@@ -805,7 +807,7 @@ SharkGame.Home = {
 
     areActionPrereqsMet(actionName) {
         let prereqsMet = true; // assume true until proven false
-        const action = SharkGame.HomeActions[actionName];
+        const action = SharkGame.HomeActions.getActionList()[actionName];
         if (action.unauthorized) {
             return false;
         }
@@ -876,7 +878,7 @@ SharkGame.Home = {
 
     addButton(actionName) {
         const buttonListSel = $("#buttonList");
-        const actionData = SharkGame.HomeActions[actionName];
+        const actionData = SharkGame.HomeActions.getActionList()[actionName];
 
         const buttonSelector = SharkGame.Button.makeHoverscriptButton(
             actionName,
@@ -919,14 +921,13 @@ SharkGame.Home = {
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const buttonName = button.attr("id");
-        const action = SharkGame.HomeActions[buttonName];
+        const action = SharkGame.HomeActions.getActionList()[buttonName];
         let actionCost = {};
         let amount = 0;
         if (amountToBuy < 0) {
             // unlimited mode, calculate the highest we can go
-            let max = h.getMax(action);
+            const max = Math.floor(h.getMax(action));
             // floor max
-            max = Math.floor(max);
             if (max > 0) {
                 // convert divisor from a negative number to a positive fraction
                 const divisor = 1 / (Math.floor(amountToBuy) * -1);
@@ -989,7 +990,7 @@ SharkGame.Home = {
         }
         const button = $(this);
         const actionName = button.attr("id");
-        const effects = SharkGame.HomeActions[actionName].effect;
+        const effects = SharkGame.HomeActions.getActionList()[actionName].effect;
         const validGenerators = {};
         let numGen = 0;
         if (effects.resource) {
@@ -1048,11 +1049,11 @@ SharkGame.Home = {
             }
         });
 
-        if (SharkGame.HomeActions[actionName].helpText) {
+        if (SharkGame.HomeActions.getActionList()[actionName].helpText) {
             if (text !== "") {
-                text += "<br><span class='medDesc'>" + SharkGame.HomeActions[actionName].helpText + "</span>";
+                text += "<br><span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
             } else {
-                text += "<span class='medDesc'>" + SharkGame.HomeActions[actionName].helpText + "</span>";
+                text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
             }
         }
 
@@ -1094,10 +1095,9 @@ SharkGame.Home = {
                     currAmount += r.getResource(v);
                 });
             }
-            const costFunction = costObj.costFunction;
             const k = costObj.priceIncrease;
             let cost = 0;
-            switch (costFunction) {
+            switch (costObj.costFunction) {
                 case "constant":
                     cost = SharkGame.MathUtil.constantCost(currAmount, currAmount + amount, k);
                     break;
@@ -1127,24 +1127,23 @@ SharkGame.Home = {
                 });
             }
             max = Number.MAX_VALUE;
-            const rawCost = action.cost;
-            $.each(rawCost, (_, v) => {
-                const costResource = SharkGame.PlayerResources.get(v.resource);
-
-                const costFunction = v.costFunction;
+            $.each(action.cost, (_, v) => {
+                const costResource = SharkGame.PlayerResources.get(v.resource).amount;
                 const k = v.priceIncrease;
+
                 let subMax = -1;
-                switch (costFunction) {
+                switch (v.costFunction) {
                     case "constant":
-                        subMax = SharkGame.MathUtil.constantMax(0, costResource.amount, k);
+                        subMax = SharkGame.MathUtil.constantMax(0, costResource, k);
                         break;
                     case "linear":
-                        subMax = SharkGame.MathUtil.linearMax(currAmount, costResource.amount, k) - currAmount;
+                        subMax = SharkGame.MathUtil.linearMax(currAmount, costResource, k) - currAmount;
                         break;
                     case "unique":
-                        subMax = SharkGame.MathUtil.uniqueMax(currAmount, costResource.amount, k) - currAmount;
+                        subMax = SharkGame.MathUtil.uniqueMax(currAmount, costResource, k) - currAmount;
                         break;
                 }
+                // prevent flashing action costs
                 if (Math.abs(subMax - Math.round(subMax)) < SharkGame.EPSILON) {
                     subMax = Math.round(subMax);
                 }

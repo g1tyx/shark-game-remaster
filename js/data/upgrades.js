@@ -171,6 +171,21 @@ SharkGame.Upgrades = {
                 },
             },
         },
+        
+        /* test: {
+            name: "Test",
+            desc: "Double fish production.",
+            researchedMessage: "null",
+            effectDesc: "null",
+            cost: {
+                fish: 1,
+            },
+            effect: {
+                boost: {
+                    fish: 2,
+                },
+            },
+        }, */
 
         crystalSpade: {
             name: "Crystal Spades",
