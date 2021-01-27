@@ -48,9 +48,9 @@ $.extend(SharkGame, {
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: 0.1,
+    VERSION: 0.11,
     ORIGINAL_VERSION: 0.71,
-    VERSION_NAME: "New is Old",
+    VERSION_NAME: "New Foundations",
     EPSILON: 1e-6, // floating point comparison is a joy
     // agreed, already had to deal with it on recycler revisions
     // did you know that reducing a float like 1.2512351261 to 1.25 by literally removing the decimal and multiplying by 100 gives you something like 125.0000001?
@@ -103,12 +103,10 @@ $.extend(SharkGame, {
         "<p>Additional code and credit help provided by Dylan and Sam Red.<br/>" +
         "<span class='smallDesc'>Dylan is also graciously hosting the original game.</span></p>" +
         "<br><p><a href='https://github.com/spencers145/SharkGame'>NEW FRONTIERS</a> created by base4/spencers145,<br/>" +
-        "with spritework help from <a href='https://twitter.com/vhs_static'>@vhs_static</a> and friends." +
-        "With a little help by <a href='https://github.com/stampyzfanz'>Ixbixbam</a> <br/>" +
-        "His games at his little corner of the internet is <a href='https://stampyzfanz.github.io/games'>here</a>" +
-        '<br/><span style="color: rgba(0,0,0,0);">With some help by <a href="https://github.com/Toby222" style="color: rgba(0,0,0,0);">Toby</a></span><br/>',
-
-    
+        "with spritework help from <a href='https://twitter.com/vhs_static'>@vhs_static</a> and friends,<br/>" +
+        "and with a little help from <a href='https://github.com/stampyzfanz'>Ixbixbam</a>.<br/>" +
+        "<span class='smallDesc'>Ixbix's games at his little corner of the internet are </span><a href='https://stampyzfanz.github.io/games'>here</a><span class='smallDesc'>.</span><br/>" +
+        '<span style="color: rgba(0,0,0,0);">With some help by <a href="https://github.com/Toby222" style="color: rgba(0,0,0,0);">Toby</a></span><br/>',
 
     ending:
         "<p>Congratulations! You did it.<br/>You saved the sharks!</p>" +
@@ -1217,6 +1215,16 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.11 - New Foundations (2021/1/27)": [
+        "New, greatly improved UI for everything.",
+        "Rebalanced stuff.",
+        "Added world themes, so the page now changes color depending on what world you're in.",
+        "Added a TPS/FPS setting, to make the game smoother and nicer to look at, or chunkier and easier on performance.",
+        "Custom purchase amounts.",
+        "Added a 'grace period'. Ice doesn't build up if you have no income for anything.",
+        "Artifact descriptions and distant foresight planet properties are useful.",
+        "See 5 artifact choices instead of 3. On that note, buffed base essence to 4 per world.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.1 - New is Old (2021/1/7)": [
         "22 NEW SPRITES! More are coming but we couldn't finish all the sprites in time!",
         "TRUE OFFLINE PROGRESS! Days are compressed to mere seconds with RK4 calculation.",
