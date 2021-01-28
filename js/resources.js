@@ -14,7 +14,7 @@ SharkGame.Resources = {
     specialMultiplier: null,
     rebuildTable: false,
 
-    collapsedRows: [],
+    collapsedRows: new Set(),
 
     init() {
         // set all the amounts and total amounts of resources to 0
@@ -540,7 +540,7 @@ SharkGame.Resources = {
         if (SharkGame.Settings.current.groupResources) {
             $.each(SharkGame.ResourceCategories, (categoryName, category) => {
                 if (r.isCategoryVisible(category)) {
-                    const icon = r.collapsedRows[categoryName] ? "⯈" : "⯆";
+                    const icon = r.collapsedRows.has(categoryName) ? "⯈" : "⯆";
                     const headerRow = $("<tr>")
                         .append(
                             $("<td>")
@@ -554,7 +554,7 @@ SharkGame.Resources = {
                     resourceTable.append(headerRow);
                     $.each(category.resources, (_resourceName, resourceValue) => {
                         if (r.getTotalResource(resourceValue) > 0 || SharkGame.PlayerResources.get(resourceValue).discovered) {
-                            if (!r.collapsedRows[categoryName]) {
+                            if (!r.collapsedRows.has(categoryName)) {
                                 const row = r.constructResourceTableRow(resourceValue);
                                 resourceTable.append(row);
                             }
@@ -589,7 +589,11 @@ SharkGame.Resources = {
     },
 
     collapseResourceTableRow(categoryName) {
-        this.collapsedRows[categoryName] = !this.collapsedRows[categoryName];
+        if(this.collapsedRows.has(categoryName)) {
+            this.collapsedRows.delete(categoryName);
+        } else {
+            this.collapsedRows.add(categoryName);
+        }
         this.reconstructResourcesTable();
     },
 
