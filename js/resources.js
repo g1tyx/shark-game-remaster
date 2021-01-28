@@ -589,7 +589,7 @@ SharkGame.Resources = {
     },
 
     collapseResourceTableRow(categoryName) {
-        if(this.collapsedRows.has(categoryName)) {
+        if (this.collapsedRows.has(categoryName)) {
             this.collapsedRows.delete(categoryName);
         } else {
             this.collapsedRows.add(categoryName);

@@ -781,6 +781,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .prop("type", "number")
                     .addClass("inputbox")
                     .attr("id", "custom-input")
+                    .attr("value", 1)
                     .attr("min", "1")
                     .attr("disabled", SharkGame.Settings.current.buyAmount !== "custom")
             )
