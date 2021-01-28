@@ -621,7 +621,10 @@ SharkGame.Home = {
                 }
                 if (extraMessage.unlock.homeAction) {
                     $.each(extraMessage.unlock.homeAction, (key, action) => {
-                        showThisMessage = showThisMessage && SharkGame.HomeActions.getActionList()[action].discovered && !SharkGame.HomeActions.getActionList()[action].newlyDiscovered;
+                        showThisMessage =
+                            showThisMessage &&
+                            SharkGame.HomeActions.getActionList()[action].discovered &&
+                            !SharkGame.HomeActions.getActionList()[action].newlyDiscovered;
                     });
                 }
             }

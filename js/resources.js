@@ -46,7 +46,7 @@ SharkGame.Resources = {
         if (r.testGracePeriod()) {
             return;
         }
-        
+
         if (!debug && timeDelta > 51) {
             for (let i = 0; i < 50; i++) {
                 SharkGame.PlayerIncomeTable.forEach((value, key) => {
@@ -236,8 +236,7 @@ SharkGame.Resources = {
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
         if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product) *
-            playerResource.upgradeBoostMultiplier;
+            generated *= w.getWorldBoostMultiplier(product) * playerResource.upgradeBoostMultiplier;
         }
         return generated;
     },
@@ -259,8 +258,7 @@ SharkGame.Resources = {
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
         if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product) *
-            r.getBoost(product);
+            generated *= w.getWorldBoostMultiplier(product) * r.getBoost(product);
         }
         return generated;
     },
@@ -312,7 +310,7 @@ SharkGame.Resources = {
     getIncome(resource) {
         return SharkGame.PlayerIncomeTable.get(resource);
     },
-    
+
     getBoost(resource) {
         return SharkGame.PlayerResources.get(resource).upgradeBoostMultiplier;
     },
@@ -522,75 +520,43 @@ SharkGame.Resources = {
 
     // add rows to table (more expensive than updating existing DOM elements)
     reconstructResourcesTable() {
-        // function getHiddenWidth(elt) {
-        //     // https://stackoverflow.com/questions/1841124/find-the-potential-width-of-a-hidden-element
-        //     // get the width of an element that isnt shown
-
-        //     // save a reference to a cloned element that can be measured
-        //     var $hiddenElement = elt.clone().appendTo('body');
-        
-        //     // calculate the width of the clone
-        //     var width = $hiddenElement.outerWidth();
-        
-        //     // remove the clone from the DOM
-        //     $hiddenElement.remove();
-        
-        //     return width;
-        // };
-
-
-
-        let rTable = $("#resourceTable");
+        let resourceTable = $("#resourceTable");
 
         const statusDiv = $("#status");
         // if resource table does not exist, create
-        if (rTable.length <= 0) {
+        if (resourceTable.length <= 0) {
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
             tableContainer.append($("<table>").attr("id", "resourceTable"));
             statusDiv.append(tableContainer);
-            rTable = $("#resourceTable");
+            resourceTable = $("#resourceTable");
         }
 
         // remove the table contents entirely
-        rTable.empty();
+        resourceTable.empty();
 
         let anyResourcesInTable = false;
 
         if (SharkGame.Settings.current.groupResources) {
-            // calculate the mininum width for the resource table
-            // minWidth = '0px';
-            // $.each(SharkGame.ResourceCategories, (_, category) => {
-            //     if (r.isCategoryVisible(category)) {
-            //         $.each(category.resources, (k, value) => {
-            //             if (r.getTotalResource(value) > 0 || SharkGame.PlayerResources.get(value).discovered) {
-            //                 if (!isCollapsed) {
-            //                     const row = r.constructResourceTableRow(value);
-            //                     rTable.append(row);
-            //                 }
-            //                 anyResourcesInTable = true;
-            //             }
-            //         });
-            //     }
-            // }
-
-
-            $.each(SharkGame.ResourceCategories, (_, category) => {
+            $.each(SharkGame.ResourceCategories, (categoryName, category) => {
                 if (r.isCategoryVisible(category)) {
-                    let isCollapsed = !!r.collapsedRows[category.name]
-                    const headerRow = $("<tr>").append(
-                        $("<td>").attr("colSpan", 3).append($("<h3>").html(
-                            `<span class="collapser">${isCollapsed ? '⯈' : '⯆'}</span><span>${category.name}</span>`
-                        ).css('text-align', 'left')
-                    )).attr('id', `${category.name}Collapser`);
-                    headerRow.on('click', e => SharkGame.Resources.collapseResourceTableRow(e.currentTarget.id))
+                    const icon = r.collapsedRows[categoryName] ? "⯈" : "⯆";
+                    const headerRow = $("<tr>")
+                        .append(
+                            $("<td>")
+                                .attr("colSpan", 3)
+                                .append(
+                                    $("<h3>").html(`<span class="collapser">${icon}</span><span>${categoryName}</span>`).css("text-align", "left")
+                                )
+                        )
+                        .on("click", () => SharkGame.Resources.collapseResourceTableRow(categoryName));
 
-                    rTable.append(headerRow);
-                    $.each(category.resources, (k, value) => {
-                        if (r.getTotalResource(value) > 0 || SharkGame.PlayerResources.get(value).discovered) {
-                            if (!isCollapsed) {
-                                const row = r.constructResourceTableRow(value);
-                                rTable.append(row);
+                    resourceTable.append(headerRow);
+                    $.each(category.resources, (_resourceName, resourceValue) => {
+                        if (r.getTotalResource(resourceValue) > 0 || SharkGame.PlayerResources.get(resourceValue).discovered) {
+                            if (!r.collapsedRows[categoryName]) {
+                                const row = r.constructResourceTableRow(resourceValue);
+                                resourceTable.append(row);
                             }
                             anyResourcesInTable = true;
                         }
@@ -602,7 +568,7 @@ SharkGame.Resources = {
             SharkGame.ResourceMap.forEach((v, key) => {
                 if ((r.getTotalResource(key) > 0 || SharkGame.PlayerResources.get(key).discovered) && w.doesResourceExist(key)) {
                     const row = r.constructResourceTableRow(key);
-                    rTable.append(row);
+                    resourceTable.append(row);
                     anyResourcesInTable = true;
                 }
             });
@@ -617,15 +583,14 @@ SharkGame.Resources = {
         }
 
         // debugger;
-        rTable.css('min-width', rTable.outerWidth() + 'px');
+        resourceTable.css("min-width", resourceTable.outerWidth() + "px");
 
         r.rebuildTable = false;
     },
 
-    collapseResourceTableRow(id) {
-        let row = id.replace('Collapser','');
-        this.collapsedRows[row] = !this.collapsedRows[row];
-        this.reconstructResourcesTable()
+    collapseResourceTableRow(categoryName) {
+        this.collapsedRows[categoryName] = !this.collapsedRows[categoryName];
+        this.reconstructResourcesTable();
     },
 
     constructResourceTableRow(resourceKey) {
@@ -691,7 +656,7 @@ SharkGame.Resources = {
                     }
                 }
             }
-            extraStyle = " style='color:" + color + "'"
+            extraStyle = " style='color:" + color + "'";
         }
         return "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
     },
@@ -842,7 +807,7 @@ SharkGame.Resources = {
             return Math.floor(owned / -buy);
         }
     },
-    
+
     testGracePeriod() {
         let grace = true;
         SharkGame.PlayerIncomeTable.forEach((v, key) => {

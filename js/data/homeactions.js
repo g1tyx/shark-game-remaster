@@ -7,7 +7,6 @@ SharkGame.HomeActions = {
                 return SharkGame.HomeActions.test;
             default:
                 return SharkGame.HomeActions.general;
-                break;
         }
     },
 
@@ -1951,7 +1950,8 @@ SharkGame.HomeActions = {
                 "Ancient riddles for ancient creatures.",
                 "Find the truth beneath the waves!",
             ],
-            helpText: "Help prepare a chimaera for exploration to parts unknown. Their efforts will be good for science.",
+            helpText:
+                "Help prepare a chimaera for exploration to parts unknown. Their efforts will be good for science.",
         },
 
         // OCTOPUS JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -2196,7 +2196,8 @@ SharkGame.HomeActions = {
                 "Consumption and production are two halves of the greater whole.",
                 "The creations of sharks emerge from a pattern as old as their species.",
             ],
-            helpText: "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.",
+            helpText:
+                "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.",
         },
 
         getPurifier: {

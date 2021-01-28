@@ -75,16 +75,24 @@ SharkGame.Stats = {
         incomeDataSel.append(switchButtonDiv);
 
         incomeDataSel.append(table);
-        if (w.worldType != "start") {
-            incomeDataSel.append($("<div>").html("<br> <b><u>TABLE KEY</b></u>" +
-            "<br> <span style='color:" + r.UPGRADE_MULTIPLIER_COLOR + "'><b>This color</b></span> is for upgrade effects." +
-            "<br> <span style='color:" + r.BOOST_MULTIPLIER_COLOR + "'><b>This color</b></span> is for how the world affects certain resources." +
-            "<br> <span style='color:" + r.WORLD_MULTIPLIER_COLOR + "'><b>This color</b></span> is for how the world affects certain producers." +
-            "<br> <span style='color:" + r.RESOURCE_AFFECT_MULTIPLIER_COLOR + "'><b>This color</b></span> is for how some resources affect eachother." +
-            "<br> <span style='color:" + r.ARTIFACT_MULTIPLIER_COLOR + "'><b>This color</b></span> is for artifact effects."));
+        if (w.worldType !== "start") {
+            incomeDataSel.append(
+                $("<div>").html(
+                    "<br> <b><u>TABLE KEY</b></u>" +
+                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
+                        `<br> <span style='color:${r.BOOST_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain resources.` +
+                        `<br> <span style='color:${r.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain producers.` +
+                        `<br> <span style='color:${r.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect eachother.` +
+                        `<br> <span style='color:${r.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`
+                )
+            );
         } else {
-            incomeDataSel.append($("<div>").html("<br> <b><u>TABLE KEY</b></u>" +
-            "<br> <span style='color:" + r.UPGRADE_MULTIPLIER_COLOR + "'><b>This color</b></span> is for upgrade effects."));
+            incomeDataSel.append(
+                $("<div>").html(
+                    "<br> <b><u>TABLE KEY</b></u>" +
+                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.`
+                )
+            );
         }
 
         const genStats = $("#generalStats");
@@ -204,17 +212,11 @@ SharkGame.Stats = {
         SharkGame.ResourceMap.forEach((v, k) => {
             if (r.getTotalResource(k) > 0 && SharkGame.ResourceMap.get(k).income) {
                 const income = SharkGame.ResourceMap.get(k).income;
-                $.each(income, (incomeKey, incomeValue) => {
+                $.each(income, (incomeKey) => {
                     const cell = $("#income-" + k + "-" + incomeKey);
                     const realIncome = r.getProductAmountFromGeneratorResource(k, incomeKey);
                     const changeChar = realIncome > 0 ? "+" : "";
-                    const newValue =
-                        "<span style='color: " +
-                        r.TOTAL_INCOME_COLOR +
-                        "'>" +
-                        changeChar +
-                        m.beautifyIncome(realIncome) +
-                        "</span>";
+                    const newValue = "<span style='color: " + r.TOTAL_INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(realIncome) + "</span>";
                     const oldValue = cell.html();
 
                     if (oldValue !== newValue.replace(/'/g, '"')) {
@@ -302,18 +304,18 @@ SharkGame.Stats = {
             function addCell(text, rowspan, id) {
                 if (id) {
                     row.append(
-                    $("<td>")
-                        .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
-                        .attr("id", id)
-                        .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
-                        .addClass(rowStyle)
+                        $("<td>")
+                            .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
+                            .attr("id", id)
+                            .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
+                            .addClass(rowStyle)
                     );
                 } else {
                     row.append(
-                    $("<td>")
-                        .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
-                        .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
-                        .addClass(rowStyle)
+                        $("<td>")
+                            .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
+                            .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
+                            .addClass(rowStyle)
                     );
                 }
             }
@@ -351,8 +353,6 @@ SharkGame.Stats = {
                     else addCell(undefined, resourceBoostRowspan); // empty cell
                 }
 
-                
-
                 if (generatorBoostRowspan === "inline" || counter === 0) {
                     addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey)], generatorBoostRowspan);
 
@@ -374,11 +374,7 @@ SharkGame.Stats = {
                     else addCell(undefined, generatorBoostRowspan);
                 }
 
-                addCell(
-                    [r.TOTAL_INCOME_COLOR, changeChar + m.beautifyIncome(realIncome)],
-                    "inline",
-                    "income-" + generatorName + "-" + incomeKey
-                );
+                addCell([r.TOTAL_INCOME_COLOR, changeChar + m.beautifyIncome(realIncome)], "inline", "income-" + generatorName + "-" + incomeKey);
 
                 counter++;
                 incomesTable.append(row);
