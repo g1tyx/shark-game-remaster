@@ -204,13 +204,17 @@ SharkGame.Resources = {
 
                 // calculate any world income that should be added to this resource
                 if (worldResourceInfo) {
-                    const worldResourceIncome = worldResourceInfo.income;
-                    const affectedResourceBoostMultiplier = worldResources.get(name).boostMultiplier;
                     SharkGame.PlayerIncomeTable.set(
                         name,
-                        SharkGame.PlayerIncomeTable.get(name) + worldResourceIncome * affectedResourceBoostMultiplier * cad.speed
+                        SharkGame.PlayerIncomeTable.get(name) + worldResourceInfo.income * worldResources.get(name).boostMultiplier * cad.speed
                     );
                 }
+            }
+        });
+
+        $.each(SharkGame.ResourceSpecialProperties.incomeCap, (k, v) => {
+            if (SharkGame.PlayerIncomeTable.get(k) > v) {
+                SharkGame.PlayerIncomeTable.set(k, v);
             }
         });
     },
@@ -235,11 +239,6 @@ SharkGame.Resources = {
             generated *= w.getWorldBoostMultiplier(product) *
             playerResource.upgradeBoostMultiplier;
         }
-        if (rp.incomeCap[product]) {
-            if (SharkGame.PlayerIncomeTable.get(product) + generated > rp.incomeCap[product]) {
-                return rp.incomeCap[product] - SharkGame.PlayerIncomeTable.get(product);
-            }
-        }
         return generated;
     },
 
@@ -262,11 +261,6 @@ SharkGame.Resources = {
         if (generated > 0) {
             generated *= w.getWorldBoostMultiplier(product) *
             r.getBoost(product);
-        }
-        if (rp.incomeCap[product]) {
-            if (SharkGame.PlayerIncomeTable.get(product) + generated > rp.incomeCap[product]) {
-                return rp.incomeCap[product] - SharkGame.PlayerIncomeTable.get(product);
-            }
         }
         return generated;
     },

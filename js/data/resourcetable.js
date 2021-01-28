@@ -972,7 +972,7 @@ SharkGame.ResourceSpecialProperties = {
         //"knowledge"
     ],
     incomeCap: {
-        //knowledge: 10,
+        //
     },
 };
 
