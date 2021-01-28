@@ -269,21 +269,18 @@ div {
 }
 
 a {
+    &:active,
+    &:hover,
+    &:visited,
     &:link {
         color: var(--color-lighter);
     }
 
-    &:visited {
-        color: var(--color-lighter);
-    }
-
     &:hover {
-        color: var(--color-lighter);
         filter: brightness(125%);
     }
 
     &:active {
-        color: var(--color-lighter);
         filter: brightness(135%);
     }
 }
