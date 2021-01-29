@@ -633,7 +633,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     checkForUpdate() {
-        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", (data) => {
+        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/main", (data) => {
             if (data.sha !== SharkGame.COMMIT_SHA) {
                 $("#updateGameBox")
                     .html("You see a new update swimming towards you. Click to update.")
