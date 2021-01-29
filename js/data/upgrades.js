@@ -171,7 +171,7 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        
+
         /* test: {
             name: "Test",
             desc: "Double fish production.",

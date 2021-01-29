@@ -181,7 +181,7 @@
                 return "Is this enough?.";
             }
             function tooMuchEssencePlease() {
-                r.changeResource("essence", 100000000000000000000000000000000000000000);
+                r.changeResource("essence", 1e41);
                 return "You asked for it.";
             }
             function goFasterPlease() {
@@ -212,7 +212,7 @@
                 return "Slowed things down to " + cad.speed + " times as fast.";
             }
             function reallySlowPlease() {
-                cad.speed = 1/512;
+                cad.speed = 1 / 512;
                 return "Reset game speed to 1/512th speed.";
             }
             function resetSpeedPlease() {
@@ -220,7 +220,7 @@
                 return "Reset game speed to 1x.";
             }
             function giveMeLotsOfEverythingPlease() {
-                r.giveMeSomeOfEverything(100000000000000000000000000000000000000000);
+                r.giveMeSomeOfEverything(1e41);
                 return "Gave you lots of everything.";
             }
             function giveMeMoreOfEverythingPlease() {

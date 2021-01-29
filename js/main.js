@@ -179,8 +179,8 @@ $.extend(SharkGame, {
         }
         return colorstring;
     },
-    getElementColor(id, style) {
-        const color = getComputedStyle(document.getElementById(id)).getPropertyValue(style);
+    getElementColor(id, propertyName) {
+        const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return SharkGame.convertColorString(color);
     },
     getImageIconHTML(imagePath, width, height) {
@@ -385,21 +385,19 @@ SharkGame.Main = {
         return formatted;
     },
 
-    beautifyIncome(number, also) {
-        if (!also) {
-            also = "";
-        }
-        if (Math.abs(number) < 0.001 && Math.abs(number) > 0.000001) {
+    beautifyIncome(number, also = "") {
+        const abs = Math.abs(number);
+        if (abs >= 0.001) {
+            number = m.beautify(number, false, 2);
+            number += also;
+            number += "/s";
+        } else if (abs > 0.000001) {
             number *= 3600;
             number = number.toFixed(3);
             number += also;
             number += "/h";
-        } else if (Math.abs(number) >= 0.001) {
-            number = m.beautify(number, false, 2);
-            number += also;
-            number += "/s";
         } else {
-            return 0;
+            number = 0;
         }
         return number;
     },
@@ -783,6 +781,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .prop("type", "number")
                     .addClass("inputbox")
                     .attr("id", "custom-input")
+                    .attr("value", 1)
                     .attr("min", "1")
                     .attr("disabled", SharkGame.Settings.current.buyAmount !== "custom")
             )
@@ -792,7 +791,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             $("#custom-input")[0].value = SharkGame.Settings.current.customSetting;
         }
     },
-    
+
     onCustomChange() {
         SharkGame.Settings.current.customSetting = $("#custom-input")[0].value;
     },

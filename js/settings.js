@@ -136,7 +136,7 @@ SharkGame.Settings = {
             s.recreateIncomeTable = true;
         },
     },
-    
+
     boldCosts: {
         defaultSetting: true,
         name: "Bold Resource Names",
