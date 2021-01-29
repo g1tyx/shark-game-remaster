@@ -106,7 +106,7 @@
                     SharkGame.Log.addError("The game is already stopped.");
                 }
             }
-            function freeze() {
+            function freezePlease() {
                 w.forceExistence("ice");
                 SharkGame.PlayerResources.get("ice").discovered = true;
                 r.clearNetworks();
@@ -117,7 +117,7 @@
                 SharkGame.Log.addMessage("ICE going, doofus!");
                 return "Game frozen.";
             }
-            function unfreeze() {
+            function unfreezePlease() {
                 r.setResource("ice", 0);
                 SharkGame.Log.addMessage("What, did you need some bailing out?");
                 return "Game unfrozen.";
@@ -176,6 +176,14 @@
                 r.changeResource("essence", 1000);
                 return "Okay, but only because you asked nicely.";
             }
+            function aLotOfEssencePlease() {
+                r.changeResource("essence", 1000000);
+                return "Is this enough?.";
+            }
+            function tooMuchEssencePlease() {
+                r.changeResource("essence", 100000000000000000000000000000000000000000);
+                return "You asked for it.";
+            }
             function goFasterPlease() {
                 if (cad.speed === 512) {
                     return "I think you've had enough.";
@@ -195,9 +203,17 @@
                 }
                 return msg;
             }
+            function reallyFastPlease() {
+                cad.speed = 512;
+                return "Set game speed to 512x.";
+            }
             function goSlowerPlease() {
                 cad.speed *= 0.5;
                 return "Slowed things down to " + cad.speed + " times as fast.";
+            }
+            function reallySlowPlease() {
+                cad.speed = 1/512;
+                return "Reset game speed to 1/512th speed.";
             }
             function resetSpeedPlease() {
                 cad.speed = 1;
@@ -206,6 +222,18 @@
             function giveMeLotsOfEverythingPlease() {
                 r.giveMeSomeOfEverything(100000000000000000000000000000000000000000);
                 return "Gave you lots of everything.";
+            }
+            function giveMeMoreOfEverythingPlease() {
+                SharkGame.ResourceMap.forEach((v, key) => {
+                    SharkGame.PlayerResources.get(key).amount *= 10;
+                });
+                return "Gave you ten times more of everything.";
+            }
+            function giveMeWayMoreOfEverythingPlease() {
+                SharkGame.ResourceMap.forEach((v, key) => {
+                    SharkGame.PlayerResources.get(key).amount *= 1000;
+                });
+                return "Gave you one-thousand times more of everything.";
             }
             /*
             function fixMyGamePlease() {
@@ -227,10 +255,33 @@
                 w.apply();
                 return "Made the climate easier.";
             }
+            function waylowerClimatePlease() {
+                w.planetLevel -= 1000;
+                if (w.planetLevel < 1) {
+                    w.planetLevel = 1;
+                }
+                w.apply();
+                return "Made the climate way easier.";
+            }
             function higherClimatePlease() {
                 w.planetLevel += 10;
                 w.apply();
                 return "Made the climate harder.";
+            }
+            function wayHigherClimatePlease() {
+                w.planetLevel += 1000;
+                w.apply();
+                return "Made the climate way harder.";
+            }
+            function resetClimatePlease() {
+                w.planetLevel = 1;
+                w.apply();
+                return "Made the climate level 1.";
+            }
+            function multiplyClimatePlease() {
+                w.planetLevel *= 10;
+                w.apply();
+                return "Made the climate 10 times harder.";
             }
             function beatWorldPlease() {
                 SharkGame.wonGame = true;
@@ -243,7 +294,7 @@
                     case 1:
                         SharkGame.ResourceMap.forEach((v, key) => {
                             if (key !== "essence") {
-                                r.setResource(key, Math.floor(r.getResource(key)/3));
+                                SharkGame.PlayerResources.get(key).amount *= 1/3;
                             }
                         });
                         return "Rolled a one...you lost a third of all your resources.";
@@ -254,7 +305,7 @@
                         return "Rolled a three. Nothing happened.";
                     case 4:
                         r.
-                        return "
+                        return "Rolled a four.";
                         
                 }
             }
