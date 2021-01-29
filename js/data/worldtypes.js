@@ -245,12 +245,7 @@ SharkGame.WorldTypes = {
         style: "abandoned",
         absentResources: ["ice", "heater", "shrimp", "chimaera", "eel", "jellyfish", "algae", "whale"],
         modifiers: [
-            { type: "multiplier", modifier: "planetaryIncome", resource: "tar", amount: 0.01 },
-            { type: "multiplier", modifier: "planetaryStartingResources", resource: "crystalMiner", amount: 1 },
-            { type: "multiplier", modifier: "planetaryStartingResources", resource: "sandDigger", amount: 1 },
-            { type: "multiplier", modifier: "planetaryStartingResources", resource: "fishMachine", amount: 1 },
-            { type: "multiplier", modifier: "planetaryStartingResources", resource: "silentArchivist", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "tar", amount: 0.2 },
+            { type: "multiplier", modifier: "planetaryStartingResources", resource: "tar", amount: 1 },
             {
                 type: "multiplier",
                 modifier: "planetaryFixedIncomeReciprocalMultiplier",

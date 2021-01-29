@@ -13,13 +13,13 @@
 // descriptions and names and effects, and have the progression of each species vary by world.
 
 SharkGame.Upgrades = {
-    getUpgradeTable() {
-        /*const worldType = SharkGame.World.worldType;
+    /*getUpgradeTable() {
+        const worldType = SharkGame.World.worldType;
         if (worldType === "stone") {
             return SharkGame.Upgrades.stoneUpgrades;
-        }  */
+        }  
         return SharkGame.Upgrades.standardUpgrades;
-    },
+    },*/
 
     /* sharks: {
         upgrades: [
@@ -1359,6 +1359,583 @@ SharkGame.Upgrades = {
                 multiplier: {
                     tirelessCrafter: 4,
                     silentArchivist: 4,
+                },
+            },
+        },
+    },
+    abandonedUpgrades: {
+        crystalBite: {
+            name: "Crystal Bite-Gear",
+            desc: "Bite the crystals we have into something to help biting!",
+            researchedMessage: "Weird teeth-wear has been developed, and sharks can now catch fish better as a result.",
+            effectDesc: "Sharks are twice as effective with their new biting gear. Turns out they work better outside the mouth!",
+            cost: {
+                science: 50,
+                fish: 10,
+                crystal: 5,
+            },
+            effect: {
+                multiplier: {
+                    shark: 2,
+                },
+            },
+        },
+
+        crystalSpade: {
+            name: "Crystal Spades",
+            desc: "Fashion strange harness-tools for the rays.",
+            researchedMessage: "The rays can now bother the sand more effectively, and dig up more sand now!",
+            effectDesc: "Rays are twice as effective with their specially adapted digging tools.",
+            cost: {
+                science: 50,
+                sand: 20,
+                crystal: 5,
+            },
+            effect: {
+                multiplier: {
+                    ray: 2,
+                },
+            },
+        },
+
+        crystalContainer: {
+            name: "Crystal Containers",
+            desc: "Make weird bottle things from the crystals we have. Maybe useful??",
+            researchedMessage: "Well, things can go into these containers that aren't water. This makes science easier!",
+            effectDesc: "Scientists are twice as effective at making with the science.",
+            cost: {
+                science: 100,
+                crystal: 50,
+            },
+            effect: {
+                multiplier: {
+                    scientist: 2,
+                },
+            },
+        },
+
+        statsDiscovery: {
+            name: "Storage Caverns",
+            desc: "It's about time to start moving the stores we have to a better place. We've found one but it needs setting up.",
+            researchedMessage:
+                "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. No more stray currents washing it all away hopefully!",
+            effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing. Sort of.",
+            cost: {
+                science: 150,
+            },
+            required: {
+                upgrades: ["crystalContainer"],
+            },
+        },
+
+        underwaterChemistry: {
+            name: "Underwater Chemistry",
+            desc: "With the weird bottles, we can now put things and other things into them and see what happens.",
+            researchedMessage: "Well, nothing useful was determined, but if we keep on doing it we make tremendous leaps for science!",
+            effectDesc: "Scientists are twice as effective with their new chemical insights.",
+            cost: {
+                science: 200,
+                crystal: 50,
+            },
+            required: {
+                upgrades: ["crystalContainer"],
+            },
+            effect: {
+                multiplier: {
+                    scientist: 2,
+                },
+            },
+        },
+
+        seabedGeology: {
+            name: "Seabed Geology",
+            desc: "Study the bottom of the ocean to determine the rich, deep, juicy secrets it contains.",
+            researchedMessage: "Not only did we find a whole bunch of weird things, the rays found that there was more sand!",
+            effectDesc: "Rays are twice as effective with their understanding of the seabed and its varieties of sediment.",
+            cost: {
+                science: 250,
+                sand: 250,
+            },
+            required: {
+                upgrades: ["crystalContainer"],
+            },
+            effect: {
+                multiplier: {
+                    ray: 2,
+                },
+            },
+        },
+
+        thermalVents: {
+            name: "Thermal Vents",
+            desc: "Investigate the boiling vents that just seem to keep on heating things up.",
+            researchedMessage: "This is a wondrous, unending source of heat! Something good must come from this.",
+            effectDesc: "A power source for future technologies has been discovered.",
+            cost: {
+                science: 300,
+                sand: 500,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+        },
+
+        clamScooping: {
+            name: "Clam Scooping",
+            desc: "We see these things all over the seabed but we can't tell which are clams and which are rocks.",
+            researchedMessage:
+                "Patient observation has shown that clams and rocks are in fact different and distinct things. Now we won't be scooping up any more rocks!",
+            effectDesc: "Clams can be collected like fish.",
+            cost: {
+                science: 600,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+                resources: ["clam"],
+            },
+        },
+
+        pearlConversion: {
+            name: "Pearl Conversion",
+            desc: "There's these things inside the clams that look shiny like crystals. Maybe we can transmute them to crystals?",
+            researchedMessage: "Well, we can transmute pearls to crystals now, but we need more of the clam. The whole clam. Yes. The entire clam.",
+            effectDesc:
+                "We can turn clams into crystals using the pearls inside them as a focus. Maybe one day we won't need to use the entire clam.",
+            cost: {
+                science: 1500,
+            },
+            required: {
+                upgrades: ["clamScooping", "transmutation"],
+                resources: ["clam"],
+                seen: ["clam"],
+            },
+        },
+
+        laserRays: {
+            name: "Laser Rays",
+            desc: "Using arcane shark mystery science, capture the heat of the vents for use by rays.",
+            researchedMessage: "The rays can now be granted gear that will let them fuse sand into crystal! Future!",
+            effectDesc: "Laser rays can now be geared up to burn the very sand to glassy crystal.",
+            cost: {
+                science: 100,
+                sand: 2000,
+                crystal: 100,
+            },
+            required: {
+                upgrades: ["thermalVents"],
+                resources: ["ray", "sand"],
+            },
+        },
+
+        transmutation: {
+            name: "Transmutation",
+            desc: "By heating things up and doing science things to them, maybe new things can be made!",
+            researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
+            effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
+            cost: {
+                science: 1000,
+                crystal: 2000,
+                sand: 4000,
+            },
+            required: {
+                upgrades: ["thermalVents", "underwaterChemistry"],
+            },
+        },
+        
+        spongeCollection: {
+            name: "Sponge Collection",
+            desc: "We can see these things littering the reefs and beds, but we don't know how to collect them without breaking them.",
+            researchedMessage:
+                "Understanding the fragile nature of sponges and their weird porous texture, we can now collect sponges by not biting so hard.",
+            effectDesc: "Sponge can be collected in the same way fish can be.",
+            cost: {
+                science: 400,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+                resources: ["sponge"],
+            },
+        },
+
+        industrialGradeSponge: {
+            name: "Industrial-Grade Sponge",
+            desc: "Our octopus contacts inform us that sponge is highly useful with a little augmentation. Let's figure this out.",
+            researchedMessage:
+                "By infusing sponge with processed matter, we have devised spronge, a versatile super-material that kind of freaks us out!",
+            effectDesc: "Enables creation of spronge, the backbone... uh... the core material in cephalopod technology.",
+            cost: {
+                science: 1000,
+                sponge: 2000,
+                junk: 4000,
+            },
+            required: {
+                upgrades: ["recyclerDiscovery", "octopusMethodology"],
+                resources: ["sponge", "junk"],
+                seen: ["sponge"],
+            },
+        },
+
+        automation: {
+            name: "Automation",
+            desc: "Using sharkonium, we can make things to do things so we don't have to do the things!",
+            researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
+            effectDesc: "Machines can be built to supplement population duties. This is efficient.",
+            cost: {
+                science: 1500,
+                sharkonium: 250,
+            },
+            required: {
+                upgrades: ["transmutation"],
+            },
+        },
+
+        environmentalism: {
+            name: "Environmentalism",
+            desc: "We need to get rid of all this tar! Sponges filter stuff, right?!",
+            researchedMessage: "We've determined that sponges can filter out all kinds of stuff, including tar!",
+            effectDesc: "Sponges can be turned into sponge filters to stop the tar from killing us all. Yay!",
+            cost: {
+                science: 500,
+            },
+            required: {
+                upgrades: ["spongeCollection"],
+            },
+        },
+
+        engineering: {
+            name: "Engineering",
+            desc: "The machines sort of suck. Let's make them better by learning how!",
+            researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
+            effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
+            cost: {
+                science: 2500,
+                sharkonium: 1750,
+            },
+            required: {
+                upgrades: ["automation"],
+            },
+            effect: {
+                multiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                },
+            },
+        },
+
+        recyclerDiscovery: {
+            name: "Recycler",
+            desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
+            researchedMessage:
+                "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
+            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
+            cost: {
+                science: 5000,
+                sharkonium: 5000,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+        },
+
+        iterativeDesign: {
+            name: "Iterative Design",
+            desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
+            researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
+            effectDesc: "All shark machines run twice as fast. Again!",
+            cost: {
+                science: 15000,
+                sharkonium: 17500,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+            effect: {
+                multiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                    autoTransmuter: 2,
+                    skimmer: 2,
+                    purifier: 2,
+                    scientist: 4,
+                },
+            },
+        },
+
+        superprocessing: {
+            name: "Superprocessing",
+            desc:
+                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
+            effectDesc:
+                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
+            cost: {
+                science: 1e6,
+                sharkonium: 1e6,
+                junk: 1e6,
+            },
+            required: {
+                upgrades: ["iterativeDesign", "recyclerDiscovery"],
+            },
+        },
+
+        sprongeBiomimicry: {
+            name: "Spronge Biomimicry",
+            desc: "The cephalopod school of thought is that a machine that mimics life is a better machine. We don't understand this so well yet.",
+            researchedMessage:
+                "For machines that mimic life, these things sure put out a lot of pollution. It's sort of alarming. Very alarming, even.",
+            effectDesc:
+                "We can mimic some of the life-mimicking biotechnology the octopuses use, but it gums up the oceans so quickly. So very dangerous.",
+            cost: {
+                science: 3000,
+                spronge: 3000,
+                junk: 1500,
+            },
+            required: {
+                upgrades: ["automation", "industrialGradeSponge"],
+                resources: ["sponge", "junk"],
+                seen: ["spronge"],
+            },
+        },
+
+        agriculture: {
+            name: "Agriculture",
+            desc: "The hunter-gatherer lifestyle will only work so well for us. Maybe we should gather these animals in one place and let them grow.",
+            researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
+            effectDesc: "Various roles are twice as effective thanks to farming regions for coral and sponge.",
+            cost: {
+                science: 500,
+                sand: 1000,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+            effect: {
+                multiplier: {
+                    worker: 2,
+                    harvester: 2,
+                    treasurer: 2,
+                    scavenger: 2,
+                },
+            },
+        },
+
+        biology: {
+            name: "Biology",
+            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
+            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
+            effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
+            cost: {
+                science: 400,
+            },
+            required: {
+                upgrades: ["underwaterChemistry", "agriculture"],
+            },
+            effect: {
+                multiplier: {
+                    shark: 2,
+                },
+            },
+        },
+
+        rayBiology: {
+            name: "Ray Biology",
+            desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
+            researchedMessage:
+                "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
+            effectDesc:
+                "Rays and laser rays are twice as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+            cost: {
+                science: 700,
+                sand: 600,
+            },
+            required: {
+                upgrades: ["biology", "laserRays"],
+                resources: ["ray", "kelp"],
+                seen: ["kelp"],
+            },
+            effect: {
+                multiplier: {
+                    ray: 2,
+                    laser: 2,
+                },
+            },
+        },
+
+        crabBiology: {
+            name: "Crab Biology",
+            desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
+            researchedMessage:
+                "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
+            effectDesc:
+                "Crabs and planter crabs are twice as effective. Crabs are alright but they are also sort of terrifying and weird. Good job they're on our side!",
+            cost: {
+                science: 500,
+                kelp: 100,
+            },
+            required: {
+                upgrades: ["biology", "sunObservation"],
+                resources: ["crab"],
+            },
+            effect: {
+                multiplier: {
+                    crab: 4,
+                    planter: 2,
+                },
+            },
+        },
+
+        octopusMethodology: {
+            name: "Octopus Methodology",
+            desc: "The octopuses claim they know ways to improve their routines and machines.",
+            researchedMessage: "We have no idea what thought processes guide these cephalopod allies of ours, but they know how to get results.",
+            effectDesc: "Octopuses can specialise in different tasks, and octopuses work more efficiently.",
+            cost: {
+                science: 8888,
+                clam: 88,
+            },
+            required: {
+                upgrades: ["exploration"],
+                resources: ["octopus"],
+                seen: ["octopus"],
+            },
+            effect: {
+                multiplier: {
+                    octopus: 2,
+                },
+            },
+        },
+
+        octalEfficiency: {
+            name: "Octal Efficiency",
+            desc: "The octopuses wish to further enhance their productivity for collective gain.",
+            researchedMessage:
+                "The instructions constructed and disseminated by the octopuses are complex and only understood to other octopuses. Head hurts. Something about the number eight.",
+            effectDesc: "Octopuses, their specialists, and their machines are twice as effective. Find unity in efficiency.",
+            cost: {
+                science: 88888,
+                clam: 888,
+            },
+            required: {
+                upgrades: ["octopusMethodology"],
+                resources: ["octopus"],
+            },
+            effect: {
+                multiplier: {
+                    clamCollector: 2,
+                    eggBrooder: 2,
+                    sprongeSmelter: 2,
+                    seaScourer: 2,
+                    prostheticPolyp: 2,
+                    octopus: 2,
+                    collector: 2,
+                    scavenger: 2,
+                },
+            },
+        },
+
+        sunObservation: {
+            name: "Sun Observation",
+            desc: "We must determine what is with the weird glare on the surface of the water.",
+            researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
+            effectDesc:
+                "Planter crabs are twice as effective, and shrimp are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
+            cost: {
+                science: 5000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+            effect: {
+                multiplier: {
+                    planter: 2,
+                    shrimp: 4,
+                },
+            },
+        },
+
+        cityExploration: {
+            name: "City Exploration",
+            desc: "In the distance lies a big, weird bunch of structures that sharks and octopuses have not dared to enter...what happens if we do?",
+            researchedMessage: "As it turns out, nothing happens. There are no signs of life, but we found weird machines and a strange gate.",
+            effectDesc: "Explored the city in the distance and discovered a gate. Also, with more to investigate, octopus investigators are twice as effective.",
+            cost: {
+                science: 5000,
+                fish: 5000,
+            },
+            required: {
+                upgrades: ["sunObservation"],
+            },
+            effect: {
+                multiplier: {
+                    investigator: 2,
+                },
+            },
+        },
+        
+        cityScavenging: {
+            name: "City Scavenging",
+            desc: "This place hides many secrets. Let's uncover them!",
+            researchedMessage: "Turns out there all sorts of things in the rubble! Actually, what are these!?",
+            effectDesc: "Octopuses can now be assigned to scavenge the city in search of weird machine parts.",
+            cost: {
+                science: 5000,
+                fish: 5000,
+            },
+            required: {
+                upgrades: ["cityExploration"],
+            },
+        },
+
+        eightfoldOptimisation: {
+            name: "Eightfold Optimisation",
+            desc: "Enhance productivity. Optimise. Improve. Improve.",
+            researchedMessage: "Peak productivity attained. Maintain course. Maintain efficiency.",
+            effectDesc: "Octopuses and their roles, as well as their machines, are all four times as effective. Optimised.",
+            cost: {
+                science: 8e6,
+            },
+            required: {
+                upgrades: ["gateDiscovery", "octalEfficiency"],
+                resources: ["octopus"],
+            },
+            effect: {
+                multiplier: {
+                    octopus: 4,
+                    collector: 4,
+                    scavenger: 4,
+                    clamCollector: 4,
+                    eggBrooder: 4,
+                    sprongeSmelter: 4,
+                    seaScourer: 4,
+                    prostheticPolyp: 4,
+                },
+            },
+        },
+
+        mechanisedAlchemy: {
+            name: "Mechanised Alchemy",
+            desc: "Better engineering and transmutation processes lead to a refinement of our machines.",
+            researchedMessage: "We are blurring the line between science and magic more than ever before!",
+            effectDesc: "Shark machines are all four times as effective. We work better with the machines, not against them.",
+            cost: {
+                science: 2e7,
+            },
+            required: {
+                upgrades: ["gateDiscovery", "iterativeDesign"],
+                resources: ["sharkonium"],
+                notWorlds: ["start"],
+            },
+            effect: {
+                multiplier: {
+                    fishMachine: 4,
+                    crystalMiner: 4,
+                    sandDigger: 4,
+                    autoTransmuter: 4,
+                    skimmer: 4,
+                    purifier: 4,
+                    heater: 4,
                 },
             },
         },

@@ -309,39 +309,27 @@ SharkGame.Home = {
         abandoned: [
             {
                 name: "abandoned-default",
-                unlock: { world: "abandoned" },
                 message: "The tar clogs the gills of everyone here.<br>This dying world drags everyone down with it.",
             },
-            // BANKED ESSENCE
             {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
-                message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
-            {
-                name: "lobster-one",
-                unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
-                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
-            },
-            {
-                name: "dolphin-one",
-                unlock: { resource: { dolphin: 5 }, homeAction: ["getDolphin"] },
-                message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
+                name: "abandoned-octopus",
+                unlock: { upgrade: "statsDiscovery" },
+                message: "An octopus wanders over.<br>It scrutinizes your attempt at organizaiton.",
             },
             {
                 name: "octopus-one",
-                unlock: { resource: { octopus: 8 }, homeAction: ["getOctopus"] },
-                message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
+                unlock: { resource: { octopus: 1 } },
+                message: "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
             },
-            // UNIQUE STATUSES
             {
-                name: "chorus",
-                unlock: { resource: { chorus: 1 } },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
+                name: "abandoned-default",
+                unlock: { world: "abandoned" },
+                message: "The tar clogs the gills of everyone here.<br>This dying world drags everyone down with it.",
+            },
+            {
+                name: "abandoned-default",
+                unlock: { world: "abandoned" },
+                message: ".",
             },
             {
                 name: "abandoned-tar-one",

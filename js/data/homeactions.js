@@ -3,8 +3,8 @@ SharkGame.HomeActions = {
 
     getActionList() {
         switch (w.worldType) {
-            case "test":
-                return SharkGame.HomeActions.test;
+            case "abandoned":
+                return SharkGame.HomeActions.abandoned;
             default:
                 return SharkGame.HomeActions.general;
         }
@@ -2690,7 +2690,7 @@ SharkGame.HomeActions = {
             helpText: "This octopus machine synthesizes coral faster than an entire colony of polyps ever could.",
         },
     },
-    test: {
+    abandoned: {
         catchFish: {
             name: "Catch fish",
             effect: {
@@ -2779,7 +2779,135 @@ SharkGame.HomeActions = {
             /* removedBy: {
                 upgrades: ["crystalContainer"],
             }, */
+            unauthorized: true,
         },
+
+        getClam: {
+            name: "Get clam",
+            effect: {
+                resource: {
+                    clam: 1,
+                },
+            },
+            cost: {},
+            prereq: {
+                upgrade: ["clamScooping"],
+            },
+            outcomes: [
+                "Got a grooved carpet shell.",
+                "Got a hard clam.",
+                "Got a manila clam.",
+                "Got a soft clam.",
+                "Got an atlantic surf clam.",
+                "Got an ocean quahog.",
+                "Got a pacific razor clam.",
+                "Got a pismo clam.",
+                "Got a geoduck.",
+                "Got an atlantic jackknife clam.",
+                "Got a lyrate asiatic hard clam.",
+                "Got an ark clam.",
+                "Got a nut clam.",
+                "Got a duck clam.",
+                "Got a marsh clam.",
+                "Got a file clam.",
+                "Got a giant clam.",
+                "Got an asiatic clam.",
+                "Got a peppery furrow shell.",
+                "Got a pearl oyster.",
+            ],
+            helpText: "Fetch a clam. Why do we need clams now? Who knows.",
+        },
+
+        // CONVERSIONS ////////////////////////////////////////////////////////////////////////////////
+
+        pearlConversion: {
+            name: "Convert clam pearls",
+            effect: {
+                resource: {
+                    crystal: 1,
+                },
+            },
+            cost: [
+                { resource: "clam", costFunction: "constant", priceIncrease: 1 },
+                { resource: "science", costFunction: "constant", priceIncrease: 2 },
+            ],
+            max: "clam",
+            prereq: {
+                resource: {
+                    clam: 1,
+                },
+                upgrade: ["pearlConversion"],
+            },
+            outcomes: [
+                "Pearls to crystals! One day. One day, we will get this right and only use the pearl.",
+                "Welp, we somehow turned rocks to crystals. Oh. Nope, those were clams. Not rocks. It's so hard to tell sometimes.",
+                "Okay, we managed to only use the pearls this time, but we, uh, had to break the clams open pretty roughly.",
+                "Pearls to... nope. Clams to crystals. Science is hard.",
+            ],
+            helpText: "Convert a pearl (and the clam around it) into crystal.",
+        },
+
+        // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
+
+        transmuteSharkonium: {
+            name: "Transmute stuff to sharkonium",
+            effect: {
+                resource: {
+                    sharkonium: 1,
+                },
+            },
+            cost: [
+                { resource: "crystal", costFunction: "constant", priceIncrease: 5 },
+                { resource: "sand", costFunction: "constant", priceIncrease: 15 },
+            ],
+            max: "sharkonium",
+            prereq: {
+                upgrade: ["transmutation"],
+            },
+            outcomes: [
+                "Transmutation destination!",
+                "Transmutation rejuvenation!",
+                "Transmogrification revelation!",
+                "Transformation libation!",
+                "Transfiguration nation! ...wait.",
+                "Sharkonium arise!",
+                "Arise, sharkonium!",
+                "More sharkonium!",
+                "The substance that knows no name! Except the name sharkonium!",
+                "The substance that knows no description! It's weird to look at.",
+                "The foundation of a modern shark frenzy!",
+            ],
+            helpText: "Convert ordinary resources into sharkonium, building material of the future!",
+        },
+
+        forgeSpronge: {
+            name: "Forge sponge into spronge",
+            effect: {
+                resource: {
+                    spronge: 1,
+                    //tar: 0.001,
+                },
+            },
+            cost: [
+                { resource: "sponge", costFunction: "constant", priceIncrease: 5 },
+                { resource: "junk", costFunction: "constant", priceIncrease: 15 },
+            ],
+            max: "spronge",
+            prereq: {
+                upgrade: ["industrialGradeSponge"],
+            },
+            outcomes: [
+                "It pulses. That's unsettling.",
+                "It shakes and quivers and otherwise acts sort of like sharkonium which is kind of freaking me out uh help",
+                "Well, the octopuses know how to use this, I think.",
+                "What... what <em>is</em> that?!",
+                "Spronge. What a name. I don't think I could name it anything myself. Apart from 'horrifying'.",
+                "Sweet fishmas, it's glowing. It's glowing!",
+            ],
+            helpText: "Repurpose boring old sponge into spronge, building material of the future.",
+        },
+
+        // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
 
         getShark: {
             name: "Recruit shark",
@@ -2841,6 +2969,767 @@ SharkGame.HomeActions = {
                 "A college of sharks! They're a little smarter than a school.",
             ],
             helpText: "Recruit a shark to help catch more fish.",
+        },
+
+        getManta: {
+            name: "Hire ray",
+            effect: {
+                resource: {
+                    ray: 1,
+                },
+            },
+            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 15 }],
+            max: "ray",
+            prereq: {
+                resource: {
+                    fish: 15,
+                },
+            },
+            outcomes: [
+                "These guys seem to be kicking up a lot of sand!",
+                "A spotted eagle ray joins you.",
+                "A manta ray joins you.",
+                "A stingray joins you.",
+                "A clownnose ray joins you.",
+                "A bluespotted maskray joins you.",
+                "A bluntnose stingray joins you.",
+                "A oman masked ray joins you.",
+                "A bulls-eye electric ray joins you.",
+                "A shorttailed electric ray joins you.",
+                "A bentfin devil ray joins you.",
+                "A lesser electric ray joins you.",
+                "A cortez electric ray joins you.",
+                "A feathertail stingray joins you.",
+                "A thornback ray joins you.",
+                "A giant shovelnose ray joins you.",
+                "A pacific cownose ray joins you.",
+                "A bluespotted ribbontail ray joins you.",
+                "A marbled ribbontail ray joins you.",
+                "A blackspotted torpedo ray joins you.",
+                "A marbled torpedo ray joins you.",
+                "A atlantic torpedo ray joins you.",
+                "A panther torpedo ray joins you.",
+                "A spotted torpedo ray joins you.",
+                "A ocellated torpedo joins you.",
+                "A caribbean torpedo joins you.",
+                "A striped stingaree joins you.",
+                "A sparesly-spotted stingaree joins you.",
+                "A kapala stingaree joins you.",
+                "A common stingaree joins you.",
+                "A eastern fiddler ray joins you.",
+                "A bullseye stingray joins you.",
+                "A round stingray joins you.",
+                "A yellow stingray joins you.",
+                "A cortez round stingray joins you.",
+                "A porcupine ray joins you.",
+                "A sepia stingaree joins you.",
+                "A banded stingaree joins you.",
+                "A spotted stingaree joins you.",
+                "A sea pancake joins you.",
+            ],
+            multiOutcomes: [
+                "A whole bunch of rays join you.",
+                "That's a lot of rays.",
+                "The ray conspiracy grows!",
+                "I can't even deal with all of these rays.",
+                "More rays more rays more more more.",
+                "A school of rays!",
+                "A fever of rays! Yes, seriously. Look it up.",
+                "A whole lotta rays!",
+                "The sand is just flying everywhere!",
+                "So many rays.",
+            ],
+            helpText: "Hire a ray to help collect fish. They might kick up some sand from the seabed.",
+        },
+
+        getCrab: {
+            name: "Acquire crab",
+            effect: {
+                resource: {
+                    crab: 1,
+                },
+            },
+            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 10 }],
+            max: "crab",
+            prereq: {
+                resource: {
+                    shark: 4,
+                    ray: 4,
+                },
+            },
+            outcomes: [
+                "A crab starts sifting shiny things out of the sand.",
+                "A bering hermit joins you.",
+                "A blackeye hermit joins you.",
+                "A butterfly crab joins you.",
+                "A dungeness crab joins you.",
+                "A flattop crab joins you.",
+                "A greenmark hermit joins you.",
+                "A golf-ball crab joins you.",
+                "A graceful crab joins you.",
+                "A graceful decorator crab joins you.",
+                "A graceful kelp crab joins you.",
+                "A green shore crab joins you.",
+                "A heart crab joins you.",
+                "A helmet crab joins you.",
+                "A longhorn decorator crab joins you.",
+                "A maroon hermit joins you.",
+                "A moss crab joins you.",
+                "A northern kelp crab joins you.",
+                "A orange hairy hermit joins you.",
+                "A purple shore crab joins you.",
+                "A pygmy rock crab joins you.",
+                "A puget sound king crab joins you.",
+                "A red rock crab joins you.",
+                "A scaled crab joins you.",
+                "A sharpnose crab joins you.",
+                "A spiny lithoid crab joins you.",
+                "A widehand hermit joins you.",
+                "A umbrella crab joins you.",
+            ],
+            multiOutcomes: [
+                "A lot of crabs join you.",
+                "CRABS EVERYWHERE",
+                "Crabs. Crabs. Crabs!",
+                "Feels sort of crab-like around here.",
+                "A cast of crabs!",
+                "A dose of crabs!",
+                "A cribble of crabs! Okay, no, that one's made up.",
+                "So many crabs.",
+            ],
+            helpText: "Hire a crab to find things that sharks and rays overlook.",
+        },
+
+        getOctopus: {
+            name: "Employ octopus",
+            effect: {
+                resource: {
+                    octopus: 1,
+                },
+            },
+            cost: [{ resource: "clam", costFunction: "linear", priceIncrease: 15 }],
+            max: "octopus",
+            prereq: {
+                resource: {
+                    clam: 20,
+                },
+                upgrade: ["exploration"],
+            },
+            outcomes: [
+                "A capricorn night octopus joins you.",
+                "A plain-body night octopus joins you.",
+                "A hammer octopus joins you.",
+                "A southern keeled octopus joins you.",
+                "A two-spot octopus joins you.",
+                "A caribbean reef octopus joins you.",
+                "A southern white-spot octopus joins you.",
+                "A bigeye octopus joins you.",
+                "A carolinian octopus joins you.",
+                "A lesser pacific striped octopus joins you.",
+                "A chestnut octopus joins you.",
+                "A big blue octopus joins you.",
+                "A lilliput longarm octopus joins you.",
+                "A red-spot night octopus joins you.",
+                "A globe octopus joins you.",
+                "A scribbled night octopus joins you.",
+                "A bumblebee two-spot octopus joins you.",
+                "A southern sand octopus joins you.",
+                "A lobed octopus joins you.",
+                "A starry night octopus joins you.",
+                "A atlantic white-spotted octopus joins you.",
+                "A maori octopus joins you.",
+                "A mexican four-eyed octopus joins you.",
+                "A galapagos reef octopus joins you.",
+                "An ornate octopus joins you.",
+                "A white-striped octopus joins you.",
+                "A pale octopus joins you.",
+                "A japanese pygmy octopus joins you.",
+                "A east pacific red octopus joins you.",
+                "A spider octopus joins you.",
+                "A moon octopus joins you.",
+                "A frilled pygmy octopus joins you.",
+                "A tehuelche octopus joins you.",
+                "A gloomy octopus joins you.",
+                "A veiled octopus joins you.",
+                "A bighead octopus joins you.",
+                "A common octopus joins you.",
+                "A club pygmy octopus joins you.",
+                "A star-sucker pygmy octopus joins you.",
+                "An atlantic banded octopus joins you.",
+            ],
+            multiOutcomes: [
+                "Efficiency increases with limb count.",
+                "Hard to understand, but hardworking nonetheless.",
+                "The minds of the octopuses are a frontier unbraved by many sharks.",
+                "They hardly seem to notice you. They take their payment and begin to harvest.",
+                "They say something about the schedule being on target.",
+                "One of the new batch tells you to find unity in efficiency.",
+                "You could have sworn you saw an octopus among the crowd glinting like metal.",
+                "Octopi? No. Octopodes? Definitely not.",
+            ],
+            helpText: "Pay an octopus for their efficient clam retrieval services.",
+        },
+
+        // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getScientist: {
+            name: "Train science shark",
+            effect: {
+                resource: {
+                    scientist: 1,
+                },
+            },
+            cost: [
+                { resource: "shark", costFunction: "constant", priceIncrease: 1 },
+                { resource: "crystal", costFunction: "linear", priceIncrease: 20 },
+            ],
+            max: "scientist",
+            prereq: {
+                resource: {
+                    crystal: 20,
+                    shark: 1,
+                },
+            },
+            outcomes: [
+                "Doctor Shark, coming right up!",
+                "A scientist shark is revealed!",
+                "After many painful years of study, a shark that has developed excellent skills in making excuses-- er, in science!",
+                "PhD approved!",
+                "Graduation complete!",
+                "A new insight drives a new shark to take up the cause of science!",
+            ],
+            multiOutcomes: [
+                "The training program was a success!",
+                "Look at all this science!",
+                "Building a smarter, better shark!",
+                "Beakers! Beakers underwater! It's madness!",
+                "Let the science commence!",
+                "Underwater clipboards! No I don't know how that works either!",
+                "Careful teeth record the discoveries!",
+            ],
+            helpText: "Train a shark in the fine art of research and the science of, well, science.",
+        },
+
+        getNurse: {
+            name: "Train nurse shark",
+            effect: {
+                resource: {
+                    nurse: 1,
+                },
+            },
+            cost: [
+                { resource: "shark", costFunction: "constant", priceIncrease: 1 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 100 },
+            ],
+            max: "nurse",
+            prereq: {
+                resource: {
+                    shark: 1,
+                },
+                upgrade: ["biology"],
+            },
+            outcomes: [
+                "A nurse shark is ready!",
+                "Shark manufacturer primed.",
+                "Nurse shark trained.",
+                "Medical exam passed! Nurse shark is go!",
+            ],
+            multiOutcomes: [
+                "More sharks are on the way soon.",
+                "Shark swarm begins!",
+                "There will be no end to the sharks!",
+                "Sharks forever!",
+                "The sharks will never end. The sharks are eternal.",
+                "More sharks to make more sharks to make more sharks...",
+            ],
+            helpText: "Remove a shark from fish duty and set them to shark making duty.",
+        },
+
+        // RAY JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getLaser: {
+            name: "Equip laser ray",
+            effect: {
+                resource: {
+                    laser: 1,
+                },
+            },
+            cost: [
+                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
+                { resource: "crystal", costFunction: "linear", priceIncrease: 50 },
+            ],
+            max: "laser",
+            prereq: {
+                resource: {
+                    ray: 1,
+                },
+                upgrade: ["laserRays"],
+            },
+            outcomes: [
+                "Laser ray online!",
+                "Laser ray! With a laser ray! It's laser ray, with a laaaaaser raaaay!",
+                "Laser ray.",
+                "Ray suited up with a laaaaaaser!",
+                "Ray lasered. To use a laser. Not the subject of a laser.",
+            ],
+            multiOutcomes: [
+                "Boil the seabed!",
+                "Churn the sand to crystal!",
+                "Laser ray armada in position!",
+                "Ray crystal processing initiative is growing stronger every day!",
+                "Welcome to the future! The future is lasers!",
+            ],
+            helpText: "Remove a ray from sand detail and let them fuse sand into raw crystal.",
+        },
+
+        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getCollector: {
+            name: "Instruct collector crab",
+            effect: {
+                resource: {
+                    collector: 1,
+                },
+            },
+            cost: [
+                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "sponge", costFunction: "linear", priceIncrease: 5 },
+            ],
+            max: "collector",
+            prereq: {
+                resource: {
+                    crab: 1,
+                },
+                upgrade: ["spongeCollection"],
+            },
+            outcomes: [
+                "Crab understands how to snip sponge.",
+                "Crab will now get sponges.",
+                "This crab has graduated from sponge school.",
+                "One more educated individual, ready to do a surprisingly difficult task.",
+            ],
+            multiOutcomes: [
+                "The crabs now understand how to get sponges.",
+                "Collect and conquer. The sponges. Conquer the sponges.",
+                "Sponge incoming!",
+                "The porous fiends are no match for the claws of a crab!",
+                "Crystals? Who needs crystals when you can have sponge?!",
+                "Yes, collecting sponges is much harder than it looks!",
+                "Why do we need these again?",
+                "Each rock will have a crab, as each sponge has a rock."
+            ],
+            helpText: "Instruct a crab on the proper way to collect sponges from rocks.",
+        },
+
+        getBrood: {
+            name: "Form crab brood",
+            effect: {
+                resource: {
+                    brood: 1,
+                },
+            },
+            cost: [
+                { resource: "crab", costFunction: "constant", priceIncrease: 20 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 200 },
+            ],
+            max: "brood",
+            prereq: {
+                resource: {
+                    crab: 1,
+                },
+                upgrade: ["crabBiology"],
+            },
+            outcomes: [
+                "A bunch of crabs pile together into some sort of weird cluster.",
+                "Crab team, assemble! FORM THE CRAB BROOD!",
+                "[This message has been censored for reasons of being mostly really gross.]",
+                "Eggs, eggs everywhere, but never stop and think.",
+                "Writhing crab pile. Didn't expect those words next to each other today, did you.",
+                "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.",
+            ],
+            multiOutcomes: [
+                "The broods grow. The swarm rises.",
+                "All these crabs are probably a little excessive. ...is what I could say, but I'm going to say this instead. MORE CRABS.",
+                "A sea of crabs on the bottom of the sea. Clickity clackity.",
+                "Snip snap clack clack burble burble crabs crabs crabs crabs.",
+                "More crabs are always a good idea. Crystals aren't cheap.",
+                "The broods swell in number. The sharks are uneasy, but the concern soon passes.",
+                "Yes. Feed the kelp. Feed it. Feeeeeed it.",
+            ],
+            helpText: "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.",
+        },
+
+        // OCTOPUS JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getInvestigator: {
+            name: "Reassign octopus as Investigator",
+            effect: {
+                resource: {
+                    investigator: 1,
+                },
+            },
+            cost: [
+                { resource: "octopus", costFunction: "constant", priceIncrease: 1 },
+                { resource: "clam", costFunction: "linear", priceIncrease: 50 },
+            ],
+            max: "investigator",
+            prereq: {
+                resource: {
+                    octopus: 1,
+                },
+                upgrade: ["octopusMethodology"],
+            },
+            outcomes: [
+                "An octopus is an investigator now.",
+                "Octopus, investigator.",
+                "The role has been assigned. investigator.",
+                "The delegation has been made. investigator.",
+                "This individual now investigates.",
+            ],
+            multiOutcomes: [
+                "Investigators will study the unknown in pursuit of collective gain.",
+                "investigators will study objects they do not understand.",
+                "investigators will examine any thing out of place.",
+                "investigators will act as instructed.",
+            ],
+            helpText: "Delegate an octopus to investigate strange objects and phenomena for science.",
+        },
+
+        getScavenger: {
+            name: "Reassign octopus as scavenger",
+            effect: {
+                resource: {
+                    scavenger: 1,
+                },
+            },
+            cost: [
+                { resource: "octopus", costFunction: "constant", priceIncrease: 1 },
+                { resource: "crystal", costFunction: "linear", priceIncrease: 50 },
+            ],
+            max: "scavenger",
+            prereq: {
+                resource: {
+                    octopus: 1,
+                },
+                upgrade: ["octopusMethodology"],
+            },
+            outcomes: [
+                "An octopus is a scavenger now.",
+                "Octopus, scavenger.",
+                "The role has been assigned. Scavenger.",
+                "The delegation has been made. Scavenger.",
+                "This individual now scavenges.",
+            ],
+            multiOutcomes: [
+                "Scavengers will retrieve the broken pieces of a once great society.",
+                "Scavengers will scavenge from the wreckage of the city.",
+                "Scavengers will take only what is still useful.",
+                "Scavengers will act as instructed.",
+            ],
+            helpText: "Delegate an octopus to scavenge strange mechanical components from the city.",
+        },
+
+        // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
+
+        getCrystalMiner: {
+            name: "Build crystal miner",
+            effect: {
+                resource: {
+                    crystalMiner: 1,
+                },
+            },
+            cost: [
+                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
+                { resource: "sand", costFunction: "linear", priceIncrease: 200 },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 25 },
+            ],
+            max: "crystalMiner",
+            prereq: {
+                resource: {
+                    sharkonium: 25,
+                },
+                upgrade: ["automation"],
+            },
+            outcomes: [
+                "Crystal miner activated.",
+                "Crystal miner constructed.",
+                "Mining machine online.",
+                "Construction complete.",
+                "Carve rock. Remove sand. Retrieve target.",
+            ],
+            multiOutcomes: [
+                "The machines rise.",
+                "The miners dig.",
+                "The crystal shall be harvested.",
+                "Crystal miners are complete.",
+            ],
+            helpText: "Construct a machine to automatically harvest crystals efficiently.",
+        },
+
+        getSandDigger: {
+            name: "Build sand digger",
+            effect: {
+                resource: {
+                    sandDigger: 1,
+                },
+            },
+            cost: [
+                { resource: "sand", costFunction: "linear", priceIncrease: 500 },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 150 },
+            ],
+            max: "sandDigger",
+            prereq: {
+                resource: {
+                    sharkonium: 150,
+                },
+                upgrade: ["automation"],
+            },
+            outcomes: [
+                "Sand digger constructed.",
+                "Sand digger reaches into the seabed.",
+                "The digger begins to shuffle sand into its machine maw. Rays dart away.",
+                "The machine is online.",
+                "The machine acts immediately, shovelling sand.",
+            ],
+            multiOutcomes: [
+                "The machines increase in number.",
+                "The diggers devour.",
+                "All sand must be gathered.",
+                "The rays are concerned.",
+                "Devour the sands. Consume.",
+                "Giant machines blot out our sun.",
+            ],
+            helpText: "Construct a machine to automatically dig up sand efficiently.",
+        },
+
+        getFishMachine: {
+            name: "Build fish machine",
+            effect: {
+                resource: {
+                    fishMachine: 1,
+                },
+            },
+            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 100 }],
+            max: "fishMachine",
+            prereq: {
+                resource: {
+                    sharkonium: 100,
+                },
+                upgrade: ["automation"],
+            },
+            outcomes: [
+                "Fish machine activated.",
+                "Fish machine constructed.",
+                "Fishing machine online.",
+                "Construction complete.",
+                "The quarry moves. But the machine is faster.",
+            ],
+            multiOutcomes: [
+                "One day there will be no fish left. Only the machines.",
+                "Today the shark is flesh. Tomorrow, machine.",
+                "Your metal servants can sate the hunger. The hunger for fish.",
+                "The fishing machines are more efficient than the sharks. But they aren't very smart.",
+                "Automated fishing.",
+                "The power of many, many sharks, in many, many devices.",
+            ],
+            helpText: "Construct a machine to automatically gather fish efficiently.",
+        },
+
+        getAutoTransmuter: {
+            name: "Build auto-transmuter",
+            effect: {
+                resource: {
+                    autoTransmuter: 1,
+                },
+            },
+            cost: [
+                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
+            ],
+            max: "autoTransmuter",
+            prereq: {
+                resource: {
+                    sharkonium: 100,
+                },
+                upgrade: ["engineering"],
+            },
+            outcomes: [
+                "Auto-transmuter activated.",
+                "Auto-transmuter constructed.",
+                "Transmutation machine online.",
+                "Construction complete.",
+                "Provide inputs. Only the output matters.",
+            ],
+            multiOutcomes: [
+                "Auto-transmuters are prepared.",
+                "The difference between science and magic is reliable application.",
+                "All is change.",
+                "Change is all.",
+                "The machines know many secrets, yet cannot speak of them.",
+            ],
+            helpText: "Construct a machine to automatically and efficiently transmute sand and crystal to sharkonium.",
+        },
+
+        getSkimmer: {
+            name: "Build skimmer",
+            effect: {
+                resource: {
+                    skimmer: 1,
+                },
+            },
+            cost: [
+                { resource: "junk", costFunction: "linear", priceIncrease: 400 },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 200 },
+            ],
+            max: "skimmer",
+            prereq: {
+                resource: {
+                    junk: 1,
+                },
+                upgrade: ["engineering"],
+            },
+            outcomes: [
+                "Skimmer activated.",
+                "Skimmer constructed.",
+                "Residue producer online.",
+                "Construction complete.",
+                "Sacrifices must be made for progress.",
+            ],
+            multiOutcomes: [
+                "The lesser resource becomes the greatest of all.",
+                "Transmutation is limited. The recycler is greater.",
+                "Consumption and production are two halves of the greater whole.",
+                "The creations of sharks emerge from a pattern as old as their species.",
+            ],
+            helpText:
+                "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.",
+        },
+
+        getPurifier: {
+            name: "Build purifier",
+            effect: {
+                resource: {
+                    purifier: 1,
+                },
+            },
+            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 500 }],
+            max: "purifier",
+            prereq: {
+                upgrade: ["environmentalism"],
+            },
+            outcomes: [
+                "Purifier activated.",
+                "Purifier constructed.",
+                "Machine gills online.",
+                "Construction complete.",
+                "Not all machines carry such weight.",
+            ],
+            multiOutcomes: [
+                'We can almost hear these machines as they start. We can hear them speak. "We will save you from your mistakes." No, I\'m just - must be hearing things, ignore me.',
+                "The problems of old will be solved by the new.",
+                "The waters will return to clarity.",
+                "The machines may destroy, but so too can they heal and repair.",
+                "The end is not nearly so soon.",
+                "Hope.",
+            ],
+            helpText: "Construct a machine to restore vitality to our increasingly murky waters.",
+        },
+
+        // OCTOPUS MACHINES /////////////////////////////////////////////////////////
+
+        getClamCollector: {
+            name: "Build clam collector",
+            effect: {
+                resource: {
+                    clamCollector: 1,
+                },
+            },
+            cost: [{ resource: "spronge", costFunction: "linear", priceIncrease: 50 }],
+            max: "clamCollector",
+            prereq: {
+                resource: {
+                    spronge: 50,
+                },
+                upgrade: ["sprongeBiomimicry"],
+            },
+            outcomes: [
+                "Machine: clam collector. Operation: in progress.",
+                "Machine: clam collector. Operation: beginning.",
+                "Machine: clam collector. Result: clam collection.",
+                "Machine: clam collector. Result: food for the masses.",
+            ],
+            multiOutcomes: [
+                "These machines feel strangely alive. They pulse and throb.",
+                "There exist more clam collectors now.",
+                "The biomachine expands.",
+                "The octopuses tell me, find unity in efficiency. Find peace in automation.",
+            ],
+            helpText: "This octopus machine collects clams. Simple purpose, simple machine.",
+        },
+
+        getEggBrooder: {
+            name: "Build egg brooder",
+            effect: {
+                resource: {
+                    eggBrooder: 1,
+                },
+            },
+            cost: [
+                { resource: "spronge", costFunction: "linear", priceIncrease: 150 },
+                { resource: "octopus", costFunction: "constant", priceIncrease: 1 },
+            ],
+            max: "eggBrooder",
+            prereq: {
+                resource: {
+                    spronge: 150,
+                    octopus: 10,
+                },
+                upgrade: ["sprongeBiomimicry"],
+            },
+            outcomes: [
+                "Machine: egg brooder. Operation: in progress.",
+                "Machine: egg brooder. Operation: beginning.",
+                "Machine: egg brooder. Result: egg maintenance.",
+                "Machine: egg brooder. Result: population rises.",
+                "Machine: egg brooder. Cost: within acceptable parameters.",
+            ],
+            multiOutcomes: [
+                "These machines feel strangely alive. They pulse and throb.",
+                "There exist more egg brooders now.",
+                "The biomachine expands.",
+                "The octopuses tell me, find unity in efficiency. Find peace in an optimised generation.",
+            ],
+            helpText: "This octopus machine broods and incubates octopus eggs.",
+        },
+
+        getSprongeSmelter: {
+            name: "Build spronge smelter",
+            effect: {
+                resource: {
+                    sprongeSmelter: 1,
+                },
+            },
+            cost: [{ resource: "spronge", costFunction: "linear", priceIncrease: 100 }],
+            max: "sprongeSmelter",
+            prereq: {
+                resource: {
+                    spronge: 100,
+                },
+                upgrade: ["sprongeBiomimicry"],
+            },
+            outcomes: [
+                "Machine: spronge smelter. Operation: in progress.",
+                "Machine: spronge smelter. Operation: beginning.",
+                "Machine: spronge smelter. Result: spronge smelting.",
+                "Machine: spronge smelter. Result: further development.",
+            ],
+            multiOutcomes: [
+                "These machines feel strangely alive. They pulse and throb.",
+                "There exist more spronge smelters now.",
+                "The biomachine expands.",
+                "The octopuses tell me, find unity in efficiency. Find peace in an assured future.",
+            ],
+            helpText: "This octopus machine imbues sponge with industrial potential. Requires residue for function.",
         },
     },
 };

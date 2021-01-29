@@ -288,6 +288,17 @@ SharkGame.ResourceTable = {
         },
         value: 4000,
     },
+    
+    crabHarvester: {
+        name: "harvester crabs",
+        singleName: "harvester crab",
+        //desc: "Stewards of an ecosystem.",
+        color: "#AAE03D",
+        income: {
+            sponge: 0.1,
+        },
+        value: 4000,
+    },
 
     /* miller: {
         name: "miller crabs",
@@ -388,13 +399,13 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
-    collector: {
+    investigator: {
         name: "octopus collectors",
         singleName: "octopus collector",
         color: "#1A44D6",
         income: {
-            crystal: 1,
-            coral: 3,
+            science: 2,
+            clam: 0.1,
         },
         value: 3000,
     },
@@ -404,10 +415,8 @@ SharkGame.ResourceTable = {
         singleName: "octopus scavenger",
         color: "#B43B02",
         income: {
-            sand: 2,
-            sponge: 2,
+            ancientPart: 0.01,
         },
-
         value: 3000,
     },
 
@@ -781,6 +790,20 @@ SharkGame.ResourceTable = {
         color: "#549572",
         value: 0.4,
     },
+    
+    ancientPart: {
+        name: "ancient parts",
+        singleName: "ancient part",
+        color: "#000000",
+        value: 500,
+    },
+    
+    filter: {
+        name: "sponge filters",
+        singleName: "sponge filter",
+        color: "#000000",
+        value: 10,
+    },
 
     /* gravel: {
         name: "gravel",
@@ -826,6 +849,13 @@ SharkGame.ResourceTable = {
         color: "#A97D53",
         value: 70,
     },
+
+    /* calcinium: {
+        name: "calcinium",
+        singleName: "calcinium",
+        color: "#000000",
+        value: 75,
+    }, */
 
     junk: {
         name: "residue",
