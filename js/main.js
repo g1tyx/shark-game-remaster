@@ -453,7 +453,7 @@ SharkGame.Main = {
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
 Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
-        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/master", (data) => {
+        $.getJSON("https://api.github.com/repos/spencers145/SharkGame/commits/main", (data) => {
             SharkGame.COMMIT_SHA = data.sha;
         });
         SharkGame.sidebarHidden = true;
