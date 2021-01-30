@@ -312,24 +312,54 @@ SharkGame.Home = {
                 message: "The tar clogs the gills of everyone here.<br>This dying world drags everyone down with it.",
             },
             {
-                name: "abandoned-octopus",
+                name: "abandoned-octopus-scrutinizes",
                 unlock: { upgrade: "statsDiscovery" },
                 message: "An octopus wanders over.<br>It scrutinizes your attempt at organizaiton.",
             },
             {
-                name: "octopus-one",
+                name: "abandoned-octopus",
                 unlock: { resource: { octopus: 1 } },
+                message: "The octopus works tirelessly.",
+            },
+            {
+                name: "abandoned-octopuses",
+                unlock: { resource: { octopus: 2 } },
+                message: "More octopuses join.<br>They work in perfect unison.",
+            },
+            {
+                name: "abandoned-production",
+                unlock: { resource: { octopus: 25 } },
                 message: "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
             },
             {
-                name: "abandoned-default",
-                unlock: { world: "abandoned" },
-                message: "The tar clogs the gills of everyone here.<br>This dying world drags everyone down with it.",
+                name: "abandoned-spronge",
+                unlock: { resource: { spronge: 1 } },
+                message: "The spronge shudders in the light - a living, breathing material.<br>And so dirty. It leaves tar everywhere.",
             },
             {
-                name: "abandoned-default",
-                unlock: { world: "abandoned" },
-                message: ".",
+                name: "abandoned-city",
+                unlock: { upgrade: "exploration" },
+                message: "Great spires loom in the distance.",
+            },
+            {
+                name: "abandoned-gate",
+                unlock: { upgrade: "farExploration" },
+                message: "This gate stands inert and lifeless like the city around it.<br>But the slots are already filled.",
+            },
+            {
+                name: "abandoned-reverse-engineering",
+                unlock: { upgrade: "reverseEngineering" },
+                message: "The octopuses pick up the pieces.<br>And we will reassemble them.",
+            },
+            {
+                name: "abandoned-high-energy-fusion",
+                unlock: { upgrade: "highEnergyFusion" },
+                message: "The light is blinding, but the output is worth it.<br>The pieces of a broken past unite to create a brighter future.",
+            },
+            {
+                name: "abandoned-done",
+                unlock: { upgrade: "artifactAssembly" },
+                message: "...",
             },
             {
                 name: "abandoned-tar-one",

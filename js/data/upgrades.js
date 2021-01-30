@@ -1702,21 +1702,19 @@ SharkGame.Upgrades = {
         agriculture: {
             name: "Agriculture",
             desc: "The hunter-gatherer lifestyle will only work so well for us. Maybe we should gather these animals in one place and let them grow.",
-            researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
-            effectDesc: "Various roles are twice as effective thanks to farming regions for coral and sponge.",
+            researchedMessage: "While the tar makes it difficult to pull off, it is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
+            effectDesc: "Crabs are four times as effective thanks to farming regions for sponge.",
             cost: {
-                science: 500,
-                sand: 1000,
+                science: 1500,
+                sand: 500,
+                sponge: 20,
             },
             required: {
-                upgrades: ["seabedGeology"],
+                upgrades: ["seabedGeology", "spongeCollection"],
             },
             effect: {
                 multiplier: {
-                    worker: 2,
-                    harvester: 2,
-                    treasurer: 2,
-                    scavenger: 2,
+                    collector: 4,
                 },
             },
         },
@@ -1739,40 +1737,16 @@ SharkGame.Upgrades = {
             },
         },
 
-        rayBiology: {
-            name: "Ray Biology",
-            desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
-            researchedMessage:
-                "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
-            effectDesc:
-                "Rays and laser rays are twice as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
-            cost: {
-                science: 700,
-                sand: 600,
-            },
-            required: {
-                upgrades: ["biology", "laserRays"],
-                resources: ["ray", "kelp"],
-                seen: ["kelp"],
-            },
-            effect: {
-                multiplier: {
-                    ray: 2,
-                    laser: 2,
-                },
-            },
-        },
-
         crabBiology: {
             name: "Crab Biology",
             desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
             researchedMessage:
                 "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
             effectDesc:
-                "Crabs and planter crabs are twice as effective. Crabs are alright but they are also sort of terrifying and weird. Good job they're on our side!",
+                "Crabs are four times as effective, and collectors are twice as effective. Crabs are alright but they are also sort of terrifying and weird. Good job they're on our side!",
             cost: {
                 science: 500,
-                kelp: 100,
+                fish: 500,
             },
             required: {
                 upgrades: ["biology", "sunObservation"],
@@ -1781,7 +1755,7 @@ SharkGame.Upgrades = {
             effect: {
                 multiplier: {
                     crab: 4,
-                    planter: 2,
+                    collector: 2,
                 },
             },
         },
@@ -1792,11 +1766,11 @@ SharkGame.Upgrades = {
             researchedMessage: "We have no idea what thought processes guide these cephalopod allies of ours, but they know how to get results.",
             effectDesc: "Octopuses can specialise in different tasks, and octopuses work more efficiently.",
             cost: {
-                science: 8888,
-                clam: 88,
+                science: 888,
+                clam: 888,
             },
             required: {
-                upgrades: ["exploration"],
+                upgrades: ["clamScooping"],
                 resources: ["octopus"],
                 seen: ["octopus"],
             },
@@ -1827,7 +1801,6 @@ SharkGame.Upgrades = {
                     eggBrooder: 2,
                     sprongeSmelter: 2,
                     seaScourer: 2,
-                    prostheticPolyp: 2,
                     octopus: 2,
                     collector: 2,
                     scavenger: 2,
@@ -1840,7 +1813,7 @@ SharkGame.Upgrades = {
             desc: "We must determine what is with the weird glare on the surface of the water.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
-                "Planter crabs are twice as effective, and shrimp are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
+                "Octopus investigators and science sharks are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
             cost: {
                 science: 5000,
             },
@@ -1849,42 +1822,43 @@ SharkGame.Upgrades = {
             },
             effect: {
                 multiplier: {
-                    planter: 2,
-                    shrimp: 4,
+                    scientist: 2,
+                    investigator: 2,
                 },
             },
         },
-
-        cityExploration: {
-            name: "City Exploration",
-            desc: "In the distance lies a big, weird bunch of structures that sharks and octopuses have not dared to enter...what happens if we do?",
-            researchedMessage: "As it turns out, nothing happens. There are no signs of life, but we found weird machines and a strange gate.",
-            effectDesc: "Explored the city in the distance and discovered a gate. Also, with more to investigate, octopus investigators are twice as effective.",
+        
+        exploration: {
+            name: "Exploration",
+            desc: "Venture into open waters to see what can be found!",
+            researchedMessage: "The sharks found fish, and the crabs found crystals, but we also spotted a bunch of giant constructions.",
+            effectDesc: "More fish for sharks, more crystals for crabs...and spotted something in the distance.",
             cost: {
                 science: 5000,
-                fish: 5000,
+                fish: 10000,
             },
             required: {
                 upgrades: ["sunObservation"],
             },
             effect: {
                 multiplier: {
-                    investigator: 2,
+                    shark: 2,
+                    crab: 4,
                 },
             },
         },
-        
-        cityScavenging: {
-            name: "City Scavenging",
-            desc: "This place hides many secrets. Let's uncover them!",
-            researchedMessage: "Turns out there all sorts of things in the rubble! Actually, what are these!?",
-            effectDesc: "Octopuses can now be assigned to scavenge the city in search of weird machine parts.",
+
+        farExploration: {
+            name: "Far Exploration",
+            desc: "In the distance lies a big, weird bunch of structures that we have not dared to enter...what happens if we do?",
+            researchedMessage: "It's a kind of giant living space! There are no signs of life, but we found lots of weird machines and a strange gate.",
+            effectDesc: "Explored the city in the distance and discovered a gate and some weird machines. Octopuses can now specialize in scavenging around the city.",
             cost: {
-                science: 5000,
-                fish: 5000,
+                science: 10000,
+                fish: 25000,
             },
             required: {
-                upgrades: ["cityExploration"],
+                upgrades: ["exploration"],
             },
         },
 
@@ -1892,7 +1866,7 @@ SharkGame.Upgrades = {
             name: "Eightfold Optimisation",
             desc: "Enhance productivity. Optimise. Improve. Improve.",
             researchedMessage: "Peak productivity attained. Maintain course. Maintain efficiency.",
-            effectDesc: "Octopuses and their roles, as well as their machines, are all four times as effective. Optimised.",
+            effectDesc: "Octopuses and their roles, as well as their machines, are all eight times as effective. Optimised.",
             cost: {
                 science: 8e6,
             },
@@ -1902,14 +1876,13 @@ SharkGame.Upgrades = {
             },
             effect: {
                 multiplier: {
-                    octopus: 4,
-                    collector: 4,
-                    scavenger: 4,
-                    clamCollector: 4,
-                    eggBrooder: 4,
-                    sprongeSmelter: 4,
-                    seaScourer: 4,
-                    prostheticPolyp: 4,
+                    octopus: 8,
+                    collector: 8,
+                    scavenger: 8,
+                    clamCollector: 8,
+                    eggBrooder: 8,
+                    sprongeSmelter: 8,
+                    seaScourer: 8,
                 },
             },
         },
