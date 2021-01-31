@@ -820,6 +820,30 @@ SharkGame.Save = {
             });
             return save;
         },
+
+        function update(save) {
+            _.each(
+                [
+                    "investigator",
+                    "filter",
+                    "ancientPart",
+                ],
+                (v) => {
+                    save.resources[v] = { amount: 0, totalAmount: 0 };
+                }
+            );
+            _.each(
+                [
+                    "reverseEngineering",
+                    "highEnergyFusion",
+                    "artifactAssembly",
+                ],
+                (v) => {
+                    save.upgrades[v] = false;
+                }
+            );
+            return save;
+        },
     ],
 };
 

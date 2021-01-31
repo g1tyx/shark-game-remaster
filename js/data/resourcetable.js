@@ -289,11 +289,10 @@ SharkGame.ResourceTable = {
         value: 4000,
     },
     
-    crabHarvester: {
-        name: "harvester crabs",
-        singleName: "harvester crab",
-        //desc: "Stewards of an ecosystem.",
-        color: "#AAE03D",
+    collector: {
+        name: "collector crabs",
+        singleName: "collector crab",
+        color: "#ff7847",
         income: {
             sponge: 0.1,
         },
@@ -400,9 +399,9 @@ SharkGame.ResourceTable = {
     },
 
     investigator: {
-        name: "octopus collectors",
-        singleName: "octopus collector",
-        color: "#1A44D6",
+        name: "octopus investigators",
+        singleName: "octopus investigator",
+        color: "#4c5cad",
         income: {
             science: 2,
             clam: 0.1,
@@ -794,15 +793,19 @@ SharkGame.ResourceTable = {
     ancientPart: {
         name: "ancient parts",
         singleName: "ancient part",
-        color: "#000000",
+        color: "#8a6853",
         value: 500,
     },
     
     filter: {
         name: "sponge filters",
         singleName: "sponge filter",
-        color: "#000000",
+        color: "#FFC89C",
+        income: {
+            tar: -0.01
+        },
         value: 10,
+        forceIncome: true,
     },
 
     /* gravel: {
@@ -870,7 +873,7 @@ SharkGame.ResourceTable = {
     tar: {
         name: "tar",
         singleName: "tar",
-        color: "#3B3B3B",
+        color: "#4B4B4B",
         income: {
             shark: -0.001,
             ray: -0.001,
@@ -1051,6 +1054,7 @@ SharkGame.ResourceCategories = {
             "diver",
             "laser",
             "planter",
+            "collector",
             "worker",
             "harvester",
             "philosopher",
@@ -1058,7 +1062,7 @@ SharkGame.ResourceCategories = {
             "chorus",
             "transmuter",
             "explorer",
-            "collector",
+            "investigator",
             "scavenger",
             "technician",
             "sifter",
@@ -1161,7 +1165,7 @@ SharkGame.ResourceCategories = {
             "The foundation of a modern shark frenzy, perhaps, but also sort of taking up all the space.",
             "Let's hope we don't regret it.",
         ],
-        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "junk"],
+        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "junk"],
     },
     harmful: {
         name: "Harmful",

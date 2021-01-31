@@ -67,7 +67,7 @@ SharkGame.Sprites = {
         spriteSourceSize: { x: 0, y: 0, w: 400, h: 200 },
         sourceSize: { w: 400, h: 200 },
     },
-    essence: {
+    "essence": {
         frame: { x: 2, y: 410, w: 400, h: 200 },
         rotated: false,
         trimmed: false,
@@ -116,7 +116,7 @@ SharkGame.Sprites = {
         spriteSourceSize: { x: 0, y: 0, w: 400, h: 200 },
         sourceSize: { w: 400, h: 200 },
     },
-    missing: {
+    "missing": {
         frame: { x: 1214, y: 614, w: 400, h: 200 },
         rotated: false,
         trimmed: false,
@@ -352,14 +352,6 @@ SharkGame.Sprites = {
     },
     "actions/getClam": {
         frame: { x: 418, y: 104, w: 50, h: 50 },
-        rotated: false,
-        trimmed: false,
-        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
-        sourceSize: { w: 50, h: 50 },
-        pivot: { x: 0, y: 0 },
-    },
-    "actions/getCollector": {
-        frame: { x: 2018, y: 0, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },

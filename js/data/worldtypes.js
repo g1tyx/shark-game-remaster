@@ -243,7 +243,7 @@ SharkGame.WorldTypes = {
         shortDesc: "murky dark green",
         entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
-        absentResources: ["ice", "heater", "shrimp", "chimaera", "eel", "jellyfish", "algae", "whale"],
+        absentResources: ["ice", "heater", "shrimp", "chimaera", "eel", "jellyfish", "algae", "whale", "dolphin", "lobster", "coral", "kelp", "seaApple", "planter"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryStartingResources", resource: "tar", amount: 1 },
             {
@@ -251,6 +251,12 @@ SharkGame.WorldTypes = {
                 modifier: "planetaryFixedIncomeReciprocalMultiplier",
                 resource: "sponge",
                 amount: 100,
+            },
+            {
+                type: "multiplier",
+                modifier: "planetaryFixedIncomeMultiplier",
+                resource: "crab",
+                amount: 2,
             },
         ],
         gateCosts: {

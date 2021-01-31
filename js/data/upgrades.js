@@ -13,13 +13,14 @@
 // descriptions and names and effects, and have the progression of each species vary by world.
 
 SharkGame.Upgrades = {
-    /*getUpgradeTable() {
-        const worldType = SharkGame.World.worldType;
-        if (worldType === "stone") {
-            return SharkGame.Upgrades.stoneUpgrades;
-        }  
-        return SharkGame.Upgrades.standardUpgrades;
-    },*/
+    getUpgradeTable() {
+        switch (w.worldType) {
+            case "abandoned":
+                return SharkGame.Upgrades.abandonedUpgrades;
+            default:
+                return SharkGame.Upgrades.standardUpgrades;
+        }
+    },
 
     /* sharks: {
         upgrades: [
@@ -1487,7 +1488,7 @@ SharkGame.Upgrades = {
                 "Patient observation has shown that clams and rocks are in fact different and distinct things. Now we won't be scooping up any more rocks!",
             effectDesc: "Clams can be collected like fish.",
             cost: {
-                science: 600,
+                science: 650,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -1523,7 +1524,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["thermalVents"],
-                resources: ["ray", "sand"],
             },
         },
 
@@ -1549,7 +1549,7 @@ SharkGame.Upgrades = {
                 "Understanding the fragile nature of sponges and their weird porous texture, we can now collect sponges by not biting so hard.",
             effectDesc: "Sponge can be collected in the same way fish can be.",
             cost: {
-                science: 400,
+                science: 300,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -1593,9 +1593,10 @@ SharkGame.Upgrades = {
             name: "Environmentalism",
             desc: "We need to get rid of all this tar! Sponges filter stuff, right?!",
             researchedMessage: "We've determined that sponges can filter out all kinds of stuff, including tar!",
-            effectDesc: "Sponges can be turned into sponge filters to stop the tar from killing us all. Yay!",
+            effectDesc: "Sponges can be turned into filters to stop the tar from killing us all. Yay!",
             cost: {
-                science: 500,
+                science: 150,
+                sponge: 75,
             },
             required: {
                 upgrades: ["spongeCollection"],
@@ -1725,7 +1726,7 @@ SharkGame.Upgrades = {
             researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
             effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
-                science: 400,
+                science: 600,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -1733,6 +1734,28 @@ SharkGame.Upgrades = {
             effect: {
                 multiplier: {
                     shark: 2,
+                },
+            },
+        },
+        
+        rayBiology: {
+            name: "Ray Biology",
+            desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
+            researchedMessage:
+                "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
+            effectDesc:
+                "Rays and laser rays are twice as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+            cost: {
+                science: 800,
+                sand: 600,
+            },
+            required: {
+                upgrades: ["biology", "laserRays"],
+            },
+            effect: {
+                multiplier: {
+                    ray: 2,
+                    laser: 2,
                 },
             },
         },
@@ -1789,11 +1812,10 @@ SharkGame.Upgrades = {
             effectDesc: "Octopuses, their specialists, and their machines are twice as effective. Find unity in efficiency.",
             cost: {
                 science: 88888,
-                clam: 888,
+                clam: 88888,
             },
             required: {
-                upgrades: ["octopusMethodology"],
-                resources: ["octopus"],
+                upgrades: ["sprongeBiomimicry"],
             },
             effect: {
                 multiplier: {
@@ -1802,7 +1824,7 @@ SharkGame.Upgrades = {
                     sprongeSmelter: 2,
                     seaScourer: 2,
                     octopus: 2,
-                    collector: 2,
+                    investigator: 2,
                     scavenger: 2,
                 },
             },
@@ -1810,12 +1832,12 @@ SharkGame.Upgrades = {
 
         sunObservation: {
             name: "Sun Observation",
-            desc: "We must determine what is with the weird glare on the surface of the water.",
+            desc: "It's hard to see, but there's a weird glare on the surface of the water, and we need to figure out what it means.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
                 "Octopus investigators and science sharks are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
             cost: {
-                science: 5000,
+                science: 15000,
             },
             required: {
                 upgrades: ["agriculture"],
@@ -1831,10 +1853,10 @@ SharkGame.Upgrades = {
         exploration: {
             name: "Exploration",
             desc: "Venture into open waters to see what can be found!",
-            researchedMessage: "The sharks found fish, and the crabs found crystals, but we also spotted a bunch of giant constructions.",
-            effectDesc: "More fish for sharks, more crystals for crabs...and spotted something in the distance.",
+            researchedMessage: "Fish, sand, and crystals can be found! Even further out, though, there's something else.",
+            effectDesc: "Sharks, rays, and crabs are more effective...and something was spotted in the distance.",
             cost: {
-                science: 5000,
+                science: 17500,
                 fish: 10000,
             },
             required: {
@@ -1843,6 +1865,7 @@ SharkGame.Upgrades = {
             effect: {
                 multiplier: {
                     shark: 2,
+                    ray: 2,
                     crab: 4,
                 },
             },
@@ -1850,15 +1873,67 @@ SharkGame.Upgrades = {
 
         farExploration: {
             name: "Far Exploration",
-            desc: "In the distance lies a big, weird bunch of structures that we have not dared to enter...what happens if we do?",
-            researchedMessage: "It's a kind of giant living space! There are no signs of life, but we found lots of weird machines and a strange gate.",
+            desc: "In the distance lies a bunch of weird structures that sharks have dared not enter...so what happens if we do?",
+            researchedMessage: "As it turns out, discoveries happen! There are no signs of life, but we found lots of weird machines and a strange gate.",
             effectDesc: "Explored the city in the distance and discovered a gate and some weird machines. Octopuses can now specialize in scavenging around the city.",
             cost: {
-                science: 10000,
+                science: 30000,
                 fish: 25000,
             },
             required: {
                 upgrades: ["exploration"],
+            },
+        },
+        
+        reverseEngineering: {
+            name: "Reverse Engineering",
+            desc: "What is up with these parts? Why are they shaped like that?!",
+            researchedMessage: "Results inconclusive. Further analysis pending.",
+            effectDesc: "Ancient parts can be sacrificed for science. Scientists are twice as effective, and investigators are 4 times as effective.",
+            cost: {
+                science: 50000,
+                ancientPart: 250,
+            },
+            required: {
+                upgrades: ["farExploration", "engineering"],
+            },
+            effect: {
+                multiplier: {
+                    scientist: 2,
+                    investigator: 4,
+                },
+            },
+        },
+        
+        highEnergyFusion: {
+            name: "High-Energy Fusion",
+            desc: "These old parts must have some kind of use! Question is, can we figure it out???",
+            researchedMessage: "The secret of high-energy fusion has been unlocked. Scavenge no more. We will make more ourselves.",
+            effectDesc: "Laser rays can fuse sand to crystal at an absurd rate. We have figured out how to create more ancient parts by fusing clams and crystals.",
+            cost: {
+                science: 150000,
+                ancientPart: 2500,
+            },
+            required: {
+                upgrades: ["reverseEngineering", "iterativeDesign", "laserRays", "pearlConversion"],
+            },
+            effect: {
+                multiplier: {
+                    laser: 64,
+                },
+            },
+        },
+        
+        artifactAssembly: {
+            name: "Artifact Assembly",
+            desc: "Assemble the pieces. Create the tool. Open the gate.",
+            researchedMessage: "It is done.",
+            effectDesc: "The artifact is assembled. The gate can be opened.",
+            cost: {
+                ancientPart: 100000,
+            },
+            required: {
+                upgrades: ["highEnergyFusion"],
             },
         },
 
@@ -1871,7 +1946,7 @@ SharkGame.Upgrades = {
                 science: 8e6,
             },
             required: {
-                upgrades: ["gateDiscovery", "octalEfficiency"],
+                upgrades: ["reverseEngineering", "octalEfficiency"],
                 resources: ["octopus"],
             },
             effect: {
@@ -1893,12 +1968,11 @@ SharkGame.Upgrades = {
             researchedMessage: "We are blurring the line between science and magic more than ever before!",
             effectDesc: "Shark machines are all four times as effective. We work better with the machines, not against them.",
             cost: {
-                science: 2e7,
+                science: 1e7,
             },
             required: {
-                upgrades: ["gateDiscovery", "iterativeDesign"],
+                upgrades: ["reverseEngineering", "iterativeDesign"],
                 resources: ["sharkonium"],
-                notWorlds: ["start"],
             },
             effect: {
                 multiplier: {

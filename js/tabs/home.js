@@ -313,7 +313,7 @@ SharkGame.Home = {
             },
             {
                 name: "abandoned-octopus-scrutinizes",
-                unlock: { upgrade: "statsDiscovery" },
+                unlock: { upgrade: ["statsDiscovery"] },
                 message: "An octopus wanders over.<br>It scrutinizes your attempt at organizaiton.",
             },
             {
@@ -324,7 +324,7 @@ SharkGame.Home = {
             {
                 name: "abandoned-octopuses",
                 unlock: { resource: { octopus: 2 } },
-                message: "More octopuses join.<br>They work in perfect unison.",
+                message: "More octopuses join. They work in perfect unison.",
             },
             {
                 name: "abandoned-production",
@@ -334,41 +334,41 @@ SharkGame.Home = {
             {
                 name: "abandoned-spronge",
                 unlock: { resource: { spronge: 1 } },
-                message: "The spronge shudders in the light - a living, breathing material.<br>And so dirty. It leaves tar everywhere.",
+                message: "The spronge shudders in the light - it's a living, breathing material.<br>And so dirty. It leaves tar everywhere.",
             },
             {
                 name: "abandoned-city",
-                unlock: { upgrade: "exploration" },
+                unlock: { upgrade: ["exploration"] },
                 message: "Great spires loom in the distance.",
             },
             {
                 name: "abandoned-gate",
-                unlock: { upgrade: "farExploration" },
+                unlock: { upgrade: ["farExploration"] },
                 message: "This gate stands inert and lifeless like the city around it.<br>But the slots are already filled.",
             },
             {
                 name: "abandoned-reverse-engineering",
-                unlock: { upgrade: "reverseEngineering" },
+                unlock: { upgrade: ["reverseEngineering"] },
                 message: "The octopuses pick up the pieces.<br>And we will reassemble them.",
             },
             {
                 name: "abandoned-high-energy-fusion",
-                unlock: { upgrade: "highEnergyFusion" },
+                unlock: { upgrade: ["highEnergyFusion"] },
                 message: "The light is blinding, but the output is worth it.<br>The pieces of a broken past unite to create a brighter future.",
             },
             {
                 name: "abandoned-done",
-                unlock: { upgrade: "artifactAssembly" },
+                unlock: { upgrade: ["artifactAssembly"] },
                 message: "...",
             },
             {
                 name: "abandoned-tar-one",
-                unlock: { world: "abandoned", resource: { tar: 20 } },
+                unlock: { resource: { tar: 20 } },
                 message: "The tar clogging the machines and killing everything!<br>Maybe a different machine can save us?",
             },
             {
                 name: "abandoned-tar-two",
-                unlock: { world: "abandoned", resource: { tar: 200 } },
+                unlock: { resource: { tar: 200 } },
                 message: "Only machines will remain. All is lost.<br><span class='smallDesc'>All is lost.</span>",
             },
         ],
@@ -674,14 +674,14 @@ SharkGame.Home = {
                 });
                 sceneDiv.animate({ opacity: 0 }, 500, () => {
                     if (SharkGame.Settings.current.showTabImages) {
-                        SharkGame.changeSprite(SharkGame.spriteHomeEventPath, messageData.name, sceneDiv, "homesea-missing");
+                        SharkGame.changeSprite(SharkGame.spriteHomeEventPath, messageData.name, sceneDiv, "missing");
                     }
                     $(sceneDiv).animate({ opacity: 1 }, 500);
                 });
             } else {
                 extraMessageSel.html(events[selectedIndex].message);
                 if (SharkGame.Settings.current.showTabImages) {
-                    SharkGame.changeSprite(SharkGame.spriteHomeEventPath, messageData.name, sceneDiv, "homesea-missing");
+                    SharkGame.changeSprite(SharkGame.spriteHomeEventPath, messageData.name, sceneDiv, "missing");
                 }
             }
         }

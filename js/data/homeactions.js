@@ -2781,6 +2781,44 @@ SharkGame.HomeActions = {
             }, */
             unauthorized: true,
         },
+        
+        prySponge: {
+            name: "Pry sponge",
+            effect: {
+                resource: {
+                    sponge: 1,
+                },
+            },
+            cost: {},
+            prereq: {
+                upgrade: ["spongeCollection"],
+            },
+            outcomes: [
+                "Pried an orange elephant ear sponge from the rocks.",
+                "Pried a brain sponge from the rocks.",
+                "Pried a branching tube sponge from the rocks.",
+                "Pried a brown volcano carpet from the rocks.",
+                "Pried a row pore rope sponge from the rocks.",
+                "Pried a branching vase sponge from the rocks.",
+                "Pried a chicken liver sponge from the rocks.",
+                "Pried a red boring sponge from the rocks.",
+                "Pried a heavenly sponge from the rocks.",
+                "Pried a brown encrusting octopus sponge from the rocks.",
+                "Pried a stinker sponge from the rocks.",
+                "Pried a black-ball sponge from the rocks.",
+                "Pried a strawberry vase sponge from the rocks.",
+                "Pried a convoluted orange sponge from the rocks.",
+                "Pried a touch-me-not sponge from the rocks. Ow.",
+                "Pried a lavender rope sponge from the rocks.",
+                "Pried a red-orange branching sponge from the rocks.",
+                "Pried a variable boring sponge from the rocks.",
+                "Pried a loggerhead sponge from the rocks.",
+                "Pried a yellow sponge from the rocks.",
+                "Pried an orange lumpy encrusting sponge from the rocks.",
+                "Pried a giant barrel sponge from the rocks.",
+            ],
+            helpText: "Grab a sponge from the seabed for future use.",
+        },
 
         getClam: {
             name: "Get clam",
@@ -2845,7 +2883,95 @@ SharkGame.HomeActions = {
                 "Pearls to... nope. Clams to crystals. Science is hard.",
             ],
             helpText: "Convert a pearl (and the clam around it) into crystal.",
+            removedBy: {
+                upgrades: ["highEnergyFusion"],
+            },
         },
+        
+        advancedPearlConversion: {
+            name: "Convert clam pearls",
+            effect: {
+                resource: {
+                    crystal: 5,
+                },
+            },
+            cost: [
+                { resource: "clam", costFunction: "constant", priceIncrease: 1 },
+                { resource: "science", costFunction: "constant", priceIncrease: 2 },
+            ],
+            max: "clam",
+            prereq: {
+                resource: {
+                    clam: 1,
+                },
+                upgrade: ["highEnergyFusion"],
+            },
+            outcomes: [
+                "Pearls to crystals! One day. One day, we will get this right and only use the pearl.",
+                "Welp, we somehow turned rocks to crystals. Oh. Nope, those were clams. Not rocks. It's so hard to tell sometimes.",
+                "Okay, we managed to only use the pearls this time, but we, uh, had to break the clams open pretty roughly.",
+                "Pearls to... nope. Clams to crystals. Science is hard.",
+            ],
+            helpText: "Convert a pearl (and the clam around it) into crystals.",
+        },
+        
+        spongeFiltration: {
+            name: "Manufacture sponge filter",
+            effect: {
+                resource: {
+                    filter: 1,
+                },
+            },
+            cost: [
+                { resource: "sponge", costFunction: "linear", priceIncrease: 5 },
+            ],
+            max: "filter",
+            prereq: {
+                resource: {
+                    sponge: 1,
+                },
+                upgrade: ["environmentalism"],
+            },
+            outcomes: [
+                "Sweet, sweet filtration!",
+                "Smell that water! Couldn't you just eat it like fish?!",
+                "Hope restored.",
+                "In darkness, we find salvation.",
+                "One organism corrects the mistakes of another.",
+                "Clean water restored.",
+                "Surely, this is sustainable.",
+                "Begone, filth!",
+                "Saved by sponge. Who would've thought?",
+            ],
+            helpText: "Create filters from sponge to get rid of tar.",
+        },
+        
+        breakDownAncientPart: {
+            name: "Break down ancient parts",
+            effect: {
+                resource: {
+                    science: 1000,
+                },
+            },
+            cost: [
+                { resource: "ancientPart", costFunction: "constant", priceIncrease: 1 },
+            ],
+            max: "ancientPart",
+            prereq: {
+                upgrade: ["reverseEngineering"],
+            },
+            outcomes: [
+                "Fascinating.",
+                "Progress.",
+                "Ohh. Now it makes sense. Wait, nevermind.",
+                "What are these even made out of??",
+                "Now that it's taken apart, how do we put it back together??",
+                "The doohickey's connected to the...spring-thing. The spring-thing's connected to the...wait, no it isn't.",
+                "A lot was learned from this! Maybe!",
+            ],
+            helpText: "Break down ancient parts to advance science.",
+        },
+
 
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
 
@@ -2905,6 +3031,34 @@ SharkGame.HomeActions = {
                 "Sweet fishmas, it's glowing. It's glowing!",
             ],
             helpText: "Repurpose boring old sponge into spronge, building material of the future.",
+        },
+        
+        fuseAncientPart: {
+            name: "Fuse stuff into ancient parts",
+            effect: {
+                resource: {
+                    ancientPart: 1,
+                },
+            },
+            cost: [
+                { resource: "crystal", costFunction: "constant", priceIncrease: 50 },
+                { resource: "clam", costFunction: "constant", priceIncrease: 150 },
+            ],
+            max: "ancientPart",
+            prereq: {
+                upgrade: ["highEnergyFusion"],
+            },
+            outcomes: [
+                "FUSION!",
+                "Progress.",
+                "The past is irrelevant when we create the future.",
+                "What are we making again? What is this material???",
+                "The water boils with energy, and the finished product drops to the seafloor.",
+                "Fusion completed.",
+                "The lasers converge to a point, superheating the clams and reforming them.",
+                "How could this be made without already having the parts??",
+            ],
+            helpText: "Convert clams (and crystals) directly into ancient parts.",
         },
 
         // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
@@ -3111,9 +3265,9 @@ SharkGame.HomeActions = {
             max: "octopus",
             prereq: {
                 resource: {
-                    clam: 20,
+                    clam: 1,
                 },
-                upgrade: ["exploration"],
+                upgrade: ["clamScooping"],
             },
             outcomes: [
                 "A capricorn night octopus joins you.",
@@ -3370,7 +3524,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "octopus", costFunction: "constant", priceIncrease: 1 },
-                { resource: "clam", costFunction: "linear", priceIncrease: 50 },
+                { resource: "clam", costFunction: "linear", priceIncrease: 100 },
             ],
             max: "investigator",
             prereq: {
@@ -3411,7 +3565,7 @@ SharkGame.HomeActions = {
                 resource: {
                     octopus: 1,
                 },
-                upgrade: ["octopusMethodology"],
+                upgrade: ["farExploration"],
             },
             outcomes: [
                 "An octopus is a scavenger now.",
@@ -3605,36 +3759,6 @@ SharkGame.HomeActions = {
                 "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.",
         },
 
-        getPurifier: {
-            name: "Build purifier",
-            effect: {
-                resource: {
-                    purifier: 1,
-                },
-            },
-            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 500 }],
-            max: "purifier",
-            prereq: {
-                upgrade: ["environmentalism"],
-            },
-            outcomes: [
-                "Purifier activated.",
-                "Purifier constructed.",
-                "Machine gills online.",
-                "Construction complete.",
-                "Not all machines carry such weight.",
-            ],
-            multiOutcomes: [
-                'We can almost hear these machines as they start. We can hear them speak. "We will save you from your mistakes." No, I\'m just - must be hearing things, ignore me.',
-                "The problems of old will be solved by the new.",
-                "The waters will return to clarity.",
-                "The machines may destroy, but so too can they heal and repair.",
-                "The end is not nearly so soon.",
-                "Hope.",
-            ],
-            helpText: "Construct a machine to restore vitality to our increasingly murky waters.",
-        },
-
         // OCTOPUS MACHINES /////////////////////////////////////////////////////////
 
         getClamCollector: {
@@ -3777,6 +3901,7 @@ SharkGame.HomeActionCategories = {
             "getLaser",
             //getShoveler",
             "getPlanter",
+            "getCollector",
             //"getMiller",
             "getWorker",
             "getHarvester",
@@ -3787,7 +3912,7 @@ SharkGame.HomeActionCategories = {
             "getSifter",
             "getTransmuter",
             "getExplorer",
-            "getCollector",
+            "getInvestigator",
             "getScavenger",
         ],
     },
@@ -3813,10 +3938,14 @@ SharkGame.HomeActionCategories = {
             //"spongeToScience",
             "jellyfishToScience",
             "pearlConversion",
+            "advancedPearlConversion",
+            "spongeFiltration",
+            "breakDownAncientPart",
             "transmuteSharkonium",
             "smeltCoralglass",
             "fuseDelphinium",
             "forgeSpronge",
+            "fuseAncientPart",
         ],
     },
 
