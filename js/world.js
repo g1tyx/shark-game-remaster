@@ -124,6 +124,12 @@ SharkGame.WorldModifiers = {
         apply(generator, restrictedResource) {
             w.worldRestrictedCombinations.set(generator, restrictedResource);
         },
+        getEffect(level, amount) {
+            return "";
+        },
+        getMessage(generator, restriction) {
+            return r.getResourceName(generator, false, false, 2) + " cannot produce " r.getResourceName(restriction, false, false, 2);
+        },
     },
 };
 
@@ -236,7 +242,7 @@ SharkGame.World = {
         // get multiplier
         const gateCostMultiplier = w.getGateCostMultiplier();
 
-        SharkGame.Gate.createSlots(worldInfo.gateCosts, w.planetLevel, gateCostMultiplier);
+        SharkGame.Gate.createSlots(worldInfo.gateRequirements, w.planetLevel, gateCostMultiplier);
     },
 
     getWorldEntryMessage() {

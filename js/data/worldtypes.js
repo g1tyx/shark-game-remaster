@@ -45,13 +45,15 @@ SharkGame.WorldTypes = {
         style: "default",
         absentResources: [],
         modifiers: [],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             fish: 1e3,
             sand: 1e3,
             crystal: 1e3,
             kelp: 1e3,
             seaApple: 1e3,
             sharkonium: 1e3,
+            },
         },
     },
     start: {
@@ -63,13 +65,15 @@ SharkGame.WorldTypes = {
         includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence"],
         modifiers: [],
         // initial gate cost, scaled by planetary level
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             fish: 1e7,
             sand: 1e6,
             crystal: 1e6,
             kelp: 1e5,
             seaApple: 1e5,
             sharkonium: 1e6,
+            },
         },
     },
     marine: {
@@ -93,13 +97,15 @@ SharkGame.WorldTypes = {
         ], */
         absentResources: ["tar", "ice", "heater", "purifier", "shrimp", "chimaera", "eel", "jellyfish"],
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1.5 }],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             fish: 1e9,
             sand: 1e7,
             crystal: 1e7,
             kelp: 1e7,
             seaApple: 1e6,
             sharkonium: 1e6,
+            },
         },
     },
     chaotic: {
@@ -116,13 +122,15 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "animals", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "stuff", amount: 1 },
         ],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             sponge: 1e6,
             clam: 1e6,
             sand: 1e7,
             crystal: 1e7,
             shark: 1e4,
             sharkonium: 1e6,
+            },
         },
     },
     haven: {
@@ -148,13 +156,15 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "animals", amount: 0.5 },
         ],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             fish: 1e8,
             clam: 1e7,
             sponge: 1e8,
             kelp: 1e8,
             coralglass: 1e6,
             coral: 2e7,
+            },
         },
     },
     tempestuous: {
@@ -188,13 +198,15 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncome", resource: "breeders", amount: -0.0005 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "stuff", amount: 0.5 },
         ],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             junk: 1e9,
             coral: 5e7,
             spronge: 1e6,
             delphinium: 1e6,
             sharkonium: 1e6,
             crystal: 5e7,
+            },
         },
     },
     violent: {
@@ -228,13 +240,15 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "kelp", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "algae", amount: 1 },
         ],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             sand: 1e8,
             kelp: 5e6,
             coral: 1e7,
             algae: 5e7,
             sponge: 5e6,
             junk: 1e8,
+            },
         },
     },
     abandoned: {
@@ -245,12 +259,11 @@ SharkGame.WorldTypes = {
         style: "abandoned",
         absentResources: ["ice", "heater", "shrimp", "chimaera", "eel", "jellyfish", "algae", "whale", "dolphin", "lobster", "coral", "kelp", "seaApple", "planter"],
         modifiers: [
-            { type: "multiplier", modifier: "planetaryStartingResources", resource: "tar", amount: 1 },
             {
-                type: "multiplier",
-                modifier: "planetaryFixedIncomeReciprocalMultiplier",
+                type: "restriction",
+                modifier: "planetaryGeneratorRestriction",
                 resource: "sponge",
-                amount: 100,
+                restriciton: "sponge",
             },
             {
                 type: "multiplier",
@@ -259,14 +272,7 @@ SharkGame.WorldTypes = {
                 amount: 2,
             },
         ],
-        gateCosts: {
-            junk: 4e6,
-            purifier: 5,
-            coralglass: 2e6,
-            spronge: 1e6,
-            delphinium: 2e6,
-            sharkonium: 2e6,
-        },
+        gateRequirements: { upgrades: ["artifactAssembly"] },
     },
     shrouded: {
         name: "Shrouded",
@@ -293,13 +299,15 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "kelp", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "coral", amount: 1 },
         ],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             jellyfish: 1e7,
             clam: 1e6,
             crystal: 1e8,
             science: 1e7,
             sharkonium: 1e7,
             fish: 1e7,
+            },
         },
     },
     frigid: {
@@ -320,13 +328,15 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 0.002 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ice", amount: 0.1 },
         ],
-        gateCosts: {
+        gateRequirements: {
+            slots: {
             sand: 1e7,
             crystal: 1e7,
             clam: 1e6,
             heater: 5,
             sharkonium: 1e8,
             fish: 1e8,
+            },
         },
     },
     ethereal: {
@@ -359,6 +369,7 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncome", resource: "science", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "animals", amount: 0.5 },
         ],
+        gateType: "slots",
         gateCosts: {
             science: 1e9,
             crystal: 1e8,
@@ -389,6 +400,7 @@ SharkGame.WorldTypes = {
             "pulverizer",
         ],
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1.5 }],
+        gateType: "slots",
         gateCosts: {
             fish: 1,
             sand: 1,
@@ -442,6 +454,7 @@ SharkGame.WorldTypes = {
                 restriction: "sand",
             },
         ],
+        gateType: "slots",
         gateCosts: {
             gravel: 1e9,
             sand: 1e6,

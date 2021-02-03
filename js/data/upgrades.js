@@ -13,8 +13,11 @@
 // descriptions and names and effects, and have the progression of each species vary by world.
 
 SharkGame.Upgrades = {
-    getUpgradeTable() {
-        switch (w.worldType) {
+    getUpgradeTable(type) {
+        if (!type) {
+            type = w.worldType;
+        }
+        switch (type) {
             case "abandoned":
                 return SharkGame.Upgrades.abandonedUpgrades;
             default:
@@ -1488,7 +1491,7 @@ SharkGame.Upgrades = {
                 "Patient observation has shown that clams and rocks are in fact different and distinct things. Now we won't be scooping up any more rocks!",
             effectDesc: "Clams can be collected like fish.",
             cost: {
-                science: 650,
+                science: 150,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -1496,7 +1499,7 @@ SharkGame.Upgrades = {
             },
         },
 
-        pearlConversion: {
+        /* pearlConversion: {
             name: "Pearl Conversion",
             desc: "There's these things inside the clams that look shiny like crystals. Maybe we can transmute them to crystals?",
             researchedMessage: "Well, we can transmute pearls to crystals now, but we need more of the clam. The whole clam. Yes. The entire clam.",
@@ -1510,7 +1513,7 @@ SharkGame.Upgrades = {
                 resources: ["clam"],
                 seen: ["clam"],
             },
-        },
+        }, */
 
         laserRays: {
             name: "Laser Rays",
@@ -1544,16 +1547,15 @@ SharkGame.Upgrades = {
         
         spongeCollection: {
             name: "Sponge Collection",
-            desc: "We can see these things littering the reefs and beds, but we don't know how to collect them without breaking them.",
+            desc: "We can see these things littering the reefs and beds, but only the octopuses know how to collect them without breaking them.",
             researchedMessage:
                 "Understanding the fragile nature of sponges and their weird porous texture, we can now collect sponges by not biting so hard.",
             effectDesc: "Sponge can be collected in the same way fish can be.",
             cost: {
-                science: 300,
+                science: 888,
             },
             required: {
-                upgrades: ["seabedGeology"],
-                resources: ["sponge"],
+                upgrades: ["octopusMethodology"],
             },
         },
 
@@ -1564,14 +1566,12 @@ SharkGame.Upgrades = {
                 "By infusing sponge with processed matter, we have devised spronge, a versatile super-material that kind of freaks us out!",
             effectDesc: "Enables creation of spronge, the backbone... uh... the core material in cephalopod technology.",
             cost: {
-                science: 1000,
-                sponge: 2000,
+                science: 1600,
+                sponge: 1600,
                 junk: 4000,
             },
             required: {
-                upgrades: ["recyclerDiscovery", "octopusMethodology"],
-                resources: ["sponge", "junk"],
-                seen: ["sponge"],
+                upgrades: ["recyclerDiscovery", "spongeCollection"],
             },
         },
 
@@ -1591,15 +1591,15 @@ SharkGame.Upgrades = {
 
         environmentalism: {
             name: "Environmentalism",
-            desc: "We need to get rid of all this tar! Sponges filter stuff, right?!",
-            researchedMessage: "We've determined that sponges can filter out all kinds of stuff, including tar!",
+            desc: "The machines produce what now?! Quick, we need a solution - sponges filter stuff, right?!",
+            researchedMessage: "With the right kind of stretching and squishing, we can turn sponges into weird little filter things!",
             effectDesc: "Sponges can be turned into filters to stop the tar from killing us all. Yay!",
             cost: {
-                science: 150,
-                sponge: 75,
+                science: 250,
+                sponge: 15,
             },
             required: {
-                upgrades: ["spongeCollection"],
+                upgrades: ["spongeCollection", "automation"],
             },
         },
 
@@ -1620,6 +1620,7 @@ SharkGame.Upgrades = {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
+                    filter: 2,
                 },
             },
         },
@@ -1632,10 +1633,10 @@ SharkGame.Upgrades = {
             effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
             cost: {
                 science: 5000,
-                sharkonium: 5000,
+                sharkonium: 2000,
             },
             required: {
-                upgrades: ["engineering"],
+                upgrades: ["automation"],
             },
         },
 
@@ -1658,7 +1659,7 @@ SharkGame.Upgrades = {
                     sandDigger: 2,
                     autoTransmuter: 2,
                     skimmer: 2,
-                    purifier: 2,
+                    filter: 2,
                     scientist: 4,
                 },
             },
@@ -1690,8 +1691,8 @@ SharkGame.Upgrades = {
                 "We can mimic some of the life-mimicking biotechnology the octopuses use, but it gums up the oceans so quickly. So very dangerous.",
             cost: {
                 science: 3000,
-                spronge: 3000,
-                junk: 1500,
+                spronge: 200,
+                junk: 2500,
             },
             required: {
                 upgrades: ["automation", "industrialGradeSponge"],
@@ -1704,7 +1705,7 @@ SharkGame.Upgrades = {
             name: "Agriculture",
             desc: "The hunter-gatherer lifestyle will only work so well for us. Maybe we should gather these animals in one place and let them grow.",
             researchedMessage: "While the tar makes it difficult to pull off, it is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
-            effectDesc: "Crabs are four times as effective thanks to farming regions for sponge.",
+            effectDesc: "Crabs can now specialize in collecting sponge.",
             cost: {
                 science: 1500,
                 sand: 500,
@@ -1712,11 +1713,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["seabedGeology", "spongeCollection"],
-            },
-            effect: {
-                multiplier: {
-                    collector: 4,
-                },
             },
         },
 
@@ -1726,7 +1722,7 @@ SharkGame.Upgrades = {
             researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
             effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
-                science: 600,
+                science: 1600,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -1746,8 +1742,8 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Rays and laser rays are twice as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
-                science: 800,
-                sand: 600,
+                science: 1800,
+                sand: 1600,
             },
             required: {
                 upgrades: ["biology", "laserRays"],
@@ -1762,23 +1758,23 @@ SharkGame.Upgrades = {
 
         crabBiology: {
             name: "Crab Biology",
-            desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
+            desc: "Crabs are a mystery. They keep to themselves and dig up crystals or pick up sponge. What is even up with that? What ARE crabs??",
             researchedMessage:
                 "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
             effectDesc:
-                "Crabs are four times as effective, and collectors are twice as effective. Crabs are alright but they are also sort of terrifying and weird. Good job they're on our side!",
+                "Crabs and collectors are four times as effective. Crabs are alright but they are also sort of terrifying and weird. Good job they're on our side!",
             cost: {
-                science: 500,
-                fish: 500,
+                science: 2500,
+                fish: 2500,
             },
             required: {
-                upgrades: ["biology", "sunObservation"],
+                upgrades: ["biology"],
                 resources: ["crab"],
             },
             effect: {
                 multiplier: {
                     crab: 4,
-                    collector: 2,
+                    collector: 4,
                 },
             },
         },
@@ -1889,7 +1885,7 @@ SharkGame.Upgrades = {
             name: "Reverse Engineering",
             desc: "What is up with these parts? Why are they shaped like that?!",
             researchedMessage: "Results inconclusive. Further analysis pending.",
-            effectDesc: "Ancient parts can be sacrificed for science. Scientists are twice as effective, and investigators are 4 times as effective.",
+            effectDesc: "Ancient parts can be sacrificed for science. Scientists and scavengers are twice as effective, and investigators are 4 times as effective.",
             cost: {
                 science: 50000,
                 ancientPart: 250,
@@ -1899,6 +1895,7 @@ SharkGame.Upgrades = {
             },
             effect: {
                 multiplier: {
+                    scavenger: 2,
                     scientist: 2,
                     investigator: 4,
                 },
@@ -1915,7 +1912,7 @@ SharkGame.Upgrades = {
                 ancientPart: 2500,
             },
             required: {
-                upgrades: ["reverseEngineering", "iterativeDesign", "laserRays", "pearlConversion"],
+                upgrades: ["reverseEngineering", "iterativeDesign", "laserRays"],
             },
             effect: {
                 multiplier: {

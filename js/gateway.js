@@ -533,9 +533,17 @@ SharkGame.Gateway = {
             for (let i = 0; i < Math.min(numberKnown, modifiers); i++) {
                 const modifier = worldData.modifiers[i];
                 const target = modifier.resource;
-                modifierList.append(
-                    $("<li>").html(SharkGame.WorldModifiers[modifier.modifier].getMessage(planetLevel, target, modifier.amount)).addClass("medDesc")
-                );
+                switch (modifier.type) {
+                    case "multiplier":
+                        modifierList.append(
+                            $("<li>").html(SharkGame.WorldModifiers[modifier.modifier].getMessage(planetLevel, target, modifier.amount)).addClass("medDesc")
+                            );
+                        break;
+                    case "restriction":
+                        modifierList.append(
+                            $("<li>").html(SharkGame.WorldModifiers[modifier.modifier].getMessage(target, modifier.restriction)).addClass("medDesc")
+                            );
+                }
             }
             contentDiv.append(modifierList);
             numberLeft = numberLeft - modifiers;

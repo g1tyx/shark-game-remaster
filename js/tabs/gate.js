@@ -20,8 +20,9 @@ SharkGame.Gate = {
     sceneAlmostOpenImage: "img/events/misc/scene-gate-one-slot.png",
     sceneOpenImage: "img/events/misc/scene-gate-open.png",
 
-    costsMet: null,
-    costs: null,
+
+    requirements: {},
+    completedRequirements: {},
 
     init() {
         const gt = SharkGame.Gate;
@@ -36,19 +37,30 @@ SharkGame.Gate = {
         gt.opened = false;
     },
 
-    createSlots(gateSlots, planetLevel, gateCostMultiplier) {
+    createSlots(gateRequirements, planetLevel, gateCostMultiplier) {
         const gt = SharkGame.Gate;
-        // create costs
-        gt.costs = {};
-        $.each(gateSlots, (k, v) => {
-            gt.costs[k] = Math.floor(v * planetLevel * gateCostMultiplier);
-        });
 
-        // create costsMet
-        gt.costsMet = {};
-        $.each(gt.costs, (k, v) => {
-            gt.costsMet[k] = false;
-        });
+        if (gateRequirements.slots) {
+            // create costs
+            $.each(gateRequirements.slots, (k, v) => {
+                gt.requirements.slots[k] = Math.floor(v * planetLevel * gateCostMultiplier);
+            });
+            
+            // create costsMet
+            $.each(gt.requirements.slots, (k, v) => {
+                gt.completedRequirements.slots[k] = false;
+            });
+        }
+
+        if (gateRequirements.upgrades) {
+            $.each(gateRequirements.upgrades, (k, v) => {
+                gt.requirements.upgrades[k] = Math.floor(v * planetLevel * gateCostMultiplier);
+            });
+            
+            $.each(gt.requirements.upgrades, (k, v) => {
+                gt.completedRequirements.upgrades[k] = false;
+            });
+        }
     },
 
     switchTo() {
@@ -59,21 +71,23 @@ SharkGame.Gate = {
 
         let amountOfSlots = 0;
         if (!gt.shouldBeOpen()) {
-            const buttonList = $("#buttonList");
-            $.each(gt.costs, (k, v) => {
-                if (!gt.costsMet[k]) {
-                    const resourceName = r.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"));
-                    SharkGame.Button.makeHoverscriptButton(
-                        "gateCost-" + k,
-                        "Insert " + m.beautify(v) + " " + resourceName + " into " + resourceName + " slot",
-                        buttonList,
-                        gt.onGateButton,
-                        gt.onHover,
-                        gt.onUnhover
-                    );
-                    amountOfSlots++;
-                }
-            });
+            if (SharkGame.WorldTypes[w.worldType].gateRequirements.slots) {
+                const buttonList = $("#buttonList");
+                $.each(gt.requirements.slots, (k, v) => {
+                    if (!gt.completedRequirements.slots[k]) {
+                        const resourceName = r.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"));
+                        SharkGame.Button.makeHoverscriptButton(
+                            "gateCost-" + k,
+                            "Insert " + m.beautify(v) + " " + resourceName + " into " + resourceName + " slot",
+                            buttonList,
+                            gt.onGateButton,
+                            gt.onHover,
+                            gt.onUnhover
+                        );
+                        amountOfSlots++;
+                    }
+                });
+            }
         } else {
             SharkGame.Button.makeButton("gateEnter", "Enter gate", $("#buttonList"), gt.onEnterButton);
         }
@@ -166,6 +180,7 @@ SharkGame.Gate = {
             won = won && v;
         });
         return won;
+        
     },
 
     getSceneImagePath() {

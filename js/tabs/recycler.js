@@ -217,9 +217,9 @@ SharkGame.Recycler = {
         const amount = r.getPurchaseAmount(resourceName);
 
         if (resourceAmount >= amount) {
-            r.changeResource("junk", amount * junkPerResource * y.getEfficiency(resourceName, amount));
+            r.changeResource("junk", amount * junkPerResource * y.getEfficiency());
             r.changeResource(resourceName, -amount);
-            r.changeResource("tar", amount * junkPerResource * 0.0000001 * (w.planetLevel / 16 + 0.9375));
+            r.changeResource("tar", Math.max(amount * junkPerResource * 0.0000001 + r.getProductAmountFromGeneratorResource("filter", "tar"), 0));
             l.addMessage(SharkGame.choose(y.recyclerInputMessages));
         } else {
             l.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
@@ -339,15 +339,15 @@ SharkGame.Recycler = {
             }
 
             let amountstring = "";
+            const tarTolerance = -r.getProductAmountFromGeneratorResource("filter", "tar");
             if (buy > 0) {
-                amountstring = m.beautify(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000001 * buy * (w.planetLevel / 16 + 0.9375));
+                amountstring = m.beautify(Math.max(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000001 * buy - tarTolerance, 0));
             } else {
                 amountstring = m.beautify(
-                    (SharkGame.ResourceMap.get(y.hoveredResource).value *
+                    Math.max((SharkGame.ResourceMap.get(y.hoveredResource).value *
                         0.0000001 *
-                        (w.planetLevel / 16 + 0.9375) *
                         r.getResource(y.hoveredResource)) /
-                        -buy
+                        -buy - tarTolerance, 0)
                 );
             }
             return "<br/><br/>AND " + amountstring.bold() + " " + r.getResourceName("tar");
@@ -430,7 +430,7 @@ SharkGame.Recycler = {
 
         const n = r.getPurchaseAmount(resource);
         // check if the amount to eat is less than the threshold, currently 100K
-        if (n < Math.pow(10, evalue)) {
+        if (n <= Math.pow(10, evalue)) {
             y.efficiency = baseEfficiency;
         } else {
             y.efficiency = 1 / (Math.log10(n) - evalue + Math.round(1 / baseEfficiency));

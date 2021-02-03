@@ -2858,7 +2858,7 @@ SharkGame.HomeActions = {
 
         // CONVERSIONS ////////////////////////////////////////////////////////////////////////////////
 
-        pearlConversion: {
+        /* pearlConversion: {
             name: "Convert clam pearls",
             effect: {
                 resource: {
@@ -2913,7 +2913,7 @@ SharkGame.HomeActions = {
                 "Pearls to... nope. Clams to crystals. Science is hard.",
             ],
             helpText: "Convert a pearl (and the clam around it) into crystals.",
-        },
+        }, */
         
         spongeFiltration: {
             name: "Manufacture sponge filter",
@@ -3454,7 +3454,7 @@ SharkGame.HomeActions = {
                 resource: {
                     crab: 1,
                 },
-                upgrade: ["spongeCollection"],
+                upgrade: ["agriculture"],
             },
             outcomes: [
                 "Crab understands how to snip sponge.",
