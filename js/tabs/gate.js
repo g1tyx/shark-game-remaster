@@ -61,7 +61,7 @@ SharkGame.Gate = {
         if (gateRequirements.upgrades) {
             gt.requirements.upgrades = {};
             $.each(gateRequirements.upgrades, (k, v) => {
-                gt.requirements.upgrades[k] = Math.floor(v * planetLevel * gateCostMultiplier);
+                gt.requirements.upgrades[v] = "placeholder";
             });
 
             gt.completedRequirements.upgrades = {};
@@ -151,7 +151,7 @@ SharkGame.Gate = {
 
         // if there are any slots in the first place, return the number of slots unfilled
         // if there are not any slots, return false to identify this fact
-        return SharkGame.getObjectLength(gt.requirements.slots) !== 0 ? slots : false;
+        return _.size(gt.requirements.slots) !== 0 ? slots : false;
     },
     
     getUpgradesLeft() {
@@ -164,7 +164,7 @@ SharkGame.Gate = {
 
         // if there are any required upgrades in the first place, return the number of still required upgrades
         // if there are not any required upgrades, return false to identify this fact
-        return SharkGame.getObjectLength(gt.requirements.upgrades) !== 0 ? upgrades : false;
+        return _.size(gt.requirements.upgrades) !== 0 ? upgrades : false;
     },
 
     onHover() {
@@ -249,6 +249,15 @@ SharkGame.Gate = {
         });
         return won;
     },
+    
+    checkUpgradeRequirements(upgradeName) {
+        const gt = SharkGame.Gate;
+        if (gt.completedRequirements.upgrades) {
+            if (gt.completedRequirements.upgrades[upgradeName] === false) {
+                gt.completedRequirements.upgrades[upgradeName] = true;
+            }
+        }
+    },
 
     getSceneImagePath() {
         const gt = SharkGame.Gate;
@@ -261,7 +270,7 @@ SharkGame.Gate = {
         // - if the gate has more than 1 slot left, show it as closed
         // - if the gate has 1 slot left and filling that slot would open it, then do the 1 slot remaining
         // - if the gate has 1 slot left but filling that slot would NOT open it (there's an upgrade requirement), show it as closed
-        // - if all slots are filled but an upgrade is still needed then show the 
+        // - if all slots are filled but an upgrade is still needed then show the closed-but-filled image
         if (gt.shouldBeOpen()) {
             return gt.sceneOpenImage;
         } else if (slotsLeft > 1) {

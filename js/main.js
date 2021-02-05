@@ -225,13 +225,6 @@ $.extend(SharkGame, {
         }
         return imageDiv;
     },
-    getObjectLength(thing) {
-        let count = 0;
-        if (thing) {
-            count = Object.keys(thing).length;
-        }
-        return count;
-    },
 });
 
 SharkGame.TitleBar = {

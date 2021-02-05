@@ -250,6 +250,7 @@ SharkGame.Lab = {
             if (!upgrade.purchased) {
                 upgrade.purchased = true;
                 //l.updateResearchList();
+                SharkGame.Gate.checkUpgradeRequirements(upgradeId);
 
                 // if the upgrade has effects, do them
                 if (upgrade.effect) {
