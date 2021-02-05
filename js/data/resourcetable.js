@@ -730,7 +730,7 @@ SharkGame.ResourceTable = {
             sponge: 0.002,
             algae: -0.01,
         },
-        value: 9,
+        value: 12,
     },
 
     jellyfish: {
@@ -804,7 +804,7 @@ SharkGame.ResourceTable = {
         income: {
             tar: -0.01
         },
-        value: 10,
+        value: 1000,
         forceIncome: true,
     },
 

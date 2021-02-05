@@ -225,6 +225,13 @@ $.extend(SharkGame, {
         }
         return imageDiv;
     },
+    getObjectLength(thing) {
+        let count = 0;
+        if (thing) {
+            count = Object.keys(thing).length;
+        }
+        return count;
+    },
 });
 
 SharkGame.TitleBar = {
@@ -594,19 +601,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 reqsMet = reqsMet && r.checkResources(v.discoverReq.resource, true);
             }
 
-            // discover which upgrade table is in use
-
             const ups = SharkGame.Upgrades.getUpgradeTable();
-
             // check upgrades
             if (v.discoverReq.upgrade) {
+                let anyUpgradeExists = false;
                 $.each(v.discoverReq.upgrade, (_, value) => {
                     if (ups[value]) {
+                        anyUpgradeExists = true;
                         reqsMet = reqsMet && ups[value].purchased;
-                    } else {
-                        reqsMet = false; // can't have a nonexistent upgrade
                     }
                 });
+                if (!anyUpgradeExists) {
+                    reqsMet = false;
+                }
             }
 
             if (reqsMet) {

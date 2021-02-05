@@ -3436,6 +3436,42 @@ SharkGame.HomeActions = {
             helpText: "Remove a ray from sand detail and let them fuse sand into raw crystal.",
         },
 
+        getMaker: {
+            name: "Instruct a ray maker",
+            effect: {
+                resource: {
+                    maker: 1,
+                },
+            },
+            cost: [
+                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 400 },
+            ],
+            max: "maker",
+            prereq: {
+                resource: {
+                    ray: 1,
+                },
+                upgrade: ["rayBiology"],
+            },
+            outcomes: [
+                "The application of kelp supplements has made a ray very productive.",
+                "More rays lets you get more rays which you can then use to get more rays.",
+                "The ray singularity begins!",
+                "A ray maker is ready.",
+                "Looks like you gave them quite the ray maker blow! 'Them' being the intangible enemy that is lacking in resources.",
+                "The ray seems concerned, but obliges. The mission has been given.",
+            ],
+            multiOutcomes: [
+                "All these makers. What are they making? What is it for? Oh. It's rays, and it's probably for sand or something.",
+                "More ray makers means more rays. Do you understand what that means?! Do you?! It means more rays. Good. On the same page, then.",
+                "Rapidly breeding aquatic wildlife is probably a severe ecological hazard. Good thing this isn't Earth's oceans, probably!",
+                "Have you ever thought about what the rays wanted? Because this might have been what they wanted after all.",
+                "MORE LASER RAYS FOR THE LASER ARMY-- oh. Well, this is good too.",
+            ],
+            helpText: "Remove a ray from sand business and let them concentrate on making more rays.",
+        },
+
         // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
 
         getCollector: {
@@ -3565,7 +3601,7 @@ SharkGame.HomeActions = {
                 resource: {
                     octopus: 1,
                 },
-                upgrade: ["farExploration"],
+                upgrade: ["farAbandonedExploration"],
             },
             outcomes: [
                 "An octopus is a scavenger now.",
@@ -3687,41 +3723,6 @@ SharkGame.HomeActions = {
                 "The power of many, many sharks, in many, many devices.",
             ],
             helpText: "Construct a machine to automatically gather fish efficiently.",
-        },
-
-        getAutoTransmuter: {
-            name: "Build auto-transmuter",
-            effect: {
-                resource: {
-                    autoTransmuter: 1,
-                },
-            },
-            cost: [
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
-            ],
-            max: "autoTransmuter",
-            prereq: {
-                resource: {
-                    sharkonium: 100,
-                },
-                upgrade: ["engineering"],
-            },
-            outcomes: [
-                "Auto-transmuter activated.",
-                "Auto-transmuter constructed.",
-                "Transmutation machine online.",
-                "Construction complete.",
-                "Provide inputs. Only the output matters.",
-            ],
-            multiOutcomes: [
-                "Auto-transmuters are prepared.",
-                "The difference between science and magic is reliable application.",
-                "All is change.",
-                "Change is all.",
-                "The machines know many secrets, yet cannot speak of them.",
-            ],
-            helpText: "Construct a machine to automatically and efficiently transmute sand and crystal to sharkonium.",
         },
 
         getSkimmer: {

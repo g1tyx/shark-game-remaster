@@ -219,7 +219,7 @@ SharkGame.Recycler = {
         if (resourceAmount >= amount) {
             r.changeResource("junk", amount * junkPerResource * y.getEfficiency());
             r.changeResource(resourceName, -amount);
-            r.changeResource("tar", Math.max(amount * junkPerResource * 0.0000001 + r.getProductAmountFromGeneratorResource("filter", "tar"), 0));
+            r.changeResource("tar", Math.max(amount * junkPerResource * 0.0000002 + r.getProductAmountFromGeneratorResource("filter", "tar"), 0));
             l.addMessage(SharkGame.choose(y.recyclerInputMessages));
         } else {
             l.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
@@ -341,7 +341,7 @@ SharkGame.Recycler = {
             let amountstring = "";
             const tarTolerance = -r.getProductAmountFromGeneratorResource("filter", "tar");
             if (buy > 0) {
-                amountstring = m.beautify(Math.max(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000001 * buy - tarTolerance, 0));
+                amountstring = m.beautify(Math.max(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000002 * buy - tarTolerance, 0));
             } else {
                 amountstring = m.beautify(
                     Math.max((SharkGame.ResourceMap.get(y.hoveredResource).value *

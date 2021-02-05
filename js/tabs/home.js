@@ -343,7 +343,7 @@ SharkGame.Home = {
             },
             {
                 name: "abandoned-gate",
-                unlock: { upgrade: ["farExploration"] },
+                unlock: { upgrade: ["farAbandonedExploration"] },
                 message: "This gate stands inert and lifeless like the city around it.<br>But the slots are already filled.",
             },
             {

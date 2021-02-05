@@ -13,10 +13,7 @@
 // descriptions and names and effects, and have the progression of each species vary by world.
 
 SharkGame.Upgrades = {
-    getUpgradeTable(type) {
-        if (!type) {
-            type = w.worldType;
-        }
+    getUpgradeTable(type = w.worldType) {
         switch (type) {
             case "abandoned":
                 return SharkGame.Upgrades.abandonedUpgrades;
@@ -1425,7 +1422,7 @@ SharkGame.Upgrades = {
                 "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. No more stray currents washing it all away hopefully!",
             effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing. Sort of.",
             cost: {
-                science: 150,
+                science: 75,
             },
             required: {
                 upgrades: ["crystalContainer"],
@@ -1632,7 +1629,7 @@ SharkGame.Upgrades = {
                 "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
             effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
             cost: {
-                science: 5000,
+                science: 4000,
                 sharkonium: 2000,
             },
             required: {
@@ -1646,7 +1643,7 @@ SharkGame.Upgrades = {
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
             effectDesc: "All shark machines run twice as fast. Again!",
             cost: {
-                science: 15000,
+                science: 75000,
                 sharkonium: 17500,
             },
             required: {
@@ -1692,7 +1689,6 @@ SharkGame.Upgrades = {
             cost: {
                 science: 3000,
                 spronge: 200,
-                junk: 2500,
             },
             required: {
                 upgrades: ["automation", "industrialGradeSponge"],
@@ -1808,7 +1804,7 @@ SharkGame.Upgrades = {
             effectDesc: "Octopuses, their specialists, and their machines are twice as effective. Find unity in efficiency.",
             cost: {
                 science: 88888,
-                clam: 88888,
+                clam: 888888,
             },
             required: {
                 upgrades: ["sprongeBiomimicry"],
@@ -1850,10 +1846,10 @@ SharkGame.Upgrades = {
             name: "Exploration",
             desc: "Venture into open waters to see what can be found!",
             researchedMessage: "Fish, sand, and crystals can be found! Even further out, though, there's something else.",
-            effectDesc: "Sharks, rays, and crabs are more effective...and something was spotted in the distance.",
+            effectDesc: "Sharks, rays, crabs, and crab collectors are more effective...and something was spotted in the distance.",
             cost: {
-                science: 17500,
-                fish: 10000,
+                science: 22500,
+                fish: 20000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -1863,17 +1859,18 @@ SharkGame.Upgrades = {
                     shark: 2,
                     ray: 2,
                     crab: 4,
+                    collector: 2,
                 },
             },
         },
 
-        farExploration: {
+        farAbandonedExploration: {
             name: "Far Exploration",
             desc: "In the distance lies a bunch of weird structures that sharks have dared not enter...so what happens if we do?",
             researchedMessage: "As it turns out, discoveries happen! There are no signs of life, but we found lots of weird machines and a strange gate.",
             effectDesc: "Explored the city in the distance and discovered a gate and some weird machines. Octopuses can now specialize in scavenging around the city.",
             cost: {
-                science: 30000,
+                science: 50000,
                 fish: 25000,
             },
             required: {
@@ -1887,11 +1884,11 @@ SharkGame.Upgrades = {
             researchedMessage: "Results inconclusive. Further analysis pending.",
             effectDesc: "Ancient parts can be sacrificed for science. Scientists and scavengers are twice as effective, and investigators are 4 times as effective.",
             cost: {
-                science: 50000,
+                science: 125000,
                 ancientPart: 250,
             },
             required: {
-                upgrades: ["farExploration", "engineering"],
+                upgrades: ["farAbandonedExploration", "engineering"],
             },
             effect: {
                 multiplier: {
@@ -1908,7 +1905,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The secret of high-energy fusion has been unlocked. Scavenge no more. We will make more ourselves.",
             effectDesc: "Laser rays can fuse sand to crystal at an absurd rate. We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
-                science: 150000,
+                science: 1000000,
                 ancientPart: 2500,
             },
             required: {
@@ -1976,10 +1973,7 @@ SharkGame.Upgrades = {
                     fishMachine: 4,
                     crystalMiner: 4,
                     sandDigger: 4,
-                    autoTransmuter: 4,
-                    skimmer: 4,
-                    purifier: 4,
-                    heater: 4,
+                    filter: 8,
                 },
             },
         },

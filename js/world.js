@@ -128,7 +128,7 @@ SharkGame.WorldModifiers = {
             return "";
         },
         getMessage(generator, restriction) {
-            return r.getResourceName(generator, false, false, 2) + " cannot produce " r.getResourceName(restriction, false, false, 2);
+            return r.getResourceName(generator, false, false, 2) + " cannot produce " + r.getResourceName(restriction, false, false, 2);
         },
     },
 };

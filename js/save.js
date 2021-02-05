@@ -834,6 +834,7 @@ SharkGame.Save = {
             );
             _.each(
                 [
+                    "farAbandonedExploration",
                     "reverseEngineering",
                     "highEnergyFusion",
                     "artifactAssembly",

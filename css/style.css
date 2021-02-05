@@ -25,7 +25,7 @@
   --color-title: rgba(46, 67, 114, 0.2);
 }
 :root :not(.no-theme).abandoned {
-  --color-lighter: #565168;
+  --color-lighter: #7e798f;
   --color-light: #363241;
   --color-med: #1f1b2c;
   --color-dark: #171226;
@@ -748,6 +748,7 @@ button.disabled div {
   pointer-events: none;
 }
 .button-icon-top {
+  vertical-align: middle;
   background-color: var(--color-lighter);
   -webkit-box-shadow: 0 0 3px 3px var(--color-lighter);
   -moz-box-shadow: 0 0 3px 3px var(--color-lighter);
