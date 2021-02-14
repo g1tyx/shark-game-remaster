@@ -341,7 +341,7 @@ SharkGame.Recycler = {
             let amountstring = "";
             const tarTolerance = -r.getProductAmountFromGeneratorResource("filter", "tar");
             if (buy > 0) {
-                amountstring = m.beautify(Math.max(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000002 * buy - tarTolerance, 0));
+                amountstring = m.beautify(Math.max(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.000001 * buy - tarTolerance, 0));
             } else {
                 amountstring = m.beautify(
                     Math.max((SharkGame.ResourceMap.get(y.hoveredResource).value *

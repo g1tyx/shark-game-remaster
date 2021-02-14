@@ -1905,7 +1905,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The secret of high-energy fusion has been unlocked. Scavenge no more. We will make more ourselves.",
             effectDesc: "Laser rays can fuse sand to crystal at an absurd rate. We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
-                science: 1000000,
+                science: 1250000,
                 ancientPart: 2500,
             },
             required: {
@@ -1924,7 +1924,7 @@ SharkGame.Upgrades = {
             researchedMessage: "It is done.",
             effectDesc: "The artifact is assembled. The gate can be opened.",
             cost: {
-                ancientPart: 100000,
+                ancientPart: 500000,
             },
             required: {
                 upgrades: ["highEnergyFusion"],
@@ -1946,12 +1946,11 @@ SharkGame.Upgrades = {
             effect: {
                 multiplier: {
                     octopus: 8,
-                    collector: 8,
+                    investigator: 8,
                     scavenger: 8,
                     clamCollector: 8,
                     eggBrooder: 8,
                     sprongeSmelter: 8,
-                    seaScourer: 8,
                 },
             },
         },

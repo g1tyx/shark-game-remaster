@@ -3032,7 +3032,7 @@ SharkGame.HomeActions = {
             ],
             helpText: "Repurpose boring old sponge into spronge, building material of the future.",
         },
-        
+
         fuseAncientPart: {
             name: "Fuse stuff into ancient parts",
             effect: {
@@ -3041,8 +3041,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "constant", priceIncrease: 50 },
-                { resource: "clam", costFunction: "constant", priceIncrease: 150 },
+                { resource: "crystal", costFunction: "constant", priceIncrease: 100 },
+                { resource: "clam", costFunction: "constant", priceIncrease: 300 },
             ],
             max: "ancientPart",
             prereq: {

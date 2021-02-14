@@ -314,7 +314,7 @@ SharkGame.Home = {
             {
                 name: "abandoned-octopus-scrutinizes",
                 unlock: { upgrade: ["statsDiscovery"] },
-                message: "An octopus wanders over.<br>It scrutinizes your attempt at organizaiton.",
+                message: "An octopus wanders over.<br>It scrutinizes your attempt at organization.",
             },
             {
                 name: "abandoned-octopus",
@@ -334,12 +334,12 @@ SharkGame.Home = {
             {
                 name: "abandoned-spronge",
                 unlock: { resource: { spronge: 1 } },
-                message: "The spronge shudders in the light - it's a living, breathing material.<br>And so dirty. It leaves tar everywhere.",
+                message: "Residue pumps through spronge like blood.<br>It shudders in the light.",
             },
             {
                 name: "abandoned-city",
                 unlock: { upgrade: ["exploration"] },
-                message: "Great spires loom in the distance.",
+                message: "Great spires loom in the distance, spun together with cables and rock.<br>",
             },
             {
                 name: "abandoned-gate",
@@ -364,7 +364,7 @@ SharkGame.Home = {
             {
                 name: "abandoned-tar-one",
                 unlock: { resource: { tar: 20 } },
-                message: "The tar clogging the machines and killing everything!<br>Maybe a different machine can save us?",
+                message: "The tar is killing everything!<br>Maybe a different machine can save us?",
             },
             {
                 name: "abandoned-tar-two",

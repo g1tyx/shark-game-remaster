@@ -629,8 +629,8 @@ SharkGame.ResourceTable = {
         singleName: "clam collector",
         color: "#727887",
         income: {
-            clam: 32,
-            tar: 0.01,
+            clam: 100,
+            tar: 0.03,
         },
         value: 50000,
     },
@@ -643,7 +643,7 @@ SharkGame.ResourceTable = {
             spronge: 45,
             sponge: -75,
             junk: -225,
-            tar: 0.01,
+            tar: 0.02,
         },
         value: 50000,
     },
@@ -677,7 +677,7 @@ SharkGame.ResourceTable = {
         color: "#836E5F",
         income: {
             octopus: 1,
-            tar: 0.01,
+            tar: 0.03,
         },
         value: 50000,
     },
@@ -1166,7 +1166,7 @@ SharkGame.ResourceCategories = {
             "The foundation of a modern shark frenzy, perhaps, but also sort of taking up all the space.",
             "Let's hope we don't regret it.",
         ],
-        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "junk"],
+        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "junk", "filter"],
     },
     harmful: {
         name: "Harmful",

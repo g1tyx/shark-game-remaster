@@ -46,7 +46,7 @@ SharkGame.Sprites = {
         spriteSourceSize: { x: 0, y: 0, w: 400, h: 200 },
         sourceSize: { w: 400, h: 200 },
     },
-    chorus: {
+    "chorus": {
         frame: { x: 406, y: 206, w: 400, h: 200 },
         rotated: false,
         trimmed: false,
