@@ -337,7 +337,7 @@ SharkGame.Home = {
                 message: "Residue pumps through spronge like blood.<br>It pulses and throbs.",
             },
             {
-                name: "abandoned-city",
+                name: "abandoned-exploration",
                 unlock: { upgrade: ["exploration"] },
                 message: "Great spires loom in the distance.<br>Loose cables are strung together on the horizon.<br>",
             },
@@ -363,7 +363,7 @@ SharkGame.Home = {
             },
             {
                 name: "abandoned-tar-one",
-                unlock: { resource: { tar: 20 } },
+                unlock: { resource: { tar: 5 } },
                 message: "The tar is killing everything!<br>Maybe a filter could save us?",
             },
             {

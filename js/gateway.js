@@ -657,35 +657,29 @@ SharkGame.Gateway.Messages = {
         },
     ],
     lastPlanetBased: {
+        // working on changing this section
         start: [
-            "No other world you find will be as forgiving, newcomer.",
+            "No other world you find will be as forgiving.",
             "You have left the best of all possible worlds.",
-            "It's all more difficult from here.",
         ],
         marine: [
             "Did your last ocean feel all too familiar?",
             "Like your origins, but too different still.",
             "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-        ],
-        chaotic: [
-            "You have survived the stranger world.",
-            "A world on the brink of existence. Halfway between here and oblivion.",
-            "You were given allies, yes, but at what cost?",
-            "What a strange demand for the gate to possess.",
-            "You are relieved the chaos is over, correct?",
+            "Is this world really",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
-            "Did you ruin the world that fed you? There is no judgement here, only curiosity.",
-            "A rare gem of a world. You will miss it, before long.",
             "What shining atoll do you leave behind? Those who could not follow you will surely live happily.",
+            "Why did you leave?",
+            "",
         ],
         tempestuous: [
             "You braved the maelstrom and came from it unscathed.",
-            "A surprising victory from a veteran of the seas.",
             "Charge through the whirlpool. Give no quarter to the storm.",
             "The turbulent seas were no match for your prowess.",
+            "The swordfish fear your presence, with good reason.",
         ],
         violent: [
             "The boiling ocean only stirred you on.",
@@ -694,23 +688,17 @@ SharkGame.Gateway.Messages = {
             "You are forged from the geothermal vents.",
         ],
         abandoned: [
-            "Do your previous worlds resemble this?",
-            "Was that your first or second visit to that world?",
             "Do you wonder who abandoned the machines?",
-            "What thoughts lie within your mind?",
-            "Did you ever know this world before its death?",
+            "Do the octopuses know who came before them? Do you know?",
+            "",
         ],
         shrouded: [
-            "The veil of mystery has yet to be pierced.",
             "Did the chimaeras recognise who you were?",
             "What did you learn from the dark world?",
-            "Would you know your home if you found it?",
         ],
         frigid: [
-            "Congratulations. Nature cannot touch you.",
             "Did you prefer arctic waters?",
             "Few worlds are so harsh. Fewer survive.",
-            "You are a worthy traveller.",
         ],
     },
     loss: [

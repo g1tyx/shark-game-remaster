@@ -3741,7 +3741,7 @@ SharkGame.HomeActions = {
                 resource: {
                     junk: 1,
                 },
-                upgrade: ["engineering"],
+                upgrade: ["recyclerDiscovery"],
             },
             outcomes: [
                 "Skimmer activated.",

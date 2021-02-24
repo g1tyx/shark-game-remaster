@@ -1563,8 +1563,8 @@ SharkGame.Upgrades = {
                 "By infusing sponge with processed matter, we have devised spronge, a versatile super-material that kind of freaks us out!",
             effectDesc: "Enables creation of spronge, the backbone... uh... the core material in cephalopod technology.",
             cost: {
-                science: 1600,
-                sponge: 1600,
+                science: 2000,
+                sponge: 800,
                 junk: 4000,
             },
             required: {
@@ -1604,7 +1604,7 @@ SharkGame.Upgrades = {
             name: "Engineering",
             desc: "The machines sort of suck. Let's make them better by learning how!",
             researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
-            effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
+            effectDesc: "Shark machines are twice as effective.",
             cost: {
                 science: 2500,
                 sharkonium: 1750,
@@ -1613,11 +1613,10 @@ SharkGame.Upgrades = {
                 upgrades: ["automation"],
             },
             effect: {
-                multiplier: {
+                incomeBoost: {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
-                    filter: 2,
                 },
             },
         },
@@ -1627,7 +1626,7 @@ SharkGame.Upgrades = {
             desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
             researchedMessage:
                 "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
-            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
+            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future? Also, skimmers are now possible to create.",
             cost: {
                 science: 4000,
                 sharkonium: 2000,
@@ -1650,13 +1649,13 @@ SharkGame.Upgrades = {
                 upgrades: ["engineering"],
             },
             effect: {
-                multiplier: {
+                incomeBoost: {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
-                    autoTransmuter: 2,
                     skimmer: 2,
-                    filter: 2,
+                },
+                multiplier: {
                     scientist: 4,
                 },
             },
@@ -1811,13 +1810,14 @@ SharkGame.Upgrades = {
             },
             effect: {
                 multiplier: {
-                    clamCollector: 2,
-                    eggBrooder: 2,
-                    sprongeSmelter: 2,
-                    seaScourer: 2,
                     octopus: 2,
                     investigator: 2,
                     scavenger: 2,
+                },
+                incomeBoost: {
+                    clamCollector: 2,
+                    eggBrooder: 2,
+                    sprongeSmelter: 2,
                 },
             },
         },
@@ -1827,7 +1827,7 @@ SharkGame.Upgrades = {
             desc: "It's hard to see, but there's a weird glare on the surface of the water, and we need to figure out what it means.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
-                "Octopus investigators and science sharks are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
+                "Octopus investigators, science sharks, and collector crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
             cost: {
                 science: 15000,
             },
@@ -1838,6 +1838,7 @@ SharkGame.Upgrades = {
                 multiplier: {
                     scientist: 2,
                     investigator: 2,
+                    collector: 2,
                 },
             },
         },
@@ -1912,7 +1913,7 @@ SharkGame.Upgrades = {
                 upgrades: ["reverseEngineering", "iterativeDesign", "laserRays"],
             },
             effect: {
-                multiplier: {
+                incomeBoost: {
                     laser: 64,
                 },
             },
@@ -1948,6 +1949,8 @@ SharkGame.Upgrades = {
                     octopus: 8,
                     investigator: 8,
                     scavenger: 8,
+                },
+                incomeBoost: {
                     clamCollector: 8,
                     eggBrooder: 8,
                     sprongeSmelter: 8,
@@ -1968,11 +1971,12 @@ SharkGame.Upgrades = {
                 resources: ["sharkonium"],
             },
             effect: {
-                multiplier: {
+                incomeBoost: {
                     fishMachine: 4,
                     crystalMiner: 4,
                     sandDigger: 4,
-                    filter: 8,
+                    skimmer: 4,
+                    autoTransmuter: 4,
                 },
             },
         },

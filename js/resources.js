@@ -28,6 +28,7 @@ SharkGame.Resources = {
                 totalAmount: 0,
                 incomeMultiplier: 1,
                 upgradeBoostMultiplier: 1,
+                incomeBoost: 1,
             });
         });
 
@@ -236,7 +237,9 @@ SharkGame.Resources = {
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
         if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product) * playerResource.upgradeBoostMultiplier;
+            generated *= w.getWorldBoostMultiplier(product) *
+            r.getBoost(product) *
+            r.getIncomeBoost(generator, product);
         }
         return generated;
     },
@@ -258,7 +261,9 @@ SharkGame.Resources = {
             r.getResourceIncomeMultiplier(product) *
             cad.speed;
         if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product) * r.getBoost(product);
+            generated *= w.getWorldBoostMultiplier(product) *
+            r.getBoost(product) *
+            r.getIncomeBoost(generator, product);
         }
         return generated;
     },
@@ -326,6 +331,18 @@ SharkGame.Resources = {
 
     setMultiplier(resource, multiplier) {
         SharkGame.PlayerResources.get(resource).incomeMultiplier = multiplier;
+        r.recalculateIncomeTable();
+    },
+
+    getIncomeBoost(resource, boosted) {
+        if(boosted === "tar") {
+            return 1;
+        }
+        return SharkGame.PlayerResources.get(resource).incomeBoost;
+    },
+
+    setIncomeBoost(resource, multiplier) {
+        SharkGame.PlayerResources.get(resource).incomeBoost = multiplier;
         r.recalculateIncomeTable();
     },
 
