@@ -2200,36 +2200,6 @@ SharkGame.HomeActions = {
                 "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.",
         },
 
-        getPurifier: {
-            name: "Build purifier",
-            effect: {
-                resource: {
-                    purifier: 1,
-                },
-            },
-            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 500 }],
-            max: "purifier",
-            prereq: {
-                upgrade: ["environmentalism"],
-            },
-            outcomes: [
-                "Purifier activated.",
-                "Purifier constructed.",
-                "Machine gills online.",
-                "Construction complete.",
-                "Not all machines carry such weight.",
-            ],
-            multiOutcomes: [
-                'We can almost hear these machines as they start. We can hear them speak. "We will save you from your mistakes." No, I\'m just - must be hearing things, ignore me.',
-                "The problems of old will be solved by the new.",
-                "The waters will return to clarity.",
-                "The machines may destroy, but so too can they heal and repair.",
-                "The end is not nearly so soon.",
-                "Hope.",
-            ],
-            helpText: "Construct a machine to restore vitality to our increasingly murky waters.",
-        },
-
         getHeater: {
             name: "Build heater",
             effect: {
@@ -3960,7 +3930,6 @@ SharkGame.HomeActionCategories = {
             "getSkimmer",
             //"getCrusher",
             //"getPulverizer",
-            "getPurifier",
             "getHeater",
         ],
     },

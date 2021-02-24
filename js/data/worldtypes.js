@@ -95,7 +95,7 @@ SharkGame.WorldTypes = {
             "coral",
             "
         ], */
-        absentResources: ["tar", "ice", "heater", "purifier", "shrimp", "chimaera", "eel", "jellyfish"],
+        absentResources: ["tar", "ice", "heater", "shrimp", "chimaera", "eel", "jellyfish"],
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1.5 }],
         gateRequirements: {
             slots: {
@@ -114,7 +114,7 @@ SharkGame.WorldTypes = {
         shortDesc: "swirling teal",
         entry: "You enter a chaotic fray, with no recollection of your former journey. New creatures charge at you from all directions.",
         style: "chaotic",
-        absentResources: ["tar", "ice", "heater", "purifier", "eel", "whale", "octopus", "shrimp", "chimaera", "pit", "queen", "jellyfish"],
+        absentResources: ["tar", "ice", "heater", "eel", "whale", "octopus", "shrimp", "chimaera", "pit", "queen", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncome", resource: "frenzy", amount: 0.02 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "crab", amount: 0.04 },
@@ -151,7 +151,7 @@ SharkGame.WorldTypes = {
             "dolphinmachines",
             "coral"
         ], */
-        absentResources: ["tar", "ice", "heater", "purifier", "chimaera", "eel", "jellyfish"],
+        absentResources: ["tar", "ice", "heater", "chimaera", "eel", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "animals", amount: 0.5 },
@@ -187,7 +187,7 @@ SharkGame.WorldTypes = {
             "clam",
             "algae",
         ], */
-        absentResources: ["tar", "ice", "heater", "purifier", "chimaera", "jellyfish"],
+        absentResources: ["tar", "ice", "heater", "chimaera", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: -0.5 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: -0.5 },
@@ -229,7 +229,7 @@ SharkGame.WorldTypes = {
             "algae",
             "coral",
         ], */
-        absentResources: ["tar", "ice", "heater", "purifier", "octopus", "eel", "chimaera", "whale", "jellyfish"],
+        absentResources: ["tar", "ice", "heater", "octopus", "eel", "chimaera", "whale", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 1 },
@@ -289,7 +289,7 @@ SharkGame.WorldTypes = {
             "basicmaterials",
             "sharkmachines"
         ], */
-        absentResources: ["tar", "ice", "heater", "purifier", "lobster", "crab", "shrimp", "sponge"],
+        absentResources: ["tar", "ice", "heater", "lobster", "crab", "shrimp", "sponge"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncome", resource: "crystal", amount: 0.01 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "crystal", amount: 1 },
@@ -316,7 +316,7 @@ SharkGame.WorldTypes = {
         shortDesc: "freezing white",
         entry: "As you struggle with sudden amnesia, you notice crystals forming in front of you. So cold.",
         style: "frigid",
-        absentResources: ["tar", "purifier", "dolphin", "whale", "lobster", "chimaera", "shrimp", "seaApple", "coral", "algae", "jellyfish"],
+        absentResources: ["tar", "dolphin", "whale", "lobster", "chimaera", "shrimp", "seaApple", "coral", "algae", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "machines", amount: 0.5 },
             {

@@ -39,7 +39,7 @@ SharkGame.Recycler = {
         animals: "constant",
     },
 
-    bannedResources: ["essence", "junk", "science", "seaApple", "coalescer", "ancientPart"],
+    bannedResources: ["essence", "junk", "science", "seaApple", "coalescer", "ancientPart", "filter"],
 
     efficiency: "NA",
     hoveredResource: "NA",

@@ -477,7 +477,6 @@ SharkGame.ResourceTable = {
             crystal: -90,
             sand: -250,
             sharkonium: 20,
-            tar: 0.01,
         },
         value: 155000, //100 crystal 200 sharkonium (15500)
     },
@@ -489,7 +488,7 @@ SharkGame.ResourceTable = {
         color: "#C9C7A7",
         income: {
             fish: 400,
-            tar: 0.005,
+            tar: 0.01,
         },
         value: 70000, //100 sharkonium (7000)
     },
@@ -502,7 +501,7 @@ SharkGame.ResourceTable = {
             junk: 750,
             sand: -50,
             fish: -300,
-            tar: 0.002,
+            tar: 0.01,
         },
         value: 50000,
     },
@@ -629,7 +628,7 @@ SharkGame.ResourceTable = {
         singleName: "clam collector",
         color: "#727887",
         income: {
-            clam: 100,
+            clam: 150,
             tar: 0.05,
         },
         value: 50000,
@@ -677,7 +676,7 @@ SharkGame.ResourceTable = {
         color: "#836E5F",
         income: {
             octopus: 1,
-            tar: 0.05,
+            tar: 0.1,
         },
         value: 50000,
     },

@@ -446,20 +446,6 @@ SharkGame.Upgrades = {
             },
         },
 
-        environmentalism: {
-            name: "Environmentalism",
-            desc: "So the machines might be destroying the ocean. We need to fix this.",
-            researchedMessage: "We've determined that the goop produced by our technology can be refined away into nothing but crystal fresh water!",
-            effectDesc: "Purifiers can be made to combat the harmful effects of the other machines. Anti-machine machines?",
-            cost: {
-                science: 500,
-            },
-            required: {
-                upgrades: ["automation"],
-                resources: ["tar"],
-            },
-        },
-
         thermalConditioning: {
             name: "Thermal Conditioning",
             desc: "We're freezing to death! Machines make heat, right? We need to work on this!!",
@@ -530,7 +516,6 @@ SharkGame.Upgrades = {
                     autoTransmuter: 2,
                     skimmer: 2,
                     heater: 2,
-                    purifier: 2,
                     scientist: 4,
                 },
             },
@@ -968,7 +953,6 @@ SharkGame.Upgrades = {
                     sandDigger: 2,
                     autoTransmuter: 2,
                     skimmer: 2,
-                    purifier: 2,
                     heater: 2,
                 },
             },
@@ -1317,7 +1301,6 @@ SharkGame.Upgrades = {
                     sandDigger: 4,
                     autoTransmuter: 4,
                     skimmer: 4,
-                    purifier: 4,
                     heater: 4,
                 },
             },
@@ -1829,7 +1812,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Octopus investigators, science sharks, and collector crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
             cost: {
-                science: 15000,
+                science: 17500,
             },
             required: {
                 upgrades: ["agriculture"],
@@ -1849,8 +1832,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Fish, sand, and crystals can be found! Even further out, though, there's something else.",
             effectDesc: "Sharks, rays, crabs, and crab collectors are more effective...and something was spotted in the distance.",
             cost: {
-                science: 22500,
-                fish: 20000,
+                science: 25000,
+                fish: 30000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -1872,7 +1855,7 @@ SharkGame.Upgrades = {
             effectDesc: "Explored the city in the distance and discovered a gate and some weird machines. Octopuses can now specialize in scavenging around the city.",
             cost: {
                 science: 50000,
-                fish: 25000,
+                fish: 75000,
             },
             required: {
                 upgrades: ["exploration"],
@@ -1906,7 +1889,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The secret of high-energy fusion has been unlocked. Scavenge no more. We will make more ourselves.",
             effectDesc: "Laser rays can fuse sand to crystal at an absurd rate. We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
-                science: 1250000,
+                science: 2500000,
                 ancientPart: 2500,
             },
             required: {
@@ -1938,7 +1921,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Peak productivity attained. Maintain course. Maintain efficiency.",
             effectDesc: "Octopuses and their roles, as well as their machines, are all eight times as effective. Optimised.",
             cost: {
-                science: 8e6,
+                science: 8e7,
             },
             required: {
                 upgrades: ["reverseEngineering", "octalEfficiency"],
@@ -1964,7 +1947,7 @@ SharkGame.Upgrades = {
             researchedMessage: "We are blurring the line between science and magic more than ever before!",
             effectDesc: "Shark machines are all four times as effective. We work better with the machines, not against them.",
             cost: {
-                science: 1e7,
+                science: 4e7,
             },
             required: {
                 upgrades: ["reverseEngineering", "iterativeDesign"],
