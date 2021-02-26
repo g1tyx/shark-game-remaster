@@ -328,7 +328,7 @@ SharkGame.Home = {
             },
             {
                 name: "abandoned-production",
-                unlock: { resource: { octopus: 25 } },
+                unlock: { upgrade: ["octopusMethodology"] },
                 message: "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
             },
             {

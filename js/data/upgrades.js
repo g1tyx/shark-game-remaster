@@ -1546,7 +1546,7 @@ SharkGame.Upgrades = {
                 "By infusing sponge with processed matter, we have devised spronge, a versatile super-material that kind of freaks us out!",
             effectDesc: "Enables creation of spronge, the backbone... uh... the core material in cephalopod technology.",
             cost: {
-                science: 2000,
+                science: 1500,
                 sponge: 800,
                 junk: 4000,
             },
@@ -1669,7 +1669,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "We can mimic some of the life-mimicking biotechnology the octopuses use, but it gums up the oceans so quickly. So very dangerous.",
             cost: {
-                science: 3000,
+                science: 4000,
                 spronge: 200,
             },
             required: {
@@ -1890,7 +1890,7 @@ SharkGame.Upgrades = {
             effectDesc: "Laser rays can fuse sand to crystal at an absurd rate. We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
                 science: 2500000,
-                ancientPart: 2500,
+                ancientPart: 1750,
             },
             required: {
                 upgrades: ["reverseEngineering", "iterativeDesign", "laserRays"],
@@ -1908,7 +1908,7 @@ SharkGame.Upgrades = {
             researchedMessage: "It is done.",
             effectDesc: "The artifact is assembled. The gate can be opened.",
             cost: {
-                ancientPart: 500000,
+                ancientPart: 250000,
             },
             required: {
                 upgrades: ["highEnergyFusion"],
@@ -1945,7 +1945,7 @@ SharkGame.Upgrades = {
             name: "Mechanised Alchemy",
             desc: "Better engineering and transmutation processes lead to a refinement of our machines.",
             researchedMessage: "We are blurring the line between science and magic more than ever before!",
-            effectDesc: "Shark machines are all four times as effective. We work better with the machines, not against them.",
+            effectDesc: "Shark machines are all four times as effective, as are filters. We work better with the machines, not against them.",
             cost: {
                 science: 4e7,
             },
@@ -1959,7 +1959,7 @@ SharkGame.Upgrades = {
                     crystalMiner: 4,
                     sandDigger: 4,
                     skimmer: 4,
-                    autoTransmuter: 4,
+                    filter: 4,
                 },
             },
         },

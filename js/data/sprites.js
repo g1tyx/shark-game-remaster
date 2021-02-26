@@ -111,9 +111,29 @@ SharkGame.Sprites = {
             h: 200
         }
     },
-    "abandoned-spronge": {
+    "abandoned-production": {
         frame: {
             x: 406,
+            y: 206,
+            w: 400,
+            h: 200
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200
+        },
+        sourceSize: {
+            w: 400,
+            h: 200
+        }
+    },
+    "abandoned-spronge": {
+        frame: {
+            x: 810,
             y: 206,
             w: 400,
             h: 200
@@ -133,7 +153,7 @@ SharkGame.Sprites = {
     },
     "abandoned-tar-one": {
         frame: {
-            x: 810,
+            x: 1214,
             y: 206,
             w: 400,
             h: 200
@@ -153,8 +173,8 @@ SharkGame.Sprites = {
     },
     "abandoned-tar-two": {
         frame: {
-            x: 1214,
-            y: 206,
+            x: 2,
+            y: 410,
             w: 400,
             h: 200
         },
@@ -173,7 +193,7 @@ SharkGame.Sprites = {
     },
     "chaotic-default": {
         frame: {
-            x: 2,
+            x: 406,
             y: 410,
             w: 400,
             h: 200
@@ -193,7 +213,7 @@ SharkGame.Sprites = {
     },
     "chimaera-one": {
         frame: {
-            x: 406,
+            x: 810,
             y: 410,
             w: 400,
             h: 200
@@ -213,7 +233,7 @@ SharkGame.Sprites = {
     },
     "chorus": {
         frame: {
-            x: 810,
+            x: 1214,
             y: 410,
             w: 400,
             h: 200
@@ -233,8 +253,8 @@ SharkGame.Sprites = {
     },
     "dolphin-one": {
         frame: {
-            x: 1214,
-            y: 410,
+            x: 2,
+            y: 614,
             w: 400,
             h: 200
         },
@@ -253,7 +273,7 @@ SharkGame.Sprites = {
     },
     "eel-one": {
         frame: {
-            x: 2,
+            x: 406,
             y: 614,
             w: 400,
             h: 200
@@ -273,7 +293,7 @@ SharkGame.Sprites = {
     },
     "essence": {
         frame: {
-            x: 406,
+            x: 810,
             y: 614,
             w: 400,
             h: 200
@@ -293,7 +313,7 @@ SharkGame.Sprites = {
     },
     "frigid-default": {
         frame: {
-            x: 810,
+            x: 1214,
             y: 614,
             w: 400,
             h: 200
@@ -313,26 +333,6 @@ SharkGame.Sprites = {
     },
     "frigid-ice-one": {
         frame: {
-            x: 1214,
-            y: 614,
-            w: 400,
-            h: 200
-        },
-        rotated: false,
-        trimmed: false,
-        spriteSourceSize: {
-            x: 0,
-            y: 0,
-            w: 400,
-            h: 200
-        },
-        sourceSize: {
-            w: 400,
-            h: 200
-        }
-    },
-    "frigid-ice-two": {
-        frame: {
             x: 2,
             y: 818,
             w: 400,
@@ -351,7 +351,7 @@ SharkGame.Sprites = {
             h: 200
         }
     },
-    "haven-default": {
+    "frigid-ice-two": {
         frame: {
             x: 406,
             y: 818,
@@ -371,7 +371,7 @@ SharkGame.Sprites = {
             h: 200
         }
     },
-    "lobster-one": {
+    "haven-default": {
         frame: {
             x: 810,
             y: 818,
@@ -391,7 +391,7 @@ SharkGame.Sprites = {
             h: 200
         }
     },
-    "marine-default": {
+    "lobster-one": {
         frame: {
             x: 1214,
             y: 818,
@@ -411,7 +411,7 @@ SharkGame.Sprites = {
             h: 200
         }
     },
-    "missing": {
+    "marine-default": {
         frame: {
             x: 2,
             y: 1022,
@@ -431,7 +431,7 @@ SharkGame.Sprites = {
             h: 200
         }
     },
-    "abandoned-production": {
+    "missing": {
         frame: {
             x: 406,
             y: 1022,

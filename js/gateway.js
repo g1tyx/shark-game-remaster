@@ -1,10 +1,10 @@
 SharkGame.Gateway = {
     NUM_ARTIFACTS_TO_SHOW: 5,
-    NUM_PLANETS_TO_SHOW: 3,
+    NUM_PLANETS_TO_SHOW: 1,
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"],
+    allowedWorlds: ["abandoned"],
 
     completedWorlds: [],
 

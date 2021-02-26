@@ -48,7 +48,7 @@ $.extend(SharkGame, {
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "0.2 BETA",
+    VERSION: "0.2 OPEN ALPHA",
     ORIGINAL_VERSION: 0.71,
     VERSION_NAME: "New Perspectives",
     EPSILON: 1e-6, // floating point comparison is a joy
@@ -1214,6 +1214,11 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
+        "Scrapped Chaotic worldtype. Completely.",
+        "Implemented gameplay for 1 out of 7 necessary planet reworks.",
+        "Implemented some new assets. Very little so far.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.11 - New Foundations (2021/1/27)": [
         "New, greatly improved UI for everything.",
         "Rebalanced stuff.",

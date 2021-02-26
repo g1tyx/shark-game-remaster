@@ -404,7 +404,6 @@ SharkGame.ResourceTable = {
         color: "#4c5cad",
         income: {
             science: 2,
-            clam: 0.1,
         },
         value: 3000,
     },
@@ -628,8 +627,8 @@ SharkGame.ResourceTable = {
         singleName: "clam collector",
         color: "#727887",
         income: {
-            clam: 150,
-            tar: 0.05,
+            clam: 250,
+            tar: 0.2,
         },
         value: 50000,
     },
@@ -676,7 +675,7 @@ SharkGame.ResourceTable = {
         color: "#836E5F",
         income: {
             octopus: 1,
-            tar: 0.1,
+            tar: 0.2,
         },
         value: 50000,
     },

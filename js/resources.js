@@ -694,7 +694,7 @@ SharkGame.Resources = {
             if (listResource > 0 && w.doesResourceExist(key)) {
                 const isSingular = Math.floor(listResource) - 1 < SharkGame.EPSILON;
                 formattedResourceList += m.beautify(listResource);
-                formattedResourceList += " " + r.getResourceName(key, darken, isSingular, false, backgroundcolor) + ", ";
+                formattedResourceList += " " + r.getResourceName(key, darken, isSingular, listResource, backgroundcolor) + ", ";
             }
         });
         // snip off trailing suffix

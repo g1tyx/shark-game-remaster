@@ -219,7 +219,7 @@ SharkGame.Recycler = {
         if (resourceAmount >= amount) {
             r.changeResource("junk", amount * junkPerResource * y.getEfficiency());
             r.changeResource(resourceName, -amount);
-            r.changeResource("tar", Math.max(amount * junkPerResource * 0.0000002 + r.getProductAmountFromGeneratorResource("filter", "tar"), 0));
+            r.changeResource("tar", Math.max(amount * junkPerResource * 0.0000001 + r.getProductAmountFromGeneratorResource("filter", "tar"), 0));
             l.addMessage(SharkGame.choose(y.recyclerInputMessages));
         } else {
             l.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
@@ -335,22 +335,27 @@ SharkGame.Recycler = {
 
         if (w.worldType === "abandoned") {
             if (y.efficiency === "NA") {
-                return "<br/><br/>";
+                return "<br/><br/><br/><br/>";
             }
 
-            let amountstring = "";
             const tarTolerance = -r.getProductAmountFromGeneratorResource("filter", "tar");
             if (buy > 0) {
-                amountstring = m.beautify(Math.max(SharkGame.ResourceMap.get(y.hoveredResource).value * 0.000001 * buy - tarTolerance, 0));
+                produced = SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000001 * buy;
             } else {
-                amountstring = m.beautify(
-                    Math.max((SharkGame.ResourceMap.get(y.hoveredResource).value *
-                        0.0000001 *
-                        r.getResource(y.hoveredResource)) /
-                        -buy - tarTolerance, 0)
-                );
+                produced = SharkGame.ResourceMap.get(y.hoveredResource).value * 0.0000001 * r.getResource(y.hoveredResource) / -buy
             }
-            return "<br/><br/>AND " + amountstring.bold() + " " + r.getResourceName("tar");
+            let amountstring = m.beautify(produced);
+            amountstring = "<br/><br/>AND " + amountstring.bold() + " " + r.getResourceName("tar");
+            if(tarTolerance > 0) {
+                amountstring += "<br/>(" +
+                    m.beautify(Math.max(produced - tarTolerance, 0)) +
+                    " " +
+                    r.getResourceName("tar") +
+                    " WITH<br/>" +
+                    r.getResourceName("filter", false, false, 2) +
+                    ")";
+            }
+            return amountstring;
         }
         return "";
     },

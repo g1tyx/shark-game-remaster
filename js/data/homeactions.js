@@ -2920,7 +2920,7 @@ SharkGame.HomeActions = {
             name: "Break down ancient parts",
             effect: {
                 resource: {
-                    science: 1000,
+                    science: 2500,
                 },
             },
             cost: [
