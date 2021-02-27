@@ -1060,7 +1060,7 @@ SharkGame.Upgrades = {
             desc: "We must determine what is with the weird glare on the surface of the water.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
-                "Planter crabs are twice as effective, and shrimp are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
+                "Planter crabs are twice as effective, and shrimp are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
                 science: 5000,
             },
@@ -1552,6 +1552,7 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["recyclerDiscovery", "spongeCollection"],
+                seen: ["sponge"],
             },
         },
 
@@ -1687,10 +1688,11 @@ SharkGame.Upgrades = {
             cost: {
                 science: 1500,
                 sand: 500,
-                sponge: 20,
+                sponge: 10,
             },
             required: {
                 upgrades: ["seabedGeology", "spongeCollection"],
+                seen: ["sponge"],
             },
         },
 
@@ -1748,6 +1750,7 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["biology"],
                 resources: ["crab"],
+                seen: ["collector"],
             },
             effect: {
                 multiplier: {
@@ -1785,17 +1788,17 @@ SharkGame.Upgrades = {
                 "The instructions constructed and disseminated by the octopuses are complex and only understood to other octopuses. Head hurts. Something about the number eight.",
             effectDesc: "Octopuses, their specialists, and their machines are twice as effective. Find unity in efficiency.",
             cost: {
-                science: 88888,
-                clam: 888888,
+                science: 8888,
+                clam: 88888,
             },
             required: {
                 upgrades: ["sprongeBiomimicry"],
+                seen: ["clamCollector", "sprongeSmelter", "eggBrooder"],
             },
             effect: {
                 multiplier: {
                     octopus: 2,
                     investigator: 2,
-                    scavenger: 2,
                 },
                 incomeBoost: {
                     clamCollector: 2,
@@ -1810,7 +1813,7 @@ SharkGame.Upgrades = {
             desc: "It's hard to see, but there's a weird glare on the surface of the water, and we need to figure out what it means.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
-                "Octopus investigators, science sharks, and collector crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And by what is it made of?",
+                "Octopus investigators, science sharks, and collector crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
                 science: 17500,
             },
@@ -1861,7 +1864,28 @@ SharkGame.Upgrades = {
                 upgrades: ["exploration"],
             },
         },
-        
+
+        superiorSearchAlgorithms: {
+            name: "Superior Search Algorithms",
+            desc: "Why is finding stuff so hard?!?!",
+            researchedMessage: "As our octopus bretheren explain, it was hard because we kept telling them to go in circles. They used the word 'inept'.",
+            effectDesc: "The octopuses have taken control of both scavenging operations and are refusing to listen to our directions. Still, scavengers are 8 times faster and collectors are 4 times faster.",
+            cost: {
+                science: 88888,
+                ancientPart: 88,
+            },
+            required: {
+                upgrades: ["farAbandonedExploration", "octalEfficiency"],
+                seen: ["ancientPart"],
+            },
+            effect: {
+                multiplier: {
+                    scavenger: 8,
+                    collector: 4,
+                },
+            },
+        },
+
         reverseEngineering: {
             name: "Reverse Engineering",
             desc: "What is up with these parts? Why are they shaped like that?!",
@@ -1873,20 +1897,20 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["farAbandonedExploration", "engineering"],
+                seen: ["ancientPart"],
             },
             effect: {
                 multiplier: {
-                    scavenger: 2,
                     scientist: 2,
                     investigator: 4,
                 },
             },
         },
-        
+
         highEnergyFusion: {
             name: "High-Energy Fusion",
             desc: "These old parts must have some kind of use! Question is, can we figure it out???",
-            researchedMessage: "The secret of high-energy fusion has been unlocked. Scavenge no more. We will make more ourselves.",
+            researchedMessage: "The secret of high-energy fusion has been unlocked. Scavenge no more. We will do it ourselves.",
             effectDesc: "Laser rays can fuse sand to crystal at an absurd rate. We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
                 science: 2500000,
@@ -1897,11 +1921,11 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeBoost: {
-                    laser: 64,
+                    laser: 128,
                 },
             },
         },
-        
+
         artifactAssembly: {
             name: "Artifact Assembly",
             desc: "Assemble the pieces. Create the tool. Open the gate.",
@@ -1959,7 +1983,7 @@ SharkGame.Upgrades = {
                     crystalMiner: 4,
                     sandDigger: 4,
                     skimmer: 4,
-                    filter: 4,
+                    filter: 8,
                 },
             },
         },

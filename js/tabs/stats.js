@@ -354,7 +354,7 @@ SharkGame.Stats = {
                 }
 
                 if (generatorBoostRowspan === "inline" || counter === 0) {
-                    addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey)], generatorBoostRowspan);
+                    addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey) * r.getIncomeBoost(generatorName, incomeKey)], generatorBoostRowspan);
 
                     // does this generator get a world multiplier?
                     // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
@@ -367,12 +367,14 @@ SharkGame.Stats = {
                     if (artifactMultiplier !== 1) addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
                     else addCell(undefined, generatorBoostRowspan);
 
-                    // does this income get a research multiplier?
-                    const resourceAffectMultiplier = r.getResourceGeneratorMultiplier(generatorName);
+                    // does this income get an effect network multiplier?
+                    const resourceAffectMultiplier = r.getNetworkIncomeModifier("generator", generatorName);
                     if (resourceAffectMultiplier !== 1)
                         addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + m.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
                     else addCell(undefined, generatorBoostRowspan);
                 }
+
+                // grotto is currently missing functionality to display resource effect multipliers, needs to be added, but not pertinent since no resources currently use this multiplier type
 
                 addCell([r.TOTAL_INCOME_COLOR, changeChar + m.beautifyIncome(realIncome)], "inline", "income-" + generatorName + "-" + incomeKey);
 

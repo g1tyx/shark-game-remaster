@@ -906,7 +906,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                         if (importText === "") {
                             SharkGame.hidePane();
                             SharkGame.Log.addError("You need to paste something in first!");
-                        } else if (confirm("Are you absolutely sure? This will override your current save.")) {
+                        } else if (confirm("Are you absolutely sure? This will override your current save. WARNING: OLD SAVES DO NOT IMPORT PROPERLY YET!")) {
                             SharkGame.Save.importData(importText);
                         }
                     })

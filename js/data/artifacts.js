@@ -29,6 +29,7 @@ SharkGame.ArtifactUtil = {
             } else {
                 wr.get(resourceName).artifactMultiplier = multiplier;
             }
+            r.changeBaseIncome("multiply", resourceName, multiplier);
         });
     },
 };
@@ -53,20 +54,6 @@ SharkGame.Artifacts = {
         effect(level) {
             r.specialMultiplier = Math.max(2 * level, 1);
         },
-    },
-    planetTerraformer: {
-        name: "World Shaper",
-        flavour: "Intelligence is not changing to fit an environment, but changing the environment to fit you.",
-        max: 10,
-        desc(_level, _includeNext) {
-            return;
-        },
-        cost(level) {
-            return Math.floor(Math.pow(4, level + 1));
-        },
-        // effect is handled specially
-        // check SharkGame.World.getTerraformMultiplier
-        ignore: true,
     },
     gateCostReducer: {
         name: "Gate Controller",

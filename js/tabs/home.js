@@ -1019,7 +1019,7 @@ SharkGame.Home = {
                 numGen += 1;
                 if (SharkGame.ResourceMap.get(resource).income) {
                     $.each(SharkGame.ResourceMap.get(resource).income, (incomeResource) => {
-                        const genAmount = r.arbitraryProductAmountFromGeneratorResource(resource, incomeResource, 1);
+                        const genAmount = r.getProductAmountFromGeneratorResource(resource, incomeResource, 1);
                         if (genAmount !== 0 && w.doesResourceExist(incomeResource)) {
                             validGenerators[incomeResource] = genAmount;
                         }

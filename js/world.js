@@ -30,6 +30,7 @@ SharkGame.WorldModifiers = {
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = 1 + level * amount;
+            r.changeBaseIncome("multiply", resourceName, 1 + level * amount);
         },
         getEffect(level, amount) {
             return 1 + level * amount;
@@ -43,6 +44,7 @@ SharkGame.WorldModifiers = {
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = amount;
+            r.changeBaseIncome("multiply", resourceName, amount);
         },
         getEffect(level, amount) {
             return amount;
@@ -56,6 +58,7 @@ SharkGame.WorldModifiers = {
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = 1 / (1 + level * amount);
+            r.changeBaseIncome("multiply", resourceName, 1 / (1 + level * amount));
         },
         getEffect(level, amount) {
             return 1 / (1 + level * amount);
@@ -69,6 +72,7 @@ SharkGame.WorldModifiers = {
         apply(level, resourceName, amount) {
             const wr = w.worldResources;
             wr.get(resourceName).incomeMultiplier = 1 / amount;
+            r.changeBaseIncome("multiply", resourceName, 1 / amount);
         },
         getEffect(level, amount) {
             return 1 / amount;

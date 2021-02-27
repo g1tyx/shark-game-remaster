@@ -258,6 +258,7 @@ SharkGame.Lab = {
                     if (upgrade.effect.multiplier) {
                         $.each(upgrade.effect.multiplier, (k, v) => {
                             r.setMultiplier(k, v * r.getMultiplier(k));
+                            r.changeBaseIncome("multiply", k, v);
                         });
                     }
                     if (upgrade.effect.boost) {
@@ -268,6 +269,7 @@ SharkGame.Lab = {
                     if (upgrade.effect.incomeBoost) {
                         $.each(upgrade.effect.incomeBoost, (k, v) => {
                             r.setIncomeBoost(k, v * r.getIncomeBoost(k));
+                            r.changeBaseIncome("boost", k, v);
                         });
                     }
                 }

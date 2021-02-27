@@ -840,6 +840,7 @@ SharkGame.Save = {
                     "reverseEngineering",
                     "highEnergyFusion",
                     "artifactAssembly",
+                    "superiorSearchAlgorithms",
                 ],
                 (v) => {
                     save.upgrades[v] = false;

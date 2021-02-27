@@ -1,6 +1,7 @@
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
-SharkGame.ResourceMap = new Map(); // every resource and what it produces
+SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income
+SharkGame.CalculationMap = new Map(); // a map which keeps track of incomes after upgrade and world multipliers to make calculations faster
 
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
@@ -19,7 +20,8 @@ SharkGame.Resources = {
     init() {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (key, value) => {
-            SharkGame.ResourceMap.set(key, value);
+            SharkGame.ResourceMap.set(key, _.cloneDeep(value));
+            SharkGame.CalculationMap.set(key, _.cloneDeep(value)); 
         });
 
         SharkGame.ResourceMap.forEach((v, key) => {
@@ -51,11 +53,7 @@ SharkGame.Resources = {
         if (!debug && timeDelta > 51) {
             for (let i = 0; i < 50; i++) {
                 SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                    if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                        r.changeResource(key, value);
-                    } else {
-                        r.changeResource(key, value);
-                    }
+                    r.changeResource(key, value);
                 });
                 r.recalculateIncomeTable();
                 timeDelta -= 1;
@@ -101,7 +99,6 @@ SharkGame.Resources = {
         let originalIncomes;
         let stepTwoIncomes;
         let stepThreeIncomes;
-        let stepFourIncomes;
 
         while (time > stop) {
             originalResources = _.cloneDeep(SharkGame.PlayerResources);
@@ -132,8 +129,7 @@ SharkGame.Resources = {
             });
 
             r.recalculateIncomeTable();
-            stepFourIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
-            SharkGame.PlayerResources = _.cloneDeep(originalResources);
+            SharkGame.PlayerResources = originalResources;
 
             SharkGame.PlayerIncomeTable.forEach((v, resource) => {
                 r.changeResource(
@@ -142,7 +138,7 @@ SharkGame.Resources = {
                         (originalIncomes.get(resource) +
                             2 * stepTwoIncomes.get(resource) +
                             2 * stepThreeIncomes.get(resource) +
-                            stepFourIncomes.get(resource))) /
+                            SharkGame.PlayerIncomeTable.get(resource))) /
                         6,
                     true
                 );
@@ -220,63 +216,35 @@ SharkGame.Resources = {
         });
     },
 
-    arbitraryProductAmountFromGeneratorResource(generator, product, numGenerator) {
+    getProductAmountFromGeneratorResource(generator, product, numGenerator = r.getResource(generator)) {
         const rp = SharkGame.ResourceSpecialProperties;
         const playerResource = SharkGame.PlayerResources.get(generator);
         if (!r.getResourceCombinationAllowed(generator, product)) {
             return 0;
         }
         let generated =
-            SharkGame.ResourceMap.get(generator).income[product] *
+            SharkGame.CalculationMap.get(generator).income[product] *
             numGenerator *
-            playerResource.incomeMultiplier *
-            w.getWorldIncomeMultiplier(generator) *
-            w.getArtifactMultiplier(generator) *
             r.getSpecialMultiplier() *
-            r.getResourceGeneratorMultiplier(generator) *
-            r.getResourceIncomeMultiplier(product) *
+            r.getNetworkIncomeModifier("generator", generator) *
+            r.getNetworkIncomeModifier("resource", product) *
             cad.speed;
         if (generated > 0) {
             generated *= w.getWorldBoostMultiplier(product) *
-            r.getBoost(product) *
-            r.getIncomeBoost(generator, product);
+            r.getBoost(product);
         }
         return generated;
-    },
-
-    getProductAmountFromGeneratorResource(generator, product) {
-        const rp = SharkGame.ResourceSpecialProperties;
-        const playerResource = SharkGame.PlayerResources.get(generator);
-        if (!r.getResourceCombinationAllowed(generator, product)) {
-            return 0;
-        }
-        let generated =
-            SharkGame.ResourceMap.get(generator).income[product] *
-            r.getResource(generator) *
-            playerResource.incomeMultiplier *
-            w.getWorldIncomeMultiplier(generator) *
-            w.getArtifactMultiplier(generator) *
-            r.getSpecialMultiplier() *
-            r.getResourceGeneratorMultiplier(generator) *
-            r.getResourceIncomeMultiplier(product) *
-            cad.speed;
-        if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product) *
-            r.getBoost(product) *
-            r.getIncomeBoost(generator, product);
-        }
-        return generated;
-    },
-
-    getResourceGeneratorMultiplier(generator) {
-        return r.getNetworkIncomeModifier(SharkGame.GeneratorIncomeAffectedApplicable, generator);
-    },
-
-    getResourceIncomeMultiplier(product) {
-        return r.getNetworkIncomeModifier(SharkGame.ResourceIncomeAffectedApplicable, product);
     },
 
     getNetworkIncomeModifier(network, resource) {
+        switch (network) {
+            case "generator":
+                network = SharkGame.GeneratorIncomeAffectedApplicable;
+                break;
+            case "resource":
+                network = SharkGame.ResourceIncomeAffectedApplicable;
+        }
+
         const node = network[resource];
         let multiplier = 1;
         if (node) {
@@ -302,6 +270,34 @@ SharkGame.Resources = {
             }
         }
         return multiplier;
+    },
+
+    changeBaseIncome(method, generator, arg1, arg2) {
+        const mapEntry = SharkGame.CalculationMap.get(generator);
+        switch(method) {
+            case "multiply":
+                $.each(mapEntry.income, (resource, income) => {
+                    mapEntry.income[resource] = income * arg1;
+                });
+                break;
+            case "boost":
+                $.each(mapEntry.income, (resource, income) => {
+                    if(income > 0) {
+                        mapEntry.income[resource] = income * arg1;
+                    }
+                });
+                // break;
+            // case "modify":
+                // if(mapEntry.income[arg1]) {
+                //     mapEntry.income[arg1] = arg2;
+                // }
+                // break;
+            // case "set":
+                // mapEntry.income[arg1] = arg2;
+            // these two cases will require some special handling
+            // modify will need to simply divide by the old base income and multiply by the new one
+            // set will need to call a function to apply all multipliers to itself
+        }
     },
 
     getResourceCombinationAllowed(generator, product) {
@@ -335,6 +331,9 @@ SharkGame.Resources = {
     },
 
     getIncomeBoost(resource, boosted) {
+        if(SharkGame.ResourceMap.get(resource).income[boosted] < SharkGame.EPSILON) {
+            return 1;
+        }
         if(boosted === "tar") {
             return 1;
         }
