@@ -282,7 +282,7 @@ SharkGame.Resources = {
                 break;
             case "boost":
                 $.each(mapEntry.income, (resource, income) => {
-                    if(income > 0) {
+                    if(income > 0 && (resource != "tar")) {
                         mapEntry.income[resource] = income * arg1;
                     }
                 });

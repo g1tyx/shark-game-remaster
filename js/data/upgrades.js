@@ -1516,8 +1516,8 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 1000,
-                crystal: 2000,
+                science: 1500,
+                crystal: 1750,
                 sand: 4000,
             },
             required: {
@@ -1562,7 +1562,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 1500,
+                science: 1750,
                 sharkonium: 250,
             },
             required: {
@@ -1642,23 +1642,6 @@ SharkGame.Upgrades = {
                 multiplier: {
                     scientist: 4,
                 },
-            },
-        },
-
-        superprocessing: {
-            name: "Superprocessing",
-            desc:
-                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
-            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
-            effectDesc:
-                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
-            cost: {
-                science: 1e6,
-                sharkonium: 1e6,
-                junk: 1e6,
-            },
-            required: {
-                upgrades: ["iterativeDesign", "recyclerDiscovery"],
             },
         },
 
@@ -1978,12 +1961,14 @@ SharkGame.Upgrades = {
                 resources: ["sharkonium"],
             },
             effect: {
+                multiplier: {
+                    filter: 8,
+                },
                 incomeBoost: {
                     fishMachine: 4,
                     crystalMiner: 4,
                     sandDigger: 4,
                     skimmer: 4,
-                    filter: 8,
                 },
             },
         },
