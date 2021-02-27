@@ -349,7 +349,7 @@ SharkGame.Home = {
             {
                 name: "abandoned-reverse-engineering",
                 unlock: { upgrade: ["reverseEngineering"] },
-                message: "The octopuses pick up the pieces.<br>And we will reassemble them.",
+                message: "The components spin and whirr and click together, but their purpose eludes us.<br>What secrets are you hiding, parts?",
             },
             {
                 name: "abandoned-high-energy-fusion",
