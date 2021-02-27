@@ -1140,6 +1140,8 @@ SharkGame.Home = {
     getMax(action) {
         let max = 1;
         if (action.max) {
+            // max is really ambiguous
+            // its used as the determining resource for linear cost functions
             const resource = SharkGame.PlayerResources.get(action.max);
             let currAmount = resource.amount;
             if (resource.jobs) {

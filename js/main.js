@@ -137,6 +137,12 @@ $.extend(SharkGame, {
         "target='_blank'>support the original developer</a>" +
         " if you'd like.)</span></p>",
 
+    notice:
+        "<p>Welcome to the open alpha of v0.2 for New Frontiers.</p>" +
+        "<p>This is a reminder that this version is an <b>ALPHA</b>, and <b>lots of stuff is missing</b>. There is only one playable world outside of the starting world.</p>" +
+        "<p>New stuff will get added over time, starting with new worlds.</p>" +
+        "<p>If you'd like to give feedback or contribute directly to the project, check out the Discord link.</p>",
+
     spriteIconPath: "img/sharksprites.png",
     spriteHomeEventPath: "img/sharkeventsprites.png",
 
@@ -309,6 +315,14 @@ SharkGame.TitleBar = {
         name: "discord",
         main: false,
         link: "https://discord.gg/nN7BQDJR2G",
+    },
+    
+    noticeLink: {
+        name: "notice",
+        main: false,
+        onClick() {
+            m.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
+        },
     },
 };
 
@@ -521,6 +535,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (m.isFirstTime()) {
             SharkGame.TitleBar.skipLink.name = "reset";
             m.setUpTitleBar();
+            m.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
         } else {
             // and then remember to actually set it back once it's not
             SharkGame.TitleBar.skipLink.name = "skip";
@@ -1217,7 +1232,7 @@ SharkGame.Changelog = {
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
         "Scrapped Chaotic worldtype. Completely.",
         "Implemented gameplay for 1 out of 7 necessary planet reworks.",
-        "Implemented some new assets. Very little so far.",
+        "Implemented some new assets.",
     ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.11 - New Foundations (2021/1/27)": [
         "New, greatly improved UI for everything.",
