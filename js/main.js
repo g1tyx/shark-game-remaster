@@ -139,9 +139,9 @@ $.extend(SharkGame, {
 
     notice:
         "<p>Welcome to the open alpha of v0.2 for New Frontiers.</p>" +
-        "<p>This is a reminder that this version is an <b>ALPHA</b>, and <b>lots of stuff is missing</b>. There is only one playable world outside of the starting world.</p>" +
-        "<p>New stuff will get added over time, starting with new worlds.</p>" +
-        "<p>If you'd like to give feedback or contribute directly to the project, check out the Discord link.</p>",
+        "<p>v0.2 is gonna be a complete rework of the planets in the base game! There's only one playable so far.</p>" +
+        "<p>This is an alpha; things will be missing. New stuff will get added over time.</p>" +
+        "<p>If you'd like to give feedback or contribute directly, check out the Discord link.</p>",
 
     spriteIconPath: "img/sharksprites.png",
     spriteHomeEventPath: "img/sharkeventsprites.png",
