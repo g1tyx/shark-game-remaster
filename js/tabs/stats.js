@@ -72,28 +72,16 @@ SharkGame.Stats = {
         });
         // TODO NAME BUTTON BETTER
         SharkGame.Button.makeButton("switchButton", "&nbsp Swap Producers and Produced &nbsp", switchButtonDiv, s.toggleSwitch).addClass("min-block");
+        if (SharkGame.Settings.current.grottoMode === "simple") {
+            SharkGame.Button.makeButton("modeButton", "&nbsp Swap to Advanced mode &nbsp", switchButtonDiv, s.toggleMode).addClass("min-block");
+        } else {
+            SharkGame.Button.makeButton("modeButton", "&nbsp Swap to Simple mode &nbsp", switchButtonDiv, s.toggleMode).addClass("min-block");
+        }
         incomeDataSel.append(switchButtonDiv);
 
         incomeDataSel.append(table);
-        if (w.worldType !== "start") {
-            incomeDataSel.append(
-                $("<div>").html(
-                    "<br> <b><u>TABLE KEY</b></u>" +
-                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
-                        `<br> <span style='color:${r.BOOST_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain resources.` +
-                        `<br> <span style='color:${r.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain producers.` +
-                        `<br> <span style='color:${r.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect eachother.` +
-                        `<br> <span style='color:${r.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`
-                )
-            );
-        } else {
-            incomeDataSel.append(
-                $("<div>").html(
-                    "<br> <b><u>TABLE KEY</b></u>" +
-                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.`
-                )
-            );
-        }
+        incomeDataSel.append($("<div>").attr("id", "tableKey"));
+        s.updateTableKey();
 
         const genStats = $("#generalStats");
         genStats.append($("<h3>").html("General Stats"));
@@ -214,8 +202,8 @@ SharkGame.Stats = {
                 const income = SharkGame.ResourceMap.get(k).income;
                 $.each(income, (incomeKey) => {
                     const cell = $("#income-" + k + "-" + incomeKey);
-                    const realIncome = r.getProductAmountFromGeneratorResource(k, incomeKey);
-                    const changeChar = realIncome > 0 ? "+" : "";
+                    const realIncome = SharkGame.BreakdownIncomeTable.get(k)[incomeKey];
+                    const changeChar = !(realIncome < 0) ? "+" : "";
                     const newValue = "<span style='color: " + r.TOTAL_INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(realIncome) + "</span>";
                     const oldValue = cell.html();
 
@@ -252,7 +240,7 @@ SharkGame.Stats = {
 
         const specialMultiplierCol = null;
 
-        let formatCounter = 0;
+        let formatCounter = 1;
 
         const drawnResourceMap = new Map();
         SharkGame.ResourceMap.forEach((generatorData, generatorName) => {
@@ -286,6 +274,8 @@ SharkGame.Stats = {
 
         // You would filter or sort here if you want to filter or sort using higher order operations
         // You would filter or sort above the statement where it's checked if the view is switched if you want to do an if statement
+
+        incomesTable.append($("<tr>").append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")).append($("<td>").html("test2").attr("rowspan", 1).addClass("evenRow")).append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")).append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")));
 
         drawnResourceMap.forEach((headingData, headingName) => {
             // if the resource has an income requiring any costs
@@ -329,52 +319,57 @@ SharkGame.Stats = {
 
                 const resourceBoostRowspan = SharkGame.Settings.current.switchStats ? undefined : "inline";
                 const generatorBoostRowspan = SharkGame.Settings.current.switchStats ? "inline" : undefined;
-                const realIncome = r.getProductAmountFromGeneratorResource(generatorName, incomeKey);
-                const changeChar = realIncome > 0 ? "+" : "";
+                const realIncome = SharkGame.BreakdownIncomeTable.get(generatorName)[incomeKey];
+                const changeChar = !(realIncome < 0) ? "+" : "";
                 row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
-                addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + "/s"], "inline");
 
-                // if its inline then many rowspans will fill the gap
-                if (generatorBoostRowspan === "inline") {
-                    // does this resource get a boost multiplier?
-                    const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
-                    if (boostMultiplier !== 1 && incomeValue > 0)
-                        // boost impacts the material being produced, so when its sorted by material being produced u only need one
-                        addCell([r.BOOST_MULTIPLIER_COLOR, "x" + m.beautify(boostMultiplier)], generatorBoostRowspan);
-                    else addCell(undefined, generatorBoostRowspan); // empty cell
+                // which mode are we in?
+                if (SharkGame.Settings.current.grottoMode === "advanced") {
+                    addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + "/s"], "inline");
+                    // if its inline then many rowspans will fill the gap
+                    if (generatorBoostRowspan === "inline") {
+                        // does this resource get a boost multiplier?
+                        const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
+                        if (boostMultiplier !== 1 && incomeValue > 0)
+                            // boost impacts the material being produced, so when its sorted by material being produced u only need one
+                            addCell([r.BOOST_MULTIPLIER_COLOR, "x" + m.beautify(boostMultiplier)], generatorBoostRowspan);
+                        else addCell(undefined, generatorBoostRowspan); // empty cell
+                    }
+
+                    if (resourceBoostRowspan === "inline") {
+                        // does this resource get a boost multiplier?
+                        const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
+                        if (boostMultiplier !== 1 && incomeValue > 0)
+                            // boost impacts the material being produced, so when its sorted by material being produced u only need one
+                            addCell([r.BOOST_MULTIPLIER_COLOR, "x" + m.beautify(boostMultiplier)], resourceBoostRowspan);
+                        else addCell(undefined, resourceBoostRowspan); // empty cell
+                    }
+
+                    if (generatorBoostRowspan === "inline" || counter === 0) {
+                        addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey) * r.getIncomeBoost(generatorName, incomeKey)], generatorBoostRowspan);
+
+                        // does this generator get a world multiplier?
+                        // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
+                        const worldMultiplier = w.getWorldIncomeMultiplier(generatorName);
+                        if (worldMultiplier !== 1) addCell([r.WORLD_MULTIPLIER_COLOR, "x" + m.beautify(worldMultiplier)], generatorBoostRowspan);
+                        else addCell(undefined, generatorBoostRowspan);
+
+                        // does this income get an artifact multiplier?
+                        const artifactMultiplier = w.getArtifactMultiplier(generatorName);
+                        if (artifactMultiplier !== 1) addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
+                        else addCell(undefined, generatorBoostRowspan);
+
+                        // does this income get an effect network multiplier?
+                        const resourceAffectMultiplier = r.getNetworkIncomeModifier("generator", generatorName);
+                        if (resourceAffectMultiplier !== 1)
+                            addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + m.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
+                        else addCell(undefined, generatorBoostRowspan);
+                    }
                 }
 
-                if (resourceBoostRowspan === "inline") {
-                    // does this resource get a boost multiplier?
-                    const boostMultiplier = w.worldResources.get(incomeKey).boostMultiplier;
-                    if (boostMultiplier !== 1 && incomeValue > 0)
-                        // boost impacts the material being produced, so when its sorted by material being produced u only need one
-                        addCell([r.BOOST_MULTIPLIER_COLOR, "x" + m.beautify(boostMultiplier)], resourceBoostRowspan);
-                    else addCell(undefined, resourceBoostRowspan); // empty cell
-                }
+                // grotto is currently missing functionality to display resource effect (not affect) multipliers, needs to be added, but not pertinent since no resources currently use this multiplier type
 
-                if (generatorBoostRowspan === "inline" || counter === 0) {
-                    addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey) * r.getIncomeBoost(generatorName, incomeKey)], generatorBoostRowspan);
-
-                    // does this generator get a world multiplier?
-                    // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
-                    const worldMultiplier = w.getWorldIncomeMultiplier(generatorName);
-                    if (worldMultiplier !== 1) addCell([r.WORLD_MULTIPLIER_COLOR, "x" + m.beautify(worldMultiplier)], generatorBoostRowspan);
-                    else addCell(undefined, generatorBoostRowspan);
-
-                    // does this income get an artifact multiplier?
-                    const artifactMultiplier = w.getArtifactMultiplier(generatorName);
-                    if (artifactMultiplier !== 1) addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
-                    else addCell(undefined, generatorBoostRowspan);
-
-                    // does this income get an effect network multiplier?
-                    const resourceAffectMultiplier = r.getNetworkIncomeModifier("generator", generatorName);
-                    if (resourceAffectMultiplier !== 1)
-                        addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + m.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
-                    else addCell(undefined, generatorBoostRowspan);
-                }
-
-                // grotto is currently missing functionality to display resource effect multipliers, needs to be added, but not pertinent since no resources currently use this multiplier type
+                addCell(undefined, "inline");
 
                 addCell([r.TOTAL_INCOME_COLOR, changeChar + m.beautifyIncome(realIncome)], "inline", "income-" + generatorName + "-" + incomeKey);
 
@@ -427,4 +422,36 @@ SharkGame.Stats = {
         // s.createIncomeTable();
         SharkGame.Stats.createIncomeTable();
     },
+
+    toggleMode() {
+        if (SharkGame.Settings.current.grottoMode === "simple") {
+            SharkGame.Settings.current.grottoMode = "advanced";
+            document.getElementById("modeButton").innerHTML = "&nbsp Swap to Simple mode &nbsp";
+        } else {
+            SharkGame.Settings.current.grottoMode = "simple";
+            document.getElementById("modeButton").innerHTML = "&nbsp Swap to Advanced mode &nbsp";
+        }
+        s.updateTableKey();
+        s.createIncomeTable();
+    },
+
+    updateTableKey() {
+        let key = "";
+        if (SharkGame.Settings.current.grottoMode === "advanced") {
+            if (w.worldType !== "start") {
+                key =
+                    "<br> <b><u>TABLE KEY</b></u>" +
+                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
+                        `<br> <span style='color:${r.BOOST_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain resources.` +
+                        `<br> <span style='color:${r.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain producers.` +
+                        `<br> <span style='color:${r.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect eachother.` +
+                        `<br> <span style='color:${r.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`
+            } else {
+                key =
+                    "<br> <b><u>TABLE KEY</b></u>" +
+                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.`
+            }
+        }
+        document.getElementById("tableKey").innerHTML = key;
+    }
 };

@@ -12,7 +12,7 @@ SharkGame.ResourceTable = {
     essence: {
         name: "essence",
         singleName: "essence",
-        //desc: "Etheric force, raw and dangerous.",
+        desc: "Etheric force, raw and dangerous.",
         color: "#ACE3D1",
         value: -1,
     },
@@ -22,7 +22,7 @@ SharkGame.ResourceTable = {
     shark: {
         name: "sharks",
         singleName: "shark",
-        //desc: "Apex predators of the seas.",
+        desc: "Apex predators of the seas.",
         color: "#92C1E0",
         income: {
             fish: 1,
@@ -34,7 +34,7 @@ SharkGame.ResourceTable = {
     ray: {
         name: "rays",
         singleName: "ray",
-        //desc: "Kindred to the sharks.",
+        desc: "Kindred to the sharks.",
         color: "#797CFC",
         income: {
             fish: 0.2,
@@ -47,7 +47,7 @@ SharkGame.ResourceTable = {
     crab: {
         name: "crabs",
         singleName: "crab",
-        //desc: "Dutiful, loyal crustaceans.",
+        desc: "Dutiful, loyal crustaceans.",
         color: "#9C2424",
         income: {
             crystal: 0.01,
@@ -150,7 +150,7 @@ SharkGame.ResourceTable = {
     nurse: {
         name: "nurse sharks",
         singleName: "nurse shark",
-        //desc: "Safeguarding the future.",
+        desc: "Safeguarding the future.",
         color: "#C978DE",
         income: {
             shark: 0.01,
@@ -161,7 +161,7 @@ SharkGame.ResourceTable = {
     maker: {
         name: "ray makers",
         singleName: "ray maker",
-        //desc: "Caretakers of the helpless.",
+        desc: "Caretakers of the helpless.",
         color: "#5355ED",
         income: {
             ray: 0.05,
@@ -172,7 +172,7 @@ SharkGame.ResourceTable = {
     brood: {
         name: "crab broods",
         singleName: "crab brood",
-        //desc: "The unending process.",
+        desc: "The unending process.",
         color: "#9E7272",
         income: {
             crab: 0.2,
@@ -226,7 +226,7 @@ SharkGame.ResourceTable = {
     scientist: {
         name: "science sharks",
         singleName: "science shark",
-        //desc: "Creators of the shark future.",
+        desc: "Creators of the shark future.",
         color: "#DCEBF5",
         income: {
             science: 0.5,
@@ -259,7 +259,7 @@ SharkGame.ResourceTable = {
     laser: {
         name: "laser rays",
         singleName: "laser ray",
-        //desc: "Destructive forces of creation.",
+        desc: "Destructive forces of creation.",
         color: "#E85A5A",
         income: {
             sand: -2,
@@ -281,7 +281,7 @@ SharkGame.ResourceTable = {
     planter: {
         name: "planter crabs",
         singleName: "planter crab",
-        //desc: "Stewards of an ecosystem.",
+        desc: "Stewards of an ecosystem.",
         color: "#AAE03D",
         income: {
             kelp: 0.3,
@@ -445,7 +445,7 @@ SharkGame.ResourceTable = {
     crystalMiner: {
         name: "crystal miners",
         singleName: "crystal miner",
-        //desc: "Devourers of the lattice.",
+        desc: "Devourers of the lattice.",
         color: "#B2CFCB",
         income: {
             crystal: 100,
@@ -458,7 +458,7 @@ SharkGame.ResourceTable = {
     sandDigger: {
         name: "sand diggers",
         singleName: "sand digger",
-        //desc: "Consumers of the seabed.",
+        desc: "Consumers of the seabed.",
         color: "#D6CF9F",
         income: {
             sand: 200,
@@ -470,7 +470,7 @@ SharkGame.ResourceTable = {
     autoTransmuter: {
         name: "auto-transmuters",
         singleName: "auto-transmuter",
-        //desc: "Mystic processes automated.",
+        desc: "Mystic processes automated.",
         color: "#B5A7D1",
         income: {
             crystal: -90,
@@ -483,7 +483,7 @@ SharkGame.ResourceTable = {
     fishMachine: {
         name: "fish machines",
         singleName: "fish machine",
-        //desc: "Indiscriminate hunter.",
+        desc: "Indiscriminate hunter.",
         color: "#C9C7A7",
         income: {
             fish: 400,
@@ -685,7 +685,7 @@ SharkGame.ResourceTable = {
     science: {
         name: "science",
         singleName: "science",
-        //desc: "Lifeblood of progress.",
+        desc: "Lifeblood of progress.",
         color: "#BBA4E0",
         /* income: {
             knowledge: 0.01,
@@ -707,7 +707,7 @@ SharkGame.ResourceTable = {
     fish: {
         name: "fish",
         singleName: "fish",
-        //desc: "The hunted.",
+        desc: "The hunted.",
         color: "#E3D85B",
         value: 2,
     },
@@ -715,7 +715,7 @@ SharkGame.ResourceTable = {
     seaApple: {
         name: "sea apples",
         singleName: "sea apple",
-        //desc: "Rooted filters.",
+        desc: "Rooted filters.",
         color: "#F0C2C2",
         value: 3,
     },
@@ -750,7 +750,7 @@ SharkGame.ResourceTable = {
     sand: {
         name: "sand",
         singleName: "sand",
-        //desc: "Flesh of the ocean floor.",
+        desc: "Flesh of the ocean floor.",
         color: "#C7BD75",
         value: 3,
     },
@@ -758,7 +758,7 @@ SharkGame.ResourceTable = {
     crystal: {
         name: "crystals",
         singleName: "crystal",
-        //desc: "Inscrutable secrets in solid form.",
+        desc: "Inscrutable secrets in solid form.",
         color: "#6FD9CC",
         value: 15,
     },
@@ -766,7 +766,7 @@ SharkGame.ResourceTable = {
     kelp: {
         name: "kelp",
         singleName: "kelp",
-        //desc: "A home for the stranger.",
+        desc: "A home for the stranger.",
         color: "#9CC232",
         income: {
             seaApple: 0.001,
@@ -825,7 +825,7 @@ SharkGame.ResourceTable = {
     sharkonium: {
         name: "sharkonium",
         singleName: "sharkonium",
-        //desc: "Progress incarnate.",
+        desc: "Progress incarnate.",
         color: "#8D70CC",
         value: 70,
     },
@@ -861,7 +861,7 @@ SharkGame.ResourceTable = {
     junk: {
         name: "residue",
         singleName: "residue",
-        //desc: "Industrial potential.",
+        desc: "Industrial potential.",
         color: "#ABABAB",
         value: 1,
     },

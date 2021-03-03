@@ -138,46 +138,45 @@ SharkGame.Home = {
                 unlock: { world: "haven" },
                 message: "The oceans are rich with life. But it's still not home.<br>&nbsp",
             },
-            // BANKED ESSENCE
             {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
+                name: "haven-dolphin-observes",
+                unlock: { upgrade: ["crystalContainer"] },
                 message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
-            {
-                name: "shrimp-one",
-                unlock: { resource: { shrimp: 50 }, homeAction: ["getShrimp"] },
-                message: "The shrimps are tiny, but hard-working.<br>They live for their sponge hives.",
+                    "A...thing observes us from afar. What the heck is that??",
             },
             {
-                name: "lobster-one",
-                unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
-                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
+                name: "haven-dolphins",
+                unlock: { resource: { dolphin: 1 }, homeAction: ["getDolphin"] },
+                message:
+                    "A dolphin joins the frenzy.<br/>And it already wants a raise. Wow.",
             },
             {
-                name: "dolphin-one",
-                unlock: { resource: { dolphin: 5 }, homeAction: ["getDolphin"] },
+                name: "haven-dolphin-empire",
+                unlock: { resource: { dolphin: 15 }, homeAction: ["getDolphin"] },
                 message:
                     "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
             {
-                name: "octopus-one",
-                unlock: { resource: { octopus: 8 }, homeAction: ["getOctopus"] },
+                name: "haven-gate",
+                unlock: { resource: { dolphin: 1 }, homeAction: ["getDolphin"] },
                 message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
+                    "Though the slots are filled, the gate is closed.<br/> Begrudgingly, the dolphins admit that they don't know how to open it.",
             },
             {
                 name: "whale-one",
                 unlock: { resource: { whale: 1 }, homeAction: ["getWhale"] },
                 message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
             },
-            // UNIQUE STATUSES
             {
-                name: "chorus",
+                name: "haven-chorus",
                 unlock: { resource: { chorus: 1 } },
                 message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
+            },
+            {
+                name: "haven-done",
+                unlock: { upgrade: ["primordialSong"] },
+                message:
+                    "The true song booms across the open water, carrying itself to all corners of the ocean.<br/> The gate reacts.",
             },
         ],
 
@@ -783,9 +782,9 @@ SharkGame.Home = {
             }
         }
 
-        if (document.querySelector("#wrapper button.hoverbutton:hover") === null) {
+/*         if (document.querySelector("#wrapper button.hoverbutton:hover") === null) {
             h.onHomeUnhover();
-        }
+        } */
 
         label = $('<span id="' + actionName + 'Label" class="click-passthrough">' + label + "</span>");
 

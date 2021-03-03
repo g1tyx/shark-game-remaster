@@ -2,6 +2,8 @@ SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
 SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income
 SharkGame.CalculationMap = new Map(); // a map which keeps track of incomes after upgrade and world multipliers to make calculations faster
+SharkGame.BreakdownIncomeTable = new Map(); // a map which has every single generator and what it produces, after costScaling
+SharkGame.FlippedBreakdownIncomeTable = new Map(); // each resource and what produces it and how much
 
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
@@ -32,6 +34,7 @@ SharkGame.Resources = {
                 upgradeBoostMultiplier: 1,
                 incomeBoost: 1,
             });
+            SharkGame.FlippedBreakdownIncomeTable.set(key, {});
         });
 
         // populate income table with an entry for each resource!!
@@ -45,7 +48,7 @@ SharkGame.Resources = {
     },
 
     processIncomes(timeDelta, debug) {
-        r.recalculateIncomeTable();
+        r.recalculateIncomeTable(true);
         if (r.testGracePeriod()) {
             return;
         }
@@ -55,7 +58,7 @@ SharkGame.Resources = {
                 SharkGame.PlayerIncomeTable.forEach((value, key) => {
                     r.changeResource(key, value);
                 });
-                r.recalculateIncomeTable();
+                r.recalculateIncomeTable(true);
                 timeDelta -= 1;
             }
             if (timeDelta > 172800) {
@@ -82,7 +85,7 @@ SharkGame.Resources = {
                     r.changeResource(key, value);
                 }
             });
-            r.recalculateIncomeTable();
+            r.recalculateIncomeTable(true);
             timeDelta -= 1;
         }
         SharkGame.PlayerIncomeTable.forEach((value, key) => {
@@ -92,6 +95,7 @@ SharkGame.Resources = {
                 r.changeResource(key, value);
             }
         });
+        r.recalculateIncomeTable();
     },
 
     doRKMethod(time, h, stop) {
@@ -110,7 +114,7 @@ SharkGame.Resources = {
                 }
             });
 
-            r.recalculateIncomeTable();
+            r.recalculateIncomeTable(true);
             stepTwoIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
             SharkGame.PlayerIncomeTable.forEach((value, key) => {
@@ -119,7 +123,7 @@ SharkGame.Resources = {
                 }
             });
 
-            r.recalculateIncomeTable();
+            r.recalculateIncomeTable(true);
             stepThreeIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
             SharkGame.PlayerIncomeTable.forEach((value, key) => {
@@ -128,7 +132,7 @@ SharkGame.Resources = {
                 }
             });
 
-            r.recalculateIncomeTable();
+            r.recalculateIncomeTable(true);
             SharkGame.PlayerResources = originalResources;
 
             SharkGame.PlayerIncomeTable.forEach((v, resource) => {
@@ -144,13 +148,13 @@ SharkGame.Resources = {
                 );
             });
 
-            r.recalculateIncomeTable();
+            r.recalculateIncomeTable(true);
             time -= h;
         }
         return time;
     },
 
-    recalculateIncomeTable() {
+    recalculateIncomeTable(cheap) {
         // clear income table first
         SharkGame.ResourceMap.forEach((v, key) => {
             SharkGame.PlayerIncomeTable.set(key, 0);
@@ -194,9 +198,21 @@ SharkGame.Resources = {
                         }
                     });
 
-                    changeMap.forEach((change, resource) => {
-                        SharkGame.PlayerIncomeTable.set(resource, SharkGame.PlayerIncomeTable.get(resource) + change * costScaling);
-                    });
+                    if (!cheap) {
+                        let trueIncomeObject = {};
+                        let n;
+                        changeMap.forEach((change, resource) => {
+                            n = change * costScaling;
+                            trueIncomeObject[resource] = n;
+                            SharkGame.FlippedBreakdownIncomeTable.get(resource)[name] = n;
+                            SharkGame.PlayerIncomeTable.set(resource, SharkGame.PlayerIncomeTable.get(resource) + n);
+                        });
+                        SharkGame.BreakdownIncomeTable.set(name, trueIncomeObject);
+                    } else {
+                        changeMap.forEach((change, resource) => {
+                            SharkGame.PlayerIncomeTable.set(resource, SharkGame.PlayerIncomeTable.get(resource) + change * costScaling);
+                        });
+                    }
                 }
 
                 // calculate any world income that should be added to this resource
@@ -617,7 +633,7 @@ SharkGame.Resources = {
         const k = resourceKey;
         const pr = SharkGame.PlayerResources.get(k);
         const income = r.getIncome(k);
-        const row = $("<tr>");
+        const row = $("<tr>").attr("id", k).on("mouseenter", r.tableTextEnter).on("mouseleave", r.tableTextLeave);
         if (pr.totalAmount > 0 || SharkGame.PlayerResources.get(k).discovered) {
             row.append(
                 $("<td>")
@@ -641,6 +657,58 @@ SharkGame.Resources = {
             }
         }
         return row;
+    },
+
+    nothing() {
+        return;
+    },
+
+    tableTextEnter() {
+        const row = $(this);
+        const resourceName = row.attr("id");
+        const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
+        let producertext = "";
+        let consumertext = "";
+        $.each(generators, (which, amount) => {
+            if (Math.abs(amount) > SharkGame.EPSILON) {
+                if (amount > 0) {
+                    producertext += "<br>";
+                    producertext += m.beautify(r.getResource(which)).bold() +
+                        " " +
+                        r.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) + 
+                        "  <span class='littleTooltipText'>at</span>  " +
+                        m.beautifyIncome(amount).bold();
+                } else {
+                    consumertext += "<br>";
+                    consumertext += m.beautify(r.getResource(which)).bold() +
+                        " " +
+                        r.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) + 
+                        "  <span class='littleTooltipText'>at</span>  " +
+                        m.beautifyIncome(amount).bold();
+                }
+            }
+        });
+
+/*         if (producertext === "" && consumertext === "") {
+            return;
+        } */
+
+        let text = r.getResourceName(resourceName, false, false, 2, SharkGame.getElementColor("tooltipbox", "background-color"));
+        if (producertext !== "") {
+            text += "<br><span class='littleTooltipText'>PRODUCED BY</span>" + producertext;
+        }
+        if (consumertext !== "") {
+            text += "<br><span class='littleTooltipText'>CONSUMED BY</span>" + consumertext;
+        }
+
+        if (SharkGame.ResourceMap.get(resourceName).desc) {
+            text += "<br><span class='medDesc'>" + SharkGame.ResourceMap.get(resourceName).desc + "</span>";
+        }
+        document.getElementById("tooltipbox").innerHTML = text;
+    },
+
+    tableTextLeave() {
+        document.getElementById("tooltipbox").innerHTML = "";
     },
 
     getResourceName(resourceName, darken, forceSingle, arbitraryAmount, background) {

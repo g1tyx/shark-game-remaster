@@ -664,41 +664,49 @@ SharkGame.Gateway.Messages = {
         ],
         marine: [
             "Did your last ocean feel all too familiar?",
-            "Like your origins, but too different still.",
+            "Do you bring life, or do you bring death, worldbuilder?",
             "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-            "Is this world really",
+            "You seem surprised. Did this not happen to your home?",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
             "What shining atoll do you leave behind? Those who could not follow you will surely live happily.",
             "Why did you leave?",
-            "",
+            "The incessant chatter of the dolphins has stopped. Did you do that?",
+            "Something echoed from the gate into this realm. Was that you?",
         ],
         tempestuous: [
             "You braved the maelstrom and came from it unscathed.",
             "Charge through the whirlpool. Give no quarter to the storm.",
-            "The turbulent seas were no match for your prowess.",
             "The swordfish fear your presence, with good reason.",
+            "The revolt was unavoidable. It was merely a matter of time.",
         ],
         violent: [
             "The boiling ocean only stirred you on.",
-            "So hard to survive, yet so lucrative. A deadly balance.",
-            "This is not the harshest world you will endure, surely.",
             "You are forged from the geothermal vents.",
+            "The shrimp ",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",
             "Do the octopuses know who came before them? Do you know?",
-            "",
+            "Did you create this world? ...you may think not, but how could you remember?",
         ],
         shrouded: [
             "Did the chimaeras recognise who you were?",
             "What did you learn from the dark world?",
+            "Do not ask me who that was. I would prefer not to discuss it.",
+            "Who brought darkness to this place? Or, was it always like this?",
         ],
         frigid: [
-            "Did you prefer arctic waters?",
             "Few worlds are so harsh. Fewer survive.",
+            "You did well to lead the squids. They do not usually take so well to outsiders.",
+            "...did you miss the rays?",
+            "Tell me: Where do you see the line between friend and food? The urchins are as simple-minded as the fish.",
+
+            // The squid are primitive and prideful, yet wise.<br>They are no fools, else the ice would have claimed them long ago.
+            // save that for the squid status
+            // frigid has no machines, low-tech
         ],
     },
     loss: [
@@ -721,7 +729,7 @@ SharkGame.Gateway.Messages = {
         "You may not see me. Do not worry. I can see you.",
         "What am I? Oh, it is not so important. Not so soon.",
         "Is this the dream of a shark between worlds, or are the worlds a dream and this place your reality?",
-        "A crossroads. Decisions. Decisions that cannot be shaken so lightly.",
+        "A crossroads. Decisions. Decisions that cannot be taken so lightly.",
         "There are such sights to behold for the ones who can see here.",
         "You are to the ocean what we are to the pathways.",
         "You swim through liquid eternity. You are now, always, and forever.",

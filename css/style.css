@@ -304,6 +304,7 @@ pre {
   padding: 0.5em;
   overflow: hidden;
   text-align: left;
+  border-spacing: 0 0.1em;
 }
 #sidebar table h3 {
   padding: 0.2em;

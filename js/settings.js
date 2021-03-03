@@ -7,6 +7,12 @@ SharkGame.Settings = {
         options: [1, 10, 100, -3, -2, -1, "custom"],
     },
 
+    grottoMode: {
+        defaultSetting: "simple",
+        show: false,
+        options: ["simple", "advanced"],
+    },
+
     showTabHelp: {
         defaultSetting: true,
         show: false,

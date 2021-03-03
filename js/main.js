@@ -411,7 +411,7 @@ SharkGame.Main = {
             number += also;
             number += "/h";
         } else {
-            number = 0;
+            number = 0 + "/s";
         }
         return number;
     },
