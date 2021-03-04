@@ -275,7 +275,13 @@ SharkGame.Stats = {
         // You would filter or sort here if you want to filter or sort using higher order operations
         // You would filter or sort above the statement where it's checked if the view is switched if you want to do an if statement
 
-        incomesTable.append($("<tr>").append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")).append($("<td>").html("test2").attr("rowspan", 1).addClass("evenRow")).append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")).append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")));
+        incomesTable.append(
+            $("<tr>")
+                .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
+                .append($("<td>").html("test2").attr("rowspan", 1).addClass("evenRow"))
+                .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
+                .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
+        );
 
         drawnResourceMap.forEach((headingData, headingName) => {
             // if the resource has an income requiring any costs
@@ -346,7 +352,13 @@ SharkGame.Stats = {
                     }
 
                     if (generatorBoostRowspan === "inline" || counter === 0) {
-                        addCell([r.UPGRADE_MULTIPLIER_COLOR, "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey) * r.getIncomeBoost(generatorName, incomeKey)], generatorBoostRowspan);
+                        addCell(
+                            [
+                                r.UPGRADE_MULTIPLIER_COLOR,
+                                "x" + r.getMultiplier(generatorName) * r.getBoost(incomeKey) * r.getIncomeBoost(generatorName, incomeKey),
+                            ],
+                            generatorBoostRowspan
+                        );
 
                         // does this generator get a world multiplier?
                         // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
@@ -356,7 +368,8 @@ SharkGame.Stats = {
 
                         // does this income get an artifact multiplier?
                         const artifactMultiplier = w.getArtifactMultiplier(generatorName);
-                        if (artifactMultiplier !== 1) addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
+                        if (artifactMultiplier !== 1)
+                            addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
                         else addCell(undefined, generatorBoostRowspan);
 
                         // does this income get an effect network multiplier?
@@ -441,17 +454,17 @@ SharkGame.Stats = {
             if (w.worldType !== "start") {
                 key =
                     "<br> <b><u>TABLE KEY</b></u>" +
-                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
-                        `<br> <span style='color:${r.BOOST_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain resources.` +
-                        `<br> <span style='color:${r.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain producers.` +
-                        `<br> <span style='color:${r.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect eachother.` +
-                        `<br> <span style='color:${r.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`
+                    `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
+                    `<br> <span style='color:${r.BOOST_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain resources.` +
+                    `<br> <span style='color:${r.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for how the world affects certain producers.` +
+                    `<br> <span style='color:${r.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect eachother.` +
+                    `<br> <span style='color:${r.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`;
             } else {
                 key =
                     "<br> <b><u>TABLE KEY</b></u>" +
-                        `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.`
+                    `<br> <span style='color:${r.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.`;
             }
         }
         document.getElementById("tableKey").innerHTML = key;
-    }
+    },
 };
