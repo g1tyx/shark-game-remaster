@@ -255,23 +255,7 @@ SharkGame.Lab = {
 
                 // if the upgrade has effects, do them
                 if (upgrade.effect) {
-                    if (upgrade.effect.multiplier) {
-                        $.each(upgrade.effect.multiplier, (k, v) => {
-                            r.setMultiplier(k, v * r.getMultiplier(k));
-                            r.changeBaseIncome("multiply", k, v);
-                        });
-                    }
-                    if (upgrade.effect.boost) {
-                        $.each(upgrade.effect.boost, (k, v) => {
-                            r.setBoost(k, v * r.getBoost(k));
-                        });
-                    }
-                    if (upgrade.effect.incomeBoost) {
-                        $.each(upgrade.effect.incomeBoost, (k, v) => {
-                            r.setIncomeBoost(k, v * r.getIncomeBoost(k));
-                            r.changeBaseIncome("boost", k, v);
-                        });
-                    }
+                    ut.
                 }
 
                 // Add upgrade to DOM

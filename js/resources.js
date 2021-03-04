@@ -1,9 +1,10 @@
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
 SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income
-SharkGame.CalculationMap = new Map(); // a map which keeps track of incomes after upgrade and world multipliers to make calculations faster
 SharkGame.BreakdownIncomeTable = new Map(); // a map which has every single generator and what it produces, after costScaling
 SharkGame.FlippedBreakdownIncomeTable = new Map(); // each resource and what produces it and how much
+SharkGame.MultiplierMap = new Map(); // the static multipliers and modifiers to each resource from upgrades, the world, etc
+
 
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
@@ -23,10 +24,15 @@ SharkGame.Resources = {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (key, value) => {
             SharkGame.ResourceMap.set(key, _.cloneDeep(value));
-            SharkGame.CalculationMap.set(key, _.cloneDeep(value)); 
         });
 
         SharkGame.ResourceMap.forEach((v, key) => {
+            // create the baseIncome data
+            if (v.income) {
+                v.baseIncome = _.cloneDeep(v.income);
+            }
+
+            // create the playerresources map
             SharkGame.PlayerResources.set(key, {
                 amount: 0,
                 totalAmount: 0,
@@ -34,12 +40,20 @@ SharkGame.Resources = {
                 upgradeBoostMultiplier: 1,
                 incomeBoost: 1,
             });
+
+            // populate the flipped income breakdown map
             SharkGame.FlippedBreakdownIncomeTable.set(key, {});
+
+            // populate income table with an entry for each resource!!
+            SharkGame.PlayerIncomeTable.set(key, 0);
+
+            
         });
 
-        // populate income table with an entry for each resource!!
+
+        // build multiplier map
         SharkGame.ResourceMap.forEach((v, key) => {
-            SharkGame.PlayerIncomeTable.set(key, 0);
+            
         });
 
         r.specialMultiplier = 1;
