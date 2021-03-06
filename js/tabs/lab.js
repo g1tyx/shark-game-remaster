@@ -39,10 +39,20 @@ SharkGame.Lab = {
         $.each(ups, (k, v) => {
             ups[k].purchased = false;
         });
+
+        let upgradeObject = {};
+        $.each(SharkGame.ModifierTypes.upgrade, (type, modifiers) => {
+            upgradeObject[type] = {};
+            $.each(modifiers, (name, object) => {
+                // additionally set values for the types and categories of stuff
+                object.category = "upgrade";
+                object.type = type;
+                upgradeObject[type][name] = object.defaultValue;
+            });
+        });
+
         SharkGame.ResourceMap.forEach((v, key) => {
-            r.setMultiplier(key, 1);
-            r.setBoost(key, 1);
-            r.setIncomeBoost(key, 1);
+            SharkGame.ModifierMap.get(key).upgrade = upgradeObject;
         });
     },
 
@@ -255,7 +265,11 @@ SharkGame.Lab = {
 
                 // if the upgrade has effects, do them
                 if (upgrade.effect) {
-                    ut.
+                    $.each(upgrade.effect, (name, effects) => {
+                        $.each(effects, (affectedResource, degree) => {
+                            r.applyModifier(name, affectedResource, degree);
+                        });
+                    });
                 }
 
                 // Add upgrade to DOM
@@ -346,42 +360,19 @@ SharkGame.Lab = {
 
     getResearchEffects(upgrade, darken) {
         let effects = "<span class='medDesc' class='click-passthrough'>(Effects: ";
-        let anyeffects = false;
+        let anyeffect = false;
         if (upgrade.effect) {
-            if (upgrade.effect.multiplier) {
-                $.each(upgrade.effect.multiplier, (k, v) => {
-                    if (w.doesResourceExist(k)) {
-                        effects += r.getResourceName(k, darken, true) + " speed x " + v + ", ";
-                        anyeffects = true;
+            $.each(upgrade.effect, (name, effectsList) => {
+                $.each(effectsList, (resource, degree) => {
+                    if (w.doesResourceExist(resource)) {
+                        effects += SharkGame.ModifierReference.get(name).effectDescription(degree, resource) + ", ";
+                        anyeffect = true;
                     }
                 });
-            }
-            let anyeffect = anyeffects;
-            if (upgrade.effect.boost) {
-                anyeffects = false;
-                $.each(upgrade.effect.boost, (k, v) => {
-                    if (w.doesResourceExist(k)) {
-                        effects += "all " + r.getResourceName(k, darken, true) + " production x " + v + ", ";
-                        anyeffects = true;
-                    }
-                });
-            }
-            anyeffect = anyeffect || anyeffects;
-            if (upgrade.effect.incomeBoost) {
-                anyeffects = false;
-                $.each(upgrade.effect.incomeBoost, (k, v) => {
-                    if (w.doesResourceExist(k)) {
-                        effects += r.getResourceName(k, darken, true) + " efficiency x " + v + ", ";
-                        anyeffects = true;
-                    }
-                });
-            }
-            anyeffect = anyeffect || anyeffects;
-            if (anyeffect) {
-                effects = effects.slice(0, -2); // remove trailing suffix
-            } else {
-                effects += "???";
-            }
+            });
+        }
+        if (anyeffect) {
+            effects = effects.slice(0, -2); // remove trailing suffix
         } else {
             effects += "???";
         }

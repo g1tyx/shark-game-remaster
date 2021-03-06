@@ -29,7 +29,10 @@ SharkGame.ArtifactUtil = {
             } else {
                 wr.get(resourceName).artifactMultiplier = multiplier;
             }
-            r.changeBaseIncome("multiply", resourceName, multiplier);
+            let incomes = SharkGame.ResourceMap.get(resource).income;
+            $.each(incomes, (k, v) => {
+                incomes[k] = v * level;
+            });
         });
     },
 };

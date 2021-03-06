@@ -1,9 +1,9 @@
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
-SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income
+SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income and after modifiers are applied
 SharkGame.BreakdownIncomeTable = new Map(); // a map which has every single generator and what it produces, after costScaling
 SharkGame.FlippedBreakdownIncomeTable = new Map(); // each resource and what produces it and how much
-SharkGame.MultiplierMap = new Map(); // the static multipliers and modifiers to each resource from upgrades, the world, etc
+SharkGame.ModifierMap = new Map(); // the static multipliers and modifiers to each resource from upgrades, the world, etc
 
 
 SharkGame.Resources = {
@@ -36,9 +36,6 @@ SharkGame.Resources = {
             SharkGame.PlayerResources.set(key, {
                 amount: 0,
                 totalAmount: 0,
-                incomeMultiplier: 1,
-                upgradeBoostMultiplier: 1,
-                incomeBoost: 1,
             });
 
             // populate the flipped income breakdown map
@@ -51,9 +48,25 @@ SharkGame.Resources = {
         });
 
 
+        // set up the modifier reference, and also set up the object we copy to every entry in the modifier map
+        let multiplierObject = {};
+        $.each(SharkGame.ModifierTypes, (category, types) => {
+            multiplierObject[category] = {};
+            $.each(types, (type, modifiers) => {
+                multiplierObject[category][type] = {};
+                $.each(modifiers, (name, object) => {
+                    // additionally set values for the types and categories of stuff
+                    object.category = category;
+                    object.type = type;
+                    SharkGame.ModifierReference.set(name, object);
+                    multiplierObject[category][type][name] = object.defaultValue;
+                });
+            });
+        });
+
         // build multiplier map
         SharkGame.ResourceMap.forEach((v, key) => {
-            
+            SharkGame.ModifierMap.set(key, _.cloneDeep(multiplierObject));
         });
 
         r.specialMultiplier = 1;
@@ -233,7 +246,7 @@ SharkGame.Resources = {
                 if (worldResourceInfo) {
                     SharkGame.PlayerIncomeTable.set(
                         name,
-                        SharkGame.PlayerIncomeTable.get(name) + worldResourceInfo.income * worldResources.get(name).boostMultiplier * cad.speed
+                        SharkGame.PlayerIncomeTable.get(name) + worldResourceInfo.income * cad.speed
                     );
                 }
             }
@@ -247,22 +260,13 @@ SharkGame.Resources = {
     },
 
     getProductAmountFromGeneratorResource(generator, product, numGenerator = r.getResource(generator)) {
-        const rp = SharkGame.ResourceSpecialProperties;
-        const playerResource = SharkGame.PlayerResources.get(generator);
-        if (!r.getResourceCombinationAllowed(generator, product)) {
-            return 0;
-        }
         let generated =
-            SharkGame.CalculationMap.get(generator).income[product] *
+            SharkGame.ResourceMap.get(generator).income[product] *
             numGenerator *
             r.getSpecialMultiplier() *
             r.getNetworkIncomeModifier("generator", generator) *
             r.getNetworkIncomeModifier("resource", product) *
             cad.speed;
-        if (generated > 0) {
-            generated *= w.getWorldBoostMultiplier(product) *
-            r.getBoost(product);
-        }
         return generated;
     },
 
@@ -302,7 +306,9 @@ SharkGame.Resources = {
         return multiplier;
     },
 
-    changeBaseIncome(method, generator, arg1, arg2) {
+
+// probably being removed, no longer needed because of centralization of effects
+/*     changeBaseIncome(method, generator, arg1, arg2) {
         const mapEntry = SharkGame.CalculationMap.get(generator);
         switch(method) {
             case "multiply":
@@ -328,11 +334,7 @@ SharkGame.Resources = {
             // modify will need to simply divide by the old base income and multiply by the new one
             // set will need to call a function to apply all multipliers to itself
         }
-    },
-
-    getResourceCombinationAllowed(generator, product) {
-        return !w.worldRestrictedCombinations.has(generator) || !w.worldRestrictedCombinations.get(generator).includes(product);
-    },
+    }, */
 
     getSpecialMultiplier() {
         return r.specialMultiplier;
@@ -346,18 +348,8 @@ SharkGame.Resources = {
         return SharkGame.PlayerResources.get(resource).upgradeBoostMultiplier;
     },
 
-    setBoost(resource, multiplier) {
-        SharkGame.PlayerResources.get(resource).upgradeBoostMultiplier = multiplier;
-        r.recalculateIncomeTable();
-    },
-
     getMultiplier(resource) {
         return SharkGame.PlayerResources.get(resource).incomeMultiplier;
-    },
-
-    setMultiplier(resource, multiplier) {
-        SharkGame.PlayerResources.get(resource).incomeMultiplier = multiplier;
-        r.recalculateIncomeTable();
     },
 
     getIncomeBoost(resource, boosted) {
@@ -368,11 +360,6 @@ SharkGame.Resources = {
             return 1;
         }
         return SharkGame.PlayerResources.get(resource).incomeBoost;
-    },
-
-    setIncomeBoost(resource, multiplier) {
-        SharkGame.PlayerResources.get(resource).incomeBoost = multiplier;
-        r.recalculateIncomeTable();
     },
 
     // Adds or subtracts resources based on amount given.
@@ -692,7 +679,7 @@ SharkGame.Resources = {
                         r.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) + 
                         "  <span class='littleTooltipText'>at</span>  " +
                         m.beautifyIncome(amount).bold();
-                } else {
+                } else if (amount < 0) {
                     consumertext += "<br>";
                     consumertext += m.beautify(r.getResource(which)).bold() +
                         " " +
@@ -897,6 +884,13 @@ SharkGame.Resources = {
             network[main][effect] = {};
         }
         network[main][effect][sub] = degree;
+    },
+
+    applyModifier(name, target, degree, level = 1) {
+        const modifier = SharkGame.ModifierReference.get(name);
+        const type = modifier.type;
+        const category = modifier.category;
+        SharkGame.ModifierMap.get(target)[category][type][name] = modifier.apply(SharkGame.ModifierMap.get(target)[category][type][name], degree, target, level);
     },
 
     getPurchaseAmount(resource) {

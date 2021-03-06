@@ -167,7 +167,7 @@ SharkGame.Upgrades = {
                 crystal: 5,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                 },
             },
@@ -199,7 +199,7 @@ SharkGame.Upgrades = {
                 crystal: 5,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                 },
             },
@@ -215,7 +215,7 @@ SharkGame.Upgrades = {
                 crystal: 50,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                 },
             },
@@ -248,7 +248,7 @@ SharkGame.Upgrades = {
                 upgrades: ["crystalContainer"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                 },
             },
@@ -267,7 +267,7 @@ SharkGame.Upgrades = {
                 upgrades: ["crystalContainer"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                 },
             },
@@ -473,7 +473,7 @@ SharkGame.Upgrades = {
                 upgrades: ["automation"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
@@ -509,7 +509,7 @@ SharkGame.Upgrades = {
                 upgrades: ["engineering"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
@@ -603,7 +603,7 @@ SharkGame.Upgrades = {
                 upgrades: ["seabedGeology"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     worker: 2,
                     harvester: 2,
                     treasurer: 2,
@@ -639,7 +639,7 @@ SharkGame.Upgrades = {
                 upgrades: ["underwaterChemistry", "agriculture"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                 },
             },
@@ -660,7 +660,7 @@ SharkGame.Upgrades = {
                 seen: ["seaApple", "jellyfish"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     kelp: 2,
                 },
             },
@@ -683,7 +683,7 @@ SharkGame.Upgrades = {
                 seen: ["kelp"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                     laser: 2,
                 },
@@ -706,7 +706,7 @@ SharkGame.Upgrades = {
                 resources: ["crab"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crab: 4,
                     planter: 2,
                 },
@@ -729,7 +729,7 @@ SharkGame.Upgrades = {
                 seen: ["shrimp", "lobster"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shrimp: 2,
                     lobster: 2,
                 },
@@ -752,7 +752,7 @@ SharkGame.Upgrades = {
                 seen: ["shrimp"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shrimp: 2,
                 },
             },
@@ -772,7 +772,7 @@ SharkGame.Upgrades = {
                 resources: ["shrimp"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shrimp: 2,
                     queen: 2,
                     worker: 2,
@@ -795,7 +795,7 @@ SharkGame.Upgrades = {
                 resources: ["dolphin", "whale"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     dolphin: 2,
                     whale: 2,
                 },
@@ -819,7 +819,7 @@ SharkGame.Upgrades = {
                 seen: ["dolphin"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     dolphin: 2,
                 },
             },
@@ -841,7 +841,7 @@ SharkGame.Upgrades = {
                 resources: ["dolphin"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     biologist: 2,
                 },
             },
@@ -862,7 +862,7 @@ SharkGame.Upgrades = {
                 resources: ["dolphin"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     dolphin: 2,
                     philosopher: 2,
                     treasurer: 2,
@@ -903,7 +903,7 @@ SharkGame.Upgrades = {
                 seen: ["eel"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     eel: 2,
                 },
             },
@@ -924,7 +924,7 @@ SharkGame.Upgrades = {
                 resources: ["eel"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     eel: 2,
                     pit: 2,
                     technician: 2,
@@ -947,7 +947,7 @@ SharkGame.Upgrades = {
                 resources: ["eel"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     technician: 2,
                     fishMachine: 2,
                     sandDigger: 2,
@@ -973,7 +973,7 @@ SharkGame.Upgrades = {
                 seen: ["octopus"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     octopus: 2,
                 },
             },
@@ -994,7 +994,7 @@ SharkGame.Upgrades = {
                 resources: ["octopus"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     clamCollector: 2,
                     eggBrooder: 2,
                     sprongeSmelter: 2,
@@ -1024,7 +1024,7 @@ SharkGame.Upgrades = {
                 seen: ["chimaera"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     chimaera: 2,
                 },
             },
@@ -1047,7 +1047,7 @@ SharkGame.Upgrades = {
                 resources: ["chimaera"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     chimaera: 2,
                     transmuter: 2,
                     explorer: 2,
@@ -1068,7 +1068,7 @@ SharkGame.Upgrades = {
                 upgrades: ["agriculture"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     planter: 2,
                     shrimp: 4,
                 },
@@ -1088,7 +1088,7 @@ SharkGame.Upgrades = {
                 upgrades: ["sunObservation"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                     ray: 2,
                 },
@@ -1108,7 +1108,7 @@ SharkGame.Upgrades = {
                 upgrades: ["exploration"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crab: 4,
                 },
             },
@@ -1164,7 +1164,7 @@ SharkGame.Upgrades = {
                 notWorlds: ["start"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 4,
                     diver: 4,
                     scientist: 4,
@@ -1193,7 +1193,7 @@ SharkGame.Upgrades = {
                 resources: ["crab", "shrimp", "lobster"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crab: 4,
                     brood: 4,
                     planter: 4,
@@ -1222,7 +1222,7 @@ SharkGame.Upgrades = {
                 seen: ["dolphin", "whale"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     dolphin: 4,
                     biologist: 4,
                     treasurer: 4,
@@ -1246,7 +1246,7 @@ SharkGame.Upgrades = {
                 resources: ["eel"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     eel: 4,
                     pit: 4,
                     sifter: 4,
@@ -1268,7 +1268,7 @@ SharkGame.Upgrades = {
                 resources: ["octopus"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     octopus: 4,
                     collector: 4,
                     scavenger: 4,
@@ -1295,7 +1295,7 @@ SharkGame.Upgrades = {
                 notWorlds: ["start"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     fishMachine: 4,
                     crystalMiner: 4,
                     sandDigger: 4,
@@ -1319,7 +1319,7 @@ SharkGame.Upgrades = {
                 resources: ["coralglass"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     spongeFarmer: 4,
                     berrySprayer: 4,
                     glassMaker: 4,
@@ -1340,7 +1340,7 @@ SharkGame.Upgrades = {
                 resources: ["delphinium"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     tirelessCrafter: 4,
                     silentArchivist: 4,
                 },
@@ -1359,7 +1359,7 @@ SharkGame.Upgrades = {
                 crystal: 5,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                 },
             },
@@ -1376,7 +1376,7 @@ SharkGame.Upgrades = {
                 crystal: 5,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                 },
             },
@@ -1392,7 +1392,7 @@ SharkGame.Upgrades = {
                 crystal: 50,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                 },
             },
@@ -1425,7 +1425,7 @@ SharkGame.Upgrades = {
                 upgrades: ["crystalContainer"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                 },
             },
@@ -1444,7 +1444,7 @@ SharkGame.Upgrades = {
                 upgrades: ["crystalContainer"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                 },
             },
@@ -1639,7 +1639,7 @@ SharkGame.Upgrades = {
                     sandDigger: 2,
                     skimmer: 2,
                 },
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 4,
                 },
             },
@@ -1691,7 +1691,7 @@ SharkGame.Upgrades = {
                 upgrades: ["underwaterChemistry", "agriculture"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                 },
             },
@@ -1712,7 +1712,7 @@ SharkGame.Upgrades = {
                 upgrades: ["biology", "laserRays"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                     laser: 2,
                 },
@@ -1736,7 +1736,7 @@ SharkGame.Upgrades = {
                 seen: ["collector"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crab: 4,
                     collector: 4,
                 },
@@ -1758,7 +1758,7 @@ SharkGame.Upgrades = {
                 seen: ["octopus"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     octopus: 2,
                 },
             },
@@ -1779,7 +1779,7 @@ SharkGame.Upgrades = {
                 seen: ["clamCollector", "sprongeSmelter", "eggBrooder"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     octopus: 2,
                     investigator: 2,
                 },
@@ -1804,7 +1804,7 @@ SharkGame.Upgrades = {
                 upgrades: ["agriculture"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                     investigator: 2,
                     collector: 2,
@@ -1825,7 +1825,7 @@ SharkGame.Upgrades = {
                 upgrades: ["sunObservation"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                     ray: 2,
                     crab: 4,
@@ -1862,7 +1862,7 @@ SharkGame.Upgrades = {
                 seen: ["ancientPart"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scavenger: 8,
                     collector: 4,
                 },
@@ -1883,7 +1883,7 @@ SharkGame.Upgrades = {
                 seen: ["ancientPart"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                     investigator: 4,
                 },
@@ -1935,7 +1935,7 @@ SharkGame.Upgrades = {
                 resources: ["octopus"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     octopus: 8,
                     investigator: 8,
                     scavenger: 8,
@@ -1961,7 +1961,7 @@ SharkGame.Upgrades = {
                 resources: ["sharkonium"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     filter: 8,
                 },
                 incomeBoost: {
@@ -1985,7 +1985,7 @@ SharkGame.Upgrades = {
                 crystal: 5,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                 },
             },
@@ -2000,7 +2000,7 @@ SharkGame.Upgrades = {
                 fish: 1,
             },
             effect: {
-                boost: {
+                resourceBoost: {
                     fish: 2,
                 },
             },
@@ -2017,7 +2017,7 @@ SharkGame.Upgrades = {
                 crystal: 5,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                 },
             },
@@ -2033,7 +2033,7 @@ SharkGame.Upgrades = {
                 crystal: 50,
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                 },
             },
@@ -2066,7 +2066,7 @@ SharkGame.Upgrades = {
                 upgrades: ["crystalContainer"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     scientist: 2,
                 },
             },
@@ -2085,7 +2085,7 @@ SharkGame.Upgrades = {
                 upgrades: ["crystalContainer"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                 },
             },
@@ -2291,7 +2291,7 @@ SharkGame.Upgrades = {
                 upgrades: ["automation"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
@@ -2327,7 +2327,7 @@ SharkGame.Upgrades = {
                 upgrades: ["engineering"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
@@ -2384,7 +2384,7 @@ SharkGame.Upgrades = {
                 upgrades: ["seabedGeology"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     worker: 2,
                     harvester: 2,
                     treasurer: 2,
@@ -2420,7 +2420,7 @@ SharkGame.Upgrades = {
                 upgrades: ["underwaterChemistry", "agriculture"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                 },
             },
@@ -2441,7 +2441,7 @@ SharkGame.Upgrades = {
                 seen: ["seaApple", "jellyfish"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     kelp: 2,
                 },
             },
@@ -2464,7 +2464,7 @@ SharkGame.Upgrades = {
                 seen: ["kelp"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     ray: 2,
                     laser: 2,
                 },
@@ -2487,7 +2487,7 @@ SharkGame.Upgrades = {
                 resources: ["crab"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crab: 4,
                     planter: 2,
                 },
@@ -2509,7 +2509,7 @@ SharkGame.Upgrades = {
                 resources: ["dolphin", "whale"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     dolphin: 2,
                     whale: 2,
                 },
@@ -2533,7 +2533,7 @@ SharkGame.Upgrades = {
                 seen: ["dolphin"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     dolphin: 2,
                 },
             },
@@ -2555,7 +2555,7 @@ SharkGame.Upgrades = {
                 resources: ["dolphin"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     biologist: 2,
                 },
             },
@@ -2576,7 +2576,7 @@ SharkGame.Upgrades = {
                 resources: ["dolphin"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     dolphin: 2,
                     philosopher: 2,
                     treasurer: 2,
@@ -2613,7 +2613,7 @@ SharkGame.Upgrades = {
                 upgrades: ["agriculture"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     planter: 2,
                     shrimp: 4,
                 },
@@ -2633,7 +2633,7 @@ SharkGame.Upgrades = {
                 upgrades: ["sunObservation"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     shark: 2,
                     ray: 2,
                 },
@@ -2653,7 +2653,7 @@ SharkGame.Upgrades = {
                 upgrades: ["exploration"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     crab: 4,
                 },
             },
@@ -2690,7 +2690,7 @@ SharkGame.Upgrades = {
                 resources: ["delphinium"],
             },
             effect: {
-                multiplier: {
+                incomeMultiplier: {
                     tirelessCrafter: 4,
                     silentArchivist: 4,
                 },
