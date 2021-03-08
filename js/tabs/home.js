@@ -141,14 +141,12 @@ SharkGame.Home = {
             {
                 name: "haven-dolphin-observes",
                 unlock: { upgrade: ["crystalContainer"] },
-                message:
-                    "A...thing observes us from afar. What the heck is that??",
+                message: "A...thing observes us from afar. What the heck is that??",
             },
             {
                 name: "haven-dolphins",
                 unlock: { resource: { dolphin: 1 }, homeAction: ["getDolphin"] },
-                message:
-                    "A dolphin joins the frenzy.<br/>And it already wants a raise. Wow.",
+                message: "A dolphin joins the frenzy.<br/>And it already wants a raise. Wow.",
             },
             {
                 name: "haven-dolphin-empire",
@@ -175,8 +173,7 @@ SharkGame.Home = {
             {
                 name: "haven-done",
                 unlock: { upgrade: ["primordialSong"] },
-                message:
-                    "The true song booms across the open water, carrying itself to all corners of the ocean.<br/> The gate reacts.",
+                message: "The true song booms across the open water, carrying itself to all corners of the ocean.<br/> The gate reacts.",
             },
         ],
 
@@ -328,7 +325,8 @@ SharkGame.Home = {
             {
                 name: "abandoned-production",
                 unlock: { upgrade: ["octopusMethodology"] },
-                message: "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
+                message:
+                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
             },
             {
                 name: "abandoned-spronge",
@@ -782,7 +780,7 @@ SharkGame.Home = {
             }
         }
 
-/*         if (document.querySelector("#wrapper button.hoverbutton:hover") === null) {
+        /*         if (document.querySelector("#wrapper button.hoverbutton:hover") === null) {
             h.onHomeUnhover();
         } */
 

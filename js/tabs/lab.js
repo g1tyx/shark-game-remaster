@@ -40,7 +40,7 @@ SharkGame.Lab = {
             ups[k].purchased = false;
         });
 
-        let upgradeObject = {};
+        const upgradeObject = {};
         $.each(SharkGame.ModifierTypes.upgrade, (type, modifiers) => {
             upgradeObject[type] = {};
             $.each(modifiers, (name, object) => {
@@ -358,7 +358,7 @@ SharkGame.Lab = {
         return true;
     },
 
-    getResearchEffects(upgrade, darken) {
+    getResearchEffects(upgrade, _darken) {
         let effects = "<span class='medDesc' class='click-passthrough'>(Effects: ";
         let anyeffect = false;
         if (upgrade.effect) {
