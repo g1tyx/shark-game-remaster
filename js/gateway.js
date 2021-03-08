@@ -536,13 +536,15 @@ SharkGame.Gateway = {
                 switch (modifier.type) {
                     case "multiplier":
                         modifierList.append(
-                            $("<li>").html(SharkGame.WorldModifiers[modifier.modifier].getMessage(planetLevel, target, modifier.amount)).addClass("medDesc")
-                            );
+                            $("<li>")
+                                .html(SharkGame.WorldModifiers[modifier.modifier].getMessage(planetLevel, target, modifier.amount))
+                                .addClass("medDesc")
+                        );
                         break;
                     case "restriction":
                         modifierList.append(
                             $("<li>").html(SharkGame.WorldModifiers[modifier.modifier].getMessage(target, modifier.restriction)).addClass("medDesc")
-                            );
+                        );
                 }
             }
             contentDiv.append(modifierList);
@@ -658,10 +660,7 @@ SharkGame.Gateway.Messages = {
     ],
     lastPlanetBased: {
         // working on changing this section
-        start: [
-            "No other world you find will be as forgiving.",
-            "You have left the best of all possible worlds.",
-        ],
+        start: ["No other world you find will be as forgiving.", "You have left the best of all possible worlds."],
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
@@ -682,11 +681,7 @@ SharkGame.Gateway.Messages = {
             "The swordfish fear your presence, with good reason.",
             "The revolt was unavoidable. It was merely a matter of time.",
         ],
-        violent: [
-            "The boiling ocean only stirred you on.",
-            "You are forged from the geothermal vents.",
-            "The shrimp ",
-        ],
+        violent: ["The boiling ocean only stirred you on.", "You are forged from the geothermal vents.", "The shrimp "],
         abandoned: [
             "Do you wonder who abandoned the machines?",
             "Do the octopuses know who came before them? Do you know?",
