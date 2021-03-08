@@ -41,7 +41,7 @@ SharkGame.Lab = {
         });
 
         const upgradeObject = {};
-        $.each(SharkGame.ModifierTypes.upgrade, (type, modifiers) => {
+        $.each(mt.upgrade, (type, modifiers) => {
             upgradeObject[type] = {};
             $.each(modifiers, (name, object) => {
                 // additionally set values for the types and categories of stuff
@@ -52,7 +52,7 @@ SharkGame.Lab = {
         });
 
         SharkGame.ResourceMap.forEach((v, key) => {
-            SharkGame.ModifierMap.get(key).upgrade = upgradeObject;
+            SharkGame.ModifierMap.get(key).upgrade = _.cloneDeep(upgradeObject);
         });
     },
 

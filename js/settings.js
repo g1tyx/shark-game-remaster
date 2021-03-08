@@ -111,7 +111,7 @@ SharkGame.Settings = {
         name: "Sidebar Width",
         desc: "How much screen estate the sidebar should take.",
         show: true,
-        options: ["20%", "25%", "30%", "35%", "40%", "45%", "50%"],
+        options: ["25%", "30%", "35%", "40%", "45%", "50%"],
         onChange() {
             const sidebar = $("#sidebar");
             if (SharkGame.Settings.current.showAnimations) {

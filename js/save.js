@@ -280,6 +280,9 @@ SharkGame.Save = {
                 });
             }
 
+            // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
+            r.recalculateIncomeTable();
+
             if (saveData.settings) {
                 $.each(saveData.settings, (k, v) => {
                     if (SharkGame.Settings.current[k] !== undefined) {

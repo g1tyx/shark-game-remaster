@@ -8,8 +8,7 @@ SharkGame.ModifierMap = new Map(); // the static multipliers and modifiers to ea
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
     TOTAL_INCOME_COLOR: "#A0A0A0",
-    UPGRADE_MULTIPLIER_COLOR: "#707070",
-    BOOST_MULTIPLIER_COLOR: "#60A060",
+    UPGRADE_MULTIPLIER_COLOR: "#60A060",
     WORLD_MULTIPLIER_COLOR: "#6060A0",
     ARTIFACT_MULTIPLIER_COLOR: "#70B5A0",
     RESOURCE_AFFECT_MULTIPLIER_COLOR: "#BFBF5A",
@@ -46,7 +45,7 @@ SharkGame.Resources = {
 
         // set up the modifier reference, and also set up the object we copy to every entry in the modifier map
         const multiplierObject = {};
-        $.each(SharkGame.ModifierTypes, (category, types) => {
+        $.each(mt, (category, types) => {
             multiplierObject[category] = {};
             $.each(types, (type, modifiers) => {
                 multiplierObject[category][type] = {};
@@ -253,14 +252,12 @@ SharkGame.Resources = {
     },
 
     getProductAmountFromGeneratorResource(generator, product, numGenerator = r.getResource(generator)) {
-        const generated =
-            SharkGame.ResourceMap.get(generator).income[product] *
+        return SharkGame.ResourceMap.get(generator).income[product] *
             numGenerator *
             r.getSpecialMultiplier() *
             r.getNetworkIncomeModifier("generator", generator) *
             r.getNetworkIncomeModifier("resource", product) *
             cad.speed;
-        return generated;
     },
 
     getNetworkIncomeModifier(network, resource) {
@@ -299,59 +296,12 @@ SharkGame.Resources = {
         return multiplier;
     },
 
-    // probably being removed, no longer needed because of centralization of effects
-    /*     changeBaseIncome(method, generator, arg1, arg2) {
-        const mapEntry = SharkGame.CalculationMap.get(generator);
-        switch (method) {
-            case "multiply":
-                $.each(mapEntry.income, (resource, income) => {
-                    mapEntry.income[resource] = income * arg1;
-                });
-                break;
-            case "boost":
-                $.each(mapEntry.income, (resource, income) => {
-                    if (income > 0 && resource !== "tar") {
-                        mapEntry.income[resource] = income * arg1;
-                    }
-                });
-            //     break;
-            // case "modify":
-            //     if(mapEntry.income[arg1]) {
-            //         mapEntry.income[arg1] = arg2;
-            //     }
-            //     break;
-            // case "set":
-            //     mapEntry.income[arg1] = arg2;
-            // these two cases will require some special handling
-            // modify will need to simply divide by the old base income and multiply by the new one
-            // set will need to call a function to apply all multipliers to itself
-        }
-    }, */
-
     getSpecialMultiplier() {
         return r.specialMultiplier;
     },
 
     getIncome(resource) {
         return SharkGame.PlayerIncomeTable.get(resource);
-    },
-
-    getBoost(resource) {
-        return SharkGame.PlayerResources.get(resource).upgradeBoostMultiplier;
-    },
-
-    getMultiplier(resource) {
-        return SharkGame.PlayerResources.get(resource).incomeMultiplier;
-    },
-
-    getIncomeBoost(resource, boosted) {
-        if (SharkGame.ResourceMap.get(resource).income[boosted] < SharkGame.EPSILON) {
-            return 1;
-        }
-        if (boosted === "tar") {
-            return 1;
-        }
-        return SharkGame.PlayerResources.get(resource).incomeBoost;
     },
 
     // Adds or subtracts resources based on amount given.
@@ -523,7 +473,7 @@ SharkGame.Resources = {
             // loop over table rows, update values
             SharkGame.PlayerResources.forEach((resource, resourceName) => {
                 const oldValue = $("#amount-" + resourceName).html();
-                const newValue = m.beautify(resource.amount, true);
+                const newValue = "⠀" + m.beautify(resource.amount, true);
                 if (oldValue !== newValue.replace(/'/g, '"')) {
                     $("#amount-" + resourceName).html(newValue);
                 }
@@ -531,7 +481,7 @@ SharkGame.Resources = {
                 const income = r.getIncome(resourceName);
                 if (Math.abs(income) > SharkGame.EPSILON) {
                     const changeChar = income > 0 ? "+" : "";
-                    const newIncome = "<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>";
+                    const newIncome = "⠀" + "<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>";
                     const oldIncome = $("#income-" + resourceName).html();
                     if (oldIncome !== newIncome.replace(/'/g, '"')) {
                         $("#income-" + resourceName).html(newIncome);
@@ -637,7 +587,7 @@ SharkGame.Resources = {
             row.append(
                 $("<td>")
                     .attr("id", "amount-" + k)
-                    .html(m.beautify(pr.amount))
+                    .html("⠀" + m.beautify(pr.amount))
             );
 
             const incomeId = $("<td>").attr("id", "income-" + k);
@@ -646,14 +596,10 @@ SharkGame.Resources = {
 
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
-                incomeId.html("<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>");
+                incomeId.html("⠀" + "<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>");
             }
         }
         return row;
-    },
-
-    nothing() {
-        return;
     },
 
     tableTextEnter() {
@@ -881,15 +827,33 @@ SharkGame.Resources = {
     },
 
     applyModifier(name, target, degree, level = 1) {
-        const modifier = SharkGame.ModifierReference.get(name);
-        const type = modifier.type;
-        const category = modifier.category;
-        SharkGame.ModifierMap.get(target)[category][type][name] = modifier.apply(
-            SharkGame.ModifierMap.get(target)[category][type][name],
-            degree,
-            target,
-            level
-        );
+        if (r.isCategory(target)) {
+            target = r.getResourcesInCategory(target);
+        } else if (typeof(target) !== "array") {
+            target = [target];
+        }
+        _.each(target, (resource, index) => {
+            const modifier = SharkGame.ModifierReference.get(name);
+            const type = modifier.type;
+            const category = modifier.category;
+            SharkGame.ModifierMap.get(resource)[category][type][name] = modifier.apply(
+                SharkGame.ModifierMap.get(resource)[category][type][name],
+                degree,
+                resource,
+                level
+            );
+        });
+    },
+    
+    getMultiplierProduct(category, generator, generated, treatOneAsNone = false) {
+        let product = 1;
+        $.each(mt[category].multiplier, (name, data) => {
+            product *= data.getEffect(SharkGame.ModifierMap.get(generator)[category].multiplier[name], generator, generated);
+        });
+        if (treatOneAsNone && product === 1) {
+            return "";
+        }
+        return product;
     },
 
     getPurchaseAmount(resource) {
@@ -920,39 +884,5 @@ SharkGame.Resources = {
         SharkGame.ResourceMap.forEach((v, key) => {
             r.changeResource(key, amount);
         });
-    },
-
-    // this was going to be used to randomise what resources were available but it needs better work to point out what is REQUIRED and what is OPTIONAL
-    // create all chains that terminate only at a cost-free action to determine how to get to a resource
-    // will return a weird vaguely tree structure of nested arrays (ughhh I need to learn how to OOP in javascript at some point, what a hack)
-    getResourceDependencyChains(resource, alreadyKnownList) {
-        const dependencies = [];
-        if (!alreadyKnownList) {
-            alreadyKnownList = []; // tracks resources we've already seen, an effort to combat cyclic dependencies
-        }
-
-        const sources = r.getResourceSources(resource);
-        // get resource costs for actions that directly get this
-        // only care about the resource types required
-        $.each(sources.actions, (_key, action) => {
-            const actionCost = SharkGame.HomeActions.getActionList()[action].cost;
-            $.each(actionCost, (k, costProp) => {
-                const costResource = costProp.resource;
-                if (w.doesResourceExist(costResource)) {
-                    dependencies.push(costResource);
-                    alreadyKnownList.push(costResource);
-                }
-            });
-        });
-
-        // get dependencies for income resources
-        $.each(sources.income, (_, v) => {
-            if (w.doesResourceExist(v)) {
-                if (alreadyKnownList.indexOf(v) === -1) {
-                    dependencies.push(r.getResourceDependencyChains(v, alreadyKnownList));
-                }
-            }
-        });
-        return dependencies;
     },
 };
