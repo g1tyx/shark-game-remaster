@@ -513,7 +513,7 @@ SharkGame.Gateway = {
     // GOD THIS IS A MESS
     // I'M SO SORRY FUTURE ME AND ANYONE ELSE READING THIS
 
-    // i partially cleaned it up for you
+    // why
     showPlanetAttributes(worldData, planetLevel, contentDiv) {
         // add known attributes
         const pslevel = SharkGame.Artifacts.planetScanner.level;
@@ -533,19 +533,11 @@ SharkGame.Gateway = {
             for (let i = 0; i < Math.min(numberKnown, modifiers); i++) {
                 const modifier = worldData.modifiers[i];
                 const target = modifier.resource;
-                switch (modifier.type) {
-                    case "multiplier":
-                        modifierList.append(
-                            $("<li>")
-                                .html(SharkGame.WorldModifiers[modifier.modifier].getMessage(planetLevel, target, modifier.amount))
-                                .addClass("medDesc")
-                        );
-                        break;
-                    case "restriction":
-                        modifierList.append(
-                            $("<li>").html(SharkGame.WorldModifiers[modifier.modifier].getMessage(target, modifier.restriction)).addClass("medDesc")
-                        );
-                }
+                modifierList.append(
+                    $("<li>")
+                        .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount,target, planetLevel))
+                        .addClass("medDesc")
+                );
             }
             contentDiv.append(modifierList);
             numberLeft = numberLeft - modifiers;

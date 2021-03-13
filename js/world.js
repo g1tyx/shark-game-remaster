@@ -21,7 +21,7 @@ SharkGame.World = {
     },
 
     apply() {
-        w.applyWorldProperties(w.planetLevel);
+        w.applyWorldProperties();
         w.applyGateCosts(w.planetLevel);
     },
 
@@ -38,13 +38,9 @@ SharkGame.World = {
         });
     },
 
-    applyWorldProperties(level) {
+    applyWorldProperties() {
         const wr = w.worldResources;
         const worldInfo = SharkGame.WorldTypes[w.worldType];
-
-        // get multiplier
-        const terraformMultiplier = w.getTerraformMultiplier();
-        const effectiveLevel = Math.max(Math.floor(level * terraformMultiplier), 1);
 
         // enable resources allowed on the planet
         if (worldInfo.includedResources) {
@@ -98,24 +94,7 @@ SharkGame.World = {
         w.worldResources.get(resourceName).exists = true;
     },
 
-    getWorldIncomeMultiplier(resourceName) {
-        return w.worldResources.get(resourceName).incomeMultiplier;
-    },
-
-    getArtifactMultiplier(resourceName) {
-        const artifactMultiplier = w.worldResources.get(resourceName).artifactMultiplier;
-        return artifactMultiplier;
-    },
-
     // these things are only impacted by artifacts so far
-
-    getTerraformMultiplier() {
-        // temporarily disabled the terraformer because it might screw with game balance down the line.
-        //
-        // const ptLevel = SharkGame.Artifacts.planetTerraformer.level;
-        // return ptLevel > 0 ? Math.pow(0.9, ptLevel) : 1;
-        return 1;
-    },
 
     getGateCostMultiplier() {
         const gcrLevel = SharkGame.Artifacts.gateCostReducer.level;

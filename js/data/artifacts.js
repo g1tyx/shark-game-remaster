@@ -234,7 +234,7 @@ SharkGame.Artifacts = {
         required: ["crab"],
         cost: SharkGame.ArtifactUtil.totemCost,
         effect(level) {
-            SharkGame.ArtifactUtil.totemEffect(level, ["crab", "planter", "brood"]);
+            SharkGame.ArtifactUtil.totemEffect(level, ["crab", "planter", "brood", "collector"]);
         },
     },
     progressTotem: {

@@ -1095,10 +1095,12 @@ SharkGame.Home = {
         }
 
         document.getElementById("tooltipbox").innerHTML = text;
+        $(".tooltip").addClass("forHomeButton");
     },
 
     onHomeUnhover() {
         document.getElementById("tooltipbox").innerHTML = "";
+        $(".tooltip").removeClass("forHomeButton");
     },
 
     getCost(action, amount) {

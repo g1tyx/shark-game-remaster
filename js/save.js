@@ -814,7 +814,7 @@ SharkGame.Save = {
 
         function update(save) {
             save = $.extend(true, save, {
-                settings: { enableThemes: true, framerate: 10 },
+                settings: { enableThemes: true, framerate: 20 },
             });
             return save;
         },
@@ -832,6 +832,13 @@ SharkGame.Save = {
             });
             _.each(["farAbandonedExploration", "reverseEngineering", "highEnergyFusion", "artifactAssembly", "superiorSearchAlgorithms"], (v) => {
                 save.upgrades[v] = false;
+            });
+            return save;
+        },
+
+        function update(save) {
+            save = $.extend(true, save, {
+                settings: { grottoMode: "simple", incomeTotalMode: "absolute" },
             });
             return save;
         },

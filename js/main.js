@@ -1231,6 +1231,12 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 031221a": [
+        "Added simplified grotto.",
+        "Made grotto way easier to understand.",
+        "Added tooltips to income table.",
+        "Did internal rework of the multiplier system, created the modifier system.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
         "Scrapped Chaotic worldtype. Completely.",
         "Implemented gameplay for 1 out of 7 necessary planet reworks.",

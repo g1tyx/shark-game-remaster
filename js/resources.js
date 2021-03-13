@@ -596,7 +596,7 @@ SharkGame.Resources = {
 
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
-                incomeId.html("⠀" + "<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>");
+                incomeId.html("⠀<span style='color:" + r.INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(income) + "</span>");
             }
         }
         return row;
@@ -646,10 +646,12 @@ SharkGame.Resources = {
             text += "<br><span class='medDesc'>" + SharkGame.ResourceMap.get(resourceName).desc + "</span>";
         }
         document.getElementById("tooltipbox").innerHTML = text;
+        $(".tooltip").addClass("forIncomeTable");
     },
 
     tableTextLeave() {
         document.getElementById("tooltipbox").innerHTML = "";
+        $(".tooltip").removeClass("forIncomeTable");
     },
 
     getResourceName(resourceName, darken, forceSingle, arbitraryAmount, background) {
@@ -708,29 +710,6 @@ SharkGame.Resources = {
         // snip off trailing suffix
         formattedResourceList = formattedResourceList.slice(0, -2);
         return formattedResourceList;
-    },
-
-    getResourceSources(resource) {
-        const sources = { income: [], actions: [] };
-        // go through all incomes
-        SharkGame.ResourceMap.forEach((v, key) => {
-            if (v.income) {
-                const incomeForResource = v.income[resource];
-                if (incomeForResource > 0) {
-                    sources.income.push(key);
-                }
-            }
-        });
-        // go through all actions
-        $.each(SharkGame.HomeActions.getActionList(), (homeActionName, homeAction) => {
-            const resourceEffect = homeAction.effect.resource;
-            if (resourceEffect) {
-                if (resourceEffect[resource] > 0) {
-                    sources.actions.push(homeActionName);
-                }
-            }
-        });
-        return sources;
     },
 
     buildIncomeNetwork(specifically) {
@@ -829,10 +808,10 @@ SharkGame.Resources = {
     applyModifier(name, target, degree, level = 1) {
         if (r.isCategory(target)) {
             target = r.getResourcesInCategory(target);
-        } else if (typeof(target) !== "array") {
+        } else if (typeof(target) !== "object") {
             target = [target];
         }
-        _.each(target, (resource, index) => {
+        _.each(target, (resource) => {
             const modifier = SharkGame.ModifierReference.get(name);
             const type = modifier.type;
             const category = modifier.category;

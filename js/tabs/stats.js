@@ -77,6 +77,11 @@ SharkGame.Stats = {
         } else {
             SharkGame.Button.makeButton("modeButton", "&nbsp Swap to Simple mode &nbsp", switchButtonDiv, s.toggleMode).addClass("min-block");
         }
+/*         if (SharkGame.Settings.current.incomeTotalMode === "absolute") {
+            SharkGame.Button.makeButton("percentButton", "&nbsp Show Income as Percentage &nbsp", switchButtonDiv, s.togglePercent).addClass("min-block");
+        } else {
+            SharkGame.Button.makeButton("percentButton", "&nbsp Show Income as Number &nbsp", switchButtonDiv, s.togglePercent).addClass("min-block");
+        } */
         incomeDataSel.append(switchButtonDiv);
 
         incomeDataSel.append(table);
@@ -204,7 +209,11 @@ SharkGame.Stats = {
                     const cell = $("#income-" + k + "-" + incomeKey);
                     const realIncome = SharkGame.BreakdownIncomeTable.get(k)[incomeKey];
                     const changeChar = !(realIncome < 0) ? "+" : "";
-                    const newValue = "<span style='color: " + r.TOTAL_INCOME_COLOR + "'>" + changeChar + m.beautifyIncome(realIncome) + "</span>";
+                    const newValue = "<span style='color: " +
+                    r.TOTAL_INCOME_COLOR + "'>" +
+                    // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + m.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
+                    (changeChar + m.beautifyIncome(realIncome)).bold() +
+                    "</span>";
                     const oldValue = cell.html();
 
                     if (oldValue !== newValue.replace(/'/g, '"')) {
@@ -255,7 +264,7 @@ SharkGame.Stats = {
                 }
 
                 $.each(generatorData.income, (incomeKey, incomeValue) => {
-                    if (w.doesResourceExist(incomeKey) && r.getTotalResource(incomeKey) > 0) {
+                    if (w.doesResourceExist(incomeKey) && r.getTotalResource(incomeKey) > 0 && incomeValue > 0 ) {
                         if (SharkGame.Settings.current.switchStats) {
                             // Switch it!
                             if (!drawnResourceMap.has(incomeKey)) drawnResourceMap.set(incomeKey, { subheading: {} });
@@ -295,8 +304,13 @@ SharkGame.Stats = {
 
             let row = $("<tr>");
             let counter = 0;
+            let firstEntryinRow = true;
 
             const rowStyle = formatCounter % 2 === 0 ? "evenRow" : "oddRow";
+            
+            if (!SharkGame.Settings.current.switchStats) {
+                row.append($("<td>").html("<div style='text-align:right'>" + m.beautify(r.getResource(headingName)).bold() + "</div>").addClass(rowStyle));
+            }
             row.append($("<td>").html(r.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
 
             function addCell(text, rowspan, id) {
@@ -329,6 +343,12 @@ SharkGame.Stats = {
                 const generatorBoostRowspan = SharkGame.Settings.current.switchStats ? "inline" : undefined;
                 const realIncome = SharkGame.BreakdownIncomeTable.get(generatorName)[incomeKey];
                 const changeChar = !(realIncome < 0) ? "+" : "";
+
+                if (SharkGame.Settings.current.switchStats) {
+                    row.append($("<td>").html("<div style='text-align:right'>" + m.beautify(r.getResource(subheadingKey)).bold() + "</div>").addClass(rowStyle));
+                } else if (!firstEntryinRow) {
+                    row.append($("<td>").html("<div style='text-align:right'>" + m.beautify(r.getResource(headingName)).bold() + "</div>").addClass(rowStyle));
+                }
                 row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
 
                 // which mode are we in?
@@ -344,14 +364,14 @@ SharkGame.Stats = {
 
                         // does this generator get a world multiplier?
                         // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
-                        const worldMultiplier = w.getWorldIncomeMultiplier(generatorName);
+                        const worldMultiplier = r.getMultiplierProduct("world", generatorName, incomeKey);
                         if (worldMultiplier !== 1) { 
-                            addCell([r.WORLD_MULTIPLIER_COLOR, "x" + m.beautify(r.getMultiplierProduct("world", generatorName, incomeKey))], generatorBoostRowspan);
+                            addCell([r.WORLD_MULTIPLIER_COLOR, "x" + m.beautify(worldMultiplier)], generatorBoostRowspan);
                             hasWorldColumn = true;
                         } else addCell(undefined, generatorBoostRowspan);
 
                         // does this income get an artifact multiplier?
-                        const artifactMultiplier = w.getArtifactMultiplier(generatorName);
+                        const artifactMultiplier = r.getMultiplierProduct("artifact", generatorName, incomeKey);
                         if (artifactMultiplier !== 1) {
                             addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
                             hasArtifactColumn = true;
@@ -370,11 +390,16 @@ SharkGame.Stats = {
 
                 addCell(undefined, "inline");
 
-                addCell([r.TOTAL_INCOME_COLOR, changeChar + m.beautifyIncome(realIncome)], "inline", "income-" + generatorName + "-" + incomeKey);
+                if (SharkGame.Settings.current.incomeTotalMode === "percentage") {
+                    addCell([r.TOTAL_INCOME_COLOR, ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%").bold()], "inline", "income-" + generatorName + "-" + incomeKey);
+                } else {
+                    addCell([r.TOTAL_INCOME_COLOR, (changeChar + m.beautifyIncome(realIncome)).bold()], "inline", "income-" + generatorName + "-" + incomeKey);
+                }
 
                 counter++;
                 incomesTable.append(row);
                 row = $("<tr>");
+                firstEntryinRow = false;
             });
 
             // throw away dangling values
@@ -387,14 +412,33 @@ SharkGame.Stats = {
             specialMultiplierCol.attr("rowspan", rowCount);
         }
 
-        row = $("<tr>");
+        const row = $("<tr>");
 
         let columns = incomesTable[0].children[0].children[0].children.length;
-        row.append(
-            $("<td>")
-                .html("<span><u>" + (SharkGame.Settings.current.switchStats ? "RESOURCE" : "GENERATOR").bold() + "</u></span>")
-                .addClass("evenRow")
-        );
+        
+        if (!SharkGame.Settings.current.switchStats) {
+            row.append(
+                $("<td>")
+                    .html("<span><u>" + ("AMOUNT").bold() + "</u></span>")
+                    .addClass("evenRow")
+            );
+            row.append(
+                $("<td>")
+                    .html("<span><u>" + (SharkGame.Settings.current.switchStats ? "RESOURCE" : "GENERATOR").bold() + "</u></span>")
+                    .addClass("evenRow")
+            );
+        } else {
+            row.append(
+                $("<td>")
+                    .html("<span><u>" + (SharkGame.Settings.current.switchStats ? "RESOURCE" : "GENERATOR").bold() + "</u></span>")
+                    .addClass("evenRow")
+            );
+            row.append(
+                $("<td>")
+                    .html("<span><u>" + ("AMOUNT").bold() + "</u></span>")
+                    .addClass("evenRow")
+            );
+        }
 
         row.append(
             $("<td>")
@@ -411,7 +455,7 @@ SharkGame.Stats = {
             columns -= 1;
         }
 
-        columns -= 2;
+        columns -= 3;
         while(columns > 1) {
             columns -= 1
             row.append(
@@ -475,6 +519,16 @@ SharkGame.Stats = {
         s.updateTableKey();
         s.createIncomeTable();
     },
+
+/*     togglePercent() {
+        if (SharkGame.Settings.current.incomeTotalMode === "absolute") {
+            SharkGame.Settings.current.incomeTotalMode = "percent";
+            document.getElementById("percentButton").innerHTML = "&nbsp Show Income as Number &nbsp";
+        } else {
+            SharkGame.Settings.current.incomeTotalMode = "absolute";
+            document.getElementById("percentButton").innerHTML = "&nbsp Show Income as Percentage &nbsp";
+        }
+    }, */
 
     updateTableKey() {
         let key = "";
