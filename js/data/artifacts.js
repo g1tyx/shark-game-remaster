@@ -17,7 +17,7 @@ SharkGame.ArtifactUtil = {
     totemCost(level) {
         return Math.floor(Math.pow(2.5, level + 1));
     },
-    totemEffect(level, resourceList) {
+    totemEffect(level, resourceList, totemName) {
         if (level < 1) {
             return;
         }
@@ -33,6 +33,7 @@ SharkGame.ArtifactUtil = {
             $.each(incomes, (k, v) => {
                 incomes[k] = v * level;
             });
+            SharkGame.ModifierMap.get(resourceName).artifact.multiplier[totemName] = level;
         });
     },
 };
@@ -190,7 +191,7 @@ SharkGame.Artifacts = {
         required: ["shark"],
         cost: SharkGame.ArtifactUtil.totemCost,
         effect(level) {
-            SharkGame.ArtifactUtil.totemEffect(level, ["shark", "scientist", "nurse", "diver"]);
+            SharkGame.ArtifactUtil.totemEffect(level, ["shark", "scientist", "nurse", "diver"], "sharkTotem");
         },
     },
     rayTotem: {
@@ -212,7 +213,7 @@ SharkGame.Artifacts = {
         required: ["ray"],
         cost: SharkGame.ArtifactUtil.totemCost,
         effect(level) {
-            SharkGame.ArtifactUtil.totemEffect(level, ["ray", "laser", "maker"]);
+            SharkGame.ArtifactUtil.totemEffect(level, ["ray", "laser", "maker"], "rayTotem");
         },
     },
     crabTotem: {
@@ -234,7 +235,7 @@ SharkGame.Artifacts = {
         required: ["crab"],
         cost: SharkGame.ArtifactUtil.totemCost,
         effect(level) {
-            SharkGame.ArtifactUtil.totemEffect(level, ["crab", "planter", "brood", "collector"]);
+            SharkGame.ArtifactUtil.totemEffect(level, ["crab", "planter", "brood", "collector"], "crabTotem");
         },
     },
     progressTotem: {
@@ -263,7 +264,7 @@ SharkGame.Artifacts = {
                 "skimmer",
                 "purifier",
                 "heater",
-            ]);
+            ], "progressTotem");
         },
     },
     wardingTotem: {

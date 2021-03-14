@@ -150,15 +150,21 @@ SharkGame.Home = {
             },
             {
                 name: "haven-dolphin-empire",
-                unlock: { resource: { dolphin: 15 }, homeAction: ["getDolphin"] },
+                unlock: { resource: { dolphin: 15 }},
                 message:
                     "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
             {
                 name: "haven-gate",
-                unlock: { resource: { dolphin: 1 }, homeAction: ["getDolphin"] },
+                unlock: { upgrade: ["delphinePhilosophy"] },
                 message:
-                    "Though the slots are filled, the gate is closed.<br/> Begrudgingly, the dolphins admit that they don't know how to open it.",
+                    "Many of the dolphins' self-indulgent tales are filled with references to a mysterious object.<br/>The dolphins do not know what it is, but they know where to find it.<br/>They show us to a strange, featureless gate.",
+            },
+            {
+                name: "haven-machines",
+                unlock: { upgrade: ["dolphinTechnology"] },
+                message:
+                    "The intricate design of these machines disguises their innate simplicity.<br/>...yet the dolphins completely replace any which need maintainence instead of fixing them. Why?",
             },
             {
                 name: "whale-one",
@@ -166,14 +172,20 @@ SharkGame.Home = {
                 message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
             },
             {
+                name: "haven-history",
+                unlock: { upgrade: ["delphineHistory"] },
+                message:
+                    "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original sum of dolphin knowledge has been lost to time, but this will have to do.",
+            },
+            {
                 name: "haven-chorus",
-                unlock: { resource: { chorus: 1 } },
+                unlock: { upgrade: ["eternalSong"] },
                 message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
             {
                 name: "haven-done",
-                unlock: { upgrade: ["primordialSong"] },
-                message: "The true song booms across the open water, carrying itself to all corners of the ocean.<br/> The gate reacts.",
+                unlock: { upgrade: { chorus: 1 } },
+                message: "The great song booms across the open water, carrying itself to all corners of the ocean.<br/>The gate reacts.",
             },
         ],
 
