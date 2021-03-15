@@ -86,49 +86,18 @@ SharkGame.Home = {
                 message: "The gate beckons. The secret must be unlocked.<br>&nbsp",
             },
         ],
+
         // LATER RUNS
-        // INITIAL WORLD STATUSES
         marine: [
             {
                 name: "marine-default",
                 unlock: { world: "marine" },
                 message: "The fish never run dry here. This place feels so familiar.<br>&nbsp",
             },
-            // BANKED ESSENCE
-            {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
-                message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
             {
                 name: "lobster-one",
                 unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
                 message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
-            },
-            {
-                name: "dolphin-one",
-                unlock: { resource: { dolphin: 5 }, homeAction: ["getDolphin"] },
-                message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
-            },
-            {
-                name: "octopus-one",
-                unlock: { resource: { octopus: 8 }, homeAction: ["getOctopus"] },
-                message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
-            },
-            {
-                name: "whale-one",
-                unlock: { resource: { whale: 1 }, homeAction: ["getWhale"] },
-                message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
-            },
-            // UNIQUE STATUSES
-            {
-                name: "chorus",
-                unlock: { resource: { chorus: 1 } },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
         ],
 
@@ -150,7 +119,7 @@ SharkGame.Home = {
             },
             {
                 name: "haven-dolphin-empire",
-                unlock: { resource: { dolphin: 15 }},
+                unlock: { resource: { dolphin: 15 } },
                 message:
                     "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
@@ -164,7 +133,7 @@ SharkGame.Home = {
                 name: "haven-machines",
                 unlock: { upgrade: ["dolphinTechnology"] },
                 message:
-                    "The intricate design of these machines disguises their innate simplicity.<br/>...yet the dolphins completely replace any which need maintainence instead of fixing them. Why?",
+                    "The intricate design of these machines disguises their innate simplicity.<br/>...yet they cannot perform maintenance without completely disassembling them. Why?",
             },
             {
                 name: "whale-one",
@@ -189,90 +158,11 @@ SharkGame.Home = {
             },
         ],
 
-        chaotic: [
-            {
-                name: "chaotic-default",
-                unlock: { world: "chaotic" },
-                message: "Overwhelming reinforcements. Overwhelming everything. So hard to focus.<br>&nbsp",
-            },
-            // BANKED ESSENCE
-            {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
-                message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
-            {
-                name: "lobster-one",
-                unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
-                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
-            },
-            {
-                name: "dolphin-one",
-                unlock: { resource: { dolphin: 5 }, homeAction: ["getDolphin"] },
-                message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
-            },
-            // UNIQUE STATUSES
-            {
-                name: "chorus",
-                unlock: { resource: { chorus: 1 } },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
-            },
-        ],
-
         tempestuous: [
             {
                 name: "tempestuous-default",
                 unlock: { world: "tempestuous" },
                 message: "The storm never ends, and many are lost to its violent throes.<br>&nbsp",
-            },
-            // BANKED ESSENCE
-            {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
-                message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
-            {
-                name: "shrimp-one",
-                unlock: { resource: { shrimp: 50 }, homeAction: ["getShrimp"] },
-                message: "The shrimps are tiny, but hard-working.<br>They live for their sponge hives.",
-            },
-            {
-                name: "lobster-one",
-                unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
-                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
-            },
-            {
-                name: "eel-one",
-                unlock: { resource: { eel: 10 }, homeAction: ["getEel"] },
-                message: "The eels chatter among their hiding places.<br>They like the sharks.",
-            },
-            {
-                name: "dolphin-one",
-                unlock: { resource: { dolphin: 5 }, homeAction: ["getDolphin"] },
-                message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
-            },
-            {
-                name: "octopus-one",
-                unlock: { resource: { octopus: 8 }, homeAction: ["getOctopus"] },
-                message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
-            },
-            {
-                name: "whale-one",
-                unlock: { resource: { whale: 1 }, homeAction: ["getWhale"] },
-                message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
-            },
-            // UNIQUE STATUSES
-            {
-                name: "chorus",
-                unlock: { resource: { chorus: 1 } },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
         ],
 
@@ -282,35 +172,10 @@ SharkGame.Home = {
                 unlock: { world: "violent" },
                 message: "Bursts of plenty from the scorching vents, but so hot.<br>No place for the young.",
             },
-            // BANKED ESSENCE
-            {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
-                message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
             {
                 name: "shrimp-one",
                 unlock: { resource: { shrimp: 50 }, homeAction: ["getShrimp"] },
                 message: "The shrimps are tiny, but hard-working.<br>They live for their sponge hives.",
-            },
-            {
-                name: "lobster-one",
-                unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
-                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
-            },
-            {
-                name: "dolphin-one",
-                unlock: { resource: { dolphin: 5 }, homeAction: ["getDolphin"] },
-                message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
-            },
-            // UNIQUE STATUSES
-            {
-                name: "chorus",
-                unlock: { resource: { chorus: 1 } },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
         ],
 
@@ -388,47 +253,16 @@ SharkGame.Home = {
                 unlock: { world: "shrouded" },
                 message: "The crystals are easier to find, but the darkness makes it hard to find anything else.<br>&nbsp",
             },
-            // BANKED ESSENCE
-            {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
-                message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
             {
                 name: "eel-one",
                 unlock: { resource: { eel: 10 }, homeAction: ["getEel"] },
                 message: "The eels chatter among their hiding places.<br>They like the sharks.",
             },
             {
-                name: "dolphin-one",
-                unlock: { resource: { dolphin: 5 }, homeAction: ["getDolphin"] },
-                message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
-            },
-            {
-                name: "octopus-one",
-                unlock: { resource: { octopus: 8 }, homeAction: ["getOctopus"] },
-                message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
-            },
-            {
-                name: "whale-one",
-                unlock: { resource: { whale: 1 }, homeAction: ["getWhale"] },
-                message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
-            },
-            {
                 name: "chimaera-one",
                 unlock: { resource: { chimaera: 5 }, homeAction: ["getChimaera"] },
                 message:
                     "The chimaeras are ancient kin of the shark kind, reunited through wild coincidence.<br>What peerless wonders have they found in the dark?",
-            },
-            // UNIQUE STATUSES
-            {
-                name: "chorus",
-                unlock: { resource: { chorus: 1 } },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
         ],
 
@@ -437,31 +271,6 @@ SharkGame.Home = {
                 name: "frigid-default",
                 unlock: { world: "frigid" },
                 message: "So cold. Hard to move. Hard to do anything.<br>&nbsp",
-            },
-            // BANKED ESSENCE
-            {
-                name: "essence",
-                unlock: { resource: { essence: 100 } },
-                message:
-                    "The other sharks obey and respect you, but they seem to fear you.<br>It is not clear if you are truly a shark anymore, or something... else.",
-            },
-            // NEW ANIMALS
-            {
-                name: "eel-one",
-                unlock: { resource: { eel: 10 }, homeAction: ["getEel"] },
-                message: "The eels chatter among their hiding places.<br>They like the sharks.",
-            },
-            {
-                name: "octopus-one",
-                unlock: { resource: { octopus: 8 }, homeAction: ["getOctopus"] },
-                message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
-            },
-            // UNIQUE STATUSES
-            {
-                name: "chorus",
-                unlock: { resource: { chorus: 1 } },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
             {
                 name: "frigid-ice-one",

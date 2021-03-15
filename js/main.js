@@ -1231,6 +1231,13 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 031421a": [
+        "Fixed bug related to how artifacts display in the grotto.",
+        "Fixed bug related to artifact affects not applying properly.",
+        "Fixed bug where the grotto would show an upgrade multiplier for everything, even if it was x1.",
+        "Fixed bug where artifact effects would not reset when importing.",
+        "Added 'INCOME PER' statistic to Simple grotto. Shows absolutely how much of a resource you get per generator.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 031221a": [
         "Added simplified grotto.",
         "Made grotto way easier to understand.",

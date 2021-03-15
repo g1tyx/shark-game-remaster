@@ -125,6 +125,7 @@ SharkGame.ResourceTable = {
         // and the english plural system should apply because we're talking about octopus, not ὀκτώπους, so just
         // why are you reading this
         singleName: "octopus",
+        desc: "Lifeforms of pure reason.",
         color: "#965F37",
         income: {
             clam: 2,
@@ -292,11 +293,24 @@ SharkGame.ResourceTable = {
     collector: {
         name: "collector crabs",
         singleName: "collector crab",
+        desc: "Harvesters of a dying world.",
         color: "#ff7847",
         income: {
             sponge: 0.5,
         },
         value: 4000,
+    },
+
+    treasurer: {
+        name: "crab treasurers",
+        singleName: "crab treasurer",
+        desc: "Guardians of the reefs.",
+        color: "#B4DBBC",
+        income: {
+            crystal: 0.02,
+            coral: 0.1,
+        },
+        value: 3000,
     },
 
     /* miller: {
@@ -346,28 +360,26 @@ SharkGame.ResourceTable = {
     philosopher: {
         name: "dolphin philosophers",
         singleName: "dolphin philosopher",
+        desc: "Squeaky, snarky, insightful strangers.",
         color: "#9FBCBF",
         income: {
-            science: 1.5,
+            science: 2,
         },
-
         value: 3000,
     },
 
-    treasurer: {
-        name: "dolphin treasurers",
-        singleName: "dolphin treasurer",
-        color: "#B4DBBC",
-        income: {
-            crystal: 2,
-            coral: 2,
-        },
+    historian: {
+        name: "dolphin historians",
+        singleName: "dolphin historian",
+        desc: "Dissecters of the past, onward to the future.",
+        color: "#9FBCBF",
         value: 3000,
     },
 
     chorus: {
-        name: "whale chorus",
-        singleName: "whale chorus",
+        name: "great chorus",
+        singleName: "great chorus",
+        desc: "A grand ensemble, singing to the tune of life itself.",
         color: "#85BBA9",
         income: {
             essence: 4e-4,
@@ -495,6 +507,7 @@ SharkGame.ResourceTable = {
     skimmer: {
         name: "skimmers",
         singleName: "skimmer",
+        desc: "Engines of industry.",
         color: "#8D4863",
         income: {
             junk: 750,
@@ -987,7 +1000,13 @@ SharkGame.GeneratorIncomeAffectedApplicable = {
     // see SharkGame.Resources.buildApplicableNetworks
 };
 
-SharkGame.ResourceIncomeAffectors = {};
+SharkGame.ResourceIncomeAffectors = {
+    historian: {
+        exponentiate: {
+            science: 1.01,
+        },
+    },
+};
 
 SharkGame.ResourceIncomeAffected = {
     // This table automatically populates with the affects on every relevant resource

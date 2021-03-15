@@ -252,12 +252,14 @@ SharkGame.Resources = {
     },
 
     getProductAmountFromGeneratorResource(generator, product, numGenerator = r.getResource(generator)) {
-        return SharkGame.ResourceMap.get(generator).income[product] *
+        return (
+            SharkGame.ResourceMap.get(generator).income[product] *
             numGenerator *
             r.getSpecialMultiplier() *
             r.getNetworkIncomeModifier("generator", generator) *
             r.getNetworkIncomeModifier("resource", product) *
-            cad.speed;
+            cad.speed
+        );
     },
 
     getNetworkIncomeModifier(network, resource) {
@@ -625,7 +627,7 @@ SharkGame.Resources = {
                         " " +
                         r.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
-                        m.beautifyIncome(amount).bold();
+                        m.beautifyIncome(-amount).bold();
                 }
             }
         });
@@ -808,7 +810,7 @@ SharkGame.Resources = {
     applyModifier(name, target, degree, level = 1) {
         if (r.isCategory(target)) {
             target = r.getResourcesInCategory(target);
-        } else if (typeof(target) !== "object") {
+        } else if (typeof target !== "object") {
             target = [target];
         }
         _.each(target, (resource) => {
@@ -823,7 +825,7 @@ SharkGame.Resources = {
             );
         });
     },
-    
+
     getMultiplierProduct(category, generator, generated, treatOneAsNone = false) {
         let product = 1;
         $.each(mt[category].multiplier, (name, data) => {

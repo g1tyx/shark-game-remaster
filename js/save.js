@@ -205,6 +205,8 @@ SharkGame.Save = {
                 SharkGame.Log.addMessage("Updated save data from v " + saveData.version + " to " + SharkGame.VERSION + ".");
             }
 
+            r.init();
+
             if (saveData.resources) {
                 $.each(saveData.resources, (k, v) => {
                     // check that this isn't an old resource that's been removed from the game for whatever reason

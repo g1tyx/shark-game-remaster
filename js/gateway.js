@@ -535,7 +535,7 @@ SharkGame.Gateway = {
                 const target = modifier.resource;
                 modifierList.append(
                     $("<li>")
-                        .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount,target, planetLevel))
+                        .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, target, planetLevel))
                         .addClass("medDesc")
                 );
             }

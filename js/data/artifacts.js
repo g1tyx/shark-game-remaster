@@ -31,7 +31,7 @@ SharkGame.ArtifactUtil = {
             }
             const incomes = SharkGame.ResourceMap.get(resourceName).income;
             $.each(incomes, (k, v) => {
-                incomes[k] = v * level;
+                incomes[k] = v * multiplier;
             });
             SharkGame.ModifierMap.get(resourceName).artifact.multiplier[totemName] = level;
         });
@@ -256,15 +256,11 @@ SharkGame.Artifacts = {
         },
         cost: SharkGame.ArtifactUtil.totemCost,
         effect(level) {
-            SharkGame.ArtifactUtil.totemEffect(level, [
-                "fishMachine",
-                "sandDigger",
-                "autoTransmuter",
-                "crystalMiner",
-                "skimmer",
-                "purifier",
-                "heater",
-            ], "progressTotem");
+            SharkGame.ArtifactUtil.totemEffect(
+                level,
+                ["fishMachine", "sandDigger", "autoTransmuter", "crystalMiner", "skimmer", "purifier", "heater"],
+                "progressTotem"
+            );
         },
     },
     wardingTotem: {

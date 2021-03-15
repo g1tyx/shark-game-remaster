@@ -233,6 +233,9 @@ SharkGame.ModifierTypes = {
                 name: "Restricted Generator-Income Combination",
                 apply(current, restriction, generator, _level) {
                     SharkGame.ResourceMap.get(generator).income[restriction] = 0;
+                    if (typeof current !== "object") {
+                        return [restriction];
+                    }
                     return current.push(restriction);
                 },
                 effectDescription(restriction, generator, _level) {
