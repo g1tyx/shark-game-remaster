@@ -108,38 +108,13 @@ SharkGame.WorldTypes = {
             },
         },
     },
-    chaotic: {
-        name: "Chaotic",
-        desc: "A frenetic world, torn by immaterial force.",
-        shortDesc: "swirling teal",
-        entry: "You enter a chaotic fray, with no recollection of your former journey. New creatures charge at you from all directions.",
-        style: "chaotic",
-        absentResources: ["tar", "ice", "heater", "eel", "whale", "octopus", "shrimp", "chimaera", "pit", "queen", "jellyfish"],
-        modifiers: [
-            { type: "multiplier", modifier: "planetaryIncome", resource: "frenzy", amount: 0.02 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "crab", amount: 0.04 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "breeders", amount: 0.001 },
-            { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "animals", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "stuff", amount: 1 },
-        ],
-        gateRequirements: {
-            slots: {
-                sponge: 1e6,
-                clam: 1e6,
-                sand: 1e7,
-                crystal: 1e7,
-                shark: 1e4,
-                sharkonium: 1e6,
-            },
-        },
-    },
     haven: {
         name: "Haven",
         desc: "An aquamarine world of plenty. So beautiful, yet so vulnerable.",
         shortDesc: "thriving aquamarine",
         entry: "Remembering nothing, you find yourself in a beautiful atoll teeming with life. Life will be good here.",
         style: "haven",
-        /* includedResources: [
+        includedResources: [
             "sharks",
             "rays",
             "crabs",
@@ -149,12 +124,19 @@ SharkGame.WorldTypes = {
             "kelpstuff",
             "sharkmachines",
             "dolphinmachines",
-            "coral"
-        ], */
-        absentResources: ["tar", "ice", "heater", "chimaera", "eel", "jellyfish"],
+            "coral",
+            "treasurer",
+            "chorus",
+        ],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "breeders", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "animals", amount: 0.5 },
+            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1 },
+            {
+                type: "multiplier",
+                modifier: "planetaryFixedIncomeMultiplier",
+                resource: "crab",
+                amount: 2,
+            },
         ],
         gateRequirements: {
             slots: {

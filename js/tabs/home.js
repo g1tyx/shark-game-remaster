@@ -109,17 +109,17 @@ SharkGame.Home = {
             },
             {
                 name: "haven-dolphin-observes",
-                unlock: { upgrade: ["crystalContainer"] },
+                unlock: { totalResource: { coral: 75 } },
                 message: "A...thing observes us from afar. What the heck is that??",
             },
             {
                 name: "haven-dolphins",
                 unlock: { resource: { dolphin: 1 }, homeAction: ["getDolphin"] },
-                message: "A dolphin joins the frenzy.<br/>And it already wants a raise. Wow.",
+                message: "A dolphin joins the frenzy.<br/>It already wants a raise. Wow.",
             },
             {
                 name: "haven-dolphin-empire",
-                unlock: { resource: { dolphin: 15 } },
+                unlock: { totalResource: { dolphin: 20 } },
                 message:
                     "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
@@ -127,16 +127,16 @@ SharkGame.Home = {
                 name: "haven-gate",
                 unlock: { upgrade: ["delphinePhilosophy"] },
                 message:
-                    "Many of the dolphins' self-indulgent tales are filled with references to a mysterious object.<br/>The dolphins do not know what it is, but they know where to find it.<br/>They show us to a strange, featureless gate.",
+                    "Many of the dolphins' self-indulgent tales are filled with references to a mysterious gate.<br/>The dolphins do not know what it is, but they do know where to start looking for it.",
             },
             {
                 name: "haven-machines",
                 unlock: { upgrade: ["dolphinTechnology"] },
                 message:
-                    "The intricate design of these machines disguises their innate simplicity.<br/>...yet they cannot perform maintenance without completely disassembling them. Why?",
+                    "The intricate design of these machines disguises their innate simplicity.<br/>",
             },
             {
-                name: "whale-one",
+                name: "haven-whales",
                 unlock: { resource: { whale: 1 }, homeAction: ["getWhale"] },
                 message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
             },
@@ -144,16 +144,16 @@ SharkGame.Home = {
                 name: "haven-history",
                 unlock: { upgrade: ["delphineHistory"] },
                 message:
-                    "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original sum of dolphin knowledge has been lost to time, but this will have to do.",
+                    "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original collections have been lost to time.",
             },
             {
                 name: "haven-chorus",
-                unlock: { upgrade: ["eternalSong"] },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
+                unlock: { upgrade: ["whaleSong"] },
+                message: "What parts you do have of the song fill you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
             {
                 name: "haven-done",
-                unlock: { upgrade: { chorus: 1 } },
+                unlock: { resource: { chorus: 1 } },
                 message: "The great song booms across the open water, carrying itself to all corners of the ocean.<br/>The gate reacts.",
             },
         ],
@@ -445,6 +445,11 @@ SharkGame.Home = {
                 if (extraMessage.unlock.resource) {
                     $.each(extraMessage.unlock.resource, (key, resource) => {
                         showThisMessage = showThisMessage && r.getResource(key) >= resource;
+                    });
+                }
+                if (extraMessage.unlock.totalResource) {
+                    $.each(extraMessage.unlock.totalResource, (key, resource) => {
+                        showThisMessage = showThisMessage && r.getTotalResource(key) >= resource;
                     });
                 }
                 if (extraMessage.unlock.upgrade) {

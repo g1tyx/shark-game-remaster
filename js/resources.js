@@ -826,6 +826,16 @@ SharkGame.Resources = {
         });
     },
 
+    reapplyModifiers(generator, generated) {
+        let income = SharkGame.ResourceMap.get(generator).baseIncome[generated];
+        SharkGame.ModifierReference.forEach((modifier, name) => {
+            const type = modifier.type;
+            const category = modifier.category;
+            income *= modifier.getEffect(SharkGame.ModifierMap.get(generator)[category][type][name], generator, generated);
+        });
+        SharkGame.ResourceMap.get(generator).income[generated] = income;
+    },
+
     getMultiplierProduct(category, generator, generated, treatOneAsNone = false) {
         let product = 1;
         $.each(mt[category].multiplier, (name, data) => {

@@ -67,6 +67,38 @@ SharkGame.ModifierTypes = {
                 },
             },
         },
+        other: {
+            addCoralIncome: {
+                defaultValue: 0,
+                apply(current, degree, resource, _level) {
+                    const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
+                    baseIncomes.coral = (baseIncomes.coral ? baseIncomes.coral : 0) + degree;
+                    r.reapplyModifiers(resource, "coral");
+                    return current + degree;
+                },
+                effectDescription(degree, resource, _level) {
+                    return "";
+                },
+                getEffect(degree, gen, out) {
+                    return 1;
+                },
+            },
+            philosopherToHistorian: {
+                defaultValue: 0,
+                apply(current, degree, resource, _level) {
+                    r.setResource("historian", r.getResource("philosopher"));
+                    r.setResource("philosopher", 0);
+                    r.setTotalResource("philosopher", 0);
+                    return 1;
+                },
+                effectDescription(degree, resource, _level) {
+                    return "";
+                },
+                getEffect(degree, gen, out) {
+                    return 1;
+                },
+            },
+        },
     },
 
     world: {

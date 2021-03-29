@@ -844,6 +844,13 @@ SharkGame.Save = {
             });
             return save;
         },
+
+        function update(save) {
+            _.each(["coralCollection", "whaleCommunication", "delphineHistory", "advancedAgriculture", "automatedAgriculture"], (v) => {
+                save.upgrades[v] = false;
+            });
+            return save;
+        },
     ],
 };
 

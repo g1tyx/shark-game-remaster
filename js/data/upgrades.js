@@ -17,6 +17,8 @@ SharkGame.Upgrades = {
         switch (type) {
             case "abandoned":
                 return SharkGame.Upgrades.abandonedUpgrades;
+            case "haven":
+                return SharkGame.Upgrades.havenUpgrades;
             default:
                 return SharkGame.Upgrades.standardUpgrades;
         }
@@ -396,42 +398,6 @@ SharkGame.Upgrades = {
             },
         },
 
-        industrialGradeSponge: {
-            name: "Industrial-Grade Sponge",
-            desc: "Our octopus contacts inform us that sponge is highly useful with a little augmentation. Let's figure this out.",
-            researchedMessage:
-                "By infusing sponge with processed matter, we have devised spronge, a versatile super-material that kind of freaks us out!",
-            effectDesc: "Enables creation of spronge, the backbone... uh... the core material in cephalopod technology.",
-            cost: {
-                science: 1000,
-                sponge: 2000,
-                junk: 4000,
-            },
-            required: {
-                upgrades: ["recyclerDiscovery", "octopusMethodology"],
-                resources: ["sponge", "junk"],
-                seen: ["sponge"],
-            },
-        },
-
-        aquamarineFusion: {
-            name: "Aquamarine Fusion",
-            desc: "Those uppity dolphins think they're the only ones who can make their special delphinium. We'll show them.",
-            researchedMessage:
-                "In a weird corrupted version of our own transmutation, we've figured out how to make delphinium and now we feel gross.",
-            effectDesc: "Enables transmutation of a different bunch of junk into delphinium, a substance inherently inferior to sharkonium.",
-            cost: {
-                science: 1000,
-                coral: 4000,
-                crystal: 4000,
-            },
-            required: {
-                upgrades: ["transmutation", "cetaceanAwareness"],
-                resources: ["coral", "crystal"],
-                seen: ["coral"],
-            },
-        },
-
         automation: {
             name: "Automation",
             desc: "Using sharkonium, we can make things to do things so we don't have to do the things!",
@@ -471,6 +437,7 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
             effect: {
                 incomeMultiplier: {
@@ -551,42 +518,6 @@ SharkGame.Upgrades = {
                 upgrades: ["automation", "coralglassSmelting"],
                 resources: ["coral", "sand"],
                 seen: ["coralglass"],
-            },
-        },
-
-        sprongeBiomimicry: {
-            name: "Spronge Biomimicry",
-            desc: "The cephalopod school of thought is that a machine that mimics life is a better machine. We don't understand this so well yet.",
-            researchedMessage:
-                "For machines that mimic life, these things sure put out a lot of pollution. It's sort of alarming. Very alarming, even.",
-            effectDesc:
-                "We can mimic some of the life-mimicking biotechnology the octopuses use, but it gums up the oceans so quickly. So very dangerous.",
-            cost: {
-                science: 3000,
-                spronge: 3000,
-                junk: 1500,
-            },
-            required: {
-                upgrades: ["automation", "industrialGradeSponge"],
-                resources: ["sponge", "junk"],
-                seen: ["spronge"],
-            },
-        },
-
-        dolphinTechnology: {
-            name: "Dolphin Technology",
-            desc: "The warm-blooded squeakers have machinery that might be useful. Let's reverse-engineer it.",
-            researchedMessage:
-                "The elaborate crystalline structures of dolphin technology are a ruse to mask their limited function. Inside, they're not so different to our machines.",
-            effectDesc: "We've reverse-engineered some dolphin machinery. We also, regretfully, learned what the designs are called.",
-            cost: {
-                science: 3000,
-                delphinium: 3000,
-            },
-            required: {
-                upgrades: ["automation", "aquamarineFusion"],
-                resources: ["coral", "crystal"],
-                seen: ["delphinium"],
             },
         },
 
@@ -780,112 +711,6 @@ SharkGame.Upgrades = {
             },
         },
 
-        cetaceanAwareness: {
-            name: "Cetacean Awareness",
-            desc: "From a distance, it's harder to tell which of us are really sharks or... those other things. We need to figure this out.",
-            researchedMessage:
-                "Right, so, dolphins and whales have a horizontal tail and sharks have a vertical tail. Also, they have warm blood and bigger brains. Jerks.",
-            effectDesc: "Whales and dolphins are twice as effective, now that we can adapt our hunting strategies to their supposed 'strengths'.",
-            cost: {
-                science: 2000,
-                fish: 500,
-            },
-            required: {
-                upgrades: ["biology"],
-                resources: ["dolphin", "whale"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    dolphin: 2,
-                    whale: 2,
-                },
-            },
-        },
-
-        dolphinBiology: {
-            name: "Dolphin Biology",
-            desc: "Do we really have to learn about this? We do? Alright, then.",
-            researchedMessage:
-                "We managed to offend the dolphins with our questions so much they decided to form their own biological research team.",
-            effectDesc:
-                "Dolphins are twice as effective but double a small number is still small. Also now they can make more dolphins. <em>Hooray.</em>",
-            cost: {
-                science: 3000,
-                fish: 1000,
-            },
-            required: {
-                upgrades: ["cetaceanAwareness"],
-                resources: ["dolphin"],
-                seen: ["dolphin"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    dolphin: 2,
-                },
-            },
-        },
-
-        delphinePhilosophy: {
-            name: "Delphine Philosophy",
-            desc:
-                "The whales are known to be natural philosophers. The dolphins, not so much. Nonetheless, we need to appreciate their culture for them to pay attention to us.",
-            researchedMessage: "Please let's never do this again. They have fifty dozen parables involving bubbles. BUBBLES. NEVER AGAIN.",
-            effectDesc:
-                "Dolphin biologists are twice as effective now that we don't keep openly mocking them. Also, dolphins are more comfortable in their former roles.",
-            cost: {
-                science: 5000,
-                fish: 1000,
-            },
-            required: {
-                upgrades: ["dolphinBiology"],
-                resources: ["dolphin"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    biologist: 2,
-                },
-            },
-        },
-
-        coralHalls: {
-            name: "Coral Halls",
-            desc: "The demands don't stop! Now they want living spaces made of coral! Is this really necessary?",
-            researchedMessage: "We begrudingly helped them establish new living spaces a little distant from the rest of our frenzy.",
-            effectDesc:
-                "Dolphins are happier and twice as effective. Philosophers and treasurers are also twice as effective. Everyone wins, and all it cost us was our dignity and resolve. Sigh.",
-            cost: {
-                science: 10000,
-                coral: 2000,
-            },
-            required: {
-                upgrades: ["delphinePhilosophy"],
-                resources: ["dolphin"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    dolphin: 2,
-                    philosopher: 2,
-                    treasurer: 2,
-                },
-            },
-        },
-
-        eternalSong: {
-            name: "Eternal Song",
-            desc:
-                "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
-            researchedMessage: "We have determined the eternal song of the gates. We don't know what it does yet.",
-            effectDesc: "A chorus of whales can be assembled to sing the eternal song, but we have no clue what it will do.",
-            cost: {
-                science: 1e9,
-            },
-            required: {
-                upgrades: ["cetaceanAwareness"],
-                resources: ["whale"],
-                seen: ["whale"],
-            },
-        },
-
         eelHabitats: {
             name: "Eel Habitats",
             desc: "So we keep seeing these things we thought were kelp on the seabed, but it turns out they're not kelp. What are they?",
@@ -954,55 +779,6 @@ SharkGame.Upgrades = {
                     autoTransmuter: 2,
                     skimmer: 2,
                     heater: 2,
-                },
-            },
-        },
-
-        octopusMethodology: {
-            name: "Octopus Methodology",
-            desc: "The octopuses claim they know ways to improve their routines and machines.",
-            researchedMessage: "We have no idea what thought processes guide these cephalopod allies of ours, but they know how to get results.",
-            effectDesc: "Octopuses can specialise in different tasks, and octopuses work more efficiently.",
-            cost: {
-                science: 8888,
-                clam: 88,
-            },
-            required: {
-                upgrades: ["exploration"],
-                resources: ["octopus"],
-                seen: ["octopus"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    octopus: 2,
-                },
-            },
-        },
-
-        octalEfficiency: {
-            name: "Octal Efficiency",
-            desc: "The octopuses wish to further enhance their productivity for collective gain.",
-            researchedMessage:
-                "The instructions constructed and disseminated by the octopuses are complex and only understood to other octopuses. Head hurts. Something about the number eight.",
-            effectDesc: "Octopuses, their specialists, and their machines are twice as effective. Find unity in efficiency.",
-            cost: {
-                science: 88888,
-                clam: 888,
-            },
-            required: {
-                upgrades: ["octopusMethodology"],
-                resources: ["octopus"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    clamCollector: 2,
-                    eggBrooder: 2,
-                    sprongeSmelter: 2,
-                    seaScourer: 2,
-                    prostheticPolyp: 2,
-                    octopus: 2,
-                    collector: 2,
-                    scavenger: 2,
                 },
             },
         },
@@ -1481,22 +1257,6 @@ SharkGame.Upgrades = {
             },
         },
 
-        /* pearlConversion: {
-            name: "Pearl Conversion",
-            desc: "There's these things inside the clams that look shiny like crystals. Maybe we can transmute them to crystals?",
-            researchedMessage: "Well, we can transmute pearls to crystals now, but we need more of the clam. The whole clam. Yes. The entire clam.",
-            effectDesc:
-                "We can turn clams into crystals using the pearls inside them as a focus. Maybe one day we won't need to use the entire clam.",
-            cost: {
-                science: 1500,
-            },
-            required: {
-                upgrades: ["clamScooping", "transmutation"],
-                resources: ["clam"],
-                seen: ["clam"],
-            },
-        }, */
-
         laserRays: {
             name: "Laser Rays",
             desc: "Using arcane shark mystery science, capture the heat of the vents for use by rays.",
@@ -1597,6 +1357,7 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
             effect: {
                 incomeBoost: {
@@ -2001,21 +1762,6 @@ SharkGame.Upgrades = {
             },
         },
 
-        /* test: {
-            name: "Test",
-            desc: "Double fish production.",
-            researchedMessage: "null",
-            effectDesc: "null",
-            cost: {
-                fish: 1,
-            },
-            effect: {
-                resourceBoost: {
-                    fish: 2,
-                },
-            },
-        }, */
-
         crystalSpade: {
             name: "Crystal Spades",
             desc: "Fashion strange harness-tools for the rays.",
@@ -2029,6 +1775,23 @@ SharkGame.Upgrades = {
             effect: {
                 incomeMultiplier: {
                     ray: 2,
+                },
+            },
+        },
+
+        cetaceanAwareness: {
+            name: "Cetacean Awareness",
+            desc: "From a distance, it's hard to tell which of us are really sharks or... those other things. We need to figure this out.",
+            researchedMessage:
+                "Right, so, dolphins have a horizontal tail and sharks have a vertical tail. Also, they have warm blood and bigger brains. Jerks.",
+            effectDesc: "Dolphins can now be recruited. We're happy about this why, exactly??",
+            cost: {
+                science: 75,
+                coral: 100,
+            },
+            required: {
+                totals: {
+                    coral: 75,
                 },
             },
         },
@@ -2101,33 +1864,18 @@ SharkGame.Upgrades = {
             },
         },
 
-        thermalVents: {
-            name: "Thermal Vents",
-            desc: "Investigate the boiling vents that just seem to keep on heating things up.",
-            researchedMessage: "This is a wondrous, unending source of heat! Something good must come from this.",
-            effectDesc: "A power source for future technologies has been discovered.",
-            cost: {
-                science: 300,
-                sand: 500,
-            },
-            required: {
-                upgrades: ["seabedGeology"],
-            },
-        },
-
         laserRays: {
             name: "Laser Rays",
             desc: "Using arcane shark mystery science, capture the heat of the vents for use by rays.",
             researchedMessage: "The rays can now be granted gear that will let them fuse sand into crystal! Future!",
             effectDesc: "Laser rays can now be geared up to burn the very sand to glassy crystal.",
             cost: {
-                science: 100,
-                sand: 2000,
-                crystal: 100,
+                science: 600,
+                sand: 2500,
+                crystal: 250,
             },
             required: {
                 upgrades: ["thermalVents"],
-                resources: ["ray", "sand"],
             },
         },
 
@@ -2137,7 +1885,7 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 1000,
+                science: 2000,
                 crystal: 2000,
                 sand: 4000,
             },
@@ -2155,11 +1903,10 @@ SharkGame.Upgrades = {
             cost: {
                 science: 1000,
                 coral: 4000,
-                crystal: 4000,
+                crystal: 1000,
             },
             required: {
-                upgrades: ["transmutation", "cetaceanAwareness"],
-                resources: ["coral", "crystal"],
+                upgrades: ["transmutation", "coralCollection"],
                 seen: ["coral"],
             },
         },
@@ -2170,7 +1917,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 1500,
+                science: 1250,
                 sharkonium: 250,
             },
             required: {
@@ -2184,11 +1931,12 @@ SharkGame.Upgrades = {
             researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
             effectDesc: "Machines are twice as effective. Auto-transmuters are now possible to create.",
             cost: {
-                science: 2500,
+                science: 5500,
                 sharkonium: 1750,
             },
             required: {
                 upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
             effect: {
                 incomeMultiplier: {
@@ -2206,7 +1954,7 @@ SharkGame.Upgrades = {
                 "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
             effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
             cost: {
-                science: 5000,
+                science: 15000,
                 sharkonium: 5000,
             },
             required: {
@@ -2220,7 +1968,7 @@ SharkGame.Upgrades = {
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
             effectDesc: "All shark machines run twice as fast. Again!",
             cost: {
-                science: 15000,
+                science: 35000,
                 sharkonium: 17500,
             },
             required: {
@@ -2237,23 +1985,6 @@ SharkGame.Upgrades = {
             },
         },
 
-        superprocessing: {
-            name: "Superprocessing",
-            desc:
-                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
-            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
-            effectDesc:
-                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
-            cost: {
-                science: 1e6,
-                sharkonium: 1e6,
-                junk: 1e6,
-            },
-            required: {
-                upgrades: ["iterativeDesign", "recyclerDiscovery"],
-            },
-        },
-
         dolphinTechnology: {
             name: "Dolphin Technology",
             desc: "The warm-blooded squeakers have machinery that might be useful. Let's reverse-engineer it.",
@@ -2261,8 +1992,8 @@ SharkGame.Upgrades = {
                 "The elaborate crystalline structures of dolphin technology are a ruse to mask their limited function. Inside, they're not so different to our machines.",
             effectDesc: "We've reverse-engineered some dolphin machinery. We also, regretfully, learned what the designs are called.",
             cost: {
-                science: 3000,
-                delphinium: 3000,
+                science: 1500,
+                delphinium: 750,
             },
             required: {
                 upgrades: ["automation", "aquamarineFusion"],
@@ -2277,19 +2008,11 @@ SharkGame.Upgrades = {
             researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
             effectDesc: "Various roles are twice as effective thanks to farming regions for coral and sponge.",
             cost: {
-                science: 500,
+                science: 300,
                 sand: 1000,
             },
             required: {
                 upgrades: ["seabedGeology"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    worker: 2,
-                    harvester: 2,
-                    treasurer: 2,
-                    scavenger: 2,
-                },
             },
         },
 
@@ -2299,7 +2022,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Crab-specific gear has been invented to allow for kelp farming! This is possibly useful.",
             effectDesc: "Crabs can become kelp farmers and grow a living carpet across the bottom of the sea.",
             cost: {
-                science: 1000,
+                science: 250,
                 sand: 2000,
             },
             required: {
@@ -2314,7 +2037,7 @@ SharkGame.Upgrades = {
             researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
             effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
-                science: 400,
+                science: 600,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -2331,19 +2054,14 @@ SharkGame.Upgrades = {
             desc: "Determine what is with these weird faceless creatures we keep finding.",
             researchedMessage: "Results inconclusive! Further research required. It could be such a benefit for science!",
             effectDesc:
-                "Kelp produces sea apples twice as fast. Also, sea apple isn't a fruit. We can also dissect sea apples and jellyfish for science.",
+                "We can dissect sea apples for science. Also, sea apple isn't a fruit.",
             cost: {
-                science: 600,
+                science: 550,
+                seaApple: 5,
             },
             required: {
-                upgrades: ["agriculture"],
-                resources: ["seaApple", "jellyfish"],
-                seen: ["seaApple", "jellyfish"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    kelp: 2,
-                },
+                upgrades: ["kelpHorticulture"],
+                seen: ["seaApple"],
             },
         },
 
@@ -2353,10 +2071,10 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
             effectDesc:
-                "Rays and laser rays are twice as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+                "Rays are twice as effective, laser rays are four times as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
-                science: 700,
-                sand: 600,
+                science: 1500,
+                sand: 5000,
             },
             required: {
                 upgrades: ["biology", "laserRays"],
@@ -2366,7 +2084,7 @@ SharkGame.Upgrades = {
             effect: {
                 incomeMultiplier: {
                     ray: 2,
-                    laser: 2,
+                    laser: 4,
                 },
             },
         },
@@ -2377,48 +2095,57 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
             effectDesc:
-                "Crabs and planter crabs are twice as effective. Crabs are alright but they are also sort of terrifying and weird. Good job they're on our side!",
+                "Crabs and planter crabs are four times as effective. Crabs are alright but they are also sort of terrifying and weird. Good job they're on our side!",
             cost: {
-                science: 500,
+                science: 900,
                 kelp: 100,
             },
             required: {
-                upgrades: ["biology", "sunObservation"],
+                upgrades: ["biology", "kelpHorticulture"],
                 resources: ["crab"],
             },
             effect: {
                 incomeMultiplier: {
                     crab: 4,
-                    planter: 2,
+                    planter: 4,
+                    //treasurer: 2,
                 },
-            },
-        },
-
-        cetaceanAwareness: {
-            name: "Cetacean Awareness",
-            desc: "From a distance, it's harder to tell which of us are really sharks or... those other things. We need to figure this out.",
-            researchedMessage:
-                "Right, so, dolphins and whales have a horizontal tail and sharks have a vertical tail. Also, they have warm blood and bigger brains. Jerks.",
-            effectDesc: "Dolphins can now be recruited. We're happy about this why, exactly??",
-            cost: {
-                science: 500,
-                fish: 500,
             },
         },
 
         coralCollection: {
             name: "Coral Collection",
-            desc: "The dolphins keep talking about colorful stuff on the reefs. What??? Why do you care??",
+            desc: "The dolphins keep talking about finding coral on the reefs. What??? Why do you care??",
             researchedMessage: "Okay, so it's a cultural thing. Fine. Collect your coral. See if I care.",
+            effectDesc: "Dolphins now collect coral along with fish, and can specialize in becoming treasurers.",
+            cost: {
+                science: 500,
+                coral: 200,
+            },
+            required: {
+                upgrades: ["seabedGeology", "cetaceanAwareness"],
+                seen: ["dolphin"],
+            },
+            effect: {
+                addCoralIncome: {
+                    dolphin: 0.2,
+                }
+            }
+        },
+/*         
+        coralCrabs: {
+            name: "Coral Crabs",
+            desc: "For some reason, the dolphins think we should take crabs off of crystal duty and train them to harvest coral.",
+            researchedMessage: "Those dolphins had better be glad that we're ",
             effectDesc: "Dolphins now collect coral along with fish.",
             cost: {
-                science: 2000,
+                science: 1500,
                 fish: 2500,
             },
             required: {
                 seen: ["dolphin"],
             },
-        },
+        }, */
 
         dolphinBiology: {
             name: "Dolphin Biology",
@@ -2426,41 +2153,133 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "We managed to offend the dolphins with our questions so much they decided to form their own biological research team.",
             effectDesc:
-                "Dolphins are twice as effective but double a small number is still small. Also now they can make more dolphins. <em>Hooray.</em>",
+                "All dolphins are twice as effective but double a small number is still small. Also now they can make more dolphins. <em>Hooray.</em>",
             cost: {
-                science: 3000,
-                fish: 1000,
+                science: 750,
             },
             required: {
-                upgrades: ["cetaceanAwareness"],
-                resources: ["dolphin"],
-                seen: ["dolphin"],
+                upgrades: ["coralCollection", "biology"],
+                seen: ["treasurer"],
             },
             effect: {
                 incomeMultiplier: {
                     dolphin: 2,
+                    treasurer: 2,
                 },
+            },
+        },
+
+        thermalVents: {
+            name: "Thermal Vents",
+            desc: "Investigate the boiling vents that just seem to keep on heating things up.",
+            researchedMessage: "This is a wondrous, unending source of heat! Something good must come from this.",
+            effectDesc: "A power source for future technologies has been discovered.",
+            cost: {
+                science: 1000,
+                sand: 2500,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+        },
+
+        kelpPapyrus: {
+            name: "Kelp Papyrus",
+            desc:
+                "We keep finding all these flat pieces of kelp. What is with them? Why are they crunchy?!",
+            researchedMessage: "The dolphins explain that it's called 'papyrus,' and they used to use it for writing stuff down or something.",
+            effectDesc:
+                "We can now manufacture papyrus using kelp. Why are we doing this?",
+            cost: {
+                science: 2500,
+                kelp: 10000,
+            },
+            required: {
+                upgrades: ["sunObservation"],
             },
         },
 
         delphinePhilosophy: {
             name: "Delphine Philosophy",
             desc:
-                "The whales are known to be natural philosophers. The dolphins, not so much. Nonetheless, we need to appreciate their culture for them to pay attention to us.",
+                "The dolphins are not known to be natural philosphers. Nonetheless, we need to appreciate their culture for them to pay attention to us.",
             researchedMessage: "Please let's never do this again. They have fifty dozen parables involving bubbles. BUBBLES. NEVER AGAIN.",
             effectDesc:
-                "Dolphin biologists are twice as effective now that we don't keep openly mocking them. Also, dolphins are more comfortable in their former roles.",
+                "Dolphins and their professions are twice as effective. They can also specialize in becoming philosophers, because we definitely want them to be even more pompous.",
             cost: {
-                science: 5000,
-                fish: 1000,
+                papyrus: 1500,
             },
             required: {
-                upgrades: ["cetaceanAwareness"],
-                resources: ["dolphin"],
+                upgrades: ["kelpPapyrus"],
+                seen: ["papyrus"],
             },
             effect: {
                 incomeMultiplier: {
+                    dolphin: 2,
                     biologist: 2,
+                    treasurer: 2,
+                },
+            },
+        },
+
+        delphineHistory: {
+            name: "Delphine History",
+            desc:
+                "foobar",
+            researchedMessage: "placeholder",
+            effectDesc:
+                "placeholder",
+            cost: {
+                science: 27500,
+            },
+            required: {
+                upgrades: ["delphinePhilosophy", "farExploration"],
+            },
+            effect: {
+                philosopherToHistorian: {
+                    dolphin: 1,
+                }
+            }
+        },
+
+        ancientAquaculture: {
+            name: "Ancient Aquaculture",
+            desc:
+                "Some of the books we have seem to imply that the dolphins of old found an extremely efficient way to grow crops.",
+            researchedMessage: "We now make use of delphinium tools to carefully harvest crops and avoid damaging their surroundings.",
+            effectDesc:
+                "All kelp production times 4, all coral production times 4.",
+            cost: {
+                science: 400000,
+                delphinium: 25000,
+            },
+            required: {
+                upgrades: ["delphineHistory"],
+            },
+            effect: {
+                resourceBoost: {
+                    kelp: 4,
+                    coral: 4,
+                },
+            },
+        },
+
+        imperialDesigns: {
+            name: "Imperial Designs",
+            desc: "Finally, with all the materials in one place, we can stop relying on shoddy copies and use the original designs for the dolphin machines.",
+            researchedMessage: "What? These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
+            effectDesc: "Cetacean machines are all 4 times as effective. We begrudingly admit their quality is not entirely terrible.",
+            cost: {
+                science: 2000000,
+            },
+            required: {
+                upgrades: ["delphineHistory", "dolphinTechnology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    tirelessCrafter: 4,
+                    crimsonCombine: 4,
+                    kelpCultivator: 4,
                 },
             },
         },
@@ -2470,17 +2289,16 @@ SharkGame.Upgrades = {
             desc: "We must determine what is with the weird glare on the surface of the water.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
-                "Planter crabs are twice as effective, and shrimp are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
+                "Planter crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
-                science: 5000,
+                science: 7500,
             },
             required: {
-                upgrades: ["agriculture"],
+                upgrades: ["thermalVents", "kelpHorticulture"],
             },
             effect: {
                 incomeMultiplier: {
                     planter: 2,
-                    shrimp: 4,
                 },
             },
         },
@@ -2491,8 +2309,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
             effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 5000,
-                fish: 5000,
+                science: 15000,
+                fish: 50000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -2511,7 +2329,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
             effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
             cost: {
-                science: 8000,
+                science: 80000,
                 fish: 15000,
             },
             required: {
@@ -2526,69 +2344,50 @@ SharkGame.Upgrades = {
 
         whaleCommunication: {
             name: "Whale Communication",
-            desc: "Faint cries can be heard in the distance. What is out there?",
+            desc: "We can hear faint cries in the distance. What is out there?",
             researchedMessage:
                 "Okay, 'whales' are out there. They're similar to dolphins, except less rude, and really big. Oh, and, they collect tons of fish.",
             effectDesc: "Whales can now be recruited.",
             cost: {
-                science: 8000,
-                fish: 15000,
+                science: 40000,
+                fish: 50000,
             },
             required: {
-                upgrades: ["exploration"],
+                upgrades: ["exploration", "cetaceanAwareness"],
+            },
+        },
+
+        whaleSong: {
+            name: "The Whale Song",
+            desc:
+                "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
+            researchedMessage: "What we've put together is definitely a song...but something's missing. This can't be the whole thing.",
+            effectDesc: "The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though. Whales are 4 times as effective.",
+            cost: {
+                science: 500000,
+            },
+            required: {
+                upgrades: ["whaleCommunication"],
+                seen: ["whale"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    whale: 4,
+                },
             },
         },
 
         eternalSong: {
-            name: "Eternal Song",
-            desc:
-                "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
-            researchedMessage: "What we've put together is definitely a song...but something's missing. That can't be the whole song.",
-            effectDesc: "The whales have worked with us to put together pieces of an ancient song. We don't think it's the whole thing, though.",
-            cost: {
-                science: 1e9,
-            },
-            required: {
-                upgrades: ["cetaceanAwareness"],
-                resources: ["whale"],
-                seen: ["whale"],
-            },
-        },
-
-        // SUPERSCIENCE
-
-        primordialSong: {
-            name: "Primordial Song",
+            name: "The Eternal Song",
             desc: "The song of the whales is mentioned in dolphin texts dating back as far as we can find. I think we're onto something.",
-            researchedMessage: "The song of the whales was only ever half of the composition. The dolphins were the key to completing it.",
+            researchedMessage: "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
             effectDesc: "A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
             cost: {
                 science: 1e7,
             },
             required: {
-                upgrades: ["gateDiscovery"],
-                resources: ["dolphin", "whale"],
+                upgrades: ["whaleSong", "delphineHistory"],
                 seen: ["dolphin", "whale"],
-            },
-        },
-
-        imperialDesigns: {
-            name: "Imperial Designs",
-            desc: "Some of the dolphins remember and have copies of plans for their machines from wherever they used to call home.",
-            researchedMessage: "These designs will never work. Look, let's show them-- oh. Oh, apparently they do. Huh.",
-            effectDesc: "Cetacean machines are all four times as effective. We begrudingly admit their quality is not entirely terrible.",
-            cost: {
-                science: 1e6,
-            },
-            required: {
-                upgrades: ["gateDiscovery", "dolphinTechnology"],
-                resources: ["delphinium"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    tirelessCrafter: 4,
-                    silentArchivist: 4,
-                },
             },
         },
     },

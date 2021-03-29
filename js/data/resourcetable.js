@@ -51,7 +51,7 @@ SharkGame.ResourceTable = {
         color: "#9C2424",
         income: {
             crystal: 0.01,
-            coral: 0.02,
+            coral: 0.01,
         },
         jobs: ["planter", "brood"],
         value: 1000,
@@ -85,9 +85,7 @@ SharkGame.ResourceTable = {
         singleName: "dolphin",
         color: "#C6BAC6",
         income: {
-            fish: 1,
-            sponge: 0.1,
-            jellyfish: 0.05,
+            fish: 4,
         },
         jobs: ["philosopher", "treasurer", "biologist"],
         value: 1000,
@@ -98,7 +96,7 @@ SharkGame.ResourceTable = {
         singleName: "whale",
         color: "#37557C",
         income: {
-            fish: 50,
+            fish: 500,
         },
         jobs: ["chorus"],
         value: 5000,
@@ -301,18 +299,6 @@ SharkGame.ResourceTable = {
         value: 4000,
     },
 
-    treasurer: {
-        name: "crab treasurers",
-        singleName: "crab treasurer",
-        desc: "Guardians of the reefs.",
-        color: "#B4DBBC",
-        income: {
-            crystal: 0.02,
-            coral: 0.1,
-        },
-        value: 3000,
-    },
-
     /* miller: {
         name: "miller crabs",
         singleName: "miller crab",
@@ -357,6 +343,18 @@ SharkGame.ResourceTable = {
         value: 2000,
     }, */
 
+    treasurer: {
+        name: "dolphin treasurers",
+        singleName: "dolphin treasurer",
+        desc: "Guardians of the reefs.",
+        color: "#B4DBBC",
+        income: {
+            crystal: 0.2,
+            coral: 1,
+        },
+        value: 3000,
+    },
+
     philosopher: {
         name: "dolphin philosophers",
         singleName: "dolphin philosopher",
@@ -371,8 +369,11 @@ SharkGame.ResourceTable = {
     historian: {
         name: "dolphin historians",
         singleName: "dolphin historian",
-        desc: "Dissecters of the past, onward to the future.",
+        desc: "Dissecters of the past looking onward to the future.",
         color: "#9FBCBF",
+        income: {
+            science: 2,
+        },
         value: 3000,
     },
 
@@ -611,13 +612,32 @@ SharkGame.ResourceTable = {
         value: 50000,
     },
 
+    crimsonCombine: {
+        name: "crimson combines",
+        singleName: "crimson combine",
+        color: "#608B8F",
+        income: {
+            coral: 50,
+        },
+        value: 50000,
+    },
+
+    kelpCultivator: {
+        name: "kelp cultivators",
+        singleName: "kelp cultivator",
+        color: "#608B8F",
+        income: {
+            kelp: 25,
+        },
+        value: 50000,
+    },
+
     silentArchivist: {
         name: "silent archivists",
         singleName: "silent archivist",
         color: "#608B8F",
         income: {
-            science: 20,
-            tar: 0.001,
+            science: 150,
         },
         value: 50000,
     },
@@ -630,7 +650,6 @@ SharkGame.ResourceTable = {
             delphinium: 30,
             coral: -300,
             crystal: -100,
-            tar: 0.001,
         },
         value: 50000,
     },
@@ -785,6 +804,14 @@ SharkGame.ResourceTable = {
             seaApple: 0.001,
         },
         value: 9,
+    },
+
+    papyrus: {
+        name: "kelp papyrus",
+        singleName: "kelp papyrus",
+        desc: "A home for our past.",
+        color: "#7CA212",
+        value: 90,
     },
 
     coral: {
@@ -1002,8 +1029,8 @@ SharkGame.GeneratorIncomeAffectedApplicable = {
 
 SharkGame.ResourceIncomeAffectors = {
     historian: {
-        exponentiate: {
-            science: 1.01,
+        multiply: {
+            science: 0.01,
         },
     },
 };
@@ -1073,10 +1100,11 @@ SharkGame.ResourceCategories = {
             "laser",
             "planter",
             "collector",
+            "treasurer",
             "worker",
             "harvester",
             "philosopher",
-            "treasurer",
+            "historian",
             "chorus",
             "transmuter",
             "explorer",
@@ -1118,6 +1146,8 @@ SharkGame.ResourceCategories = {
             "seaScourer",
             "prostheticPolyp",
             "eggBrooder",
+            "crimsonCombine",
+            "kelpCultivator",
             //"coalescer",
             //"crusher",
             //"pulverizer",
@@ -1215,11 +1245,11 @@ SharkGame.InternalCategories = {
     },
     dolphins: {
         name: "Dolphins",
-        resources: ["dolphin", "philosopher", "treasurer", "biologist"],
+        resources: ["dolphin", "philosopher", "historian", "biologist"],
     },
     whales: {
         name: "Whales",
-        resources: ["whale", "chorus"],
+        resources: ["whale"],
     },
     octopuses: {
         name: "Octopuses",
@@ -1239,7 +1269,7 @@ SharkGame.InternalCategories = {
     },
     dolphinmachines: {
         name: "Dolphin Machines",
-        resources: ["delphinium", "silentArchivist", "tirelessCrafter"],
+        resources: ["delphinium", "silentArchivist", "tirelessCrafter", "kelpCultivator", "crimsonCombine"],
     },
     crustaceanmachines: {
         name: "Crustacean Machines",

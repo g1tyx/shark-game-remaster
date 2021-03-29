@@ -364,8 +364,9 @@ SharkGame.Lab = {
         if (upgrade.effect) {
             $.each(upgrade.effect, (name, effectsList) => {
                 $.each(effectsList, (resource, degree) => {
-                    if (w.doesResourceExist(resource)) {
-                        effects += SharkGame.ModifierReference.get(name).effectDescription(degree, resource) + ", ";
+                    const effectText = SharkGame.ModifierReference.get(name).effectDescription(degree, resource);
+                    if (w.doesResourceExist(resource) && effectText !== "") {
+                        effects += effectText + ", ";
                         anyeffect = true;
                     }
                 });

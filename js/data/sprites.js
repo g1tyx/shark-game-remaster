@@ -251,7 +251,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "dolphin-one": {
+    "haven-dolphin-empire": {
         frame: {
             x: 2,
             y: 614,
@@ -831,7 +831,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "whale-one": {
+    "haven-whales": {
         frame: {
             x: 1618,
             y: 1022,
