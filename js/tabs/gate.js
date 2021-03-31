@@ -5,7 +5,7 @@ SharkGame.Gate = {
     tabBg: "img/bg/bg-gate.png",
 
     discoverReq: {
-        upgrade: ["gateDiscovery", "farAbandonedExploration"],
+        upgrade: ["gateDiscovery", "farAbandonedExploration", "farHavenExploration"],
     },
 
     message: "A foreboding circular structure, closed shut.<br/>There are many slots, and a sign you know to mean 'insert items here'.",
@@ -68,6 +68,18 @@ SharkGame.Gate = {
                 gt.completedRequirements.upgrades[k] = false;
             });
         }
+
+        if (gateRequirements.resources) {
+            gt.requirements.resources = {};
+            $.each(gateRequirements.resources, (k, v) => {
+                gt.requirements.resources[k] = v;
+            });
+
+            gt.completedRequirements.resources = {};
+            $.each(gt.requirements.resources, (k, v) => {
+                gt.completedRequirements.resources[k] = false;
+            });
+        }
     },
 
     switchTo() {
@@ -116,6 +128,7 @@ SharkGame.Gate = {
 
         const slotsLeft = gt.getSlotsLeft();
         const upgradesLeft = gt.getUpgradesLeft();
+        const resourcesLeft = gt.getResourcesLeft();
 
         // this intentionally checks for !== false because if it is specifically false, then getSlotsLeft() found that this world has no slots
         if (slotsLeft !== false) {
@@ -128,8 +141,8 @@ SharkGame.Gate = {
             // in this situation simply assume slotsLeft === 0 and continue with execution
         }
 
-        // if there are no slots then see if there are any upgrades needed
-        if (upgradesLeft !== false) {
+        // if there are no slots then see if there are any upgrades or resources needed
+        if ((upgradesLeft !== false) || (resourcesLeft !== false)) {
             return gt.messagePaidNotOpen;
         }
 
@@ -163,6 +176,22 @@ SharkGame.Gate = {
         // if there are any required upgrades in the first place, return the number of still required upgrades
         // if there are not any required upgrades, return false to identify this fact
         return _.size(gt.requirements.upgrades) !== 0 ? upgrades : false;
+    },
+
+    getResourcesLeft() {
+        const gt = SharkGame.Gate;
+
+        $.each(gt.completedRequirements.resources, (k, v) => {
+            gt.checkResourceRequirements(k);
+        });
+
+        let remaining = [];
+        $.each(gt.completedRequirements.resources, (k, v) => {
+            if (v) {
+                remaining.push(k);
+            }
+        });
+        return remaining ? remaining : false;
     },
 
     onHover() {
@@ -257,10 +286,20 @@ SharkGame.Gate = {
         }
     },
 
+    checkResourceRequirements(resourceName) {
+        const gt = SharkGame.Gate;
+        if (gt.requirements.resources) {
+            if (r.getResource(resourceName) >= gt.requirements.resources[resourceName]) {
+                gt.completedRequirements.resources[resourceName] = true;
+            }
+        }
+    },
+
     getSceneImagePath() {
         const gt = SharkGame.Gate;
         const slotsLeft = gt.getSlotsLeft();
         const upgradesLeft = gt.getUpgradesLeft();
+        const resourcesLeft = gt.getResourcesLeft();
 
         // lots of complicated logic here
         // basically:
@@ -273,9 +312,9 @@ SharkGame.Gate = {
             return gt.sceneOpenImage;
         } else if (slotsLeft > 1) {
             return gt.sceneClosedImage;
-        } else if (slotsLeft === 1 && !upgradesLeft) {
+        } else if (slotsLeft === 1 && !upgradesLeft && !resourcesLeft) {
             return gt.sceneAlmostOpenImage;
-        } else if (!slotsLeft && upgradesLeft) {
+        } else if (!slotsLeft && (upgradesLeft || resourcesLeft)) {
             return gt.sceneClosedButFilledImage;
         } else {
             return gt.sceneClosedImage;

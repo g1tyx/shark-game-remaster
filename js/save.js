@@ -846,7 +846,10 @@ SharkGame.Save = {
         },
 
         function update(save) {
-            _.each(["coralCollection", "whaleCommunication", "delphineHistory", "advancedAgriculture", "automatedAgriculture"], (v) => {
+            _.each(["historian", "papyrus"], (v) => {
+                save.resources[v] = { amount: 0, totalAmount: 0 };
+            });
+            _.each(["coralCollection", "whaleCommunication", "delphineHistory", "whaleSong", "farHavenExploration"], (v) => {
                 save.upgrades[v] = false;
             });
             return save;

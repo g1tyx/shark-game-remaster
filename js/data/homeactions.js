@@ -3550,7 +3550,7 @@ SharkGame.HomeActions = {
                     whale: 1,
                 },
             },
-            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 20000 }],
+            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 10000 }],
             max: "whale",
             prereq: {
                 upgrade: ["whaleCommunication"],
@@ -3854,8 +3854,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "dolphin", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 30 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 10 },
+                { resource: "papyrus", costFunction: "linear", priceIncrease: 5 },
             ],
             max: "philosopher",
             prereq: {
@@ -3892,8 +3891,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "dolphin", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 30 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 10 },
+                { resource: "papyrus", costFunction: "linear", priceIncrease: 5 },
             ],
             max: "historian",
             prereq: {

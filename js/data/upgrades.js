@@ -2119,7 +2119,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Okay, so it's a cultural thing. Fine. Collect your coral. See if I care.",
             effectDesc: "Dolphins now collect coral along with fish, and can specialize in becoming treasurers.",
             cost: {
-                science: 500,
+                science: 400,
                 coral: 200,
             },
             required: {
@@ -2233,7 +2233,7 @@ SharkGame.Upgrades = {
                 science: 27500,
             },
             required: {
-                upgrades: ["delphinePhilosophy", "farExploration"],
+                upgrades: ["delphinePhilosophy", "farHavenExploration"],
             },
             effect: {
                 philosopherToHistorian: {
@@ -2270,14 +2270,14 @@ SharkGame.Upgrades = {
             researchedMessage: "What? These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
             effectDesc: "Cetacean machines are all 4 times as effective. We begrudingly admit their quality is not entirely terrible.",
             cost: {
-                science: 2000000,
+                science: 200000,
             },
             required: {
                 upgrades: ["delphineHistory", "dolphinTechnology"],
             },
             effect: {
                 incomeMultiplier: {
-                    tirelessCrafter: 4,
+                    tirelessCrafter: 2,
                     crimsonCombine: 4,
                     kelpCultivator: 4,
                 },
@@ -2323,7 +2323,7 @@ SharkGame.Upgrades = {
             },
         },
 
-        farExploration: {
+        farHavenExploration: {
             name: "Far Explorations",
             desc: "Explore the vast reaches beyond the home ocean.",
             researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",

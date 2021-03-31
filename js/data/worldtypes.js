@@ -125,18 +125,12 @@ SharkGame.WorldTypes = {
             "sharkmachines",
             "dolphinmachines",
             "coral",
-            "treasurer",
             "chorus",
+            "papyrus",
         ],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1 },
-            {
-                type: "multiplier",
-                modifier: "planetaryFixedIncomeMultiplier",
-                resource: "crab",
-                amount: 2,
-            },
         ],
         gateRequirements: {
             slots: {
@@ -148,6 +142,7 @@ SharkGame.WorldTypes = {
                 coral: 2e7,
             },
         },
+        gateRequirements: { resources: {chorus: 1} },
     },
     tempestuous: {
         name: "Tempestuous",
@@ -262,12 +257,6 @@ SharkGame.WorldTypes = {
                 modifier: "planetaryGeneratorRestriction",
                 resource: "sponge",
                 amount: "sponge",
-            },
-            {
-                type: "multiplier",
-                modifier: "planetaryFixedIncomeMultiplier",
-                resource: "crab",
-                amount: 2,
             },
         ],
         gateRequirements: { upgrades: ["artifactAssembly"] },

@@ -96,7 +96,7 @@ SharkGame.ResourceTable = {
         singleName: "whale",
         color: "#37557C",
         income: {
-            fish: 500,
+            fish: 2500,
         },
         jobs: ["chorus"],
         value: 5000,
@@ -1213,7 +1213,7 @@ SharkGame.ResourceCategories = {
             "The foundation of a modern shark frenzy, perhaps, but also sort of taking up all the space.",
             "Let's hope we don't regret it.",
         ],
-        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "junk", "filter"],
+        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "papyrus", "junk", "filter"],
     },
     harmful: {
         name: "Harmful",
@@ -1245,7 +1245,7 @@ SharkGame.InternalCategories = {
     },
     dolphins: {
         name: "Dolphins",
-        resources: ["dolphin", "philosopher", "historian", "biologist"],
+        resources: ["dolphin", "philosopher", "historian", "biologist", "treasurer"],
     },
     whales: {
         name: "Whales",
