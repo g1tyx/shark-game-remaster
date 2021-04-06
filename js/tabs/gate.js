@@ -142,7 +142,7 @@ SharkGame.Gate = {
         }
 
         // if there are no slots then see if there are any upgrades or resources needed
-        if ((upgradesLeft !== false) || (resourcesLeft !== false)) {
+        if (upgradesLeft !== false || resourcesLeft !== false) {
             return gt.messagePaidNotOpen;
         }
 
@@ -185,7 +185,7 @@ SharkGame.Gate = {
             gt.checkResourceRequirements(k);
         });
 
-        let remaining = [];
+        const remaining = [];
         $.each(gt.completedRequirements.resources, (k, v) => {
             if (v) {
                 remaining.push(k);

@@ -76,25 +76,25 @@ SharkGame.ModifierTypes = {
                     r.reapplyModifiers(resource, "coral");
                     return current + degree;
                 },
-                effectDescription(degree, resource, _level) {
+                effectDescription(_degree, _resource, _level) {
                     return "";
                 },
-                getEffect(degree, gen, out) {
+                getEffect(_degree, _gen, _out) {
                     return 1;
                 },
             },
             philosopherToHistorian: {
                 defaultValue: 0,
-                apply(current, degree, resource, _level) {
+                apply(_current, _degree, _resource, _level) {
                     r.setResource("historian", r.getResource("philosopher"));
                     r.setResource("philosopher", 0);
                     r.setTotalResource("philosopher", 0);
                     return 1;
                 },
-                effectDescription(degree, resource, _level) {
+                effectDescription(_degree, _resource, _level) {
                     return "";
                 },
-                getEffect(degree, gen, out) {
+                getEffect(_degree, _gen, _out) {
                     return 1;
                 },
             },

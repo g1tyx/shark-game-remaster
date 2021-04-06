@@ -59,11 +59,9 @@ SharkGame.World = {
         }
 
         // disable resources not allowed on planet
-        if (worldInfo.absentResources) {
-            $.each(worldInfo.absentResources, (i, v) => {
-                wr.get(v).exists = false;
-            });
-        }
+        _.each(worldInfo.absentResources, (absentResource) => {
+            wr.get(absentResource).exists = false;
+        });
 
         // apply world modifiers
         _.each(worldInfo.modifiers, (modifierData) => {

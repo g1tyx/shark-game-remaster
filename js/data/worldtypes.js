@@ -132,6 +132,7 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1 },
         ],
+        /*
         gateRequirements: {
             slots: {
                 fish: 1e8,
@@ -142,7 +143,8 @@ SharkGame.WorldTypes = {
                 coral: 2e7,
             },
         },
-        gateRequirements: { resources: {chorus: 1} },
+        */
+        gateRequirements: { resources: { chorus: 1 } },
     },
     tempestuous: {
         name: "Tempestuous",

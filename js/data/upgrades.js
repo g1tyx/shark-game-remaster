@@ -2053,8 +2053,7 @@ SharkGame.Upgrades = {
             name: "Xenobiology",
             desc: "Determine what is with these weird faceless creatures we keep finding.",
             researchedMessage: "Results inconclusive! Further research required. It could be such a benefit for science!",
-            effectDesc:
-                "We can dissect sea apples for science. Also, sea apple isn't a fruit.",
+            effectDesc: "We can dissect sea apples for science. Also, sea apple isn't a fruit.",
             cost: {
                 science: 550,
                 seaApple: 5,
@@ -2129,10 +2128,10 @@ SharkGame.Upgrades = {
             effect: {
                 addCoralIncome: {
                     dolphin: 0.2,
-                }
-            }
+                },
+            },
         },
-/*         
+        /*         
         coralCrabs: {
             name: "Coral Crabs",
             desc: "For some reason, the dolphins think we should take crabs off of crystal duty and train them to harvest coral.",
@@ -2185,11 +2184,9 @@ SharkGame.Upgrades = {
 
         kelpPapyrus: {
             name: "Kelp Papyrus",
-            desc:
-                "We keep finding all these flat pieces of kelp. What is with them? Why are they crunchy?!",
+            desc: "We keep finding all these flat pieces of kelp. What is with them? Why are they crunchy?!",
             researchedMessage: "The dolphins explain that it's called 'papyrus,' and they used to use it for writing stuff down or something.",
-            effectDesc:
-                "We can now manufacture papyrus using kelp. Why are we doing this?",
+            effectDesc: "We can now manufacture papyrus using kelp. Why are we doing this?",
             cost: {
                 science: 2500,
                 kelp: 10000,
@@ -2224,11 +2221,9 @@ SharkGame.Upgrades = {
 
         delphineHistory: {
             name: "Delphine History",
-            desc:
-                "foobar",
+            desc: "foobar",
             researchedMessage: "placeholder",
-            effectDesc:
-                "placeholder",
+            effectDesc: "placeholder",
             cost: {
                 science: 27500,
             },
@@ -2238,17 +2233,15 @@ SharkGame.Upgrades = {
             effect: {
                 philosopherToHistorian: {
                     dolphin: 1,
-                }
-            }
+                },
+            },
         },
 
         ancientAquaculture: {
             name: "Ancient Aquaculture",
-            desc:
-                "Some of the books we have seem to imply that the dolphins of old found an extremely efficient way to grow crops.",
+            desc: "Some of the books we have seem to imply that the dolphins of old found an extremely efficient way to grow crops.",
             researchedMessage: "We now make use of delphinium tools to carefully harvest crops and avoid damaging their surroundings.",
-            effectDesc:
-                "All kelp production times 4, all coral production times 4.",
+            effectDesc: "All kelp production times 4, all coral production times 4.",
             cost: {
                 science: 400000,
                 delphinium: 25000,
@@ -2266,7 +2259,8 @@ SharkGame.Upgrades = {
 
         imperialDesigns: {
             name: "Imperial Designs",
-            desc: "Finally, with all the materials in one place, we can stop relying on shoddy copies and use the original designs for the dolphin machines.",
+            desc:
+                "Finally, with all the materials in one place, we can stop relying on shoddy copies and use the original designs for the dolphin machines.",
             researchedMessage: "What? These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
             effectDesc: "Cetacean machines are all 4 times as effective. We begrudingly admit their quality is not entirely terrible.",
             cost: {
@@ -2362,7 +2356,8 @@ SharkGame.Upgrades = {
             desc:
                 "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
             researchedMessage: "What we've put together is definitely a song...but something's missing. This can't be the whole thing.",
-            effectDesc: "The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though. Whales are 4 times as effective.",
+            effectDesc:
+                "The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though. Whales are 4 times as effective.",
             cost: {
                 science: 500000,
             },
@@ -2380,7 +2375,8 @@ SharkGame.Upgrades = {
         eternalSong: {
             name: "The Eternal Song",
             desc: "The song of the whales is mentioned in dolphin texts dating back as far as we can find. I think we're onto something.",
-            researchedMessage: "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
+            researchedMessage:
+                "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
             effectDesc: "A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
             cost: {
                 science: 1e7,

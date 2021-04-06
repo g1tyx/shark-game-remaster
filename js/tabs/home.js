@@ -132,8 +132,7 @@ SharkGame.Home = {
             {
                 name: "haven-machines",
                 unlock: { upgrade: ["dolphinTechnology"] },
-                message:
-                    "The intricate design of these machines disguises their innate simplicity.<br/>",
+                message: "The intricate design of these machines disguises their innate simplicity.<br/>",
             },
             {
                 name: "haven-whales",

@@ -3501,7 +3501,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "fish", costFunction: "linear", priceIncrease: 10 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 2 }
+                { resource: "coral", costFunction: "linear", priceIncrease: 2 },
             ],
             max: "dolphin",
             prereq: {
@@ -4172,12 +4172,8 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["dolphinTechnology"],
             },
-            outcomes: [
-                "placeholder",
-            ],
-            multiOutcomes: [
-                "placeholder",
-            ],
+            outcomes: ["placeholder"],
+            multiOutcomes: ["placeholder"],
             helpText: "This dolphin machine prys coral from the reefs at a reckless pace.",
         },
 
@@ -4196,16 +4192,12 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["dolphinTechnology"],
             },
-            outcomes: [
-                "placeholder",
-            ],
-            multiOutcomes: [
-                "placeholder",
-            ],
+            outcomes: ["placeholder"],
+            multiOutcomes: ["placeholder"],
             helpText: "This dolphin machine carefully tends to gardens of kelp.",
         },
 
-/*         getSilentArchivist: {
+        /*         getSilentArchivist: {
             name: "Build silent archivist",
             effect: {
                 resource: {
@@ -4275,8 +4267,6 @@ SharkGame.HomeActions = {
         },
     },
 };
-
-
 
 SharkGame.HomeActionCategories = {
     all: {
