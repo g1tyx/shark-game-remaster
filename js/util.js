@@ -1,3 +1,6 @@
+/**
+ * @type Record<string, (a: number, b: number, k: number) => number>
+ */
 SharkGame.MathUtil = {
     // a = current amount
     // b = desired amount
@@ -52,7 +55,7 @@ SharkGame.MathUtil = {
         }
     },
 
-    uniqueMax(a, b, k) {
+    uniqueMax(_a, _b, _k) {
         return 1;
     },
 };

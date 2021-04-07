@@ -60,7 +60,7 @@ SharkGame.Resources = {
         });
 
         // build multiplier map
-        SharkGame.ResourceMap.forEach((v, key) => {
+        SharkGame.ResourceMap.forEach((_v, key) => {
             SharkGame.ModifierMap.set(key, _.cloneDeep(multiplierObject));
         });
 
@@ -157,7 +157,7 @@ SharkGame.Resources = {
             r.recalculateIncomeTable(true);
             SharkGame.PlayerResources = originalResources;
 
-            SharkGame.PlayerIncomeTable.forEach((v, resource) => {
+            SharkGame.PlayerIncomeTable.forEach((_v, resource) => {
                 r.changeResource(
                     resource,
                     (h *
@@ -178,7 +178,7 @@ SharkGame.Resources = {
 
     recalculateIncomeTable(cheap) {
         // clear income table first
-        SharkGame.ResourceMap.forEach((v, key) => {
+        SharkGame.ResourceMap.forEach((_v, key) => {
             SharkGame.PlayerIncomeTable.set(key, 0);
         });
 
@@ -388,9 +388,7 @@ SharkGame.Resources = {
 
     getResourcesInCategory(categoryName) {
         const resources = [];
-        $.each(SharkGame.ResourceCategories[categoryName].resources, (i, value) => {
-            resources.push(value);
-        });
+        SharkGame.ResourceCategories[categoryName].resources.forEach((resourceName) => resources.push(resourceName));
         return resources;
     },
 
@@ -542,7 +540,7 @@ SharkGame.Resources = {
             });
         } else {
             // iterate through data, if total amount > 0 add a row
-            SharkGame.ResourceMap.forEach((v, key) => {
+            SharkGame.ResourceMap.forEach((_v, key) => {
                 if ((r.getTotalResource(key) > 0 || SharkGame.PlayerResources.get(key).discovered) && w.doesResourceExist(key)) {
                     const row = r.constructResourceTableRow(key);
                     resourceTable.append(row);
@@ -700,7 +698,7 @@ SharkGame.Resources = {
             return "";
         }
         let formattedResourceList = "";
-        SharkGame.ResourceMap.forEach((v, key) => {
+        SharkGame.ResourceMap.forEach((_v, key) => {
             const listResource = resourceList[key];
             // amend for unspecified resources (assume zero)
             if (listResource > 0 && w.doesResourceExist(key)) {
@@ -737,7 +735,7 @@ SharkGame.Resources = {
                         // is it a category or a generator?
                         const nodes = r.isCategory(generator) ? rc[generator].resources : [generator];
                         // recursively reconstruct the table with the keys in the inverse order
-                        $.each(nodes, (k, v) => {
+                        $.each(nodes, (_k, v) => {
                             r.addNetworkNode(rgad, v, type, resource, value);
                         });
                     });
@@ -756,7 +754,7 @@ SharkGame.Resources = {
                         const nodes = r.isCategory(affectedResource) ? rc[affectedResource].resources : [affectedResource];
 
                         // recursively reconstruct the table with the keys in the inverse order
-                        $.each(nodes, (k, v) => {
+                        $.each(nodes, (_k, v) => {
                             r.addNetworkNode(rad, v, type, affectorResource, degree);
                         });
                     });

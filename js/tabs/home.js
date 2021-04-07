@@ -693,7 +693,7 @@ SharkGame.Home = {
         }
         // check if resulting resource exists
         if (action.effect.resource) {
-            $.each(action.effect.resource, (k, v) => {
+            $.each(action.effect.resource, (k) => {
                 prereqsMet = prereqsMet && w.doesResourceExist(k);
             });
         }

@@ -731,8 +731,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // add navigation
         // check if we have more than one discovered tab, else bypass this
         let numTabsDiscovered = 0;
-        $.each(tabs, (k, v) => {
-            if (v.discovered) {
+        $.each(tabs, (_tabName, tab) => {
+            if (tab.discovered) {
                 numTabsDiscovered++;
             }
         });
@@ -828,7 +828,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     getBuyAmount() {
         if (SharkGame.Settings.current.buyAmount === "custom") {
-            return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1000000000000000000
+            return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
                 ? Math.floor($("#custom-input")[0].valueAsNumber)
                 : 1;
         } else {

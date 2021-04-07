@@ -17,7 +17,7 @@ SharkGame.Save = {
             completedWorlds: {},
         };
 
-        SharkGame.PlayerResources.forEach((v, k, m) => {
+        SharkGame.PlayerResources.forEach((v, k) => {
             saveData.resources[k] = {
                 amount: v.amount,
                 totalAmount: v.totalAmount,
@@ -48,7 +48,7 @@ SharkGame.Save = {
             saveData.gateCostsMet[i] = SharkGame.Gate.costsMet[name];
         });
 
-        $.each(SharkGame.Settings, (k, v) => {
+        $.each(SharkGame.Settings, (k) => {
             if (k !== "current") {
                 saveData.settings[k] = SharkGame.Settings.current[k];
             }
@@ -58,11 +58,11 @@ SharkGame.Save = {
             saveData.artifacts[k] = v.level;
         });
 
-        $.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid", "stone"], (k, v) => {
+        $.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid", "stone"], (_key, v) => {
             saveData.completedWorlds[v] = false;
         });
 
-        $.each(g.completedWorlds, (k, v) => {
+        $.each(g.completedWorlds, (_keyOfSomeKind, v) => {
             saveData.completedWorlds[v] = true;
         });
 
@@ -232,7 +232,7 @@ SharkGame.Save = {
             SharkGame.Lab.resetUpgrades();
 
             if (saveData.upgrades) {
-                $.each(saveData.upgrades, (k, v) => {
+                $.each(saveData.upgrades, (k) => {
                     if (saveData.upgrades[k]) {
                         SharkGame.Lab.addUpgrade(k);
                     }
@@ -507,60 +507,53 @@ SharkGame.Save = {
             save.version = null;
             save.timestamp = null;
             save.resources = {};
-            $.each(
-                [
-                    "essence",
-                    "shark",
-                    "ray",
-                    "crab",
-                    "scientist",
-                    "nurse",
-                    "laser",
-                    "maker",
-                    "planter",
-                    "brood",
-                    "crystalMiner",
-                    "autoTransmuter",
-                    "fishMachine",
-                    "science",
-                    "fish",
-                    "sand",
-                    "crystal",
-                    "kelp",
-                    "seaApple",
-                    "sharkonium",
-                ],
-                (i, v) => {
-                    save.resources[v] = { amount: null, totalAmount: null };
-                }
-            );
+
+            [
+                "essence",
+                "shark",
+                "ray",
+                "crab",
+                "scientist",
+                "nurse",
+                "laser",
+                "maker",
+                "planter",
+                "brood",
+                "crystalMiner",
+                "autoTransmuter",
+                "fishMachine",
+                "science",
+                "fish",
+                "sand",
+                "crystal",
+                "kelp",
+                "seaApple",
+                "sharkonium",
+            ].forEach((resourceName) => (save.resources[resourceName] = { amount: null, totalAmount: null }));
             save.upgrades = {};
-            $.each(
-                [
-                    "crystalBite",
-                    "crystalSpade",
-                    "crystalContainer",
-                    "underwaterChemistry",
-                    "seabedGeology",
-                    "thermalVents",
-                    "laserRays",
-                    "automation",
-                    "engineering",
-                    "kelpHorticulture",
-                    "xenobiology",
-                    "biology",
-                    "rayBiology",
-                    "crabBiology",
-                    "sunObservation",
-                    "transmutation",
-                    "exploration",
-                    "farExploration",
-                    "gateDiscovery",
-                ],
-                (i, v) => {
-                    save.upgrades[v] = null;
-                }
-            );
+
+            [
+                "crystalBite",
+                "crystalSpade",
+                "crystalContainer",
+                "underwaterChemistry",
+                "seabedGeology",
+                "thermalVents",
+                "laserRays",
+                "automation",
+                "engineering",
+                "kelpHorticulture",
+                "xenobiology",
+                "biology",
+                "rayBiology",
+                "crabBiology",
+                "sunObservation",
+                "transmutation",
+                "exploration",
+                "farExploration",
+                "gateDiscovery",
+            ].forEach((upgrade) => (save.upgrades[upgrade] = null));
+
             save.tabs = {
                 current: null,
                 home: { discovered: null },
@@ -868,7 +861,7 @@ SharkGame.Save = {
                     "rockProcessing",
                     "gravelPulverizing",
                     "sharkoniumMillingGear",
-                   
+
                    _.each(
                 [
                     "knowledge",
@@ -885,6 +878,6 @@ SharkGame.Save = {
                     save.resources[v] = { amount: 0, totalAmount: 0 };
                 }
             );
-            
+
                                 "stone",
                    */

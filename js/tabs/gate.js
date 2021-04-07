@@ -52,19 +52,19 @@ SharkGame.Gate = {
 
             gt.completedRequirements.slots = {};
             // create costsMet
-            $.each(gt.requirements.slots, (k, v) => {
+            $.each(gt.requirements.slots, (k) => {
                 gt.completedRequirements.slots[k] = false;
             });
         }
 
         if (gateRequirements.upgrades) {
             gt.requirements.upgrades = {};
-            $.each(gateRequirements.upgrades, (k, v) => {
+            $.each(gateRequirements.upgrades, (_key, v) => {
                 gt.requirements.upgrades[v] = "placeholder";
             });
 
             gt.completedRequirements.upgrades = {};
-            $.each(gt.requirements.upgrades, (k, v) => {
+            $.each(gt.requirements.upgrades, (k) => {
                 gt.completedRequirements.upgrades[k] = false;
             });
         }
@@ -76,7 +76,7 @@ SharkGame.Gate = {
             });
 
             gt.completedRequirements.resources = {};
-            $.each(gt.requirements.resources, (k, v) => {
+            $.each(gt.requirements.resources, (k) => {
                 gt.completedRequirements.resources[k] = false;
             });
         }
@@ -179,7 +179,7 @@ SharkGame.Gate = {
     getResourcesLeft() {
         const gt = SharkGame.Gate;
 
-        $.each(gt.completedRequirements.resources, (k, v) => {
+        $.each(gt.completedRequirements.resources, (k) => {
             gt.checkResourceRequirements(k);
         });
 

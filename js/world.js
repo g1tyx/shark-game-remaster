@@ -30,11 +30,11 @@ SharkGame.World = {
         w.worldRestrictedCombinations.clear();
 
         // set up defaults
-        SharkGame.ResourceMap.forEach((v, k, m) => {
-            wr.set(k, {});
-            wr.get(k).exists = true;
-            wr.get(k).income = 0;
-            wr.get(k).artifactMultiplier = 1;
+        SharkGame.ResourceMap.forEach((_entry, someKindOfKey) => {
+            wr.set(someKindOfKey, {});
+            wr.get(someKindOfKey).exists = true;
+            wr.get(someKindOfKey).income = 0;
+            wr.get(someKindOfKey).artifactMultiplier = 1;
         });
     },
 
@@ -44,12 +44,12 @@ SharkGame.World = {
 
         // enable resources allowed on the planet
         if (worldInfo.includedResources) {
-            SharkGame.ResourceMap.forEach((v, k, m) => {
-                wr.get(k).exists = false;
+            SharkGame.ResourceMap.forEach((_entry, someKindOfKey) => {
+                wr.get(someKindOfKey).exists = false;
             });
-            $.each(worldInfo.includedResources, (ident, group) => {
-                if (SharkGame.InternalCategories[group]) {
-                    $.each(SharkGame.InternalCategories[group].resources, (identwo, resource) => {
+            _.each(worldInfo.includedResources, (group) => {
+                if (_.has(SharkGame.InternalCategories, group)) {
+                    _.each(SharkGame.InternalCategories[group].resources, (resource) => {
                         wr.get(resource).exists = true;
                     });
                 } else {

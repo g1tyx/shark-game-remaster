@@ -129,11 +129,12 @@ SharkGame.Stats = {
 
     createDisposeButtons() {
         const buttonDiv = $("#disposeResource").addClass("disposeArrangement");
-        SharkGame.ResourceMap.forEach((v, k) => {
-            if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
+        SharkGame.ResourceMap.forEach((_v, someKindOfKey) => {
+            if (r.getTotalResource(someKindOfKey) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(someKindOfKey)) === -1) {
                 SharkGame.Button.makeButton(
-                    "dispose-" + k,
-                    "Dispose of<br/>" + r.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
+                    "dispose-" + someKindOfKey,
+                    "Dispose of<br/>" +
+                        r.getResourceName(someKindOfKey, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
                     buttonDiv,
                     s.onDispose
                 );
@@ -142,10 +143,10 @@ SharkGame.Stats = {
     },
 
     updateDisposeButtons() {
-        SharkGame.ResourceMap.forEach((v, k) => {
-            if (r.getTotalResource(k) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(k)) === -1) {
-                const button = $("#dispose-" + k);
-                const resourceAmount = r.getResource(k);
+        SharkGame.ResourceMap.forEach((_v, someKindOfKey) => {
+            if (r.getTotalResource(someKindOfKey) > 0 && s.bannedDisposeCategories.indexOf(r.getCategoryOfResource(someKindOfKey)) === -1) {
+                const button = $("#dispose-" + someKindOfKey);
+                const resourceAmount = r.getResource(someKindOfKey);
                 let amountToDispose = m.getBuyAmount();
                 if (amountToDispose < 0) {
                     const max = resourceAmount;
@@ -158,11 +159,23 @@ SharkGame.Stats = {
                     "Dispose of " +
                     m.beautify(amountToDispose) +
                     "<br/>" +
-                    r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
+                    r.getResourceName(
+                        someKindOfKey,
+                        disableButton,
+                        forceSingular,
+                        false,
+                        SharkGame.getElementColor("dispose-" + someKindOfKey, "background-color")
+                    );
                 if (amountToDispose <= 0) {
                     label =
                         "Can't dispose any more " +
-                        r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("dispose-" + k, "background-color"));
+                        r.getResourceName(
+                            someKindOfKey,
+                            disableButton,
+                            forceSingular,
+                            false,
+                            SharkGame.getElementColor("dispose-" + someKindOfKey, "background-color")
+                        );
                 }
 
                 if (button.html() !== label.replace(/'/g, '"').replace("<br/>", "<br>")) {
@@ -202,12 +215,12 @@ SharkGame.Stats = {
     },
 
     updateIncomeTable() {
-        SharkGame.ResourceMap.forEach((v, k) => {
-            if (r.getTotalResource(k) > 0 && SharkGame.ResourceMap.get(k).income) {
-                const income = SharkGame.ResourceMap.get(k).income;
+        SharkGame.ResourceMap.forEach((_v, someKindOfKey) => {
+            if (r.getTotalResource(someKindOfKey) > 0 && SharkGame.ResourceMap.get(someKindOfKey).income) {
+                const income = SharkGame.ResourceMap.get(someKindOfKey).income;
                 $.each(income, (incomeKey) => {
-                    const cell = $("#income-" + k + "-" + incomeKey);
-                    const realIncome = SharkGame.BreakdownIncomeTable.get(k)[incomeKey];
+                    const cell = $("#income-" + someKindOfKey + "-" + incomeKey);
+                    const realIncome = SharkGame.BreakdownIncomeTable.get(someKindOfKey)[incomeKey];
                     const changeChar = !(realIncome < 0) ? "+" : "";
                     const newValue =
                         "<span style='color: " +
@@ -227,10 +240,10 @@ SharkGame.Stats = {
     },
 
     updateTotalAmountTable() {
-        SharkGame.ResourceMap.forEach((v, k) => {
-            const totalResource = r.getTotalResource(k);
+        SharkGame.ResourceMap.forEach((_v, someKindOfKey) => {
+            const totalResource = r.getTotalResource(someKindOfKey);
             if (totalResource > 0) {
-                const cell = $("#totalAmount-" + k);
+                const cell = $("#totalAmount-" + someKindOfKey);
                 const newValue = m.beautify(totalResource);
                 const oldValue = cell.html();
 
@@ -494,15 +507,15 @@ SharkGame.Stats = {
             totalAmountTable.empty();
         }
 
-        SharkGame.ResourceMap.forEach((v, key) => {
-            if (r.getTotalResource(key) > 0) {
+        SharkGame.ResourceMap.forEach((_v, someKindOfKey) => {
+            if (r.getTotalResource(someKindOfKey) > 0) {
                 const row = $("<tr>");
 
-                row.append($("<td>").html(r.getResourceName(key)));
+                row.append($("<td>").html(r.getResourceName(someKindOfKey)));
                 row.append(
                     $("<td>")
-                        .html(m.beautify(r.getTotalResource(key)))
-                        .attr("id", "totalAmount-" + key)
+                        .html(m.beautify(r.getTotalResource(someKindOfKey)))
+                        .attr("id", "totalAmount-" + someKindOfKey)
                 );
 
                 totalAmountTable.append(row);

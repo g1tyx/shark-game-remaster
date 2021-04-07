@@ -35,9 +35,9 @@ SharkGame.Lab = {
     },
 
     resetUpgrades() {
-        const ups = SharkGame.Upgrades.getUpgradeTable();
-        $.each(ups, (k, v) => {
-            ups[k].purchased = false;
+        const upgrades = SharkGame.Upgrades.getUpgradeTable();
+        $.each(upgrades, (k) => {
+            upgrades[k].purchased = false;
         });
 
         const upgradeObject = {};
@@ -51,7 +51,7 @@ SharkGame.Lab = {
             });
         });
 
-        SharkGame.ResourceMap.forEach((v, key) => {
+        SharkGame.ResourceMap.forEach((_val, key) => {
             SharkGame.ModifierMap.get(key).upgrade = _.cloneDeep(upgradeObject);
         });
     },
@@ -334,7 +334,7 @@ SharkGame.Lab = {
 
             // check existence of resource cost
             // this is the final check, everything that was permitted previously will be made false
-            $.each(upgradeData.cost, (k, v) => {
+            $.each(upgradeData.cost, (k) => {
                 isPossible = isPossible && w.doesResourceExist(k);
             });
         }
