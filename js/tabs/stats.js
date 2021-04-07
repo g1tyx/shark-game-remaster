@@ -291,10 +291,6 @@ SharkGame.Stats = {
             .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
             .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))); */
 
-        let hasWorldColumn = false;
-        let hasArtifactColumn = false;
-        let hasAffectColumn = false;
-
         drawnResourceMap.forEach((headingData, headingName) => {
             // if the resource has an income requiring any costs
             // and it isn't a forced income
@@ -344,7 +340,6 @@ SharkGame.Stats = {
                 const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
                 const incomeValue = subheadingValue;
 
-                const resourceBoostRowspan = SharkGame.Settings.current.switchStats ? undefined : "inline";
                 const generatorBoostRowspan = SharkGame.Settings.current.switchStats ? "inline" : undefined;
                 const realIncome = SharkGame.BreakdownIncomeTable.get(generatorName)[incomeKey];
                 const changeChar = !(realIncome < 0) ? "+" : "";
@@ -383,21 +378,18 @@ SharkGame.Stats = {
                         const worldMultiplier = r.getMultiplierProduct("world", generatorName, incomeKey);
                         if (worldMultiplier !== 1) {
                             addCell([r.WORLD_MULTIPLIER_COLOR, "x" + m.beautify(worldMultiplier)], generatorBoostRowspan);
-                            hasWorldColumn = true;
                         } else addCell(undefined, generatorBoostRowspan);
 
                         // does this income get an artifact multiplier?
                         const artifactMultiplier = r.getMultiplierProduct("artifact", generatorName, incomeKey);
                         if (artifactMultiplier !== 1) {
                             addCell([r.ARTIFACT_MULTIPLIER_COLOR, "x" + m.beautify(artifactMultiplier)], generatorBoostRowspan);
-                            hasArtifactColumn = true;
                         } else addCell(undefined, generatorBoostRowspan);
 
                         // does this income get an effect network multiplier?
                         const resourceAffectMultiplier = r.getNetworkIncomeModifier("generator", generatorName);
                         if (resourceAffectMultiplier !== 1) {
                             addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + m.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
-                            hasAffectColumn = true;
                         } else addCell(undefined, generatorBoostRowspan);
                     }
                 } else {

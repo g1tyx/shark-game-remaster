@@ -19,8 +19,6 @@ SharkGame.Log = {
         if (!l.initialised) {
             l.init();
         }
-        const messageList = $("#messageList");
-
         const messageItem = $("<li>").html(message);
         if (showAnims) {
             messageItem.hide().css("opacity", 0).prependTo("#messageList").slideDown(50).animate({ opacity: 1.0 }, 100);

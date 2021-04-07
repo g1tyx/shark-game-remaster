@@ -88,7 +88,6 @@ SharkGame.Gate = {
         content.append($("<div>").attr("id", "tabMessage"));
         content.append($("<div>").attr("id", "buttonList"));
 
-        let amountOfSlots = 0;
         if (!gt.shouldBeOpen()) {
             if (SharkGame.WorldTypes[w.worldType].gateRequirements.slots) {
                 const buttonList = $("#buttonList");
@@ -103,7 +102,6 @@ SharkGame.Gate = {
                             gt.onHover,
                             gt.onUnhover
                         );
-                        amountOfSlots++;
                     }
                 });
             }

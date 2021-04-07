@@ -254,7 +254,6 @@ SharkGame.Lab = {
     },
 
     addUpgrade(upgradeId) {
-        const l = SharkGame.Lab;
         const u = SharkGame.Upgrades.getUpgradeTable();
         const upgrade = u[upgradeId];
         if (upgrade) {
