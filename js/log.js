@@ -5,9 +5,9 @@ SharkGame.Log = {
     init() {
         const l = SharkGame.Log;
         // create log
-        $("#log").append("<button id='clearLog' class='min'></button><h3>Log<h3/><ul id='messageList'></ul>");
+        $("#log").append("<h3>Log<h3/><button id='clearLog' class='min close-button'>✕</button><ul id='messageList'></ul>");
         // add clear button
-        SharkGame.Button.replaceButton("clearLog", "&nbsp x &nbsp", l.clearMessages);
+        $("#clearLog").on("click", l.clearMessages);
         l.initialised = true;
     },
 
@@ -40,8 +40,7 @@ SharkGame.Log = {
     },
 
     addDiscovery(message) {
-        const l = SharkGame.Log;
-        const messageItem = l.addMessage(message);
+        const messageItem = SharkGame.Log.addMessage(message);
         messageItem.addClass("discovery");
         return messageItem;
     },
@@ -77,6 +76,7 @@ SharkGame.Log = {
         });
         // wipe array
         l.messages = [];
+        l.addMessage("Log cleared.");
     },
 
     haveAnyMessages() {

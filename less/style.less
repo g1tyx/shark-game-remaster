@@ -137,6 +137,13 @@
     user-select: none;
 }
 
+.fill-available-width {
+    width: 100%;
+    width: fill-available;
+    width: -moz-available; /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+}
+
 .multi-column-list(@count: 2, @separation: 5px) {
     -moz-column-count: @count;
     -moz-column-gap: @separation;
@@ -460,39 +467,37 @@ pre {
     text-shadow: 0px 0px 2px #000000;
 
     #resourceTableContainer {
-        //width: 100%;
         //max-width: 23em;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 0;
         //overflow: auto;
-    }
 
-    table {
-        margin-left: auto;
-        margin-right: auto;
-        background-color: var(--color-darker);
-        border: 1px solid var(--color-lighter);
-        padding: 0.5em;
-        overflow: hidden;
-        text-align: left;
-        //table-layout: fixed;
-        //display: block;
-        //max-width: 90%;
-        border-spacing: 0 0.1em;
+        table {
+            .fill-available-width;
+            margin: 0;
+            background-color: var(--color-darker);
+            border: 1px solid var(--color-lighter);
+            padding: 0.5em;
+            overflow: hidden;
+            text-align: left;
+            //table-layout: fixed;
+            //display: block;
+            //max-width: 90%;
+            border-spacing: 0 0.1em;
 
-        h3 {
-            padding: 0.2em;
-            width: auto;
-            margin: auto;
-            font-size: 0.9em;
-            color: var(--color-lighter), 20%;
-            filter: brightness(120%);
-            border-top: 0.1em dashed var(--color-lighter);
-            border-bottom: 0.1em dashed var(--color-lighter);
-            // background: #135;
-            background: var(--color-dark);
-            cursor: pointer;
-            user-select: none;
+            h3 {
+                padding: 0.2em;
+                width: auto;
+                margin: auto;
+                font-size: 0.9em;
+                color: var(--color-lighter), 20%;
+                filter: brightness(120%);
+                border-top: 0.1em dashed var(--color-lighter);
+                border-bottom: 0.1em dashed var(--color-lighter);
+                // background: #135;
+                background: var(--color-dark);
+                cursor: pointer;
+                user-select: none;
+            }
         }
     }
 
@@ -516,7 +521,8 @@ pre {
 }
 
 #status {
-    .inner-section;
+    margin: 5px;
+    padding: 0;
 }
 
 #log {
@@ -820,6 +826,12 @@ button {
         border-radius: 5px;
     }
 
+    &.close-button {
+        padding: 0 3.5px;
+        margin: auto;
+        float: right;
+    }
+
     &:hover {
         //background-color: @highlight-color;
         //color: @super-highlight;
@@ -1010,11 +1022,6 @@ button {
     #paneHeaderCloseButtonDiv {
         vertical-align: middle;
         text-align: right;
-
-        #paneHeaderCloseButton {
-            padding: 0 3.5px;
-            margin: auto;
-        }
     }
 
     table {

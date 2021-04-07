@@ -521,9 +521,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Gateway.init();
         SharkGame.Gateway.applyArtifacts(); // if there's any effects to carry over from a previous run
 
-        // reset log
-        SharkGame.Log.clearMessages();
-
         // initialise tabs
         SharkGame.Home.init();
         SharkGame.Lab.init();
@@ -1085,7 +1082,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         titleDiv.append(
             $("<div>")
                 .attr("id", "paneHeaderCloseButtonDiv")
-                .append($("<button>").attr("id", "paneHeaderCloseButton").addClass("min").html("✕").on("click", m.hidePane))
+                .append($("<button>").attr("id", "paneHeaderCloseButton").addClass("min close-button").html("✕").on("click", m.hidePane))
         );
         pane.append(titleDiv);
         pane.append($("<div>").attr("id", "paneHeaderEnd").addClass("clear-fix"));
@@ -1201,13 +1198,6 @@ SharkGame.Button = {
 
     makeButton(id, name, div, handler) {
         return $("<button>").html(name).attr("id", id).appendTo(div).on("click", handler);
-    },
-
-    replaceButton(id, name, handler) {
-        return $("#" + id)
-            .html(name)
-            .off("click")
-            .on("click", handler);
     },
 };
 

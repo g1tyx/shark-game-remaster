@@ -121,8 +121,7 @@ SharkGame.Settings = {
         onChange() {
             const sidebar = $("#sidebar");
             if (SharkGame.Settings.current.showAnimations) {
-                sidebar.animate({ width: SharkGame.Settings.current.sidebarWidth }, "100");
-                SharkGame.Log.correctLogLength();
+                sidebar.animate({ width: SharkGame.Settings.current.sidebarWidth }, 100);
             } else {
                 sidebar.width(SharkGame.Settings.current.sidebarWidth);
             }

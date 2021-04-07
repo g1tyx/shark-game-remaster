@@ -1,6 +1,14 @@
 /*------------------------------------------------------
   MIXINS
 -------------------------------------------------------*/
+.fill-available-width {
+  width: 100%;
+  width: fill-available;
+  width: -moz-available;
+  /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;
+  /* Mozilla-based browsers will ignore this. */
+}
 .clear-fix {
   display: block;
   zoom: 1;
@@ -293,12 +301,16 @@ pre {
   text-shadow: 0px 0px 2px #000000;
 }
 #sidebar #resourceTableContainer {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
 }
-#sidebar table {
-  margin-left: auto;
-  margin-right: auto;
+#sidebar #resourceTableContainer table {
+  width: 100%;
+  width: fill-available;
+  width: -moz-available;
+  /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;
+  /* Mozilla-based browsers will ignore this. */
+  margin: 0;
   background-color: var(--color-darker);
   border: 1px solid var(--color-lighter);
   padding: 0.5em;
@@ -306,7 +318,7 @@ pre {
   text-align: left;
   border-spacing: 0 0.1em;
 }
-#sidebar table h3 {
+#sidebar #resourceTableContainer table h3 {
   padding: 0.2em;
   width: auto;
   margin: auto;
@@ -335,8 +347,8 @@ pre {
   margin: 0;
 }
 #status {
-  padding: 5px;
   margin: 5px;
+  padding: 0;
 }
 #log {
   padding: 5px;
@@ -670,6 +682,11 @@ button.min-block {
   vertical-align: super;
   border-radius: 5px;
 }
+button.close-button {
+  padding: 0 3.5px;
+  margin: auto;
+  float: right;
+}
 button:hover {
   -webkit-box-shadow: 0px 0px 2px 2px var(--color-lighter);
   -moz-box-shadow: 0px 0px 2px 2px var(--color-lighter);
@@ -885,10 +902,6 @@ button.disabled div {
 #pane #paneHeaderCloseButtonDiv {
   vertical-align: middle;
   text-align: right;
-}
-#pane #paneHeaderCloseButtonDiv #paneHeaderCloseButton {
-  padding: 0 3.5px;
-  margin: auto;
 }
 #pane table {
   margin: auto;
