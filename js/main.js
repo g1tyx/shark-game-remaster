@@ -93,6 +93,14 @@ $.extend(SharkGame, {
             intervalId = setInterval(nextStyle, time);
             cad.cycling = false;
         },
+
+        discoverAll() {
+            $.each(SharkGame.Tabs, (tabName) => {
+                if (tabName !== "current") {
+                    m.discoverTab(tabName);
+                }
+            });
+        },
     },
 
     credits:
@@ -1152,15 +1160,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     isFirstTime() {
         return w.worldType === "start" && !(r.getTotalResource("essence") > 0);
-    },
-
-    // DEBUG FUNCTIONS
-    discoverAll() {
-        $.each(SharkGame.Tabs, (k, v) => {
-            if (k !== "current") {
-                m.discoverTab(k);
-            }
-        });
     },
 
     getDeterminer(name) {
