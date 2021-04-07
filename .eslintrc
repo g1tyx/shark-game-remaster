@@ -30,8 +30,8 @@
         "no-unused-vars": [
             "error",
             {
-                "varsIgnorePattern": "(?:^__.{1,})|(?:[^$_]$)",
-                "argsIgnorePattern": "(?:^_.{1,})|(?:^.$)"
+                "varsIgnorePattern": "^__.+$",
+                "argsIgnorePattern": "^(_.+|.)$"
             }
         ],
         "func-names": ["error", "always"],
