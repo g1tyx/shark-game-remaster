@@ -660,7 +660,9 @@ button.min {
   padding: 0.1em;
   margin: 1%;
   min-width: 0;
+  width: auto;
   display: inline;
+  float: right;
 }
 button.min-block {
   padding: 0.1em;
@@ -874,6 +876,7 @@ button.disabled div {
 }
 #pane #paneHeaderTitleDiv {
   vertical-align: middle;
+  float: left;
   display: inline;
   text-align: left;
 }
@@ -882,11 +885,13 @@ button.disabled div {
 }
 #pane #paneHeaderCloseButtonDiv {
   vertical-align: middle;
+  float: right;
   display: inline;
   text-align: right;
 }
 #pane #paneHeaderCloseButtonDiv button {
   display: inline;
+  width: auto;
 }
 #pane #paneHeaderCloseButton {
   margin: auto;
