@@ -802,7 +802,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     thisButton.addClass("disabled");
                 });
         });
-        buttonList.prepend(
+        buttonList.append(
             $("<li>").append(
                 $("<input>")
                     .prop("type", "number")
