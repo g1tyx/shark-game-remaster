@@ -101,6 +101,12 @@ $.extend(SharkGame, {
                 }
             });
         },
+
+        giveEverything(amount = 1) {
+            SharkGame.ResourceMap.forEach((_v, key) => {
+                r.changeResource(key, amount);
+            });
+        },
     },
 
     credits:

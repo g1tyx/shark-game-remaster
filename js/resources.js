@@ -869,11 +869,4 @@ SharkGame.Resources = {
         });
         return grace;
     },
-
-    // TESTING FUNCTIONS
-    giveMeSomeOfEverything(amount) {
-        SharkGame.ResourceMap.forEach((v, key) => {
-            r.changeResource(key, amount);
-        });
-    },
 };
