@@ -31,7 +31,7 @@
             "error",
             {
                 "varsIgnorePattern": "^__.+$",
-                "argsIgnorePattern": "^(_.+|.)$"
+                "argsIgnorePattern": "^(_.+)$"
             }
         ],
         "func-names": ["error", "always"],
