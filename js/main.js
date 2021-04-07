@@ -139,9 +139,10 @@ $.extend(SharkGame, {
 
     notice:
         "<p>Welcome to the open alpha of v0.2 for New Frontiers.</p>" +
-        "<p>v0.2 is gonna be a complete rework of the planets in the base game! There's only one playable so far.</p>" +
-        "<p>This is an alpha; things will be missing. New stuff will get added over time.</p>" +
-        "<p>If you'd like to give feedback or contribute directly, check out the Discord link.</p>",
+        "<p>v0.2 is gonna be a complete rework of the planets in the base game!<br/>Currently only the Abandoned world type is playable.</p>" +
+        "<p>This is an alpha; Things will be missing. New stuff will be added over time.</p>" +
+        "<p>If you'd like to give feedback or contribute directly, check out our <a href='https://discord.gg/eYqApFkFPY'>Discord</a>.</p>" +
+        "<p>To play the stable version (with all planets), visit <a href='https://spencers145.github.io/SharkGame/'>this link</a>.</p>",
 
     spriteIconPath: "img/sharksprites.png",
     spriteHomeEventPath: "img/sharkeventsprites.png",
@@ -314,7 +315,7 @@ SharkGame.TitleBar = {
     discordLink: {
         name: "discord",
         main: false,
-        link: "https://discord.gg/nN7BQDJR2G",
+        link: "https://discord.gg/eYqApFkFPY",
     },
 
     noticeLink: {
