@@ -25,7 +25,7 @@
         "mt": "readonly",
         "cad": "readonly"
     },
-    "ignorePatterns": ["js/lib/**", "js/fallback/**", "js/reference/**", "js/menu/**"],
+    "ignorePatterns": ["js/lib/**"],
     "rules": {
         "no-unused-vars": [
             "error",
