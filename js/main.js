@@ -3,7 +3,7 @@ var SharkGame = SharkGame || {};
 
 window.onmousemove = (e) => {
     const tooltip = document.getElementById("tooltipbox");
-    if (tooltip.innerHTML === "") return;
+    if (tooltip === undefined || tooltip.innerHTML === "") return;
     const x = e.clientX;
     const y = e.clientY;
     tooltip.style.top = y - 20 + "px";
@@ -769,7 +769,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         buttonList.empty();
         $.each(SharkGame.Settings.buyAmount.options, (_, amount) => {
             const disableButton = amount === SharkGame.Settings.current.buyAmount;
-            buttonList.prepend(
+            buttonList.append(
                 $("<li>").append(
                     $("<button>")
                         .addClass("min" + (disableButton ? " disabled" : ""))
@@ -809,7 +809,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             $("<li>").append(
                 $("<input>")
                     .prop("type", "number")
-                    .addClass("inputbox")
                     .attr("id", "custom-input")
                     .attr("value", 1)
                     .attr("min", "1")
@@ -1086,7 +1085,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         titleDiv.append(
             $("<div>")
                 .attr("id", "paneHeaderCloseButtonDiv")
-                .append($("<button>").attr("id", "paneHeaderCloseButton").addClass("min").html("&nbsp x &nbsp").on("click", m.hidePane))
+                .append($("<button>").attr("id", "paneHeaderCloseButton").addClass("min").html("✕").on("click", m.hidePane))
         );
         pane.append(titleDiv);
         pane.append($("<div>").attr("id", "paneHeaderEnd").addClass("clear-fix"));

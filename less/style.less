@@ -447,7 +447,7 @@ pre {
 
     #tabButtons {
         float: right;
-        width: 50em;
+        text-align: right;
         overflow: auto;
     }
 }
@@ -806,11 +806,10 @@ button {
 
     &.min {
         padding: 0.1em;
-        margin: 1%;
+        margin: 0px 2px 3px;
         min-width: 0;
-        width: auto;
         display: inline;
-        float: right;
+        border-radius: 5px;
     }
 
     &.min-block {
@@ -818,6 +817,7 @@ button {
         margin: auto;
         min-width: 0;
         vertical-align: super;
+        border-radius: 5px;
     }
 
     &:hover {
@@ -875,9 +875,9 @@ button {
     }
 }
 
-.inputbox {
+#custom-input {
     padding: 0.1em;
-    margin: 1%;
+    margin: 0px 2px 3px;
     width: 6em;
     float: right;
     background-color: var(--color-light);
@@ -992,7 +992,6 @@ button {
 
     h2 {
         padding-bottom: 0.5em;
-        //border-bottom: 0.4em double var(--color-med);
     }
 
     #paneHeaderEnd {
@@ -1001,7 +1000,6 @@ button {
 
     #paneHeaderTitleDiv {
         vertical-align: middle;
-        float: left;
         display: inline;
         text-align: left;
         h3 {
@@ -1011,20 +1009,12 @@ button {
 
     #paneHeaderCloseButtonDiv {
         vertical-align: middle;
-        float: right;
-        display: inline;
         text-align: right;
 
-        button {
-            display: inline;
-            width: auto;
+        #paneHeaderCloseButton {
+            padding: 0 3.5px;
+            margin: auto;
         }
-    }
-
-    #paneHeaderCloseButton {
-        margin: auto;
-        float: none;
-        min-width: 0;
     }
 
     table {

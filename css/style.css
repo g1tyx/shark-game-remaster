@@ -274,7 +274,7 @@ pre {
 }
 #contentMenu #tabButtons {
   float: right;
-  width: 50em;
+  text-align: right;
   overflow: auto;
 }
 #sidebar {
@@ -658,17 +658,17 @@ button {
 }
 button.min {
   padding: 0.1em;
-  margin: 1%;
+  margin: 0px 2px 3px;
   min-width: 0;
-  width: auto;
   display: inline;
-  float: right;
+  border-radius: 5px;
 }
 button.min-block {
   padding: 0.1em;
   margin: auto;
   min-width: 0;
   vertical-align: super;
+  border-radius: 5px;
 }
 button:hover {
   -webkit-box-shadow: 0px 0px 2px 2px var(--color-lighter);
@@ -720,9 +720,9 @@ button.disabled div {
   box-shadow: none;
   background-color: var(--color-darker);
 }
-.inputbox {
+#custom-input {
   padding: 0.1em;
-  margin: 1%;
+  margin: 0px 2px 3px;
   width: 6em;
   float: right;
   background-color: var(--color-light);
@@ -730,7 +730,7 @@ button.disabled div {
   color: white;
   font-size: 90%;
 }
-.inputbox[disabled] {
+#custom-input[disabled] {
   background-color: var(--color-darker);
   color: var(--color-lighter);
   filter: brightness(80%);
@@ -876,7 +876,6 @@ button.disabled div {
 }
 #pane #paneHeaderTitleDiv {
   vertical-align: middle;
-  float: left;
   display: inline;
   text-align: left;
 }
@@ -885,18 +884,11 @@ button.disabled div {
 }
 #pane #paneHeaderCloseButtonDiv {
   vertical-align: middle;
-  float: right;
-  display: inline;
   text-align: right;
 }
-#pane #paneHeaderCloseButtonDiv button {
-  display: inline;
-  width: auto;
-}
-#pane #paneHeaderCloseButton {
+#pane #paneHeaderCloseButtonDiv #paneHeaderCloseButton {
+  padding: 0 3.5px;
   margin: auto;
-  float: none;
-  min-width: 0;
 }
 #pane table {
   margin: auto;
