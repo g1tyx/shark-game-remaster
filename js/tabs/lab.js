@@ -333,7 +333,7 @@ SharkGame.Lab = {
             }
             if (upgradeData.required.totals) {
                 $.each(upgradeData.required.totals, (k, v) => {
-                    isPossible = isPossible && (r.getTotalResource(k) >= v);
+                    isPossible = isPossible && r.getTotalResource(k) >= v;
                 });
             }
 

@@ -851,13 +851,13 @@ SharkGame.Home = {
                     appendedProduce = true;
                     text += "<span class='littleTooltipText'>PRODUCES</span><br/>";
                 }
-                text += m
+                text +=
+                    m
                         .beautifyIncome(
                             amount,
                             " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
-                        .bold() +
-                        "<br/>";
+                        .bold() + "<br/>";
             }
         });
 
@@ -867,13 +867,13 @@ SharkGame.Home = {
                     appendedConsume = true;
                     text += "<span class='littleTooltipText'>CONSUMES</span><br/>";
                 }
-                text += m
+                text +=
+                    m
                         .beautifyIncome(
                             -amount,
                             " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
-                        .bold() + 
-                        "<br/>";
+                        .bold() + "<br/>";
             }
         });
 
@@ -888,7 +888,17 @@ SharkGame.Home = {
                                         appendedMultiply = true;
                                         text += "<span class='littleTooltipText'>ADDS</span><br/>";
                                     }
-                                    text+= Math.round(degree*100) + "% to all " + r.getResourceName(affected, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) + " production<br/>";
+                                    text +=
+                                        Math.round(degree * 100) +
+                                        "% to all " +
+                                        r.getResourceName(
+                                            affected,
+                                            false,
+                                            false,
+                                            false,
+                                            SharkGame.getElementColor("tooltipbox", "background-color")
+                                        ) +
+                                        " production<br/>";
                                     break;
                             }
                         });

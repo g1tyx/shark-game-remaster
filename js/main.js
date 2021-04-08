@@ -1164,7 +1164,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             return "";
         } else if ("aeiou".includes(firstLetter)) {
             return "an";
-
         } else {
             return "a";
         }

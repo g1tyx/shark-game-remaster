@@ -634,6 +634,7 @@ SharkGame.Save = {
                     "worker",
                     "harvester",
                     "treasurer",
+                    "philosopher",
                     "chorus",
                     "transmuter",
                     "explorer",
@@ -817,6 +818,7 @@ SharkGame.Save = {
             return save;
         },
 
+        // MODDED v0.2
         function update(save) {
             _.each(["investigator", "filter", "ancientPart"], (v) => {
                 save.resources[v] = { amount: 0, totalAmount: 0 };
@@ -844,7 +846,6 @@ SharkGame.Save = {
             return save;
         },
 
-        // MODDED v0.2
         function update(save) {
             _.each(
                 [

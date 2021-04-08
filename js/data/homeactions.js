@@ -3306,19 +3306,14 @@ SharkGame.HomeActions = {
                     papyrus: 1,
                 },
             },
-            cost: [
-                { resource: "kelp", costFunction: "constant", priceIncrease: 15 },
-            ],
+            cost: [{ resource: "kelp", costFunction: "constant", priceIncrease: 15 }],
             max: "papyrus",
             prereq: {
                 upgrade: ["kelpPapyrus"],
             },
-            outcomes: [
-                "foobar.",
-            ],
+            outcomes: ["foobar."],
             helpText: "Using the power of the sun somehow, make crunchy, solid kelp sheets for writing stuff down.",
         },
-
 
         // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
 

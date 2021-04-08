@@ -367,7 +367,7 @@ SharkGame.ResourceTable = {
         },
         value: 3000,
     },
-    
+
     philosopher: {
         name: "dummy dolphin",
         singleName: "dummy",

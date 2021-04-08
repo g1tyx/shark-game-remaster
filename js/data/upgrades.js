@@ -2171,7 +2171,8 @@ SharkGame.Upgrades = {
         kelpPapyrus: {
             name: "Kelp Papyrus",
             desc: "We keep finding all these flat pieces of kelp. What is with them? Why are they crunchy?!",
-            researchedMessage: "Turns out, these pieces of kelp are not an esoteric snack. They're actually used to record stuff. Wow! So many useless dolphin tales!",
+            researchedMessage:
+                "Turns out, these pieces of kelp are not an esoteric snack. They're actually used to record stuff. Wow! So many useless dolphin tales!",
             effectDesc: "We can now make papyrus using kelp. Why are we doing this?",
             cost: {
                 science: 2500,
@@ -2182,7 +2183,7 @@ SharkGame.Upgrades = {
             },
         },
 
-/*         delphinePhilosophy: {
+        /*         delphinePhilosophy: {
             name: "Delphine Philosophy",
             desc:
                 "The dolphins are not known to be natural philosphers. Nonetheless, we need to appreciate their culture for them to pay attention to us.",
@@ -2247,8 +2248,10 @@ SharkGame.Upgrades = {
 
         mechanismModification: {
             name: "Mechanism Modification",
-            desc: "The dolphins only have poorly-made copies of the original diagrams for their machines. Maybe if we tweak the design ourselves, we can make them closer to the originals?",
-            researchedMessage: "With a little shark ingenuity, we've managed to get the dolphin machines running better than before, but we doubt it's how they designed them originally.",
+            desc:
+                "The dolphins only have poorly-made copies of the original diagrams for their machines. Maybe if we tweak the design ourselves, we can make them closer to the originals?",
+            researchedMessage:
+                "With a little shark ingenuity, we've managed to get the dolphin machines running better than before, but we doubt it's how they designed them originally.",
             effectDesc: "Crimson combines and kelp cultivators are 4 times as fast. Still looks slow to me.",
             cost: {
                 science: 5500,
@@ -2271,7 +2274,8 @@ SharkGame.Upgrades = {
             desc:
                 "Finally, with all the materials in one place, we can stop relying on shoddy copies and use the original designs for the dolphin machines.",
             researchedMessage: "What? These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
-            effectDesc: "Kelp cultivators and crimson combines are 4 times faster, and tireless crafters are twice as efficient. We begrudingly admit their quality is not entirely terrible.",
+            effectDesc:
+                "Kelp cultivators and crimson combines are 4 times faster, and tireless crafters are twice as efficient. We begrudingly admit their quality is not entirely terrible.",
             cost: {
                 science: 200000,
             },
