@@ -389,16 +389,9 @@ SharkGame.Save = {
     },
 
     importData(data) {
-        // decode from ascii85
-        let saveData;
-        try {
-            saveData = ascii85.decode(data);
-        } catch (err) {
-            SharkGame.Log.addError("That's not encoded properly. Are you sure that's the full save export string?");
-        }
         // load the game from this save data string
         try {
-            SharkGame.Save.loadGame(saveData);
+            SharkGame.Save.loadGame(data);
         } catch (err) {
             SharkGame.Log.addError(err.message);
             console.error(err.trace);
