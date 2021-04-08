@@ -396,7 +396,7 @@ SharkGame.Save = {
             SharkGame.Save.loadGame(data);
         } catch (err) {
             SharkGame.Log.addError(err.message);
-            console.error(err.trace);
+            console.error(err);
         }
         // refresh current tab
         m.setUpTab();
