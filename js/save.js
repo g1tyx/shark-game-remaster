@@ -847,6 +847,38 @@ SharkGame.Save = {
             });
             return save;
         },
+
+        // MODDED v0.2
+        function update(save) {
+            _.each(
+                [
+                    "planetTerraformer",
+                    "shrimpMigrator",
+                    "lobsterMigrator",
+                    "dolphinMigrator",
+                    "whaleMigrator",
+                    "eelMigrator",
+                    "chimaeraMigrator",
+                    "octopusMigrator",
+                    "shrimpTotem",
+                    "lobsterTotem",
+                    "dolphinTotem",
+                    "whaleTotem",
+                    "eelTotem",
+                    "chimaeraTotem",
+                    "octopusTotem",
+                    "carapaceTotem",
+                    "inspirationTotem",
+                    "industryTotem",
+                ],
+                (deprecatedTotem) => {
+                    if (_.has(save.artifacts, deprecatedTotem)) {
+                        delete save.artifacts[deprecatedTotem];
+                    }
+                }
+            );
+            return save;
+        },
     ],
 };
 
