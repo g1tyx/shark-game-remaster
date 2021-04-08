@@ -58,8 +58,8 @@ SharkGame.Save = {
             saveData.artifacts[k] = v.level;
         });
 
-        $.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid", "stone"], (_key, v) => {
-            saveData.completedWorlds[v] = false;
+        $.each(SharkGame.WorldTypes, (worldType) => {
+            saveData.completedWorlds[worldType] = false;
         });
 
         $.each(g.completedWorlds, (_keyOfSomeKind, v) => {
