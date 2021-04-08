@@ -3299,6 +3299,27 @@ SharkGame.HomeActions = {
             helpText: "Fuse valuable resources into delphinium, which is kinda like sharkonium. Except worse.",
         },
 
+        craftPapyrus: {
+            name: "Craft kelp papyrus",
+            effect: {
+                resource: {
+                    papyrus: 1,
+                },
+            },
+            cost: [
+                { resource: "kelp", costFunction: "constant", priceIncrease: 15 },
+            ],
+            max: "papyrus",
+            prereq: {
+                upgrade: ["kelpPapyrus"],
+            },
+            outcomes: [
+                "foobar.",
+            ],
+            helpText: "Using the power of the sun somehow, make crunchy, solid kelp sheets for writing stuff down.",
+        },
+
+
         // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
 
         getShark: {
@@ -3822,7 +3843,6 @@ SharkGame.HomeActions = {
             cost: [
                 { resource: "dolphin", costFunction: "constant", priceIncrease: 1 },
                 { resource: "coral", costFunction: "linear", priceIncrease: 20 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 10 },
             ],
             max: "treasurer",
             prereq: {
@@ -3845,43 +3865,6 @@ SharkGame.HomeActions = {
                 "Promote a dolphin to a harder job involving interest on precious coral and crystal or something like that.",
         },
 
-        getPhilosopher: {
-            name: "Qualify dolphin philosopher",
-            effect: {
-                resource: {
-                    philosopher: 1,
-                },
-            },
-            cost: [
-                { resource: "dolphin", costFunction: "constant", priceIncrease: 1 },
-                { resource: "papyrus", costFunction: "linear", priceIncrease: 5 },
-            ],
-            max: "philosopher",
-            prereq: {
-                resource: {
-                    dolphin: 1,
-                },
-                upgrade: ["delphinePhilosophy"],
-            },
-            outcomes: [
-                "We've given a dolphin free opportunity to ramble. WHY?!",
-                "Let's humour this dolphin's rambling.",
-                "This philosopher might have some insight.",
-                "Maybe this dolphin can answer the question of why we're even working with dolphins.",
-            ],
-            multiOutcomes: [
-                "We begrudgingly acknowledge that working together is providing us with new insights.",
-                "It's time to wax poetic and ponder.",
-                "These pretentious clicking jerks can sometimes raise a good point.",
-                "Oh joy. We're encouraging them to talk more.",
-                "What's wrong with shark science?!",
-            ],
-            helpText: "Determine which of these dolphins is actually smart, and not just repeating empty phrases.",
-            removedBy: {
-                upgrades: ["delphineHistory"],
-            },
-        },
-
         getHistorian: {
             name: "Qualify dolphin historian",
             effect: {
@@ -3895,12 +3878,15 @@ SharkGame.HomeActions = {
             ],
             max: "historian",
             prereq: {
+                resource: {
+                    dolphin: 1,
+                },
                 upgrade: ["delphineHistory"],
             },
             outcomes: [
                 "We've given a dolphin free opportunity to ramble. WHY?!",
                 "Let's humour this dolphin's rambling.",
-                "This philosopher might have some insight.",
+                "This historian might have some insight.",
                 "Maybe this dolphin can answer the question of why we're even working with dolphins.",
             ],
             multiOutcomes: [

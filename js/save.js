@@ -633,7 +633,6 @@ SharkGame.Save = {
                     "pit",
                     "worker",
                     "harvester",
-                    "philosopher",
                     "treasurer",
                     "chorus",
                     "transmuter",
@@ -836,10 +835,10 @@ SharkGame.Save = {
         },
 
         function update(save) {
-            _.each(["historian", "papyrus"], (v) => {
+            _.each(["historian", "papyrus", "crimsonCombine", "kelpCultivator"], (v) => {
                 save.resources[v] = { amount: 0, totalAmount: 0 };
             });
-            _.each(["coralCollection", "whaleCommunication", "delphineHistory", "whaleSong", "farHavenExploration"], (v) => {
+            _.each(["coralCollection", "whaleCommunication", "delphineHistory", "whaleSong", "farHavenExploration", "mechanismModification"], (v) => {
                 save.upgrades[v] = false;
             });
             return save;

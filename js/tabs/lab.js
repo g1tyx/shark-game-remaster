@@ -331,6 +331,11 @@ SharkGame.Lab = {
                     isPossible = isPossible && l.isUpgradePossible(v);
                 });
             }
+            if (upgradeData.required.totals) {
+                $.each(upgradeData.required.totals, (k, v) => {
+                    isPossible = isPossible && (r.getTotalResource(k) >= v);
+                });
+            }
 
             // check existence of resource cost
             // this is the final check, everything that was permitted previously will be made false

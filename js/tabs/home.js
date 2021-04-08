@@ -114,7 +114,7 @@ SharkGame.Home = {
             },
             {
                 name: "haven-dolphins",
-                unlock: { resource: { dolphin: 1 }, homeAction: ["getDolphin"] },
+                unlock: { totalResource: { dolphin: 1 }, homeAction: ["getDolphin"] },
                 message: "A dolphin joins the frenzy.<br/>It already wants a raise. Wow.",
             },
             {
@@ -124,26 +124,20 @@ SharkGame.Home = {
                     "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
             {
-                name: "haven-gate",
-                unlock: { upgrade: ["delphinePhilosophy"] },
-                message:
-                    "Many of the dolphins' self-indulgent tales are filled with references to a mysterious gate.<br/>The dolphins do not know what it is, but they do know where to start looking for it.",
-            },
-            {
-                name: "haven-machines",
-                unlock: { upgrade: ["dolphinTechnology"] },
-                message: "The intricate design of these machines disguises their innate simplicity.<br/>",
-            },
-            {
-                name: "haven-whales",
-                unlock: { resource: { whale: 1 }, homeAction: ["getWhale"] },
-                message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
+                name: "haven-papyrus",
+                unlock: { upgrade: ["sunObservation"] },
+                message: "Pieces of strange, crunchy kelp have begun washing up in the currents.<br/>You see something carved into them.",
             },
             {
                 name: "haven-history",
                 unlock: { upgrade: ["delphineHistory"] },
                 message:
                     "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original collections have been lost to time.",
+            },
+            {
+                name: "haven-whales",
+                unlock: { totalResource: { whale: 1 }, homeAction: ["getWhale"] },
+                message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
             },
             {
                 name: "haven-chorus",
@@ -821,12 +815,14 @@ SharkGame.Home = {
         button.addClass("disabled");
     },
 
-    onHomeHover() {
+    onHomeHover(dummyvariablepleaseignorethistobythanks, actionName = false) {
         if (!SharkGame.Settings.current.showTabHelp) {
             return;
         }
-        const button = $(this);
-        const actionName = button.attr("id");
+        if (!actionName) {
+            const button = $(this);
+            actionName = button.attr("id");
+        }
         const effects = SharkGame.HomeActions.getActionList()[actionName].effect;
         const validGenerators = {};
         let numGen = 0;
@@ -846,22 +842,22 @@ SharkGame.Home = {
 
         let appendedProduce = false;
         let appendedConsume = false;
+        let appendedMultiply = false;
         let text = "";
 
         $.each(validGenerators, (incomeResource, amount) => {
             if (amount > 0) {
                 if (!appendedProduce) {
                     appendedProduce = true;
-                    text += "<span class='littleTooltipText'>PRODUCES</span>";
+                    text += "<span class='littleTooltipText'>PRODUCES</span><br/>";
                 }
-                text +=
-                    "<br/>" +
-                    m
+                text += m
                         .beautifyIncome(
                             amount,
                             " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
-                        .bold();
+                        .bold() +
+                        "<br/>";
             }
         });
 
@@ -869,29 +865,40 @@ SharkGame.Home = {
             if (amount < 0) {
                 if (!appendedConsume) {
                     appendedConsume = true;
-                    if (!appendedProduce) {
-                        text += "<span class='littleTooltipText'>CONSUMES</span>";
-                    } else {
-                        text += "<br/> <span class='littleTooltipText'>CONSUMES</span>";
-                    }
+                    text += "<span class='littleTooltipText'>CONSUMES</span><br/>";
                 }
-                text +=
-                    "<br/>" +
-                    m
+                text += m
                         .beautifyIncome(
                             -amount,
                             " " + r.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
-                        .bold();
+                        .bold() + 
+                        "<br/>";
             }
         });
 
+        if (effects.resource) {
+            $.each(effects.resource, (resource) => {
+                if (SharkGame.ResourceIncomeAffectors[resource]) {
+                    _.each(SharkGame.ResourceIncomeAffectors[resource], (type) => {
+                        $.each(SharkGame.ResourceIncomeAffectors[resource][type], (affected, degree) => {
+                            switch (type) {
+                                case "multiply":
+                                    if (!appendedMultiply) {
+                                        appendedMultiply = true;
+                                        text += "<span class='littleTooltipText'>ADDS</span><br/>";
+                                    }
+                                    text+= Math.round(degree*100) + "% to all " + r.getResourceName(affected, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) + " production<br/>";
+                                    break;
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
         if (SharkGame.HomeActions.getActionList()[actionName].helpText) {
-            if (text !== "") {
-                text += "<br><span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
-            } else {
-                text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
-            }
+            text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
         }
 
         if (numGen === 1) {

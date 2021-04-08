@@ -1157,14 +1157,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     getDeterminer(name) {
         const firstLetter = SharkGame.ResourceMap.get(name).name.charAt(0);
-        if ("aeiou".includes(firstLetter)) {
-            return "an";
-            //note to self: make the next line not suck
-            // Possibly add an "uncountable" property to resources somehow? Manual works fine though
-        } else if (!["algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science"].includes(name)) {
-            return "a";
-        } else {
+
+        //note to self: make the next line not suck
+        // Possibly add an "uncountable" property to resources somehow? Manual works fine though
+        if (["algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science", "papyrus"].includes(name)) {
             return "";
+        } else if ("aeiou".includes(firstLetter)) {
+            return "an";
+
+        } else {
+            return "a";
         }
     },
 
@@ -1217,6 +1219,10 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch ???": [
+        "Implemented reworked gameplay for the Haven worldtype.",
+        "Made sweeping changes to the UI.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 031421a": [
         "Fixed bug related to how artifacts display in the grotto.",
         "Fixed bug related to artifact affects not applying properly.",
@@ -1233,7 +1239,7 @@ SharkGame.Changelog = {
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
         "Scrapped Chaotic worldtype. Completely.",
         "Implemented gameplay for 1 out of 7 necessary planet reworks.",
-        "Implemented some new assets.",
+        "Implemented new assets.",
     ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.11 - New Foundations (2021/1/27)": [
         "New, greatly improved UI for everything.",

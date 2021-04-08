@@ -83,7 +83,7 @@ SharkGame.ModifierTypes = {
                     return 1;
                 },
             },
-            philosopherToHistorian: {
+/*             philosopherToHistorian: {
                 defaultValue: 0,
                 apply(_current, _degree, _resource, _level) {
                     r.setResource("historian", r.getResource("philosopher"));
@@ -97,7 +97,7 @@ SharkGame.ModifierTypes = {
                 getEffect(_degree, _gen, _out) {
                     return 1;
                 },
-            },
+            }, */
         },
     },
 
