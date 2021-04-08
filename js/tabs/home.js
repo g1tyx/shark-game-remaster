@@ -304,6 +304,7 @@ SharkGame.Home = {
             name: h.tabName,
             discovered: h.tabDiscovered,
             code: h,
+            discoverReq: [],
         };
         // populate action discoveries (and reset removals)
         $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {

@@ -194,7 +194,9 @@ SharkGame.Save = {
 
             //check for updates
             const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
-            saveData.saveVersion = saveData.saveVersion || 0;
+            if(!_.has(saveData, "saveVersion")) {
+              saveData = SharkGame.Save.saveUpdaters[0](saveData);
+            }
             if (saveData.saveVersion < currentVersion) {
                 for (let i = saveData.saveVersion + 1; i <= currentVersion; i++) {
                     const updater = SharkGame.Save.saveUpdaters[i];
@@ -389,19 +391,12 @@ SharkGame.Save = {
     },
 
     importData(data) {
-        // decode from ascii85
-        let saveData;
-        try {
-            saveData = ascii85.decode(data);
-        } catch (err) {
-            SharkGame.Log.addError("That's not encoded properly. Are you sure that's the full save export string?");
-        }
         // load the game from this save data string
         try {
-            SharkGame.Save.loadGame(saveData);
+            SharkGame.Save.loadGame(data);
         } catch (err) {
             SharkGame.Log.addError(err.message);
-            console.error(err.trace);
+            console.error(err);
         }
         // refresh current tab
         m.setUpTab();
@@ -504,6 +499,7 @@ SharkGame.Save = {
         //used to update saves and to make templates
         function update(save) {
             //no one is converting a real save to version 0, so it doesn't need real values
+            save.saveVersion = 0;
             save.version = null;
             save.timestamp = null;
             save.resources = {};
@@ -556,26 +552,26 @@ SharkGame.Save = {
 
             save.tabs = {
                 current: null,
-                home: { discovered: null },
+                home: { discovered: true },
                 lab: { discovered: null },
                 gate: { discovered: null },
             };
             save.settings = {
                 buyAmount: null,
-                offlineModeActive: null,
-                autosaveFrequency: null,
-                logMessageMax: null,
-                sidebarWidth: null,
-                showAnimations: null,
-                colorCosts: null,
+                offlineModeActive: true,
+                autosaveFrequency: 5,
+                logMessageMax: 15,
+                sidebarWidth: "25%",
+                showAnimations: true,
+                colorCosts: true,
             };
             save.gateCostsMet = {
-                fish: null,
-                sand: null,
-                crystal: null,
-                kelp: null,
-                seaApple: null,
-                sharkonium: null,
+                fish: false,
+                sand: false,
+                crystal: false,
+                kelp: false,
+                seaApple: false,
+                sharkonium: false,
             };
             return save;
         },
@@ -847,37 +843,37 @@ SharkGame.Save = {
             });
             return save;
         },
-    ],
-};
 
-/*                    "knowledgeCoalescers",
-                    "crystalScoop",
-                    "crystalShovel",
-                    "gravelMilling",
-                    "prospectorSharks",
-                    "sharkoniumPickaxes",
-                    "miningLights",
-                    "rockBreaking",
-                    "rockProcessing",
-                    "gravelPulverizing",
-                    "sharkoniumMillingGear",
-
-                   _.each(
+        // MODDED v0.2
+        function update(save) {
+            _.each(
                 [
-                    "knowledge",
-                    "coalescer",
-                    "stone",
-                    "gravel",
-                    "prospector",
-                    "shoveler",
-                    "miller",
-                    "crusher",
-                    "pulverizer",
+                    "planetTerraformer",
+                    "shrimpMigrator",
+                    "lobsterMigrator",
+                    "dolphinMigrator",
+                    "whaleMigrator",
+                    "eelMigrator",
+                    "chimaeraMigrator",
+                    "octopusMigrator",
+                    "shrimpTotem",
+                    "lobsterTotem",
+                    "dolphinTotem",
+                    "whaleTotem",
+                    "eelTotem",
+                    "chimaeraTotem",
+                    "octopusTotem",
+                    "carapaceTotem",
+                    "inspirationTotem",
+                    "industryTotem",
                 ],
-                (v) => {
-                    save.resources[v] = { amount: 0, totalAmount: 0 };
+                (deprecatedTotem) => {
+                    if (_.has(save.artifacts, deprecatedTotem)) {
+                        delete save.artifacts[deprecatedTotem];
+                    }
                 }
             );
-
-                                "stone",
-                   */
+            return save;
+        },
+    ],
+};
