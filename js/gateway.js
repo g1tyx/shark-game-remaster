@@ -383,10 +383,10 @@ SharkGame.Gateway = {
                 button.html(label);
 
                 const spritename = "artifacts/" + artifactName;
-                if (SharkGame.Settings.current.iconPositions !== "off") {
+                if (!SharkGame.Settings.current.showIcons) {
                     const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-artifact");
                     if (iconDiv) {
-                        iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
+                        iconDiv.addClass("button-icon");
                         button.prepend(iconDiv);
                     }
                 }
@@ -443,10 +443,10 @@ SharkGame.Gateway = {
                 buttonSel.html(label);
 
                 const spritename = "planets/" + planetData.type;
-                if (SharkGame.Settings.current.iconPositions !== "off") {
+                if (SharkGame.Settings.current.showIcons) {
                     const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "planets/missing");
                     if (iconDiv) {
-                        iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
+                        iconDiv.addClass("button-icon");
                         buttonSel.prepend(iconDiv);
                     }
                 }

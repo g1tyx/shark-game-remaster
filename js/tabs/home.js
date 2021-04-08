@@ -618,21 +618,14 @@ SharkGame.Home = {
         // class that matches the setting.
         // The icon-off setting is a little trickier.  It needs two cases.  We check for a lack of spans to
         // see if the button is new, then check for the presence of any icon to see if the setting changed.
-        if (
-            !(
-                (button.html().includes("button-icon-top") && SharkGame.Settings.current.iconPositions === "top") ||
-                (button.html().includes("button-icon-side") && SharkGame.Settings.current.iconPositions === "side") ||
-                (button.html().includes("span") && SharkGame.Settings.current.iconPositions === "off")
-            ) ||
-            (button.html().includes("button-icon") && SharkGame.Settings.current.iconPositions === "off")
-        ) {
+        if (button.html().includes("button-icon") !== SharkGame.Settings.current.showIcons) {
             button.html(label);
 
             const spritename = "actions/" + actionName;
-            if (SharkGame.Settings.current.iconPositions !== "off") {
+            if (SharkGame.Settings.current.showIcons) {
                 const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-action");
                 if (iconDiv) {
-                    iconDiv.addClass("button-icon-" + SharkGame.Settings.current.iconPositions);
+                    iconDiv.addClass("button-icon");
                     button.prepend(iconDiv);
                 }
             }

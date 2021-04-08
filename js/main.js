@@ -210,16 +210,7 @@ $.extend(SharkGame, {
         }
         let imageHtml = "";
         if (SharkGame.Settings.current.iconPositions !== "off") {
-            imageHtml +=
-                "<img width=" +
-                width +
-                " height=" +
-                height +
-                " src='" +
-                imagePath +
-                "' class='button-icon-" +
-                SharkGame.Settings.current.iconPositions +
-                "'>";
+            imageHtml += "<img width=" + width + " height=" + height + " src='" + imagePath + "' class='button-icon'>";
         }
         return imageHtml;
     },

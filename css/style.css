@@ -754,32 +754,9 @@ button.disabled div {
   border-color: var(--color-med);
 }
 .button-icon {
-  vertical-align: middle;
   background-color: var(--color-lighter);
-  -webkit-box-shadow: 0 0 3px 3px var(--color-lighter);
-  -moz-box-shadow: 0 0 3px 3px var(--color-lighter);
-  box-shadow: 0 0 3px 3px var(--color-lighter);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  pointer-events: none;
-}
-.button-icon-top {
-  vertical-align: middle;
-  background-color: var(--color-lighter);
-  -webkit-box-shadow: 0 0 3px 3px var(--color-lighter);
-  -moz-box-shadow: 0 0 3px 3px var(--color-lighter);
-  box-shadow: 0 0 3px 3px var(--color-lighter);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  pointer-events: none;
   display: block;
   margin: 0 auto 0.4em auto;
-}
-.button-icon-side {
-  vertical-align: middle;
-  background-color: var(--color-lighter);
   -webkit-box-shadow: 0 0 3px 3px var(--color-lighter);
   -moz-box-shadow: 0 0 3px 3px var(--color-lighter);
   box-shadow: 0 0 3px 3px var(--color-lighter);
@@ -787,8 +764,6 @@ button.disabled div {
   -moz-border-radius: 5px;
   border-radius: 5px;
   pointer-events: none;
-  display: inline-block;
-  margin: 0em 0.4em 0.4em 0.4em;
 }
 #tabSceneImage {
   display: block;

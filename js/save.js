@@ -194,8 +194,8 @@ SharkGame.Save = {
 
             //check for updates
             const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
-            if(!_.has(saveData, "saveVersion")) {
-              saveData = SharkGame.Save.saveUpdaters[0](saveData);
+            if (!_.has(saveData, "saveVersion")) {
+                saveData = SharkGame.Save.saveUpdaters[0](saveData);
             }
             if (saveData.saveVersion < currentVersion) {
                 for (let i = saveData.saveVersion + 1; i <= currentVersion; i++) {
@@ -393,6 +393,7 @@ SharkGame.Save = {
     importData(data) {
         // load the game from this save data string
         try {
+            SharkGame.Log.clearMessages(false);
             SharkGame.Save.loadGame(data);
         } catch (err) {
             SharkGame.Log.addError(err.message);
@@ -873,6 +874,16 @@ SharkGame.Save = {
                     }
                 }
             );
+            return save;
+        },
+
+        function update(save) {
+            if (_.has(save.settings.current, "iconPositions")) {
+                save.settings.showIcons = save.settings.iconPositions !== "off";
+                delete save.settings.iconPositions;
+            } else {
+                save.settings.showIcons = true;
+            }
             return save;
         },
     ],

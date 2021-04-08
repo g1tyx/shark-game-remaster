@@ -68,15 +68,14 @@ SharkGame.Log = {
         }
     },
 
-    clearMessages() {
-        const l = SharkGame.Log;
+    clearMessages(log = true) {
         // remove each element from page
-        $.each(l.messages, (_, v) => {
+        $.each(SharkGame.Log.messages, (_, v) => {
             v.remove();
         });
         // wipe array
-        l.messages = [];
-        l.addMessage("Log cleared.");
+        SharkGame.Log.messages = [];
+        if (log) SharkGame.Log.addMessage("Log cleared.");
     },
 
     haveAnyMessages() {

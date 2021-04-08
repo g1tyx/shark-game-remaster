@@ -175,12 +175,12 @@ SharkGame.Settings = {
         },
     },
 
-    iconPositions: {
-        defaultSetting: "top",
-        name: "Icon Positions",
-        desc: "Where should icons go on the buttons?",
+    showIcons: {
+        defaultSetting: true,
+        name: "Show Home Action icons",
+        desc: "Whether to show icons above actions in your home actions.",
         show: true,
-        options: ["top", "side", "off"],
+        options: [true, false],
     },
 
     showTabImages: {
