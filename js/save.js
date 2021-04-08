@@ -194,7 +194,9 @@ SharkGame.Save = {
 
             //check for updates
             const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
-            saveData.saveVersion = saveData.saveVersion || 0;
+            if(!_.has(saveData, "saveVersion")) {
+              saveData = SharkGame.Save.saveUpdaters[0](saveData);
+            }
             if (saveData.saveVersion < currentVersion) {
                 for (let i = saveData.saveVersion + 1; i <= currentVersion; i++) {
                     const updater = SharkGame.Save.saveUpdaters[i];
@@ -497,6 +499,7 @@ SharkGame.Save = {
         //used to update saves and to make templates
         function update(save) {
             //no one is converting a real save to version 0, so it doesn't need real values
+            save.saveVersion = 0;
             save.version = null;
             save.timestamp = null;
             save.resources = {};
@@ -549,26 +552,26 @@ SharkGame.Save = {
 
             save.tabs = {
                 current: null,
-                home: { discovered: null },
+                home: { discovered: true },
                 lab: { discovered: null },
                 gate: { discovered: null },
             };
             save.settings = {
                 buyAmount: null,
-                offlineModeActive: null,
-                autosaveFrequency: null,
-                logMessageMax: null,
-                sidebarWidth: null,
-                showAnimations: null,
-                colorCosts: null,
+                offlineModeActive: true,
+                autosaveFrequency: 5,
+                logMessageMax: 15,
+                sidebarWidth: "25%",
+                showAnimations: true,
+                colorCosts: true,
             };
             save.gateCostsMet = {
-                fish: null,
-                sand: null,
-                crystal: null,
-                kelp: null,
-                seaApple: null,
-                sharkonium: null,
+                fish: false,
+                sand: false,
+                crystal: false,
+                kelp: false,
+                seaApple: false,
+                sharkonium: false,
             };
             return save;
         },
