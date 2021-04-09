@@ -851,7 +851,7 @@ button.disabled div {
   padding: 1em 2em;
   margin: auto;
   overflow: auto;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
