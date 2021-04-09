@@ -28,7 +28,7 @@ SharkGame.Settings = {
     framerate: {
         defaultSetting: 20,
         name: "Framerate/TPS",
-        desc: "Lower the TPS to save power or increase performance. Set higher to get a smoother game. Defaults to 10.",
+        desc: "Which rate to update the game at. Lower saves power and might improve performance. Higher looks smoother.",
         show: true,
         options: [1, 2, 5, 10, 20, 30],
         onChange() {
@@ -39,7 +39,7 @@ SharkGame.Settings = {
     groupResources: {
         defaultSetting: true,
         name: "Group Resources",
-        desc: "Group resources in the table into categories for legibility.",
+        desc: "Whether to group resources in the table into categories.",
         show: true,
         options: [true, false],
         onChange() {
@@ -61,7 +61,7 @@ SharkGame.Settings = {
     offlineModeActive: {
         defaultSetting: true,
         name: "Offline Mode",
-        desc: "Let your numbers increase even with the game closed!",
+        desc: "Whether to calculate income gained while not playing.",
         show: true,
         options: [true, false],
     },
@@ -87,10 +87,9 @@ SharkGame.Settings = {
     },
 
     updateCheck: {
-        // times given in minutes
         defaultSetting: true,
         name: "Check for updates",
-        desc: "Do you want it to give you a warning when there's a new update?",
+        desc: "Whether to show a notification when a new update becomes available. (Checked every 5 minutes)",
         show: true,
         options: [true, false],
         onChange() {
@@ -115,7 +114,7 @@ SharkGame.Settings = {
     sidebarWidth: {
         defaultSetting: "25%",
         name: "Sidebar Width",
-        desc: "How much screen estate the sidebar should take.",
+        desc: "How much screen space the sidebar should take.",
         show: true,
         options: ["25%", "30%", "35%", "40%", "45%", "50%"],
         onChange() {
@@ -131,7 +130,7 @@ SharkGame.Settings = {
     showAnimations: {
         defaultSetting: true,
         name: "Show Animations",
-        desc: "Show animations or don't. YOU DECIDE.",
+        desc: "Whether to show animated transitions for some things.",
         show: true,
         options: [true, false],
     },
@@ -139,7 +138,7 @@ SharkGame.Settings = {
     colorCosts: {
         defaultSetting: true,
         name: "Color Resource Names",
-        desc: "Color names of resources.",
+        desc: "Whether to color names of resources.",
         show: true,
         options: [true, false],
         onChange() {
@@ -151,7 +150,7 @@ SharkGame.Settings = {
     boldCosts: {
         defaultSetting: true,
         name: "Bold Resource Names",
-        desc: "Bold names of resources.",
+        desc: "Whether to embolden names of resources.",
         show: true,
         options: [true, false],
         onChange() {
@@ -163,7 +162,7 @@ SharkGame.Settings = {
     enableThemes: {
         defaultSetting: true,
         name: "Enable Planet-dependent Styles",
-        desc: "Makes your game look like the planet you're on.",
+        desc: "Whether to use a different color scheme dependent on which planet you're currently on.",
         show: true,
         options: [true, false],
         onChange() {
@@ -186,7 +185,7 @@ SharkGame.Settings = {
     showTabImages: {
         defaultSetting: true,
         name: "Show Tab Header Images",
-        desc: "Do you want the new header images or are they taking up precious screen real-estate?",
+        desc: "Whether to show the art of the current tab.",
         show: true,
         options: [true, false],
         onChange() {
