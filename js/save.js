@@ -758,15 +758,17 @@ SharkGame.Save = {
                     }
                 }
             );
-            return save;
-        },
-
-        function update15(save) {
             if (_.has(save.settings.current, "iconPositions")) {
                 save.settings.showIcons = save.settings.iconPositions !== "off";
                 delete save.settings.iconPositions;
             } else {
                 save.settings.showIcons = true;
+            }
+            if (_.has(save.resources, "philosopher")) {
+                delete save.resources.philosopher;
+            }
+            if (_.has(save.upgrades, "coralHalls")) {
+                delete save.upgrades.coralHalls;
             }
             return save;
         },
