@@ -509,7 +509,6 @@ SharkGame.Save = {
                     "pit",
                     "worker",
                     "harvester",
-                    "philosopher",
                     "treasurer",
                     "philosopher",
                     "chorus",
