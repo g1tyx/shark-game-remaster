@@ -1,7 +1,7 @@
 SharkGame.Save = {
     saveFileName: "sharkGameSave",
 
-    saveGame(suppressSavingToStorage, dontFlat) {
+    saveGame() {
         // populate save data object
         let saveString = "";
         const saveData = {
@@ -48,14 +48,14 @@ SharkGame.Save = {
             saveData.gateCostsMet[i] = SharkGame.Gate.costsMet[name];
         });
 
-        $.each(SharkGame.Settings, (k) => {
-            if (k !== "current") {
-                saveData.settings[k] = SharkGame.Settings.current[k];
+        $.each(SharkGame.Settings, (settingName) => {
+            if (settingName !== "current") {
+                saveData.settings[settingName] = SharkGame.Settings.current[settingName];
             }
         });
 
-        $.each(SharkGame.Artifacts, (k, v) => {
-            saveData.artifacts[k] = v.level;
+        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
+            saveData.artifacts[artifactName] = artifact.level;
         });
 
         $.each(SharkGame.WorldTypes, (worldType) => {
@@ -67,38 +67,20 @@ SharkGame.Save = {
         });
 
         // add timestamp
-        //saveData.timestamp = _.now();
         saveData.timestampLastSave = _.now();
         saveData.timestampGameStart = SharkGame.timestampGameStart;
         saveData.timestampRunStart = SharkGame.timestampRunStart;
         saveData.timestampRunEnd = SharkGame.timestampRunEnd;
 
-        if (dontFlat) {
-            saveData.saveVersion = SharkGame.Save.saveUpdaters.length - 1;
-            saveString = JSON.stringify(saveData);
-        } else {
-            //make a current-version template
-            const saveVersion = SharkGame.Save.saveUpdaters.length - 1;
-            let template = {};
-            for (let i = 0; i <= saveVersion; i++) {
-                const updater = SharkGame.Save.saveUpdaters[i];
-                template = updater(template);
-            }
-            //flatten
-            const flatData = SharkGame.Save.flattenData(template, saveData);
-            flatData.unshift(saveVersion);
-            saveString = pako.deflate(JSON.stringify(flatData), { to: "string" });
+        saveData.saveVersion = SharkGame.Save.saveUpdaters.length - 1;
+        saveString = ascii85.encode(pako.deflate(JSON.stringify(saveData), {to: "string"}));
+
+        try {
+            localStorage.setItem(SharkGame.Save.saveFileName, saveString);
+        } catch (err) {
+            throw new Error("Couldn't save to local storage. Reason: " + err.message);
         }
 
-        if (!suppressSavingToStorage) {
-            try {
-                // convert compressed data to ascii85 for friendlier browser support (IE11 doesn't like weird binary data)
-                const convertedSaveString = ascii85.encode(saveString);
-                localStorage.setItem(SharkGame.Save.saveFileName, convertedSaveString);
-            } catch (err) {
-                throw new Error("Couldn't save to local storage. Reason: " + err.message);
-            }
-        }
         return saveString;
     },
 
@@ -108,6 +90,8 @@ SharkGame.Save = {
 
         if (!saveDataString) {
             throw new Error("Tried to load game, but no game to load.");
+        } else if (typeof saveDataString !== "string") {
+            throw new Error("Tried to load game, but save wasn't a string.");
         }
 
         // if first letter of string is <, data is encoded in ascii85, decode it.
@@ -144,59 +128,18 @@ SharkGame.Save = {
             }
         }
 
-        // if first letter of string was [, data was packed, unpack it
-        if (saveDataString.charAt(0) === "[") {
-            try {
-                //check version
-                const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
-                const saveVersion = saveData.shift();
-                if (typeof saveVersion !== "number" || saveVersion % 1 !== 0 || saveVersion < 0 || saveVersion > currentVersion) {
-                    throw new Error("Invalid save version!");
-                }
-                //create matching template
-                let template = {};
-                for (let i = 0; i <= saveVersion; i++) {
-                    const updater = SharkGame.Save.saveUpdaters[i];
-                    template = updater(template);
-                }
-                //unpack
-                const saveDataFlat = saveData;
-                saveData = SharkGame.Save.expandData(template, saveDataFlat.slice());
-                saveData.saveVersion = saveVersion;
-
-                function checkTimes(data) {
-                    return (
-                        data.timestampLastSave > 1e12 &&
-                        data.timestampLastSave < 2e12 &&
-                        data.timestampGameStart > 1e12 &&
-                        data.timestampGameStart < 2e12 &&
-                        data.timestampRunStart > 1e12 &&
-                        data.timestampRunStart < 2e12
-                    );
-                }
-
-                //check if the template was sorted wrong when saving
-                if (saveVersion <= 5 && !checkTimes(saveData)) {
-                    saveData = SharkGame.Save.expandData(template, saveDataFlat.slice(), true);
-                    saveData.saveVersion = saveVersion;
-                }
-
-                if (!checkTimes(saveData)) {
-                    throw new Error("Order appears to be corrupt.");
-                }
-            } catch (err) {
-                throw new Error("Couldn't unpack packed save data. Reason: " + err.message + ". Your save: " + saveDataString);
-            }
-        }
-
         if (saveData) {
             // go through it
 
             //check for updates
             const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
-            if (!_.has(saveData, "saveVersion")) {
+            if (!Array.isArray(saveData) && !_.has(saveData, "saveVersion")) {
                 saveData = SharkGame.Save.saveUpdaters[0](saveData);
+            } else if((typeof saveData.saveVersion) !== "number" || saveData.saveVersion <= 12) {
+              // After save version 12, packing support was removed; Backwards compatibility is not maintained because gameplay changed significantly after this point.
+              throw new Error("This is a save from before New Frontiers 0.2, after which the save system was changed.")
             }
+
             if (saveData.saveVersion < currentVersion) {
                 for (let i = saveData.saveVersion + 1; i <= currentVersion; i++) {
                     const updater = SharkGame.Save.saveUpdaters[i];
@@ -405,14 +348,13 @@ SharkGame.Save = {
 
     exportData() {
         // get save
-        let saveData = localStorage.getItem(SharkGame.Save.saveFileName);
-        if (saveData === null) {
-            try {
-                saveData = SharkGame.Save.saveGame(true);
-            } catch (err) {
-                SharkGame.Log.addError(err.message);
-                console.error(err.trace);
-            }
+        /** @type string */
+        let saveData;
+        try {
+            saveData = SharkGame.Save.saveGame();
+        } catch (err) {
+            SharkGame.Log.addError(err.message);
+            console.error(err);
         }
         // check if save isn't encoded
         if (saveData.substring(0, 2) !== "<~") {
@@ -430,75 +372,9 @@ SharkGame.Save = {
         localStorage.removeItem(SharkGame.Save.saveFileName);
     },
 
-    // Thanks to Dylan for managing to crush saves down to a much smaller size!
-    createBlueprint(template, sortWrong) {
-        function createPart(t) {
-            const bp = [];
-            $.each(t, (k, v) => {
-                if (typeof v === "object" && v !== null) {
-                    bp.push([k, createPart(v)]);
-                } else {
-                    bp.push(k);
-                }
-            });
-            bp.sort((a, b) => {
-                a = typeof a === "object" ? a[0] : a;
-                b = typeof b === "object" ? b[0] : b;
-                if (sortWrong) {
-                    return a > b; //mercy on my soul
-                } else {
-                    return a > b ? 1 : -1;
-                }
-            });
-            return bp;
-        }
-
-        return createPart(template);
-    },
-
-    flattenData(template, source) {
-        const out = [];
-
-        function flattenPart(bp, src) {
-            $.each(bp, (_, slot) => {
-                if (typeof slot === "object") {
-                    flattenPart(slot[1], src[slot[0]]);
-                } else {
-                    let elem = src[slot];
-                    if (typeof elem === "number" && slot.indexOf("timestamp") === -1) {
-                        elem = Number(elem.toPrecision(5));
-                    }
-                    out.push(elem);
-                }
-            });
-        }
-
-        flattenPart(SharkGame.Save.createBlueprint(template), source);
-        return out;
-    },
-
-    expandData(template, data, sortWrong) {
-        function expandPart(bp) {
-            const out = {}; //todo: array support
-            $.each(bp, (_, slot) => {
-                if (typeof slot === "object") {
-                    out[slot[0]] = expandPart(slot[1]);
-                } else {
-                    if (data.length === 0) throw new Error("Incorrect save length.");
-                    out[slot] = data.shift();
-                }
-            });
-            return out;
-        }
-
-        const expanded = expandPart(SharkGame.Save.createBlueprint(template, sortWrong));
-        if (data.length !== 0) throw new Error("Incorrect save length.");
-        return expanded;
-    },
-
     saveUpdaters: [
         //used to update saves and to make templates
-        function update(save) {
+        function update0(save) {
             //no one is converting a real save to version 0, so it doesn't need real values
             save.saveVersion = 0;
             save.version = null;
@@ -558,7 +434,7 @@ SharkGame.Save = {
                 gate: { discovered: null },
             };
             save.settings = {
-                buyAmount: null,
+                buyAmount: 1,
                 offlineModeActive: true,
                 autosaveFrequency: 5,
                 logMessageMax: 15,
@@ -580,7 +456,7 @@ SharkGame.Save = {
         // future updaters for save versions beyond the base:
         // they get passed the result of the previous updater and it continues in a chain
         // and they start based on the version they were saved
-        function update(save) {
+        function update1(save) {
             save = $.extend(true, save, {
                 resources: { sandDigger: { amount: 0, totalAmount: 0 }, junk: { amount: 0, totalAmount: 0 } },
                 upgrades: { statsDiscovery: null, recyclerDiscovery: null },
@@ -603,7 +479,7 @@ SharkGame.Save = {
         },
 
         // v0.6
-        function update(save) {
+        function update2(save) {
             // add new setting to list of saves
             save = $.extend(true, save, {
                 settings: { iconPositions: "top" },
@@ -612,7 +488,7 @@ SharkGame.Save = {
         },
 
         // v0.7
-        function update(save) {
+        function update3(save) {
             save = $.extend(true, save, {
                 settings: { showTabImages: true },
                 tabs: { reflection: false },
@@ -633,6 +509,7 @@ SharkGame.Save = {
                     "pit",
                     "worker",
                     "harvester",
+                    "philosopher",
                     "treasurer",
                     "philosopher",
                     "chorus",
@@ -746,19 +623,19 @@ SharkGame.Save = {
         },
 
         // a little tweak here and there
-        function update(save) {
+        function update4(save) {
             save = $.extend(true, save, {
                 settings: { buttonDisplayType: "pile" },
             });
             return save;
         },
-        function update(save) {
+        function update5(save) {
             save = $.extend(true, save, {
                 gateway: { wonGame: false },
             });
             return save;
         },
-        function update(save) {
+        function update6(save) {
             // forgot to add numen to saved resources (which is understandable given it can't actually be legitimately achieved at this point)
             save.resources["numen"] = { amount: 0, totalAmount: 0 };
             // completely change how gate slot status is saved
@@ -767,7 +644,7 @@ SharkGame.Save = {
         },
 
         // v 0.71
-        function update(save) {
+        function update7(save) {
             _.each(["eggBrooder", "diver"], (v) => {
                 save.resources[v] = { amount: 0, totalAmount: 0 };
             });
@@ -791,7 +668,7 @@ SharkGame.Save = {
         },
 
         // MODDED, v0.1
-        function update(save) {
+        function update8(save) {
             save = $.extend(true, save, {
                 completedWorlds: {},
             });
@@ -804,14 +681,14 @@ SharkGame.Save = {
             return save;
         },
 
-        function update(save) {
+        function update9(save) {
             save = $.extend(true, save, {
                 settings: { enableThemes: true, framerate: 20 },
             });
             return save;
         },
 
-        function update(save) {
+        function update10(save) {
             save = $.extend(true, save, {
                 settings: { boldCosts: true },
             });
@@ -819,7 +696,7 @@ SharkGame.Save = {
         },
 
         // MODDED v0.2
-        function update(save) {
+        function update11(save) {
             _.each(["investigator", "filter", "ancientPart"], (v) => {
                 save.resources[v] = { amount: 0, totalAmount: 0 };
             });
@@ -829,14 +706,14 @@ SharkGame.Save = {
             return save;
         },
 
-        function update(save) {
+        function update12(save) {
             save = $.extend(true, save, {
                 settings: { grottoMode: "simple", incomeTotalMode: "absolute" },
             });
             return save;
         },
 
-        function update(save) {
+        function update13(save) {
             _.each(["historian", "papyrus", "crimsonCombine", "kelpCultivator"], (v) => {
                 save.resources[v] = { amount: 0, totalAmount: 0 };
             });
@@ -846,7 +723,7 @@ SharkGame.Save = {
             return save;
         },
 
-        function update(save) {
+        function update14(save) {
             _.each(
                 [
                     "planetTerraformer",
@@ -877,7 +754,7 @@ SharkGame.Save = {
             return save;
         },
 
-        function update(save) {
+        function update15(save) {
             if (_.has(save.settings.current, "iconPositions")) {
                 save.settings.showIcons = save.settings.iconPositions !== "off";
                 delete save.settings.iconPositions;
