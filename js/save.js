@@ -73,7 +73,7 @@ SharkGame.Save = {
         saveData.timestampRunEnd = SharkGame.timestampRunEnd;
 
         saveData.saveVersion = SharkGame.Save.saveUpdaters.length - 1;
-        saveString = ascii85.encode(pako.deflate(JSON.stringify(saveData), {to: "string"}));
+        saveString = ascii85.encode(pako.deflate(JSON.stringify(saveData), { to: "string" }));
 
         try {
             localStorage.setItem(SharkGame.Save.saveFileName, saveString);
@@ -135,9 +135,9 @@ SharkGame.Save = {
             const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
             if (!Array.isArray(saveData) && !_.has(saveData, "saveVersion")) {
                 saveData = SharkGame.Save.saveUpdaters[0](saveData);
-            } else if((typeof saveData.saveVersion) !== "number" || saveData.saveVersion <= 12) {
-              // After save version 12, packing support was removed; Backwards compatibility is not maintained because gameplay changed significantly after this point.
-              throw new Error("This is a save from before New Frontiers 0.2, after which the save system was changed.")
+            } else if (typeof saveData.saveVersion !== "number" || saveData.saveVersion <= 12) {
+                // After save version 12, packing support was removed; Backwards compatibility is not maintained because gameplay changed significantly after this point.
+                throw new Error("This is a save from before New Frontiers 0.2, after which the save system was changed.");
             }
 
             if (saveData.saveVersion < currentVersion) {
