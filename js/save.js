@@ -372,6 +372,21 @@ SharkGame.Save = {
         localStorage.removeItem(SharkGame.Save.saveFileName);
     },
 
+    wipeSave() {
+        SharkGame.Save.deleteSave();
+        SharkGame.Main.resetTimers();
+        SharkGame.Gateway.deleteArtifacts(); // they're out of the save data, but not the working game memory!
+        SharkGame.PlayerResources.forEach((resource) => {
+            resource.discovered = false;
+            resource.totalAmount = 0;
+        });
+        SharkGame.Resources.reconstructResourcesTable();
+        SharkGame.Resources.updateResourcesTable();
+        SharkGame.World.worldType = "start"; // nothing else will reset this
+        SharkGame.World.planetLevel = 1;
+        SharkGame.Main.init(); // reset
+    },
+
     saveUpdaters: [
         //used to update saves and to make templates
         function update0(save) {

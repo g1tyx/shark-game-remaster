@@ -944,13 +944,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .addClass("option-button")
                     .on("click", () => {
                         if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
-                            SharkGame.Save.deleteSave();
-                            m.resetTimers();
-                            g.deleteArtifacts(); // they're out of the save data, but not the working game memory!
-                            r.reconstructResourcesTable();
-                            w.worldType = "start"; // nothing else will reset this
-                            w.planetLevel = 1;
-                            m.init(); // reset
+                            SharkGame.Save.wipeSave();
                         }
                     })
             )
