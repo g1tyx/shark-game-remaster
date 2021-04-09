@@ -302,7 +302,7 @@ SharkGame.Lab = {
         const upgradeData = ups[upgradeName];
         let isPossible = true;
 
-        if (!upgradeData) {
+        if (!upgradeData || !upgradeData.visible) {
             return false;
         }
 
