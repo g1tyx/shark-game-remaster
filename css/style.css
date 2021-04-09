@@ -887,6 +887,8 @@ button.disabled div {
   text-align: left;
 }
 #pane .option-button {
+  padding-left: 0;
+  padding-right: 0;
   min-width: 0;
   width: 4em;
 }
