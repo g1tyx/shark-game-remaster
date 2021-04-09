@@ -373,18 +373,11 @@ SharkGame.Save = {
     },
 
     wipeSave() {
+        localStorage.setItem(SharkGame.Save.saveFileName + "Backup", localStorage.getItem(SharkGame.Save.saveFileName));
         SharkGame.Save.deleteSave();
-        SharkGame.Main.resetTimers();
-        SharkGame.Gateway.deleteArtifacts(); // they're out of the save data, but not the working game memory!
-        SharkGame.PlayerResources.forEach((resource) => {
-            resource.discovered = false;
-            resource.totalAmount = 0;
-        });
-        SharkGame.Resources.reconstructResourcesTable();
-        SharkGame.Resources.updateResourcesTable();
-        SharkGame.World.worldType = "start"; // nothing else will reset this
-        SharkGame.World.planetLevel = 1;
-        SharkGame.Main.init(); // reset
+        SharkGame.Save.importData("{}");
+        SharkGame.Log.clearMessages(false);
+        SharkGame.Main.init();
     },
 
     saveUpdaters: [
