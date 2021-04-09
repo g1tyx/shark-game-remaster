@@ -1106,8 +1106,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             } else {
                 overlay.show().css("opacity", overlayOpacity);
             }
-            // adjust overlay height
-            overlay.height($(document).height());
         }
 
         // adjust header

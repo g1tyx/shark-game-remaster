@@ -24,10 +24,6 @@ SharkGame.Gateway = {
 
     update() {
         g.updateArtifactButtons();
-
-        const overlay = $("#overlay");
-        const docHeight = $(window).height();
-        overlay.height(docHeight);
     },
 
     enterGate(loadingFromSave) {
@@ -64,10 +60,8 @@ SharkGame.Gateway = {
 
         const overlay = $("#overlay");
         overlay.addClass("gateway");
-        const docHeight = $(document).height();
 
         // make overlay opaque
-        overlay.height(docHeight);
         if (SharkGame.Settings.current.showAnimations) {
             overlay
                 .show()
@@ -87,9 +81,6 @@ SharkGame.Gateway = {
     cleanUp() {
         // empty out the game stuff behind
         m.purgeGame();
-        // resize overlay
-        const docHeight = $(window).height();
-        $("#overlay").height(docHeight);
     },
 
     showGateway(essenceRewarded) {
