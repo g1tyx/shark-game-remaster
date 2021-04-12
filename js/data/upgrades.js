@@ -1188,11 +1188,6 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["exploration"],
             },
-            effect: {
-                incomeMultiplier: {
-                    crab: 1,
-                },
-            },
         },
 
         superiorSearchAlgorithms: {
