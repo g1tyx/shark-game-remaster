@@ -693,7 +693,7 @@ SharkGame.Upgrades = {
             },
         },
         farExploration: {
-            name: "Far Explorations",
+            name: "Far Exploration",
             desc: "Explore the vast reaches beyond the home ocean.",
             researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
             effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
@@ -1170,7 +1170,6 @@ SharkGame.Upgrades = {
         },
 
         farAbandonedExploration: {
-            name: "Far Exploration",
             desc: "In the distance lies a bunch of weird structures that sharks have dared not enter...so what happens if we do?",
             researchedMessage:
                 "As it turns out, discoveries happen! There are no signs of life, but we found lots of weird machines and a strange gate.",
@@ -1184,10 +1183,10 @@ SharkGame.Upgrades = {
                 upgrades: ["exploration"],
             },
             effect: {
-              incomeMultiplier: {
-                
-              }
-            }
+                incomeMultiplier: {
+                    crab: 1,
+                },
+            },
         },
 
         superiorSearchAlgorithms: {
@@ -1908,7 +1907,6 @@ SharkGame.Upgrades = {
         },
 
         farHavenExploration: {
-            name: "Far Explorations",
             desc: "Explore the vast reaches beyond the home ocean.",
             researchedMessage: "Crystal-rich deposits were found, as well as books washed away from dolphin civilization by the ocean currents.",
             effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
