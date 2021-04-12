@@ -428,11 +428,9 @@ SharkGame.Recycler = {
         let evalue = 5;
         let baseEfficiency = 0.5;
 
-        if (SharkGame.Upgrades.getUpgradeTable().superprocessing) {
-            if (SharkGame.Upgrades.getUpgradeTable().superprocessing.purchased) {
-                evalue = 8;
-                baseEfficiency = 1;
-            }
+        if (SharkGame.Upgrades.purchased.includes("superprocessing")) {
+            evalue = 8;
+            baseEfficiency = 1;
         }
 
         const n = r.getPurchaseAmount(resource);

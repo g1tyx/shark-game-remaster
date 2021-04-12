@@ -427,7 +427,6 @@ SharkGame.Home = {
     },
 
     updateMessage(suppressAnimation) {
-        const u = SharkGame.Upgrades.getUpgradeTable();
         const wi = SharkGame.WorldTypes[w.worldType];
         let selectedIndex = h.currentExtraMessageIndex;
         const events = h.extraMessages[w.worldType];
@@ -447,8 +446,8 @@ SharkGame.Home = {
                     });
                 }
                 if (extraMessage.unlock.upgrade) {
-                    $.each(extraMessage.unlock.upgrade, (i, upgrade) => {
-                        showThisMessage = showThisMessage && u[upgrade].purchased;
+                    _.each(extraMessage.unlock.upgrade, (upgradeId) => {
+                        showThisMessage &&= SharkGame.Upgrades.purchased.includes(upgradeId);
                     });
                 }
                 if (extraMessage.unlock.world) {
@@ -652,9 +651,8 @@ SharkGame.Home = {
         }
         // check if resource cost exists
         if (action.cost) {
-            $.each(action.cost, (i, v) => {
-                const costResource = v.resource;
-                prereqsMet = prereqsMet && w.doesResourceExist(costResource);
+            _.each(action.cost, (cost) => {
+                prereqsMet &&= w.doesResourceExist(cost.resource);
             });
         }
         // check special worldtype prereqs
@@ -667,13 +665,13 @@ SharkGame.Home = {
             prereqsMet = prereqsMet && !action.prereq.notWorlds.includes(w.worldType);
         }
 
-        const ups = SharkGame.Upgrades.getUpgradeTable();
+        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
         // check upgrade prerequisites
         if (action.prereq.upgrade) {
-            $.each(action.prereq.upgrade, (_, v) => {
-                if (ups[v]) {
-                    prereqsMet = prereqsMet && ups[v].purchased;
+            _.each(action.prereq.upgrade, (upgradeId) => {
+                if (upgradeTable[upgradeId]) {
+                    prereqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeId);
                 } else {
                     prereqsMet = false;
                 }
@@ -693,13 +691,13 @@ SharkGame.Home = {
         $.each(action.removedBy, (kind, by) => {
             switch (kind) {
                 case "otherActions":
-                    $.each(by, (k, v) => {
-                        disable = disable || h.areActionPrereqsMet(v);
+                    _.each(by, (otherAction) => {
+                        disable = disable || h.areActionPrereqsMet(otherAction);
                     });
                     break;
                 case "upgrades":
-                    $.each(by, (k, v) => {
-                        disable = disable || SharkGame.Upgrades.getUpgradeTable()[v].purchased;
+                    _.each(by, (upgrade) => {
+                        disable = disable || SharkGame.Upgrades.includes(upgrade);
                     });
                     break;
             }

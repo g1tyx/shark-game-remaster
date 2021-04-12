@@ -24,11 +24,7 @@ SharkGame.Save = {
             };
         });
 
-        const ups = SharkGame.Upgrades.getUpgradeTable();
-
-        $.each(ups, (k, v) => {
-            saveData.upgrades[k] = v.purchased;
-        });
+        saveData.upgrades = _.cloneDeep(SharkGame.Upgrades.purchased);
 
         $.each(SharkGame.Tabs, (k, v) => {
             if (k !== "current") {
@@ -39,7 +35,7 @@ SharkGame.Save = {
         });
 
         const gateCostTypes = [];
-        $.each(SharkGame.Gate.costsMet, (name, _met) => {
+        $.each(SharkGame.Gate.costsMet, (name) => {
             gateCostTypes.push(name);
         });
         gateCostTypes.sort();
@@ -177,10 +173,8 @@ SharkGame.Save = {
             SharkGame.Lab.resetUpgrades();
 
             if (saveData.upgrades) {
-                $.each(saveData.upgrades, (k) => {
-                    if (saveData.upgrades[k]) {
-                        SharkGame.Lab.addUpgrade(k);
-                    }
+                $.each(saveData.upgrades, (upgradeId) => {
+                    SharkGame.Lab.addUpgrade(upgradeId);
                 });
             }
 
@@ -770,6 +764,15 @@ SharkGame.Save = {
             if (_.has(save.upgrades, "coralHalls")) {
                 delete save.upgrades.coralHalls;
             }
+
+            /** @type string[] */
+            const purchasedUpgrades = [];
+            $.each(save.upgrades, (upgradeId, purchased) => {
+                if (purchased === true) {
+                    purchasedUpgrades.push(upgradeId);
+                }
+            });
+            save.upgrades = purchasedUpgrades;
             return save;
         },
     ],

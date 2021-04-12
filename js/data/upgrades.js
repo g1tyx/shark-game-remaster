@@ -15,7 +15,9 @@
 // Wouldn't it make more sense to have effects just depend on world type then, instead of making
 // three or more near-if-not-comletely-identical entries?
 SharkGame.Upgrades = {
-    getUpgradeTable(type = w.worldType) {
+    purchased: [],
+
+    getUpgradeTable(worldType = w.worldType) {
         // If it's an array, replace instead of merge.
         function customizer(_originalValue, assignedValue) {
             if (_.isArray(assignedValue)) {
@@ -25,13 +27,15 @@ SharkGame.Upgrades = {
             return undefined;
         }
 
-        if (_.has(SharkGame.Upgrades, type)) {
-            return _.merge(SharkGame.Upgrades.default, SharkGame.Upgrades[type], customizer);
+        const upgradeTable = _.cloneDeep(SharkGame.Upgrades.default);
+        if (_.has(SharkGame.Upgrades, worldType)) {
+            _.merge(upgradeTable, SharkGame.Upgrades[worldType], customizer);
         }
-        return SharkGame.Upgrades.default;
+        return upgradeTable;
     },
     default: {
         crystalBite: {
+            visible: true,
             name: "Crystal Bite-Gear",
             desc: "Bite the crystals we have into something to help biting!",
             researchedMessage: "Weird teeth-wear has been developed, and sharks can now catch fish better as a result.",
@@ -48,6 +52,7 @@ SharkGame.Upgrades = {
             },
         },
         crystalSpade: {
+            visible: true,
             name: "Crystal Spades",
             desc: "Fashion strange harness-tools for the rays.",
             researchedMessage: "The rays can now bother the sand more effectively, and dig up more sand now!",
@@ -64,6 +69,7 @@ SharkGame.Upgrades = {
             },
         },
         crystalContainer: {
+            visible: true,
             name: "Crystal Containers",
             desc: "Make weird bottle things from the crystals we have. Maybe useful??",
             researchedMessage: "Well, things can go into these containers that aren't water. This makes science easier!",

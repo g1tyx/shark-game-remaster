@@ -601,8 +601,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     checkTabUnlocks() {
-        $.each(SharkGame.Tabs, (k, v) => {
-            if (k === "current" || v.discovered) {
+        $.each(SharkGame.Tabs, (tabName, v) => {
+            if (tabName === "current" || v.discovered) {
                 return;
             }
             let reqsMet = true;
@@ -612,14 +612,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 reqsMet = reqsMet && r.checkResources(v.discoverReq.resource, true);
             }
 
-            const ups = SharkGame.Upgrades.getUpgradeTable();
+            const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
             // check upgrades
             if (v.discoverReq.upgrade) {
                 let anyUpgradeExists = false;
-                $.each(v.discoverReq.upgrade, (_, value) => {
-                    if (ups[value]) {
+                $.each(v.discoverReq.upgrade, (_, upgradeName) => {
+                    if (upgradeTable[upgradeName]) {
                         anyUpgradeExists = true;
-                        reqsMet = reqsMet && ups[value].purchased;
+                        reqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeName);
                     }
                 });
                 if (!anyUpgradeExists) {
@@ -629,7 +629,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             if (reqsMet) {
                 // unlock tab!
-                m.discoverTab(k);
+                m.discoverTab(tabName);
                 SharkGame.Log.addDiscovery("Discovered " + v.name + "!");
             }
         });
