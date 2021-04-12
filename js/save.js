@@ -754,15 +754,6 @@ SharkGame.Save = {
             } else {
                 save.settings.showIcons = true;
             }
-            if (
-                (!_.has(save.upgrades, "farExploration") || save.upgrades.farExploration === false) &&
-                _.has(save.upgrades, "farAbandonedExploration")
-            ) {
-                save.upgrades.farExploration = save.upgrades.farAbandonedExploration;
-            }
-            if (_.has(save.upgrades, "farAbandonedExploration")) {
-                delete save.upgrades.farAbandonedExploration;
-            }
 
             if (_.has(save.resources, "philosopher")) {
                 delete save.resources.philosopher;
