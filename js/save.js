@@ -727,10 +727,6 @@ SharkGame.Save = {
             _.each(["coralCollection", "whaleCommunication", "delphineHistory", "whaleSong", "farHavenExploration", "mechanismModification"], (v) => {
                 save.upgrades[v] = false;
             });
-            return save;
-        },
-
-        function update14(save) {
             _.each(
                 [
                     "planetTerraformer",
@@ -758,12 +754,22 @@ SharkGame.Save = {
                     }
                 }
             );
-            if (_.has(save.settings.current, "iconPositions")) {
+            if (_.has(save.settings, "iconPositions")) {
                 save.settings.showIcons = save.settings.iconPositions !== "off";
                 delete save.settings.iconPositions;
             } else {
                 save.settings.showIcons = true;
             }
+            if (
+                (!_.has(save.upgrades, "farExploration") || save.upgrades.farExploration === false) &&
+                _.has(save.upgrades, "farAbandonedExploration")
+            ) {
+                save.upgrades.farExploration = save.upgrades.farAbandonedExploration;
+            }
+            if (_.has(save.upgrades, "farAbandonedExploration")) {
+                delete save.upgrades.farAbandonedExploration;
+            }
+
             if (_.has(save.resources, "philosopher")) {
                 delete save.resources.philosopher;
             }
