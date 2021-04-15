@@ -16,8 +16,27 @@
 // three or more near-if-not-comletely-identical entries?
 SharkGame.Upgrades = {
     purchased: [],
+    /**
+     * @type Record<string, Record<string, any>>
+     * Generated cache on-demand
+     */
+    generated: {},
 
+    /** @param worldType {string} */
     getUpgradeTable(worldType = w.worldType) {
+        if (typeof SharkGame.Upgrades[worldType] !== "object") {
+            // This world type doesn't have any special upgrades, so use the default ones.
+            // We don't want to generate the same upgrade table multiple times for no reason.
+            worldType = "default";
+        }
+        if (!_.has(SharkGame.Upgrades.generated, worldType)) {
+            return (SharkGame.Upgrades.generated[worldType] = SharkGame.Upgrades.generateUpgradeTable(worldType));
+        }
+        return SharkGame.Upgrades.generated[worldType];
+    },
+
+    /** @param worldType {string} */
+    generateUpgradeTable(worldType = w.worldType) {
         // If it's an array, replace instead of merge.
         function customizer(_originalValue, assignedValue) {
             if (_.isArray(assignedValue)) {
