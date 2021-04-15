@@ -233,6 +233,9 @@ SharkGame.Lab = {
                 SharkGame.Log.addMessage(upgrade.researchedMessage);
             }
         }
+        if (SharkGame.Lab.allResearchDone()) {
+            $("#buttonList").append($("<p>").html("All clear here!"));
+        }
     },
 
     addUpgrade(upgradeId) {
