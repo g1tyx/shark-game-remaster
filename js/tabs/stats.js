@@ -216,25 +216,39 @@ SharkGame.Stats = {
 
     updateIncomeTable() {
         SharkGame.ResourceMap.forEach((_v, someKindOfKey) => {
-            if (r.getTotalResource(someKindOfKey) > 0 && SharkGame.ResourceMap.get(someKindOfKey).income) {
-                const income = SharkGame.ResourceMap.get(someKindOfKey).income;
-                $.each(income, (incomeKey) => {
-                    const cell = $("#income-" + someKindOfKey + "-" + incomeKey);
-                    const realIncome = SharkGame.BreakdownIncomeTable.get(someKindOfKey)[incomeKey];
-                    const changeChar = !(realIncome < 0) ? "+" : "";
-                    const newValue =
-                        "<span style='color: " +
-                        r.TOTAL_INCOME_COLOR +
-                        "'>" +
-                        // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + m.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
-                        (changeChar + m.beautifyIncome(realIncome)).bold() +
-                        "</span>";
-                    const oldValue = cell.html();
+            if (r.getTotalResource(someKindOfKey) > 0) {
+                if (SharkGame.ResourceMap.get(someKindOfKey).income) {
+                    const income = SharkGame.ResourceMap.get(someKindOfKey).income;
+                    $.each(income, (incomeKey) => {
+                        let cell = $("#income-" + someKindOfKey + "-" + incomeKey);
+                        const realIncome = SharkGame.BreakdownIncomeTable.get(someKindOfKey)[incomeKey];
+                        const changeChar = !(realIncome < 0) ? "+" : "";
+                        let newValue =
+                            "<span style='color: " +
+                            r.TOTAL_INCOME_COLOR +
+                            "'>" +
+                            // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + m.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
+                            (changeChar + m.beautifyIncome(realIncome)).bold() +
+                            "</span>";
+                        let oldValue = cell.html();
 
-                    if (oldValue !== newValue.replace(/'/g, '"')) {
-                        cell.html(newValue);
-                    }
-                });
+                        if (oldValue !== newValue.replace(/'/g, '"')) {
+                            cell.html(newValue);
+                        }
+
+                        if (SharkGame.Settings.current.switchStats) {
+                            cell = $("#table-amount-" + someKindOfKey + "-" + incomeKey);
+                        } else {
+                            cell = $("#table-amount-" + someKindOfKey);
+                        }
+
+                        newValue = "<div style='text-align:right'>" + m.beautify(r.getResource(someKindOfKey)).bold() + "</div>";
+                        oldValue = cell.html();
+                        if (oldValue !== newValue.replace(/'/g, '"')) {
+                            cell.html(newValue);
+                        }
+                    });
+                }
             }
         });
     },
@@ -314,15 +328,16 @@ SharkGame.Stats = {
 
             let row = $("<tr>");
             let counter = 0;
-            let firstEntryinRow = true;
 
             const rowStyle = formatCounter % 2 === 0 ? "evenRow" : "oddRow";
 
             if (!SharkGame.Settings.current.switchStats) {
                 row.append(
                     $("<td>")
+                        .attr("rowspan", subheadings)
                         .html("<div style='text-align:right'>" + m.beautify(r.getResource(headingName)).bold() + "</div>")
                         .addClass(rowStyle)
+                        .attr("id", "table-amount-" + headingName)
                 );
             }
             row.append($("<td>").html(r.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
@@ -362,12 +377,7 @@ SharkGame.Stats = {
                         $("<td>")
                             .html("<div style='text-align:right'>" + m.beautify(r.getResource(subheadingKey)).bold() + "</div>")
                             .addClass(rowStyle)
-                    );
-                } else if (!firstEntryinRow) {
-                    row.append(
-                        $("<td>")
-                            .html("<div style='text-align:right'>" + m.beautify(r.getResource(headingName)).bold() + "</div>")
-                            .addClass(rowStyle)
+                            .attr("id", "table-amount-" + generatorName + "-" + incomeKey)
                     );
                 }
                 row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
@@ -376,7 +386,8 @@ SharkGame.Stats = {
                 if (SharkGame.Settings.current.grottoMode === "advanced") {
                     addCell(
                         [r.INCOME_COLOR, changeChar + m.beautify(SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey], false, 2) + "/s"],
-                        "inline"
+                        "inline",
+                        "advanced-base-income-" + generatorName + "-" + incomeKey
                     );
                     // if its inline then many rowspans will fill the gap
 
@@ -406,7 +417,11 @@ SharkGame.Stats = {
                         } else addCell(undefined, generatorBoostRowspan);
                     }
                 } else {
-                    addCell([r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + "/s"], "inline");
+                    addCell(
+                        [r.INCOME_COLOR, changeChar + m.beautify(incomeValue, false, 2) + "/s"],
+                        "inline",
+                        "base-income-" + generatorName + "-" + incomeKey
+                    );
                 }
 
                 // grotto is currently missing functionality to display resource effect (not affect) multipliers, needs to be added, but not pertinent since no resources currently use this multiplier type
@@ -433,7 +448,6 @@ SharkGame.Stats = {
                 counter++;
                 incomesTable.append(row);
                 row = $("<tr>");
-                firstEntryinRow = false;
             });
 
             // throw away dangling values

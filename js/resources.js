@@ -602,9 +602,13 @@ SharkGame.Resources = {
         return row;
     },
 
-    tableTextEnter() {
-        const row = $(this);
-        const resourceName = row.attr("id");
+    tableTextEnter(anotherdummyvariablepleaseignorethisonetoo, resourceName = false) {
+        if (!SharkGame.Settings.current.showTabHelp) {
+            return;
+        }
+        if (!resourceName) {
+            resourceName = $(this).attr("id");
+        }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
         let producertext = "";
         let consumertext = "";
@@ -645,13 +649,15 @@ SharkGame.Resources = {
         if (SharkGame.ResourceMap.get(resourceName).desc) {
             text += "<br><span class='medDesc'>" + SharkGame.ResourceMap.get(resourceName).desc + "</span>";
         }
-        document.getElementById("tooltipbox").innerHTML = text;
-        $(".tooltip").addClass("forIncomeTable");
+        if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
+            document.getElementById("tooltipbox").innerHTML = text;
+        }
+        $(".tooltip").addClass("forIncomeTable").attr("current", resourceName);
     },
 
     tableTextLeave() {
         document.getElementById("tooltipbox").innerHTML = "";
-        $(".tooltip").removeClass("forIncomeTable");
+        $(".tooltip").removeClass("forIncomeTable").attr("current", "");
     },
 
     getResourceName(resourceName, darken, forceSingle, arbitraryAmount, background) {

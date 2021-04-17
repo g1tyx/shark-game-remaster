@@ -126,12 +126,11 @@ SharkGame.WorldTypes = {
             "dolphinmachines",
             "coral",
             "chorus",
-            "papyrus",
         ],
+        absentResources: ["laser"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1 },
-            { type: "multiplier", modifier: "planetaryFixedIncomeMultiplier", resource: "laser", amount: 2 },
         ],
         /*
         gateRequirements: {

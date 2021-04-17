@@ -86,7 +86,7 @@ SharkGame.ResourceTable = {
         desc: "Fallen from greatness.",
         color: "#C6BAC6",
         income: {
-            fish: 4,
+            coral: 0.2,
         },
         jobs: ["philosopher", "treasurer", "biologist"],
         value: 1000,
@@ -351,8 +351,8 @@ SharkGame.ResourceTable = {
         desc: "Guardians of the reefs.",
         color: "#B4DBBC",
         income: {
-            crystal: 0.2,
-            coral: 1.5,
+            crystal: 1,
+            coral: 2,
         },
         value: 3000,
     },
@@ -362,9 +362,6 @@ SharkGame.ResourceTable = {
         singleName: "dolphin historian",
         desc: "Dissecters of the past looking onward to the future.",
         color: "#9FBCBF",
-        income: {
-            science: 16,
-        },
         value: 3000,
     },
 
@@ -617,7 +614,7 @@ SharkGame.ResourceTable = {
         desc: "Harvesters, cloaked in a red mist of coral.",
         color: "#608B8F",
         income: {
-            coral: 75,
+            coral: 100,
         },
         value: 50000,
     },
@@ -628,7 +625,7 @@ SharkGame.ResourceTable = {
         desc: "Gardeners in machine form.",
         color: "#608B8F",
         income: {
-            kelp: 50,
+            kelp: 75,
         },
         value: 50000,
     },
@@ -810,14 +807,6 @@ SharkGame.ResourceTable = {
             seaApple: 0.001,
         },
         value: 9,
-    },
-
-    papyrus: {
-        name: "kelp papyrus",
-        singleName: "kelp papyrus",
-        desc: "A home for our past.",
-        color: "#546E0C",
-        value: 90,
     },
 
     coral: {
@@ -1224,7 +1213,7 @@ SharkGame.ResourceCategories = {
             "The foundation of a modern shark frenzy, perhaps, but also sort of taking up all the space.",
             "Let's hope we don't regret it.",
         ],
-        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "papyrus", "junk", "filter"],
+        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "junk", "filter"],
     },
     harmful: {
         name: "Harmful",
