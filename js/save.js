@@ -173,7 +173,7 @@ SharkGame.Save = {
             SharkGame.Lab.resetUpgrades();
 
             if (saveData.upgrades) {
-                $.each(saveData.upgrades, (upgradeId) => {
+                _.each(saveData.upgrades, (upgradeId) => {
                     SharkGame.Lab.addUpgrade(upgradeId);
                 });
             }

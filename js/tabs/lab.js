@@ -113,7 +113,7 @@ SharkGame.Lab = {
 
         // for each upgrade not yet bought
         $.each(upgradeTable, (upgradeId, upgrade) => {
-            if (SharkGame.Upgrades.purchased.includes(upgradeId) || !upgrade.visible) {
+            if (SharkGame.Upgrades.purchased.includes(upgradeId) || upgrade.invisible) {
                 return; // skip this upgrade altogether
             }
 
@@ -285,7 +285,7 @@ SharkGame.Lab = {
         const upgradeData = ups[upgradeName];
         let isPossible = true;
 
-        if (!upgradeData || !upgradeData.visible) {
+        if (!upgradeData || upgradeData.invisible) {
             return false;
         }
 
