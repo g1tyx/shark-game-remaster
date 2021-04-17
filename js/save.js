@@ -715,12 +715,19 @@ SharkGame.Save = {
         },
 
         function update13(save) {
-            _.each(["historian", "papyrus", "crimsonCombine", "kelpCultivator"], (v) => {
+            _.each(["historian", "crimsonCombine", "kelpCultivator"], (v) => {
                 save.resources[v] = { amount: 0, totalAmount: 0 };
             });
-            _.each(["coralCollection", "whaleCommunication", "delphineHistory", "whaleSong", "farHavenExploration", "mechanismModification"], (v) => {
-                save.upgrades[v] = false;
-            });
+            _.each(
+                ["coralCollection", "whaleCommunication", "delphineHistory", "whaleSong", "farHavenExploration", "crystallineConstruction"],
+                (v) => {
+                    save.upgrades[v] = false;
+                }
+            );
+            return save;
+        },
+
+        function update14(save) {
             _.each(
                 [
                     "planetTerraformer",

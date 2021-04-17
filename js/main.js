@@ -598,6 +598,13 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             SharkGame.before = now;
         }
+
+        //see if resource table tooltip needs updating
+        if (document.getElementById("tooltipbox").className.split(" ").includes("forIncomeTable")) {
+            if (document.getElementById("tooltipbox").attributes.current) {
+                r.tableTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
+            }
+        }
     },
 
     checkTabUnlocks() {
@@ -1213,6 +1220,11 @@ SharkGame.Changelog = {
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch ???": [
         "Implemented reworked gameplay for the Haven worldtype.",
         "Made sweeping changes to the UI.",
+        "Improved grotto formatting.",
+        "Changed the colors for Haven worlds.",
+        "In the grotto, amounts for each producer now update live.",
+        "Both kinds of tooltips update live.",
+        "Tooltips can tell you more things: e.g., it now says how much science you get from sea apples.",
     ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 031421a": [
         "Fixed bug related to how artifacts display in the grotto.",
