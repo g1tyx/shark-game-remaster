@@ -1409,7 +1409,7 @@ SharkGame.Upgrades = {
                 fish: 15000,
             },
             required: {
-                upgrades: ["exploration"],
+                upgrades: ["exploration", "delphineHistory"],
             },
             effect: {
                 incomeMultiplier: {
