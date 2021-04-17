@@ -1464,6 +1464,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "technologies/delphineHistory": {
+        frame: { x: 2168, y: 0, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "technologies/eelHabitats": {
         frame: { x: 1968, y: 50, w: 50, h: 50 },
         rotated: false,
@@ -1474,6 +1482,14 @@ SharkGame.Sprites = {
     },
     "technologies/engineering": {
         frame: { x: 1406, y: 106, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/eternalSong": {
+        frame: { x: 2168, y: 50, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
