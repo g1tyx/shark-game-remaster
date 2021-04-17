@@ -231,7 +231,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    chorus: {
+    "haven-song": {
         frame: {
             x: 1214,
             y: 410,
@@ -255,6 +255,26 @@ SharkGame.Sprites = {
         frame: {
             x: 2,
             y: 614,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "haven-dolphin-observes": {
+        frame: {
+            x: 1618,
+            y: 1226,
             w: 400,
             h: 200,
         },

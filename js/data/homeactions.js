@@ -3219,7 +3219,9 @@ SharkGame.HomeActions = {
             name: "Study sea apples",
             effect: {
                 resource: {
-                    science: 4,
+                    get science() {
+                        return 4 * (1 + 0.01 * r.getResource("historian"));
+                    },
                 },
             },
             cost: [{ resource: "seaApple", costFunction: "constant", priceIncrease: 1 }],
@@ -3516,7 +3518,7 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "fish", costFunction: "linear", priceIncrease: 10 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 5 },
                 { resource: "coral", costFunction: "linear", priceIncrease: 2 },
             ],
             max: "dolphin",
@@ -3556,7 +3558,7 @@ SharkGame.HomeActions = {
                 "Do we need these guys?",
                 "They have to be good for something.",
             ],
-            helpText: "Pay a dolphin to help us catch fish. Prepare to put up with whining.",
+            helpText: "Pay a dolphin to help us get coral or something. Prepare to put up with whining.",
         },
 
         getWhale: {
@@ -3722,7 +3724,6 @@ SharkGame.HomeActions = {
             cost: [
                 { resource: "ray", costFunction: "constant", priceIncrease: 1 },
                 { resource: "fish", costFunction: "linear", priceIncrease: 300 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 15 },
             ],
             max: "maker",
             prereq: {
@@ -3730,7 +3731,6 @@ SharkGame.HomeActions = {
                     ray: 1,
                 },
                 upgrade: ["rayBiology"],
-                notWorlds: ["stone"],
             },
             outcomes: [
                 "The application of kelp supplements has made a ray very productive.",
@@ -3869,14 +3869,14 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "dolphin", costFunction: "constant", priceIncrease: 1 },
-                { resource: "papyrus", costFunction: "linear", priceIncrease: 5 },
+                { resource: "science", costFunction: "linear", priceIncrease: 100 },
             ],
             max: "historian",
             prereq: {
                 resource: {
                     dolphin: 1,
                 },
-                upgrade: ["delphineHistory"],
+                upgrade: ["retroactiveRecordkeeping"],
             },
             outcomes: [
                 "We've given a dolphin free opportunity to ramble. WHY?!",
@@ -4146,8 +4146,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "delphinium", costFunction: "linear", priceIncrease: 150 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 50 },
+                { resource: "delphinium", costFunction: "linear", priceIncrease: 75 },
+                { resource: "coral", costFunction: "linear", priceIncrease: 300 },
             ],
             max: "crimsonCombine",
             prereq: {
@@ -4166,7 +4166,7 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "delphinium", costFunction: "linear", priceIncrease: 150 },
+                { resource: "delphinium", costFunction: "linear", priceIncrease: 100 },
                 { resource: "seaApple", costFunction: "linear", priceIncrease: 25 },
             ],
             max: "kelpCultivator",

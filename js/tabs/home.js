@@ -123,11 +123,22 @@ SharkGame.Home = {
                 message:
                     "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
+            /*             {
+                name: "haven-coral",
+                unlock: { totalResource: { treasurer: 1 }, upgrade: ["coralCollection"] },
+                message: "The treasurers scour the reef, chatting amongst themselves about whose coral looks prettier.",
+            }, */
             {
                 name: "haven-papyrus",
                 unlock: { upgrade: ["sunObservation"] },
-                message: "Pieces of strange, crunchy kelp have begun washing up in the currents.<br/>You see something carved into them.",
+                message: "Pieces of strange, crunchy kelp have begun washing up in the currents.<br/>Something is carved into them.",
             },
+            /*             {
+                name: "haven-stories",
+                unlock: { upgrade: ["delphineHistory"] },
+                message:
+                    "The dolphin's self-indulgent tales make frequent references to a gate.<br>And, they don't know where it is. Of course they don't.",
+            }, */
             {
                 name: "haven-history",
                 unlock: { upgrade: ["delphineHistory"] },
@@ -140,9 +151,9 @@ SharkGame.Home = {
                 message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
             },
             {
-                name: "haven-chorus",
+                name: "haven-song",
                 unlock: { upgrade: ["whaleSong"] },
-                message: "What parts you do have of the song fill you with the same feeling as the gates. But so much smaller.<br>&nbsp",
+                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
             },
             {
                 name: "haven-done",
@@ -536,6 +547,13 @@ SharkGame.Home = {
 
         // update home message
         h.updateMessage();
+
+        // update hovering messages
+        if (document.getElementById("tooltipbox").className.split(" ").includes("forHomeButton")) {
+            if (document.getElementById("tooltipbox").attributes.current) {
+                h.onHomeHover(null, document.getElementById("tooltipbox").attributes.current.value);
+            }
+        }
     },
 
     updateButton(actionName) {
@@ -825,10 +843,8 @@ SharkGame.Home = {
         }
         const effects = SharkGame.HomeActions.getActionList()[actionName].effect;
         const validGenerators = {};
-        let numGen = 0;
         if (effects.resource) {
             $.each(effects.resource, (resource) => {
-                numGen += 1;
                 if (SharkGame.ResourceMap.get(resource).income) {
                     $.each(SharkGame.ResourceMap.get(resource).income, (incomeResource) => {
                         const genAmount = r.getProductAmountFromGeneratorResource(resource, incomeResource, 1);
@@ -880,8 +896,8 @@ SharkGame.Home = {
         if (effects.resource) {
             $.each(effects.resource, (resource) => {
                 if (SharkGame.ResourceIncomeAffectors[resource]) {
-                    _.each(SharkGame.ResourceIncomeAffectors[resource], (type) => {
-                        $.each(SharkGame.ResourceIncomeAffectors[resource][type], (affected, degree) => {
+                    $.each(SharkGame.ResourceIncomeAffectors[resource], (type, object) => {
+                        $.each(object, (affected, degree) => {
                             switch (type) {
                                 case "multiply":
                                     if (!appendedMultiply) {
@@ -889,8 +905,7 @@ SharkGame.Home = {
                                         text += "<span class='littleTooltipText'>ADDS</span><br/>";
                                     }
                                     text +=
-                                        Math.round(degree * 100) +
-                                        "% to all " +
+                                        (Math.round(degree * 100) + "% to all ").bold() +
                                         r.getResourceName(
                                             affected,
                                             false,
@@ -911,32 +926,33 @@ SharkGame.Home = {
             text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
         }
 
-        if (numGen === 1) {
-            $.each(effects.resource, (resource) => {
+        $.each(effects.resource, (resource, amount) => {
+            if (amount !== 1) {
+                text =
+                    m.beautify(amount).bold() +
+                    " " +
+                    r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    "<br>" +
+                    text;
+            } else {
                 const determiner = m.getDeterminer(resource);
-                if (determiner !== "") {
-                    text =
-                        m.getDeterminer(resource) +
-                        " " +
-                        r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
-                        "<br>" +
-                        text;
-                } else {
-                    text =
-                        r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
-                        "<br>" +
-                        text;
-                }
-            });
-        }
+                text =
+                    (determiner ? determiner + " " : "") +
+                    r.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    "<br>" +
+                    text;
+            }
+        });
 
-        document.getElementById("tooltipbox").innerHTML = text;
-        $(".tooltip").addClass("forHomeButton");
+        if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
+            document.getElementById("tooltipbox").innerHTML = text;
+        }
+        $(".tooltip").addClass("forHomeButton").attr("current", actionName);
     },
 
     onHomeUnhover() {
         document.getElementById("tooltipbox").innerHTML = "";
-        $(".tooltip").removeClass("forHomeButton");
+        $(".tooltip").removeClass("forHomeButton").attr("current", "");
     },
 
     getCost(action, amount) {
