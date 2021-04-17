@@ -1463,7 +1463,7 @@ SharkGame.Upgrades = {
                 science: 1e7,
             },
             required: {
-                upgrades: ["whaleSong", "retroactiveRecordkeeping"],
+                upgrades: ["whaleSong", "retroactiveRecordkeeping", "farHavenExploration"],
             },
             effect: {
                 incomeMultiplier: {
