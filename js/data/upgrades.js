@@ -47,7 +47,13 @@ SharkGame.Upgrades = {
         }
 
         const upgradeTable = _.cloneDeep(SharkGame.Upgrades.default);
+
         if (_.has(SharkGame.Upgrades, worldType)) {
+            $.each(upgradeTable, (upgrade) => {
+                if (!_.has(SharkGame.Upgrades[worldType], upgrade)) {
+                    delete upgradeTable[upgrade];
+                }
+            });
             _.merge(upgradeTable, SharkGame.Upgrades[worldType], customizer);
         }
         return upgradeTable;
@@ -174,7 +180,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["thermalVents"],
-                resources: ["ray", "sand"],
             },
         },
         transmutation: {
@@ -364,7 +369,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["biology", "laserRays"],
-                resources: ["ray", "kelp"],
                 seen: ["kelp"],
             },
             effect: {
@@ -468,12 +472,13 @@ SharkGame.Upgrades = {
         },
     },
     abandoned: {
-        farExploration: { invisible: true },
-        superprocessing: { invisible: true },
-        kelpHorticulture: { invisible: true },
-        xenobiology: { invisible: true },
-        gateDiscovery: { invisible: true },
+        crystalBite: {},
+        crystalSpade: {},
+        crystalContainer: {},
         statsDiscovery: { cost: { science: 75 } },
+        underwaterChemistry: {},
+        seabedGeology: {},
+        thermalVents: {},
         clamScooping: {
             name: "Clam Scooping",
             desc: "We see these things all over the seabed but we can't tell which are clams and which are rocks.",
@@ -487,8 +492,7 @@ SharkGame.Upgrades = {
                 upgrades: ["seabedGeology"],
             },
         },
-        laserRays: { required: { resources: [] } },
-
+        laserRays: {},
         transmutation: {
             cost: {
                 science: 1500,
@@ -873,11 +877,6 @@ SharkGame.Upgrades = {
         },
     },
     haven: {
-        thermalVents: { invisible: true },
-        laserRays: { invisible: true },
-        superprocessing: { invisible: true },
-        farExploration: { invisible: true },
-        gateDiscovery: { invisible: true },
         crystalBite: {
             name: "Crystal Bite-Gear",
             desc: "Bite the crystals we have into something to help biting!",
@@ -996,20 +995,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
-        /*         laserRays: {
-            name: "Laser Rays",
-            desc: "Using arcane shark mystery science, capture the heat of the vents for use by rays.",
-            researchedMessage: "The rays can now be granted gear that will let them fuse sand into crystal! Future!",
-            effectDesc: "Laser rays can now be geared up to burn the very sand to glassy crystal.",
-            cost: {
-                sand: 5000,
-                crystal: 750,
-            },
-            required: {
-                upgrades: ["thermalVents"],
-            },
-        }, */
 
         transmutation: {
             name: "Transmutation",
@@ -1311,13 +1296,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
-        /*
-            desc: "We keep finding all these flat pieces of kelp washing up in the current. What is with them? Why are they crunchy?!",
-            researchedMessage: "A dolphin overheard us talking about it, and they came over and 'read' something from it. What?!",
-            effectDesc: "Discovered the remnants of dolphin history in the form of kelp...papyrus. Okay then??",
-
-        */
 
         imperialDesigns: {
             name: "Imperial Designs",

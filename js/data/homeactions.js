@@ -3745,7 +3745,6 @@ SharkGame.HomeActions = {
                 "More ray makers means more rays. Do you understand what that means?! Do you?! It means more rays. Good. On the same page, then.",
                 "Rapidly breeding aquatic wildlife is probably a severe ecological hazard. Good thing this isn't Earth's oceans, probably!",
                 "Have you ever thought about what the rays wanted? Because this might have been what they wanted after all.",
-                "MORE LASER RAYS FOR THE LASER ARMY-- oh. Well, this is good too.",
             ],
             helpText: "Remove a ray from sand business and let them concentrate on making more rays.",
         },
