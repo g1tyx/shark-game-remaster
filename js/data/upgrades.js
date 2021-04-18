@@ -44,9 +44,10 @@ SharkGame.Upgrades = {
             $.each(upgradeTable, (upgrade) => {
                 if (!_.has(worldMods, upgrade)) {
                     delete upgradeTable[upgrade];
+                } else {
+                  _.assign(upgradeTable[upgrade], worldMods[upgrade]);
                 }
             });
-            _.assign(upgradeTable, worldMods);
         }
         return upgradeTable;
     },
