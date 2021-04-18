@@ -39,15 +39,27 @@ SharkGame.Upgrades = {
     generateUpgradeTable(worldType = w.worldType) {
         const upgradeTable = _.cloneDeep(SharkGame.Upgrades.default);
 
+        // Check if world type has modifications
         if (_.has(SharkGame.Upgrades, worldType)) {
             const worldMods = _.cloneDeep(SharkGame.Upgrades[worldType]);
-            $.each(upgradeTable, (upgrade) => {
+
+            // Delete non-existing upgrades from world
+            for (const upgrade in upgradeTable) {
                 if (!_.has(worldMods, upgrade)) {
                     delete upgradeTable[upgrade];
-                } else {
-                    _.assign(upgradeTable[upgrade], worldMods[upgrade]);
                 }
-            });
+            }
+
+            // Apply world-specific modifications
+            for (const upgrade in worldMods) {
+                if (_.has(upgradeTable, upgrade)) {
+                    // If upgrade exists in both, it's just a modification
+                    _.assign(upgradeTable[upgrade], worldMods[upgrade]);
+                } else {
+                    // Otherwise, it's a world-specific upgrade and needs to be added
+                    upgradeTable[upgrade] = worldMods[upgrade];
+                }
+            }
         }
         return upgradeTable;
     },
