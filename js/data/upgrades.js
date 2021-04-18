@@ -301,14 +301,6 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["seabedGeology"],
             },
-            effect: {
-                incomeMultiplier: {
-                    worker: 2,
-                    harvester: 2,
-                    treasurer: 2,
-                    scavenger: 2,
-                },
-            },
         },
         kelpHorticulture: {
             name: "Kelp Horticulture",
@@ -373,7 +365,7 @@ SharkGame.Upgrades = {
                 sand: 600,
             },
             required: {
-                upgrades: ["biology"],
+                upgrades: ["biology", "laserRays"],
                 seen: ["kelp"],
             },
             effect: {
@@ -420,7 +412,6 @@ SharkGame.Upgrades = {
             effect: {
                 incomeMultiplier: {
                     planter: 2,
-                    shrimp: 4,
                 },
             },
         },
