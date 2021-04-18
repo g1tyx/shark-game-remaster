@@ -368,7 +368,7 @@ SharkGame.Upgrades = {
                 sand: 600,
             },
             required: {
-                upgrades: ["biology", "laserRays"],
+                upgrades: ["biology"],
                 seen: ["kelp"],
             },
             effect: {
