@@ -45,7 +45,7 @@ SharkGame.Upgrades = {
                 if (!_.has(worldMods, upgrade)) {
                     delete upgradeTable[upgrade];
                 } else {
-                  _.assign(upgradeTable[upgrade], worldMods[upgrade]);
+                    _.assign(upgradeTable[upgrade], worldMods[upgrade]);
                 }
             });
         }
