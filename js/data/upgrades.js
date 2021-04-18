@@ -54,7 +54,7 @@ SharkGame.Upgrades = {
                     delete upgradeTable[upgrade];
                 }
             });
-            _.merge(upgradeTable, SharkGame.Upgrades[worldType], customizer);
+            _.mergeWith(upgradeTable, SharkGame.Upgrades[worldType], customizer);
         }
         return upgradeTable;
     },
