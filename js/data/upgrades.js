@@ -465,6 +465,8 @@ SharkGame.Upgrades = {
         },
     },
     abandoned: {
+        // Unless upgrade is defined here, it won't exist on the world
+        // hence the empty objects
         crystalBite: {},
         crystalSpade: {},
         crystalContainer: {},
@@ -538,11 +540,6 @@ SharkGame.Upgrades = {
         engineering: {
             effectDesc: "Shark machines are twice as effective.",
             effect: {
-                incomeMultiplier: {
-                    crystalMiner: 1,
-                    fishMachine: 1,
-                    sandDigger: 1,
-                },
                 incomeBoost: {
                     crystalMiner: 2,
                     fishMachine: 2,
@@ -574,12 +571,6 @@ SharkGame.Upgrades = {
                     skimmer: 2,
                 },
                 incomeMultiplier: {
-                    crystalMiner: 1,
-                    fishMachine: 1,
-                    sandDigger: 1,
-                    autoTransmuter: 1,
-                    skimmer: 1,
-                    heater: 1,
                     scientist: 4,
                 },
             },
@@ -627,8 +618,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["biology", "laserRays"],
-                resources: [],
-                seen: [],
             },
         },
         crabBiology: {
@@ -646,7 +635,6 @@ SharkGame.Upgrades = {
                 incomeMultiplier: {
                     crab: 4,
                     collector: 4,
-                    planter: 1,
                 },
             },
         },
@@ -705,8 +693,6 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeMultiplier: {
-                    planter: 1,
-                    shrimp: 1,
                     scientist: 2,
                     investigator: 2,
                     collector: 2,
