@@ -37,24 +37,16 @@ SharkGame.Upgrades = {
 
     /** @param worldType {string} */
     generateUpgradeTable(worldType = w.worldType) {
-        // If it's an array, replace instead of merge.
-        function customizer(_originalValue, assignedValue) {
-            if (_.isArray(assignedValue)) {
-                return assignedValue;
-            }
-            // Use normal merging
-            return undefined;
-        }
-
         const upgradeTable = _.cloneDeep(SharkGame.Upgrades.default);
 
         if (_.has(SharkGame.Upgrades, worldType)) {
+            const worldMods = _.cloneDeep(SharkGame.Upgrades[worldType]);
             $.each(upgradeTable, (upgrade) => {
-                if (!_.has(SharkGame.Upgrades[worldType], upgrade)) {
+                if (!_.has(worldMods, upgrade)) {
                     delete upgradeTable[upgrade];
                 }
             });
-            _.mergeWith(upgradeTable, SharkGame.Upgrades[worldType], customizer);
+            _.assign(upgradeTable, worldMods);
         }
         return upgradeTable;
     },
