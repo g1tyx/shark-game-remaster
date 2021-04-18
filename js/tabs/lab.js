@@ -113,7 +113,7 @@ SharkGame.Lab = {
 
         // for each upgrade not yet bought
         $.each(upgradeTable, (upgradeId, upgrade) => {
-            if (SharkGame.Upgrades.purchased.includes(upgradeId) || upgrade.invisible) {
+            if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
                 return; // skip this upgrade altogether
             }
 
@@ -280,12 +280,12 @@ SharkGame.Lab = {
     },
 
     isUpgradePossible(upgradeName) {
-        const l = SharkGame.Lab;
-        const ups = SharkGame.Upgrades.getUpgradeTable();
-        const upgradeData = ups[upgradeName];
+        const lab = SharkGame.Lab;
+        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
+        const upgradeData = upgradeTable[upgradeName];
         let isPossible = true;
 
-        if (!upgradeData || upgradeData.invisible) {
+        if (!upgradeData) {
             return false;
         }
 
@@ -311,7 +311,7 @@ SharkGame.Lab = {
             if (upgradeData.required.upgrades) {
                 // RECURSIVE CHECK REQUISITE TECHS
                 _.each(upgradeData.required.upgrades, (v) => {
-                    isPossible = isPossible && l.isUpgradePossible(v);
+                    isPossible = isPossible && lab.isUpgradePossible(v);
                 });
             }
             if (upgradeData.required.totals) {
