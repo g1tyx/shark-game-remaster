@@ -206,6 +206,11 @@ pre {
   background: linear-gradient(var(--color-title), var(--color-title)), var(--color-med) url("../img/sharklogo.png") no-repeat center;
   text-shadow: 2px 2px 3px var(--color-darker);
 }
+#title.radical {
+  background-image: url("../img/sharklogo_radical.png");
+  background-position: center;
+  background-repeat: no-repeat;
+}
 #title h1 {
   margin: 0.1em auto 0.3em auto;
 }

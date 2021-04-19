@@ -580,6 +580,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.Settings.current.updateCheck) {
             SharkGame.Main.checkForUpdateHandler = setInterval(m.checkForUpdate, 300000);
         }
+
+        $("#title").on("click", (event) => {
+            if (event.clientX < 100 && event.clientY < 150) {
+                event.currentTarget.classList.add("radical");
+            }
+        });
     },
 
     tick() {
