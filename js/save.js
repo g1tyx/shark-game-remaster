@@ -10,7 +10,7 @@ SharkGame.Save = {
             tabs: {},
             settings: {},
             upgrades: {},
-            gateCostsMet: [],
+            completedRequirements: {},
             world: { type: w.worldType, level: w.planetLevel },
             artifacts: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
@@ -34,15 +34,7 @@ SharkGame.Save = {
             }
         });
 
-        const gateCostTypes = [];
-        $.each(SharkGame.Gate.costsMet, (name) => {
-            gateCostTypes.push(name);
-        });
-        gateCostTypes.sort();
-
-        $.each(gateCostTypes, (i, name) => {
-            saveData.gateCostsMet[i] = SharkGame.Gate.costsMet[name];
-        });
+        saveData.completedRequirements = _.cloneDeep(SharkGame.Gate.completedRequirements);
 
         $.each(SharkGame.Settings, (settingName) => {
             if (settingName !== "current") {
@@ -209,15 +201,9 @@ SharkGame.Save = {
                 }
             }
 
-            const gateCostTypes = [];
-            $.each(SharkGame.Gate.costsMet, (name, _met) => {
-                gateCostTypes.push(name);
-            });
-            gateCostTypes.sort();
-
-            $.each(gateCostTypes, (i, name) => {
-                SharkGame.Gate.costsMet[name] = saveData.gateCostsMet[i];
-            });
+            if (saveData.completedRequirements) {
+                SharkGame.Gate.completedRequirements = _.cloneDeep(saveData.completedRequirements);
+            }
 
             // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
             r.recalculateIncomeTable();
