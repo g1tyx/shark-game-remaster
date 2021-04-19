@@ -966,6 +966,9 @@ button {
 
 .copyrightNotice {
     .no-select;
+    // In Chrome, rendering error makes copyright notice be in front
+    // of the resource table sometimes, preventing tooltips and clicking
+    .click-passthrough;
     font-size: 80%;
     color: var(--color-lighter);
     filter: brightness(130%);

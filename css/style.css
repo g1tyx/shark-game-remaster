@@ -835,6 +835,7 @@ button.disabled div {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  pointer-events: none;
   font-size: 80%;
   color: var(--color-lighter);
   filter: brightness(130%);

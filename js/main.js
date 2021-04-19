@@ -3,11 +3,30 @@ var SharkGame = SharkGame || {};
 
 window.onmousemove = (e) => {
     const tooltip = document.getElementById("tooltipbox");
-    if (tooltip === undefined || tooltip === null || tooltip.innerHTML === "") return;
+    if (!tooltip) return;
     const posX = e.clientX;
     const posY = e.clientY;
+
+    const tooltipStyle = getComputedStyle(tooltip);
+
+    // get visual width in px, plus 15px offset from cursor
+    const tooltipWidth = [
+        tooltipStyle.width,
+        tooltipStyle.paddingLeft,
+        tooltipStyle.paddingRight,
+        tooltipStyle.borderLeft,
+        tooltipStyle.borderRight,
+        tooltipStyle.marginLeft,
+        tooltipStyle.marginRight,
+    ].reduce((prev, cur) => prev + parseInt(cur), 0);
+
     tooltip.style.top = posY - 20 + "px";
-    tooltip.style.left = posX + 15 + "px";
+    // Would clip over right screen edge
+    if (tooltipWidth + posX + 35 > window.innerWidth) {
+        tooltip.style.left = posX - 10 - tooltipWidth + "px";
+    } else {
+        tooltip.style.left = posX + 15 + "px";
+    }
 };
 
 // CORE VARIABLES AND HELPER FUNCTIONS
