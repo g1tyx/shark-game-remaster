@@ -913,11 +913,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                         if ($(this).hasClass("disabled")) return;
                         const importText = $("#importExportField").val();
                         if (importText === "") {
-                            SharkGame.hidePane();
+                            SharkGame.Main.hidePane();
                             SharkGame.Log.addError("You need to paste something in first!");
-                        } else if (
-                            confirm("Are you absolutely sure? This will override your current save. WARNING: OLD SAVES DO NOT IMPORT PROPERLY YET!")
-                        ) {
+                        } else if (confirm("Are you absolutely sure? This will override your current save.")) {
                             SharkGame.Save.importData(importText);
                         }
                     })
