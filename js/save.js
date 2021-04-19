@@ -72,6 +72,7 @@ SharkGame.Save = {
         saveString = ascii85.encode(pako.deflate(JSON.stringify(saveData), { to: "string" }));
 
         try {
+            if (saveString === undefined || saveString === "<~~>") throw new Error("Something went wrong while saving");
             localStorage.setItem(SharkGame.Save.saveFileName, saveString);
         } catch (err) {
             throw new Error("Couldn't save to local storage. Reason: " + err.message);
