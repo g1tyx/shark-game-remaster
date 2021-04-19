@@ -266,13 +266,7 @@ SharkGame.Gate = {
 
     shouldBeOpen() {
         const gt = SharkGame.Gate;
-        let won = true;
-        $.each(gt.completedRequirements, (_, v) => {
-            $.each(v, (k, req) => {
-                won = won && req;
-            });
-        });
-        return won;
+        return _.every(gt.completedRequirements, (requirementType) => _.every(requirementType));
     },
 
     checkUpgradeRequirements(upgradeName) {

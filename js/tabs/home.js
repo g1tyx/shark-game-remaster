@@ -744,21 +744,9 @@ SharkGame.Home = {
         }
     },
     getActionCategory(actionName) {
-        let categoryName = "";
-        $.each(SharkGame.HomeActionCategories, (categoryKey, categoryValue) => {
-            if (categoryName !== "") {
-                return;
-            }
-            $.each(categoryValue.actions, (k, v) => {
-                if (categoryName !== "") {
-                    return;
-                }
-                if (actionName === v) {
-                    categoryName = categoryKey;
-                }
-            });
+        return _.findKey(SharkGame.HomeActionCategories, (category) => {
+            return _.some(category.actions, (action) => action === actionName);
         });
-        return categoryName;
     },
 
     onHomeButton() {
