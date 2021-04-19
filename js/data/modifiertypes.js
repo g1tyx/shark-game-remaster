@@ -27,17 +27,13 @@ SharkGame.ModifierTypes = {
             },
             resourceBoost: {
                 defaultValue: 1,
-                apply(current, degree, resource, _level) {
-                    SharkGame.ResourceMap.forEach((v, _generator) => {
-                        if (v.income) {
-                            $.each(v.income, (r, amount) => {
-                                if (r === resource) {
-                                    if (amount > 0) {
-                                        v.income[r] = amount * degree;
-                                    }
-                                }
-                            });
-                        }
+                apply(current, degree, boostedResource, _level) {
+                    SharkGame.ResourceMap.forEach((generatingResource) => {
+                        $.each(generatingResource.income, (generatedResource, amount) => {
+                            if (generatedResource === boostedResource && amount > 0) {
+                                generatingResource.income[generatedResource] = amount * degree;
+                            }
+                        });
                     });
                     return current * degree;
                 },
@@ -174,15 +170,13 @@ SharkGame.ModifierTypes = {
             planetaryResourceBoost: {
                 defaultValue: 1,
                 name: "Planetary Boost",
-                apply(current, degree, resource, level) {
-                    SharkGame.ResourceMap.forEach((v, _generator) => {
-                        if (v.income) {
-                            $.each(v.income, (r, amount) => {
-                                if (r === resource && amount > 0) {
-                                    v.income[r] = amount * (1 + degree * level);
-                                }
-                            });
-                        }
+                apply(current, degree, boostedResource, level) {
+                    SharkGame.ResourceMap.forEach((generatingResource) => {
+                        $.each(generatingResource.income, (generatedResource, amount) => {
+                            if (generatedResource === boostedResource && amount > 0) {
+                                generatingResource.income[generatedResource] = amount * (1 + degree * level);
+                            }
+                        });
                     });
                     return current * (1 + degree * level);
                 },
@@ -196,15 +190,13 @@ SharkGame.ModifierTypes = {
             planetaryResourceReciprocalBoost: {
                 defaultValue: 1,
                 name: "Planetary Reciprocal Boost",
-                apply(current, degree, resource, level) {
-                    SharkGame.ResourceMap.forEach((v, _generator) => {
-                        if (v.income) {
-                            $.each(v.income, (r, amount) => {
-                                if (r === resource && amount > 0) {
-                                    v.income[r] = amount * (1 / (1 + degree * level));
-                                }
-                            });
-                        }
+                apply(current, degree, boostedResource, level) {
+                    SharkGame.ResourceMap.forEach((generatingResource) => {
+                        $.each(generatingResource.income, (generatedResource, amount) => {
+                            if (generatedResource === boostedResource && amount > 0) {
+                                generatingResource.income[generatedResource] = amount * (1 / (1 + degree * level));
+                            }
+                        });
                     });
                     return current * (1 / (1 + degree * level));
                 },

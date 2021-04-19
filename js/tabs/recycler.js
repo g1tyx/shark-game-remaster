@@ -108,22 +108,22 @@ SharkGame.Recycler = {
     },
 
     updateButtons() {
-        SharkGame.ResourceMap.forEach((v, k) => {
-            if (r.getTotalResource(k) > 0) {
-                const inputButton = $("#input-" + k);
+        SharkGame.ResourceMap.forEach((_resource, resourceName) => {
+            if (r.getTotalResource(resourceName) > 0) {
+                const inputButton = $("#input-" + resourceName);
                 // If this is a resource that's not in the recycler, skip it entirely.
                 if (inputButton.length === 0) {
                     return true;
                 }
-                const outputButton = $("#output-" + k);
-                const resourceAmount = r.getResource(k);
+                const outputButton = $("#output-" + resourceName);
+                const resourceAmount = r.getResource(resourceName);
 
                 // determine amounts for input and what would be retrieved from output
                 const buy = m.getBuyAmount();
                 const forceSingular = buy === 1;
                 let inputAmount = buy;
                 let outputAmount = buy;
-                const maxOutputAmount = y.getMaxToBuy(k);
+                const maxOutputAmount = y.getMaxToBuy(resourceName);
                 if (buy < 0) {
                     const divisor = Math.floor(buy) * -1;
                     inputAmount = Math.floor(resourceAmount / divisor);
@@ -134,7 +134,7 @@ SharkGame.Recycler = {
                 let disableButton = resourceAmount < inputAmount || inputAmount <= 0;
                 let label = "Recycle ";
                 if (inputAmount > 0) {
-                    if (y.expectedJunkSpent !== "NA" && !disableButton && k === y.hoveredResource) {
+                    if (y.expectedJunkSpent !== "NA" && !disableButton && resourceName === y.hoveredResource) {
                         if (buy < 0) {
                             label +=
                                 "<span class='click-passthrough' style='color:#FFDE0A'>" + m.beautify(inputAmount + outputAmount / -buy) + "</span> ";
@@ -152,7 +152,13 @@ SharkGame.Recycler = {
                     inputButton.removeClass("disabled");
                 }
 
-                label += r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("input-" + k, "background-color"));
+                label += r.getResourceName(
+                    resourceName,
+                    disableButton,
+                    forceSingular,
+                    false,
+                    SharkGame.getElementColor("input-" + resourceName, "background-color")
+                );
                 if (inputButton.html() !== label.replace(/'/g, '"')) {
                     inputButton.html(label);
                 }
@@ -174,7 +180,13 @@ SharkGame.Recycler = {
                     outputButton.removeClass("disabled");
                 }
 
-                label += r.getResourceName(k, disableButton, forceSingular, false, SharkGame.getElementColor("output-" + k, "background-color"));
+                label += r.getResourceName(
+                    resourceName,
+                    disableButton,
+                    forceSingular,
+                    false,
+                    SharkGame.getElementColor("output-" + resourceName, "background-color")
+                );
                 if (outputButton.html() !== label.replace(/'/g, '"')) {
                     outputButton.html(label);
                 }
@@ -185,19 +197,23 @@ SharkGame.Recycler = {
     createButtons() {
         const inputButtonDiv = $("#inputButtons");
         const outputButtonDiv = $("#outputButtons");
-        SharkGame.ResourceMap.forEach((v, k) => {
-            if (r.getTotalResource(k) > 0 && y.allowedCategories[r.getCategoryOfResource(k)] && y.bannedResources.indexOf(k) === -1) {
+        SharkGame.ResourceMap.forEach((_resource, resourceName) => {
+            if (
+                r.getTotalResource(resourceName) > 0 &&
+                y.allowedCategories[r.getCategoryOfResource(resourceName)] &&
+                y.bannedResources.indexOf(resourceName) === -1
+            ) {
                 SharkGame.Button.makeHoverscriptButton(
-                    "input-" + k,
-                    "Recycle " + r.getResourceName(k),
+                    "input-" + resourceName,
+                    "Recycle " + r.getResourceName(resourceName),
                     inputButtonDiv,
                     y.onInput,
                     y.onInputHover,
                     y.onInputUnhover
                 );
                 SharkGame.Button.makeHoverscriptButton(
-                    "output-" + k,
-                    "Convert to " + r.getResourceName(k),
+                    "output-" + resourceName,
+                    "Convert to " + r.getResourceName(resourceName),
                     outputButtonDiv,
                     y.onOutput,
                     y.onOutputHover,

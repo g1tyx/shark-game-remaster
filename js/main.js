@@ -1,13 +1,32 @@
-/* eslint-disable-next-line no-var, no-use-before-define */
+/* eslint-disable-next-line no-var, no-use-before-define, no-shadow */
 var SharkGame = SharkGame || {};
 
 window.onmousemove = (e) => {
     const tooltip = document.getElementById("tooltipbox");
-    if (tooltip === undefined || tooltip === null || tooltip.innerHTML === "") return;
-    const x = e.clientX;
-    const y = e.clientY;
-    tooltip.style.top = y - 20 + "px";
-    tooltip.style.left = x + 15 + "px";
+    if (!tooltip) return;
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    const tooltipStyle = getComputedStyle(tooltip);
+
+    // get visual width in px, plus 15px offset from cursor
+    const tooltipWidth = [
+        tooltipStyle.width,
+        tooltipStyle.paddingLeft,
+        tooltipStyle.paddingRight,
+        tooltipStyle.borderLeft,
+        tooltipStyle.borderRight,
+        tooltipStyle.marginLeft,
+        tooltipStyle.marginRight,
+    ].reduce((prev, cur) => prev + parseInt(cur), 0);
+
+    tooltip.style.top = posY - 20 + "px";
+    // Would clip over right screen edge
+    if (tooltipWidth + posX + 35 > window.innerWidth) {
+        tooltip.style.left = posX - 10 - tooltipWidth + "px";
+    } else {
+        tooltip.style.left = posX + 15 + "px";
+    }
 };
 
 // CORE VARIABLES AND HELPER FUNCTIONS
@@ -623,7 +642,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // check upgrades
             if (v.discoverReq.upgrade) {
                 let anyUpgradeExists = false;
-                $.each(v.discoverReq.upgrade, (_, upgradeName) => {
+                _.each(v.discoverReq.upgrade, (upgradeName) => {
                     if (upgradeTable[upgradeName]) {
                         anyUpgradeExists = true;
                         reqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeName);
@@ -762,7 +781,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // add buy buttons
         const buttonList = $("#tabButtons");
         buttonList.empty();
-        $.each(SharkGame.Settings.buyAmount.options, (_, amount) => {
+        _.each(SharkGame.Settings.buyAmount.options, (amount) => {
             const disableButton = amount === SharkGame.Settings.current.buyAmount;
             buttonList.append(
                 $("<li>").append(
@@ -864,36 +883,36 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     setUpOptions() {
         const optionsTable = $("<table>").attr("id", "optionTable");
         // add settings specified in settings.js
-        $.each(SharkGame.Settings, (key, value) => {
-            if (key === "current" || !value.show) {
+        $.each(SharkGame.Settings, (settingName, setting) => {
+            if (settingName === "current" || !setting.show) {
                 return;
             }
-            const row = $("<tr>");
+            const optionRow = $("<tr>");
 
             // show setting name
-            row.append(
+            optionRow.append(
                 $("<td>")
                     .addClass("optionLabel")
-                    .html(value.name + ":" + "<br/><span class='smallDesc'>(" + value.desc + ")</span>")
+                    .html(setting.name + ":" + "<br/><span class='smallDesc'>(" + setting.desc + ")</span>")
             );
 
-            const currentSetting = SharkGame.Settings.current[key];
+            const currentSetting = SharkGame.Settings.current[settingName];
 
             // show setting adjustment buttons
-            $.each(value.options, (k, v) => {
-                const isCurrentSetting = k === value.options.indexOf(currentSetting);
-                row.append(
+            $.each(setting.options, (index, optionValue) => {
+                const isSelectedOption = optionValue === currentSetting;
+                optionRow.append(
                     $("<td>").append(
                         $("<button>")
-                            .attr("id", "optionButton-" + key + "-" + k)
-                            .addClass("option-button" + (isCurrentSetting ? " disabled" : ""))
-                            .html(typeof v === "boolean" ? (v ? "on" : "off") : v)
+                            .attr("id", "optionButton-" + settingName + "-" + index)
+                            .addClass("option-button" + (isSelectedOption ? " disabled" : ""))
+                            .html(typeof optionValue === "boolean" ? (optionValue ? "on" : "off") : optionValue)
                             .on("click", m.onOptionClick)
                     )
                 );
             });
 
-            optionsTable.append(row);
+            optionsTable.append(optionRow);
         });
 
         // SAVE IMPORT/EXPORT
@@ -988,8 +1007,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             const segment = $("<div>").addClass("paneContentDiv");
             segment.append($("<h3>").html(version + ": "));
             const changeList = $("<ul>");
-            $.each(changes, (_, v) => {
-                changeList.append($("<li>").html(v));
+            _.each(changes, (changeLogEntry) => {
+                changeList.append($("<li>").html(changeLogEntry));
             });
             segment.append(changeList);
             changelogContent.append(segment);

@@ -152,28 +152,28 @@ SharkGame.Gate = {
 
     getSlotsLeft() {
         const gt = SharkGame.Gate;
-        let slots = 0;
+        let incompleteSlots = 0;
         // counts up the number of slots which are *not* filled
-        $.each(gt.completedRequirements.slots, (k, v) => {
-            slots += v ? 0 : 1;
+        _.each(gt.completedRequirements.slots, (completed) => {
+            incompleteSlots += completed ? 0 : 1;
         });
 
         // if there are any slots in the first place, return the number of slots unfilled
         // if there are not any slots, return false to identify this fact
-        return _.size(gt.requirements.slots) !== 0 ? slots : false;
+        return _.size(gt.requirements.slots) !== 0 ? incompleteSlots : false;
     },
 
     getUpgradesLeft() {
         const gt = SharkGame.Gate;
-        let upgrades = 0;
+        let incompleteUpgrades = 0;
         // counts up the number of required upgrades which are *not* purchased
-        $.each(gt.completedRequirements.upgrades, (k, v) => {
-            upgrades += v ? 0 : 1;
+        _.each(gt.completedRequirements.upgrades, (v) => {
+            incompleteUpgrades += v ? 0 : 1;
         });
 
         // if there are any required upgrades in the first place, return the number of still required upgrades
         // if there are not any required upgrades, return false to identify this fact
-        return _.size(gt.requirements.upgrades) !== 0 ? upgrades : false;
+        return _.size(gt.requirements.upgrades) !== 0 ? incompleteUpgrades : false;
     },
 
     getResourcesLeft() {
@@ -266,13 +266,7 @@ SharkGame.Gate = {
 
     shouldBeOpen() {
         const gt = SharkGame.Gate;
-        let won = true;
-        $.each(gt.completedRequirements, (_, v) => {
-            $.each(v, (k, req) => {
-                won = won && req;
-            });
-        });
-        return won;
+        return _.every(gt.completedRequirements, (requirementType) => _.every(requirementType));
     },
 
     checkUpgradeRequirements(upgradeName) {

@@ -216,11 +216,9 @@ SharkGame.Save = {
             });
             gateCostTypes.sort();
 
-            if (gateCostTypes) {
-                $.each(gateCostTypes, (i, name) => {
-                    SharkGame.Gate.costsMet[name] = saveData.gateCostsMet[i];
-                });
-            }
+            $.each(gateCostTypes, (i, name) => {
+                SharkGame.Gate.costsMet[name] = saveData.gateCostsMet[i];
+            });
 
             // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
             r.recalculateIncomeTable();

@@ -326,13 +326,13 @@ SharkGame.Stats = {
 
             const subheadings = Object.keys(subheading).length;
 
-            let row = $("<tr>");
+            let resourceMapRow = $("<tr>");
             let counter = 0;
 
             const rowStyle = formatCounter % 2 === 0 ? "evenRow" : "oddRow";
 
             if (!SharkGame.Settings.current.switchStats) {
-                row.append(
+                resourceMapRow.append(
                     $("<td>")
                         .attr("rowspan", subheadings)
                         .html("<div style='text-align:right'>" + m.beautify(r.getResource(headingName)).bold() + "</div>")
@@ -340,11 +340,11 @@ SharkGame.Stats = {
                         .attr("id", "table-amount-" + headingName)
                 );
             }
-            row.append($("<td>").html(r.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
+            resourceMapRow.append($("<td>").html(r.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
 
             function addCell(text, rowspan, id) {
                 if (id) {
-                    row.append(
+                    resourceMapRow.append(
                         $("<td>")
                             .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
                             .attr("id", id)
@@ -352,7 +352,7 @@ SharkGame.Stats = {
                             .addClass(rowStyle)
                     );
                 } else {
-                    row.append(
+                    resourceMapRow.append(
                         $("<td>")
                             .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
                             .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
@@ -373,14 +373,14 @@ SharkGame.Stats = {
                 const changeChar = !(realIncome < 0) ? "+" : "";
 
                 if (SharkGame.Settings.current.switchStats) {
-                    row.append(
+                    resourceMapRow.append(
                         $("<td>")
                             .html("<div style='text-align:right'>" + m.beautify(r.getResource(subheadingKey)).bold() + "</div>")
                             .addClass(rowStyle)
                             .attr("id", "table-amount-" + generatorName + "-" + incomeKey)
                     );
                 }
-                row.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
+                resourceMapRow.append($("<td>").html(r.getResourceName(subheadingKey)).addClass(rowStyle));
 
                 // which mode are we in?
                 if (SharkGame.Settings.current.grottoMode === "advanced") {
@@ -446,12 +446,12 @@ SharkGame.Stats = {
                 }
 
                 counter++;
-                incomesTable.append(row);
-                row = $("<tr>");
+                incomesTable.append(resourceMapRow);
+                resourceMapRow = $("<tr>");
             });
 
             // throw away dangling values
-            row = null;
+            resourceMapRow = null;
             formatCounter++;
         });
 

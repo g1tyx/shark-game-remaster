@@ -176,8 +176,8 @@ SharkGame.Settings = {
 
     showIcons: {
         defaultSetting: true,
-        name: "Show Home Action icons",
-        desc: "Whether to show icons above actions in your home actions.",
+        name: "Show Action Button icons",
+        desc: "Whether to show icons/drawings above action buttons.",
         show: true,
         options: [true, false],
     },

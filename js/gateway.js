@@ -448,7 +448,7 @@ SharkGame.Gateway = {
     applyArtifacts(force) {
         // handle general effects
         // special effects are handled by horrible spaghetti code sprinkled between this, World, and Resources
-        $.each(SharkGame.Artifacts, (artifactName, artifactData) => {
+        _.each(SharkGame.Artifacts, (artifactData) => {
             if (artifactData.effect && (!artifactData.alreadyApplied || force)) {
                 artifactData.effect(artifactData.level);
                 artifactData.alreadyApplied = true;

@@ -40,11 +40,11 @@ SharkGame.Lab = {
         const upgradeObject = {};
         $.each(mt.upgrade, (type, modifiers) => {
             upgradeObject[type] = {};
-            $.each(modifiers, (name, object) => {
+            $.each(modifiers, (modifierName, object) => {
                 // additionally set values for the types and categories of stuff
                 object.category = "upgrade";
                 object.type = type;
-                upgradeObject[type][name] = object.defaultValue;
+                upgradeObject[type][modifierName] = object.defaultValue;
             });
         });
 
@@ -84,7 +84,7 @@ SharkGame.Lab = {
             $.each(upgradeTable, (k, v) => {
                 if (lab.isUpgradePossible(k) && !lab.isUpgradeVisible(k) && hintResource === "" && v.required.upgrades) {
                     let prereqsMet = true;
-                    $.each(v.required.upgrades, (_, requiredUpgradeName) => {
+                    _.each(v.required.upgrades, (requiredUpgradeName) => {
                         prereqsMet &&= SharkGame.Upgrades.purchased.includes(requiredUpgradeName);
                     });
                     if (prereqsMet) {
@@ -248,9 +248,9 @@ SharkGame.Lab = {
 
             // if the upgrade has effects, do them
             if (upgrade.effect) {
-                $.each(upgrade.effect, (name, effects) => {
+                $.each(upgrade.effect, (effectType, effects) => {
                     $.each(effects, (affectedResource, degree) => {
-                        r.applyModifier(name, affectedResource, degree);
+                        r.applyModifier(effectType, affectedResource, degree);
                     });
                 });
             }
@@ -344,17 +344,15 @@ SharkGame.Lab = {
     getResearchEffects(upgrade, _darken) {
         let effects = "<span class='medDesc' class='click-passthrough'>(Effects: ";
         let anyeffect = false;
-        if (upgrade.effect) {
-            $.each(upgrade.effect, (name, effectsList) => {
-                $.each(effectsList, (resource, degree) => {
-                    const effectText = SharkGame.ModifierReference.get(name).effectDescription(degree, resource);
-                    if (w.doesResourceExist(resource) && effectText !== "") {
-                        effects += effectText + ", ";
-                        anyeffect = true;
-                    }
-                });
+        $.each(upgrade.effect, (effectType, effectsList) => {
+            $.each(effectsList, (resource, degree) => {
+                const effectText = SharkGame.ModifierReference.get(effectType).effectDescription(degree, resource);
+                if (w.doesResourceExist(resource) && effectText !== "") {
+                    effects += effectText + ", ";
+                    anyeffect = true;
+                }
             });
-        }
+        });
         if (anyeffect) {
             effects = effects.slice(0, -2); // remove trailing suffix
         } else {

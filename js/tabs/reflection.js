@@ -17,31 +17,31 @@ SharkGame.Reflection = {
         "</br><span='medDesc'>Reflect upon the changes in yourself and reality you have made here.</span>",
 
     init() {
-        const r = SharkGame.Reflection;
+        const ref = SharkGame.Reflection;
         // register tab
-        SharkGame.Tabs[r.tabId] = {
-            id: r.tabId,
-            name: r.tabName,
-            discovered: r.tabDiscovered,
-            discoverReq: r.discoverReq,
-            code: r,
+        SharkGame.Tabs[ref.tabId] = {
+            id: ref.tabId,
+            name: ref.tabName,
+            discovered: ref.tabDiscovered,
+            discoverReq: ref.discoverReq,
+            code: ref,
         };
     },
 
     switchTo() {
-        const r = SharkGame.Reflection;
+        const ref = SharkGame.Reflection;
         const content = $("#content");
         content.append($("<div>").attr("id", "tabMessage"));
         content.append($("<div>").attr("id", "artifactList"));
-        let message = r.message;
+        let message = ref.message;
         const tabMessageSel = $("#tabMessage");
         if (SharkGame.Settings.current.showTabImages) {
-            message = "<img width=400 height=200 src='" + r.sceneImage + "' id='tabSceneImageEssence'>" + message;
-            tabMessageSel.css("background-image", "url('" + r.tabBg + "')");
+            message = "<img width=400 height=200 src='" + ref.sceneImage + "' id='tabSceneImageEssence'>" + message;
+            tabMessageSel.css("background-image", "url('" + ref.tabBg + "')");
         }
         tabMessageSel.html(message);
 
-        r.updateArtifactList();
+        ref.updateArtifactList();
     },
 
     update() {},

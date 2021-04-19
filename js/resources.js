@@ -120,19 +120,19 @@ SharkGame.Resources = {
         r.recalculateIncomeTable();
     },
 
-    doRKMethod(time, h, stop) {
+    doRKMethod(time, factor, threshold) {
         let originalResources;
         let originalIncomes;
         let stepTwoIncomes;
         let stepThreeIncomes;
 
-        while (time > stop) {
+        while (time > threshold) {
             originalResources = _.cloneDeep(SharkGame.PlayerResources);
             originalIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
             SharkGame.PlayerIncomeTable.forEach((value, key) => {
                 if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    r.changeResource(key, (value * h) / 2, true);
+                    r.changeResource(key, (value * factor) / 2, true);
                 }
             });
 
@@ -141,7 +141,7 @@ SharkGame.Resources = {
 
             SharkGame.PlayerIncomeTable.forEach((value, key) => {
                 if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    r.changeResource(key, (value * h) / 2, true);
+                    r.changeResource(key, (value * factor) / 2, true);
                 }
             });
 
@@ -150,7 +150,7 @@ SharkGame.Resources = {
 
             SharkGame.PlayerIncomeTable.forEach((value, key) => {
                 if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    r.changeResource(key, value * h, true);
+                    r.changeResource(key, value * factor, true);
                 }
             });
 
@@ -160,7 +160,7 @@ SharkGame.Resources = {
             SharkGame.PlayerIncomeTable.forEach((_v, resource) => {
                 r.changeResource(
                     resource,
-                    (h *
+                    (factor *
                         (originalIncomes.get(resource) +
                             2 * stepTwoIncomes.get(resource) +
                             2 * stepThreeIncomes.get(resource) +
@@ -171,7 +171,7 @@ SharkGame.Resources = {
             });
 
             r.recalculateIncomeTable(true);
-            time -= h;
+            time -= factor;
         }
         return time;
     },
@@ -362,7 +362,7 @@ SharkGame.Resources = {
 
     isCategoryVisible(category) {
         let visible = false;
-        $.each(category.resources, (_, resourceName) => {
+        _.each(category.resources, (resourceName) => {
             visible =
                 visible ||
                 ((SharkGame.PlayerResources.get(resourceName).totalAmount > 0 || SharkGame.PlayerResources.get(resourceName).discovered) &&
@@ -377,7 +377,7 @@ SharkGame.Resources = {
             if (categoryName !== "") {
                 return;
             }
-            $.each(categoryValue.resources, (_, value) => {
+            _.each(categoryValue.resources, (value) => {
                 if (resourceName === value) {
                     categoryName = categoryKey;
                 }
@@ -408,7 +408,7 @@ SharkGame.Resources = {
                 return;
             }
             if (value.jobs) {
-                $.each(value.jobs, (_, jobName) => {
+                _.each(value.jobs, (jobName) => {
                     if (baseResourceName) {
                         return;
                     }
@@ -602,7 +602,7 @@ SharkGame.Resources = {
         return row;
     },
 
-    tableTextEnter(anotherdummyvariablepleaseignorethisonetoo, resourceName = false) {
+    tableTextEnter(_mouseEnterEvent, resourceName = false) {
         if (!SharkGame.Settings.current.showTabHelp) {
             return;
         }

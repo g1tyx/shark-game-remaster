@@ -98,7 +98,7 @@ body {
   color: white;
   background-color: var(--color-darker);
   font-family: Verdana, Geneva, sans-serif;
-  font-size: 105%;
+  font-size: 13pt;
   text-align: center;
   min-height: 100%;
   overflow-y: scroll;
@@ -835,6 +835,7 @@ button.disabled div {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  pointer-events: none;
   font-size: 80%;
   color: var(--color-lighter);
   filter: brightness(130%);
