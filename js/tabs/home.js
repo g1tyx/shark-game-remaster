@@ -822,7 +822,7 @@ SharkGame.Home = {
         if (!SharkGame.Settings.current.showTabHelp) {
             return;
         }
-        if (actionName) {
+        if (!actionName) {
             const button = $(this);
             actionName = button.attr("id");
         }
