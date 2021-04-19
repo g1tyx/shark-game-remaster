@@ -932,12 +932,12 @@ SharkGame.Home = {
         if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
             document.getElementById("tooltipbox").innerHTML = text;
         }
-        $(".tooltip").addClass("forHomeButton").attr("current", actionName);
+        $("#tooltipbox").addClass("forHomeButton").attr("current", actionName);
     },
 
     onHomeUnhover() {
         document.getElementById("tooltipbox").innerHTML = "";
-        $(".tooltip").removeClass("forHomeButton").attr("current", "");
+        $("#tooltipbox").removeClass("forHomeButton").attr("current", "");
     },
 
     getCost(action, amount) {
