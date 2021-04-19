@@ -34,7 +34,9 @@
  * @desc remove 'number' characters from the end of 'array'
  */
 function shorten(array, number) {
-    array.splice(-number);
+    for (; number > 0; number--) {
+        array.pop();
+    }
 }
 
 function assertOrBadInput(expression, message) {
@@ -44,6 +46,15 @@ function assertOrBadInput(expression, message) {
 }
 
 window.ascii85 = new (class ascii85 {
+    Ascii85CodecError = class Ascii85CodecError extends Error {
+        constructor(message) {
+            super(message);
+        }
+
+        toString() {
+            return "Ascii85CodecError" + (this.message ? ": " + this.message : "");
+        }
+    };
     encode(bytes) {
         assertOrBadInput(!/[^\x00-\xFF]/.test(bytes), "Input contains out-of-range characters."); // disallow two-byte chars
         const padding = "\x00\x00\x00\x00".slice(bytes.length % 4 || 4);
@@ -100,16 +111,6 @@ window.ascii85 = new (class ascii85 {
         return String.fromCharCode.apply(String, out_array);
     }
 })();
-
-ascii85.Ascii85CodecError = class Ascii85CodecError {
-    constructor(message) {
-        this.message = message;
-    }
-
-    toString() {
-        return "Ascii85CodecError" + (this.message ? ": " + this.message : "");
-    }
-};
 
 // var hobbes = (
 //   'Man is distinguished, not only by his reason, but by this ' +
