@@ -31,7 +31,8 @@
             "error",
             {
                 "varsIgnorePattern": "^__.+$",
-                "argsIgnorePattern": "^_.+$"
+                "argsIgnorePattern": "^_.+$",
+                "args": "all"
             }
         ],
         "func-names": ["error", "always"],
@@ -39,7 +40,7 @@
         "no-inner-declarations": "off",
         "prefer-const": "error",
         "no-var": "error",
-        "no-shadow": "error",
+        "no-shadow": ["error", { "builtinGlobals": true, "hoist": "all", "allow": ["name", "event"] }],
         "eqeqeq": ["error", "smart"]
     }
 }

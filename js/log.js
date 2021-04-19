@@ -12,12 +12,11 @@ SharkGame.Log = {
     },
 
     addMessage(message) {
-        const l = SharkGame.Log;
-        const s = SharkGame.Settings.current;
-        const showAnims = s.showAnimations;
+        const log = SharkGame.Log;
+        const showAnims = SharkGame.Settings.current.showAnimations;
 
-        if (!l.initialised) {
-            l.init();
+        if (!log.initialised) {
+            log.init();
         }
         const messageItem = $("<li>").html(message);
         if (showAnims) {
@@ -25,7 +24,7 @@ SharkGame.Log = {
         } else {
             messageItem.prependTo("#messageList");
         }
-        l.messages.push(messageItem);
+        log.messages.push(messageItem);
 
         SharkGame.Log.correctLogLength();
 
@@ -70,8 +69,8 @@ SharkGame.Log = {
 
     clearMessages(log = true) {
         // remove each element from page
-        $.each(SharkGame.Log.messages, (_, v) => {
-            v.remove();
+        _.each(SharkGame.Log.messages, (message) => {
+            message.remove();
         });
         // wipe array
         SharkGame.Log.messages = [];
