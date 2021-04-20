@@ -98,7 +98,7 @@ SharkGame.ResourceTable = {
         desc: "The gatekeepers.",
         color: "#37557C",
         income: {
-            fish: 2500,
+            fish: 10000,
         },
         jobs: ["chorus"],
         value: 5000,
@@ -612,9 +612,9 @@ SharkGame.ResourceTable = {
         name: "crimson combines",
         singleName: "crimson combine",
         desc: "Harvesters, cloaked in a red mist of coral.",
-        color: "#608B8F",
+        color: "#E79E88",
         income: {
-            coral: 100,
+            coral: 150,
         },
         value: 50000,
     },
@@ -623,7 +623,7 @@ SharkGame.ResourceTable = {
         name: "kelp cultivators",
         singleName: "kelp cultivator",
         desc: "Gardeners in machine form.",
-        color: "#608B8F",
+        color: "#68E06B",
         income: {
             kelp: 75,
         },

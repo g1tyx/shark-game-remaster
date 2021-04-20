@@ -123,11 +123,6 @@ SharkGame.Home = {
                 message:
                     "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
-            /*             {
-                name: "haven-coral",
-                unlock: { totalResource: { treasurer: 1 }, upgrade: ["coralCollection"] },
-                message: "The treasurers scour the reef, chatting amongst themselves about whose coral looks prettier.",
-            }, */
             {
                 name: "haven-papyrus",
                 unlock: { upgrade: ["sunObservation"] },
@@ -887,10 +882,14 @@ SharkGame.Home = {
                                 case "multiply":
                                     if (!appendedMultiply) {
                                         appendedMultiply = true;
-                                        text += "<span class='littleTooltipText'>ADDS</span><br/>";
+                                        if (degree > 0) {
+                                            text += "<span class='littleTooltipText'>INCREASES</span><br/>";
+                                        } else {
+                                            text += "<span class='littleTooltipText'>DECREASES</span><br/>";
+                                        }
                                     }
                                     text +=
-                                        (Math.round(degree * 100) + "% to all ").bold() +
+                                        "all ".bold() +
                                         r.getResourceName(
                                             affected,
                                             false,
@@ -898,7 +897,10 @@ SharkGame.Home = {
                                             false,
                                             SharkGame.getElementColor("tooltipbox", "background-color")
                                         ) +
-                                        " production<br/>";
+                                        " gains ".bold() +
+                                        " by " +
+                                        (Math.round(degree * 100) + "%").bold() +
+                                        " each<br>";
                                     break;
                             }
                         });

@@ -3568,7 +3568,7 @@ SharkGame.HomeActions = {
                     whale: 1,
                 },
             },
-            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 10000 }],
+            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 25000 }],
             max: "whale",
             prereq: {
                 upgrade: ["whaleCommunication"],
@@ -3939,7 +3939,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "whale", costFunction: "unique", priceIncrease: 1000 },
-                { resource: "dolphin", costFunction: "unique", priceIncrease: 1000 },
+                { resource: "dolphin", costFunction: "unique", priceIncrease: 100000 },
             ],
             max: "chorus",
             prereq: {
@@ -4154,7 +4154,7 @@ SharkGame.HomeActions = {
             },
             outcomes: ["placeholder"],
             multiOutcomes: ["placeholder"],
-            helpText: "This dolphin machine prys coral from the reefs at a reckless pace.",
+            helpText: "This dolphin machine pries coral from the reefs at a reckless pace.",
         },
 
         getKelpCultivator: {

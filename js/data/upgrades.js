@@ -1002,7 +1002,7 @@ SharkGame.Upgrades = {
                 "Using the knowledge gained from the kelp slab things, we've figured out how to make delphinium and now we feel gross.",
             effectDesc: "Enables transmutation of a different bunch of junk into delphinium.",
             cost: {
-                science: 12000,
+                science: 30000,
                 coral: 75000,
                 crystal: 50000,
             },
@@ -1018,7 +1018,7 @@ SharkGame.Upgrades = {
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
                 science: 125000,
-                sharkonium: 7500,
+                sharkonium: 17500,
             },
             required: {
                 upgrades: ["transmutation"],
@@ -1032,7 +1032,7 @@ SharkGame.Upgrades = {
             effectDesc: "Machines are twice as effective. Auto-transmuters are now possible to create.",
             cost: {
                 science: 525000,
-                sharkonium: 50000,
+                sharkonium: 60000,
             },
             required: {
                 upgrades: ["automation"],
@@ -1093,7 +1093,7 @@ SharkGame.Upgrades = {
             effectDesc: "We've reverse-engineered some dolphin machinery. We also, regretfully, learned what the designs are called.",
             cost: {
                 science: 37500,
-                delphinium: 2750,
+                delphinium: 3750,
             },
             required: {
                 upgrades: ["aquamarineFusion"],
@@ -1285,9 +1285,9 @@ SharkGame.Upgrades = {
                 "Finally, with all the materials in one place, we can stop relying on shoddy copies and use the original designs for the dolphin machines.",
             researchedMessage: "What? These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
             effectDesc:
-                "Kelp cultivators and crimson combines are 4 times faster, and tireless crafters are twice as efficient. We begrudingly admit their quality is not entirely terrible.",
+                "Kelp cultivators and crimson combines are 8 times faster, and tireless crafters are twice as efficient. We begrudingly admit their quality is not entirely terrible.",
             cost: {
-                science: 4000000,
+                science: 7500000,
                 delphinium: 250000,
             },
             required: {
@@ -1296,11 +1296,11 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeMultiplier: {
-                    crimsonCombine: 4,
-                    kelpCultivator: 4,
+                    crimsonCombine: 8,
+                    kelpCultivator: 8,
                 },
                 incomeBoost: {
-                    tirelessCrafter: 2,
+                    tirelessCrafter: 4,
                 },
             },
         },
@@ -1311,11 +1311,16 @@ SharkGame.Upgrades = {
             researchedMessage: "The dolphins were the first to volunteer with helping to organize this stuff. I GUESS we could give them a chance.",
             effectDesc: "Can now assign dolphins as historians who will help catalogue all of the information we have on these kelp things.",
             cost: {
-                science: 1000000,
+                science: 900000,
             },
             required: {
                 totals: {
-                    science: 1000000,
+                    science: 850000,
+                },
+            },
+            effect: {
+                incomeMultiplier: {
+                    scientist: 4,
                 },
             },
         },
@@ -1385,7 +1390,7 @@ SharkGame.Upgrades = {
                 "Okay, 'whales' are out there. They're similar to dolphins, except less rude, and really big. Oh, and, they collect tons of fish.",
             effectDesc: "Whales can now be recruited.",
             cost: {
-                fish: 5000000,
+                fish: 2500000,
             },
             required: {
                 upgrades: ["exploration"],
@@ -1400,7 +1405,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though. Whales are 4 times as effective.",
             cost: {
-                fish: 75000000,
+                fish: 100000000,
             },
             required: {
                 upgrades: ["whaleCommunication"],
@@ -1420,16 +1425,16 @@ SharkGame.Upgrades = {
                 "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
             effectDesc: "A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
             cost: {
-                science: 1e7,
+                science: 50000000,
             },
             required: {
                 upgrades: ["whaleSong", "retroactiveRecordkeeping", "farHavenExploration"],
             },
             effect: {
                 incomeMultiplier: {
-                    whale: 4,
-                    dolphin: 4,
-                    treasurer: 4,
+                    whale: 16,
+                    dolphin: 16,
+                    treasurer: 16,
                     biologist: 4,
                 },
             },
@@ -1439,21 +1444,23 @@ SharkGame.Upgrades = {
             name: "Crystalline Construction",
             desc: "The dolphins are a bunch of jerks, but maybe we can still learn from one another. Maybe.",
             researchedMessage:
-                "By integrating the genius of shark design with only the good parts of dolphin design, we've managed to create a superior set of machines.",
-            effectDesc: "All shark machines run eight times as fast. Holy moley!",
+                "By integrating the genius of shark design with only the good parts of dolphin design, we've managed to create a superior set of machines. Maybe we work better together than we do apart.",
+            effectDesc:
+                "All shark machines run eight times as fast. Holy moley! Also, shark science is way more informative now that we have more perspective.",
             cost: {
-                science: 15000000,
+                science: 10000000,
                 sharkonium: 250000,
                 delphinium: 250000,
             },
             required: {
-                upgrades: ["eternalSong", "imperialDesigns"],
+                upgrades: ["iterativeDesign"],
             },
             effect: {
                 incomeMultiplier: {
                     crystalMiner: 8,
                     fishMachine: 8,
                     sandDigger: 8,
+                    scientist: 16,
                 },
             },
         },

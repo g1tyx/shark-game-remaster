@@ -411,9 +411,13 @@ SharkGame.Stats = {
                         } else addCell(undefined, generatorBoostRowspan);
 
                         // does this income get an effect network multiplier?
-                        const resourceAffectMultiplier = r.getNetworkIncomeModifier("generator", generatorName);
+                        const resourceAffectMultiplier =
+                            r.getNetworkIncomeModifier("generator", generatorName) * r.getNetworkIncomeModifier("resource", incomeKey);
                         if (resourceAffectMultiplier !== 1) {
-                            addCell([r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + m.beautify(resourceAffectMultiplier)], generatorBoostRowspan);
+                            addCell(
+                                [r.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + m.beautify(resourceAffectMultiplier, false, 2)],
+                                generatorBoostRowspan
+                            );
                         } else addCell(undefined, generatorBoostRowspan);
                     }
                 } else {

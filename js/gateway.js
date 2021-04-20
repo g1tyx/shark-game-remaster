@@ -585,11 +585,11 @@ SharkGame.Gateway = {
 SharkGame.Gateway.Messages = {
     essenceBased: [
         {
-            max: 1,
+            max: 4,
             messages: ["Hello, newcomer.", "Ah. Welcome, new one.", "Your journey has only just begun.", "Welcome to the end of the beginning."],
         },
         {
-            min: 2,
+            min: 5,
             max: 10,
             messages: [
                 "Your aptitude grows, I see.",
@@ -647,20 +647,21 @@ SharkGame.Gateway.Messages = {
     ],
     lastPlanetBased: {
         // working on changing this section
-        start: ["No other world you find will be as forgiving.", "You have left the best of all possible worlds."],
+        start: ["What brings you here, strange creature? This place is not often visited."],
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
             "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-            "You seem surprised. Did this not happen to your home?",
+            "You seem surprised. Did this not happen to your own home?",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
             "What shining atoll do you leave behind? Those who could not follow you will surely live happily.",
             "Why did you leave?",
-            "The incessant chatter of the dolphins has stopped. Did you do that?",
+            "The incessant chatter of the dolphins has stopped.",
             "Something echoed from the gate into this realm. Was that you?",
+            "These dolphins are not reflective of others, I assure you.",
         ],
         tempestuous: [
             "You braved the maelstrom and came from it unscathed.",
@@ -668,7 +669,11 @@ SharkGame.Gateway.Messages = {
             "The swordfish fear your presence, with good reason.",
             "The revolt was unavoidable. It was merely a matter of time.",
         ],
-        violent: ["The boiling ocean only stirred you on.", "You are forged from the geothermal vents.", "The shrimp "],
+        violent: [
+            "The boiling ocean only stirred you on.",
+            "You are forged from the geothermal vents.",
+            "The The shrimp are no simpletons, mind you.",
+        ],
         abandoned: [
             "Do you wonder who abandoned the machines?",
             "Do the octopuses know who came before them? Do you know?",
@@ -677,12 +682,12 @@ SharkGame.Gateway.Messages = {
         shrouded: [
             "Did the chimaeras recognise who you were?",
             "What did you learn from the dark world?",
-            "Do not ask me who that was. I would prefer not to discuss it.",
+            "The serpant is an old god; her time had passed long before you arrived.",
             "Who brought darkness to this place? Or, was it always like this?",
         ],
         frigid: [
             "Few worlds are so harsh. Fewer survive.",
-            "You did well to lead the squids. They do not usually take so well to outsiders.",
+            "The squids do not usually take so well to outsiders.",
             "...did you miss the rays?",
             "Tell me: Where do you see the line between friend and food? The urchins are as simple-minded as the fish.",
 
