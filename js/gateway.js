@@ -39,6 +39,9 @@ SharkGame.Gateway = {
             r.changeResource("essence", essenceReward);
         }
 
+        // RESET COMPLETED GATE REQUIREMENTS
+        SharkGame.Gate.completedRequirements = {};
+
         // PREPARE ARTIFACTS
         g.prepareArtifactSelection(g.NUM_ARTIFACTS_TO_SHOW);
 

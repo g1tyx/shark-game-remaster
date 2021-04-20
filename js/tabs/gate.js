@@ -88,6 +88,8 @@ SharkGame.Gate = {
         content.append($("<div>").attr("id", "tabMessage"));
         content.append($("<div>").attr("id", "buttonList"));
 
+        SharkGame.Gate.getResourcesLeft();
+
         if (!gt.shouldBeOpen()) {
             if (SharkGame.WorldTypes[w.worldType].gateRequirements.slots) {
                 const buttonList = $("#buttonList");
