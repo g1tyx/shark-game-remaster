@@ -316,8 +316,7 @@ SharkGame.Save = {
             SharkGame.Log.clearMessages(false);
             SharkGame.Save.loadGame(data);
         } catch (err) {
-            SharkGame.Log.addError(err.message);
-            console.error(err);
+            SharkGame.Log.addError(err);
         }
         // refresh current tab
         m.setUpTab();
@@ -330,8 +329,7 @@ SharkGame.Save = {
         try {
             saveData = SharkGame.Save.saveGame();
         } catch (err) {
-            SharkGame.Log.addError(err.message);
-            console.error(err);
+            SharkGame.Log.addError(err);
         }
         // check if save isn't encoded
         if (saveData.substring(0, 2) !== "<~") {

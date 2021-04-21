@@ -264,16 +264,11 @@ SharkGame.TitleBar = {
         main: true,
         onClick() {
             try {
-                try {
-                    SharkGame.Save.saveGame();
-                } catch (err) {
-                    SharkGame.Log.addError(err);
-                    console.error(err);
-                }
-                SharkGame.Log.addMessage("Saved game.");
+                SharkGame.Save.saveGame();
             } catch (err) {
-                SharkGame.Log.addError(err.message);
+                SharkGame.Log.addError(err);
             }
+            SharkGame.Log.addMessage("Saved game.");
         },
     },
 
@@ -549,7 +544,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 SharkGame.Save.loadGame();
                 SharkGame.Log.addMessage("Loaded game.");
             } catch (err) {
-                SharkGame.Log.addError(err.message);
+                SharkGame.Log.addError(err);
             }
         }
 
@@ -677,8 +672,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.Save.saveGame();
             SharkGame.Log.addMessage("Autosaved.");
         } catch (err) {
-            SharkGame.Log.addError(err.message);
-            console.error(err.trace);
+            SharkGame.Log.addError(err);
         }
     },
 
@@ -1081,8 +1075,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 SharkGame.Save.saveGame();
                 SharkGame.Log.addMessage("Game saved.");
             } catch (err) {
-                SharkGame.Log.addError(err.message);
-                console.error(err.trace);
+                SharkGame.Log.addError(err);
             }
         }
     },

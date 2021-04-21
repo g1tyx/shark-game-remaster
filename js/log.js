@@ -32,8 +32,11 @@ SharkGame.Log = {
     },
 
     addError(message) {
-        const l = SharkGame.Log;
-        const messageItem = l.addMessage("Error: " + message);
+        if (message instanceof Error) {
+            console.error(message);
+            message = message.message;
+        }
+        const messageItem = SharkGame.Log.addMessage("Error: " + message);
         messageItem.addClass("error");
         return messageItem;
     },
