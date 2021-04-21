@@ -328,7 +328,7 @@ SharkGame.Gateway = {
         const artifactData = SharkGame.Artifacts[artifactName];
         const cost = artifactData.cost(artifactData.level);
         const essence = r.getResource("essence");
-        if (essence >= cost) {
+        if (essence >= cost && artifactData.level < artifactData.max) {
             r.changeResource("essence", -cost);
             artifactData.level++;
             const gatewayStatusMessageSel = $("#gatewayStatusMessage");
