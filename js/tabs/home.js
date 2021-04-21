@@ -462,7 +462,7 @@ SharkGame.Home = {
             let sceneDiv;
             if (SharkGame.Settings.current.showTabImages) {
                 sceneDiv = $("#tabSceneImage");
-                if (sceneDiv.size() === 0) {
+                if (sceneDiv.length === 0) {
                     sceneDiv = $("<div>").attr("id", "tabSceneImage");
                 }
             }
