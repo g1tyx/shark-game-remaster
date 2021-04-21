@@ -33,8 +33,6 @@
         <script type="text/javascript" src="js/lib/jquery.min.js"></script>
         <!-- lodash -->
         <script type="text/javascript" src="js/lib/lodash.min.js"></script>
-        <!-- AddToAny -->
-        <script type="text/javascript" src="js/lib/addToAny.js"></script>
 
         <!-- Modified version of Jacob Rus script from 2009 -->
         <!-- Toby, 2021 speaking. I have no idea who Jacob Rus is, so I modernized this script -->
@@ -318,8 +316,14 @@
                     case 3:
                         return "Rolled a three. Nothing happened.";
                     case 4:
-                        r.
-                        return "Rolled a four.";
+                        SharkGame.ResourceMap.forEach((v, key) => {
+                            if (key !== "essence") {
+                                if (w.doesResourceExist(key)) {
+                                    SharkGame.PlayerResources.get(key).amount += 4;
+                                }
+                            }
+                        });
+                        return "Rolled a four. You got exactly 4 more of EVERYTHING.";
 
                 }
             }
@@ -377,8 +381,8 @@
  '-'`-._           ((   o   )  - scripts plz.
   jgs   `'--....(`- ,__..--'
                  '-'`
-            </pre
-                        >
+
+                        </pre>
                     </div>
                 </div>
             </noscript>
@@ -392,15 +396,6 @@
                     <div id="titlebar">
                         <ul id="titlemenu"></ul>
                         <ul id="subtitlemenu"></ul>
-                    </div>
-                    <!-- AddToAny BEGIN -->
-                    <div id="shareWrapper">
-                        <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-title="Shark Game">
-                            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-                            <a class="a2a_button_facebook"></a>
-                            <a class="a2a_button_twitter"></a>
-                            <a class="a2a_button_reddit"></a>
-                        </div>
                     </div>
                 </div>
                 <div id="sidebar">

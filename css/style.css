@@ -221,6 +221,61 @@ pre {
 #title h4 {
   margin: 0.2em auto 1.5em;
 }
+.top-bar {
+  margin-top: 35px;
+}
+.top-bar #title {
+  padding: 0;
+  width: 100%;
+  height: 32px;
+  position: fixed;
+  background-image: none;
+  font-size: initial;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: 0 4px 4px 4px var(--color-darker);
+  -moz-box-shadow: 0 4px 4px 4px var(--color-darker);
+  box-shadow: 0 4px 4px 4px var(--color-darker);
+}
+.top-bar #title #titlebar {
+  width: 100%;
+}
+.top-bar #title #gameName,
+.top-bar #title #versionNumber,
+.top-bar #title #updateGame {
+  display: none;
+}
+.top-bar #title #titlemenu,
+.top-bar #title #subtitlemenu {
+  float: left;
+  font-size: initial;
+  height: auto;
+  margin: 0.2em 0.8em;
+  overflow: hidden;
+  text-align: center;
+  font-weight: bold;
+}
+.top-bar #title #titlemenu a:link,
+.top-bar #title #subtitlemenu a:link,
+.top-bar #title #titlemenu a:visited,
+.top-bar #title #subtitlemenu a:visited {
+  color: var(--color-lighter);
+  filter: none;
+}
+.top-bar #title #titlemenu a:hover,
+.top-bar #title #subtitlemenu a:hover {
+  filter: brightness(130%);
+}
+.top-bar #title #subtitlemenu {
+  float: right;
+}
+.top-bar #title li {
+  font-size: initial;
+}
 #titlebar {
   height: auto;
   margin: 0 auto;
