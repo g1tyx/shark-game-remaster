@@ -91,7 +91,6 @@ SharkGame.Home = {
         marine: [
             {
                 name: "marine-default",
-                unlock: { world: "marine" },
                 message: "The fish never run dry here. This place feels so familiar.",
             },
             {
@@ -104,7 +103,6 @@ SharkGame.Home = {
         haven: [
             {
                 name: "haven-default",
-                unlock: { world: "haven" },
                 message: "The oceans are rich with life. But it's still not home.",
             },
             {
@@ -128,12 +126,14 @@ SharkGame.Home = {
                 unlock: { upgrade: ["sunObservation"] },
                 message: "Pieces of strange, crunchy kelp have begun washing up in the currents.<br/>Something is carved into them.",
             },
-            /*             {
+            /*
+            {
                 name: "haven-stories",
                 unlock: { upgrade: ["delphineHistory"] },
                 message:
                     "The dolphin's self-indulgent tales make frequent references to a gate.<br>And, they don't know where it is. Of course they don't.",
-            }, */
+            },
+            */
             {
                 name: "haven-history",
                 unlock: { upgrade: ["delphineHistory"] },
@@ -160,7 +160,6 @@ SharkGame.Home = {
         tempestuous: [
             {
                 name: "tempestuous-default",
-                unlock: { world: "tempestuous" },
                 message: "The storm never ends, and many are lost to its violent throes.",
             },
         ],
@@ -168,7 +167,6 @@ SharkGame.Home = {
         violent: [
             {
                 name: "violent-default",
-                unlock: { world: "violent" },
                 message: "Bursts of plenty from the scorching vents, but so hot.<br>No place for the young.",
             },
             {
@@ -249,7 +247,6 @@ SharkGame.Home = {
         shrouded: [
             {
                 name: "shrouded-default",
-                unlock: { world: "shrouded" },
                 message: "The crystals are easier to find, but the darkness makes it hard to find anything else.",
             },
             {
@@ -268,29 +265,28 @@ SharkGame.Home = {
         frigid: [
             {
                 name: "frigid-default",
-                unlock: { world: "frigid" },
                 message: "So cold. Hard to move. Hard to do anything.",
             },
             {
                 name: "frigid-ice-one",
-                unlock: { world: "frigid", resource: { ice: 50 } },
+                unlock: { resource: { ice: 50 } },
                 message: "Something has to be done before the ice destroys us all!<br>Maybe a machine can save us?",
             },
             {
                 name: "frigid-ice-two",
-                unlock: { world: "frigid", resource: { ice: 250 } },
+                unlock: { resource: { ice: 250 } },
                 message: "So cold. So hungry.<br><span class='smallDesc'>So hopeless.</span>",
             },
         ],
-        /* {
-            unlock: { world: "ethereal" },
+        /*
+        {
             message: "The water glows here.<br>It feels familiar.",
         },
         {
-            unlock: { world: "stone" },
             message:
                 "The jagged seafloor looks ancient, yet pristine.<br>Sponges thrive in great numbers on the rocks.",
-        }, */
+        },
+        */
     },
 
     init() {
@@ -434,43 +430,28 @@ SharkGame.Home = {
 
     updateMessage(suppressAnimation) {
         const wi = SharkGame.WorldTypes[w.worldType];
-        let selectedIndex = h.currentExtraMessageIndex;
         const events = h.extraMessages[w.worldType];
 
-        $.each(events, (messageIndex, extraMessage) => {
-            let showThisMessage = true;
-            // check if should show this message
-            if (extraMessage.unlock) {
-                if (extraMessage.unlock.resource) {
-                    $.each(extraMessage.unlock.resource, (key, resource) => {
-                        showThisMessage = showThisMessage && r.getResource(key) >= resource;
-                    });
-                }
-                if (extraMessage.unlock.totalResource) {
-                    $.each(extraMessage.unlock.totalResource, (key, resource) => {
-                        showThisMessage = showThisMessage && r.getTotalResource(key) >= resource;
-                    });
-                }
-                if (extraMessage.unlock.upgrade) {
-                    _.each(extraMessage.unlock.upgrade, (upgradeId) => {
-                        showThisMessage &&= SharkGame.Upgrades.purchased.includes(upgradeId);
-                    });
-                }
-                if (extraMessage.unlock.world) {
-                    showThisMessage = showThisMessage && w.worldType === extraMessage.unlock.world;
-                }
-                if (extraMessage.unlock.homeAction) {
-                    _.each(extraMessage.unlock.homeAction, (action) => {
-                        showThisMessage =
-                            showThisMessage &&
-                            SharkGame.HomeActions.getActionList()[action].discovered &&
-                            !SharkGame.HomeActions.getActionList()[action].newlyDiscovered;
-                    });
-                }
+        const selectedIndex = _.findLastIndex(events, (extraMessage) => {
+            // check if all requirements met
+            if (_.has(extraMessage, "unlock")) {
+                let requirementsMet = true;
+                requirementsMet &&= _.every(
+                    extraMessage.unlock.resource,
+                    (requiredAmount, resourceId) => r.getResource(resourceId) >= requiredAmount
+                );
+                requirementsMet &&= _.every(
+                    extraMessage.unlock.totalResource,
+                    (requiredAmount, resourceId) => r.getTotalResource(resourceId) >= requiredAmount
+                );
+                requirementsMet &&= _.every(extraMessage.unlock.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
+                requirementsMet &&= _.every(extraMessage.unlock.homeAction, (actionName) => {
+                    const action = SharkGame.HomeActions.getActionList()[actionName];
+                    return action.discovered && !action.newlyDiscovered;
+                });
+                return requirementsMet;
             }
-            if (showThisMessage) {
-                selectedIndex = messageIndex;
-            }
+            return true;
         });
 
         // only edit DOM if necessary
