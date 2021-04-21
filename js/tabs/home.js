@@ -854,41 +854,29 @@ SharkGame.Home = {
             }
         });
 
-        if (effects.resource) {
-            $.each(effects.resource, (resource) => {
-                if (SharkGame.ResourceIncomeAffectors[resource]) {
-                    $.each(SharkGame.ResourceIncomeAffectors[resource], (type, object) => {
-                        $.each(object, (affected, degree) => {
-                            switch (type) {
-                                case "multiply":
-                                    if (!appendedMultiply) {
-                                        appendedMultiply = true;
-                                        if (degree > 0) {
-                                            text += "<span class='littleTooltipText'>INCREASES</span><br/>";
-                                        } else {
-                                            text += "<span class='littleTooltipText'>DECREASES</span><br/>";
-                                        }
-                                    }
-                                    text +=
-                                        "all ".bold() +
-                                        r.getResourceName(
-                                            affected,
-                                            false,
-                                            false,
-                                            false,
-                                            SharkGame.getElementColor("tooltipbox", "background-color")
-                                        ) +
-                                        " gains ".bold() +
-                                        " by " +
-                                        (Math.round(degree * 100) + "%").bold() +
-                                        " each<br>";
-                                    break;
+        $.each(effects.resource, (resource) => {
+            $.each(SharkGame.ResourceIncomeAffectors[resource], (type, object) => {
+                $.each(object, (affected, degree) => {
+                    if (type === "multiply") {
+                        if (!appendedMultiply) {
+                            appendedMultiply = true;
+                            if (degree > 0) {
+                                text += "<span class='littleTooltipText'>INCREASES</span><br/>";
+                            } else {
+                                text += "<span class='littleTooltipText'>DECREASES</span><br/>";
                             }
-                        });
-                    });
-                }
+                        }
+                        text +=
+                            "all ".bold() +
+                            r.getResourceName(affected, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                            " gains ".bold() +
+                            " by " +
+                            (Math.round(degree * 100) + "%").bold() +
+                            " each<br>";
+                    }
+                });
             });
-        }
+        });
 
         if (SharkGame.HomeActions.getActionList()[actionName].helpText) {
             text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
