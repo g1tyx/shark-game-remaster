@@ -34,7 +34,7 @@
  * @desc remove 'number' characters from the end of 'array'
  */
 function shorten(array, number) {
-    for (; number > 0; number--) {
+    while (number-- > 0) {
         array.pop();
     }
 }
