@@ -8,51 +8,41 @@ SharkGame.Save = {
             version: SharkGame.VERSION,
             resources: {},
             tabs: {},
-            settings: {},
-            upgrades: {},
             completedRequirements: {},
             world: { type: w.worldType, level: w.planetLevel },
             artifacts: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
-            completedWorlds: {},
         };
 
-        SharkGame.PlayerResources.forEach((v, k) => {
-            saveData.resources[k] = {
-                amount: v.amount,
-                totalAmount: v.totalAmount,
-            };
+        SharkGame.PlayerResources.forEach((resource, resourceId) => {
+            if (resource.amount > 0 || resource.totalAmount > 0) {
+                saveData.resources[resourceId] = {
+                    amount: resource.amount,
+                    totalAmount: resource.totalAmount,
+                };
+            }
         });
 
         saveData.upgrades = _.cloneDeep(SharkGame.Upgrades.purchased);
 
-        $.each(SharkGame.Tabs, (k, v) => {
-            if (k !== "current") {
-                saveData.tabs[k] = v.discovered;
+        $.each(SharkGame.Tabs, (tabId, tab) => {
+            if (tabId !== "current") {
+                saveData.tabs[tabId] = tab.discovered;
             } else {
-                saveData.tabs.current = v;
+                saveData.tabs.current = tab;
             }
         });
 
         saveData.completedRequirements = _.cloneDeep(SharkGame.Gate.completedRequirements);
+        saveData.settings = _.cloneDeep(SharkGame.Settings.current);
 
-        $.each(SharkGame.Settings, (settingName) => {
-            if (settingName !== "current") {
-                saveData.settings[settingName] = SharkGame.Settings.current[settingName];
+        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
+            if (artifact.level !== 0) {
+                saveData.artifacts[artifactName] = artifact.level;
             }
         });
 
-        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
-            saveData.artifacts[artifactName] = artifact.level;
-        });
-
-        $.each(SharkGame.WorldTypes, (worldType) => {
-            saveData.completedWorlds[worldType] = false;
-        });
-
-        $.each(g.completedWorlds, (_keyOfSomeKind, v) => {
-            saveData.completedWorlds[v] = true;
-        });
+        saveData.completedWorlds = _.cloneDeep(SharkGame.Gateway.completedWorlds);
 
         // add timestamp
         saveData.timestampLastSave = _.now();
@@ -139,15 +129,13 @@ SharkGame.Save = {
 
             r.init();
 
-            if (saveData.resources) {
-                $.each(saveData.resources, (k, v) => {
-                    // check that this isn't an old resource that's been removed from the game for whatever reason
-                    if (SharkGame.PlayerResources.has(k)) {
-                        SharkGame.PlayerResources.get(k).amount = isNaN(v.amount) ? 0 : v.amount;
-                        SharkGame.PlayerResources.get(k).totalAmount = isNaN(v.totalAmount) ? 0 : v.totalAmount;
-                    }
-                });
-            }
+            $.each(saveData.resources, (k, v) => {
+                // check that this isn't an old resource that's been removed from the game for whatever reason
+                if (SharkGame.PlayerResources.has(k)) {
+                    SharkGame.PlayerResources.get(k).amount = isNaN(v.amount) ? 0 : v.amount;
+                    SharkGame.PlayerResources.get(k).totalAmount = isNaN(v.totalAmount) ? 0 : v.totalAmount;
+                }
+            });
 
             // load world type and level and apply world properties
             if (saveData.world) {
@@ -163,31 +151,23 @@ SharkGame.Save = {
 
             SharkGame.Lab.resetUpgrades();
 
-            if (saveData.upgrades) {
-                _.each(saveData.upgrades, (upgradeId) => {
-                    SharkGame.Lab.addUpgrade(upgradeId);
-                });
-            }
+            _.each(saveData.upgrades, (upgradeId) => {
+                SharkGame.Lab.addUpgrade(upgradeId);
+            });
 
             g.init();
-            if (saveData.completedWorlds) {
-                $.each(saveData.completedWorlds, (k, v) => {
-                    if (v) {
-                        g.markWorldCompleted(k);
-                    }
-                });
-            }
+            _.each(saveData.completedWorlds, (worldType) => {
+                g.markWorldCompleted(worldType);
+            });
 
-            // load artifacts (need to have the terraformer and cost reducer loaded before world init)
-            if (saveData.artifacts) {
-                $.each(saveData.artifacts, (k, v) => {
-                    if (SharkGame.Artifacts[k]) {
-                        SharkGame.Artifacts[k].level = v;
-                    }
-                });
-                // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
-                g.applyArtifacts(true);
-            }
+            // load artifacts (need to have the cost reducer loaded before world init)
+            $.each(saveData.artifacts, (k, v) => {
+                if (SharkGame.Artifacts[k]) {
+                    SharkGame.Artifacts[k].level = v;
+                }
+            });
+            // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
+            g.applyArtifacts(true);
 
             if (saveData.tabs) {
                 $.each(saveData.tabs, (k, v) => {
@@ -413,8 +393,8 @@ SharkGame.Save = {
             save.tabs = {
                 current: "home",
                 home: { discovered: true },
-                lab: { discovered: null },
-                gate: { discovered: null },
+                lab: { discovered: false },
+                gate: { discovered: false },
             };
             save.settings = {
                 buyAmount: 1,
@@ -657,8 +637,8 @@ SharkGame.Save = {
             _.each(["iterativeDesign", "superprocessing"], (v) => {
                 save.upgrades[v] = false;
             });
-            _.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"], (v) => {
-                save.completedWorlds[v] = false;
+            _.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"], (worldType) => {
+                save.completedWorlds[worldType] = false;
             });
             return save;
         },
@@ -736,6 +716,11 @@ SharkGame.Save = {
                     }
                 }
             );
+
+            if (_.has(save, "gateCostsMet")) {
+                delete save.gateCostsMet;
+            }
+
             if (_.has(save.settings, "iconPositions")) {
                 save.settings.showIcons = save.settings.iconPositions !== "off";
                 delete save.settings.iconPositions;
@@ -750,6 +735,17 @@ SharkGame.Save = {
                 delete save.upgrades.coralHalls;
             }
 
+            _.each(save.resources, (resource, resourceId) => {
+                if ([0, null].includes(resource.amount) && [0, null].includes(resource.totalAmount)) {
+                    delete save.resources[resourceId];
+                }
+            });
+            _.each(save.artifacts, (level, artifactId) => {
+                if (level === 0 || level === null) {
+                    delete save.artifacts[artifactId];
+                }
+            });
+
             /** @type string[] */
             const purchasedUpgrades = [];
             $.each(save.upgrades, (upgradeId, purchased) => {
@@ -758,6 +754,16 @@ SharkGame.Save = {
                 }
             });
             save.upgrades = purchasedUpgrades;
+
+            /** @type string[] */
+            const completedWorlds = [];
+            _.each(save.completedWorlds, (completed, worldType) => {
+                if (completed === true) {
+                    completedWorlds.push(worldType);
+                }
+            });
+            save.completedWorlds = completedWorlds;
+
             return save;
         },
     ],
