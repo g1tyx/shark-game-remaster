@@ -13,7 +13,7 @@ SharkGame.Lab = {
         },
     },
 
-    notEmptyList: true,
+    listEmpty: true,
 
     message: "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.",
     messageDone:
@@ -76,40 +76,47 @@ SharkGame.Lab = {
 
         lab.updateUpgradeList();
         lab.update();
-        if (allResearchDone) {
+        lab.setHint(upgradeTable);
+    },
+
+    setHint(upgradeTable) {
+        const lab = SharkGame.Lab;
+        if (lab.allResearchDone()) {
             $("#buttonList").append($("<p>").html("All clear here!"));
-        } else if (!lab.notEmptyList) {
+        } else if (lab.listEmpty) {
             $("#buttonList").append($("<p>").html("The scientists are out of ideas, but there are always more discoveries to be made."));
-            let hintResource = "";
-            $.each(upgradeTable, (k, v) => {
-                if (lab.isUpgradePossible(k) && !lab.isUpgradeVisible(k) && hintResource === "" && v.required.upgrades) {
-                    let prereqsMet = true;
-                    _.each(v.required.upgrades, (requiredUpgradeName) => {
-                        prereqsMet &&= SharkGame.Upgrades.purchased.includes(requiredUpgradeName);
-                    });
-                    if (prereqsMet) {
-                        hintResource = _.find(v.required.seen, (resource) => w.doesResourceExist(resource));
-                    }
-                }
-            });
+
+            const hintedUpgrade = _.find(
+                upgradeTable,
+                (upgrade, upgradeId) =>
+                    lab.isUpgradePossible(upgradeId) &&
+                    !lab.isUpgradeVisible(upgradeId) &&
+                    _.has(upgrade, "required.upgrades") &&
+                    _.every(upgrade.required.upgrades, (requiredUpgradeId) => SharkGame.Upgrades.purchased.includes(requiredUpgradeId))
+            );
+
+            if (hintedUpgrade === undefined) return;
+            let hintResource;
+            if (_.has(hintedUpgrade, "required.seen"))
+                hintResource = _.find(hintedUpgrade.required.seen, (resource) => w.doesResourceExist(resource));
             if (hintResource) {
                 $("#buttonList").append(
                     $("<p>").html("You get the feeling that " + r.getResourceName(hintResource, false, false, 2) + " may be the key.")
                 );
             } else {
-                SharkGame.Log.addError("There is a possible, undiscovered upgrade, but no valid hint resource.");
+                SharkGame.Log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade}), but no valid hint resource.`);
             }
         }
     },
 
     update() {
-        const l = SharkGame.Lab;
+        const lab = SharkGame.Lab;
 
         // cache a selector
         const buttonList = $("#buttonList");
 
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
-        l.notEmptyList = false;
+        lab.listEmpty = true;
 
         // for each upgrade not yet bought
         $.each(upgradeTable, (upgradeId, upgrade) => {
@@ -119,7 +126,11 @@ SharkGame.Lab = {
 
             // check if a button exists
             const button = $("#" + upgradeId);
-            if (button.length === 0) {
+            if (button.length > 0) {
+                lab.listEmpty = false;
+                // button exists
+                lab.updateLabButton(upgradeId);
+            } else {
                 // add it if prequisite upgrades have been completed
                 let prereqsMet = true; // assume true until proven false
 
@@ -132,10 +143,10 @@ SharkGame.Lab = {
                         );
                     }
                     // validate if upgrade is possible
-                    prereqsMet &&= prereqsMet && l.isUpgradePossible(upgradeId) && l.isUpgradeVisible(upgradeId);
+                    prereqsMet &&= lab.isUpgradePossible(upgradeId) && lab.isUpgradeVisible(upgradeId);
                 }
                 if (prereqsMet) {
-                    l.notEmptyList = true;
+                    lab.listEmpty = false;
 
                     // add button
                     const effects = SharkGame.Lab.getResearchEffects(upgrade);
@@ -143,9 +154,9 @@ SharkGame.Lab = {
                         upgradeId,
                         upgrade.name + "<br/>" + upgrade.desc + "<br/>" + effects,
                         buttonList,
-                        l.onLabButton
+                        lab.onLabButton
                     );
-                    l.updateLabButton(upgradeId);
+                    lab.updateLabButton(upgradeId);
                     if (SharkGame.Settings.current.showAnimations) {
                         buttonSelector
                             .hide()
@@ -160,9 +171,6 @@ SharkGame.Lab = {
                             );
                     }
                 }
-            } else {
-                // button exists
-                l.updateLabButton(upgradeId);
             }
         });
     },
@@ -233,9 +241,8 @@ SharkGame.Lab = {
                 SharkGame.Log.addMessage(upgrade.researchedMessage);
             }
         }
-        if (SharkGame.Lab.allResearchDone()) {
-            $("#buttonList").append($("<p>").html("All clear here!"));
-        }
+        SharkGame.Lab.update();
+        SharkGame.Lab.setHint(upgradeTable);
     },
 
     addUpgrade(upgradeId) {
