@@ -13,62 +13,62 @@ SharkGame.Home = {
         start: [
             {
                 name: "start-you-are-a-shark",
-                message: "&nbsp<br>&nbsp",
+                message: "",
             },
             {
                 name: "start-shark",
                 unlock: { resource: { fish: 5 } },
-                message: "You attract the attention of a shark. Maybe they can help you catch fish!<br>&nbsp",
+                message: "You attract the attention of a shark. Maybe they can help you catch fish!",
             },
             {
                 name: "start-sharks",
                 unlock: { resource: { shark: 1 } },
-                message: "More sharks swim over, curious and watchful.<br>&nbsp",
+                message: "More sharks swim over, curious and watchful.",
             },
             {
                 name: "start-ray",
                 unlock: { resource: { fish: 15 } },
-                message: "Some rays drift over.<br>&nbsp",
+                message: "Some rays drift over.",
             },
             {
                 name: "start-quite-the-group",
                 unlock: { resource: { shark: 1, ray: 1 } },
-                message: "You have quite the group going now.<br>&nbsp",
+                message: "You have quite the group going now.",
             },
             {
                 name: "start-crab",
                 unlock: { resource: { shark: 4, ray: 4 } },
-                message: "Some curious crabs come over.<br>&nbsp",
+                message: "Some curious crabs come over.",
             },
             {
                 name: "start-tribe",
                 unlock: { resource: { shark: 1, ray: 1, crab: 1 } },
-                message: "Your new tribe is at your command!<br>&nbsp",
+                message: "Your new tribe is at your command!",
             },
             {
                 name: "start-crystals",
                 unlock: { resource: { shark: 1, crystal: 10 } },
-                message: "The crystals are shiny. Some sharks stare at them curiously.<br>&nbsp",
+                message: "The crystals are shiny. Some sharks stare at them curiously.",
             },
             {
                 name: "start-science",
                 unlock: { resource: { scientist: 1 } },
-                message: "The science sharks swim in their own school.<br>&nbsp",
+                message: "The science sharks swim in their own school.",
             },
             {
                 name: "start-discoveries",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "More discoveries are needed.<br>&nbsp",
+                message: "More discoveries are needed.",
             },
             {
                 name: "start-nurse",
                 unlock: { resource: { nurse: 1 } },
-                message: "The shark community grows with time.<br>&nbsp",
+                message: "The shark community grows with time.",
             },
             {
                 name: "start-exploration",
                 unlock: { upgrade: ["exploration"] },
-                message: "You hear faint songs and cries in the distance.<br>&nbsp",
+                message: "You hear faint songs and cries in the distance.",
             },
             {
                 name: "start-machines",
@@ -83,7 +83,7 @@ SharkGame.Home = {
             {
                 name: "start-gate",
                 unlock: { upgrade: ["gateDiscovery"] },
-                message: "The gate beckons. The secret must be unlocked.<br>&nbsp",
+                message: "The gate beckons. The secret must be unlocked.",
             },
         ],
 
@@ -92,7 +92,7 @@ SharkGame.Home = {
             {
                 name: "marine-default",
                 unlock: { world: "marine" },
-                message: "The fish never run dry here. This place feels so familiar.<br>&nbsp",
+                message: "The fish never run dry here. This place feels so familiar.",
             },
             {
                 name: "lobster-one",
@@ -105,12 +105,12 @@ SharkGame.Home = {
             {
                 name: "haven-default",
                 unlock: { world: "haven" },
-                message: "The oceans are rich with life. But it's still not home.<br>&nbsp",
+                message: "The oceans are rich with life. But it's still not home.",
             },
             {
                 name: "haven-dolphin-observes",
                 unlock: { totalResource: { coral: 75 } },
-                message: "A...thing observes us from afar. What the heck is that??",
+                message: "A... thing observes us from afar. What the heck is that??",
             },
             {
                 name: "haven-dolphins",
@@ -148,7 +148,7 @@ SharkGame.Home = {
             {
                 name: "haven-song",
                 unlock: { upgrade: ["whaleSong"] },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.<br>&nbsp",
+                message: "The whale song fills you with the same feeling as the gates. But so much smaller.",
             },
             {
                 name: "haven-done",
@@ -161,7 +161,7 @@ SharkGame.Home = {
             {
                 name: "tempestuous-default",
                 unlock: { world: "tempestuous" },
-                message: "The storm never ends, and many are lost to its violent throes.<br>&nbsp",
+                message: "The storm never ends, and many are lost to its violent throes.",
             },
         ],
 
@@ -212,7 +212,7 @@ SharkGame.Home = {
             {
                 name: "abandoned-exploration",
                 unlock: { upgrade: ["exploration"] },
-                message: "Great spires loom in the distance.<br>Loose cables are strung together on the horizon.<br>",
+                message: "Great spires loom in the distance.<br>Loose cables are strung together on the horizon.",
             },
             {
                 name: "abandoned-gate",
@@ -250,7 +250,7 @@ SharkGame.Home = {
             {
                 name: "shrouded-default",
                 unlock: { world: "shrouded" },
-                message: "The crystals are easier to find, but the darkness makes it hard to find anything else.<br>&nbsp",
+                message: "The crystals are easier to find, but the darkness makes it hard to find anything else.",
             },
             {
                 name: "eel-one",
@@ -269,7 +269,7 @@ SharkGame.Home = {
             {
                 name: "frigid-default",
                 unlock: { world: "frigid" },
-                message: "So cold. Hard to move. Hard to do anything.<br>&nbsp",
+                message: "So cold. Hard to move. Hard to do anything.",
             },
             {
                 name: "frigid-ice-one",
@@ -486,7 +486,7 @@ SharkGame.Home = {
                 }
             }
             let message = "You are a shark in a " + wi.shortDesc + " sea.";
-            message += "<br><span id='extraMessage' class='medDesc'>&nbsp<br>&nbsp</span>";
+            message += "<br><span id='extraMessage' class='medDesc'><br></span>";
             tabMessage.html(message).prepend(sceneDiv);
 
             const extraMessageSel = $("#extraMessage");

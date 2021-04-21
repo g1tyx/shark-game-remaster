@@ -71,16 +71,16 @@ SharkGame.Stats = {
             clear: "both",
         });
         // TODO NAME BUTTON BETTER
-        SharkGame.Button.makeButton("switchButton", "&nbsp Swap Producers and Produced &nbsp", switchButtonDiv, s.toggleSwitch).addClass("min-block");
+        SharkGame.Button.makeButton("switchButton", "Swap Producers and Produced", switchButtonDiv, s.toggleSwitch).addClass("min-block");
         if (SharkGame.Settings.current.grottoMode === "simple") {
-            SharkGame.Button.makeButton("modeButton", "&nbsp Swap to Advanced mode &nbsp", switchButtonDiv, s.toggleMode).addClass("min-block");
+            SharkGame.Button.makeButton("modeButton", "Swap to Advanced mode", switchButtonDiv, s.toggleMode).addClass("min-block");
         } else {
-            SharkGame.Button.makeButton("modeButton", "&nbsp Swap to Simple mode &nbsp", switchButtonDiv, s.toggleMode).addClass("min-block");
+            SharkGame.Button.makeButton("modeButton", "Swap to Simple mode", switchButtonDiv, s.toggleMode).addClass("min-block");
         }
         /*         if (SharkGame.Settings.current.incomeTotalMode === "absolute") {
-            SharkGame.Button.makeButton("percentButton", "&nbsp Show Income as Percentage &nbsp", switchButtonDiv, s.togglePercent).addClass("min-block");
+            SharkGame.Button.makeButton("percentButton", "Show Income as Percentage", switchButtonDiv, s.togglePercent).addClass("min-block");
         } else {
-            SharkGame.Button.makeButton("percentButton", "&nbsp Show Income as Number &nbsp", switchButtonDiv, s.togglePercent).addClass("min-block");
+            SharkGame.Button.makeButton("percentButton", "Show Income as Number", switchButtonDiv, s.togglePercent).addClass("min-block");
         } */
         incomeDataSel.append(switchButtonDiv);
 
@@ -561,10 +561,10 @@ SharkGame.Stats = {
     toggleMode() {
         if (SharkGame.Settings.current.grottoMode === "simple") {
             SharkGame.Settings.current.grottoMode = "advanced";
-            document.getElementById("modeButton").innerHTML = "&nbsp Swap to Simple mode &nbsp";
+            document.getElementById("modeButton").innerHTML = "Swap to Simple mode";
         } else {
             SharkGame.Settings.current.grottoMode = "simple";
-            document.getElementById("modeButton").innerHTML = "&nbsp Swap to Advanced mode &nbsp";
+            document.getElementById("modeButton").innerHTML = "Swap to Advanced mode";
         }
         s.updateTableKey();
         s.createIncomeTable();
