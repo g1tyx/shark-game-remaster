@@ -758,6 +758,8 @@ SharkGame.Save = {
                 }
             });
             save.upgrades = purchasedUpgrades;
+
+            save.settings.minimizedTopbar = false;
             return save;
         },
     ],
