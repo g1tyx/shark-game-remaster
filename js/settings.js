@@ -127,6 +127,21 @@ SharkGame.Settings = {
         },
     },
 
+    minimizedTopbar: {
+        defaultSetting: false,
+        name: "Minimized Title Bar",
+        desc: "Whether to minimize the title bar at the top of the game.",
+        show: true,
+        options: [true, false],
+        onChange() {
+            if (SharkGame.Settings.current["minimizedTopbar"]) {
+                document.querySelector("body").classList.add("top-bar");
+            } else {
+                document.querySelector("body").classList.remove("top-bar");
+            }
+        },
+    },
+
     showAnimations: {
         defaultSetting: true,
         name: "Show Animations",
