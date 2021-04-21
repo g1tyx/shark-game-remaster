@@ -82,7 +82,7 @@ SharkGame.Lab = {
     setHint(upgradeTable) {
         const lab = SharkGame.Lab;
         if (lab.allResearchDone()) {
-            $("#buttonList").append($("<p>").html("All clear here!"));
+            $("#buttonList").append($("<p>").html("The scientists rest content, sure that they're done with their work."));
         } else if (lab.listEmpty) {
             $("#buttonList").append($("<p>").html("The scientists are out of ideas, but there are always more discoveries to be made."));
 
