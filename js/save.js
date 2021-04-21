@@ -103,8 +103,8 @@ SharkGame.Save = {
             }
         }
 
-        // if first letter of string is { or [, data is json
-        if (saveDataString.charAt(0) === "{" || saveDataString.charAt(0) === "[") {
+        // if first letter of string is {, data is json
+        if (saveDataString.charAt(0) === "{") {
             try {
                 saveData = JSON.parse(saveDataString);
             } catch (err) {
@@ -117,11 +117,9 @@ SharkGame.Save = {
         }
 
         if (saveData) {
-            // go through it
-
             //check for updates
             const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
-            if (!Array.isArray(saveData) && !_.has(saveData, "saveVersion")) {
+            if (!_.has(saveData, "saveVersion")) {
                 saveData = SharkGame.Save.saveUpdaters[0](saveData);
             } else if (typeof saveData.saveVersion !== "number" || saveData.saveVersion <= 12) {
                 // After save version 12, packing support was removed; Backwards compatibility is not maintained because gameplay changed significantly after this point.
@@ -414,7 +412,7 @@ SharkGame.Save = {
             ].forEach((upgrade) => (save.upgrades[upgrade] = null));
 
             save.tabs = {
-                current: null,
+                current: "home",
                 home: { discovered: true },
                 lab: { discovered: null },
                 gate: { discovered: null },
