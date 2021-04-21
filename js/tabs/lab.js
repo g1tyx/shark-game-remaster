@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Lab = {
     tabId: "lab",
     tabDiscovered: false,

@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Log = {
     initialised: false,
     messages: [],

@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.World = {
     _worldType: "start",
     get worldType() {

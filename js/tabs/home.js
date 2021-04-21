@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Home = {
     tabId: "home",
     tabDiscovered: true,

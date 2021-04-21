@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
 SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income and after modifiers are applied
