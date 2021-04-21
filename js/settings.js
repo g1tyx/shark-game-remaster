@@ -105,7 +105,7 @@ SharkGame.Settings = {
         name: "Max Log Messages",
         desc: "How many messages to show before removing old ones.",
         show: true,
-        options: [5, 10, 15, 20, 25, 30, 50],
+        options: [5, 10, 15, 20, 30],
         onChange() {
             SharkGame.Log.correctLogLength();
         },
@@ -116,7 +116,7 @@ SharkGame.Settings = {
         name: "Sidebar Width",
         desc: "How much screen space the sidebar should take.",
         show: true,
-        options: ["25%", "30%", "35%", "40%", "45%", "50%"],
+        options: ["25%", "30%", "35%"],
         onChange() {
             const sidebar = $("#sidebar");
             if (SharkGame.Settings.current.showAnimations) {

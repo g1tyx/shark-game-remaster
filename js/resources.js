@@ -845,6 +845,9 @@ SharkGame.Resources = {
         $.each(mt[category].multiplier, (name, data) => {
             product *= data.getEffect(SharkGame.ModifierMap.get(generator)[category].multiplier[name], generator, generated);
         });
+        $.each(mt[category].multiplier, (name, data) => {
+            product *= data.getEffect(SharkGame.ModifierMap.get(generated)[category].multiplier[name], generator, generated);
+        });
         if (treatOneAsNone && product === 1) {
             return "";
         }
