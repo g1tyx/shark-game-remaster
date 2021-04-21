@@ -102,7 +102,6 @@ body {
   text-align: center;
   min-height: 100%;
   overflow-y: scroll;
-  margin-top: 50px;
 }
 div {
   padding: 0;
@@ -221,6 +220,61 @@ pre {
 }
 #title h4 {
   margin: 0.2em auto 1.5em;
+}
+.top-bar {
+  margin-top: 35px;
+}
+.top-bar #title {
+  padding: 0;
+  width: 100%;
+  height: 32px;
+  position: fixed;
+  background-image: none;
+  font-size: initial;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: 0 4px 4px 4px var(--color-darker);
+  -moz-box-shadow: 0 4px 4px 4px var(--color-darker);
+  box-shadow: 0 4px 4px 4px var(--color-darker);
+}
+.top-bar #title #titlebar {
+  width: 100%;
+}
+.top-bar #title #gameName,
+.top-bar #title #versionNumber,
+.top-bar #title #updateGame {
+  display: none;
+}
+.top-bar #title #titlemenu,
+.top-bar #title #subtitlemenu {
+  float: left;
+  font-size: initial;
+  height: auto;
+  margin: 0.2em 0.4em;
+  overflow: hidden;
+  text-align: center;
+  font-weight: bold;
+}
+.top-bar #title #titlemenu a:link,
+.top-bar #title #subtitlemenu a:link,
+.top-bar #title #titlemenu a:visited,
+.top-bar #title #subtitlemenu a:visited {
+  color: var(--color-lighter);
+  filter: none;
+}
+.top-bar #title #titlemenu a:hover,
+.top-bar #title #subtitlemenu a:hover {
+  filter: brightness(130%);
+}
+.top-bar #title #subtitlemenu {
+  float: right;
+}
+.top-bar #title li {
+  font-size: initial;
 }
 #titlebar {
   height: auto;
@@ -1257,59 +1311,4 @@ button.planetButton:active {
 }
 .disposeArrangement button.newlyDiscovered {
   max-width: 12em;
-}
-.top-bar {
-  width: 100%;
-  position: fixed;
-  background-color: var(--color-med);
-  left: 0;
-  top: 0;
-  z-index: 1;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 2px 2px var(--color-med);
-  -moz-box-shadow: 0 0 2px 2px var(--color-med);
-  box-shadow: 0 0 2px 2px var(--color-med);
-}
-.top-bar p {
-  text-shadow: 0 0 0.3em var(--color-darker);
-}
-.top-bar #gameName {
-  float: left;
-  margin: 0.2em 0.4em;
-  padding: 0.2em 0;
-}
-.top-bar #titlemenu {
-  float: left;
-  height: auto;
-  margin: 0.2em 0.4em;
-  overflow: hidden;
-  text-align: center;
-  font-weight: bold;
-}
-.top-bar #subtitlemenu {
-  float: right;
-  height: auto;
-  margin: 0.2em 0.4em;
-  overflow: hidden;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1em;
-}
-.top-bar li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  display: inline;
-}
-.top-bar li:before {
-  content: " | ";
-}
-.top-bar li:first-child:before {
-  content: none;
-}
-.top-bar ul {
-  padding: 0.2em 0;
-  margin: 0.4em auto 0.6em auto;
 }
