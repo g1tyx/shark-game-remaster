@@ -1,5 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+    <body>
+        <div id="top-bar" class="top-bar">
+            <b><p id="gameName">- SHARK GAME -</p></b>
+            <ul id="titlemenu"></ul>
+            <ul id="subtitlemenu"></ul>
+            <!-- AddToAny BEGIN -->
+            <div id="shareWrapper">
+                <div class="a2a_kit a2a_kit_size_16 a2a_default_style" data-a2a-title="Shark Game">
+                    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+                    <a class="a2a_button_facebook"></a>
+                    <a class="a2a_button_twitter"></a>
+                    <a class="a2a_button_reddit"></a>
+                </div>
+            </div>
+        </div>
+    </body>
     <head>
         <!-- Welcome to a shark. I hope you enjoy this aquatic organism. -->
 
@@ -318,8 +334,14 @@
                     case 3:
                         return "Rolled a three. Nothing happened.";
                     case 4:
-                        r.
-                        return "Rolled a four.";
+                        SharkGame.ResourceMap.forEach((v, key) => {
+                            if (key !== "essence") {
+                                if (w.doesResourceExist(key)) {
+                                    SharkGame.PlayerResources.get(key).amount += 4;
+                                }
+                            }
+                        });
+                        return "Rolled a four. You got exactly 4 more of EVERYTHING.";
 
                 }
             }
@@ -384,7 +406,7 @@
             </noscript>
 
             <div id="game">
-                <div id="title">
+                <!-- <div id="title">
                     <h1 id="gameName">- SHARK GAME -</h1>
                     <h4 id="versionNumber"></h4>
                     <h4 id="updateGame"></h4>
@@ -393,7 +415,6 @@
                         <ul id="titlemenu"></ul>
                         <ul id="subtitlemenu"></ul>
                     </div>
-                    <!-- AddToAny BEGIN -->
                     <div id="shareWrapper">
                         <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-title="Shark Game">
                             <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
@@ -402,7 +423,7 @@
                             <a class="a2a_button_reddit"></a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div id="sidebar">
                     <div id="status"></div>
                     <div id="log"></div>

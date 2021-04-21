@@ -267,6 +267,7 @@ body {
     text-align: center;
     min-height: 100%;
     overflow-y: scroll;
+    margin-top: 50px;
 }
 
 div {
@@ -1331,5 +1332,56 @@ button.planetButton {
         &.newlyDiscovered {
             max-width: 12em;
         }
+    }
+}
+
+.top-bar {
+    width: 100%;
+    position: fixed;
+    background-color: var(--color-med);
+    left: 0;
+    top: 0;
+    z-index: 1;
+    .border-radius(3px);
+    .box-shadow(0, 0, 2px, 2px, var(--color-med));
+
+    p {
+        text-shadow: 0 0 0.3em var(--color-darker);
+    }
+
+    #gameName {
+        float: left;
+        margin: 0.2em 0.4em;
+        padding: 0.2em 0;
+    }
+
+    #titlemenu {
+        float: left;
+        height: auto;
+        margin: 0.2em 0.4em;
+        overflow: hidden;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #subtitlemenu {
+        float: right;
+        height: auto;
+        margin: 0.2em 0.4em;
+        overflow: hidden;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1em;
+    }
+
+    li {
+        padding: 0;
+        margin: 0;
+        .pipe-separators;
+    }
+
+    ul {
+        padding: 0.2em 0;
+        margin: 0.4em auto 0.6em auto;
     }
 }
