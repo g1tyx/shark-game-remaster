@@ -152,10 +152,8 @@ $.extend(SharkGame, {
         "You are free to pay as much attention to the game as you want. " +
         "It will happily run in the background, and works even while closed.</p>" +
         "<p>To begin, you should catch fish. Once you have some fish, more actions will become available. " +
-        'If you have no idea what these actions do, click the "Toggle descriptions" button for more information.</p>' +
         "<p>If you are ever stuck, try actions you haven't yet tried. " +
-        "Remember, though, that sometimes patience is the only way forward. Patience and ever escalating numbers.</p>" +
-        "<p>If you are here because you think you have encountered a bug of some kind, report it on the <a href='https://discord.gg/nN7BQDJR2G' target='blank_'>discord</a>.</p>",
+        "<p>If you are here because you think you have encountered a bug of some kind, or you really need help, report it on the <a href='https://discord.gg/nN7BQDJR2G' target='blank_'>discord</a>.</p>",
 
     donate:
         "<p>You can <a href='https://www.sharktrust.org/Listing/Category/donate' target='_blank'>donate to help save sharks and mantas</a>!</p>" +
@@ -171,10 +169,9 @@ $.extend(SharkGame, {
         " if you'd like.)</span></p>",
 
     notice:
-        "<p>Welcome to the open alpha of v0.2 for New Frontiers.</p>" +
-        "<p>v0.2 is gonna be a complete rework of the planets in the base game!<br/>Currently only the Abandoned and Haven world types are playable.</p>" +
-        "<p>This is an alpha; Things will be missing. New stuff will be added over time.</p>" +
-        "<p>If you'd like to give feedback or contribute directly, check out our <a href='https://discord.gg/eYqApFkFPY'>Discord</a>.</p>" +
+        "<p>Welcome to the open <b>alpha</b> of v0.2 for New Frontiers.</p>" +
+        "<p>v0.2 is a total rework.<br/>Currently, only two worlds (besides starter) are playable.<br><b>Things will be missing.</b> New stuff will be added.</p>" +
+        "<p>To give feedback or contribute, check out our <a href='https://discord.gg/eYqApFkFPY'>Discord</a>.</p>" +
         "<p>To play the stable version (with all planets), visit <a href='https://spencers145.github.io/SharkGame/'>this link</a>.</p>",
 
     spriteIconPath: "img/sharksprites.png",
