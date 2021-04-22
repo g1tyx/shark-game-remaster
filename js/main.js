@@ -499,17 +499,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.timestampGameStart = SharkGame.timestampGameStart || now;
         SharkGame.timestampRunStart = SharkGame.timestampRunStart || now;
 
-        // preserve settings or set defaults
-        $.each(SharkGame.Settings, (k, v) => {
-            if (k === "current") {
-                return;
-            }
-            const currentSetting = SharkGame.Settings.current[k];
-            if (typeof currentSetting === "undefined") {
-                SharkGame.Settings.current[k] = v.defaultSetting;
-            }
-        });
-
         // create the tooltip box
 
         // initialise and reset resources
@@ -534,6 +523,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Main.setUpTitleBar();
 
         SharkGame.Tabs.current = "home";
+
+        // preserve settings or set defaults
+        $.each(SharkGame.Settings, (k, v) => {
+            if (k === "current") {
+                return;
+            }
+            const currentSetting = SharkGame.Settings.current[k];
+            if (typeof currentSetting === "undefined") {
+                SharkGame.Settings.current[k] = v.defaultSetting;
+            }
+            // apply all settings as a failsafe
+            (v.onChange || $.noop)();
+        });
 
         // load save game data if present
         if (SharkGame.Save.savedGameExists()) {
