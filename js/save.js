@@ -727,7 +727,7 @@ SharkGame.Save = {
             } else {
                 save.settings.showIcons = true;
             }
-            save.settings.minimizedTopbar = false;
+            save.settings.minimizedTopbar = true;
 
             if (_.has(save.resources, "philosopher")) {
                 delete save.resources.philosopher;

@@ -883,36 +883,53 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     setUpOptions() {
         const optionsTable = $("<table>").attr("id", "optionTable");
         // add settings specified in settings.js
-        $.each(SharkGame.Settings, (settingName, setting) => {
-            if (settingName === "current" || !setting.show) {
-                return;
+        const categories = {};
+        $.each(SharkGame.Settings, (name, setting) => {
+            if (setting.category) {
+                if (!categories[setting.category]) {
+                    categories[setting.category] = [];
+                }
+                categories[setting.category].push(name);
             }
-            const optionRow = $("<tr>");
+        });
 
-            // show setting name
-            optionRow.append(
-                $("<td>")
-                    .addClass("optionLabel")
-                    .html(setting.name + ":" + "<br/><span class='smallDesc'>(" + setting.desc + ")</span>")
-            );
+        let firstCategory = true;
 
-            const currentSetting = SharkGame.Settings.current[settingName];
+        $.each(categories, (categoryName, categoryList) => {
+            optionsTable.append($("<tr>").html((firstCategory ? "<br>" : "<br><br>") + "<u>" + categoryName.bold() + "</u>"));
+            firstCategory = false;
+            _.each(categoryList, (settingName) => {
+                const setting = SharkGame.Settings[settingName];
+                if (settingName === "current" || !setting.show) {
+                    return;
+                }
+                const optionRow = $("<tr>");
 
-            // show setting adjustment buttons
-            $.each(setting.options, (index, optionValue) => {
-                const isSelectedOption = optionValue === currentSetting;
+                // show setting name
                 optionRow.append(
-                    $("<td>").append(
-                        $("<button>")
-                            .attr("id", "optionButton-" + settingName + "-" + index)
-                            .addClass("option-button" + (isSelectedOption ? " disabled" : ""))
-                            .html(typeof optionValue === "boolean" ? (optionValue ? "on" : "off") : optionValue)
-                            .on("click", m.onOptionClick)
-                    )
+                    $("<td>")
+                        .addClass("optionLabel")
+                        .html(setting.name + ":" + "<br/><span class='smallDesc'>(" + setting.desc + ")</span>")
                 );
-            });
 
-            optionsTable.append(optionRow);
+                const currentSetting = SharkGame.Settings.current[settingName];
+
+                // show setting adjustment buttons
+                $.each(setting.options, (index, optionValue) => {
+                    const isSelectedOption = optionValue === currentSetting;
+                    optionRow.append(
+                        $("<td>").append(
+                            $("<button>")
+                                .attr("id", "optionButton-" + settingName + "-" + index)
+                                .addClass("option-button" + (isSelectedOption ? " disabled" : ""))
+                                .html(typeof optionValue === "boolean" ? (optionValue ? "on" : "off") : optionValue)
+                                .on("click", m.onOptionClick)
+                        )
+                    );
+                });
+
+                optionsTable.append(optionRow);
+            });
         });
 
         // SAVE IMPORT/EXPORT
@@ -1241,6 +1258,8 @@ SharkGame.Changelog = {
         "In the grotto, amounts for each producer now update live.",
         "Both kinds of tooltips update live.",
         "Tooltips can tell you more things: e.g., it now says how much science you get from sea apples.",
+        "Added minimized titlebar. You can switch it back to the old one in the options menu.",
+        "Added categories to options menu. Now it's readable!",
     ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 031421a": [
         "Fixed bug related to how artifacts display in the grotto.",

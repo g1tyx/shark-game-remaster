@@ -115,8 +115,8 @@ SharkGame.Upgrades = {
             name: "Storage Caverns",
             desc: "It's about time to start moving the stores we have to a better place. We've found one but it needs setting up.",
             researchedMessage:
-                "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. No more stray currents washing it all away hopefully!",
-            effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing. Sort of.",
+                "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. We're organized! Sort of!",
+            effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing...sort of.",
             cost: {
                 science: 150,
             },
