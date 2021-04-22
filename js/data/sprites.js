@@ -411,6 +411,26 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "haven-stories": {
+        frame: {
+            x: 1618,
+            y: 1430,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "lobster-one": {
         frame: {
             x: 1214,

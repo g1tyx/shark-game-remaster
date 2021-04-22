@@ -126,24 +126,22 @@ SharkGame.Home = {
                 unlock: { upgrade: ["sunObservation"] },
                 message: "Pieces of strange, crunchy kelp have begun washing up in the currents.<br/>Something is carved into them.",
             },
-            /*
             {
                 name: "haven-stories",
                 unlock: { upgrade: ["delphineHistory"] },
                 message:
-                    "The dolphin's self-indulgent tales make frequent references to a gate.<br>And, they don't know where it is. Of course they don't.",
-            },
-            */
-            {
-                name: "haven-history",
-                unlock: { upgrade: ["delphineHistory"] },
-                message:
-                    "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original collections have been lost to time.",
+                    "The dolphin's self-indulgent tales make frequent references to a mystical gate.<br>And, they don't know where it is. Of course they don't.",
             },
             {
                 name: "haven-whales",
                 unlock: { totalResource: { whale: 1 }, homeAction: ["getWhale"] },
                 message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
+            },
+            {
+                name: "haven-history",
+                unlock: { upgrade: ["retroactiveRecordkeeping"] },
+                message:
+                    "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original collections have been lost to time.",
             },
             {
                 name: "haven-song",
