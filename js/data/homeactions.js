@@ -3938,7 +3938,7 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "whale", costFunction: "unique", priceIncrease: 1000 },
+                { resource: "whale", costFunction: "unique", priceIncrease: 3000 },
                 { resource: "dolphin", costFunction: "unique", priceIncrease: 100000 },
             ],
             max: "chorus",

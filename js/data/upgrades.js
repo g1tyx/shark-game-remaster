@@ -1069,7 +1069,7 @@ SharkGame.Upgrades = {
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
             effectDesc: "All shark machines run twice as fast. Again!",
             cost: {
-                science: 750000,
+                science: 3750000,
                 sharkonium: 100000,
             },
             required: {
@@ -1288,7 +1288,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Kelp cultivators and crimson combines are 8 times faster, and tireless crafters are twice as efficient. We begrudingly admit their quality is not entirely terrible.",
             cost: {
-                science: 7500000,
+                science: 25000000,
                 delphinium: 250000,
             },
             required: {
@@ -1426,7 +1426,7 @@ SharkGame.Upgrades = {
                 "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
             effectDesc: "A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
             cost: {
-                science: 50000000,
+                science: 250000000,
             },
             required: {
                 upgrades: ["whaleSong", "retroactiveRecordkeeping", "farHavenExploration"],
@@ -1449,7 +1449,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "All shark machines run eight times as fast. Holy moley! Also, shark science is way more informative now that we have more perspective.",
             cost: {
-                science: 10000000,
+                science: 100000000,
                 sharkonium: 250000,
                 delphinium: 250000,
             },

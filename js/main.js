@@ -576,7 +576,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
 
         $("#title").on("click", (event) => {
-            if (event.clientX < 100 && event.clientY < 150) {
+            if (event.clientX < 100 && event.clientY > 150 && event.clientY < 200) {
                 event.currentTarget.classList.add("radical");
             }
         });
@@ -1249,7 +1249,7 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch ???": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 042221a": [
         "Implemented reworked gameplay for the Haven worldtype.",
         "Made sweeping changes to the UI.",
         "Improved grotto formatting.",

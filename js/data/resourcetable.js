@@ -205,6 +205,7 @@ SharkGame.ResourceTable = {
     biologist: {
         name: "dolphin biologists",
         singleName: "dolphin biologist",
+        desc: "Why are we encouraging them to multiply??",
         color: "#5C9976",
         income: {
             dolphin: 0.005,

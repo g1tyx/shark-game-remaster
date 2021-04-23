@@ -37,6 +37,22 @@ SharkGame.Settings = {
         },
     },
 
+    minimizedTopbar: {
+        defaultSetting: true,
+        name: "Minimized Title Bar",
+        desc: "Whether to minimize the title bar at the top of the game.",
+        show: true,
+        category: "LAYOUT",
+        options: [true, false],
+        onChange() {
+            if (SharkGame.Settings.current["minimizedTopbar"]) {
+                document.querySelector("body").classList.add("top-bar");
+            } else {
+                document.querySelector("body").classList.remove("top-bar");
+            }
+        },
+    },
+
     groupResources: {
         defaultSetting: true,
         name: "Group Resources",
@@ -86,22 +102,6 @@ SharkGame.Settings = {
                 sidebar.animate({ width: SharkGame.Settings.current.sidebarWidth }, 100);
             } else {
                 sidebar.width(SharkGame.Settings.current.sidebarWidth);
-            }
-        },
-    },
-
-    minimizedTopbar: {
-        defaultSetting: true,
-        name: "Minimized Title Bar",
-        desc: "Whether to minimize the title bar at the top of the game.",
-        show: true,
-        category: "LAYOUT",
-        options: [true, false],
-        onChange() {
-            if (SharkGame.Settings.current["minimizedTopbar"]) {
-                document.querySelector("body").classList.add("top-bar");
-            } else {
-                document.querySelector("body").classList.remove("top-bar");
             }
         },
     },
