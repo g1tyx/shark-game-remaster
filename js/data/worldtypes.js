@@ -132,18 +132,6 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1 },
         ],
-        /*
-        gateRequirements: {
-            slots: {
-                fish: 1e8,
-                clam: 1e7,
-                sponge: 1e8,
-                kelp: 1e8,
-                coralglass: 1e6,
-                coral: 2e7,
-            },
-        },
-        */
         gateRequirements: { resources: { chorus: 1 } },
     },
     tempestuous: {
@@ -301,22 +289,12 @@ SharkGame.WorldTypes = {
     },
     frigid: {
         name: "Frigid",
-        desc: "A cold, chilling ocean freezing slowly to death.",
+        desc: "An arctic ocean dangling on the edge of frozen doom.",
         shortDesc: "freezing white",
-        entry: "As you struggle with sudden amnesia, you notice crystals forming in front of you. So cold.",
+        entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
-        absentResources: ["tar", "dolphin", "whale", "lobster", "chimaera", "shrimp", "seaApple", "coral", "algae", "jellyfish"],
-        modifiers: [
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "machines", amount: 0.5 },
-            {
-                type: "restriction",
-                modifier: "planetaryGeneratorRestriction",
-                resource: "sponge",
-                amount: "sponge",
-            },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 0.002 },
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ice", amount: 0.1 },
-        ],
+        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice"],
+        modifiers: [{ type: "multiplier", modifier: "planetaryFixedIncomeMultiplier", resource: "machines", amount: 1 }],
         gateRequirements: {
             slots: {
                 sand: 1e7,

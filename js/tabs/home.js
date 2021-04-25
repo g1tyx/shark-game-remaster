@@ -263,17 +263,72 @@ SharkGame.Home = {
         frigid: [
             {
                 name: "frigid-default",
-                message: "So cold. Hard to move. Hard to do anything.",
+                message:
+                    "The cold here seeps through you. There are giant boulders of ice on the horizon. They surround your field of view.<br>There is a quiet hum in the water.",
+            },
+            {
+                name: "frigid-distant-village",
+                unlock: { totalResource: { scientist: 1 } },
+                message: "While scanning the horizon, you notice some weird outcroppings in the distance.<br>What is that supposed to be??",
+            },
+            {
+                name: "frigid-village",
+                unlock: { upgrade: ["activeInvestigation"] },
+                message: "A colony of squid greets you respectfully.<br>Many small structures form the basis of a tiny village.",
+            },
+            {
+                name: "frigid-machine",
+                unlock: { totalResource: { squid: 25 } },
+                message:
+                    "In the center of the settlement lies a stone structure containing a small, dilapidated structure.<br>One part is a gate, the other, a small box.<br>The box hums loudly. It warms you from the inside.",
+            },
+            {
+                name: "frigid-squid",
+                unlock: { totalResource: { squid: 75 } },
+                message:
+                    "The squid speak of an ancient visitor. They say this visitor was the one who saved their world.<br>They ask if you too, have seen this visitor.",
+            },
+            {
+                name: "frigid-urchin",
+                unlock: { totalResource: { urchin: 25 } },
+                message:
+                    "The urchins scuttle along the ground, gathering kelp into a massive pile.<br>They know nothing else. To them, there is only food.",
+            },
+            {
+                name: "frigid-mechanical-failure",
+                unlock: { upgrade: ["automation"], totalResource: { crystalMiner: 1 } },
+                message: "The squid interrupt you as the first miners begin drilling.<br>They say something is wrong with the great machine.",
+            },
+            {
+                name: "frigid-blast",
+                unlock: { upgrade: ["haventdecided"] },
+                message: "A sudden, frigid blast overtakes you, and all the heat is sucked from your body.<br>The background hum disappears.",
             },
             {
                 name: "frigid-ice-one",
-                unlock: { resource: { ice: 50 } },
-                message: "Something has to be done before the ice destroys us all!<br>Maybe a machine can save us?",
+                unlock: { resource: { ice: 25 } },
+                message: "The water around you begins to crystallize as shards of ice appear on every surface in view.",
             },
             {
                 name: "frigid-ice-two",
-                unlock: { resource: { ice: 250 } },
+                unlock: { resource: { ice: 200 } },
+                message: "As the ice shelf advances, some of the frenzy have stopped sleeping.<br>They fear they might not wake back up.",
+            },
+            {
+                name: "frigid-icy-doom",
+                unlock: { resource: { ice: 800 } },
                 message: "So cold. So hungry.<br><span class='smallDesc'>So hopeless.</span>",
+            },
+            {
+                name: "frigid-heat-returns",
+                unlock: { upgrade: ["rapidRepairs"] },
+                message:
+                    "The machine comes to life, and a wave of heat washes over you.<br>The glassy shards of ice disappear from the water, and the glaciers begin to recede.",
+            },
+            {
+                name: "frigid-end",
+                unlock: { upgrade: ["rapidRepairs"] },
+                message: "The gate, filled once again, comes to life alongside the whirring machine.",
             },
         ],
         /*

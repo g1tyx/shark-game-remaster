@@ -146,6 +146,30 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
+    squid: {
+        name: "squid",
+        singleName: "squid",
+        // when referring to a group of squid, they are squid.
+        // when referring to various kinds of squids, they are squids.
+        // therefore references to the different professions lumped in with other squids will use 'squids'
+        // and other circumstances referring to a single kind, like this one, will use 'squid'
+        color: "#FA9272",
+        income: {
+            fish: 2,
+        },
+        value: 3000,
+    },
+
+    urchin: {
+        name: "sea urchins",
+        singleName: "sea urchin",
+        color: "#B98DE0",
+        income: {
+            kelp: 1,
+        },
+        value: 3000,
+    },
+
     // BREEDERS
 
     nurse: {
@@ -302,6 +326,18 @@ SharkGame.ResourceTable = {
         value: 4000,
     },
 
+    sifter: {
+        name: "sifter crabs",
+        singleName: "sifter crab",
+        color: "#473E21",
+        income: {
+            sand: 1,
+            crystal: 0.05,
+            kelp: 0.01,
+        },
+        value: 3000,
+    },
+
     /* miller: {
         name: "miller crabs",
         singleName: "miller crab",
@@ -438,14 +474,12 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
-    sifter: {
-        name: "eel sifters",
-        singleName: "eel sifter",
+    hunter: {
+        name: "squid hunters",
+        singleName: "squid hunter",
         color: "#473E21",
         income: {
-            sand: 0.2,
-            crystal: 0.9,
-            kelp: 0.5,
+            fish: 10,
         },
         value: 3000,
     },
@@ -532,10 +566,10 @@ SharkGame.ResourceTable = {
         singleName: "heater",
         color: "#D13F32",
         income: {
-            ice: -0.01,
+            ice: -0.1,
+            kelp: -5,
         },
         value: 50000,
-        forceIncome: true,
     },
 
     // MODDED MACHINES
@@ -954,9 +988,10 @@ SharkGame.ResourceTable = {
     ice: {
         name: "ice",
         singleName: "ice",
+        desc: "Not deadly, but the sharks suffer.",
         color: "#E4F1FB",
         income: {
-            ice: 0.001,
+            ice: 0.01,
         },
         value: -100,
         forceIncome: true,
@@ -971,7 +1006,7 @@ SharkGame.GeneratorIncomeAffectors = {
     //                                                          ...of this generator: by this degree
     // see SharkGame.Resources.buildIncomeNetwork, then see SharkGame.Resource.getNetworkIncomeModifier
     //
-    // multiply multiplies the income of the specified generator by    degree * amount of resource
+    // multiply multiplies the income of the specified generator by    1 + degree * amount of resource
     // exponentiate multiplies the income of a generator by            degree ^ amount
     // reciprocal multiplies the income of a generator by              1  / (1 + degree * amount)
     // polynomial multiplies the income of a generator by              amount ^ degree
@@ -1003,11 +1038,10 @@ SharkGame.GeneratorIncomeAffectors = {
     }, */
     ice: {
         multiply: {
-            heater: 0.01,
-            ice: -0.001,
-        },
-        exponentiate: {
-            frenzy: 0.99,
+            ice: -0.00101,
+            frenzy: -0.001,
+            specialists: -0.001,
+            breeders: -0.001,
         },
     },
     tar: {
@@ -1073,7 +1107,7 @@ SharkGame.ResourceCategories = {
             "Was it something they said?",
             "Are you happy with what you've done?",
         ],
-        resources: ["shark", "ray", "crab", "shrimp", "lobster", "dolphin", "whale", "chimaera", "octopus", "eel"],
+        resources: ["shark", "ray", "crab", "shrimp", "lobster", "dolphin", "whale", "chimaera", "octopus", "eel", "squid", "urchin"],
     },
     breeders: {
         name: "Breeders",
@@ -1113,6 +1147,7 @@ SharkGame.ResourceCategories = {
             "scavenger",
             "technician",
             "sifter",
+            "hunter",
             //"prospector",
             //"shoveler",
             //"miller",
@@ -1259,6 +1294,14 @@ SharkGame.InternalCategories = {
     eels: {
         name: "Eels",
         resources: ["eel", "technician", "sifter", "pit"],
+    },
+    squids: {
+        name: "Squids",
+        resources: ["squid", "hunter"],
+    },
+    urchins: {
+        name: "Urchins",
+        resources: ["urchin"],
     },
     chimaeras: {
         name: "Chimaeras",
