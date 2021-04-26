@@ -889,7 +889,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // add settings specified in settings.js
         const categories = {};
         $.each(SharkGame.Settings, (name, setting) => {
-            if (setting.category) {
+            if (typeof setting.category === "string") {
                 if (!categories[setting.category]) {
                     categories[setting.category] = [];
                 }
@@ -897,14 +897,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
-        let firstCategory = true;
-
-        $.each(categories, (categoryName, categoryList) => {
-            optionsTable.append($("<tr>").html((firstCategory ? "<br>" : "<br><br>") + "<u>" + categoryName.bold() + "</u>"));
-            firstCategory = false;
-            _.each(categoryList, (settingName) => {
+        $.each(categories, (category, settings) => {
+            optionsTable.append($("<tr>").html("<br><span style='text-decoration: underline'>" + category.bold() + "</span>"));
+            _.each(settings, (settingName) => {
                 const setting = SharkGame.Settings[settingName];
-                if (settingName === "current" || !setting.show) {
+                if (settingName === "current") {
                     return;
                 }
                 const optionRow = $("<tr>");
@@ -1188,7 +1185,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     isFirstTime() {
-        return w.worldType === "start" && !(r.getTotalResource("essence") > 0);
+        return w.worldType === "start" && r.getTotalResource("essence") <= 0;
     },
 
     getDeterminer(name) {
