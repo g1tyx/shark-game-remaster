@@ -2754,15 +2754,19 @@ SharkGame.HomeActions = {
                 "Let's humour this dolphin's rambling.",
                 "This historian might have some insight.",
                 "Maybe this dolphin can answer the question of why we're even working with dolphins.",
+                "There are questions we have that this historian could answer for us.",
             ],
             multiOutcomes: [
                 "We begrudgingly acknowledge that working together is providing us with new insights.",
-                "It's time to wax poetic and ponder.",
+                "History is told by the victors. The dolphins are losers, but they'll tell it anyway.",
                 "These pretentious clicking jerks can sometimes raise a good point.",
                 "Oh joy. We're encouraging them to talk more.",
-                "What's wrong with shark science?!",
+                "Maybe if we let them talk about themselves a lot, they'll stop being so mean??",
+                "Ah, yes. Qualify an ego-stroker.",
+                "For the last time, I don't need to hear the story of Dolphantine again!!",
             ],
-            helpText: "Determine which of these dolphins is actually smart, and not just repeating empty phrases.",
+            helpText:
+                "Determine which of these dolphins is actually smart, and not just repeating meaningless stories.",
         },
 
         getBiologist: {
@@ -2860,8 +2864,20 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["dolphinTechnology"],
             },
-            outcomes: ["placeholder"],
-            multiOutcomes: ["placeholder"],
+            outcomes: [
+                "The combine activates, and navigates to the nearest reef.",
+                "Animals are torn from the reefbed at lightning speed.",
+                "A red fog surrounds the machine as it begins to harvest.",
+                "The blades of the combine spin up, and begin their reckless harvest.",
+            ],
+            multiOutcomes: [
+                "Soon, the coral will be ours, but at what cost?",
+                "Sustainability has failed us.",
+                "We must resort to drastic measures in the name of progress.",
+                "Treasurers are slow. Machines are fast. But not that fast, it's still made of delphinium, mind you.",
+                "I hope the biosphere didn't need this coral for anything.",
+                "The red mist grows.",
+            ],
             helpText: "This dolphin machine pries coral from the reefs at a reckless pace.",
         },
 
@@ -2880,44 +2896,21 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["dolphinTechnology"],
             },
-            outcomes: ["placeholder"],
-            multiOutcomes: ["placeholder"],
-            helpText: "This dolphin machine carefully tends to gardens of kelp.",
-        },
-
-        /*         getSilentArchivist: {
-            name: "Build silent archivist",
-            effect: {
-                resource: {
-                    silentArchivist: 1,
-                },
-            },
-            cost: [
-                { resource: "delphinium", costFunction: "linear", priceIncrease: 250 },
-                { resource: "science", costFunction: "linear", priceIncrease: 50 },
-            ],
-            max: "silentArchivist",
-            prereq: {
-                resource: {
-                    delphinium: 250,
-                },
-                upgrade: ["dolphinTechnology"],
-            },
             outcomes: [
-                "Silent archivist watches on.",
-                "Silent archivist shows no bias.",
-                "Silent archivist makes a note.",
-                "Silent archivist views us with disdain.",
+                "The kelp cultivator activates and begins planting its garden.",
+                "The kelp cultivator turns on and nagivates to a suitable planting spot.",
+                "The kelp cultivator will not disturb the natural order.",
+                "The kelp cultivator works in tandem with nature.",
             ],
             multiOutcomes: [
-                "More archivers of our grand works as a collective.",
-                "These machines share the same insights as their creators, but are much less painful to deal with.",
-                "The design for these machines seems strangely familiar.",
-                "These things are too silent. We aren't sure if they're even on.",
-                "Science is nothing without review.",
+                "Sustainability is a must.",
+                "These gentle machines are, in fact, slow and methodical, just as expected from dolphin machines.",
+                "Toward their gardens, these machines can almost feel care.",
+                "The machines do not like the sea apples. They forcefully extract them for us.",
+                "I mean, it's clearly eco-friendly, but is it really necessary to go this slow??",
             ],
-            helpText: "This dolphin machine archives, critiques, and catalogues our science.",
-        }, */
+            helpText: "This dolphin machine carefully tends to gardens of kelp.",
+        },
 
         getTirelessCrafter: {
             name: "Build tireless crafter",
