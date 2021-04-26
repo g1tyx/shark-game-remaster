@@ -219,16 +219,10 @@ SharkGame.Gateway = {
 
     confirmWorld() {
         const selectedWorldData = SharkGame.WorldTypes[g.selectedWorld];
-        let planetLevel = 1;
-        _.each(g.planetPool, (generatedWorld) => {
-            if (generatedWorld.type === g.selectedWorld) {
-                planetLevel = generatedWorld.level;
-            }
-        });
+        const planetLevel = _.find(g.planetPool, (generatedWorld) => generatedWorld.type === g.selectedWorld).level;
 
         // construct the gateway content
-        const gatewayContent = $("<div>");
-        gatewayContent.append($("<p>").html("Travel to the " + selectedWorldData.name + " World?"));
+        const gatewayContent = $("<div>").append($("<p>").html("Travel to the " + selectedWorldData.name + " World?"));
 
         // add world image
         const spritename = "planets/" + g.selectedWorld;
@@ -282,28 +276,14 @@ SharkGame.Gateway = {
 
         // create pool of qualified artifacts
         const qualifiedArtifactPool = [];
-        $.each(SharkGame.Artifacts, (artifactName, artifactData) => {
-            let qualified = false;
-            if (artifactData.required) {
-                _.each(artifactData.required, (resourceName) => {
-                    qualified = qualified || w.doesResourceExist(resourceName);
-                });
-            } else {
-                qualified = true;
+        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
+            // Don't add if at or above max level, or if artifact is set to be ignored
+            if ((artifact.max && artifact.level >= artifact.max) || artifact.ignore) {
+                return;
             }
 
-            // check max level
-            if (artifactData.max) {
-                if (artifactData.level >= artifactData.max) {
-                    qualified = false;
-                }
-            }
-
-            if (artifactData.ignore) {
-                qualified = false;
-            }
-
-            if (qualified) {
+            // If artifact doesn't have requirements, or at least one of the requirements is met, add it to the pool
+            if (!_.has(artifact, "required") || _.some(artifact.required, (resourceName) => w.doesResourceExist(resourceName))) {
                 qualifiedArtifactPool.push(artifactName);
             }
         });
@@ -419,12 +399,7 @@ SharkGame.Gateway = {
         _.each(g.planetPool, (planetData) => {
             const buttonSel = $("#planet-" + planetData.type);
             if (buttonSel.length > 0) {
-                let planetLevel = 1;
-                _.each(g.planetPool, (generatedWorld) => {
-                    if (generatedWorld.type === planetData.type) {
-                        planetLevel = generatedWorld.level;
-                    }
-                });
+                const planetLevel = _.find(g.planetPool, (generatedWorld) => generatedWorld.type === planetData.type).level;
                 const deeperPlanetData = SharkGame.WorldTypes[planetData.type];
                 const label =
                     deeperPlanetData.name +
@@ -460,52 +435,42 @@ SharkGame.Gateway = {
     },
 
     getVoiceMessage() {
-        let message = "";
-        const messagePool = [];
-        const allMessages = g.Messages;
         // the point of this function is to add to the message pool all available qualifying messages and then pick one
+        const messagePool = [];
         const totalEssence = r.getTotalResource("essence");
-        const lastPlanet = w.worldType;
 
         // if the game wasn't won, add loss messages
         if (!SharkGame.wonGame) {
-            _.each(allMessages.loss, (msg) => {
-                messagePool.push(msg);
-            });
+            messagePool.push(...g.Messages.loss);
         } else {
             // determine which essence based messages should go into the pool
-            _.each(allMessages.essenceBased, (v) => {
+            _.each(g.Messages.essenceBased, (message) => {
                 let min = 0;
-                if (v.min) {
-                    min = v.min;
+                if (message.min) {
+                    min = message.min;
                 }
+
                 let max = Number.MAX_VALUE;
-                if (v.max) {
-                    max = v.max;
+                // This would not work when message.max === 0
+                if (message.max) {
+                    max = message.max;
                 }
                 if (totalEssence >= min && totalEssence <= max) {
-                    _.each(v.messages, (msg) => {
-                        messagePool.push(msg);
-                    });
+                    messagePool.push(...message.messages);
                 }
             });
 
             // determine which planet based messages should go into the pool
-            const planetPool = allMessages.lastPlanetBased[lastPlanet];
+            const planetPool = g.Messages.lastPlanetBased[w.worldType];
             if (planetPool) {
-                _.each(planetPool, (msg) => {
-                    messagePool.push(msg);
-                });
+                messagePool.push(...planetPool);
             }
 
             // finally just add all the generics into the pool
-            _.each(allMessages.generic, (msg) => {
-                messagePool.push(msg);
-            });
+            messagePool.push(...g.Messages.generic);
         }
 
-        message = SharkGame.choose(messagePool);
-        return '"' + message + '"';
+        return '"' + SharkGame.choose(messagePool) + '"';
     },
 
     // GOD THIS IS A MESS

@@ -356,7 +356,7 @@ SharkGame.Home = {
             discoverReq: [],
         };
         // populate action discoveries (and reset removals)
-        _.each(SharkGame.HomeActions.getActionList(), (actionData) => {
+        _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
             actionData.discovered = false;
             actionData.newlyDiscovered = false;
             actionData.isRemoved = false;
@@ -396,7 +396,7 @@ SharkGame.Home = {
     },
 
     discoverActions() {
-        $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {
+        $.each(SharkGame.HomeActions.getActionTable(), (actionName, actionData) => {
             actionData.discovered = h.areActionPrereqsMet(actionName);
             actionData.newlyDiscovered = false;
         });
@@ -410,37 +410,38 @@ SharkGame.Home = {
 
         // add a header for each discovered category
         // make it a link if it's not the current tab
-        $.each(SharkGame.HomeActionCategories, (k, v) => {
-            const onThisTab = h.currentButtonTab === k;
+        $.each(SharkGame.HomeActionCategories, (categoryName, category) => {
+            const onThisTab = h.currentButtonTab === categoryName;
 
             let categoryDiscovered = false;
-            if (k === "all") {
+            if (categoryName === "all") {
                 categoryDiscovered = true;
             } else {
-                _.each(v.actions, (actionName) => {
-                    if (SharkGame.HomeActions.getActionList()[actionName]) {
-                        categoryDiscovered = categoryDiscovered || SharkGame.HomeActions.getActionList()[actionName].discovered;
-                    }
+                // Check if any action in category is discovered
+                categoryDiscovered = _.some(category.actions, (actionName) => {
+                    const actionTable = SharkGame.HomeActions.getActionTable();
+                    // True if it exists and is discovered
+                    return _.has(actionTable, actionName) && actionTable[actionName].discovered;
                 });
             }
 
             if (categoryDiscovered) {
                 const tabListItem = $("<li>");
                 if (onThisTab) {
-                    tabListItem.html(v.name);
+                    tabListItem.html(category.name);
                 } else {
                     tabListItem.append(
                         $("<a>")
-                            .attr("id", "buttonTab-" + k)
+                            .attr("id", "buttonTab-" + categoryName)
                             .attr("href", "javascript:;")
-                            .html(v.name)
+                            .html(category.name)
                             .on("click", function callback() {
                                 if ($(this).hasClass(".disabled")) return;
                                 const tab = $(this).attr("id").split("-")[1];
                                 h.changeButtonTab(tab);
                             })
                     );
-                    if (v.hasNewItem) {
+                    if (category.hasNewItem) {
                         tabListItem.addClass("newItemAdded");
                     }
                 }
@@ -499,7 +500,7 @@ SharkGame.Home = {
                 );
                 requirementsMet &&= _.every(extraMessage.unlock.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
                 requirementsMet &&= _.every(extraMessage.unlock.homeAction, (actionName) => {
-                    const action = SharkGame.HomeActions.getActionList()[actionName];
+                    const action = SharkGame.HomeActions.getActionTable()[actionName];
                     return action.discovered && !action.newlyDiscovered;
                 });
                 return requirementsMet;
@@ -545,7 +546,7 @@ SharkGame.Home = {
 
     update() {
         // for each button entry in the home tab,
-        $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {
+        $.each(SharkGame.HomeActions.getActionTable(), (actionName, actionData) => {
             const actionTab = h.getActionCategory(actionName);
             const onTab = actionTab === h.currentButtonTab || h.currentButtonTab === "all";
             if (onTab && !actionData.isRemoved) {
@@ -588,7 +589,7 @@ SharkGame.Home = {
         const amountToBuy = m.getBuyAmount();
 
         const button = $("#" + actionName);
-        const actionData = SharkGame.HomeActions.getActionList()[actionName];
+        const actionData = SharkGame.HomeActions.getActionTable()[actionName];
 
         if (actionData.removedBy) {
             if (h.shouldRemoveHomeButton(actionData)) {
@@ -631,13 +632,7 @@ SharkGame.Home = {
         }
 
         // check for any infinite quantities
-        let infinitePrice = false;
-        _.each(actionCost, (num) => {
-            if (num === Number.POSITIVE_INFINITY) {
-                infinitePrice = true;
-            }
-        });
-        if (infinitePrice) {
+        if (_.some(actionCost, (cost) => cost === Infinity)) {
             label += "<br>Maxed out";
         } else {
             const costText = r.resourceListToString(actionCost, !enableButton, SharkGame.getElementColor(actionName, "background-color"));
@@ -646,9 +641,11 @@ SharkGame.Home = {
             }
         }
 
-        /*         if (document.querySelector("#wrapper button.hoverbutton:hover") === null) {
+        /*
+        if (document.querySelector("#wrapper button.hoverbutton:hover") === null) {
             h.onHomeUnhover();
-        } */
+        }
+        */
 
         label = $('<span id="' + actionName + 'Label" class="click-passthrough">' + label + "</span>");
 
@@ -684,7 +681,7 @@ SharkGame.Home = {
 
     areActionPrereqsMet(actionName) {
         let prereqsMet = true; // assume true until proven false
-        const action = SharkGame.HomeActions.getActionList()[actionName];
+        const action = SharkGame.HomeActions.getActionTable()[actionName];
         if (action.unauthorized) {
             return false;
         }
@@ -692,44 +689,39 @@ SharkGame.Home = {
         if (action.removedBy) {
             prereqsMet = !h.shouldRemoveHomeButton(action);
         }
+
         // check resource prerequisites
         if (action.prereq.resource) {
-            prereqsMet = prereqsMet && r.checkResources(action.prereq.resource, true);
+            prereqsMet &&= r.checkResources(action.prereq.resource, true);
         }
+
         // check if resource cost exists
-        if (action.cost) {
-            _.each(action.cost, (cost) => {
-                prereqsMet &&= w.doesResourceExist(cost.resource);
-            });
-        }
+        prereqsMet &&= _.every(action.cost, (cost) => w.doesResourceExist(cost.resource));
+
         // check special worldtype prereqs
         if (action.prereq.world) {
-            prereqsMet = prereqsMet && w.worldType === action.prereq.world;
+            prereqsMet &&= w.worldType === action.prereq.world;
         }
 
         // check the special worldtype exclusions
         if (action.prereq.notWorlds) {
-            prereqsMet = prereqsMet && !action.prereq.notWorlds.includes(w.worldType);
+            prereqsMet &&= !action.prereq.notWorlds.includes(w.worldType);
         }
 
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
         // check upgrade prerequisites
-        if (action.prereq.upgrade) {
-            _.each(action.prereq.upgrade, (upgradeId) => {
-                if (upgradeTable[upgradeId]) {
-                    prereqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeId);
-                } else {
-                    prereqsMet = false;
-                }
-            });
-        }
+        _.each(action.prereq.upgrade, (upgradeId) => {
+            if (upgradeTable[upgradeId]) {
+                prereqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeId);
+            } else {
+                prereqsMet = false;
+            }
+        });
         // check if resulting resource exists
-        if (action.effect.resource) {
-            $.each(action.effect.resource, (k) => {
-                prereqsMet = prereqsMet && w.doesResourceExist(k);
-            });
-        }
+        $.each(action.effect.resource, (k) => {
+            prereqsMet = prereqsMet && w.doesResourceExist(k);
+        });
         return prereqsMet;
     },
 
@@ -738,14 +730,10 @@ SharkGame.Home = {
         $.each(action.removedBy, (kind, by) => {
             switch (kind) {
                 case "otherActions":
-                    _.each(by, (otherAction) => {
-                        disable = disable || h.areActionPrereqsMet(otherAction);
-                    });
+                    disable ||= _.some(by, (otherAction) => h.areActionPrereqsMet(otherAction));
                     break;
                 case "upgrades":
-                    _.each(by, (upgrade) => {
-                        disable = disable || SharkGame.Upgrades.includes(upgrade);
-                    });
+                    disable ||= _.some(by, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
                     break;
             }
         });
@@ -754,7 +742,7 @@ SharkGame.Home = {
 
     addButton(actionName) {
         const buttonListSel = $("#buttonList");
-        const actionData = SharkGame.HomeActions.getActionList()[actionName];
+        const actionData = SharkGame.HomeActions.getActionTable()[actionName];
 
         const buttonSelector = SharkGame.Button.makeHoverscriptButton(
             actionName,
@@ -784,7 +772,7 @@ SharkGame.Home = {
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const buttonName = button.attr("id");
-        const action = SharkGame.HomeActions.getActionList()[buttonName];
+        const action = SharkGame.HomeActions.getActionTable()[buttonName];
         let actionCost = {};
         let amount = 0;
         if (amountToBuy < 0) {
@@ -855,7 +843,7 @@ SharkGame.Home = {
             const button = $(this);
             actionName = button.attr("id");
         }
-        const effects = SharkGame.HomeActions.getActionList()[actionName].effect;
+        const effects = SharkGame.HomeActions.getActionTable()[actionName].effect;
         const validGenerators = {};
         if (effects.resource) {
             $.each(effects.resource, (resource) => {
@@ -931,8 +919,8 @@ SharkGame.Home = {
             });
         });
 
-        if (SharkGame.HomeActions.getActionList()[actionName].helpText) {
-            text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
+        if (SharkGame.HomeActions.getActionTable()[actionName].helpText) {
+            text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionTable()[actionName].helpText + "</span>";
         }
 
         $.each(effects.resource, (resource, amount) => {

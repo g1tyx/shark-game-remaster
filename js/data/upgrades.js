@@ -381,7 +381,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
             effectDesc:
-                "Crabs and planter crabs are twice as effective. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
+                "Crabs and planter crabs are four and two times as effective, respectively. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
                 science: 500,
                 kelp: 100,
@@ -402,7 +402,7 @@ SharkGame.Upgrades = {
             desc: "We must determine what is with the weird glare on the surface of the water.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
-                "Planter crabs are twice as effective, and shrimp are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
+                "Planter crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
                 science: 5000,
             },
@@ -860,40 +860,8 @@ SharkGame.Upgrades = {
         },
     },
     haven: {
-        crystalBite: {
-            name: "Crystal Bite-Gear",
-            desc: "Bite the crystals we have into something to help biting!",
-            researchedMessage: "Weird teeth-wear has been developed, and sharks can now catch fish better as a result.",
-            effectDesc: "Sharks are twice as effective with their new biting gear. Turns out they work better outside the mouth!",
-            cost: {
-                science: 50,
-                fish: 10,
-                crystal: 5,
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 2,
-                },
-            },
-        },
-
-        crystalSpade: {
-            name: "Crystal Spades",
-            desc: "Fashion strange harness-tools for the rays.",
-            researchedMessage: "The rays can now bother the sand more effectively, and dig up more sand now!",
-            effectDesc: "Rays are twice as effective with their specially adapted digging tools.",
-            cost: {
-                science: 50,
-                sand: 20,
-                crystal: 5,
-            },
-            effect: {
-                incomeMultiplier: {
-                    ray: 2,
-                },
-            },
-        },
-
+        crystalBite: {},
+        crystalSpade: {},
         cetaceanAwareness: {
             name: "Cetacean Awareness",
             desc: "From a distance, it's hard to tell which of us are really sharks or... those other things. We need to figure this out.",
@@ -910,80 +878,12 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
-        crystalContainer: {
-            name: "Crystal Containers",
-            desc: "Make weird bottle things from the crystals we have. Maybe useful??",
-            researchedMessage: "Well, things can go into these containers that aren't water. This makes science easier!",
-            effectDesc: "Scientists are twice as effective at making with the science.",
-            cost: {
-                science: 100,
-                crystal: 50,
-            },
-            effect: {
-                incomeMultiplier: {
-                    scientist: 2,
-                },
-            },
-        },
-
-        statsDiscovery: {
-            name: "Storage Caverns",
-            desc: "It's about time to start moving the stores we have to a better place. We've found one but it needs setting up.",
-            researchedMessage:
-                "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. No more stray currents washing it all away hopefully!",
-            effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing. Sort of.",
-            cost: {
-                science: 150,
-            },
-            required: {
-                upgrades: ["crystalContainer"],
-            },
-        },
-
-        underwaterChemistry: {
-            name: "Underwater Chemistry",
-            desc: "With the weird bottles, we can now put things and other things into them and see what happens.",
-            researchedMessage: "Well, nothing useful was determined, but if we keep on doing it we make tremendous leaps for science!",
-            effectDesc: "Scientists are twice as effective with their new chemical insights.",
-            cost: {
-                science: 200,
-                crystal: 50,
-            },
-            required: {
-                upgrades: ["crystalContainer"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    scientist: 2,
-                },
-            },
-        },
-
-        seabedGeology: {
-            name: "Seabed Geology",
-            desc: "Study the bottom of the ocean to determine the rich, deep, juicy secrets it contains.",
-            researchedMessage: "Not only did we find a whole bunch of weird things, the rays found that there was more sand!",
-            effectDesc: "Rays are twice as effective with their understanding of the seabed and its varieties of sediment.",
-            cost: {
-                science: 250,
-                sand: 250,
-            },
-            required: {
-                upgrades: ["crystalContainer"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    ray: 2,
-                },
-            },
-        },
-
+        crystalContainer: {},
+        statsDiscovery: {},
+        underwaterChemistry: {},
+        seabedGeology: {},
         transmutation: {
-            name: "Transmutation",
             desc: "Delphinium is a terrible material! And it makes terrible machines! We can do better, surely.",
-            researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
-            effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
                 science: 75000,
                 crystal: 75000,
@@ -994,7 +894,6 @@ SharkGame.Upgrades = {
                 seen: ["crimsonCombine", "kelpCultivator", "tirelessCrafter"],
             },
         },
-
         aquamarineFusion: {
             name: "Aquamarine Fusion",
             desc:
@@ -1011,69 +910,31 @@ SharkGame.Upgrades = {
                 upgrades: ["delphineHistory"],
             },
         },
-
         automation: {
             name: "Automation",
             desc: "Using sharkonium, we can make our own things to do things so we don't have to do the things!",
-            researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
-            effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
                 science: 125000,
                 sharkonium: 17500,
             },
-            required: {
-                upgrades: ["transmutation"],
-            },
         },
-
         engineering: {
-            name: "Engineering",
-            desc: "The machines sort of suck. Let's make them better by learning how!",
-            researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
             effectDesc: "Machines are twice as effective. Auto-transmuters are now possible to create.",
             cost: {
                 science: 525000,
                 sharkonium: 60000,
             },
-            required: {
-                upgrades: ["automation"],
-                seen: ["fishMachine", "crystalMiner", "sandDigger"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    crystalMiner: 2,
-                    fishMachine: 2,
-                    sandDigger: 2,
-                },
-            },
         },
-
         recyclerDiscovery: {
-            name: "Recycler",
-            desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
-            researchedMessage:
-                "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
-            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
             cost: {
                 science: 500000,
                 sharkonium: 75000,
             },
-            required: {
-                upgrades: ["engineering"],
-            },
         },
-
         iterativeDesign: {
-            name: "Iterative Design",
-            desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
-            researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
-            effectDesc: "All shark machines run twice as fast. Again!",
             cost: {
                 science: 3750000,
                 sharkonium: 100000,
-            },
-            required: {
-                upgrades: ["engineering"],
             },
             effect: {
                 incomeMultiplier: {
@@ -1085,7 +946,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         dolphinTechnology: {
             name: "Dolphin Technology",
             desc: "The warm-blooded squeakers have machinery that might be useful. Let's reverse-engineer it.",
@@ -1101,18 +961,11 @@ SharkGame.Upgrades = {
                 seen: ["delphinium"],
             },
         },
-
         agriculture: {
-            name: "Agriculture",
-            desc: "The hunter-gatherer lifestyle will only work so well for us. Maybe we should gather these animals in one place and let them grow.",
-            researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
             effectDesc: "Discovered agricultural methods. We'll see if this bears fruit.",
             cost: {
                 science: 300,
                 sand: 1000,
-            },
-            required: {
-                upgrades: ["seabedGeology"],
             },
             effect: {
                 incomeMultiplier: {
@@ -1120,44 +973,18 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         kelpHorticulture: {
-            name: "Kelp Horticulture",
-            desc: "Determine what it takes to plant kelp all over the seabed. Maybe this is useful.",
-            researchedMessage: "Crab-specific gear has been invented to allow for kelp farming! This is possibly useful.",
-            effectDesc: "Crabs can become kelp farmers and grow a living carpet across the bottom of the sea.",
             cost: {
                 science: 100,
                 sand: 2500,
             },
-            required: {
-                upgrades: ["agriculture"],
-                resources: ["kelp"],
-            },
         },
-
         biology: {
-            name: "Biology",
-            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
-            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
-            effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
                 science: 750,
             },
-            required: {
-                upgrades: ["underwaterChemistry", "agriculture"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 2,
-                },
-            },
         },
-
         xenobiology: {
-            name: "Xenobiology",
-            desc: "Determine what is with these weird faceless creatures we keep finding.",
-            researchedMessage: "Results inconclusive! Further research required. It could be such a benefit for science!",
             effectDesc:
                 "We know how to harvest sea apples twice as quickly, and we can dissect sea apples for science. Also, sea apple isn't a fruit.",
             cost: {
@@ -1167,20 +994,10 @@ SharkGame.Upgrades = {
                 upgrades: ["kelpHorticulture"],
                 seen: ["seaApple"],
             },
-            effect: {
-                incomeMultiplier: {
-                    kelp: 2,
-                },
-            },
         },
-
         rayBiology: {
-            name: "Ray Biology",
-            desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
-            researchedMessage:
-                "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
             effectDesc:
-                "Rays are twice as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+                "Rays are four times as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
                 science: 1250,
                 sand: 5000,
@@ -1194,14 +1011,9 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         crabBiology: {
             name: "Crab Biology",
             desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
-            researchedMessage:
-                "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
-            effectDesc:
-                "Crabs and planter crabs are four times as effective. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
                 science: 1500,
                 kelp: 100,
@@ -1210,14 +1022,7 @@ SharkGame.Upgrades = {
                 upgrades: ["biology", "kelpHorticulture"],
                 resources: ["crab"],
             },
-            effect: {
-                incomeMultiplier: {
-                    crab: 4,
-                    planter: 2,
-                },
-            },
         },
-
         coralCollection: {
             name: "Coral Collection",
             desc: "The dolphins keep talking about coral and crystals and pretty artwork. All the time. What??? Why do you care??",
@@ -1235,7 +1040,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         dolphinBiology: {
             name: "Dolphin Biology",
             desc: "Do we really have to learn about this? We do? Alright, then.",
@@ -1258,7 +1062,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         delphineHistory: {
             name: "Delphine History",
             desc: "We keep finding all these flat pieces of kelp washing up in the current. What is with them? Why are they crunchy?!",
@@ -1279,7 +1082,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         imperialDesigns: {
             name: "Imperial Designs",
             desc:
@@ -1305,7 +1107,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         retroactiveRecordkeeping: {
             name: "Retroactive Recordkeeping",
             desc: "We've been sitting on a massive stockpile of these kelp papyrus...things. Maybe we should actually try organizing them.",
@@ -1325,11 +1126,7 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         sunObservation: {
-            name: "Sun Observation",
-            desc: "We must determine what is with the weird glare on the surface of the water.",
-            researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc:
                 "Planter crabs are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
@@ -1344,27 +1141,13 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         exploration: {
-            name: "Exploration",
-            desc: "Swim beyond the home seas to see what can be found!",
-            researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
-            effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
                 science: 5000,
                 fish: 50000,
             },
-            required: {
-                upgrades: ["sunObservation"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 2,
-                    ray: 2,
-                },
-            },
         },
-
+        /* Equivalent of farExploration.. named differently for unlocks or smth I think? */
         farHavenExploration: {
             name: "Far Exploration",
             desc: "Explore the vast reaches beyond the home ocean, and look for that portal that keeps popping up in dolphin texts.",
@@ -1383,7 +1166,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         whaleCommunication: {
             name: "Whale Communication",
             desc: "We can hear faint cries in the distance. What is out there?",
@@ -1397,7 +1179,6 @@ SharkGame.Upgrades = {
                 upgrades: ["exploration"],
             },
         },
-
         whaleSong: {
             name: "The Whale Song",
             desc:
@@ -1418,7 +1199,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         eternalSong: {
             name: "The Eternal Song",
             desc: "The song of the whales is mentioned in dolphin texts dating back as far as we can find. I think we're onto something.",
@@ -1440,7 +1220,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-
         crystallineConstruction: {
             name: "Crystalline Construction",
             desc: "The dolphins are a bunch of jerks, but maybe we can still learn from one another. Maybe.",

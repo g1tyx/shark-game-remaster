@@ -1,3 +1,4 @@
+/** @type {Map<string, any>} */
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
 SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income and after modifiers are applied
@@ -361,29 +362,14 @@ SharkGame.Resources = {
     },
 
     isCategoryVisible(category) {
-        let visible = false;
-        _.each(category.resources, (resourceName) => {
-            visible =
-                visible ||
-                ((SharkGame.PlayerResources.get(resourceName).totalAmount > 0 || SharkGame.PlayerResources.get(resourceName).discovered) &&
-                    w.doesResourceExist(resourceName));
+        return _.some(category.resources, (resourceName) => {
+            const resource = SharkGame.PlayerResources.get(resourceName);
+            return (resource.totalAmount > 0 || resource.discovered) && w.doesResourceExist(resourceName);
         });
-        return visible;
     },
 
     getCategoryOfResource(resourceName) {
-        let categoryName = "";
-        $.each(SharkGame.ResourceCategories, (categoryKey, categoryValue) => {
-            if (categoryName !== "") {
-                return;
-            }
-            _.each(categoryValue.resources, (value) => {
-                if (resourceName === value) {
-                    categoryName = categoryKey;
-                }
-            });
-        });
-        return categoryName;
+        return _.findKey(SharkGame.ResourceCategories, (category) => _.some(category.resources, (resource) => resource === resourceName));
     },
 
     getResourcesInCategory(categoryName) {
@@ -393,7 +379,7 @@ SharkGame.Resources = {
     },
 
     isCategory(name) {
-        return !(typeof SharkGame.ResourceCategories[name] === "undefined");
+        return typeof SharkGame.ResourceCategories[name] !== "undefined";
     },
 
     isInCategory(resource, category) {
@@ -402,47 +388,28 @@ SharkGame.Resources = {
 
     getBaseOfResource(resourceName) {
         // if there are super-categories/base jobs of a resource, return that, otherwise return null
-        let baseResourceName = null;
-        SharkGame.ResourceMap.forEach((value, key) => {
-            if (baseResourceName) {
-                return;
+        for (const [resourceId, resource] of SharkGame.ResourceMap) {
+            if (_.some(resource.jobs, (jobName) => jobName === resourceName)) {
+                return resourceId;
             }
-            if (value.jobs) {
-                _.each(value.jobs, (jobName) => {
-                    if (baseResourceName) {
-                        return;
-                    }
-                    if (jobName === resourceName) {
-                        baseResourceName = key;
-                    }
-                });
-            }
-        });
-        return baseResourceName;
+        }
+        return null;
     },
 
     haveAnyResources() {
-        let anyResources = false;
-        SharkGame.PlayerResources.forEach((value) => {
-            if (!anyResources) {
-                anyResources = value.totalAmount > 0;
-            }
-        });
-        return anyResources;
+        for (const [, resource] of SharkGame.PlayerResources) {
+            if (resource.totalAmount > 0) return true;
+        }
+        return false;
     },
 
     // returns true if enough resources are held (>=)
     // false if they are not
     checkResources(resourceList, checkTotal) {
-        let sufficientResources = true;
-        $.each(resourceList, (resource, required) => {
-            const currentResource = checkTotal ? r.getTotalResource(resource) : r.getResource(resource);
-            if (currentResource < required) {
-                sufficientResources = false;
-                return false;
-            }
+        return _.every(resourceList, (required, resource) => {
+            const currentAmount = checkTotal ? r.getTotalResource(resource) : r.getResource(resource);
+            return currentAmount >= required;
         });
-        return sufficientResources;
     },
 
     changeManyResources(resourceList, subtract) {
