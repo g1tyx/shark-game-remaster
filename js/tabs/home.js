@@ -301,7 +301,7 @@ SharkGame.Home = {
             discoverReq: [],
         };
         // populate action discoveries (and reset removals)
-        _.each(SharkGame.HomeActions.getActionList(), (actionData) => {
+        _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
             actionData.discovered = false;
             actionData.newlyDiscovered = false;
             actionData.isRemoved = false;
@@ -341,7 +341,7 @@ SharkGame.Home = {
     },
 
     discoverActions() {
-        $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {
+        $.each(SharkGame.HomeActions.getActionTable(), (actionName, actionData) => {
             actionData.discovered = h.areActionPrereqsMet(actionName);
             actionData.newlyDiscovered = false;
         });
@@ -363,8 +363,8 @@ SharkGame.Home = {
                 categoryDiscovered = true;
             } else {
                 _.each(v.actions, (actionName) => {
-                    if (SharkGame.HomeActions.getActionList()[actionName]) {
-                        categoryDiscovered = categoryDiscovered || SharkGame.HomeActions.getActionList()[actionName].discovered;
+                    if (SharkGame.HomeActions.getActionTable()[actionName]) {
+                        categoryDiscovered = categoryDiscovered || SharkGame.HomeActions.getActionTable()[actionName].discovered;
                     }
                 });
             }
@@ -444,7 +444,7 @@ SharkGame.Home = {
                 );
                 requirementsMet &&= _.every(extraMessage.unlock.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
                 requirementsMet &&= _.every(extraMessage.unlock.homeAction, (actionName) => {
-                    const action = SharkGame.HomeActions.getActionList()[actionName];
+                    const action = SharkGame.HomeActions.getActionTable()[actionName];
                     return action.discovered && !action.newlyDiscovered;
                 });
                 return requirementsMet;
@@ -490,7 +490,7 @@ SharkGame.Home = {
 
     update() {
         // for each button entry in the home tab,
-        $.each(SharkGame.HomeActions.getActionList(), (actionName, actionData) => {
+        $.each(SharkGame.HomeActions.getActionTable(), (actionName, actionData) => {
             const actionTab = h.getActionCategory(actionName);
             const onTab = actionTab === h.currentButtonTab || h.currentButtonTab === "all";
             if (onTab && !actionData.isRemoved) {
@@ -533,7 +533,7 @@ SharkGame.Home = {
         const amountToBuy = m.getBuyAmount();
 
         const button = $("#" + actionName);
-        const actionData = SharkGame.HomeActions.getActionList()[actionName];
+        const actionData = SharkGame.HomeActions.getActionTable()[actionName];
 
         if (actionData.removedBy) {
             if (h.shouldRemoveHomeButton(actionData)) {
@@ -629,7 +629,7 @@ SharkGame.Home = {
 
     areActionPrereqsMet(actionName) {
         let prereqsMet = true; // assume true until proven false
-        const action = SharkGame.HomeActions.getActionList()[actionName];
+        const action = SharkGame.HomeActions.getActionTable()[actionName];
         if (action.unauthorized) {
             return false;
         }
@@ -699,7 +699,7 @@ SharkGame.Home = {
 
     addButton(actionName) {
         const buttonListSel = $("#buttonList");
-        const actionData = SharkGame.HomeActions.getActionList()[actionName];
+        const actionData = SharkGame.HomeActions.getActionTable()[actionName];
 
         const buttonSelector = SharkGame.Button.makeHoverscriptButton(
             actionName,
@@ -729,7 +729,7 @@ SharkGame.Home = {
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const buttonName = button.attr("id");
-        const action = SharkGame.HomeActions.getActionList()[buttonName];
+        const action = SharkGame.HomeActions.getActionTable()[buttonName];
         let actionCost = {};
         let amount = 0;
         if (amountToBuy < 0) {
@@ -800,7 +800,7 @@ SharkGame.Home = {
             const button = $(this);
             actionName = button.attr("id");
         }
-        const effects = SharkGame.HomeActions.getActionList()[actionName].effect;
+        const effects = SharkGame.HomeActions.getActionTable()[actionName].effect;
         const validGenerators = {};
         if (effects.resource) {
             $.each(effects.resource, (resource) => {
@@ -876,8 +876,8 @@ SharkGame.Home = {
             });
         });
 
-        if (SharkGame.HomeActions.getActionList()[actionName].helpText) {
-            text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionList()[actionName].helpText + "</span>";
+        if (SharkGame.HomeActions.getActionTable()[actionName].helpText) {
+            text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionTable()[actionName].helpText + "</span>";
         }
 
         $.each(effects.resource, (resource, amount) => {
