@@ -688,6 +688,7 @@ SharkGame.Save = {
             return save;
         },
 
+        // Haven rework
         function update14(save) {
             _.each(
                 [
@@ -765,6 +766,18 @@ SharkGame.Save = {
                 }
             });
             save.completedWorlds = completedWorlds;
+
+            return save;
+        },
+
+        // Frigid rework
+        function update15(save) {
+            if (_.has(save, "settings.showTabHelp")) {
+                if (!_.has(save, "settings.showTooltips")) {
+                    save.settings.showTooltops = save.settings.showTabHelp;
+                }
+                delete save.settings.showTabHelp;
+            }
 
             return save;
         },

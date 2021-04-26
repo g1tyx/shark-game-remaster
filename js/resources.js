@@ -570,7 +570,7 @@ SharkGame.Resources = {
     },
 
     tableTextEnter(_mouseEnterEvent, resourceName = false) {
-        if (!SharkGame.Settings.current.showTabHelp) {
+        if (!SharkGame.Settings.current.showTooltips) {
             return;
         }
         if (!resourceName) {

@@ -321,11 +321,6 @@ SharkGame.Home = {
         const buttonTabDiv = $("<div>").attr("id", "homeTabs");
         content.append(buttonTabDiv);
         h.createButtonTabs();
-        // help button
-        const helpButtonDiv = $("<div>");
-        helpButtonDiv.css({ margin: "auto", clear: "both" });
-        SharkGame.Button.makeButton("helpButton", "Toggle hover descriptions", helpButtonDiv, h.toggleHelp).addClass("min-block");
-        content.append(helpButtonDiv);
         // button list
         const buttonList = $("<div>").attr("id", "buttonList");
         content.append(buttonList);
@@ -781,7 +776,7 @@ SharkGame.Home = {
     },
 
     onHomeHover(_mouseEnterEvent, actionName) {
-        if (!SharkGame.Settings.current.showTabHelp) {
+        if (!SharkGame.Settings.current.showTooltips) {
             return;
         }
         if (!actionName) {
@@ -965,9 +960,5 @@ SharkGame.Home = {
             });
         }
         return Math.floor(max);
-    },
-
-    toggleHelp() {
-        SharkGame.Settings.current.showTabHelp = !SharkGame.Settings.current.showTabHelp;
     },
 };

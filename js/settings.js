@@ -19,11 +19,7 @@ SharkGame.Settings = {
         options: ["absolute", "percentage"],
     },
 
-    showTabHelp: {
-        defaultSetting: true,
-        show: false,
-        options: [true, false],
-    },
+    // PERFORMANCE
 
     framerate: {
         defaultSetting: 20,
@@ -36,6 +32,17 @@ SharkGame.Settings = {
             m.applyFramerate();
         },
     },
+
+    showAnimations: {
+        defaultSetting: true,
+        name: "Show Animations",
+        desc: "Whether to show animated transitions for some things.",
+        show: true,
+        category: "PERFORMANCE",
+        options: [true, false],
+    },
+
+    // LAYOUT
 
     minimizedTopbar: {
         defaultSetting: true,
@@ -106,14 +113,7 @@ SharkGame.Settings = {
         },
     },
 
-    showAnimations: {
-        defaultSetting: true,
-        name: "Show Animations",
-        desc: "Whether to show animated transitions for some things.",
-        show: true,
-        category: "PERFORMANCE",
-        options: [true, false],
-    },
+    // APPEARANCE
 
     colorCosts: {
         defaultSetting: true,
@@ -178,6 +178,17 @@ SharkGame.Settings = {
         },
     },
 
+    // OTHER
+
+    showTooltips: {
+        defaultSetting: true,
+        name: "Tooltips",
+        desc: "Whether to show informational tooltips when hovering over certain elements.",
+        show: true,
+        category: "OTHER",
+        options: [true, false],
+    },
+
     updateCheck: {
         defaultSetting: true,
         name: "Check for updates",
@@ -201,6 +212,8 @@ SharkGame.Settings = {
         category: "OTHER",
         options: [true, false],
     },
+
+    // SAVES
 
     autosaveFrequency: {
         // times given in minutes
