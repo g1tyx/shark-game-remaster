@@ -297,15 +297,6 @@ SharkGame.Lab = {
         }
 
         if (upgradeData.required) {
-            // MODDED
-            // if this upgrade is restricted to certain worlds,
-            // check that the worldtype is acceptable for this upgrade to appear
-            if (upgradeData.required.worlds) {
-                isPossible = isPossible && upgradeData.required.worlds.includes(w.worldType);
-            }
-            if (upgradeData.required.notWorlds) {
-                isPossible = isPossible && !upgradeData.required.notWorlds.includes(w.worldType);
-            }
             if (upgradeData.required.resources) {
                 // check if any related resources exist in the world for this to make sense
                 // unlike the costs where all resources in the cost must exist, this is an either/or scenario
@@ -313,25 +304,16 @@ SharkGame.Lab = {
                 _.each(upgradeData.required.resources, (v) => {
                     relatedResourcesExist = relatedResourcesExist || w.doesResourceExist(v);
                 });
-                isPossible = isPossible && relatedResourcesExist;
-            }
-            if (upgradeData.required.upgrades) {
-                // RECURSIVE CHECK REQUISITE TECHS
-                _.each(upgradeData.required.upgrades, (v) => {
-                    isPossible = isPossible && lab.isUpgradePossible(v);
-                });
-            }
-            if (upgradeData.required.totals) {
-                $.each(upgradeData.required.totals, (k, v) => {
-                    isPossible = isPossible && r.getTotalResource(k) >= v;
-                });
+                isPossible &&= relatedResourcesExist;
             }
 
+            // RECURSIVE CHECK REQUISITE TECHS
+            isPossible &&= _.every(upgradeData.required.upgrades, (upgrade) => lab.isUpgradePossible(upgrade));
+
+            isPossible &&= _.every(upgradeData.required.totals, (requiredTotal, resourceName) => r.getTotalResource(resourceName) >= requiredTotal);
+
             // check existence of resource cost
-            // this is the final check, everything that was permitted previously will be made false
-            $.each(upgradeData.cost, (k) => {
-                isPossible = isPossible && w.doesResourceExist(k);
-            });
+            isPossible &&= _.every(upgradeData.cost, (_amount, resource) => w.doesResourceExist(resource));
         }
 
         return isPossible;
@@ -349,24 +331,16 @@ SharkGame.Lab = {
     },
 
     getResearchEffects(upgrade, _darken) {
-        let effects = "<span class='medDesc' class='click-passthrough'>(Effects: ";
-        let anyeffect = false;
+        const effects = [];
         $.each(upgrade.effect, (effectType, effectsList) => {
             $.each(effectsList, (resource, degree) => {
                 const effectText = SharkGame.ModifierReference.get(effectType).effectDescription(degree, resource);
                 if (w.doesResourceExist(resource) && effectText !== "") {
-                    effects += effectText + ", ";
-                    anyeffect = true;
+                    effects.push(effectText);
                 }
             });
         });
-        if (anyeffect) {
-            effects = effects.slice(0, -2); // remove trailing suffix
-        } else {
-            effects += "???";
-        }
-        effects += ")</span>";
-        return effects;
+        return "<span class='medDesc' class='click-passthrough'>(Effects: " + (effects.length > 0 ? effects.join(", ") : "???") + ")</span>";
     },
 
     updateUpgradeList() {

@@ -676,13 +676,13 @@ SharkGame.Save = {
         },
 
         function update13(save) {
-            _.each(["historian", "crimsonCombine", "kelpCultivator"], (v) => {
-                save.resources[v] = { amount: 0, totalAmount: 0 };
+            _.each(["historian", "crimsonCombine", "kelpCultivator"], (resourceName) => {
+                save.resources[resourceName] = { amount: 0, totalAmount: 0 };
             });
             _.each(
                 ["coralCollection", "whaleCommunication", "delphineHistory", "whaleSong", "farHavenExploration", "crystallineConstruction"],
-                (v) => {
-                    save.upgrades[v] = false;
+                (upgradeName) => {
+                    save.upgrades[upgradeName] = false;
                 }
             );
             return save;
@@ -736,6 +736,7 @@ SharkGame.Save = {
                 delete save.upgrades.coralHalls;
             }
 
+            // Don't bother saving 0 or null values, they're implied already
             _.each(save.resources, (resource, resourceId) => {
                 if ([0, null].includes(resource.amount) && [0, null].includes(resource.totalAmount)) {
                     delete save.resources[resourceId];
