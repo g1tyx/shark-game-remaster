@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Recycler = {
     tabId: "recycler",
     tabDiscovered: false,

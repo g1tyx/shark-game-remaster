@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Reflection = {
     tabId: "reflection",
     tabDiscovered: false,

@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Log = {
     initialised: false,
     messages: [],
@@ -5,7 +6,7 @@ SharkGame.Log = {
     init() {
         const l = SharkGame.Log;
         // create log
-        $("#log").append("<h3>Log<h3/><button id='clearLog' class='min close-button'>✕</button><ul id='messageList'></ul>");
+        $("#log").append("<h3>Log<h3/>").append("<button id='clearLog' class='min close-button'>✕</button>").append("<ul id='messageList'></ul>");
         // add clear button
         $("#clearLog").on("click", l.clearMessages);
         l.initialised = true;

@@ -1,3 +1,4 @@
+"use strict";
 /** @type {Map<string, any>} */
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced

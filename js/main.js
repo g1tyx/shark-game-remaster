@@ -1,3 +1,4 @@
+"use strict";
 /* eslint-disable-next-line no-var, no-use-before-define, no-shadow */
 var SharkGame = SharkGame || {};
 

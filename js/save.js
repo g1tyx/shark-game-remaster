@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Save = {
     saveFileName: "sharkGameSave",
 
@@ -169,15 +170,13 @@ SharkGame.Save = {
             // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
             g.applyArtifacts(true);
 
-            if (saveData.tabs) {
-                $.each(saveData.tabs, (k, v) => {
-                    if (SharkGame.Tabs[k]) {
-                        SharkGame.Tabs[k].discovered = v;
-                    }
-                });
-                if (saveData.tabs.current) {
-                    SharkGame.Tabs.current = saveData.tabs.current;
+            $.each(saveData.tabs, (tabName, discovered) => {
+                if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
+                    SharkGame.Tabs[tabName].discovered = discovered;
                 }
+            });
+            if (saveData.tabs.current) {
+                SharkGame.Tabs.current = saveData.tabs.current;
             }
 
             if (saveData.completedRequirements) {
@@ -187,15 +186,13 @@ SharkGame.Save = {
             // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
             r.recalculateIncomeTable();
 
-            if (saveData.settings) {
-                $.each(saveData.settings, (k, v) => {
-                    if (SharkGame.Settings.current[k] !== undefined) {
-                        SharkGame.Settings.current[k] = v;
-                        // update anything tied to this setting right off the bat
-                        (SharkGame.Settings[k].onChange || $.noop)();
-                    }
-                });
-            }
+            $.each(saveData.settings, (k, v) => {
+                if (SharkGame.Settings.current[k] !== undefined) {
+                    SharkGame.Settings.current[k] = v;
+                    // update anything tied to this setting right off the bat
+                    (SharkGame.Settings[k].onChange || $.noop)();
+                }
+            });
 
             const currTimestamp = _.now();
             // create surrogate timestamps if necessary

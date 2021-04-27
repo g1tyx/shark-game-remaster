@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @type Record<string, (a: number, b: number, k: number) => number>
  */
