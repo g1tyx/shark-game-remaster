@@ -1252,8 +1252,8 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211505a": ["Added missing flavor text.", "Internal stuff."],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20212204a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210515a": ["Added missing flavor text.", "Internal stuff."],
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210422a": [
         "Implemented reworked gameplay for the Haven worldtype.",
         "Made sweeping changes to the UI.",
         "Improved grotto formatting.",
@@ -1264,14 +1264,14 @@ SharkGame.Changelog = {
         "Added minimized titlebar. You can switch it back to the old one in the options menu.",
         "Added categories to options menu. Now it's readable!",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211403a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210314a": [
         "Fixed bug related to how artifacts display in the grotto.",
         "Fixed bug related to artifact affects not applying properly.",
         "Fixed bug where the grotto would show an upgrade multiplier for everything, even if it was x1.",
         "Fixed bug where artifact effects would not reset when importing.",
         "Added 'INCOME PER' statistic to Simple grotto. Shows absolutely how much of a resource you get per generator.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211203a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210312a": [
         "Added simplified grotto.",
         "Made grotto way easier to understand.",
         "Added tooltips to income table.",
