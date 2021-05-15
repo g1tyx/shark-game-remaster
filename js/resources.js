@@ -6,8 +6,8 @@ SharkGame.ResourceMap = new Map(); // every resource and what it produces at bas
 SharkGame.BreakdownIncomeTable = new Map(); // a map which has every single generator and what it produces, after costScaling
 SharkGame.FlippedBreakdownIncomeTable = new Map(); // each resource and what produces it and how much
 SharkGame.ModifierMap = new Map(); // the static multipliers and modifiers to each resource from upgrades, the world, etc
-SharkGame.ResourceIncomeAffectorsClone = {}; // these two are used to preserve the integrity of the original table in sharkgame.resourcetable
-SharkGame.GeneratorIncomeAffectorsClone = {}; // this allows free modification of these, in accordance with modifiers and events
+SharkGame.ResourceIncomeAffectors = {}; // these two are used to preserve the integrity of the original table in sharkgame.resourcetable
+SharkGame.GeneratorIncomeAffectors = {}; // this allows free modification of these, in accordance with modifiers and events
 
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
@@ -69,8 +69,8 @@ SharkGame.Resources = {
         });
 
         r.specialMultiplier = 1;
-        SharkGame.ResourceIncomeAffectorsClone = _.cloneDeep(SharkGame.ResourceIncomeAffectors);
-        SharkGame.GeneratorIncomeAffectorsClone = _.cloneDeep(SharkGame.GeneratorIncomeAffectors);
+        SharkGame.ResourceIncomeAffectors = _.cloneDeep(SharkGame.ResourceIncomeAffectorsOriginal);
+        SharkGame.GeneratorIncomeAffectors = _.cloneDeep(SharkGame.GeneratorIncomeAffectorsOriginal);
         r.clearNetworks();
     },
 
@@ -693,7 +693,7 @@ SharkGame.Resources = {
         // completes the network of resources whose incomes are affected by other resources
         // takes the order of the gia and reverses it to get the rgad.
 
-        const gia = SharkGame.GeneratorIncomeAffectorsClone;
+        const gia = SharkGame.GeneratorIncomeAffectors;
         const rgad = SharkGame.GeneratorIncomeAffected;
         const rc = SharkGame.ResourceCategories;
         // recursively parse the gia
@@ -713,7 +713,7 @@ SharkGame.Resources = {
         });
 
         // resources incomes below, generators above
-        const ria = SharkGame.ResourceIncomeAffectorsClone;
+        const ria = SharkGame.ResourceIncomeAffectors;
         const rad = SharkGame.ResourceIncomeAffected;
         // recursively parse the ria
         $.each(ria, (affectorResource) => {

@@ -963,7 +963,7 @@ SharkGame.ResourceTable = {
     },
 };
 
-SharkGame.GeneratorIncomeAffectors = {
+SharkGame.GeneratorIncomeAffectorsOriginal = {
     // s: table of all the ways that various resources affect the production of others
     // in the following structure:
     // resource which affects the income... {
@@ -1015,7 +1015,7 @@ SharkGame.GeneratorIncomeAffected = {
     // see SharkGame.Resources.buildIncomeNetwork
 };
 
-SharkGame.ResourceIncomeAffectors = {
+SharkGame.ResourceIncomeAffectorsOriginal = {
     historian: {
         multiply: {
             science: 0.01,

@@ -75,7 +75,7 @@ SharkGame.Events = {
         },
         trigger(/*load = false*/) {
             SharkGame.World.worldResources.set("ice", 0.1);
-            SharkGame.GeneratorIncomeAffectorsClone.ice.multiply.ice = -0.02;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.02;
             return false;
         },
     },

@@ -837,7 +837,7 @@ SharkGame.Home = {
         });
 
         $.each(effects.resource, (resource) => {
-            $.each(SharkGame.ResourceIncomeAffectorsClone[resource], (type, object) => {
+            $.each(SharkGame.ResourceIncomeAffectors[resource], (type, object) => {
                 $.each(object, (affected, degree) => {
                     if (type === "multiply") {
                         if (!appendedMultiply) {
