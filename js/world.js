@@ -15,9 +15,6 @@ SharkGame.World = {
     planetLevel: 1,
 
     init() {
-        //w.worldType = "start";
-        //w.planetLevel = 1;
-        //w.worldResources = {};
         w.resetWorldProperties();
     },
 
@@ -68,7 +65,7 @@ SharkGame.World = {
         _.each(worldInfo.modifiers, (modifierData) => {
             r.applyModifier(modifierData.modifier, modifierData.resource, modifierData.amount);
         });
-        r.buildApplicableNetworks();
+        r.buildIncomeNetwork();
     },
 
     applyGateCosts(_level) {

@@ -586,6 +586,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 event.currentTarget.classList.add("radical");
             }
         });
+
+        // finally, set up events handler
+        // this will also end up processing one event cycle to weed out inapplicable events and trigger the aftereffects of applicable events
+        SharkGame.EventsHandler.init();
     },
 
     tick() {
@@ -600,6 +604,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // tick gateway stuff
             g.update();
         } else {
+            SharkGame.EventsHandler.handleEventTick("before");
+
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
@@ -622,6 +628,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             m.checkTabUnlocks();
 
             SharkGame.before = now;
+
+            SharkGame.EventsHandler.handleEventTick("after");
         }
 
         //see if resource table tooltip needs updating

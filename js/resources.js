@@ -6,6 +6,8 @@ SharkGame.ResourceMap = new Map(); // every resource and what it produces at bas
 SharkGame.BreakdownIncomeTable = new Map(); // a map which has every single generator and what it produces, after costScaling
 SharkGame.FlippedBreakdownIncomeTable = new Map(); // each resource and what produces it and how much
 SharkGame.ModifierMap = new Map(); // the static multipliers and modifiers to each resource from upgrades, the world, etc
+SharkGame.ResourceIncomeAffectorsClone = {}; // these two are used to preserve the integrity of the original table in sharkgame.resourcetable
+SharkGame.GeneratorIncomeAffectorsClone = {}; // this allows free modification of these, in accordance with modifiers and events
 
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
@@ -67,8 +69,9 @@ SharkGame.Resources = {
         });
 
         r.specialMultiplier = 1;
+        SharkGame.ResourceIncomeAffectorsClone = _.cloneDeep(SharkGame.ResourceIncomeAffectors);
+        SharkGame.GeneratorIncomeAffectorsClone = _.cloneDeep(SharkGame.GeneratorIncomeAffectors);
         r.clearNetworks();
-        r.buildIncomeNetwork();
     },
 
     processIncomes(timeDelta, debug) {
@@ -267,10 +270,10 @@ SharkGame.Resources = {
     getNetworkIncomeModifier(network, resource) {
         switch (network) {
             case "generator":
-                network = SharkGame.GeneratorIncomeAffectedApplicable;
+                network = SharkGame.GeneratorIncomeAffected;
                 break;
             case "resource":
-                network = SharkGame.ResourceIncomeAffectedApplicable;
+                network = SharkGame.ResourceIncomeAffected;
         }
 
         const node = network[resource];
@@ -686,87 +689,52 @@ SharkGame.Resources = {
         return formattedResourceList;
     },
 
-    buildIncomeNetwork(specifically) {
+    buildIncomeNetwork() {
         // completes the network of resources whose incomes are affected by other resources
         // takes the order of the gia and reverses it to get the rgad.
 
-        const gia = SharkGame.GeneratorIncomeAffectors;
+        const gia = SharkGame.GeneratorIncomeAffectorsClone;
         const rgad = SharkGame.GeneratorIncomeAffected;
         const rc = SharkGame.ResourceCategories;
-        if (!specifically) {
-            // recursively parse the gia
-            $.each(gia, (resource) => {
-                $.each(gia[resource], (type) => {
-                    $.each(gia[resource][type], (generator, value) => {
-                        // check for issues worth throwing over
-                        if (SharkGame.ResourceMap.get(generator)) {
-                            if (!SharkGame.ResourceMap.get(generator).income) {
-                                throw new Error(
-                                    "Issue building income network, generator has no income, not actually a generator! Try changing resource table generators."
-                                );
-                            }
-                        }
-                        // is it a category or a generator?
-                        const nodes = r.isCategory(generator) ? rc[generator].resources : [generator];
-                        // recursively reconstruct the table with the keys in the inverse order
-                        $.each(nodes, (_k, v) => {
+        // recursively parse the gia
+        $.each(gia, (resource) => {
+            $.each(gia[resource], (type) => {
+                $.each(gia[resource][type], (generator, value) => {
+                    // is it a category or a generator?
+                    const nodes = r.isCategory(generator) ? rc[generator].resources : [generator];
+                    // recursively reconstruct the table with the keys in the inverse order
+                    $.each(nodes, (_k, v) => {
+                        if (w.worldResources.get(v).exists && w.worldResources.get(resource).exists) {
                             r.addNetworkNode(rgad, v, type, resource, value);
-                        });
+                        }
                     });
-                });
-            });
-        }
-        // resources incomes below, generators above
-        const ria = SharkGame.ResourceIncomeAffectors;
-        const rad = SharkGame.ResourceIncomeAffected;
-        if (!specifically) {
-            // recursively parse the ria
-            $.each(ria, (affectorResource) => {
-                $.each(ria[affectorResource], (type) => {
-                    $.each(ria[affectorResource][type], (affectedResource, degree) => {
-                        // s: is it a category?
-                        const nodes = r.isCategory(affectedResource) ? rc[affectedResource].resources : [affectedResource];
-
-                        // recursively reconstruct the table with the keys in the inverse order
-                        $.each(nodes, (_k, v) => {
-                            r.addNetworkNode(rad, v, type, affectorResource, degree);
-                        });
-                    });
-                });
-            });
-        }
-    },
-
-    buildApplicableNetworks() {
-        // this function builds two networks that contain all actually relevant relationships for a given world
-        // this is meant to save on calculations when searching the network
-        const apprgad = SharkGame.GeneratorIncomeAffectedApplicable;
-        const apprad = SharkGame.ResourceIncomeAffectedApplicable;
-        const rgad = SharkGame.GeneratorIncomeAffected;
-        const rad = SharkGame.ResourceIncomeAffected;
-        $.each(rgad, (generator) => {
-            $.each(rgad[generator], (type) => {
-                $.each(rgad[generator][type], (affector, degree) => {
-                    if (w.worldResources.get(generator).exists && w.worldResources.get(affector).exists) {
-                        r.addNetworkNode(apprgad, generator, type, affector, degree);
-                    }
                 });
             });
         });
-        $.each(rad, (resource) => {
-            $.each(rad[resource], (type) => {
-                $.each(rad[resource][type], (affector, degree) => {
-                    if (w.worldResources.get(resource).exists && w.worldResources.get(affector).exists) {
-                        r.addNetworkNode(apprad, resource, type, affector, degree);
-                    }
+
+        // resources incomes below, generators above
+        const ria = SharkGame.ResourceIncomeAffectorsClone;
+        const rad = SharkGame.ResourceIncomeAffected;
+        // recursively parse the ria
+        $.each(ria, (affectorResource) => {
+            $.each(ria[affectorResource], (type) => {
+                $.each(ria[affectorResource][type], (affectedResource, degree) => {
+                    // is it a category?
+                    const nodes = r.isCategory(affectedResource) ? rc[affectedResource].resources : [affectedResource];
+                    // recursively reconstruct the table with the keys in the inverse order
+                    $.each(nodes, (_k, v) => {
+                        if (w.worldResources.get(v).exists && w.worldResources.get(affectorResource).exists) {
+                            r.addNetworkNode(rad, v, type, affectorResource, degree);
+                        }
+                    });
                 });
             });
         });
     },
 
     clearNetworks() {
-        SharkGame.GeneratorIncomeAffectedApplicable = {};
-        SharkGame.ResourceIncomeAffectedApplicable = {};
+        SharkGame.GeneratorIncomeAffected = {};
+        SharkGame.ResourceIncomeAffected = {};
     },
 
     addNetworkNode(network, main, effect, sub, degree) {
