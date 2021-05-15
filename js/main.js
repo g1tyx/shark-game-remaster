@@ -1252,6 +1252,7 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 051521a": ["Added missing flavor text.", "Internal stuff."],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 042221a": [
         "Implemented reworked gameplay for the Haven worldtype.",
         "Made sweeping changes to the UI.",
