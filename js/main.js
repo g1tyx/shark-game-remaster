@@ -309,11 +309,9 @@ SharkGame.TitleBar = {
                     // just reset
                     m.init();
                 }
-            } else {
-                if (confirm("Is this world causing you too much trouble? Want to go back to the gateway?")) {
-                    SharkGame.wonGame = false;
-                    m.endGame();
-                }
+            } else if (confirm("Is this world causing you too much trouble? Want to go back to the gateway?")) {
+                SharkGame.wonGame = false;
+                m.endGame();
             }
         },
     },
@@ -531,16 +529,18 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Tabs.current = "home";
 
         // preserve settings or set defaults
-        $.each(SharkGame.Settings, (k, v) => {
-            if (k === "current") {
+        $.each(SharkGame.Settings, (settingName, setting) => {
+            if (settingName === "current") {
                 return;
             }
-            const currentSetting = SharkGame.Settings.current[k];
+            const currentSetting = SharkGame.Settings.current[settingName];
             if (typeof currentSetting === "undefined") {
-                SharkGame.Settings.current[k] = v.defaultSetting;
+                SharkGame.Settings.current[settingName] = setting.defaultSetting;
             }
             // apply all settings as a failsafe
-            (v.onChange || $.noop)();
+            if (_.has(setting, "onChange")) {
+                setting.onChange();
+            }
         });
 
         // load save game data if present
