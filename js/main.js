@@ -589,7 +589,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         // finally, set up events handler
         // this will also end up processing one event cycle to weed out inapplicable events and trigger the aftereffects of applicable events
-        SharkGame.EventsHandler.init();
+        SharkGame.EventHandler.init();
     },
 
     tick() {
@@ -604,7 +604,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // tick gateway stuff
             g.update();
         } else {
-            SharkGame.EventsHandler.handleEventTick("before");
+            SharkGame.EventHandler.handleEventTick("beforeTick");
 
             // tick main game stuff
             const now = _.now();
@@ -629,7 +629,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             SharkGame.before = now;
 
-            SharkGame.EventsHandler.handleEventTick("after");
+            SharkGame.EventHandler.handleEventTick("afterTick");
         }
 
         //see if resource table tooltip needs updating

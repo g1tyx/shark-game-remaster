@@ -1,7 +1,9 @@
+"use strict";
 // welcome to the events system!
-// events are an important piece of a larger puzzle i'm trying to solve related to adding lots of behavior into the game
+// events are an important piece of a larger puzzle I'm trying to solve related to adding lots of behavior into the game
 // events will allow miscellaneous behavior to be organized into a single object
 // miscellaneous behavior is anything which does not belong in the core game loop.
+// Toby: Then why is it running in the core game loop?
 // this has the same purpose of the modifier system: flexibility while retaining performance and organization.
 //
 // events have triggers; they are very rigid, so we also need a system with which to trigger them
@@ -13,81 +15,35 @@
 //
 // a system will be implemented to handle events which will simply be called every tick before and after regular processing.
 //
-
-SharkGame.EventsHandler = {
-    eventQueue: new Map(),
-    init() {
-        const queue = SharkGame.EventsHandler.eventQueue;
-        $.each(SharkGame.Events, (name, obj) => {
-            if (!queue.get(obj.priority)) {
-                for (let i = 0; i <= obj.priority; i++) {
-                    if (!queue.get(i)) {
-                        queue.set(i, []);
-                    }
-                }
-            }
-            queue.get(obj.priority).push(name);
-        });
-        SharkGame.EventsHandler.handleEventTick("load");
-    },
-    handleEventTick(handlingTime) {
-        const queue = SharkGame.EventsHandler.eventQueue;
-
-        if (!handlingTime) {
-            SharkGame.Log.addError("Something tried to handle events without specifying when the handling is taking place.");
-            return;
-        }
-
-        let keepers;
-        for (let i = queue.size - 1; i >= 0; i--) {
-            keepers = [];
-            _.each(queue.get(i), (name) => {
-                const event = SharkGame.Events[name];
-                let keep = true;
-                if (event.handlingTime === handlingTime || handlingTime === "load") {
-                    switch (event.testTrigger(/*handlingTime === "load"*/)) {
-                        case true:
-                            keep = event.trigger(/*handlingTime === "load"*/);
-                            break;
-                        case "removeFromList":
-                            keep = false;
-                    }
-                }
-                if (keep) {
-                    keepers.push(name);
-                }
-            });
-            queue.set(i, keepers);
-        }
-    },
-};
-
+/**
+ * !! Copied from ../eventhandler.js !!
+ * @typedef {"beforeTick" | "afterTick"} eventName
+ * @typedef {"trigger" | "remove"} eventAction
+ * @typedef {{
+ *     handlingTime: eventName
+ *     priority: number
+ *     getAction(): eventAction
+ *     trigger(): boolean
+ * }} SharkEventHandler
+ */
+/** @type Record<string, SharkEventHandler> */
 SharkGame.Events = {
     frigidActivateIce: {
-        handlingTime: "before",
+        handlingTime: "beforeTick",
         priority: 0,
-        testTrigger(/*load = false*/) {
+        getAction() {
             if (SharkGame.World.worldType !== "frigid") {
-                return "removeFromList";
+                return "remove";
             }
-            // placeholder return value
-            return false;
+            return "trigger";
         },
-        trigger(/*load = false*/) {
+        /**
+         * @returns {boolean} - Wether to keep the event after firing
+         */
+        trigger() {
             SharkGame.World.worldResources.set("ice", 0.1);
             SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.02;
             return false;
         },
     },
-    /*test: {
-        handlingTime: "before",
-        priority: 0,
-        testTrigger(load = false) {
-            return r.getResource('ray') > 10;
-        },
-        trigger(load = false) {
-            SharkGame.World.worldResources.get('crab').income += 0.1;
-            return false;
-        },
-    },*/
 };
