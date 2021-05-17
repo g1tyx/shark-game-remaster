@@ -18,7 +18,7 @@
 /**
  * !! Copied from ../eventhandler.js !!
  * @typedef {"beforeTick" | "afterTick"} eventName
- * @typedef {"trigger" | "remove"} eventAction
+ * @typedef {"trigger" | "remove" | "pass"} eventAction
  * @typedef {{
  *     handlingTime: eventName
  *     priority: number

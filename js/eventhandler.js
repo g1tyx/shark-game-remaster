@@ -3,7 +3,7 @@
 /**
  * !! Copied from ./data/events.js !!
  * @typedef {"beforeTick" | "afterTick"} eventName
- * @typedef {"trigger" | "remove"} eventAction
+ * @typedef {"trigger" | "remove" | "pass"} eventAction
  * @typedef {{
  *     handlingTime: eventName
  *     priority: number
@@ -47,6 +47,8 @@ SharkGame.EventHandler = {
                             break;
                         case "remove":
                             keep = false;
+                            break;
+                        case "pass":
                             break;
                         default:
                             SharkGame.Log.addError(new Error("eventHandler.getAction() returned unexpected result"));
