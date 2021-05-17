@@ -23,7 +23,7 @@
  *     handlingTime: eventName
  *     priority: number
  *     getAction(): eventAction
- *     trigger(): boolean
+ *     trigger(): boolean - Whether to keep the event after firing
  * }} SharkEventHandler
  */
 /** @type Record<string, SharkEventHandler> */
@@ -37,9 +37,6 @@ SharkGame.Events = {
             }
             return "trigger";
         },
-        /**
-         * @returns {boolean} - Wether to keep the event after firing
-         */
         trigger() {
             SharkGame.World.worldResources.set("ice", 0.1);
             SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.02;
