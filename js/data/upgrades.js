@@ -23,7 +23,7 @@ SharkGame.Upgrades = {
     generated: {},
 
     /** @param worldType {string} */
-    getUpgradeTable(worldType = w.worldType) {
+    getUpgradeTable(worldType = world.worldType) {
         if (typeof SharkGame.Upgrades[worldType] !== "object") {
             // This world type doesn't have any special upgrades, so use the default ones.
             // We don't want to generate the same upgrade table multiple times for no reason.
@@ -36,7 +36,7 @@ SharkGame.Upgrades = {
     },
 
     /** @param worldType {string} */
-    generateUpgradeTable(worldType = w.worldType) {
+    generateUpgradeTable(worldType = world.worldType) {
         const upgradeTable = _.cloneDeep(SharkGame.Upgrades.default);
 
         // Check if world type has modifications

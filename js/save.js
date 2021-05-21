@@ -10,7 +10,7 @@ SharkGame.Save = {
             resources: {},
             tabs: {},
             completedRequirements: {},
-            world: { type: w.worldType, level: w.planetLevel },
+            world: { type: world.worldType, level: world.planetLevel },
             artifacts: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
         };
@@ -128,7 +128,7 @@ SharkGame.Save = {
                 SharkGame.Log.addMessage("Updated save data from v " + saveData.version + " to " + SharkGame.VERSION + ".");
             }
 
-            r.init();
+            res.init();
 
             $.each(saveData.resources, (k, v) => {
                 // check that this isn't an old resource that's been removed from the game for whatever reason
@@ -140,15 +140,15 @@ SharkGame.Save = {
 
             // load world type and level and apply world properties
             if (saveData.world) {
-                w.init();
-                w.worldType = saveData.world.type;
-                w.planetLevel = saveData.world.level;
-                w.apply();
-                h.init();
+                world.init();
+                world.worldType = saveData.world.type;
+                world.planetLevel = saveData.world.level;
+                world.apply();
+                home.init();
             }
 
             // hacky kludge: force table creation
-            r.reconstructResourcesTable();
+            res.reconstructResourcesTable();
 
             SharkGame.Lab.resetUpgrades();
 
@@ -156,9 +156,9 @@ SharkGame.Save = {
                 SharkGame.Lab.addUpgrade(upgradeId);
             });
 
-            g.init();
+            gateway.init();
             _.each(saveData.completedWorlds, (worldType) => {
-                g.markWorldCompleted(worldType);
+                gateway.markWorldCompleted(worldType);
             });
 
             // load artifacts (need to have the cost reducer loaded before world init)
@@ -168,7 +168,7 @@ SharkGame.Save = {
                 }
             });
             // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
-            g.applyArtifacts(true);
+            gateway.applyArtifacts(true);
 
             $.each(saveData.tabs, (tabName, discovered) => {
                 if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
@@ -184,7 +184,7 @@ SharkGame.Save = {
             }
 
             // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
-            r.recalculateIncomeTable();
+            res.recalculateIncomeTable();
 
             $.each(saveData.settings, (k, v) => {
                 if (SharkGame.Settings.current[k] !== undefined) {
@@ -221,7 +221,7 @@ SharkGame.Save = {
                 if (saveData.gateway.betweenRuns) {
                     simulateOffline = false;
                     SharkGame.wonGame = saveData.gateway.wonGame;
-                    m.endGame(true);
+                    main.endGame(true);
                 }
             }
 
@@ -236,8 +236,8 @@ SharkGame.Save = {
                 }
 
                 // process this
-                r.recalculateIncomeTable();
-                m.processSimTime(secondsElapsed);
+                res.recalculateIncomeTable();
+                main.processSimTime(secondsElapsed);
 
                 // acknowledge long time gaps
                 if (secondsElapsed > 3600) {
@@ -296,7 +296,7 @@ SharkGame.Save = {
             SharkGame.Log.addError(err);
         }
         // refresh current tab
-        m.setUpTab();
+        main.setUpTab();
     },
 
     exportData() {

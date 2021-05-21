@@ -27,7 +27,7 @@ SharkGame.Settings = {
         category: "PERFORMANCE",
         options: [1, 2, 5, 10, 20, 30],
         onChange() {
-            m.applyFramerate();
+            main.applyFramerate();
         },
     },
 
@@ -63,7 +63,7 @@ SharkGame.Settings = {
         category: "LAYOUT",
         options: [true, false],
         onChange() {
-            r.rebuildTable = true;
+            res.rebuildTable = true;
         },
     },
 
@@ -74,7 +74,7 @@ SharkGame.Settings = {
         category: "LAYOUT",
         options: ["list", "pile"],
         onChange() {
-            m.changeTab(SharkGame.Tabs.current);
+            main.changeTab(SharkGame.Tabs.current);
         },
     },
 
@@ -114,8 +114,8 @@ SharkGame.Settings = {
         category: "APPEARANCE",
         options: [true, false],
         onChange() {
-            r.rebuildTable = true;
-            s.recreateIncomeTable = true;
+            res.rebuildTable = true;
+            stats.recreateIncomeTable = true;
         },
     },
 
@@ -126,8 +126,8 @@ SharkGame.Settings = {
         options: [true, false],
         category: "APPEARANCE",
         onChange() {
-            r.rebuildTable = true;
-            s.recreateIncomeTable = true;
+            res.rebuildTable = true;
+            stats.recreateIncomeTable = true;
         },
     },
 
@@ -161,7 +161,7 @@ SharkGame.Settings = {
         category: "APPEARANCE",
         options: [true, false],
         onChange() {
-            m.changeTab(SharkGame.Tabs.current);
+            main.changeTab(SharkGame.Tabs.current);
         },
     },
 
@@ -184,7 +184,7 @@ SharkGame.Settings = {
         onChange() {
             clearInterval(SharkGame.Main.checkForUpdateHandler);
             if (SharkGame.Settings.current.updateCheck) {
-                SharkGame.Main.checkForUpdateHandler = setInterval(m.checkForUpdates, 300000);
+                SharkGame.Main.checkForUpdateHandler = setInterval(main.checkForUpdates, 300000);
             }
         },
     },
@@ -207,8 +207,8 @@ SharkGame.Settings = {
         category: "SAVES",
         options: [1, 2, 5, 10, 30],
         onChange() {
-            clearInterval(m.autosaveHandler);
-            m.autosaveHandler = setInterval(m.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
+            clearInterval(main.autosaveHandler);
+            main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
             SharkGame.Log.addMessage(
                 "Now autosaving every " +
                     SharkGame.Settings.current.autosaveFrequency +

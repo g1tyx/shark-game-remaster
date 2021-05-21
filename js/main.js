@@ -102,11 +102,11 @@ $.extend(SharkGame, {
             let i = 0;
             let intervalId = NaN;
             function nextStyle() {
-                if (i >= g.allowedWorlds.length && !isNaN(intervalId)) {
+                if (i >= gateway.allowedWorlds.length && !isNaN(intervalId)) {
                     clearInterval(intervalId);
                 } else {
-                    w.worldType = g.allowedWorlds[i++];
-                    console.debug(`worldType now ${w.worldType}`);
+                    world.worldType = gateway.allowedWorlds[i++];
+                    console.debug(`worldType now ${world.worldType}`);
                 }
             }
             setTimeout(nextStyle);
@@ -117,14 +117,14 @@ $.extend(SharkGame, {
         discoverAll() {
             $.each(SharkGame.Tabs, (tabName) => {
                 if (tabName !== "current") {
-                    m.discoverTab(tabName);
+                    main.discoverTab(tabName);
                 }
             });
         },
 
         giveEverything(amount = 1) {
             SharkGame.ResourceMap.forEach((_v, key) => {
-                r.changeResource(key, amount);
+                res.changeResource(key, amount);
             });
         },
     },
@@ -279,7 +279,7 @@ SharkGame.TitleBar = {
         name: "options",
         main: true,
         onClick() {
-            m.showOptions();
+            main.showOptions();
         },
     },
 
@@ -287,7 +287,7 @@ SharkGame.TitleBar = {
         name: "changelog",
         main: false,
         onClick() {
-            m.showChangelog();
+            main.showChangelog();
         },
     },
 
@@ -295,7 +295,7 @@ SharkGame.TitleBar = {
         name: "help",
         main: true,
         onClick() {
-            m.showHelp();
+            main.showHelp();
         },
     },
 
@@ -303,15 +303,15 @@ SharkGame.TitleBar = {
         name: "skip",
         main: true,
         onClick() {
-            if (m.isFirstTime()) {
+            if (main.isFirstTime()) {
                 // save people stranded on home world
                 if (confirm("Do you want to reset your game?")) {
                     // just reset
-                    m.init();
+                    main.init();
                 }
             } else if (confirm("Is this world causing you too much trouble? Want to go back to the gateway?")) {
                 SharkGame.wonGame = false;
-                m.endGame();
+                main.endGame();
             }
         },
     },
@@ -320,7 +320,7 @@ SharkGame.TitleBar = {
         name: "credits",
         main: false,
         onClick() {
-            m.showPane("Credits", SharkGame.credits);
+            main.showPane("Credits", SharkGame.credits);
         },
     },
 
@@ -328,7 +328,7 @@ SharkGame.TitleBar = {
         name: "donate",
         main: false,
         onClick() {
-            m.showPane("Donate", SharkGame.donate);
+            main.showPane("Donate", SharkGame.donate);
         },
     },
 
@@ -342,7 +342,7 @@ SharkGame.TitleBar = {
         name: "notice",
         main: false,
         onClick() {
-            m.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
+            main.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
         },
     },
 };
@@ -423,7 +423,7 @@ SharkGame.Main = {
     beautifyIncome(number, also = "") {
         const abs = Math.abs(number);
         if (abs >= 0.001) {
-            number = m.beautify(number, false, 2);
+            number = main.beautify(number, false, 2);
             number += also;
             number += "/s";
         } else if (abs > 0.000001) {
@@ -440,10 +440,10 @@ SharkGame.Main = {
     applyFramerate() {
         SharkGame.INTERVAL = 1000 / SharkGame.Settings.current.framerate;
         SharkGame.dt = 1 / SharkGame.Settings.current.framerate;
-        if (m.tickHandler) {
-            clearInterval(m.tickHandler);
+        if (main.tickHandler) {
+            clearInterval(main.tickHandler);
         }
-        m.tickHandler = setInterval(m.tick, SharkGame.INTERVAL);
+        main.tickHandler = setInterval(main.tick, SharkGame.INTERVAL);
     },
 
     formatTime(milliseconds) {
@@ -554,31 +554,31 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
 
         // rename a game option if this is a first time run
-        if (m.isFirstTime()) {
+        if (main.isFirstTime()) {
             SharkGame.TitleBar.skipLink.name = "reset";
-            m.setUpTitleBar();
-            m.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
+            main.setUpTitleBar();
+            main.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
         } else {
             // and then remember to actually set it back once it's not
             SharkGame.TitleBar.skipLink.name = "skip";
-            m.setUpTitleBar();
+            main.setUpTitleBar();
         }
 
         // discover actions that were present in last save
-        h.discoverActions();
+        home.discoverActions();
 
         // set up tab after load
-        m.setUpTab();
+        main.setUpTab();
 
         // apply tick settings
-        m.applyFramerate();
+        main.applyFramerate();
 
-        if (m.autosaveHandler === -1) {
-            m.autosaveHandler = setInterval(m.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
+        if (main.autosaveHandler === -1) {
+            main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
 
         if (SharkGame.Settings.current.updateCheck) {
-            SharkGame.Main.checkForUpdateHandler = setInterval(m.checkForUpdate, 300000);
+            SharkGame.Main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
         }
 
         $("#title").on("click", (event) => {
@@ -598,28 +598,28 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
         if (SharkGame.gameOver) {
             // tick gateway stuff
-            g.update();
+            gateway.update();
         } else {
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
             // check if the sidebar needs to come back
             if (SharkGame.sidebarHidden) {
-                m.showSidebarIfNeeded();
+                main.showSidebarIfNeeded();
             }
 
             if (elapsedTime > SharkGame.INTERVAL) {
                 // Compensate for lost time.
-                m.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
+                main.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
             } else {
-                m.processSimTime(SharkGame.dt);
+                main.processSimTime(SharkGame.dt);
             }
-            r.updateResourcesTable();
+            res.updateResourcesTable();
 
             const tabCode = SharkGame.Tabs[SharkGame.Tabs.current].code;
             tabCode.update();
 
-            m.checkTabUnlocks();
+            main.checkTabUnlocks();
 
             SharkGame.before = now;
         }
@@ -627,7 +627,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         //see if resource table tooltip needs updating
         if (document.getElementById("tooltipbox").className.split(" ").includes("forIncomeTable")) {
             if (document.getElementById("tooltipbox").attributes.current) {
-                r.tableTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
+                res.tableTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
             }
         }
     },
@@ -641,7 +641,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             // check resources
             if (v.discoverReq.resource) {
-                reqsMet = reqsMet && r.checkResources(v.discoverReq.resource, true);
+                reqsMet = reqsMet && res.checkResources(v.discoverReq.resource, true);
             }
 
             const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
@@ -661,7 +661,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             if (reqsMet) {
                 // unlock tab!
-                m.discoverTab(tabName);
+                main.discoverTab(tabName);
                 SharkGame.Log.addDiscovery("Discovered " + v.name + "!");
             }
         });
@@ -669,7 +669,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     processSimTime(numberOfSeconds) {
         // income calculation
-        r.processIncomes(numberOfSeconds);
+        res.processIncomes(numberOfSeconds);
     },
 
     autosave() {
@@ -729,8 +729,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         content.empty();
         content.append('<div id="contentMenu"><ul id="tabList"></ul><ul id="tabButtons"></ul></div><div id="tabBorder" class="clear-fix"></div>');
 
-        m.createTabNavigation();
-        m.createBuyButtons();
+        main.createTabNavigation();
+        main.createBuyButtons();
 
         // set up tab specific stuff
         const tab = tabs[tabs.current];
@@ -739,8 +739,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     createTabMenu() {
-        m.createTabNavigation();
-        m.createBuyButtons();
+        main.createTabNavigation();
+        main.createBuyButtons();
     },
 
     createTabNavigation() {
@@ -772,7 +772,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                                 .html(v.name)
                                 .on("click", function callback() {
                                     const tab = $(this).attr("id").split("-")[1];
-                                    m.changeTab(tab);
+                                    main.changeTab(tab);
                                 })
                         );
                     }
@@ -807,7 +807,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             } else if (amount === "custom") {
                 label += "custom";
             } else {
-                label += m.beautify(amount);
+                label += main.beautify(amount);
             }
             $("#buy-" + amount)
                 .html(label)
@@ -834,7 +834,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .attr("disabled", SharkGame.Settings.current.buyAmount !== "custom")
             )
         );
-        document.getElementById("custom-input").addEventListener("input", m.onCustomChange);
+        document.getElementById("custom-input").addEventListener("input", main.onCustomChange);
         if (SharkGame.Settings.current.customSetting) {
             $("#custom-input")[0].value = SharkGame.Settings.current.customSetting;
         }
@@ -856,19 +856,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     changeTab(tab) {
         SharkGame.Tabs.current = tab;
-        m.setUpTab();
+        main.setUpTab();
     },
 
     discoverTab(tab) {
         SharkGame.Tabs[tab].discovered = true;
         // force a total redraw of the navigation
-        m.createTabMenu();
+        main.createTabMenu();
     },
 
     showSidebarIfNeeded() {
         // if we have any non-zero resources, show sidebar
         // if we have any log entries, show sidebar
-        if (r.haveAnyResources() || SharkGame.Log.haveAnyMessages()) {
+        if (res.haveAnyResources() || SharkGame.Log.haveAnyMessages()) {
             // show sidebar
             if (SharkGame.Settings.current.showAnimations) {
                 $("#sidebar").show("500");
@@ -881,8 +881,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     showOptions() {
-        const optionsContent = m.setUpOptions();
-        m.showPane("Options", optionsContent);
+        const optionsContent = main.setUpOptions();
+        main.showPane("Options", optionsContent);
     },
 
     setUpOptions() {
@@ -925,7 +925,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                                 .attr("id", "optionButton-" + settingName + "-" + index)
                                 .addClass("option-button" + (isSelectedOption ? " disabled" : ""))
                                 .html(typeof optionValue === "boolean" ? (optionValue ? "on" : "off") : optionValue)
-                                .on("click", m.onOptionClick)
+                                .on("click", main.onOptionClick)
                         )
                     );
                 });
@@ -1032,19 +1032,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             segment.append(changeList);
             changelogContent.append(segment);
         });
-        m.showPane("Changelog", changelogContent);
+        main.showPane("Changelog", changelogContent);
     },
 
     showHelp() {
         const helpDiv = $("<div>");
         helpDiv.append($("<div>").append(SharkGame.help).addClass("paneContentDiv"));
-        m.showPane("Help", helpDiv);
+        main.showPane("Help", helpDiv);
     },
 
     endGame(loadingFromSave) {
         // stop autosaving
-        clearInterval(m.autosaveHandler);
-        m.autosaveHandler = -1;
+        clearInterval(main.autosaveHandler);
+        main.autosaveHandler = -1;
 
         // flag game as over
         SharkGame.gameOver = true;
@@ -1053,7 +1053,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.timestampRunEnd = _.now();
 
         // kick over to passage
-        g.enterGate(loadingFromSave);
+        gateway.enterGate(loadingFromSave);
     },
 
     purgeGame() {
@@ -1067,26 +1067,26 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.gameOver) {
             SharkGame.gameOver = false;
             SharkGame.wonGame = false;
-            m.hidePane();
+            main.hidePane();
 
             // copy over all special category resources
             // artifacts are preserved automatically within gateway file
             const backup = {};
             _.each(SharkGame.ResourceCategories.special.resources, (resourceName) => {
                 backup[resourceName] = {
-                    amount: r.getResource(resourceName),
-                    totalAmount: r.getTotalResource(resourceName),
+                    amount: res.getResource(resourceName),
+                    totalAmount: res.getTotalResource(resourceName),
                 };
             });
 
             SharkGame.Save.deleteSave(); // otherwise it will be loaded during main init and fuck up everything!!
-            m.init();
-            SharkGame.Log.addMessage(w.getWorldEntryMessage());
+            main.init();
+            SharkGame.Log.addMessage(world.getWorldEntryMessage());
 
             // restore special resources
             $.each(backup, (resourceName, resourceData) => {
-                r.setResource(resourceName, resourceData.amount);
-                r.setTotalResource(resourceName, resourceData.totalAmount);
+                res.setResource(resourceName, resourceData.amount);
+                res.setTotalResource(resourceName, resourceData.totalAmount);
             });
 
             SharkGame.timestampRunStart = _.now();
@@ -1109,7 +1109,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         titleDiv.append(
             $("<div>")
                 .attr("id", "paneHeaderCloseButtonDiv")
-                .append($("<button>").attr("id", "paneHeaderCloseButton").addClass("min close-button").html("✕").on("click", m.hidePane))
+                .append($("<button>").attr("id", "paneHeaderCloseButton").addClass("min close-button").html("✕").on("click", main.hidePane))
         );
         pane.append(titleDiv);
         pane.append($("<div>").attr("id", "paneHeaderEnd").addClass("clear-fix"));
@@ -1125,7 +1125,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         // GENERATE PANE IF THIS IS THE FIRST TIME
         if (!SharkGame.paneGenerated) {
-            pane = m.buildPane();
+            pane = main.buildPane();
         } else {
             pane = $("#pane");
         }
@@ -1186,7 +1186,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     isFirstTime() {
-        return w.worldType === "start" && r.getTotalResource("essence") <= 0;
+        return world.worldType === "start" && res.getTotalResource("essence") <= 0;
     },
 
     getDeterminer(name) {
@@ -1260,7 +1260,7 @@ SharkGame.Changelog = {
         "Changed the colors for Haven worlds.",
         "In the grotto, amounts for each producer now update live.",
         "Both kinds of tooltips update live.",
-        "Tooltips can tell you more things: e.g., it now says how much science you get from sea apples.",
+        "Tooltips can tell you more things: e.gateway., it now says how much science you get from sea apples.",
         "Added minimized titlebar. You can switch it back to the old one in the options menu.",
         "Added categories to options menu. Now it's readable!",
     ],
@@ -1409,7 +1409,7 @@ SharkGame.Changelog = {
 
 $(() => {
     $("#game").show();
-    m.init();
+    main.init();
 
     // ctrl+s saves
     $(window).on("keydown", (event) => {
@@ -1421,7 +1421,7 @@ $(() => {
                     break;
                 case "o":
                     event.preventDefault();
-                    m.showOptions();
+                    main.showOptions();
                     break;
             }
         }
