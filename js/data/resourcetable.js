@@ -507,9 +507,9 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
-    hunter: {
-        name: "squid hunters",
-        singleName: "squid hunter",
+    huntingSquad: {
+        name: "hunting squads",
+        singleName: "hunting squad",
         color: "#473E21", //also needs new color
         income: {
             fish: 25,

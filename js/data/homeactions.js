@@ -3002,18 +3002,18 @@ SharkGame.HomeActions = {
 
         // SQUID JOBS ////////////////////////////////////////////////////////////////////////////////
 
-        getHunter: {
-            name: "Equip squid hunter",
+        getHuntingSquad: {
+            name: "Assemble hunting squad",
             effect: {
                 resource: {
-                    hunter: 1,
+                    huntingSquad: 1,
                 },
             },
             cost: [
-                { resource: "squid", costFunction: "constant", priceIncrease: 1 },
+                { resource: "squid", costFunction: "constant", priceIncrease: 5 },
                 { resource: "crystal", costFunction: "linear", priceIncrease: 5 },
             ],
-            max: "hunter",
+            max: "huntingSquad",
             prereq: {
                 resource: {
                     squid: 1,
@@ -3022,7 +3022,7 @@ SharkGame.HomeActions = {
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "Gear up a squid to go hunting.",
+            helpText: "Gear up a number of squid to hunt together, increasing their collective effectiveness.",
         },
 
         getExtractionTeam: {
