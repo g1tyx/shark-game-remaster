@@ -424,7 +424,7 @@ SharkGame.Home = {
     },
 
     updateMessage(suppressAnimation) {
-        const wi = SharkGame.WorldTypes[world.worldType];
+        const worldType = SharkGame.WorldTypes[world.worldType];
         const events = home.extraMessages[world.worldType];
 
         const selectedIndex = _.findLastIndex(events, (extraMessage) => {
@@ -461,7 +461,7 @@ SharkGame.Home = {
                     sceneDiv = $("<div>").attr("id", "tabSceneImage");
                 }
             }
-            let message = "You are a shark in a " + wi.shortDesc + " sea.";
+            let message = "You are a shark in a " + worldType.shortDesc + " sea.";
             message += "<br><span id='extraMessage' class='medDesc'><br></span>";
             tabMessage.html(message).prepend(sceneDiv);
 
@@ -652,22 +652,19 @@ SharkGame.Home = {
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
         // check upgrade prerequisites
-        _.each(action.prereq.upgrade, (upgradeId) => {
-            if (upgradeTable[upgradeId]) {
-                prereqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeId);
-            } else {
-                prereqsMet = false;
-            }
-        });
+        // FIXME: Upgrades not contained in upgradeTable should not be purchased anyways, can we remove this check?
+        prereqsMet &&= _.every(
+            action.prereq.upgrade,
+            (upgradeId) => _.has(upgradeTable, upgradeId) && SharkGame.Upgrades.purchased.includes(upgradeId)
+        );
         // check if resulting resource exists
-        $.each(action.effect.resource, (k) => {
-            prereqsMet = prereqsMet && world.doesResourceExist(k);
-        });
+        prereqsMet &&= _.every(action.effect.resource, (_amount, resourceId) => world.doesResourceExist(resourceId));
         return prereqsMet;
     },
 
     shouldRemoveHomeButton(action) {
         let disable = false;
+        // eslint-disable-next-line id-length
         $.each(action.removedBy, (kind, by) => {
             switch (kind) {
                 case "otherActions":
@@ -902,22 +899,24 @@ SharkGame.Home = {
         _.each(rawCost, (costObj) => {
             const resource = SharkGame.PlayerResources.get(action.max);
             let currAmount = resource.amount;
-            if (resource.jobs) {
-                _.each(resource.jobs, (v) => {
-                    currAmount += res.getResource(v);
-                });
-            }
-            const k = costObj.priceIncrease;
+
+            // FIXME: PlayerResources doesn't have jobs, is this intended?
+            // If so, delete this _.each
+            _.each(resource.jobs, (job) => {
+                currAmount += res.getResource(job);
+            });
+
+            const priceIncrease = costObj.priceIncrease;
             let cost = 0;
             switch (costObj.costFunction) {
                 case "constant":
-                    cost = SharkGame.MathUtil.constantCost(currAmount, currAmount + amount, k);
+                    cost = SharkGame.MathUtil.constantCost(currAmount, currAmount + amount, priceIncrease);
                     break;
                 case "linear":
-                    cost = SharkGame.MathUtil.linearCost(currAmount, currAmount + amount, k);
+                    cost = SharkGame.MathUtil.linearCost(currAmount, currAmount + amount, priceIncrease);
                     break;
                 case "unique":
-                    cost = SharkGame.MathUtil.uniqueCost(currAmount, currAmount + amount, k);
+                    cost = SharkGame.MathUtil.uniqueCost(currAmount, currAmount + amount, priceIncrease);
                     break;
             }
             if (Math.abs(cost - Math.round(cost)) < SharkGame.EPSILON) {
@@ -941,18 +940,18 @@ SharkGame.Home = {
             max = Number.MAX_VALUE;
             _.each(action.cost, (costObject) => {
                 const costResource = SharkGame.PlayerResources.get(costObject.resource).amount;
-                const k = costObject.priceIncrease;
+                const priceIncrease = costObject.priceIncrease;
 
                 let subMax = -1;
                 switch (costObject.costFunction) {
                     case "constant":
-                        subMax = SharkGame.MathUtil.constantMax(0, costResource, k);
+                        subMax = SharkGame.MathUtil.constantMax(0, costResource, priceIncrease);
                         break;
                     case "linear":
-                        subMax = SharkGame.MathUtil.linearMax(currAmount, costResource, k) - currAmount;
+                        subMax = SharkGame.MathUtil.linearMax(currAmount, costResource, priceIncrease) - currAmount;
                         break;
                     case "unique":
-                        subMax = SharkGame.MathUtil.uniqueMax(currAmount, costResource, k) - currAmount;
+                        subMax = SharkGame.MathUtil.uniqueMax(currAmount, costResource, priceIncrease) - currAmount;
                         break;
                 }
                 // prevent flashing action costs

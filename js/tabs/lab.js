@@ -22,17 +22,17 @@ SharkGame.Lab = {
         "Looks like that's it! No more things to figure out.",
 
     init() {
-        const l = SharkGame.Lab;
+        const lab = SharkGame.Lab;
         // register tab
-        SharkGame.Tabs[l.tabId] = {
-            id: l.tabId,
-            name: l.tabName,
-            discovered: l.tabDiscovered,
-            discoverReq: l.discoverReq,
-            code: l,
+        SharkGame.Tabs[lab.tabId] = {
+            id: lab.tabId,
+            name: lab.tabName,
+            discovered: lab.tabDiscovered,
+            discoverReq: lab.discoverReq,
+            code: lab,
         };
         // add default purchased state to each upgrade
-        l.resetUpgrades();
+        lab.resetUpgrades();
     },
 
     resetUpgrades() {
@@ -49,8 +49,8 @@ SharkGame.Lab = {
             });
         });
 
-        SharkGame.ResourceMap.forEach((_val, key) => {
-            SharkGame.ModifierMap.get(key).upgrade = _.cloneDeep(upgradeObject);
+        SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+            SharkGame.ModifierMap.get(resourceId).upgrade = _.cloneDeep(upgradeObject);
         });
     },
 
@@ -247,8 +247,8 @@ SharkGame.Lab = {
     },
 
     addUpgrade(upgradeId) {
-        const u = SharkGame.Upgrades.getUpgradeTable();
-        const upgrade = u[upgradeId];
+        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
+        const upgrade = upgradeTable[upgradeId];
         if (upgrade && !SharkGame.Upgrades.purchased.includes(upgradeId)) {
             SharkGame.Upgrades.purchased.push(upgradeId);
             //l.updateResearchList();
@@ -302,18 +302,18 @@ SharkGame.Lab = {
                 // check if any related resources exist in the world for this to make sense
                 // unlike the costs where all resources in the cost must exist, this is an either/or scenario
                 let relatedResourcesExist = false;
-                _.each(upgradeData.required.resources, (v) => {
-                    relatedResourcesExist = relatedResourcesExist || world.doesResourceExist(v);
+                _.each(upgradeData.required.resources, (resourceId) => {
+                    relatedResourcesExist = relatedResourcesExist || world.doesResourceExist(resourceId);
                 });
                 isPossible &&= relatedResourcesExist;
             }
 
-            // RECURSIVE CHECK REQUISITE TECHS
+            // (recursive) check requisite techs
             isPossible &&= _.every(upgradeData.required.upgrades, (upgrade) => lab.isUpgradePossible(upgrade));
 
             isPossible &&= _.every(upgradeData.required.totals, (requiredTotal, resourceName) => res.getTotalResource(resourceName) >= requiredTotal);
 
-            // check existence of resource cost
+            // check resource cost
             isPossible &&= _.every(upgradeData.cost, (_amount, resource) => world.doesResourceExist(resource));
         }
 
@@ -352,15 +352,15 @@ SharkGame.Lab = {
         const list = $("<ul>");
 
         // reverse object keys
-        const keys = [];
+        const upgrades = [];
         $.each(upgradeTable, (upgradeId) => {
             if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
-                keys.unshift(upgradeId);
+                upgrades.unshift(upgradeId);
             }
         });
 
-        for (const key of keys) {
-            const upgrade = upgradeTable[key];
+        for (const upgradeId of upgrades) {
+            const upgrade = upgradeTable[upgradeId];
             list.append($("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`));
         }
         upgradeList.append(list);

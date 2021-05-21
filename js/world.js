@@ -4,11 +4,11 @@ SharkGame.World = {
     get worldType() {
         return this._worldType;
     },
-    set worldType(val) {
+    set worldType(worldType) {
         const body = document.querySelector("body");
         body.classList.remove(this._worldType);
-        body.classList.add(val);
-        this._worldType = val;
+        body.classList.add(worldType);
+        this._worldType = worldType;
     },
     worldResources: new Map(),
     worldRestrictedCombinations: new Map(),
@@ -24,41 +24,41 @@ SharkGame.World = {
     },
 
     resetWorldProperties() {
-        const wr = world.worldResources;
+        const worldResources = world.worldResources;
         world.worldRestrictedCombinations.clear();
 
         // set up defaults
-        SharkGame.ResourceMap.forEach((_entry, someKindOfKey) => {
-            wr.set(someKindOfKey, {});
-            wr.get(someKindOfKey).exists = true;
-            wr.get(someKindOfKey).income = 0;
-            wr.get(someKindOfKey).artifactMultiplier = 1;
+        SharkGame.ResourceMap.forEach((_resourceData, resourceName) => {
+            worldResources.set(resourceName, {});
+            worldResources.get(resourceName).exists = true;
+            worldResources.get(resourceName).income = 0;
+            worldResources.get(resourceName).artifactMultiplier = 1;
         });
     },
 
     applyWorldProperties() {
-        const wr = world.worldResources;
+        const worldResources = world.worldResources;
         const worldInfo = SharkGame.WorldTypes[world.worldType];
 
         // enable resources allowed on the planet
         if (worldInfo.includedResources) {
-            SharkGame.ResourceMap.forEach((_entry, someKindOfKey) => {
-                wr.get(someKindOfKey).exists = false;
+            SharkGame.ResourceMap.forEach((_resourceData, resourceName) => {
+                worldResources.get(resourceName).exists = false;
             });
             _.each(worldInfo.includedResources, (group) => {
                 if (_.has(SharkGame.InternalCategories, group)) {
                     _.each(SharkGame.InternalCategories[group].resources, (resource) => {
-                        wr.get(resource).exists = true;
+                        worldResources.get(resource).exists = true;
                     });
                 } else {
-                    wr.get(group).exists = true;
+                    worldResources.get(group).exists = true;
                 }
             });
         }
 
         // disable resources not allowed on planet
         _.each(worldInfo.absentResources, (absentResource) => {
-            wr.get(absentResource).exists = false;
+            worldResources.get(absentResource).exists = false;
         });
 
         // apply world modifiers

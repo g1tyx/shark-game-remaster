@@ -13,8 +13,8 @@ SharkGame.ModifierTypes = {
                 defaultValue: 1,
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * degree;
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * degree;
                     });
                     return current * degree;
                 },
@@ -48,9 +48,9 @@ SharkGame.ModifierTypes = {
                 defaultValue: 1,
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        if (v > 0 && k !== "tar") {
-                            incomes[k] = v * degree;
+                    $.each(incomes, (resouceId, income) => {
+                        if (income > 0 && resouceId !== "tar") {
+                            incomes[resouceId] = income * degree;
                         }
                     });
                     return current * degree;
@@ -104,8 +104,8 @@ SharkGame.ModifierTypes = {
                 name: "Planetary Income Multiplier",
                 apply(current, degree, resource, level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * (1 + degree * level);
+                    $.each(incomes, (resouceId, income) => {
+                        incomes[resouceId] = income * (1 + degree * level);
                     });
                     return current * (1 + degree * level);
                 },
@@ -121,8 +121,8 @@ SharkGame.ModifierTypes = {
                 name: "Fixed Planetary Income Multiplier",
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * degree;
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * degree;
                     });
                     return current * degree;
                 },
@@ -138,8 +138,8 @@ SharkGame.ModifierTypes = {
                 name: "Planetary Income Reciprocal Multiplier",
                 apply(current, degree, resource, level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * (1 / (1 + level * degree));
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * (1 / (1 + level * degree));
                     });
                     return current * (1 / (1 + level * degree));
                 },
@@ -155,8 +155,8 @@ SharkGame.ModifierTypes = {
                 name: "Fixed Planetary Income Reciprocal Multiplier",
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * (1 / degree);
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * (1 / degree);
                     });
                     return current * (1 / degree);
                 },

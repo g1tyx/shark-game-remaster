@@ -24,27 +24,27 @@ SharkGame.Resources = {
 
     init() {
         // set all the amounts and total amounts of resources to 0
-        $.each(SharkGame.ResourceTable, (key, value) => {
-            SharkGame.ResourceMap.set(key, _.cloneDeep(value));
+        $.each(SharkGame.ResourceTable, (resourceId, resource) => {
+            SharkGame.ResourceMap.set(resourceId, _.cloneDeep(resource));
         });
 
-        SharkGame.ResourceMap.forEach((v, key) => {
+        SharkGame.ResourceMap.forEach((resource, resourceId) => {
             // create the baseIncome data
-            if (v.income) {
-                v.baseIncome = _.cloneDeep(v.income);
+            if (resource.income) {
+                resource.baseIncome = _.cloneDeep(resource.income);
             }
 
             // create the playerresources map
-            SharkGame.PlayerResources.set(key, {
+            SharkGame.PlayerResources.set(resourceId, {
                 amount: 0,
                 totalAmount: 0,
             });
 
             // populate the flipped income breakdown map
-            SharkGame.FlippedBreakdownIncomeTable.set(key, {});
+            SharkGame.FlippedBreakdownIncomeTable.set(resourceId, {});
 
             // populate income table with an entry for each resource!!
-            SharkGame.PlayerIncomeTable.set(key, 0);
+            SharkGame.PlayerIncomeTable.set(resourceId, 0);
         });
 
         // set up the modifier reference, and also set up the object we copy to every entry in the modifier map
@@ -64,8 +64,8 @@ SharkGame.Resources = {
         });
 
         // build multiplier map
-        SharkGame.ResourceMap.forEach((_v, key) => {
-            SharkGame.ModifierMap.set(key, _.cloneDeep(multiplierObject));
+        SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+            SharkGame.ModifierMap.set(resourceId, _.cloneDeep(multiplierObject));
         });
 
         res.specialMultiplier = 1;
@@ -82,8 +82,8 @@ SharkGame.Resources = {
 
         if (!debug && timeDelta > 51) {
             for (let i = 0; i < 50; i++) {
-                SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                    res.changeResource(key, value);
+                SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
+                    res.changeResource(resourceId, amount);
                 });
                 res.recalculateIncomeTable(true);
                 timeDelta -= 1;
@@ -105,21 +105,21 @@ SharkGame.Resources = {
             }
         }
         while (timeDelta > 1) {
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, value);
+            SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, income);
                 } else {
-                    res.changeResource(key, value);
+                    res.changeResource(resourceId, income);
                 }
             });
             res.recalculateIncomeTable(true);
             timeDelta -= 1;
         }
-        SharkGame.PlayerIncomeTable.forEach((value, key) => {
-            if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                res.changeResource(key, value * timeDelta);
+        SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
+            if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                res.changeResource(resourceId, amount * timeDelta);
             } else {
-                res.changeResource(key, value);
+                res.changeResource(resourceId, amount);
             }
         });
         res.recalculateIncomeTable();
@@ -135,34 +135,34 @@ SharkGame.Resources = {
             originalResources = _.cloneDeep(SharkGame.PlayerResources);
             originalIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, (value * factor) / 2, true);
+            SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, (income * factor) / 2, true);
                 }
             });
 
             res.recalculateIncomeTable(true);
             stepTwoIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, (value * factor) / 2, true);
+            SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, (amount * factor) / 2, true);
                 }
             });
 
             res.recalculateIncomeTable(true);
             stepThreeIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, value * factor, true);
+            SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, amount * factor, true);
                 }
             });
 
             res.recalculateIncomeTable(true);
             SharkGame.PlayerResources = originalResources;
 
-            SharkGame.PlayerIncomeTable.forEach((_v, resource) => {
+            SharkGame.PlayerIncomeTable.forEach((_amount, resource) => {
                 res.changeResource(
                     resource,
                     (factor *
@@ -183,34 +183,34 @@ SharkGame.Resources = {
 
     recalculateIncomeTable(cheap) {
         // clear income table first
-        SharkGame.ResourceMap.forEach((_v, key) => {
-            SharkGame.PlayerIncomeTable.set(key, 0);
+        SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+            SharkGame.PlayerIncomeTable.set(resourceId, 0);
         });
 
         const worldResources = world.worldResources;
 
-        SharkGame.ResourceMap.forEach((properties, name) => {
-            const worldResourceInfo = worldResources.get(name);
+        SharkGame.ResourceMap.forEach((resource, resourceId) => {
+            const worldResourceInfo = worldResources.get(resourceId);
             if (worldResourceInfo.exists) {
                 // for this resource, calculate the income it generates
-                if (properties.income) {
+                if (resource.income) {
                     let costScaling = 1;
                     const changeMap = new Map();
 
-                    $.each(properties.income, (key) => {
-                        if (world.doesResourceExist(key)) {
-                            changeMap.set(key, res.getProductAmountFromGeneratorResource(name, key));
+                    $.each(resource.income, (generatedResource) => {
+                        if (world.doesResourceExist(generatedResource)) {
+                            changeMap.set(generatedResource, res.getProductAmountFromGeneratorResource(resourceId, generatedResource));
                         }
                     });
 
-                    changeMap.forEach((change, resource) => {
+                    changeMap.forEach((generatedAmount, generatedResource) => {
                         // run over all resources first to check if costs can be met
                         // if the cost can't be taken, scale the cost and output down to feasible levels
-                        if (!properties.forceIncome) {
-                            if (change < 0) {
-                                const resourceHeld = res.getResource(resource);
-                                if (resourceHeld + change <= 0) {
-                                    const scaling = resourceHeld / -change;
+                        if (!generatedResource.forceIncome) {
+                            if (generatedAmount < 0) {
+                                const resourceHeld = res.getResource(generatedResource);
+                                if (resourceHeld + generatedAmount <= 0) {
+                                    const scaling = resourceHeld / -generatedAmount;
                                     if (scaling >= 0 && scaling < 1) {
                                         // sanity checking
                                         costScaling = Math.min(costScaling, scaling);
@@ -220,38 +220,41 @@ SharkGame.Resources = {
                                 }
                             }
                         }
-                        if (change > 0) {
-                            SharkGame.PlayerResources.get(resource).discovered = true;
+                        if (generatedAmount > 0) {
+                            SharkGame.PlayerResources.get(generatedResource).discovered = true;
                         }
                     });
 
                     if (!cheap) {
                         const trueIncomeObject = {};
-                        let n;
-                        changeMap.forEach((change, resource) => {
-                            n = change * costScaling;
-                            trueIncomeObject[resource] = n;
-                            SharkGame.FlippedBreakdownIncomeTable.get(resource)[name] = n;
-                            SharkGame.PlayerIncomeTable.set(resource, SharkGame.PlayerIncomeTable.get(resource) + n);
+                        let value; // FIXME: Rename
+                        changeMap.forEach((amount, generatedResource) => {
+                            value = amount * costScaling;
+                            trueIncomeObject[generatedResource] = value;
+                            SharkGame.FlippedBreakdownIncomeTable.get(generatedResource)[resourceId] = value;
+                            SharkGame.PlayerIncomeTable.set(generatedResource, SharkGame.PlayerIncomeTable.get(generatedResource) + value);
                         });
-                        SharkGame.BreakdownIncomeTable.set(name, trueIncomeObject);
+                        SharkGame.BreakdownIncomeTable.set(resourceId, trueIncomeObject);
                     } else {
-                        changeMap.forEach((change, resource) => {
-                            SharkGame.PlayerIncomeTable.set(resource, SharkGame.PlayerIncomeTable.get(resource) + change * costScaling);
+                        changeMap.forEach((amount, generatedResource) => {
+                            SharkGame.PlayerIncomeTable.set(
+                                generatedResource,
+                                SharkGame.PlayerIncomeTable.get(generatedResource) + amount * costScaling
+                            );
                         });
                     }
                 }
 
                 // calculate any world income that should be added to this resource
                 if (worldResourceInfo) {
-                    SharkGame.PlayerIncomeTable.set(name, SharkGame.PlayerIncomeTable.get(name) + worldResourceInfo.income * cad.speed);
+                    SharkGame.PlayerIncomeTable.set(resourceId, SharkGame.PlayerIncomeTable.get(resourceId) + worldResourceInfo.income * cad.speed);
                 }
             }
         });
 
-        $.each(SharkGame.ResourceSpecialProperties.incomeCap, (k, v) => {
-            if (SharkGame.PlayerIncomeTable.get(k) > v) {
-                SharkGame.PlayerIncomeTable.set(k, v);
+        $.each(SharkGame.ResourceSpecialProperties.incomeCap, (resourceId, maxProduction) => {
+            if (SharkGame.PlayerIncomeTable.get(resourceId) > maxProduction) {
+                SharkGame.PlayerIncomeTable.set(resourceId, maxProduction);
             }
         });
     },
@@ -280,23 +283,23 @@ SharkGame.Resources = {
         let multiplier = 1;
         if (node) {
             if (node.multiply) {
-                $.each(node.multiply, (key, val) => {
-                    multiplier = multiplier * (1 + val * res.getResource(key));
+                $.each(node.multiply, (resourceOrGroup, amount) => {
+                    multiplier = multiplier * (1 + amount * res.getResource(resourceOrGroup));
                 });
             }
             if (node.reciprocate) {
-                $.each(node.reciprocate, (key, val) => {
-                    multiplier = multiplier / (1 + val * res.getResource(key));
+                $.each(node.reciprocate, (resourceOrGroup, amount) => {
+                    multiplier = multiplier / (1 + amount * res.getResource(resourceOrGroup));
                 });
             }
             if (node.exponentiate) {
-                $.each(node.exponentiate, (key, val) => {
-                    multiplier = multiplier * Math.pow(val, res.getResource(key));
+                $.each(node.exponentiate, (resourceOrGroup, amount) => {
+                    multiplier = multiplier * Math.pow(amount, res.getResource(resourceOrGroup));
                 });
             }
             if (node.polynomial) {
-                $.each(node.polynomial, (key, val) => {
-                    multiplier = multiplier * (1 + Math.pow(res.getResource(key), val));
+                $.each(node.polynomial, (resourceOrGroup, amount) => {
+                    multiplier = multiplier * (1 + Math.pow(res.getResource(resourceOrGroup), amount));
                 });
             }
         }
@@ -428,8 +431,8 @@ SharkGame.Resources = {
 
     scaleResourceList(resourceList, amount) {
         const newList = {};
-        $.each(resourceList, (k, v) => {
-            newList[k] = v * amount;
+        $.each(resourceList, (resource, resourceAmount) => {
+            newList[resource] = resourceAmount * amount;
         });
         return newList;
     },
@@ -511,9 +514,12 @@ SharkGame.Resources = {
             });
         } else {
             // iterate through data, if total amount > 0 add a row
-            SharkGame.ResourceMap.forEach((_v, key) => {
-                if ((res.getTotalResource(key) > 0 || SharkGame.PlayerResources.get(key).discovered) && world.doesResourceExist(key)) {
-                    const row = res.constructResourceTableRow(key);
+            SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+                if (
+                    (res.getTotalResource(resourceId) > 0 || SharkGame.PlayerResources.get(resourceId).discovered) &&
+                    world.doesResourceExist(resourceId)
+                ) {
+                    const row = res.constructResourceTableRow(resourceId);
                     resourceTable.append(row);
                     anyResourcesInTable = true;
                 }
@@ -544,24 +550,23 @@ SharkGame.Resources = {
     },
 
     constructResourceTableRow(resourceKey) {
-        const k = resourceKey;
-        const pr = SharkGame.PlayerResources.get(k);
-        const income = res.getIncome(k);
-        const row = $("<tr>").attr("id", k).on("mouseenter", res.tableTextEnter).on("mouseleave", res.tableTextLeave);
-        if (pr.totalAmount > 0 || SharkGame.PlayerResources.get(k).discovered) {
+        const playerResources = SharkGame.PlayerResources.get(resourceKey);
+        const income = res.getIncome(resourceKey);
+        const row = $("<tr>").attr("id", resourceKey).on("mouseenter", res.tableTextEnter).on("mouseleave", res.tableTextLeave);
+        if (playerResources.totalAmount > 0 || SharkGame.PlayerResources.get(resourceKey).discovered) {
             row.append(
                 $("<td>")
-                    .attr("id", "resource-" + k)
-                    .html(res.getResourceName(k))
+                    .attr("id", "resource-" + resourceKey)
+                    .html(res.getResourceName(resourceKey))
             );
 
             row.append(
                 $("<td>")
-                    .attr("id", "amount-" + k)
-                    .html("⠀" + main.beautify(pr.amount))
+                    .attr("id", "amount-" + resourceKey)
+                    .html("⠀" + main.beautify(playerResources.amount))
             );
 
-            const incomeId = $("<td>").attr("id", "income-" + k);
+            const incomeId = $("<td>").attr("id", "income-" + resourceKey);
 
             row.append(incomeId);
 
@@ -670,18 +675,18 @@ SharkGame.Resources = {
     },
 
     // make a resource list object into a string describing its contents
-    resourceListToString(resourceList, darken, backgroundcolor) {
+    resourceListToString(resourceList, darken, backgroundColor) {
         if ($.isEmptyObject(resourceList)) {
             return "";
         }
         let formattedResourceList = "";
-        SharkGame.ResourceMap.forEach((_v, key) => {
-            const listResource = resourceList[key];
+        SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+            const listResource = resourceList[resourceId];
             // amend for unspecified resources (assume zero)
-            if (listResource > 0 && world.doesResourceExist(key)) {
+            if (listResource > 0 && world.doesResourceExist(resourceId)) {
                 const isSingular = Math.floor(listResource) - 1 < SharkGame.EPSILON;
                 formattedResourceList += main.beautify(listResource);
-                formattedResourceList += " " + res.getResourceName(key, darken, isSingular, listResource, backgroundcolor) + ", ";
+                formattedResourceList += " " + res.getResourceName(resourceId, darken, isSingular, listResource, backgroundColor) + ", ";
             }
         });
         // snip off trailing suffix
@@ -695,14 +700,16 @@ SharkGame.Resources = {
 
         const gia = SharkGame.GeneratorIncomeAffectors;
         const rgad = SharkGame.GeneratorIncomeAffected;
-        const rc = SharkGame.ResourceCategories;
+        const resourceCategories = SharkGame.ResourceCategories;
         // recursively parse the gia
         $.each(gia, (resource) => {
             $.each(gia[resource], (type) => {
                 $.each(gia[resource][type], (generator, value) => {
                     // is it a category or a generator?
-                    const nodes = res.isCategory(generator) ? rc[generator].resources : [generator];
+                    const nodes = res.isCategory(generator) ? resourceCategories[generator].resources : [generator];
                     // recursively reconstruct the table with the keys in the inverse order
+                    // FIXME: Rename - No idea what these are
+                    // eslint-disable-next-line id-length
                     $.each(nodes, (_k, v) => {
                         if (world.worldResources.get(v).exists && world.worldResources.get(resource).exists) {
                             res.addNetworkNode(rgad, v, type, resource, value);
@@ -720,8 +727,10 @@ SharkGame.Resources = {
             $.each(ria[affectorResource], (type) => {
                 $.each(ria[affectorResource][type], (affectedResource, degree) => {
                     // is it a category?
-                    const nodes = res.isCategory(affectedResource) ? rc[affectedResource].resources : [affectedResource];
+                    const nodes = res.isCategory(affectedResource) ? resourceCategories[affectedResource].resources : [affectedResource];
                     // recursively reconstruct the table with the keys in the inverse order
+                    // FIXME: Rename - No idea what these are
+                    // eslint-disable-next-line id-length
                     $.each(nodes, (_k, v) => {
                         if (world.worldResources.get(v).exists && world.worldResources.get(affectorResource).exists) {
                             res.addNetworkNode(rad, v, type, affectorResource, degree);
@@ -805,11 +814,9 @@ SharkGame.Resources = {
 
     testGracePeriod() {
         let grace = true;
-        SharkGame.PlayerIncomeTable.forEach((v, key) => {
-            if (!res.isInCategory(key, "harmful")) {
-                if (v !== 0) {
-                    grace = false;
-                }
+        SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
+            if (!res.isInCategory(resourceId, "harmful") && income !== 0) {
+                grace = false;
             }
         });
         return grace;

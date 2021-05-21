@@ -30,8 +30,8 @@ SharkGame.ArtifactUtil = {
                 worldResources.get(resourceName).artifactMultiplier = multiplier;
             }
             const incomes = SharkGame.ResourceMap.get(resourceName).income;
-            $.each(incomes, (k, v) => {
-                incomes[k] = v * multiplier;
+            $.each(incomes, (resource, income) => {
+                incomes[resource] = income * multiplier;
             });
             SharkGame.ModifierMap.get(resourceName).artifact.multiplier[totemName] = level;
         });

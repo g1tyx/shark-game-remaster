@@ -38,6 +38,7 @@
         "prefer-const": "error",
         "no-var": "error",
         "no-shadow": ["error", { "builtinGlobals": true, "hoist": "all", "allow": ["name", "event"] }],
-        "eqeqeq": ["error", "smart"]
+        "eqeqeq": ["error", "smart"],
+        "id-length": ["error", { "min": 3, "exceptionPatterns": ["i", "id", "to", "dt"] }]
     }
 }

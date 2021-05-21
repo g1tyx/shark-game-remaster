@@ -227,7 +227,6 @@ SharkGame.Recycler = {
     },
 
     onInput() {
-        const l = SharkGame.Log;
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const resourceName = button.attr("id").split("-")[1];
@@ -239,9 +238,9 @@ SharkGame.Recycler = {
             res.changeResource("junk", amount * junkPerResource * rec.getEfficiency());
             res.changeResource(resourceName, -amount);
             res.changeResource("tar", Math.max(amount * junkPerResource * 0.0000002 + res.getProductAmountFromGeneratorResource("filter", "tar"), 0));
-            l.addMessage(SharkGame.choose(rec.recyclerInputMessages));
+            SharkGame.Log.addMessage(SharkGame.choose(rec.recyclerInputMessages));
         } else {
-            l.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
+            SharkGame.Log.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
         }
 
         rec.updateEfficiency(resourceName);
@@ -251,7 +250,6 @@ SharkGame.Recycler = {
     },
 
     onOutput() {
-        const l = SharkGame.Log;
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const resourceName = button.attr("id").split("-")[1];
@@ -282,9 +280,9 @@ SharkGame.Recycler = {
         if (junkAmount >= junkNeeded) {
             res.changeResource(resourceName, amount);
             res.changeResource("junk", -junkNeeded);
-            l.addMessage(SharkGame.choose(rec.recyclerOutputMessages));
+            SharkGame.Log.addMessage(SharkGame.choose(rec.recyclerOutputMessages));
         } else {
-            l.addMessage("You don't have enough for that!");
+            SharkGame.Log.addMessage("You don't have enough for that!");
         }
 
         // disable button until next frame
@@ -443,6 +441,7 @@ SharkGame.Recycler = {
         return rec.efficiency.toFixed(4);
     },
 
+    // FIXME: What does 'evalue' mean?
     updateEfficiency(resource) {
         let evalue = 5;
         let baseEfficiency = 0.5;
@@ -452,16 +451,16 @@ SharkGame.Recycler = {
             baseEfficiency = 1;
         }
 
-        const n = res.getPurchaseAmount(resource);
-        // check if the amount to eat is less than the threshold, currently 100K
-        if (n <= Math.pow(10, evalue)) {
+        const purchaseAmount = res.getPurchaseAmount(resource);
+        // check if the amount to eat is less than the threshold
+        if (purchaseAmount <= Math.pow(10, evalue)) {
             rec.efficiency = baseEfficiency;
         } else {
-            rec.efficiency = 1 / (Math.log10(n) - evalue + Math.round(1 / baseEfficiency));
             //otherwise, scale back based purely on the number to process
             // 'cheating' by lowering the value of n is ok if the player wants to put in a ton of effort
             // the system is more sensible, and people can get a feel for it easier if i make this change
             // the amount that this effects things isn't crazy high either, so
+            rec.efficiency = 1 / (Math.log10(purchaseAmount) - evalue + Math.round(1 / baseEfficiency));
         }
     },
 };

@@ -4,12 +4,12 @@ SharkGame.Log = {
     messages: [],
 
     init() {
-        const l = SharkGame.Log;
+        const log = SharkGame.Log;
         // create log
         $("#log").append("<h3>Log<h3/>").append("<button id='clearLog' class='min close-button'>✕</button>").append("<ul id='messageList'></ul>");
         // add clear button
-        $("#clearLog").on("click", l.clearMessages);
-        l.initialised = true;
+        $("#clearLog").on("click", log.clearMessages);
+        log.initialised = true;
     },
 
     addMessage(message) {
@@ -49,16 +49,16 @@ SharkGame.Log = {
     },
 
     correctLogLength() {
-        const l = SharkGame.Log;
+        const log = SharkGame.Log;
         const showAnims = SharkGame.Settings.current.showAnimations;
         const logMax = SharkGame.Settings.current.logMessageMax;
 
-        if (l.messages.length >= logMax) {
-            while (l.messages.length > logMax) {
-                const oldestMessage = l.messages[0];
+        if (log.messages.length >= logMax) {
+            while (log.messages.length > logMax) {
+                const oldestMessage = log.messages[0];
                 // remove oldest message
                 if (showAnims) {
-                    l.messages[0].animate({ opacity: 0 }, 100, "swing", () => {
+                    log.messages[0].animate({ opacity: 0 }, 100, "swing", () => {
                         $(oldestMessage).remove();
                     });
                 } else {
@@ -66,7 +66,7 @@ SharkGame.Log = {
                 }
 
                 // shift array (remove first item)
-                l.messages.shift();
+                log.messages.shift();
             }
         }
     },
