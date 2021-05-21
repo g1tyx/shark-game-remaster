@@ -1426,18 +1426,18 @@ SharkGame.Upgrades = {
         },
         squidBiology: {
             name: "Biology",
-            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
-            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
-            effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
             cost: {
                 science: 400,
             },
             required: {
-                upgrades: ["underwaterChemistry", "agriculture"],
+                upgrades: ["biology"],
             },
             effect: {
                 incomeMultiplier: {
-                    shark: 2,
+                    squid: 2,
                 },
             },
         },
@@ -1454,7 +1454,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["biology"],
-                resources: ["crab"],
             },
             effect: {
                 incomeMultiplier: {
@@ -1463,20 +1462,46 @@ SharkGame.Upgrades = {
             },
         },
         urchinBiology: {
-            name: "Biology",
-            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
-            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
-            effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
+            name: "Urchin Biology",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
             cost: {
                 science: 400,
             },
             required: {
-                upgrades: ["underwaterChemistry", "agriculture"],
+                upgrades: ["biology"],
             },
             effect: {
                 incomeMultiplier: {
-                    shark: 2,
+                    urchin: 2,
                 },
+            },
+        },
+        fishAnatomy: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        curiousCrabs: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
             },
         },
         sunObservation: {
@@ -1499,10 +1524,10 @@ SharkGame.Upgrades = {
         exploration: {
             name: "Exploration",
             desc: "Swim beyond the home seas to see what can be found!",
-            researchedMessage: "Found lots of schools of fish! So many different schools!",
+            researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
             effectDesc: "Squids and squid hunters are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 5000,
+                science: 6000,
                 fish: 5000,
             },
             required: {
@@ -1519,7 +1544,7 @@ SharkGame.Upgrades = {
             name: "Glacial Navigation",
             desc: "Explore the icebergs that lie beyond the warmth. Maybe we can learn something useful?",
             researchedMessage:
-                "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves neat the border.",
+                "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves at the border.",
             effectDesc: "Crabs and extraction teams are 4 times as effective. ",
             cost: {
                 science: 8000,
@@ -1533,6 +1558,110 @@ SharkGame.Upgrades = {
                     crab: 4,
                     extractionTeam: 4,
                 },
+            },
+        },
+        artificialHeating: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        coldproofSpines: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        thermalConditioning: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        internalInvestigation: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        sonicEnergizers: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        rapidRepairs: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        teamSpirit: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        creatureCoalition: {
+            name: "Kelp Extraction",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
             },
         },
     },

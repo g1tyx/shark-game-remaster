@@ -347,13 +347,13 @@ SharkGame.ResourceTable = {
         value: 4000,
     },
 
-    extractionTeam: {
-        name: "extraction teams",
-        singleName: "extraction team",
-        desc: "Teamwork makes the dream work.",
-        color: "#ff7847", //needs new color
+    curiousCrab: {
+        name: "curious crabs",
+        singleName: "curious crab",
+        desc: "Rummagers unearthing great secrets.",
+        color: "#AAE03D", //needs new color
         income: {
-            crystal: 1,
+            science: 1,
         },
         value: 4000,
     },
@@ -515,6 +515,17 @@ SharkGame.ResourceTable = {
             fish: 25,
         },
         value: 3000,
+    },
+
+    extractionTeam: {
+        name: "extraction teams",
+        singleName: "extraction team",
+        desc: "Teamwork makes the dream work.",
+        color: "#ff7847", //needs new color
+        income: {
+            crystal: 1,
+        },
+        value: 4000,
     },
 
     // MACHINES

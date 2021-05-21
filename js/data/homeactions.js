@@ -2862,61 +2862,7 @@ SharkGame.HomeActions = {
         },
     },
     frigid: {
-        catchFish: {
-            name: "Catch fish",
-            effect: {
-                resource: {
-                    fish: 1,
-                },
-            },
-            cost: {},
-            prereq: {
-                // no prereqs
-            },
-            outcomes: [
-                "Dropped the bass.",
-                "Ate a kipper. Wait. Hang on.",
-                "You eat a fish hooray!",
-                "Fish.",
-                "Ate a shark. Wait. No, it wasn't a shark.",
-                "Ate an anchovy.",
-                "Ate a catfish.",
-                "Ate a flounder.",
-                "Ate a haddock.",
-                "Ate a herring.",
-                "Ate a mackerel.",
-                "Ate a mullet.",
-                "Ate a perch.",
-                "Ate a pollock.",
-                "Ate a salmon.",
-                "Ate a sardine.",
-                "Ate a sole.",
-                "Ate a tilapia.",
-                "Ate a trout.",
-                "Ate a whitefish.",
-                "Ate a bass.",
-                "Ate a carp.",
-                "Ate a cod.",
-                "Ate a halibut.",
-                "Ate a mahi mahi.",
-                "Ate a monkfish.",
-                "Ate a perch.",
-                "Ate a snapper.",
-                "Ate a bluefish.",
-                "Ate a grouper.",
-                "Ate a sea bass.",
-                "Ate a yellowfin tuna.",
-                "Ate a marlin.",
-                "Ate an orange roughy.",
-                "Ate a shark.",
-                "Ate a swordfish.",
-                "Ate a tilefish.",
-                "Ate a tuna.",
-                "Ate a swedish fish.",
-                "Ate a goldfish.",
-            ],
-            helpText: "Use your natural shark prowess to find and catch a fish.",
-        },
+        catchFish: {},
 
         debugbutton: {
             name: "Debug stuff",
@@ -2955,100 +2901,11 @@ SharkGame.HomeActions = {
 
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
 
-        transmuteSharkonium: {
-            name: "Transmute stuff to sharkonium",
-            effect: {
-                resource: {
-                    sharkonium: 1,
-                },
-            },
-            cost: [
-                { resource: "crystal", costFunction: "constant", priceIncrease: 5 },
-                { resource: "sand", costFunction: "constant", priceIncrease: 15 },
-            ],
-            max: "sharkonium",
-            prereq: {
-                upgrade: ["transmutation"],
-            },
-            outcomes: [
-                "Transmutation destination!",
-                "Transmutation rejuvenation!",
-                "Transmogrification revelation!",
-                "Transformation libation!",
-                "Transfiguration nation! ...wait.",
-                "Sharkonium arise!",
-                "Arise, sharkonium!",
-                "More sharkonium!",
-                "The substance that knows no name! Except the name sharkonium!",
-                "The substance that knows no description! It's weird to look at.",
-                "The foundation of a modern shark frenzy!",
-            ],
-            helpText: "Convert ordinary resources into sharkonium, building material of the future!",
-        },
+        transmuteSharkonium: {},
 
         // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
 
-        getShark: {
-            name: "Recruit shark",
-            effect: {
-                resource: {
-                    shark: 1,
-                },
-            },
-            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 5 }],
-            max: "shark",
-            prereq: {
-                resource: {
-                    fish: 5,
-                },
-            },
-            outcomes: [
-                "A bignose shark joins you.",
-                "A blacktip reef shark joins you.",
-                "A blue shark joins you.",
-                "A bull shark joins you.",
-                "A cat shark joins you.",
-                "A crocodile shark joins you.",
-                "A dusky whaler shark joins you.",
-                "A dogfish joins you.",
-                "A graceful shark joins you.",
-                "A grey reef shark joins you.",
-                "A goblin shark joins you.",
-                "A hammerhead shark joins you.",
-                "A hardnose shark joins you.",
-                "A lemon shark joins you.",
-                "A milk shark joins you.",
-                "A nervous shark joins you.",
-                "An oceanic whitetip shark joins you.",
-                "A pigeye shark joins you.",
-                "A sandbar shark joins you.",
-                "A silky shark joins you.",
-                "A silvertip shark joins you.",
-                "A sliteye shark joins you.",
-                "A speartooth shark joins you.",
-                "A spinner shark joins you.",
-                "A spot-tail shark joins you.",
-                "A mako shark joins you.",
-                "A tiger shark joins you.",
-                "A tawny shark joins you.",
-                "A white shark joins you.",
-                "A zebra shark joins you.",
-            ],
-            multiOutcomes: [
-                "A whole bunch of sharks join you.",
-                "That's a lot of sharks.",
-                "The shark community grows!",
-                "More sharks! MORE SHARKS!",
-                "Sharks for the masses. Mass sharks.",
-                "A shiver of sharks! No, that's a legit name. Look it up.",
-                "A school of sharks!",
-                "A shoal of sharks!",
-                "A frenzy of sharks!",
-                "A gam of sharks! Yes, that's correct.",
-                "A college of sharks! They're a little smarter than a school.",
-            ],
-            helpText: "Recruit a shark to help catch more fish.",
-        },
+        getShark: {},
 
         getSquid: {
             name: "Enlist squid",
@@ -3076,62 +2933,7 @@ SharkGame.HomeActions = {
             helpText: "placeholder",
         },
 
-        getCrab: {
-            name: "Acquire crab",
-            effect: {
-                resource: {
-                    crab: 1,
-                },
-            },
-            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 10 }],
-            max: "crab",
-            prereq: {
-                resource: {
-                    shark: 4,
-                },
-            },
-            outcomes: [
-                "A crab starts sifting shiny things out of the sand.",
-                "A bering hermit joins you.",
-                "A blackeye hermit joins you.",
-                "A butterfly crab joins you.",
-                "A dungeness crab joins you.",
-                "A flattop crab joins you.",
-                "A greenmark hermit joins you.",
-                "A golf-ball crab joins you.",
-                "A graceful crab joins you.",
-                "A graceful decorator crab joins you.",
-                "A graceful kelp crab joins you.",
-                "A green shore crab joins you.",
-                "A heart crab joins you.",
-                "A helmet crab joins you.",
-                "A longhorn decorator crab joins you.",
-                "A maroon hermit joins you.",
-                "A moss crab joins you.",
-                "A northern kelp crab joins you.",
-                "A orange hairy hermit joins you.",
-                "A purple shore crab joins you.",
-                "A pygmy rock crab joins you.",
-                "A puget sound king crab joins you.",
-                "A red rock crab joins you.",
-                "A scaled crab joins you.",
-                "A sharpnose crab joins you.",
-                "A spiny lithoid crab joins you.",
-                "A widehand hermit joins you.",
-                "A umbrella crab joins you.",
-            ],
-            multiOutcomes: [
-                "A lot of crabs join you.",
-                "CRABS EVERYWHERE",
-                "Crabs. Crabs. Crabs!",
-                "Feels sort of crab-like around here.",
-                "A cast of crabs!",
-                "A dose of crabs!",
-                "A cribble of crabs! Okay, no, that one's made up.",
-                "So many crabs.",
-            ],
-            helpText: "Hire a crab to find things that sharks and rays overlook.",
-        },
+        getCrab: {},
 
         getUrchin: {
             name: "Attract urchin",
@@ -3161,43 +2963,7 @@ SharkGame.HomeActions = {
 
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
 
-        getScientist: {
-            name: "Train science shark",
-            effect: {
-                resource: {
-                    scientist: 1,
-                },
-            },
-            cost: [
-                { resource: "shark", costFunction: "constant", priceIncrease: 1 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 20 },
-            ],
-            max: "scientist",
-            prereq: {
-                resource: {
-                    crystal: 20,
-                    shark: 1,
-                },
-            },
-            outcomes: [
-                "Doctor Shark, coming right up!",
-                "A scientist shark is revealed!",
-                "After many painful years of study, a shark that has developed excellent skills in making excuses-- er, in science!",
-                "PhD approved!",
-                "Graduation complete!",
-                "A new insight drives a new shark to take up the cause of science!",
-            ],
-            multiOutcomes: [
-                "The training program was a success!",
-                "Look at all this science!",
-                "Building a smarter, better shark!",
-                "Beakers! Beakers underwater! It's madness!",
-                "Let the science commence!",
-                "Underwater clipboards! No I don't know how that works either!",
-                "Careful teeth record the discoveries!",
-            ],
-            helpText: "Train a shark in the fine art of research and the science of, well, science.",
-        },
+        getScientist: {},
 
         getNurse: {
             name: "Train nurse shark",
@@ -3256,49 +3022,11 @@ SharkGame.HomeActions = {
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "Give a squid the necessary materials to become a hunter.",
+            helpText: "Gear up a squid to go hunting.",
         },
-
-        getsquidbreederthing: {
-            name: "Instruct a ray maker",
-            effect: {
-                resource: {
-                    maker: 1,
-                },
-            },
-            cost: [
-                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 300 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 15 },
-            ],
-            max: "maker",
-            prereq: {
-                resource: {
-                    ray: 1,
-                },
-                upgrade: ["rayBiology"],
-            },
-            outcomes: [
-                "The application of kelp supplements has made a ray very productive.",
-                "More rays lets you get more rays which you can then use to get more rays.",
-                "The ray singularity begins!",
-                "A ray maker is ready.",
-                "Looks like you gave them quite the ray maker blow! 'Them' being the intangible enemy that is lacking in resources.",
-                "The ray seems concerned, but obliges. The mission has been given.",
-            ],
-            multiOutcomes: [
-                "All these makers. What are they making? What is it for? Oh. It's rays, and it's probably for sand or something.",
-                "More ray makers means more rays. Do you understand what that means?! Do you?! It means more rays. Good. On the same page, then.",
-                "Rapidly breeding aquatic wildlife is probably a severe ecological hazard. Good thing this isn't Earth's oceans, probably!",
-                "Have you ever thought about what the rays wanted? Because this might have been what they wanted after all.",
-                "MORE LASER RAYS FOR THE LASER ARMY-- oh. Well, this is good too.",
-            ],
-            helpText: "Remove a ray from sand business and let them concentrate on making more rays.",
-        },
-
-        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
 
         getExtractionTeam: {
+            //i consider this a squid job
             name: "Organize extraction team",
             effect: {
                 resource: {
@@ -3316,7 +3044,50 @@ SharkGame.HomeActions = {
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "Get a squid and a crab to work together in pursuit of efficient crystal gathering.",
+            helpText: "Convince a squid and a crab to work together in pursuit of efficient crystal gathering.",
+        },
+
+        getCollective: {
+            name: "Assemble squid collective",
+            effect: {
+                resource: {
+                    collective: 1,
+                },
+            },
+            cost: [
+                { resource: "squid", costFunction: "constant", priceIncrease: 20 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 500 },
+            ],
+            max: "collective",
+            prereq: {
+                upgrade: ["squidBiology"],
+            },
+            outcomes: [""],
+            multiOutcomes: [""],
+            helpText: "",
+        },
+
+        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getCuriousCrab: {
+            name: "Look for curious crab",
+            effect: {
+                resource: {
+                    curiousCrab: 1,
+                },
+            },
+            cost: [
+                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 250 },
+            ],
+            max: "curiousCrab",
+            prereq: {
+                upgrade: ["curiousCrabs"],
+            },
+            outcomes: [""],
+            multiOutcomes: [""],
+            helpText:
+                "Search the frenzy for any particularly curious crabs and see if they can help us make science happen.",
         },
 
         getBrood: {
@@ -3377,24 +3148,9 @@ SharkGame.HomeActions = {
                 },
                 upgrade: ["urchinBiology"],
             },
-            outcomes: [
-                "A bunch of crabs pile together into some sort of weird cluster.",
-                "Crab team, assemble! FORM THE CRAB BROOD!",
-                "[This message has been censored for reasons of being mostly really gross.]",
-                "Eggs, eggs everywhere, but never stop and think.",
-                "Writhing crab pile. Didn't expect those words next to each other today, did you.",
-                "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.",
-            ],
-            multiOutcomes: [
-                "The broods grow. The swarm rises.",
-                "All these crabs are probably a little excessive. ...is what I could say, but I'm going to say this instead. MORE CRABS.",
-                "A sea of crabs on the bottom of the sea. Clickity clackity.",
-                "Snip snap clack clack burble burble crabs crabs crabs crabs.",
-                "More crabs are always a good idea. Crystals aren't cheap.",
-                "The broods swell in number. The sharks are uneasy, but the concern soon passes.",
-                "Yes. Feed the kelp. Feed it. Feeeeeed it.",
-            ],
-            helpText: "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.",
+            outcomes: [""],
+            multiOutcomes: [""],
+            helpText: "",
         },
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
