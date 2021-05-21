@@ -155,7 +155,7 @@ SharkGame.ResourceTable = {
         // and other circumstances referring to a single kind, like this one, will use 'squid'
         color: "#FA9272",
         income: {
-            fish: 2,
+            fish: 5,
         },
         value: 3000,
     },
@@ -165,7 +165,8 @@ SharkGame.ResourceTable = {
         singleName: "sea urchin",
         color: "#B98DE0",
         income: {
-            kelp: 1,
+            sand: 0.5,
+            kelp: 0.5,
         },
         value: 3000,
     },
@@ -243,6 +244,26 @@ SharkGame.ResourceTable = {
         color: "#3F6E86",
         income: {
             eel: 0.01,
+        },
+        value: 4000,
+    },
+
+    spawner: {
+        name: "urchin spawners",
+        singleName: "urchin spawner",
+        color: "#3F6E86",
+        income: {
+            urchin: 0.01,
+        },
+        value: 4000,
+    },
+
+    collective: {
+        name: "squid collectives",
+        singleName: "squid collectives",
+        color: "#3F6E86",
+        income: {
+            squid: 0.1,
         },
         value: 4000,
     },
@@ -326,16 +347,15 @@ SharkGame.ResourceTable = {
         value: 4000,
     },
 
-    sifter: {
-        name: "sifter crabs",
-        singleName: "sifter crab",
-        color: "#473E21",
+    extractionTeam: {
+        name: "extraction teams",
+        singleName: "extraction team",
+        desc: "Teamwork makes the dream work.",
+        color: "#ff7847", //needs new color
         income: {
-            sand: 1,
-            crystal: 0.05,
-            kelp: 0.01,
+            crystal: 1,
         },
-        value: 3000,
+        value: 4000,
     },
 
     /* miller: {
@@ -474,12 +494,25 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
+    sifter: {
+        name: "eel sifters",
+        singleName: "eel sifter",
+        color: "#473E21",
+        income: {
+            sand: 1,
+            crystal: 0.05,
+            kelp: 0.01,
+            // this is not the original incomes for this specialist
+        },
+        value: 3000,
+    },
+
     hunter: {
         name: "squid hunters",
         singleName: "squid hunter",
-        color: "#473E21",
+        color: "#473E21", //also needs new color
         income: {
-            fish: 10,
+            fish: 25,
         },
         value: 3000,
     },
@@ -988,7 +1021,7 @@ SharkGame.ResourceTable = {
     ice: {
         name: "ice",
         singleName: "ice",
-        desc: "Not deadly, but the sharks suffer.",
+        desc: "Impending doom.",
         color: "#E4F1FB",
         income: {
             ice: 0.01,
@@ -1039,7 +1072,10 @@ SharkGame.GeneratorIncomeAffectors = {
     ice: {
         multiply: {
             ice: -0.00101,
-            frenzy: -0.001,
+            urchin: -0.001,
+            squid: -0.001,
+            shark: -0.001,
+            crab: -0.001,
             specialists: -0.001,
             breeders: -0.001,
         },

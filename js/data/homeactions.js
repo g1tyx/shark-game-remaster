@@ -3060,10 +3060,19 @@ SharkGame.HomeActions = {
             cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 15 }],
             max: "squid",
             prereq: {
-                upgrade: ["activeInvestigation"],
+                upgrade: ["civilContact"],
             },
             outcomes: ["placeholder"],
-            multiOutcomes: ["placeholder"],
+            multiOutcomes: [
+                "Squids? Squid.",
+                "The squid do not join your frenzy directly, so much as they gather more resources for the village.",
+                "The squid are cooperative and obedient. They do as directed.",
+                "A squiggle of squid! No, of course that's not real.",
+                "A...group! Of squid!",
+                "A shoal of squid!",
+                "A squad of squid! A squid squad!",
+                "A school of squid!",
+            ],
             helpText: "placeholder",
         },
 
@@ -3131,14 +3140,23 @@ SharkGame.HomeActions = {
                     urchin: 1,
                 },
             },
-            cost: [{ resource: "kelp", costFunction: "linear", priceIncrease: 10 }],
+            cost: [{ resource: "kelp", costFunction: "linear", priceIncrease: 1 }],
             max: "urchin",
             prereq: {
-                upgrade: ["kelpExtraction"],
+                upgrade: ["urchinAttraction"],
             },
-            outcomes: ["placeholder"],
-            multiOutcomes: ["placeholder"],
-            helpText: "placeholder",
+            outcomes: ["OUCH", "OW", "YEOUCH", "OUCHIE", "OWIE", "insert pain noise", "OOCH"],
+            multiOutcomes: [
+                "ow ow ow spikes hurt",
+                "The urchins join the frenzy. The frenzy keeps its distance.",
+                "Prickly.",
+                "A pile of sea urchins. A whole pile of them.",
+                "The urchins, they're everywhere!",
+                "How many urchins could we possibly need?",
+                "The urchins go straight to harvesting kelp, and in the process, sand.",
+                "And we're sure that we need urchins this badly?",
+            ],
+            helpText: "Attract an urchin with some kelp and entice it to join us.",
         },
 
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3219,17 +3237,17 @@ SharkGame.HomeActions = {
         // SQUID JOBS ////////////////////////////////////////////////////////////////////////////////
 
         getHunter: {
-            name: "Recruit squid hunter",
+            name: "Equip squid hunter",
             effect: {
                 resource: {
-                    laser: 1,
+                    hunter: 1,
                 },
             },
             cost: [
-                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 50 },
+                { resource: "squid", costFunction: "constant", priceIncrease: 1 },
+                { resource: "crystal", costFunction: "linear", priceIncrease: 5 },
             ],
-            max: "laser",
+            max: "hunter",
             prereq: {
                 resource: {
                     squid: 1,
@@ -3238,7 +3256,7 @@ SharkGame.HomeActions = {
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "Remove a ray from sand detail and let them fuse sand into raw crystal.",
+            helpText: "Give a squid the necessary materials to become a hunter.",
         },
 
         getsquidbreederthing: {
@@ -3259,7 +3277,6 @@ SharkGame.HomeActions = {
                     ray: 1,
                 },
                 upgrade: ["rayBiology"],
-                notWorlds: ["stone"],
             },
             outcomes: [
                 "The application of kelp supplements has made a ray very productive.",
@@ -3281,27 +3298,25 @@ SharkGame.HomeActions = {
 
         // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
 
-        getSifter: {
-            name: "Gear up sifter crab",
+        getExtractionTeam: {
+            name: "Organize extraction team",
             effect: {
                 resource: {
-                    sifter: 1,
+                    extractionTeam: 1,
                 },
             },
             cost: [
                 { resource: "crab", costFunction: "constant", priceIncrease: 1 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 2 },
+                { resource: "squid", costFunction: "constant", priceIncrease: 1 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 50 },
             ],
-            max: "sifter",
+            max: "extractionTeam",
             prereq: {
-                resource: {
-                    crab: 1,
-                },
-                upgrade: ["crystalScoops"],
+                upgrade: ["assistedExtraction"],
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "",
+            helpText: "Get a squid and a crab to work together in pursuit of efficient crystal gathering.",
         },
 
         getBrood: {
@@ -3321,6 +3336,46 @@ SharkGame.HomeActions = {
                     crab: 1,
                 },
                 upgrade: ["crabBiology"],
+            },
+            outcomes: [
+                "A bunch of crabs pile together into some sort of weird cluster.",
+                "Crab team, assemble! FORM THE CRAB BROOD!",
+                "[This message has been censored for reasons of being mostly really gross.]",
+                "Eggs, eggs everywhere, but never stop and think.",
+                "Writhing crab pile. Didn't expect those words next to each other today, did you.",
+                "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.",
+            ],
+            multiOutcomes: [
+                "The broods grow. The swarm rises.",
+                "All these crabs are probably a little excessive. ...is what I could say, but I'm going to say this instead. MORE CRABS.",
+                "A sea of crabs on the bottom of the sea. Clickity clackity.",
+                "Snip snap clack clack burble burble crabs crabs crabs crabs.",
+                "More crabs are always a good idea. Crystals aren't cheap.",
+                "The broods swell in number. The sharks are uneasy, but the concern soon passes.",
+                "Yes. Feed the kelp. Feed it. Feeeeeed it.",
+            ],
+            helpText: "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.",
+        },
+
+        // URCHIN JOB ////////////////////////////////////////////////////////////////////////////////////
+
+        getSpanwer: {
+            name: "Designate urchin spawner",
+            effect: {
+                resource: {
+                    spawner: 1,
+                },
+            },
+            cost: [
+                { resource: "urchin", costFunction: "constant", priceIncrease: 1 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 10 },
+            ],
+            max: "spawner",
+            prereq: {
+                resource: {
+                    crab: 1,
+                },
+                upgrade: ["urchinBiology"],
             },
             outcomes: [
                 "A bunch of crabs pile together into some sort of weird cluster.",

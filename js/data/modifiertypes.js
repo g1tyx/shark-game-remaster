@@ -9,7 +9,6 @@ SharkGame.ModifierTypes = {
     upgrade: {
         multiplier: {
             incomeMultiplier: {
-                name: "Income Multiplier",
                 defaultValue: 1,
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
@@ -62,6 +61,22 @@ SharkGame.ModifierTypes = {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? degree : 1;
                 },
             },
+            sandMultiplier: {
+                defaultValue: 1,
+                apply(current, degree, resource, _level) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    if (incomes.sand) {
+                        incomes.sand = incomes.sand * degree;
+                    }
+                    return current * degree;
+                },
+                effectDescription(degree, resource, _level) {
+                    return r.getResourceName(resource) + " " + r.getResourceName("sand") + " collection x " + degree;
+                },
+                getEffect(degree, _gen, _out) {
+                    return degree;
+                },
+            },
         },
         other: {
             addCoralIncome: {
@@ -79,21 +94,6 @@ SharkGame.ModifierTypes = {
                     return 1;
                 },
             },
-            /*             philosopherToHistorian: {
-                defaultValue: 0,
-                apply(_current, _degree, _resource, _level) {
-                    r.setResource("historian", r.getResource("philosopher"));
-                    r.setResource("philosopher", 0);
-                    r.setTotalResource("philosopher", 0);
-                    return 1;
-                },
-                effectDescription(_degree, _resource, _level) {
-                    return "";
-                },
-                getEffect(_degree, _gen, _out) {
-                    return 1;
-                },
-            }, */
         },
     },
 

@@ -264,16 +264,22 @@ SharkGame.Home = {
             {
                 name: "frigid-default",
                 message:
-                    "The cold here seeps through you. There are giant boulders of ice on the horizon. They surround your field of view.<br>There is a quiet hum in the water.",
+                    "The cold here seeps through you. There are giant boulders of ice on the horizon, surrounding you on all sides.<br>There is a quiet hum in the water.",
+            },
+            {
+                name: "frigid-urchin",
+                unlock: { totalResource: { urchin: 10 } },
+                message:
+                    "The urchins scuttle along the ground, gathering kelp into a massive pile.<br>They know nothing else. Food is the only thing that is real.",
             },
             {
                 name: "frigid-distant-village",
-                unlock: { totalResource: { scientist: 1 } },
+                unlock: { upgrade: ["seabedGeology"] },
                 message: "While scanning the horizon, you notice some weird outcroppings in the distance.<br>What is that supposed to be??",
             },
             {
                 name: "frigid-village",
-                unlock: { upgrade: ["activeInvestigation"] },
+                unlock: { upgrade: ["civilContact"] },
                 message: "A colony of squid greets you respectfully.<br>Many small structures form the basis of a tiny village.",
             },
             {
@@ -289,20 +295,9 @@ SharkGame.Home = {
                     "The squid speak of an ancient visitor. They say this visitor was the one who saved their world.<br>They ask if you too, have seen this visitor.",
             },
             {
-                name: "frigid-urchin",
-                unlock: { totalResource: { urchin: 25 } },
-                message:
-                    "The urchins scuttle along the ground, gathering kelp into a massive pile.<br>They know nothing else. To them, there is only food.",
-            },
-            {
-                name: "frigid-mechanical-failure",
-                unlock: { upgrade: ["automation"], totalResource: { crystalMiner: 1 } },
-                message: "The squid interrupt you as the first miners begin drilling.<br>They say something is wrong with the great machine.",
-            },
-            {
                 name: "frigid-blast",
-                unlock: { upgrade: ["haventdecided"] },
-                message: "A sudden, frigid blast overtakes you, and all the heat is sucked from your body.<br>The background hum disappears.",
+                unlock: { upgrade: ["automation"] },
+                message: "A sudden, frigid blast overtakes you, and all the heat is sucked from your body.<br>The hum in the water disappears.",
             },
             {
                 name: "frigid-ice-one",
@@ -311,7 +306,7 @@ SharkGame.Home = {
             },
             {
                 name: "frigid-ice-two",
-                unlock: { resource: { ice: 200 } },
+                unlock: { resource: { ice: 300 } },
                 message: "As the ice shelf advances, some of the frenzy have stopped sleeping.<br>They fear they might not wake back up.",
             },
             {
@@ -325,16 +320,13 @@ SharkGame.Home = {
                 message:
                     "The machine comes to life, and a wave of heat washes over you.<br>The glassy shards of ice disappear from the water, and the glaciers begin to recede.",
             },
-            {
+            /*{
                 name: "frigid-end",
                 unlock: { upgrade: ["rapidRepairs"] },
                 message: "The gate, filled once again, comes to life alongside the whirring machine.",
-            },
+            },*/
         ],
         /*
-        {
-            message: "The water glows here.<br>It feels familiar.",
-        },
         {
             message:
                 "The jagged seafloor looks ancient, yet pristine.<br>Sponges thrive in great numbers on the rocks.",

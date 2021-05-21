@@ -553,10 +553,6 @@ SharkGame.Gateway = {
 SharkGame.Gateway.Messages = {
     essenceBased: [
         {
-            max: 4,
-            messages: ["Hello, newcomer.", "Ah. Welcome, new one.", "Your journey has only just begun.", "Welcome to the end of the beginning."],
-        },
-        {
             min: 5,
             max: 10,
             messages: [
@@ -615,7 +611,13 @@ SharkGame.Gateway.Messages = {
     ],
     lastPlanetBased: {
         // working on changing this section
-        start: ["What brings you here, strange creature? This place is not often visited."],
+        start: [
+            "What brings you here, strange one?",
+            "Hello, newcomer.",
+            "Ah. Welcome, new one.",
+            "Your journey has only just begun.",
+            "Welcome to the end of the beginning.",
+        ],
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
@@ -640,12 +642,12 @@ SharkGame.Gateway.Messages = {
         violent: [
             "The boiling ocean only stirred you on.",
             "You are forged from the geothermal vents.",
-            "The The shrimp are no simpletons, mind you.",
+            "The shrimp are no simpletons, they are merely focused.",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",
             "Do the octopuses know who came before them? Do you know?",
-            "Did you create this world? ...you may think not, but how could you remember?",
+            "Did you create this world? How could you remember?",
         ],
         shrouded: [
             "Did the chimaeras recognise who you were?",
@@ -654,14 +656,12 @@ SharkGame.Gateway.Messages = {
             "Who brought darkness to this place? Or, was it always like this?",
         ],
         frigid: [
-            "Few worlds are so harsh. Fewer survive.",
-            "The squids do not usually take so well to outsiders.",
+            "The squid do not usually take so well to outsiders.",
             "...did you miss the rays?",
             "Tell me: Where do you see the line between friend and food? The urchins are as simple-minded as the fish.",
-
+            "The squid thought they recognized you. They would be wrong.",
             // The squid are primitive and prideful, yet wise.<br>They are no fools, else the ice would have claimed them long ago.
             // save that for the squid status
-            // frigid has no machines, low-tech
         ],
     },
     loss: [
