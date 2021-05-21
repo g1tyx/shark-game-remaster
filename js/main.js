@@ -2,11 +2,11 @@
 /* eslint-disable-next-line no-var, no-use-before-define, no-shadow */
 var SharkGame = SharkGame || {};
 
-window.onmousemove = (e) => {
+window.onmousemove = (event) => {
     const tooltip = document.getElementById("tooltipbox");
     if (!tooltip) return;
-    const posX = e.clientX;
-    const posY = e.clientY;
+    const posX = event.clientX;
+    const posY = event.clientY;
 
     const tooltipStyle = getComputedStyle(tooltip);
 
@@ -123,8 +123,8 @@ $.extend(SharkGame, {
         },
 
         giveEverything(amount = 1) {
-            SharkGame.ResourceMap.forEach((_v, key) => {
-                res.changeResource(key, amount);
+            SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+                res.changeResource(resourceId, amount);
             });
         },
     },
@@ -200,9 +200,9 @@ $.extend(SharkGame, {
         // convert to decimal and change luminosity
         let rgb = "#";
         for (let i = 0; i < 3; i++) {
-            let c = parseInt(hex.substr(i * 2, 2), 16);
-            c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
-            rgb += ("00" + c).substr(c.length);
+            let color = parseInt(hex.substr(i * 2, 2), 16);
+            color = Math.round(Math.min(Math.max(0, color + color * lum), 255)).toString(16);
+            rgb += ("00" + color).substr(color.length);
         }
 
         return rgb;
@@ -633,22 +633,22 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     checkTabUnlocks() {
-        $.each(SharkGame.Tabs, (tabName, v) => {
-            if (tabName === "current" || v.discovered) {
+        $.each(SharkGame.Tabs, (tabName, tab) => {
+            if (tabName === "current" || tab.discovered) {
                 return;
             }
             let reqsMet = true;
 
             // check resources
-            if (v.discoverReq.resource) {
-                reqsMet = reqsMet && res.checkResources(v.discoverReq.resource, true);
+            if (tab.discoverReq.resource) {
+                reqsMet = reqsMet && res.checkResources(tab.discoverReq.resource, true);
             }
 
             const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
             // check upgrades
-            if (v.discoverReq.upgrade) {
+            if (tab.discoverReq.upgrade) {
                 let anyUpgradeExists = false;
-                _.each(v.discoverReq.upgrade, (upgradeName) => {
+                _.each(tab.discoverReq.upgrade, (upgradeName) => {
                     if (upgradeTable[upgradeName]) {
                         anyUpgradeExists = true;
                         reqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeName);
@@ -662,7 +662,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             if (reqsMet) {
                 // unlock tab!
                 main.discoverTab(tabName);
-                SharkGame.Log.addDiscovery("Discovered " + v.name + "!");
+                SharkGame.Log.addDiscovery("Discovered " + tab.name + "!");
             }
         });
     },
@@ -705,19 +705,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         const subTitleMenu = $("#subtitlemenu");
         titleMenu.empty();
         subTitleMenu.empty();
-        $.each(SharkGame.TitleBar, (k, v) => {
+        $.each(SharkGame.TitleBar, (linkId, linkData) => {
             let option;
-            if (v.link) {
-                option = "<li><a id='" + k + "' href='" + v.link + "' target='_blank'>" + v.name + "</a></li>";
+            if (linkData.link) {
+                option = "<li><a id='" + linkId + "' href='" + linkData.link + "' target='_blank'>" + linkData.name + "</a></li>";
             } else {
-                option = "<li><a id='" + k + "' href='javascript:;'>" + v.name + "</a></li>";
+                option = "<li><a id='" + linkId + "' href='javascript:;'>" + linkData.name + "</a></li>";
             }
-            if (v.main) {
+            if (linkData.main) {
                 titleMenu.append(option);
             } else {
                 subTitleMenu.append(option);
             }
-            $("#" + k).on("click", v.onClick);
+            $("#" + linkId).on("click", linkData.onClick);
         });
     },
 
@@ -758,18 +758,18 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (numTabsDiscovered > 1) {
             // add a header for each discovered tab
             // make it a link if it's not the current tab
-            $.each(tabs, (k, v) => {
-                const onThisTab = SharkGame.Tabs.current === k;
-                if (v.discovered) {
+            $.each(tabs, (tabId, tabData) => {
+                const onThisTab = SharkGame.Tabs.current === tabId;
+                if (tabData.discovered) {
                     const tabListItem = $("<li>");
                     if (onThisTab) {
-                        tabListItem.html(v.name);
+                        tabListItem.html(tabData.name);
                     } else {
                         tabListItem.append(
                             $("<a>")
-                                .attr("id", "tab-" + k)
+                                .attr("id", "tab-" + tabId)
                                 .attr("href", "javascript:;")
-                                .html(v.name)
+                                .html(tabData.name)
                                 .on("click", function callback() {
                                     const tab = $(this).attr("id").split("-")[1];
                                     main.changeTab(tab);
