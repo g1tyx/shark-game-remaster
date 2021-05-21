@@ -15,17 +15,17 @@ SharkGame.World = {
     planetLevel: 1,
 
     init() {
-        w.resetWorldProperties();
+        world.resetWorldProperties();
     },
 
     apply() {
-        w.applyWorldProperties();
-        w.applyGateCosts(w.planetLevel);
+        world.applyWorldProperties();
+        world.applyGateCosts(world.planetLevel);
     },
 
     resetWorldProperties() {
-        const wr = w.worldResources;
-        w.worldRestrictedCombinations.clear();
+        const wr = world.worldResources;
+        world.worldRestrictedCombinations.clear();
 
         // set up defaults
         SharkGame.ResourceMap.forEach((_entry, someKindOfKey) => {
@@ -37,8 +37,8 @@ SharkGame.World = {
     },
 
     applyWorldProperties() {
-        const wr = w.worldResources;
-        const worldInfo = SharkGame.WorldTypes[w.worldType];
+        const wr = world.worldResources;
+        const worldInfo = SharkGame.WorldTypes[world.worldType];
 
         // enable resources allowed on the planet
         if (worldInfo.includedResources) {
@@ -63,31 +63,31 @@ SharkGame.World = {
 
         // apply world modifiers
         _.each(worldInfo.modifiers, (modifierData) => {
-            r.applyModifier(modifierData.modifier, modifierData.resource, modifierData.amount);
+            res.applyModifier(modifierData.modifier, modifierData.resource, modifierData.amount);
         });
-        r.buildIncomeNetwork();
+        res.buildIncomeNetwork();
     },
 
     applyGateCosts(_level) {
-        const worldInfo = SharkGame.WorldTypes[w.worldType];
+        const worldInfo = SharkGame.WorldTypes[world.worldType];
 
         // get multiplier
-        const gateCostMultiplier = w.getGateCostMultiplier();
+        const gateCostMultiplier = world.getGateCostMultiplier();
 
-        SharkGame.Gate.createSlots(worldInfo.gateRequirements, w.planetLevel, gateCostMultiplier);
+        SharkGame.Gate.createSlots(worldInfo.gateRequirements, world.planetLevel, gateCostMultiplier);
     },
 
     getWorldEntryMessage() {
-        return SharkGame.WorldTypes[w.worldType].entry;
+        return SharkGame.WorldTypes[world.worldType].entry;
     },
 
     // does this resource exist on this planet?
     doesResourceExist(resourceName) {
-        return w.worldResources.get(resourceName).exists;
+        return world.worldResources.get(resourceName).exists;
     },
 
     forceExistence(resourceName) {
-        w.worldResources.get(resourceName).exists = true;
+        world.worldResources.get(resourceName).exists = true;
     },
 
     // these things are only impacted by artifacts so far

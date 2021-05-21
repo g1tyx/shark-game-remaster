@@ -8,7 +8,7 @@ SharkGame.HomeActions = {
     generated: {},
 
     /** @param worldType {string} */
-    getActionTable(worldType = w.worldType) {
+    getActionTable(worldType = world.worldType) {
         if (typeof SharkGame.HomeActions[worldType] !== "object") {
             // This world type doesn't have any special upgrades, so use the default ones.
             // We don't want to generate the same upgrade table multiple times for no reason.
@@ -23,7 +23,7 @@ SharkGame.HomeActions = {
     },
 
     /** @param worldType {string} */
-    generateActionTable(worldType = w.worldType) {
+    generateActionTable(worldType = world.worldType) {
         const actionTable = _.cloneDeep(SharkGame.HomeActions.default);
 
         // Check if world type has modifications
@@ -2522,7 +2522,7 @@ SharkGame.HomeActions = {
             effect: {
                 resource: {
                     get science() {
-                        return 4 * (1 + 0.01 * r.getResource("historian"));
+                        return 4 * (1 + 0.01 * res.getResource("historian"));
                     },
                 },
             },

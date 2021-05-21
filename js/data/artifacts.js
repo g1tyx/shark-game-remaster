@@ -52,12 +52,12 @@ SharkGame.ArtifactUtil = {
         if (level < 1) {
             return;
         }
-        const amount = Math.pow(5, level);
+        const amountToMigrate = Math.pow(5, level);
         // force existence
-        w.forceExistence(resourceName);
-        const res = r.getTotalResource(resourceName);
-        if (res < amount) {
-            r.changeResource(resourceName, amount);
+        world.forceExistence(resourceName);
+        const resourceAmount = res.getTotalResource(resourceName);
+        if (resourceAmount < amountToMigrate) {
+            res.changeResource(resourceName, amountToMigrate);
         }
     },
     totemCost(level) {
@@ -67,13 +67,13 @@ SharkGame.ArtifactUtil = {
         if (level < 1) {
             return;
         }
-        const wr = w.worldResources;
+        const worldResources = world.worldResources;
         const multiplier = level + 1;
         _.each(resourceList, (resourceName) => {
-            if (wr.get(resourceName).artifactMultiplier) {
-                wr.get(resourceName).artifactMultiplier *= multiplier;
+            if (worldResources.get(resourceName).artifactMultiplier) {
+                worldResources.get(resourceName).artifactMultiplier *= multiplier;
             } else {
-                wr.get(resourceName).artifactMultiplier = multiplier;
+                worldResources.get(resourceName).artifactMultiplier = multiplier;
             }
             const incomes = SharkGame.ResourceMap.get(resourceName).income;
             $.each(incomes, (k, v) => {
@@ -93,7 +93,9 @@ SharkGame.Artifacts = {
             if (level === "Max") {
                 return "Multiplies all income by 10x.";
             } else if (level > 0) {
-                return `Multiplies all income by ${m.beautify(2 * level)}x` + (includeNext ? ` (${m.beautify(2 * level + 2)}x next level).` : ".");
+                return (
+                    `Multiplies all income by ${main.beautify(2 * level)}x` + (includeNext ? ` (${main.beautify(2 * level + 2)}x next level).` : ".")
+                );
             } else {
                 return "Multiplies all income by 2x.";
             }
@@ -102,7 +104,7 @@ SharkGame.Artifacts = {
             return Math.floor(Math.pow(10, level + 1));
         },
         effect(level) {
-            r.specialMultiplier = Math.max(2 * level, 1);
+            res.specialMultiplier = Math.max(2 * level, 1);
         },
     },
     gateCostReducer: {
@@ -114,8 +116,8 @@ SharkGame.Artifacts = {
                 return "Reduces gate costs by 65.1%.";
             } else if (level > 0) {
                 return (
-                    `Reduces gate costs by ${m.beautify((1 - Math.pow(0.9, level)) * 100)}%` +
-                    (includeNext ? " (" + m.beautify((1 - Math.pow(0.9, level + 1)) * 100) + "% next level)." : ".")
+                    `Reduces gate costs by ${main.beautify((1 - Math.pow(0.9, level)) * 100)}%` +
+                    (includeNext ? " (" + main.beautify((1 - Math.pow(0.9, level + 1)) * 100) + "% next level)." : ".")
                 );
             } else {
                 return "Reduces gate costs by 10%.";
@@ -136,8 +138,8 @@ SharkGame.Artifacts = {
                 return "Reveals all of the properties of worlds before travelling to them.";
             } else if (level > 0) {
                 return (
-                    `Reveals ${m.beautify(20 * level)}%` +
-                    (includeNext ? " (" + m.beautify(20 * level + 20) + "% next level)" : "") +
+                    `Reveals ${main.beautify(20 * level)}%` +
+                    (includeNext ? " (" + main.beautify(20 * level + 20) + "% next level)" : "") +
                     " of the properties of worlds before travelling to them."
                 );
             } else {
@@ -155,11 +157,11 @@ SharkGame.Artifacts = {
         max: 10,
         desc(level, includeNext) {
             if (level === "Max") {
-                return "Bring " + m.beautify(9765625) + " sharks with you to the next world.";
+                return "Bring " + main.beautify(9765625) + " sharks with you to the next world.";
             } else if (level > 0) {
                 return (
-                    `Bring ${m.beautify(Math.pow(5, level))}` +
-                    (includeNext ? ` (${m.beautify(Math.pow(5, level + 1))} next level)` : "") +
+                    `Bring ${main.beautify(Math.pow(5, level))}` +
+                    (includeNext ? ` (${main.beautify(Math.pow(5, level + 1))} next level)` : "") +
                     " sharks with you to the next world."
                 );
             } else {
@@ -178,11 +180,11 @@ SharkGame.Artifacts = {
         max: 10,
         desc(level, includeNext) {
             if (level === "Max") {
-                return "Bring " + m.beautify(9765625) + " rays with you to the next world.";
+                return "Bring " + main.beautify(9765625) + " rays with you to the next world.";
             } else if (level > 0) {
                 return (
-                    `Bring ${m.beautify(Math.pow(5, level))}` +
-                    (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") +
+                    `Bring ${main.beautify(Math.pow(5, level))}` +
+                    (includeNext ? " (" + main.beautify(Math.pow(5, level + 1)) + " next level)" : "") +
                     " rays with you to the next world."
                 );
             } else {
@@ -201,11 +203,11 @@ SharkGame.Artifacts = {
         max: 10,
         desc(level, includeNext) {
             if (level === "Max") {
-                return "Bring " + m.beautify(9765625) + " crabs with you to the next world.";
+                return "Bring " + main.beautify(9765625) + " crabs with you to the next world.";
             } else if (level > 0) {
                 return (
-                    `Bring ${m.beautify(Math.pow(5, level))}` +
-                    (includeNext ? " (" + m.beautify(Math.pow(5, level + 1)) + " next level)" : "") +
+                    `Bring ${main.beautify(Math.pow(5, level))}` +
+                    (includeNext ? " (" + main.beautify(Math.pow(5, level + 1)) + " next level)" : "") +
                     " crabs with you to the next world."
                 );
             } else {
@@ -227,8 +229,8 @@ SharkGame.Artifacts = {
                 return "Multiply the income of sharks and their roles by 10x.";
             } else if (level > 0) {
                 return (
-                    `Multiply the income of sharks and their roles by ${m.beautify(level + 1)}x` +
-                    (includeNext ? ` (${m.beautify(level + 2)}x next level).` : ".")
+                    `Multiply the income of sharks and their roles by ${main.beautify(level + 1)}x` +
+                    (includeNext ? ` (${main.beautify(level + 2)}x next level).` : ".")
                 );
             } else {
                 return "Multiply the income of sharks and their roles by 2x.";
@@ -249,8 +251,8 @@ SharkGame.Artifacts = {
                 return "Multiply the income of rays and their roles by 10x.";
             } else if (level > 0) {
                 return (
-                    `Multiply the income of rays and their roles by ${m.beautify(level + 1)}x` +
-                    (includeNext ? ` (${m.beautify(level + 2)}x next level).` : ".")
+                    `Multiply the income of rays and their roles by ${main.beautify(level + 1)}x` +
+                    (includeNext ? ` (${main.beautify(level + 2)}x next level).` : ".")
                 );
             } else {
                 return "Multiply the income of rays and their roles by 2x.";
@@ -271,8 +273,8 @@ SharkGame.Artifacts = {
                 return "Multiply the income of crabs and their roles by 10x.";
             } else if (level > 0) {
                 return (
-                    `Multiply the income of crabs and their roles by ${m.beautify(level + 1)}x` +
-                    (includeNext ? ` (${m.beautify(level + 2)}x next level).` : ".")
+                    `Multiply the income of crabs and their roles by ${main.beautify(level + 1)}x` +
+                    (includeNext ? ` (${main.beautify(level + 2)}x next level).` : ".")
                 );
             } else {
                 return "Multiply the income of crabs and their roles by 2x.";
@@ -293,8 +295,8 @@ SharkGame.Artifacts = {
                 return "Multiply the income of shark machines by 10x.";
             } else if (level > 0) {
                 return (
-                    `Multiply the income of shark machines by ${m.beautify(level + 1)}x` +
-                    (includeNext ? ` (${m.beautify(level + 2)}x next level).` : ".")
+                    `Multiply the income of shark machines by ${main.beautify(level + 1)}x` +
+                    (includeNext ? ` (${main.beautify(level + 2)}x next level).` : ".")
                 );
             } else {
                 return "Multiply the income of shark machines by 2x.";
@@ -323,13 +325,13 @@ SharkGame.Artifacts = {
                 return;
             }
             const resourceList = ["tar", "ice"];
-            const wr = w.worldResources;
+            const worldResources = world.worldResources;
             const multiplier = 1 / (level + 1);
             _.each(resourceList, (resourceName) => {
-                if (wr.get(resourceName).artifactMultiplier) {
-                    wr.get(resourceName).artifactMultiplier *= multiplier;
+                if (worldResources.get(resourceName).artifactMultiplier) {
+                    worldResources.get(resourceName).artifactMultiplier *= multiplier;
                 } else {
-                    wr.get(resourceName).artifactMultiplier = multiplier;
+                    worldResources.get(resourceName).artifactMultiplier = multiplier;
                 }
             });
         },

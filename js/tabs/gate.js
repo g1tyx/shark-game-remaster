@@ -92,14 +92,14 @@ SharkGame.Gate = {
         SharkGame.Gate.getResourcesLeft();
 
         if (!gt.shouldBeOpen()) {
-            if (SharkGame.WorldTypes[w.worldType].gateRequirements.slots) {
+            if (SharkGame.WorldTypes[world.worldType].gateRequirements.slots) {
                 const buttonList = $("#buttonList");
                 $.each(gt.requirements.slots, (k, v) => {
                     if (!gt.completedRequirements.slots[k]) {
-                        const resourceName = r.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"));
+                        const resourceName = res.getResourceName(k, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"));
                         SharkGame.Button.makeHoverscriptButton(
                             "gateCost-" + k,
-                            "Insert " + m.beautify(v) + " " + resourceName + " into " + resourceName + " slot",
+                            "Insert " + main.beautify(v) + " " + resourceName + " into " + resourceName + " slot",
                             buttonList,
                             gt.onGateButton,
                             gt.onHover,
@@ -199,17 +199,23 @@ SharkGame.Gate = {
         const gt = SharkGame.Gate;
         const button = $(this);
         const resourceName = button.attr("id").split("-")[1];
-        const amount = r.getResource(resourceName);
+        const amount = res.getResource(resourceName);
         const required = gt.requirements.slots[resourceName];
         if (amount < required) {
             button.html(
-                `Need <span class='click-passthrough' style='color:#FFDE0A'>${m.beautify(required - amount)}</span> more ${r.getResourceName(
+                `Need <span class='click-passthrough' style='color:#FFDE0A'>${main.beautify(required - amount)}</span> more ${res.getResourceName(
                     resourceName,
                     false,
                     false,
                     false,
                     SharkGame.getElementColor(button.attr("id"), "background-color")
-                )} for ${r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color"))} slot`
+                )} for ${res.getResourceName(
+                    resourceName,
+                    false,
+                    false,
+                    false,
+                    SharkGame.getElementColor(button.attr("id"), "background-color")
+                )} slot`
             );
         }
     },
@@ -221,11 +227,11 @@ SharkGame.Gate = {
         const required = gt.requirements.slots[resourceName];
         button.html(
             "Insert " +
-                m.beautify(required) +
+                main.beautify(required) +
                 " " +
-                r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
+                res.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
                 " into " +
-                r.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
+                res.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
                 " slot"
         );
     },
@@ -237,10 +243,10 @@ SharkGame.Gate = {
         const resourceId = $(this).attr("id").split("-")[1];
 
         let message = "";
-        const cost = gt.requirements.slots[resourceId] * (r.getResource("numen") + 1);
-        if (r.getResource(resourceId) >= cost) {
+        const cost = gt.requirements.slots[resourceId] * (res.getResource("numen") + 1);
+        if (res.getResource(resourceId) >= cost) {
             gt.completedRequirements.slots[resourceId] = true;
-            r.changeResource(resourceId, -cost);
+            res.changeResource(resourceId, -cost);
             $(this).remove();
             if (gt.shouldBeOpen()) {
                 message = gt.messageAllPaid;
@@ -251,8 +257,8 @@ SharkGame.Gate = {
             }
         } else {
             message = gt.messageCantPay + "<br/>";
-            const diff = cost - r.getResource(resourceId);
-            message += m.beautify(diff) + " more.";
+            const diff = cost - res.getResource(resourceId);
+            message += main.beautify(diff) + " more.";
         }
         if (SharkGame.Settings.current.showTabImages) {
             message = "<img width=400 height=200 src='" + gt.getSceneImagePath() + "' id='tabSceneImageEssence'>" + message;
@@ -264,7 +270,7 @@ SharkGame.Gate = {
         $("#tabMessage").html(SharkGame.Gate.messageEnter);
         $(this).remove();
         SharkGame.wonGame = true;
-        m.endGame();
+        main.endGame();
     },
 
     shouldBeOpen() {
@@ -284,7 +290,7 @@ SharkGame.Gate = {
     checkResourceRequirements(resourceName) {
         const gt = SharkGame.Gate;
         if (gt.requirements.resources) {
-            if (r.getResource(resourceName) >= gt.requirements.resources[resourceName]) {
+            if (res.getResource(resourceName) >= gt.requirements.resources[resourceName]) {
                 gt.completedRequirements.resources[resourceName] = true;
             }
         }
