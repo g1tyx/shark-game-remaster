@@ -12,13 +12,13 @@ SharkGame.ModifierTypes = {
                 defaultValue: 1,
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * degree;
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * degree;
                     });
                     return current * degree;
                 },
                 effectDescription(degree, resource, _level) {
-                    return r.getResourceName(resource) + " speed x " + degree;
+                    return res.getResourceName(resource) + " speed x " + degree;
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -37,7 +37,7 @@ SharkGame.ModifierTypes = {
                     return current * degree;
                 },
                 effectDescription(degree, resource, _level) {
-                    return "All " + r.getResourceName(resource) + " production x " + degree;
+                    return "All " + res.getResourceName(resource) + " production x " + degree;
                 },
                 getEffect(degree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 ? degree : 1;
@@ -47,15 +47,15 @@ SharkGame.ModifierTypes = {
                 defaultValue: 1,
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        if (v > 0 && k !== "tar") {
-                            incomes[k] = v * degree;
+                    $.each(incomes, (resouceId, income) => {
+                        if (income > 0 && resouceId !== "tar") {
+                            incomes[resouceId] = income * degree;
                         }
                     });
                     return current * degree;
                 },
                 effectDescription(degree, resource, _level) {
-                    return r.getResourceName(resource) + " efficiency x " + degree;
+                    return res.getResourceName(resource) + " efficiency x " + degree;
                 },
                 getEffect(degree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? degree : 1;
@@ -71,7 +71,7 @@ SharkGame.ModifierTypes = {
                     return current * degree;
                 },
                 effectDescription(degree, resource, _level) {
-                    return r.getResourceName(resource) + " " + r.getResourceName("sand") + " collection x " + degree;
+                    return res.getResourceName(resource) + " " + res.getResourceName("sand") + " collection x " + degree;
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -84,7 +84,7 @@ SharkGame.ModifierTypes = {
                 apply(current, degree, resource, _level) {
                     const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
                     baseIncomes.coral = (baseIncomes.coral ? baseIncomes.coral : 0) + degree;
-                    r.reapplyModifiers(resource, "coral");
+                    res.reapplyModifiers(resource, "coral");
                     return current + degree;
                 },
                 effectDescription(_degree, _resource, _level) {
@@ -104,13 +104,13 @@ SharkGame.ModifierTypes = {
                 name: "Planetary Income Multiplier",
                 apply(current, degree, resource, level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * (1 + degree * level);
+                    $.each(incomes, (resouceId, income) => {
+                        incomes[resouceId] = income * (1 + degree * level);
                     });
                     return current * (1 + degree * level);
                 },
                 effectDescription(degree, resource, level) {
-                    return "Income from " + r.getResourceName(resource, false, false, 2) + " x" + (1 + level * degree).toFixed(2);
+                    return "Income from " + res.getResourceName(resource, false, false, 2) + " x" + (1 + level * degree).toFixed(2);
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -121,13 +121,13 @@ SharkGame.ModifierTypes = {
                 name: "Fixed Planetary Income Multiplier",
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * degree;
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * degree;
                     });
                     return current * degree;
                 },
                 effectDescription(degree, resource, _level) {
-                    return "Income from " + r.getResourceName(resource, false, false, 2) + " x" + degree;
+                    return "Income from " + res.getResourceName(resource, false, false, 2) + " x" + degree;
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -138,13 +138,13 @@ SharkGame.ModifierTypes = {
                 name: "Planetary Income Reciprocal Multiplier",
                 apply(current, degree, resource, level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * (1 / (1 + level * degree));
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * (1 / (1 + level * degree));
                     });
                     return current * (1 / (1 + level * degree));
                 },
                 effectDescription(degree, resource, level) {
-                    return "Income from " + r.getResourceName(resource, false, false, 2) + " x" + (1 / (1 + level * degree)).toFixed(2);
+                    return "Income from " + res.getResourceName(resource, false, false, 2) + " x" + (1 / (1 + level * degree)).toFixed(2);
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -155,13 +155,13 @@ SharkGame.ModifierTypes = {
                 name: "Fixed Planetary Income Reciprocal Multiplier",
                 apply(current, degree, resource, _level) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (k, v) => {
-                        incomes[k] = v * (1 / degree);
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * (1 / degree);
                     });
                     return current * (1 / degree);
                 },
                 effectDescription(degree, resource, _level) {
-                    return "Income from " + r.getResourceName(resource, false, false, 2) + " x" + (1 / degree).toFixed(2);
+                    return "Income from " + res.getResourceName(resource, false, false, 2) + " x" + (1 / degree).toFixed(2);
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -181,7 +181,7 @@ SharkGame.ModifierTypes = {
                     return current * (1 + degree * level);
                 },
                 effectDescription(degree, resource, level) {
-                    return "All " + r.getResourceName(resource, false, false, 2) + " x" + (1 + level * degree).toFixed(2);
+                    return "All " + res.getResourceName(resource, false, false, 2) + " x" + (1 + level * degree).toFixed(2);
                 },
                 getEffect(degree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 ? degree : 1;
@@ -202,7 +202,7 @@ SharkGame.ModifierTypes = {
                 },
 
                 effectDescription(degree, resource, level) {
-                    return "All " + r.getResourceName(resource, false, false, 2) + " x" + (1 / (1 + level * degree)).toFixed(2);
+                    return "All " + res.getResourceName(resource, false, false, 2) + " x" + (1 / (1 + level * degree)).toFixed(2);
                 },
                 getEffect(degree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 ? degree : 1;
@@ -214,11 +214,11 @@ SharkGame.ModifierTypes = {
                 defaultValue: 0,
                 name: "Income per Climate Level",
                 apply(current, degree, resource, level) {
-                    w.worldResources.get(resource).income = level * degree;
+                    world.worldResources.get(resource).income = level * degree;
                     return current + level * degree;
                 },
                 effectDescription(degree, resource, level) {
-                    return m.beautify(level * degree) + " " + r.getResourceName(resource, false, false, level * degree) + " per Second";
+                    return main.beautify(level * degree) + " " + res.getResourceName(resource, false, false, level * degree) + " per Second";
                 },
                 getEffect(_degree, _gen, _out) {
                     return 1;
@@ -228,11 +228,11 @@ SharkGame.ModifierTypes = {
                 defaultValue: 0,
                 name: "Fixed Planetary Income",
                 apply(current, degree, resource, _level) {
-                    w.worldResources.get(resource).income = degree;
+                    world.worldResources.get(resource).income = degree;
                     return current + degree;
                 },
                 effectDescription(degree, resource, _level) {
-                    return degree + " " + r.getResourceName(resource, false, false, degree) + " per Second";
+                    return degree + " " + res.getResourceName(resource, false, false, degree) + " per Second";
                 },
                 getEffect(_degree, _gen, _out) {
                     return 1;
@@ -242,11 +242,11 @@ SharkGame.ModifierTypes = {
                 defaultValue: 0,
                 name: "Planetary Starting Resources",
                 apply(current, degree, resource, level) {
-                    r.changeResource(resource, level * degree);
+                    res.changeResource(resource, level * degree);
                     return current + level * degree;
                 },
                 effectDescription(degree, resource, level) {
-                    return "Start with " + level * degree + " " + r.getResourceName(resource, false, false, level * degree);
+                    return "Start with " + level * degree + " " + res.getResourceName(resource, false, false, level * degree);
                 },
                 getEffect(_degree, _gen, _out) {
                     return 1;
@@ -263,7 +263,7 @@ SharkGame.ModifierTypes = {
                     return current.push(restriction);
                 },
                 effectDescription(restriction, generator, _level) {
-                    return r.getResourceName(generator, false, false, 2) + " cannot produce " + r.getResourceName(restriction, false, false, 2);
+                    return res.getResourceName(generator, false, false, 2) + " cannot produce " + res.getResourceName(restriction, false, false, 2);
                 },
                 getEffect(restriction, _gen, out) {
                     return restriction === out ? 0 : 1;

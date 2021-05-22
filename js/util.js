@@ -1,39 +1,40 @@
+"use strict";
 /**
  * @type Record<string, (a: number, b: number, k: number) => number>
  */
 SharkGame.MathUtil = {
-    // a = current amount
-    // b = desired amount
-    // k = constant price
+    // current = current amount
+    // desired = desired amount
+    // cost = constant price
     // returns: cost to get to b from a
-    constantCost(a, b, k) {
-        return (b - a) * k;
+    constantCost(current, desired, cost) {
+        return (desired - current) * cost;
     },
 
-    // a = current amount
-    // b = available price amount
-    // k = constant price
+    // current = current amount
+    // available = available price amount
+    // cost = constant price
     // returns: absolute max items that can be held with invested and current resources
-    constantMax(a, b, k) {
-        b = Math.floor(Math.floor(b) * (1 - 1e-9) + 0.1); //safety margin
-        return b / k + a;
+    constantMax(current, available, cost) {
+        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin
+        return available / cost + current;
     },
 
-    // a = current amount
-    // b = desired amount
-    // k = cost increase per item
+    // current = current amount
+    // desired = desired amount
+    // cost = cost increase per item
     // returns: cost to get to b from a
-    linearCost(a, b, k) {
-        return (k / 2) * (b * b + b) - (k / 2) * (a * a + a);
+    linearCost(current, desired, constant) {
+        return (constant / 2) * (desired * desired + desired) - (constant / 2) * (current * current + current);
     },
 
-    // a = current amount
-    // b = available price amount
-    // k = cost increase per item
+    // current = current amount
+    // available = available price amount
+    // cost = cost increase per item
     // returns: absolute max items that can be held with invested and current resources
-    linearMax(a, b, k) {
-        b = Math.floor(Math.floor(b) * (1 - 1e-9) + 0.1); //safety margin
-        return Math.sqrt(a * a + a + (2 * b) / k + 0.25) - 0.5;
+    linearMax(current, available, cost) {
+        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin
+        return Math.sqrt(current * current + current + (2 * available) / cost + 0.25) - 0.5;
     },
 
     // these need to be adapted probably?
@@ -47,15 +48,15 @@ SharkGame.MathUtil = {
     // }
 
     // artificial limit - whatever has these functions for cost/max can only have one of)
-    uniqueCost(a, b, k) {
-        if (a < 1 && b - 1 <= 1) {
-            return k;
+    uniqueCost(current, desired, cost) {
+        if (current < 1 && desired <= 2) {
+            return cost;
         } else {
             return Number.POSITIVE_INFINITY; // be careful this doesn't fuck things up
         }
     },
 
-    uniqueMax(_a, _b, _k) {
+    uniqueMax() {
         return 1;
     },
 };

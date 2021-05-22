@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Lab = {
     tabId: "lab",
     tabDiscovered: false,
@@ -21,24 +22,24 @@ SharkGame.Lab = {
         "Looks like that's it! No more things to figure out.",
 
     init() {
-        const l = SharkGame.Lab;
+        const lab = SharkGame.Lab;
         // register tab
-        SharkGame.Tabs[l.tabId] = {
-            id: l.tabId,
-            name: l.tabName,
-            discovered: l.tabDiscovered,
-            discoverReq: l.discoverReq,
-            code: l,
+        SharkGame.Tabs[lab.tabId] = {
+            id: lab.tabId,
+            name: lab.tabName,
+            discovered: lab.tabDiscovered,
+            discoverReq: lab.discoverReq,
+            code: lab,
         };
         // add default purchased state to each upgrade
-        l.resetUpgrades();
+        lab.resetUpgrades();
     },
 
     resetUpgrades() {
         SharkGame.Upgrades.purchased.splice(0);
 
         const upgradeObject = {};
-        $.each(mt.upgrade, (type, modifiers) => {
+        $.each(SharkGame.ModifierTypes.upgrade, (type, modifiers) => {
             upgradeObject[type] = {};
             $.each(modifiers, (modifierName, object) => {
                 // additionally set values for the types and categories of stuff
@@ -48,8 +49,8 @@ SharkGame.Lab = {
             });
         });
 
-        SharkGame.ResourceMap.forEach((_val, key) => {
-            SharkGame.ModifierMap.get(key).upgrade = _.cloneDeep(upgradeObject);
+        SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+            SharkGame.ModifierMap.get(resourceId).upgrade = _.cloneDeep(upgradeObject);
         });
     },
 
@@ -98,10 +99,10 @@ SharkGame.Lab = {
             if (hintedUpgrade === undefined) return;
             let hintResource;
             if (_.has(hintedUpgrade, "required.seen"))
-                hintResource = _.find(hintedUpgrade.required.seen, (resource) => w.doesResourceExist(resource));
+                hintResource = _.find(hintedUpgrade.required.seen, (resource) => world.doesResourceExist(resource));
             if (hintResource) {
                 $("#buttonList").append(
-                    $("<p>").html("You get the feeling that " + r.getResourceName(hintResource, false, false, 2) + " may be the key.")
+                    $("<p>").html("You get the feeling that " + res.getResourceName(hintResource, false, false, 2) + " may be the key.")
                 );
             } else {
                 SharkGame.Log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade}), but no valid hint resource.`);
@@ -185,12 +186,12 @@ SharkGame.Lab = {
         if ($.isEmptyObject(upgradeCost)) {
             enableButton = true; // always enable free buttons
         } else {
-            enableButton = r.checkResources(upgradeCost);
+            enableButton = res.checkResources(upgradeCost);
         }
 
         const effects = SharkGame.Lab.getResearchEffects(upgradeData, !enableButton);
         let label = upgradeData.name + "<br/>" + upgradeData.desc + "<br/>" + effects;
-        const costText = r.resourceListToString(upgradeCost, !enableButton);
+        const costText = res.resourceListToString(upgradeCost, !enableButton);
         if (costText !== "") {
             label += "<br/>Cost: " + costText;
         }
@@ -229,11 +230,11 @@ SharkGame.Lab = {
 
         const upgradeCost = upgradeTable[upgradeId].cost;
 
-        if (r.checkResources(upgradeCost)) {
+        if (res.checkResources(upgradeCost)) {
             // kill button
             $(this).remove();
             // take resources
-            r.changeManyResources(upgradeCost, true);
+            res.changeManyResources(upgradeCost, true);
             // purchase upgrade
             SharkGame.Lab.addUpgrade(upgradeId);
 
@@ -246,8 +247,8 @@ SharkGame.Lab = {
     },
 
     addUpgrade(upgradeId) {
-        const u = SharkGame.Upgrades.getUpgradeTable();
-        const upgrade = u[upgradeId];
+        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
+        const upgrade = upgradeTable[upgradeId];
         if (upgrade && !SharkGame.Upgrades.purchased.includes(upgradeId)) {
             SharkGame.Upgrades.purchased.push(upgradeId);
             //l.updateResearchList();
@@ -257,8 +258,15 @@ SharkGame.Lab = {
             if (upgrade.effect) {
                 $.each(upgrade.effect, (effectType, effects) => {
                     $.each(effects, (affectedResource, degree) => {
-                        r.applyModifier(effectType, affectedResource, degree);
+                        res.applyModifier(effectType, affectedResource, degree);
                     });
+                });
+            }
+
+            // if the upgrade is tied to events, trigger them
+            if (upgrade.events) {
+                $.each(upgrade.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
                 });
             }
 
@@ -301,19 +309,19 @@ SharkGame.Lab = {
                 // check if any related resources exist in the world for this to make sense
                 // unlike the costs where all resources in the cost must exist, this is an either/or scenario
                 let relatedResourcesExist = false;
-                _.each(upgradeData.required.resources, (v) => {
-                    relatedResourcesExist = relatedResourcesExist || w.doesResourceExist(v);
+                _.each(upgradeData.required.resources, (resourceId) => {
+                    relatedResourcesExist = relatedResourcesExist || world.doesResourceExist(resourceId);
                 });
                 isPossible &&= relatedResourcesExist;
             }
 
-            // RECURSIVE CHECK REQUISITE TECHS
+            // (recursive) check requisite techs
             isPossible &&= _.every(upgradeData.required.upgrades, (upgrade) => lab.isUpgradePossible(upgrade));
 
-            isPossible &&= _.every(upgradeData.required.totals, (requiredTotal, resourceName) => r.getTotalResource(resourceName) >= requiredTotal);
+            isPossible &&= _.every(upgradeData.required.totals, (requiredTotal, resourceName) => res.getTotalResource(resourceName) >= requiredTotal);
 
-            // check existence of resource cost
-            isPossible &&= _.every(upgradeData.cost, (_amount, resource) => w.doesResourceExist(resource));
+            // check resource cost
+            isPossible &&= _.every(upgradeData.cost, (_amount, resource) => world.doesResourceExist(resource));
         }
 
         return isPossible;
@@ -325,7 +333,7 @@ SharkGame.Lab = {
         if (_.has(upgrade, "required.seen")) {
             // Checks if any of the required resources has been seen
             // change to _.every to make it require all to have been seen
-            return _.some(upgrade.required.seen, (requiredSeen) => r.getTotalResource(requiredSeen) > 0);
+            return _.some(upgrade.required.seen, (requiredSeen) => res.getTotalResource(requiredSeen) > 0);
         }
         return true;
     },
@@ -335,7 +343,7 @@ SharkGame.Lab = {
         $.each(upgrade.effect, (effectType, effectsList) => {
             $.each(effectsList, (resource, degree) => {
                 const effectText = SharkGame.ModifierReference.get(effectType).effectDescription(degree, resource);
-                if (w.doesResourceExist(resource) && effectText !== "") {
+                if (world.doesResourceExist(resource) && effectText !== "") {
                     effects.push(effectText);
                 }
             });
@@ -351,15 +359,15 @@ SharkGame.Lab = {
         const list = $("<ul>");
 
         // reverse object keys
-        const keys = [];
+        const upgrades = [];
         $.each(upgradeTable, (upgradeId) => {
             if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
-                keys.unshift(upgradeId);
+                upgrades.unshift(upgradeId);
             }
         });
 
-        for (const key of keys) {
-            const upgrade = upgradeTable[key];
+        for (const upgradeId of upgrades) {
+            const upgrade = upgradeTable[upgradeId];
             list.append($("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`));
         }
         upgradeList.append(list);

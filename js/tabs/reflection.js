@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.Reflection = {
     tabId: "reflection",
     tabDiscovered: false,
@@ -54,7 +55,7 @@ SharkGame.Reflection = {
                 if (artifactData.level >= artifactData.max) {
                     artifactLabel += "(Maximum Power)";
                 } else {
-                    artifactLabel += "(Power: " + m.beautify(artifactData.level) + ")";
+                    artifactLabel += "(Power: " + main.beautify(artifactData.level) + ")";
                 }
                 artifactLabel += "<br>" + artifactData.desc(artifactData.level);
                 artifactLabel += "</span><br><em>" + artifactData.flavour + "</em>";
