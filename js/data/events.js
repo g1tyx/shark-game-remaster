@@ -35,7 +35,7 @@ SharkGame.Events = {
             if (SharkGame.World.worldType !== "frigid") {
                 return "remove";
             }
-            return "trigger";
+            return "pass";
         },
         trigger() {
             SharkGame.World.worldResources.set("ice", 0.1);

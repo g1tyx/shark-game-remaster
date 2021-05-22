@@ -263,6 +263,13 @@ SharkGame.Lab = {
                 });
             }
 
+            // if the upgrade is tied to events, trigger them
+            if (upgrade.events) {
+                $.each(upgrade.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
+                });
+            }
+
             // Add upgrade to DOM
             const list = $("#upgradeList > ul");
             const upgradeElt = $("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`);
