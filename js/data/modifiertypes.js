@@ -71,7 +71,23 @@ SharkGame.ModifierTypes = {
                     return current * degree;
                 },
                 effectDescription(degree, resource, _level) {
-                    return res.getResourceName(resource) + " " + res.getResourceName("sand") + " collection x " + degree;
+                    return res.getResourceName(resource) + " collection of " + res.getResourceName("sand") + " x " + degree;
+                },
+                getEffect(degree, _gen, _out) {
+                    return degree;
+                },
+            },
+            kelpMultiplier: {
+                defaultValue: 1,
+                apply(current, degree, resource, _level) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    if (incomes.kelp) {
+                        incomes.kelp = incomes.kelp * degree;
+                    }
+                    return current * degree;
+                },
+                effectDescription(degree, resource, _level) {
+                    return res.getResourceName(resource) + " collection of " + res.getResourceName("kelp") + " x " + degree;
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;

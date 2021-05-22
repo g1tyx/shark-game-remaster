@@ -1256,6 +1256,7 @@ SharkGame.Upgrades = {
             cost: {
                 science: 75,
             },
+            events: ["frigidAddUrchin"],
         },
         crystalContainer: {},
         statsDiscovery: {},
@@ -1272,6 +1273,18 @@ SharkGame.Upgrades = {
                 sandMultiplier: {
                     urchin: 2,
                 },
+            },
+        },
+        civilContact: {
+            name: "Civil Contact",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 350,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
             },
         },
         transmutation: {
@@ -1465,8 +1478,8 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        fishAnatomy: {
-            name: "Fish Anatomy",
+        coordinatedHunting: {
+            name: "Coordinated Hunting",
             desc: "",
             researchedMessage: "",
             effectDesc: "",
@@ -1475,7 +1488,10 @@ SharkGame.Upgrades = {
                 sand: 2000,
             },
             required: {
-                upgrades: ["agriculture"],
+                upgrades: ["squidBiology"],
+                totals: {
+                    squid: 150,
+                },
             },
         },
         curiousCrabs: {
@@ -1488,7 +1504,20 @@ SharkGame.Upgrades = {
                 sand: 2000,
             },
             required: {
-                upgrades: ["agriculture"],
+                upgrades: ["coordinatedHunting"],
+            },
+        },
+        highEfficiencyHunting: {
+            name: "High Efficiency Hunting",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["coordinatedHunting", "exploration"],
             },
         },
         sunObservation: {
@@ -1512,7 +1541,7 @@ SharkGame.Upgrades = {
             name: "Exploration",
             desc: "Swim beyond the home seas to see what can be found!",
             researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
-            effectDesc: "Squids and squid hunters are twice as effective. Did you know oceans are big? Fascinating!",
+            effectDesc: "Squids and hunting squads are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
                 science: 6000,
                 fish: 5000,
@@ -1522,7 +1551,7 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeMultiplier: {
-                    hunter: 2,
+                    huntingSquad: 2,
                     squid: 2,
                 },
             },
@@ -1545,6 +1574,19 @@ SharkGame.Upgrades = {
                     crab: 4,
                     extractionTeam: 4,
                 },
+            },
+        },
+        assistedExtraction: {
+            name: "Assisted Extraction",
+            desc: "", 
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["glacialNavigation", "coordinatedHunting"],
             },
         },
         // artificialHeating: {

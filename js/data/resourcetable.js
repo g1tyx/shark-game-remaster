@@ -155,7 +155,7 @@ SharkGame.ResourceTable = {
         // and other circumstances referring to a single kind, like this one, will use 'squid'
         color: "#FA9272",
         income: {
-            fish: 5,
+            fish: 2,
         },
         value: 3000,
     },
@@ -165,8 +165,8 @@ SharkGame.ResourceTable = {
         singleName: "sea urchin",
         color: "#B98DE0",
         income: {
-            sand: 0.5,
-            kelp: 0.5,
+            sand: 0.1,
+            kelp: 0.1,
         },
         value: 3000,
     },
@@ -254,7 +254,7 @@ SharkGame.ResourceTable = {
         desc: "The urchins merely hope for offspring, they make no coordinated effort.",
         color: "#3F6E86",
         income: {
-            urchin: 0.01,
+            urchin: 0.02,
         },
         value: 4000,
     },

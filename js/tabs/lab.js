@@ -265,7 +265,7 @@ SharkGame.Lab = {
 
             // if the upgrade is tied to events, trigger them
             if (upgrade.events) {
-                $.each(upgrade.events, (eventName) => {
+                _.each(upgrade.events, (eventName) => {
                     SharkGame.Events[eventName].trigger();
                 });
             }
