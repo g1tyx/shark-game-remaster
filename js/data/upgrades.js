@@ -1578,7 +1578,7 @@ SharkGame.Upgrades = {
         },
         assistedExtraction: {
             name: "Assisted Extraction",
-            desc: "", 
+            desc: "",
             researchedMessage: "",
             effectDesc: "",
             cost: {
