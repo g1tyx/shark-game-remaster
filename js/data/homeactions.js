@@ -2930,10 +2930,17 @@ SharkGame.HomeActions = {
                 "A squad of squid! A squid squad!",
                 "A school of squid!",
             ],
-            helpText: "placeholder",
+            helpText: "Enlist a squid to help us hunt down fish.",
         },
 
-        getCrab: {},
+        getCrab: {
+            prereq: {
+                resource: {
+                    shark: 6,
+                },
+            },
+            helpText: "Hire a crab to find things that sharks overlook.",
+        },
 
         getUrchin: {
             name: "Attract urchin",
@@ -3022,7 +3029,7 @@ SharkGame.HomeActions = {
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "Gear up a number of squid to hunt together, increasing their collective effectiveness.",
+            helpText: "Gear up a handful of squid to hunt together, increasing their collective effectiveness.",
         },
 
         getExtractionTeam: {
@@ -3064,7 +3071,7 @@ SharkGame.HomeActions = {
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "",
+            helpText: "Bring together a group of squid to produce even more squid.",
         },
 
         // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3139,18 +3146,15 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "urchin", costFunction: "constant", priceIncrease: 1 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 10 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 15 },
             ],
             max: "spawner",
             prereq: {
-                resource: {
-                    crab: 1,
-                },
                 upgrade: ["urchinBiology"],
             },
             outcomes: [""],
             multiOutcomes: [""],
-            helpText: "",
+            helpText: "Tell an urchin to go make more urchins. It's a solitary effort, but it gets the job done.",
         },
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
@@ -3351,6 +3355,8 @@ SharkGame.HomeActionCategories = {
             "getEel",
             "getChimaera",
             "getOctopus",
+            "getSquid",
+            "getUrchin",
         ],
     },
 
@@ -3377,6 +3383,9 @@ SharkGame.HomeActionCategories = {
             "getInvestigator",
             "getScavenger",
             "getHistorian",
+            "getExtractionTeam",
+            "getCuriousCrab",
+            "getHuntingSquad",
         ],
     },
 
@@ -3391,6 +3400,8 @@ SharkGame.HomeActionCategories = {
             "getBerrier",
             "getBiologist",
             "getPit",
+            "getCollective",
+            "getSpawner",
         ],
     },
 

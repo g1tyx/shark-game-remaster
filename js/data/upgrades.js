@@ -1294,8 +1294,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 1500,
-                sharkonium: 250,
+                science: 12500,
+                sharkonium: 2500,
             },
             required: {
                 upgrades: ["transmutation"],
@@ -1307,7 +1307,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
             effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
             cost: {
-                science: 15000,
+                science: 17000,
                 sharkonium: 1750,
             },
             required: {
@@ -1342,7 +1342,7 @@ SharkGame.Upgrades = {
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
             effectDesc: "All shark machines run twice as fast. Again!",
             cost: {
-                science: 15000,
+                science: 25000,
                 sharkonium: 17500,
             },
             required: {
@@ -1392,19 +1392,6 @@ SharkGame.Upgrades = {
                 kelpMultiplier: {
                     urchin: 2,
                 },
-            },
-        },
-        kelpExtraction: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
             },
         },
         biology: {
@@ -1479,7 +1466,7 @@ SharkGame.Upgrades = {
             },
         },
         fishAnatomy: {
-            name: "Kelp Extraction",
+            name: "Fish Anatomy",
             desc: "",
             researchedMessage: "",
             effectDesc: "",
@@ -1492,7 +1479,7 @@ SharkGame.Upgrades = {
             },
         },
         curiousCrabs: {
-            name: "Kelp Extraction",
+            name: "Crab Curiosity",
             desc: "",
             researchedMessage: "",
             effectDesc: "",
@@ -1560,109 +1547,122 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        artificialHeating: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
-        coldproofSpines: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
-        thermalConditioning: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
-        internalInvestigation: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
-        sonicEnergizers: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
-        rapidRepairs: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
-        teamSpirit: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
-        creatureCoalition: {
-            name: "Kelp Extraction",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1000,
-                sand: 2000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-        },
+        // artificialHeating: {
+        //     name: "Artificial Heating",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // coldproofSpines: {
+        //     name: "Coldproof Spines",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // kelpExtraction: {
+        //     name: "Kelp Extraction",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // thermalConditioning: {
+        //     name: "Thermal Conditioning",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // internalInvestigation: {
+        //     name: "Internal Investigation",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // sonicEnergizers: {
+        //     name: "Sonic Energizers",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // rapidRepairs: {
+        //     name: "Rapid Repairs",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // teamSpirit: {
+        //     name: "Team Spirit",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
+        // creatureCoalition: {
+        //     name: "Creature Coalition",
+        //     desc: "",
+        //     researchedMessage: "",
+        //     effectDesc: "",
+        //     cost: {
+        //         science: 1000,
+        //         sand: 2000,
+        //     },
+        //     required: {
+        //         upgrades: ["agriculture"],
+        //     },
+        // },
     },
 };

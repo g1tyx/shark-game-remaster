@@ -251,6 +251,7 @@ SharkGame.ResourceTable = {
     spawner: {
         name: "urchin spawners",
         singleName: "urchin spawner",
+        desc: "The urchins merely hope for offspring, they make no coordinated effort.",
         color: "#3F6E86",
         income: {
             urchin: 0.01,
@@ -261,6 +262,7 @@ SharkGame.ResourceTable = {
     collective: {
         name: "squid collectives",
         singleName: "squid collectives",
+        desc: "Group interaction leads to better mates.",
         color: "#3F6E86",
         income: {
             squid: 0.1,
@@ -350,7 +352,7 @@ SharkGame.ResourceTable = {
     curiousCrab: {
         name: "curious crabs",
         singleName: "curious crab",
-        desc: "Rummagers unearthing great secrets.",
+        desc: "Rummagers, unearthing great secrets.",
         color: "#AAE03D", //needs new color
         income: {
             science: 1,
@@ -510,6 +512,7 @@ SharkGame.ResourceTable = {
     huntingSquad: {
         name: "hunting squads",
         singleName: "hunting squad",
+        desc: "United. Effective. Deadly.",
         color: "#473E21", //also needs new color
         income: {
             fish: 25,
@@ -520,7 +523,7 @@ SharkGame.ResourceTable = {
     extractionTeam: {
         name: "extraction teams",
         singleName: "extraction team",
-        desc: "Teamwork makes the dream work.",
+        desc: "We work better together.",
         color: "#ff7847", //needs new color
         income: {
             crystal: 1,
@@ -608,6 +611,7 @@ SharkGame.ResourceTable = {
     heater: {
         name: "heaters",
         singleName: "heater",
+        desc: "A hopeless effort to prevent the inevitable, but it buys precious time.",
         color: "#D13F32",
         income: {
             ice: -0.1,
@@ -615,8 +619,6 @@ SharkGame.ResourceTable = {
         },
         value: 50000,
     },
-
-    // MODDED MACHINES
 
     /* coalescer: {
         name: "coalescers",
@@ -783,7 +785,7 @@ SharkGame.ResourceTable = {
     eggBrooder: {
         name: "egg brooders",
         singleName: "egg brooder",
-        desc: "Directive: increase population size.",
+        desc: "Directive: repopulation.",
         color: "#836E5F",
         income: {
             octopus: 1,
@@ -804,15 +806,6 @@ SharkGame.ResourceTable = {
         }, */
         value: 100,
     },
-
-    // SCIENCE, MODDED
-
-    /* knowledge: {
-        name: "knowledge",
-        singleName: "knowledge",
-        color: "#96FFD3",
-        value: 1000,
-    }, */
 
     // ANIMALS
 
@@ -1165,7 +1158,7 @@ SharkGame.ResourceCategories = {
             "You sure you want to disrupt this accelerated growth curve?",
             "Back to a simpler life, maybe.",
         ],
-        resources: ["nurse", "maker", "brood", "queen", "berrier", "biologist", "pit"],
+        resources: ["nurse", "maker", "brood", "queen", "berrier", "biologist", "pit", "collective", "spawner"],
     },
     specialists: {
         name: "Specialists",
@@ -1194,7 +1187,9 @@ SharkGame.ResourceCategories = {
             "scavenger",
             "technician",
             "sifter",
-            "hunter",
+            "huntingSquad",
+            "extractionTeam",
+            "curiousCrab",
             //"prospector",
             //"shoveler",
             //"miller",
@@ -1344,11 +1339,11 @@ SharkGame.InternalCategories = {
     },
     squids: {
         name: "Squids",
-        resources: ["squid", "hunter"],
+        resources: ["squid", "huntingSquad", "extractionTeam", "collective"],
     },
     urchins: {
         name: "Urchins",
-        resources: ["urchin"],
+        resources: ["urchin", "spawner"],
     },
     chimaeras: {
         name: "Chimaeras",
