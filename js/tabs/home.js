@@ -125,7 +125,7 @@ SharkGame.Home = {
             {
                 name: "haven-papyrus",
                 unlock: { upgrade: ["sunObservation"] },
-                message: "Pieces of strange, crunchy kelp have begun washing up in the currents.<br/>Something is carved into them.",
+                message: "Pieces of condensed kelp (???) are washing up in the currents.<br/>Something is carved into them.",
             },
             {
                 name: "haven-stories",
@@ -142,7 +142,7 @@ SharkGame.Home = {
                 name: "haven-history",
                 unlock: { upgrade: ["retroactiveRecordkeeping"] },
                 message:
-                    "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original collections have been lost to time.",
+                    "The grand sum of all dolphin knowledge is laid out before us,<br/>and it is pitifully small. The original collections have been lost to time.",
             },
             {
                 name: "haven-song",
@@ -187,12 +187,12 @@ SharkGame.Home = {
             },
             {
                 name: "abandoned-octopus",
-                unlock: { resource: { octopus: 1 } },
+                unlock: { totalResource: { octopus: 1 } },
                 message: "The octopus works tirelessly.",
             },
             {
                 name: "abandoned-octopuses",
-                unlock: { resource: { octopus: 2 } },
+                unlock: { totalResource: { octopus: 8 } },
                 message: "More octopuses join. They work in perfect unison.",
             },
             {
@@ -214,12 +214,14 @@ SharkGame.Home = {
             {
                 name: "abandoned-gate",
                 unlock: { upgrade: ["farAbandonedExploration"] },
-                message: "This gate stands inert and lifeless like the city around it.<br>But the slots are already filled.",
+                message:
+                    "This gate stands inert and lifeless like the city around it.<br>The slots are already filled, but it looks like it's turned off.",
             },
             {
                 name: "abandoned-reverse-engineering",
                 unlock: { upgrade: ["reverseEngineering"] },
-                message: "The components spin and whirr and click together, but their purpose eludes us.<br>What secrets are you hiding, parts?",
+                message:
+                    "The components spin and whirr and click together, but their purpose eludes us.<br>What secrets are you hiding in your mechanisms?",
             },
             {
                 name: "abandoned-high-energy-fusion",
