@@ -1051,6 +1051,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getInvestigator": {
+        frame: { x: 2168, y: 100, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/getJellyfish": {
         frame: { x: 782, y: 104, w: 50, h: 50 },
         rotated: false,
@@ -1076,14 +1084,6 @@ SharkGame.Sprites = {
         pivot: { x: 0, y: 0 },
     },
     "actions/getMaker": {
-        frame: { x: 920, y: 2, w: 50, h: 50 },
-        rotated: false,
-        trimmed: false,
-        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
-        sourceSize: { w: 50, h: 50 },
-        pivot: { x: 0, y: 0 },
-    },
-    "actions/stoneGetMaker": {
         frame: { x: 920, y: 2, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
