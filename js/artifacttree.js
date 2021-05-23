@@ -97,7 +97,7 @@ SharkGame.ArtifactTree = {
         if (context === undefined) return;
 
         const buttonColor = getComputedStyle(document.getElementById("backToGateway")).backgroundColor;
-        const borderColor = getComputedStyle(document.getElementById("backToGateway")).borderColor;
+        const borderColor = getComputedStyle(document.getElementById("backToGateway")).borderTopColor;
 
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
         context.save();
