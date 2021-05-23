@@ -54,10 +54,12 @@
         <script type="text/javascript" src="js/data/homeactions.js"></script>
         <script type="text/javascript" src="js/data/worldtypes.js"></script>
         <script type="text/javascript" src="js/data/upgrades.js"></script>
+        <script type="text/javascript" src="js/data/events.js"></script>
         <script type="text/javascript" src="js/data/modifiertypes.js"></script>
         <script type="text/javascript" src="js/data/artifacts.js"></script>
         <script type="text/javascript" src="js/data/sprites.js"></script>
 
+        <script type="text/javascript" src="js/eventhandler.js"></script>
         <script type="text/javascript" src="js/resources.js"></script>
         <script type="text/javascript" src="js/world.js"></script>
         <script type="text/javascript" src="js/log.js"></script>
@@ -124,17 +126,13 @@
             function freezePlease() {
                 world.forceExistence("ice");
                 SharkGame.PlayerResources.get("ice").discovered = true;
-                res.clearNetworks();
-                res.buildApplicableNetworks();
-                res.setResource("ice", 1000);
-                res.setTotalResource("ice", 1000);
-                res.rebuildTable = true;
+
                 SharkGame.Log.addMessage("ICE going, doofus!");
                 return "Game frozen.";
             }
             function unfreezePlease() {
-                res.setResource("ice", 0);
-                SharkGame.Log.addMessage("What, did you need some bailing out?");
+                r.setResource("ice", 0);
+                SharkGame.Log.addMessage("Couldn't handle the big chill?");
                 return "Game unfrozen.";
             }
             function exponentialGrowthPlease() {

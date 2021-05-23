@@ -963,7 +963,7 @@ SharkGame.ResourceTable = {
     },
 };
 
-SharkGame.GeneratorIncomeAffectors = {
+SharkGame.GeneratorIncomeAffectorsOriginal = {
     // s: table of all the ways that various resources affect the production of others
     // in the following structure:
     // resource which affects the income... {
@@ -992,15 +992,6 @@ SharkGame.GeneratorIncomeAffectors = {
     // problem has since been solved
     // introduced RK4 method, added income caps to stop over-zealous growth.
 
-    /* knowledge: {
-        multiply: {
-            frenzy: 1,
-            specialists: 1,
-        },
-        exponentiate: {
-            science: 0.05,
-        },
-    }, */
     ice: {
         multiply: {
             heater: 0.01,
@@ -1020,16 +1011,11 @@ SharkGame.GeneratorIncomeAffectors = {
 };
 
 SharkGame.GeneratorIncomeAffected = {
-    // This table automatically populates with the affects on every relevant resource
+    // This table automatically populates with the effects on every relevant resource
     // see SharkGame.Resources.buildIncomeNetwork
 };
 
-SharkGame.GeneratorIncomeAffectedApplicable = {
-    // This table automatically populates with the affects on every resource which exists in the world
-    // see SharkGame.Resources.buildApplicableNetworks
-};
-
-SharkGame.ResourceIncomeAffectors = {
+SharkGame.ResourceIncomeAffectorsOriginal = {
     historian: {
         multiply: {
             science: 0.01,
@@ -1038,18 +1024,13 @@ SharkGame.ResourceIncomeAffectors = {
 };
 
 SharkGame.ResourceIncomeAffected = {
-    // This table automatically populates with the affects on every relevant resource
+    // This table automatically populates with the effects on every relevant resource
     // see SharkGame.Resources.buildIncomeNetwork
-};
-
-SharkGame.ResourceIncomeAffectedApplicable = {
-    // This table automatically populates with the affects on every resource which exists in the world
-    // see SharkGame.Resources.buildApplicableNetworks
 };
 
 SharkGame.ResourceSpecialProperties = {
     timeImmune: [
-        //"knowledge"
+        //
     ],
     incomeCap: {
         //

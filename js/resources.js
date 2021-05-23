@@ -6,6 +6,8 @@ SharkGame.ResourceMap = new Map(); // every resource and what it produces at bas
 SharkGame.BreakdownIncomeTable = new Map(); // a map which has every single generator and what it produces, after costScaling
 SharkGame.FlippedBreakdownIncomeTable = new Map(); // each resource and what produces it and how much
 SharkGame.ModifierMap = new Map(); // the static multipliers and modifiers to each resource from upgrades, the world, etc
+SharkGame.ResourceIncomeAffectors = {}; // these two are used to preserve the integrity of the original table in sharkgame.resourcetable
+SharkGame.GeneratorIncomeAffectors = {}; // this allows free modification of these, in accordance with modifiers and events
 
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
@@ -67,8 +69,9 @@ SharkGame.Resources = {
         });
 
         res.specialMultiplier = 1;
+        SharkGame.ResourceIncomeAffectors = _.cloneDeep(SharkGame.ResourceIncomeAffectorsOriginal);
+        SharkGame.GeneratorIncomeAffectors = _.cloneDeep(SharkGame.GeneratorIncomeAffectorsOriginal);
         res.clearNetworks();
-        res.buildIncomeNetwork();
     },
 
     processIncomes(timeDelta, debug) {
@@ -102,21 +105,21 @@ SharkGame.Resources = {
             }
         }
         while (timeDelta > 1) {
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, value);
+            SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, income);
                 } else {
-                    res.changeResource(key, value);
+                    res.changeResource(resourceId, income);
                 }
             });
             res.recalculateIncomeTable(true);
             timeDelta -= 1;
         }
-        SharkGame.PlayerIncomeTable.forEach((aomunt, resourceId) => {
+        SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
             if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
-                res.changeResource(resourceId, aomunt * timeDelta);
+                res.changeResource(resourceId, amount * timeDelta);
             } else {
-                res.changeResource(resourceId, aomunt);
+                res.changeResource(resourceId, amount);
             }
         });
         res.recalculateIncomeTable();
@@ -132,9 +135,9 @@ SharkGame.Resources = {
             originalResources = _.cloneDeep(SharkGame.PlayerResources);
             originalIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, (value * factor) / 2, true);
+            SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, (income * factor) / 2, true);
                 }
             });
 
@@ -270,10 +273,10 @@ SharkGame.Resources = {
     getNetworkIncomeModifier(network, resource) {
         switch (network) {
             case "generator":
-                network = SharkGame.GeneratorIncomeAffectedApplicable;
+                network = SharkGame.GeneratorIncomeAffected;
                 break;
             case "resource":
-                network = SharkGame.ResourceIncomeAffectedApplicable;
+                network = SharkGame.ResourceIncomeAffected;
         }
 
         const node = network[resource];
@@ -691,93 +694,56 @@ SharkGame.Resources = {
         return formattedResourceList;
     },
 
-    buildIncomeNetwork(specifically) {
+    buildIncomeNetwork() {
         // completes the network of resources whose incomes are affected by other resources
         // takes the order of the gia and reverses it to get the rgad.
 
         const gia = SharkGame.GeneratorIncomeAffectors;
         const rgad = SharkGame.GeneratorIncomeAffected;
         const resourceCategories = SharkGame.ResourceCategories;
-        if (!specifically) {
-            // recursively parse the gia
-            $.each(gia, (resource) => {
-                $.each(gia[resource], (type) => {
-                    $.each(gia[resource][type], (generator, value) => {
-                        // check for issues worth throwing over
-                        if (SharkGame.ResourceMap.get(generator)) {
-                            if (!SharkGame.ResourceMap.get(generator).income) {
-                                throw new Error(
-                                    "Issue building income network, generator has no income, not actually a generator! Try changing resource table generators."
-                                );
-                            }
-                        }
-                        // is it a category or a generator?
-                        const nodes = res.isCategory(generator) ? resourceCategories[generator].resources : [generator];
-                        // recursively reconstruct the table with the keys in the inverse order
-                        // FIXME: Rename
-                        // I have no clue what any of this is, so I'll just ignore it for now
-                        // eslint-disable-next-line id-length
-                        $.each(nodes, (_k, v) => {
+        // recursively parse the gia
+        $.each(gia, (resource) => {
+            $.each(gia[resource], (type) => {
+                $.each(gia[resource][type], (generator, value) => {
+                    // is it a category or a generator?
+                    const nodes = res.isCategory(generator) ? resourceCategories[generator].resources : [generator];
+                    // recursively reconstruct the table with the keys in the inverse order
+                    // FIXME: Rename - No idea what these are
+                    // eslint-disable-next-line id-length
+                    $.each(nodes, (_k, v) => {
+                        if (world.worldResources.get(v).exists && world.worldResources.get(resource).exists) {
                             res.addNetworkNode(rgad, v, type, resource, value);
-                        });
+                        }
                     });
-                });
-            });
-        }
-        // resources incomes below, generators above
-        const ria = SharkGame.ResourceIncomeAffectors;
-        const rad = SharkGame.ResourceIncomeAffected;
-        if (!specifically) {
-            // recursively parse the ria
-            $.each(ria, (affectorResource) => {
-                $.each(ria[affectorResource], (type) => {
-                    $.each(ria[affectorResource][type], (affectedResource, degree) => {
-                        // s: is it a category?
-                        const nodes = res.isCategory(affectedResource) ? resourceCategories[affectedResource].resources : [affectedResource];
-
-                        // recursively reconstruct the table with the keys in the inverse order
-                        // FIXME: Rename
-                        // I have no clue what any of this is, so I'll just ignore it for now
-                        // eslint-disable-next-line id-length
-                        $.each(nodes, (_k, v) => {
-                            res.addNetworkNode(rad, v, type, affectorResource, degree);
-                        });
-                    });
-                });
-            });
-        }
-    },
-
-    buildApplicableNetworks() {
-        // this function builds two networks that contain all actually relevant relationships for a given world
-        // this is meant to save on calculations when searching the network
-        const apprgad = SharkGame.GeneratorIncomeAffectedApplicable;
-        const apprad = SharkGame.ResourceIncomeAffectedApplicable;
-        const rgad = SharkGame.GeneratorIncomeAffected;
-        const rad = SharkGame.ResourceIncomeAffected;
-        $.each(rgad, (generator) => {
-            $.each(rgad[generator], (type) => {
-                $.each(rgad[generator][type], (affector, degree) => {
-                    if (world.worldResources.get(generator).exists && world.worldResources.get(affector).exists) {
-                        res.addNetworkNode(apprgad, generator, type, affector, degree);
-                    }
                 });
             });
         });
-        $.each(rad, (resource) => {
-            $.each(rad[resource], (type) => {
-                $.each(rad[resource][type], (affector, degree) => {
-                    if (world.worldResources.get(resource).exists && world.worldResources.get(affector).exists) {
-                        res.addNetworkNode(apprad, resource, type, affector, degree);
-                    }
+
+        // resources incomes below, generators above
+        const ria = SharkGame.ResourceIncomeAffectors;
+        const rad = SharkGame.ResourceIncomeAffected;
+        // recursively parse the ria
+        $.each(ria, (affectorResource) => {
+            $.each(ria[affectorResource], (type) => {
+                $.each(ria[affectorResource][type], (affectedResource, degree) => {
+                    // is it a category?
+                    const nodes = res.isCategory(affectedResource) ? resourceCategories[affectedResource].resources : [affectedResource];
+                    // recursively reconstruct the table with the keys in the inverse order
+                    // FIXME: Rename - No idea what these are
+                    // eslint-disable-next-line id-length
+                    $.each(nodes, (_k, v) => {
+                        if (world.worldResources.get(v).exists && world.worldResources.get(affectorResource).exists) {
+                            res.addNetworkNode(rad, v, type, affectorResource, degree);
+                        }
+                    });
                 });
             });
         });
     },
 
     clearNetworks() {
-        SharkGame.GeneratorIncomeAffectedApplicable = {};
-        SharkGame.ResourceIncomeAffectedApplicable = {};
+        SharkGame.GeneratorIncomeAffected = {};
+        SharkGame.ResourceIncomeAffected = {};
     },
 
     // FIXME: Explain these parameters, and functions
