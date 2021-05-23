@@ -70,7 +70,9 @@ SharkGame.Gateway = {
             overlay
                 .show()
                 .css("opacity", 0)
-                .animate({ opacity: 1.0 }, 1000, "swing", () => {
+                .animate({
+                    opacity: 1.0
+                }, 1000, "swing", () => {
                     // put back to 4000
                     gateway.cleanUp();
                     gateway.showGateway(essenceReward);
@@ -104,8 +106,8 @@ SharkGame.Gateway = {
             gatewayContent.append(
                 $("<p>").html(
                     "Entering this place has changed you, granting you <span class='essenceCount'>" +
-                        main.beautify(essenceRewarded) +
-                        "</span> essence."
+                    main.beautify(essenceRewarded) +
+                    "</span> essence."
                 )
             );
         }
@@ -144,13 +146,43 @@ SharkGame.Gateway = {
     showRunEndInfo(containerDiv) {
         containerDiv.append(
             $("<p>")
-                .html("<em>Time spent within last ocean:</em><br/>")
-                .append(main.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart))
+            .html("<em>Time spent within last ocean:</em><br/>")
+            .append(main.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart))
         );
     },
 
     showArtifacts() {
-        const essenceHeld = res.getResource("essence");
+        const gatewayContent = $("<div>");
+        gatewayContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
+        gatewayContent.append($("<canvas>").attr("id", "treeCanvas"));
+        const upgradeDiv = gatewayContent.append($('div'));
+
+        // _.each(SharkGame.UpgradeTree, (name, upgrade) => {
+        //     SharkGame.Button.makeHoverscriptButton(name + 'btn', upgrade.name, upgradeDiv, gateway.onUpgradeButton);
+        // });
+
+        // show upgradeTree
+        if (_.size(gateway.artifactPool) === 0) {
+            // we exhausted the tree (!!!)
+            gatewayContent.append(
+                $("<p>").append(
+                    $("<em>").html('"You may not have achieved perfection, but it would take a deity to improve your capabilities further."')
+                )
+            );
+        } else {
+            // there's something to show
+            const artifactPool = $("<div>").addClass("gatewayButtonList");
+            _.each(gateway.artifactPool, (artifactName) => {
+                SharkGame.Button.makeButton("artifact-" + artifactName, artifactName, artifactPool, gateway.onArtifactButton);
+            });
+            gatewayContent.append(artifactPool);
+            gateway.updateArtifactButtons();
+        }
+
+        main.showPane("UPGRADE TREE", gatewayContent, true, 500, true);
+        gateway.transitioning = false;
+
+        /*const essenceHeld = res.getResource("essence");
 
         // construct the gateway content
         const gatewayContent = $("<div>");
@@ -186,7 +218,7 @@ SharkGame.Gateway = {
         gatewayContent.append(returnButtonDiv);
 
         main.showPane("ARTIFACTS", gatewayContent, true, 500, true);
-        gateway.transitioning = false;
+        gateway.transitioning = false;*/
     },
 
     showPlanets() {
@@ -266,7 +298,9 @@ SharkGame.Gateway = {
         if (!gateway.transitioning) {
             gateway.transitioning = true;
             if (SharkGame.Settings.current.showAnimations) {
-                $("#pane").animate({ opacity: 0.0 }, 500, "swing", callback);
+                $("#pane").animate({
+                    opacity: 0.0
+                }, 500, "swing", callback);
             } else {
                 callback();
             }
@@ -274,44 +308,44 @@ SharkGame.Gateway = {
     },
 
     prepareArtifactSelection(numArtifacts) {
-        // empty existing pool
-        gateway.artifactPool = [];
+        // // empty existing pool
+        // gateway.artifactPool = [];
 
-        // create pool of qualified artifacts
-        const qualifiedArtifactPool = [];
-        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
-            // Don't add if at or above max level, or if artifact is set to be ignored
-            if ((artifact.max && artifact.level >= artifact.max) || artifact.ignore) {
-                return;
-            }
+        // // create pool of qualified artifacts
+        // const qualifiedArtifactPool = [];
+        // $.each(SharkGame.UpgradeTree, (upgradeName, upgrade) => {
+        //     // Don't add if at or above max level, or if artifact is set to be ignored
+        //     if ((artifact.max && artifact.level >= artifact.max) || artifact.ignore) {
+        //         return;
+        //     }
 
-            // If artifact doesn't have requirements, or at least one of the requirements is met, add it to the pool
-            if (!_.has(artifact, "required") || _.some(artifact.required, (resourceName) => world.doesResourceExist(resourceName))) {
-                qualifiedArtifactPool.push(artifactName);
-            }
-        });
+        //     // If artifact doesn't have requirements, or at least one of the requirements is met, add it to the pool
+        //     if (!_.has(artifact, "required") || _.some(artifact.required, (resourceName) => world.doesResourceExist(resourceName))) {
+        //         qualifiedArtifactPool.push(artifactName);
+        //     }
+        // });
 
-        // Reduce number of artifacts added to pool to however many we can actually have
-        numArtifacts = Math.min(numArtifacts, qualifiedArtifactPool.length);
-        // pull random items from the pool
-        for (let i = 0; i < numArtifacts; i++) {
-            const choice = SharkGame.choose(qualifiedArtifactPool);
-            const index = qualifiedArtifactPool.indexOf(choice);
-            // take it out of the qualified pool (avoid duplicates)
-            qualifiedArtifactPool.splice(index, 1);
-            // add choice to pool
-            gateway.artifactPool.push(choice);
-        }
+        // // Reduce number of artifacts added to pool to however many we can actually have
+        // numArtifacts = Math.min(numArtifacts, qualifiedArtifactPool.length);
+        // // pull random items from the pool
+        // for (let i = 0; i < numArtifacts; i++) {
+        //     const choice = SharkGame.choose(qualifiedArtifactPool);
+        //     const index = qualifiedArtifactPool.indexOf(choice);
+        //     // take it out of the qualified pool (avoid duplicates)
+        //     qualifiedArtifactPool.splice(index, 1);
+        //     // add choice to pool
+        //     gateway.artifactPool.push(choice);
+        // }
     },
 
-    onArtifactButton() {
+    onUpgradeButton() {
         const button = $(this);
         const buttonName = button.attr("id");
-        const artifactName = buttonName.split("-")[1];
-        const artifactData = SharkGame.Artifacts[artifactName];
-        const cost = artifactData.cost(artifactData.level);
+        const upgradeData = SharkGame.UpgradeTree[buttonName];
         const essence = res.getResource("essence");
-        if (essence >= cost && artifactData.level < artifactData.max) {
+        if (!upgradeData.isBought) {
+            upgradeData.cost()
+
             res.changeResource("essence", -cost);
             artifactData.level++;
             const gatewayStatusMessageSel = $("#gatewayStatusMessage");
@@ -501,8 +535,8 @@ SharkGame.Gateway = {
                 const target = modifier.resource;
                 modifierList.append(
                     $("<li>")
-                        .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, target, planetLevel))
-                        .addClass("medDesc")
+                    .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, target, planetLevel))
+                    .addClass("medDesc")
                 );
             }
             contentDiv.append(modifierList);
@@ -519,8 +553,8 @@ SharkGame.Gateway = {
                     const resourceName = main.toTitleCase(SharkGame.ResourceMap.get(gateSlot).singleName);
                     gateList.append(
                         $("<li>")
-                            .html(resourceName + ": " + main.beautify(gateCost))
-                            .addClass("medDesc")
+                        .html(resourceName + ": " + main.beautify(gateCost))
+                        .addClass("medDesc")
                     );
                 }
                 contentDiv.append(gateList);
@@ -554,8 +588,7 @@ SharkGame.Gateway = {
 };
 
 SharkGame.Gateway.Messages = {
-    essenceBased: [
-        {
+    essenceBased: [{
             max: 4,
             messages: ["Hello, newcomer.", "Ah. Welcome, new one.", "Your journey has only just begun.", "Welcome to the end of the beginning."],
         },
