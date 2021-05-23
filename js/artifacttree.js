@@ -92,7 +92,6 @@ SharkGame.ArtifactTree = {
         console.debug("mouseUp", event);
     },
     render() {
-        SharkGame.ArtifactTree.init();
         const context = SharkGame.ArtifactTree.context;
         if (context === undefined) return;
 

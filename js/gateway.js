@@ -25,7 +25,7 @@ SharkGame.Gateway = {
     update() {
         gateway.updateArtifactButtons();
         if (SharkGame.ArtifactTree.shouldRender) {
-            SharkGame.ArtifactTree.render();
+            requestAnimationFrame(SharkGame.ArtifactTree.render);
         }
     },
 

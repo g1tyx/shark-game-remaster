@@ -516,6 +516,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Gateway.init();
         SharkGame.Gateway.applyArtifacts(); // if there's any effects to carry over from a previous run
 
+        // generate requiredBy entries
+        SharkGame.ArtifactTree.init();
+
         // initialise tabs
         SharkGame.Home.init();
         SharkGame.Lab.init();
