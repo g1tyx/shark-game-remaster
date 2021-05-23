@@ -93,7 +93,6 @@ SharkGame.World = {
     // these things are only impacted by artifacts so far
 
     getGateCostMultiplier() {
-        const gcrLevel = SharkGame.Artifacts.gateCostReducer.level;
-        return gcrLevel > 0 ? Math.pow(0.9, gcrLevel) : 1;
+        return 1;
     },
 };

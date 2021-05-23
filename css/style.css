@@ -1156,6 +1156,10 @@ button.gateway.disabled div {
 #pane.gateway .paneContentDiv {
   border-bottom: none;
 }
+#pane.gateway #treeCanvas {
+  width: 800px;
+  height: 600px;
+}
 #overlay.gateway {
   -webkit-opacity: 1;
   -moz-opacity: 1;

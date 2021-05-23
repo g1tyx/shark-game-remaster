@@ -37,12 +37,6 @@ SharkGame.Save = {
         saveData.completedRequirements = _.cloneDeep(SharkGame.Gate.completedRequirements);
         saveData.settings = _.cloneDeep(SharkGame.Settings.current);
 
-        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
-            if (artifact.level !== 0) {
-                saveData.artifacts[artifactName] = artifact.level;
-            }
-        });
-
         saveData.completedWorlds = _.cloneDeep(SharkGame.Gateway.completedWorlds);
 
         // add timestamp
