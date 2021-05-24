@@ -36,7 +36,6 @@ SharkGame.ArtifactTree = {
     dragStart: { posX: 0, posY: 0 },
     cameraZoom: 1,
     cameraOffset: { posX: 0, posY: 0 },
-    shouldRender: false,
     /** @type {CanvasRenderingContext2D} */
     context: undefined,
     init() {
@@ -70,6 +69,7 @@ SharkGame.ArtifactTree = {
         $(canvas).on("mousedown", SharkGame.ArtifactTree.startPan);
 
         $(canvas).on("click", SharkGame.ArtifactTree.click);
+        $(canvas).on("click", SharkGame.ArtifactTree.updateMouse);
 
         SharkGame.ArtifactTree.context = canvas.getContext("2d", { alpha: true, desynchronized: true });
 
