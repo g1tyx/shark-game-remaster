@@ -1,6 +1,5 @@
 "use strict";
-const BUTTON_HEIGHT = 60;
-const BUTTON_WIDTH = 60;
+
 const BUTTON_BORDER_RADIUS = 5;
 
 const CANVAS_WIDTH = 800;
@@ -23,6 +22,11 @@ const LEFT_EDGE = CANVAS_WIDTH + 50;
 const TOP_EDGE = CANVAS_HEIGHT + 50;
 const RIGHT_EDGE = -50;
 const BOTTOM_EDGE = -50 - CANVAS_HEIGHT;
+
+const SPRITE_SHEET = new Image();
+SPRITE_SHEET.src = "img/sharksprites.png";
+const EVENT_SPRITE_SHEET = new Image();
+EVENT_SPRITE_SHEET.src = "img/sharkeventsprites.png";
 
 function clamp(num, min, max) {
     return num <= min ? min : num >= max ? max : num;
@@ -90,12 +94,12 @@ SharkGame.ArtifactTree = {
         const mousePos = SharkGame.ArtifactTree.getCursorPositionInCanvas(context.canvas, event);
         const offset = SharkGame.ArtifactTree.cameraOffset;
 
-        const upgrade = _.find(SharkGame.Artifacts, ({ posX, posY }) => {
+        const upgrade = _.find(SharkGame.Artifacts, ({ posX, posY, width, height }) => {
             return (
                 mousePos.posX - offset.posX - posX >= 0 &&
                 mousePos.posY - offset.posY - posY >= 0 &&
-                mousePos.posX - offset.posX - posX <= BUTTON_WIDTH &&
-                mousePos.posY - offset.posY - posY <= BUTTON_HEIGHT
+                mousePos.posX - offset.posX - posX <= width &&
+                mousePos.posY - offset.posY - posY <= height
             );
         });
         return upgrade;
@@ -171,15 +175,16 @@ SharkGame.ArtifactTree = {
 
         context.lineWidth = 5;
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-        _.each(SharkGame.Artifacts, ({ posX, posY, requiredBy }) => {
+        _.each(SharkGame.Artifacts, ({ posX, posY, requiredBy, width, height }) => {
+            // requiredBy: array of artifactId that depend on this artifact
             _.each(requiredBy, (requiringId) => {
                 const requiring = SharkGame.Artifacts[requiringId];
 
-                const startX = posX + BUTTON_WIDTH / 2;
-                const startY = posY + BUTTON_HEIGHT / 2;
+                const startX = posX + width / 2;
+                const startY = posY + height / 2;
 
-                const endX = requiring.posX + BUTTON_WIDTH / 2;
-                const endY = requiring.posY + BUTTON_HEIGHT / 2;
+                const endX = requiring.posX + requiring.width / 2;
+                const endY = requiring.posY + requiring.height / 2;
 
                 const gradient = context.createLinearGradient(startX, startY, endX, endY);
                 gradient.addColorStop(0, buttonColor);
@@ -197,8 +202,8 @@ SharkGame.ArtifactTree = {
         context.lineWidth = 1;
         context.fillStyle = buttonColor;
         context.strokeStyle = borderColor;
-        _.each(SharkGame.Artifacts, ({ posX, posY }) => {
-            SharkGame.ArtifactTree.roundRect(context, posX, posY, BUTTON_WIDTH, BUTTON_HEIGHT);
+        _.each(SharkGame.Artifacts, ({ posX, posY, icon, width, height, eventSprite }) => {
+            SharkGame.ArtifactTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
         });
         if (SharkGame.ArtifactTree.shouldRender) {
             requestAnimationFrame(SharkGame.ArtifactTree.render);
@@ -211,8 +216,9 @@ SharkGame.ArtifactTree = {
      * @param {number} posY The top left y coordinate
      * @param {number} width The width of the rectangle
      * @param {number} height The height of the rectangle
+     * @param {string} icon The icon to draw in the rectangle
      */
-    roundRect(context, posX, posY, width, height) {
+    renderButton(context, posX, posY, width, height, icon = "general/missing-action", eventIcon = false) {
         context.beginPath();
         context.moveTo(posX + BUTTON_BORDER_RADIUS, posY);
         context.lineTo(posX + width - BUTTON_BORDER_RADIUS, posY);
@@ -226,5 +232,23 @@ SharkGame.ArtifactTree = {
         context.closePath();
         context.fill();
         context.stroke();
+        if (icon !== undefined) {
+            const sprite = SharkGame.Sprites[icon];
+            if (sprite === undefined) {
+                SharkGame.Log.addError(new Error(`Unknown sprite '${icon}' in prestige tree.`));
+                return;
+            }
+            context.drawImage(
+                eventIcon ? EVENT_SPRITE_SHEET : SPRITE_SHEET,
+                sprite.frame.x,
+                sprite.frame.y,
+                sprite.frame.w,
+                sprite.frame.h,
+                posX,
+                posY,
+                width,
+                height
+            );
+        }
     },
 };

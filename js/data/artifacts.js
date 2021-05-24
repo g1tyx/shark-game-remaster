@@ -13,8 +13,13 @@
  */
 SharkGame.Artifacts = {
     apotheosis: {
-        posX: 100,
+        eventSprite: true,
+        icon: "haven-song",
+        posX: 200,
         posY: 5,
+        width: 400,
+        height: 200,
+
         level: 0,
         description: "Become unto a god.",
         getCost(level) {
@@ -32,8 +37,10 @@ SharkGame.Artifacts = {
         prerequisites: [],
     },
     starterResources: {
-        posX: 370,
-        posY: 270,
+        posX: 380,
+        posY: 380,
+        width: 40,
+        height: 40,
         level: 0,
 
         name: "Start Resources",
