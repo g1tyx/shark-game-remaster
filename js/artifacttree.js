@@ -39,7 +39,6 @@ SharkGame.ArtifactTree = {
     /** @type {CanvasRenderingContext2D} */
     context: undefined,
     staticButtons: {
-        /* Removed until I can figure out how to properly click things when zoomed
         zoom: {
             posX: 10,
             posY: 10,
@@ -63,8 +62,6 @@ SharkGame.ArtifactTree = {
                 }
             },
         },
-        */
-        /*
         debug: {
             posX: 50,
             posY: 50,
@@ -79,7 +76,6 @@ SharkGame.ArtifactTree = {
                 console.debug(...args);
             },
         },
-        */
     },
 
     init() {
@@ -135,6 +131,7 @@ SharkGame.ArtifactTree = {
         const context = SharkGame.ArtifactTree.context;
         const mousePos = SharkGame.ArtifactTree.getCursorPositionInCanvas(context.canvas, event);
         const offset = SharkGame.ArtifactTree.cameraOffset;
+        const zoom = SharkGame.ArtifactTree.cameraZoom;
 
         const staticButton = _.find(SharkGame.ArtifactTree.staticButtons, ({ posX, posY, width, height }) => {
             return mousePos.posX - posX >= 0 && mousePos.posY - posY >= 0 && mousePos.posX - posX <= width && mousePos.posY - posY <= height;
@@ -145,10 +142,10 @@ SharkGame.ArtifactTree = {
 
         const upgrade = _.find(SharkGame.Artifacts, ({ posX, posY, width, height }) => {
             return (
-                mousePos.posX - offset.posX >= posX &&
-                mousePos.posY - offset.posY >= posY &&
-                mousePos.posX - offset.posX <= posX + width &&
-                mousePos.posY - offset.posY <= posY + height
+                CANVAS_WIDTH / 2 - (CANVAS_WIDTH / 2 - mousePos.posX) / zoom - offset.posX >= posX &&
+                CANVAS_HEIGHT / 2 - (CANVAS_HEIGHT / 2 - mousePos.posY) / zoom - offset.posY >= posY &&
+                CANVAS_WIDTH / 2 - (CANVAS_WIDTH / 2 - mousePos.posX) / zoom - offset.posX <= posX + width &&
+                CANVAS_HEIGHT / 2 - (CANVAS_HEIGHT / 2 - mousePos.posY) / zoom - offset.posY <= posY + height
             );
         });
         return upgrade;
