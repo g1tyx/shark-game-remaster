@@ -24,8 +24,9 @@ const RIGHT_EDGE = -50;
 const BOTTOM_EDGE = -50 - CANVAS_HEIGHT;
 
 const SPRITE_SHEET = new Image();
-SPRITE_SHEET.src = "img/sharksprites.png";
 const EVENT_SPRITE_SHEET = new Image();
+
+SPRITE_SHEET.src = "img/sharksprites.png";
 EVENT_SPRITE_SHEET.src = "img/sharkeventsprites.png";
 
 function clamp(num, min, max) {
@@ -42,9 +43,8 @@ SharkGame.ArtifactTree = {
         zoom: {
             posX: 10,
             posY: 10,
-            width: 200,
-            height: 50,
-            icon: null,
+            width: 15,
+            height: 15,
 
             description: "Zoom",
             getEffect() {
@@ -60,20 +60,6 @@ SharkGame.ArtifactTree = {
                 } else {
                     SharkGame.ArtifactTree.cameraZoom = 1;
                 }
-            },
-        },
-        debug: {
-            posX: 50,
-            posY: 50,
-            width: 20,
-            height: 20,
-
-            description: "Test",
-            getEffect() {
-                return "test";
-            },
-            clicked(...args) {
-                console.debug(...args);
             },
         },
     },
@@ -111,7 +97,7 @@ SharkGame.ArtifactTree = {
         $(canvas).on("click", SharkGame.ArtifactTree.click);
         $(canvas).on("click", SharkGame.ArtifactTree.updateMouse);
 
-        SharkGame.ArtifactTree.context = canvas.getContext("2d", { alpha: true, desynchronized: true });
+        SharkGame.ArtifactTree.context = canvas.getContext("2d", { alpha: false, desynchronized: true });
 
         return canvas;
     },
@@ -217,18 +203,26 @@ SharkGame.ArtifactTree = {
         const buttonColor = buttonStyle.backgroundColor;
         const borderColor = buttonStyle.borderTopColor;
 
+        context.save();
+        context.fillStyle = "#155c4b";
+        context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+        context.restore();
+
         context.translate(context.canvas.width / 2, context.canvas.height / 2);
         context.scale(SharkGame.ArtifactTree.cameraZoom, SharkGame.ArtifactTree.cameraZoom);
         context.translate(
             -context.canvas.width / 2 + SharkGame.ArtifactTree.cameraOffset.posX,
             -context.canvas.height / 2 + SharkGame.ArtifactTree.cameraOffset.posY
         );
-        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
         // Lines between upgrades
         context.save();
         context.lineWidth = 5;
-        _.each(SharkGame.Artifacts, ({ posX, posY, requiredBy, width, height }) => {
+        _.each(SharkGame.Artifacts, ({ posX, posY, requiredBy, width, height, level }) => {
+            context.save();
+            if (level === 0) {
+                context.filter = "brightness(70%)";
+            }
             // requiredBy: array of artifactId that depend on this artifact
             _.each(requiredBy, (requiringId) => {
                 const requiring = SharkGame.Artifacts[requiringId];
@@ -250,6 +244,7 @@ SharkGame.ArtifactTree = {
 
                 context.stroke();
             });
+            context.restore();
         });
         context.restore();
 
@@ -258,8 +253,13 @@ SharkGame.ArtifactTree = {
         context.lineWidth = 1;
         context.fillStyle = buttonColor;
         context.strokeStyle = borderColor;
-        _.each(SharkGame.Artifacts, ({ posX, posY, width, height, icon, eventSprite }) => {
+        _.each(SharkGame.Artifacts, ({ posX, posY, width, height, icon, eventSprite, prerequisites }) => {
+            context.save();
+            if (_.some(prerequisites, (prereq) => SharkGame.Artifacts[prereq].level === 0)) {
+                context.filter = "brightness(70%) saturate(150%)";
+            }
             SharkGame.ArtifactTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
+            context.restore();
         });
         context.restore();
 
