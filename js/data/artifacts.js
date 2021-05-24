@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @type {Record<string, {
  *     requiredBy: string[] | undefined,

@@ -24,9 +24,6 @@ SharkGame.Gateway = {
 
     update() {
         gateway.updateArtifactButtons();
-        if (SharkGame.ArtifactTree.shouldRender) {
-            requestAnimationFrame(SharkGame.ArtifactTree.render);
-        }
     },
 
     enterGate(loadingFromSave) {
@@ -161,6 +158,9 @@ SharkGame.Gateway = {
         gatewayContent.append(SharkGame.ArtifactTree.drawCanvas());
         gatewayContent.append($("<p>").attr("id", "treeInfobox"));
         SharkGame.ArtifactTree.shouldRender = true;
+
+        SharkGame.ArtifactTree.setUp();
+        SharkGame.ArtifactTree.render();
 
         const returnButtonDiv = $("<div>");
         SharkGame.Button.makeButton("backToGateway", "return to gateway", returnButtonDiv, () => {
