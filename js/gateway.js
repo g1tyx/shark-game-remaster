@@ -157,14 +157,12 @@ SharkGame.Gateway = {
         gatewayContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         gatewayContent.append(SharkGame.ArtifactTree.drawCanvas());
         gatewayContent.append($("<p>").attr("id", "treeInfobox"));
-        SharkGame.ArtifactTree.shouldRender = true;
 
         SharkGame.ArtifactTree.setUp();
         SharkGame.ArtifactTree.render();
 
         const returnButtonDiv = $("<div>");
         SharkGame.Button.makeButton("backToGateway", "return to gateway", returnButtonDiv, () => {
-            SharkGame.ArtifactTree.shouldRender = false;
             gateway.switchViews(gateway.showGateway);
         });
 

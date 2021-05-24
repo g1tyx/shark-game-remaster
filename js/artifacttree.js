@@ -121,6 +121,7 @@ SharkGame.ArtifactTree = {
         if (upgrade === undefined) {
             return;
         }
+        requestAnimationFrame(SharkGame.ArtifactTree.render);
     },
     /** @param {MouseEvent} event */
     startPan(event) {
@@ -146,6 +147,7 @@ SharkGame.ArtifactTree = {
         );
         SharkGame.ArtifactTree.cameraOffset.posX = offsetX;
         SharkGame.ArtifactTree.cameraOffset.posY = offsetY;
+        requestAnimationFrame(SharkGame.ArtifactTree.render);
     },
     endPan() {
         $(SharkGame.ArtifactTree.context.canvas).off("mousemove", SharkGame.ArtifactTree.pan);
@@ -203,9 +205,6 @@ SharkGame.ArtifactTree = {
         _.each(SharkGame.Artifacts, ({ posX, posY, icon, width, height, eventSprite }) => {
             SharkGame.ArtifactTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
         });
-        if (SharkGame.ArtifactTree.shouldRender) {
-            requestAnimationFrame(SharkGame.ArtifactTree.render);
-        }
     },
     /**
      * Draws a rounded rectangle using the current state of the canvas
