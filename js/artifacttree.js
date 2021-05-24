@@ -36,6 +36,9 @@ SharkGame.ArtifactTree = {
     dragStart: { posX: 0, posY: 0 },
     cameraZoom: 1,
     cameraOffset: { posX: 0, posY: 0 },
+    shouldRender: false,
+    /** @type {CanvasRenderingContext2D} */
+    context: undefined,
     init() {
         $.each(SharkGame.Artifacts, (artifactId, artifact) => {
             _.each(artifact.prerequisites, (prerequisite) => {
@@ -55,11 +58,6 @@ SharkGame.ArtifactTree = {
         SharkGame.ArtifactTree.cameraZoom = 1;
         SharkGame.ArtifactTree.cameraOffset = { posX: 0, posY: 0 };
     },
-    /** @type {{posX: number, posY: number}[]} */
-    buttons: [],
-    shouldRender: false,
-    /** @type {CanvasRenderingContext2D} */
-    context: undefined,
 
     drawCanvas() {
         const canvas = document.createElement("canvas");
