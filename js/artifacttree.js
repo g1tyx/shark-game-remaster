@@ -6,13 +6,25 @@ const BUTTON_BORDER_RADIUS = 5;
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 600;
 
-const LEFT_EDGE = -50;
-const TOP_EDGE = -50;
-const RIGHT_EDGE = CANVAS_WIDTH + 50;
-const BOTTOM_EDGE = CANVAS_HEIGHT + 50;
+/*
+ *            +y
+ *            ^
+ *            |
+ *            |
+ *            |
+ * +x<--------+-------> -x
+ *            |
+ *            |
+ *            |
+ *            V
+ *            -y
+ */
+const LEFT_EDGE = CANVAS_WIDTH + 50;
+const TOP_EDGE = CANVAS_HEIGHT + 50;
+const RIGHT_EDGE = -50;
+const BOTTOM_EDGE = -50 - CANVAS_HEIGHT;
 
 function clamp(num, min, max) {
-    console.debug(num, min, max, num <= min ? min : num >= max ? max : num);
     return num <= min ? min : num >= max ? max : num;
 }
 
@@ -72,6 +84,7 @@ SharkGame.ArtifactTree = {
         const result = { posX, posY };
         return result;
     },
+    /** @param {MouseEvent} event */
     getUpgradeUnderMouse(event) {
         const context = SharkGame.ArtifactTree.context;
         const mousePos = SharkGame.ArtifactTree.getCursorPositionInCanvas(context.canvas, event);
@@ -100,12 +113,14 @@ SharkGame.ArtifactTree = {
             $("#treeInfobox").html(upgrade.description + "<br />" + upgrade.getEffect(upgrade.level));
         }
     },
+    /** @param {MouseEvent} event */
     click(event) {
         const upgrade = SharkGame.ArtifactTree.getUpgradeUnderMouse(event);
         if (upgrade === undefined) {
             return;
         }
     },
+    /** @param {MouseEvent} event */
     startPan(event) {
         if (SharkGame.ArtifactTree.getUpgradeUnderMouse(event) !== undefined) {
             return;
@@ -115,13 +130,22 @@ SharkGame.ArtifactTree = {
         $(SharkGame.ArtifactTree.context.canvas).on("mousemove", SharkGame.ArtifactTree.pan);
         $(SharkGame.ArtifactTree.context.canvas).on("mouseup mouseleave", SharkGame.ArtifactTree.endPan);
     },
+    /** @param {MouseEvent} event */
     pan(event) {
-        const offsetX = clamp(event.clientX / SharkGame.ArtifactTree.cameraZoom - SharkGame.ArtifactTree.dragStart.posX, LEFT_EDGE, RIGHT_EDGE);
-        const offsetY = clamp(event.clientY / SharkGame.ArtifactTree.cameraZoom - SharkGame.ArtifactTree.dragStart.posY, TOP_EDGE, BOTTOM_EDGE);
+        const offsetX = clamp(
+            event.clientX / SharkGame.ArtifactTree.cameraZoom - SharkGame.ArtifactTree.dragStart.posX,
+            RIGHT_EDGE,
+            LEFT_EDGE - CANVAS_WIDTH
+        );
+        const offsetY = clamp(
+            event.clientY / SharkGame.ArtifactTree.cameraZoom - SharkGame.ArtifactTree.dragStart.posY,
+            BOTTOM_EDGE,
+            TOP_EDGE - CANVAS_HEIGHT
+        );
         SharkGame.ArtifactTree.cameraOffset.posX = offsetX;
         SharkGame.ArtifactTree.cameraOffset.posY = offsetY;
     },
-    endPan(_event) {
+    endPan() {
         $(SharkGame.ArtifactTree.context.canvas).off("mousemove", SharkGame.ArtifactTree.pan);
         $(SharkGame.ArtifactTree.context.canvas).off("mouseup mouseleave", SharkGame.ArtifactTree.endPan);
     },
@@ -134,8 +158,9 @@ SharkGame.ArtifactTree = {
         context.canvas.width = CANVAS_WIDTH;
         context.canvas.height = CANVAS_HEIGHT;
 
-        const buttonColor = getComputedStyle(document.getElementById("backToGateway")).backgroundColor;
-        const borderColor = getComputedStyle(document.getElementById("backToGateway")).borderTopColor;
+        const buttonStyle = getComputedStyle(document.getElementById("backToGateway"));
+        const buttonColor = buttonStyle.backgroundColor;
+        const borderColor = buttonStyle.borderTopColor;
 
         context.translate(context.canvas.width / 2, context.canvas.height / 2);
         context.scale(SharkGame.ArtifactTree.cameraZoom, SharkGame.ArtifactTree.cameraZoom);
