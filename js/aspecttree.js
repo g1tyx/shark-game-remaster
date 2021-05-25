@@ -226,10 +226,6 @@ SharkGame.AspectTree = {
         // Lines between aspects
         context.save();
         context.lineWidth = 5;
-
-        const gradient = context.createLinearGradient(startX, startY, endX, endY);
-        gradient.addColorStop(0, buttonColor);
-        gradient.addColorStop(1, borderColor);
         context.strokeStyle = gradient;
         _.each(SharkGame.Aspects, ({ posX, posY, requiredBy, width, height, level }) => {
             if (level > 0) {
@@ -243,6 +239,10 @@ SharkGame.AspectTree = {
 
                     const endX = requiring.posX + requiring.width / 2;
                     const endY = requiring.posY + requiring.height / 2;
+
+                    const gradient = context.createLinearGradient(startX, startY, endX, endY);
+                    gradient.addColorStop(0, buttonColor);
+                    gradient.addColorStop(1, borderColor);
 
                     if (requiring.level === 0) {
                         context.filter = "brightness(70%)";
