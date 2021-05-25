@@ -226,16 +226,17 @@ SharkGame.AspectTree = {
         // Lines between aspects
         context.save();
         context.lineWidth = 5;
+
+        const gradient = context.createLinearGradient(startX, startY, endX, endY);
+        gradient.addColorStop(0, buttonColor);
+        gradient.addColorStop(1, borderColor);
+        context.strokeStyle = gradient;
         _.each(SharkGame.Aspects, ({ posX, posY, requiredBy, width, height, level }) => {
-            context.save();
             if (level > 0) {
                 // requiredBy: array of aspectId that depend on this aspect
                 _.each(requiredBy, (requiringId) => {
+                    context.save();
                     const requiring = SharkGame.Aspects[requiringId];
-
-                    if (requiring.level === 0) {
-                        context.filter = "brightness(70%)";
-                    }
 
                     const startX = posX + width / 2;
                     const startY = posY + height / 2;
@@ -243,19 +244,18 @@ SharkGame.AspectTree = {
                     const endX = requiring.posX + requiring.width / 2;
                     const endY = requiring.posY + requiring.height / 2;
 
-                    const gradient = context.createLinearGradient(startX, startY, endX, endY);
-                    gradient.addColorStop(0, buttonColor);
-                    gradient.addColorStop(1, borderColor);
-                    context.strokeStyle = gradient;
+                    if (requiring.level === 0) {
+                        context.filter = "brightness(70%)";
+                    }
 
                     context.beginPath();
                     context.moveTo(startX, startY);
                     context.lineTo(endX, endY);
 
                     context.stroke();
+                    context.restore();
                 });
             }
-            context.restore();
         });
         context.restore();
 
