@@ -1,14 +1,18 @@
 "use strict";
 /**
  * @type {Record<string, {
- *     requiredBy: string[] | undefined,
- *     posX: number,
- *     posY: number,
- *     level: number,
- *     prerequisites: string[],
- *     getCost(level: number): number,
- *     getEffect(level: number): string,
- *     clicked(): void,
+ *     requiredBy: string[] | undefined
+ *     eventSprite: boolean // Whether to use the event spritesheet
+ *     icon: string
+ *     posX: number
+ *     posY: number
+ *     width: number
+ *     height: number
+ *     level: number
+ *     prerequisites: string[]
+ *     getCost(level: number): number
+ *     getEffect(level: number): string
+ *     clicked(): void
  *     apply(level): void
  * }>
  */
