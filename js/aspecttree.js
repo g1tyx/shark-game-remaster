@@ -228,12 +228,14 @@ SharkGame.AspectTree = {
         context.lineWidth = 5;
         _.each(SharkGame.Aspects, ({ posX, posY, requiredBy, width, height, level }) => {
             context.save();
-            if (level === 0) {
-                context.filter = "brightness(70%)";
-            } else {
+            if (level > 0) {
                 // requiredBy: array of aspectId that depend on this aspect
                 _.each(requiredBy, (requiringId) => {
                     const requiring = SharkGame.Aspects[requiringId];
+
+                    if (requiring.level === 0) {
+                        context.filter = "brightness(70%)";
+                    }
 
                     const startX = posX + width / 2;
                     const startY = posY + height / 2;
