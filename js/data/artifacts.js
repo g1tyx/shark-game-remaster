@@ -8,6 +8,7 @@
  *     prerequisites: string[],
  *     getCost(level: number): number,
  *     getEffect(level: number): string,
+ *     clicked(): void,
  *     apply(level): void
  * }>
  */
@@ -26,7 +27,7 @@ SharkGame.Artifacts = {
             if (level > 0) {
                 return Infinity;
             }
-            return 10;
+            return 0;
         },
         getEffect(level) {
             if (level > 0) {
@@ -34,7 +35,11 @@ SharkGame.Artifacts = {
             }
             return "You can do something with this essence...";
         },
-        prerequisites: [],
+        prerequisites: ["starterResources"],
+        clicked(_thing) {
+            SharkGame.ArtifactTree.increaseLevel(this);
+        },
+        apply() {},
     },
     starterResources: {
         posX: 380,
@@ -46,12 +51,15 @@ SharkGame.Artifacts = {
         name: "Start Resources",
         description: "Remove some of that annoying early game",
         getCost(_level) {
-            return 100;
+            return 0;
         },
         getEffect(level) {
             return `level: ${level}`;
         },
+        clicked(_thing) {
+            SharkGame.ArtifactTree.increaseLevel(this);
+        },
         apply(_level) {},
-        prerequisites: ["apotheosis"],
+        prerequisites: [],
     },
 };

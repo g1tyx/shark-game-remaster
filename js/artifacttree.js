@@ -323,4 +323,14 @@ SharkGame.ArtifactTree = {
             );
         }
     },
+    increaseLevel(button) {
+        const cost = button.getCost(button.level);
+
+        if (cost > res.getResource("essence")) {
+            return;
+        }
+        res.changeResource("essence", -cost);
+        button.level += 1;
+        button.apply();
+    },
 };
