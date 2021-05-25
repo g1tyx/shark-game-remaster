@@ -155,13 +155,10 @@ SharkGame.Gateway = {
         SharkGame.AspectTree.setUp();
         SharkGame.AspectTree.render();
 
-        const returnButtonDiv = $("<div>");
-        SharkGame.Button.makeButton("backToGateway", "return to gateway", returnButtonDiv, () => {
+        // add return to gateway button
+        SharkGame.Button.makeButton("backToGateway", "return to gateway", aspectTreeContent, () => {
             gateway.switchViews(gateway.showGateway);
         });
-
-        // add return to gateway button
-        aspectTreeContent.append(returnButtonDiv);
 
         main.showPane("ASPECT TREE", aspectTreeContent, true, 500, true);
 
