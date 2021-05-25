@@ -151,7 +151,6 @@ SharkGame.Gateway = {
         const aspectTreeContent = $("<div>");
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         aspectTreeContent.append(SharkGame.AspectTree.drawCanvas());
-        aspectTreeContent.append($("<p>").attr("id", "treeInfobox"));
 
         SharkGame.AspectTree.setUp();
         SharkGame.AspectTree.render();

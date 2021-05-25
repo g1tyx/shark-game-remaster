@@ -143,10 +143,10 @@ SharkGame.AspectTree = {
         const button = SharkGame.AspectTree.getButtonUnderMouse(event);
         if (button === undefined) {
             context.canvas.style.cursor = "default";
-            $("#treeInfobox").html("<br /><br />");
+            $("#tooltipbox").html("");
         } else {
             context.canvas.style.cursor = "pointer";
-            $("#treeInfobox").html(button.description + "<br />" + button.getEffect(button.level));
+            $("#tooltipbox").html(button.description + "<br />" + button.getEffect(button.level));
         }
     },
     /** @param {MouseEvent} event */
