@@ -1275,6 +1275,16 @@ button.planetButton:active {
 .forIncomeTable {
   width: auto;
 }
+.forAspectTreePurchased {
+  width: 300px;
+  background-color: #2b7f63;
+  border-color: #3eb890;
+}
+.forAspectTreeUnpurchased {
+  width: 300px;
+  background-color: #174636;
+  border-color: #2b7f63;
+}
 .collapser {
   padding-right: 1em;
   padding-left: 0.7em;
