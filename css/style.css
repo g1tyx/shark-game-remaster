@@ -1130,13 +1130,6 @@ button.gateway.disabled div {
   width: 800px;
   height: 600px;
 }
-#pane.gateway #treeInfobox {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
 #overlay.gateway {
   -webkit-opacity: 1;
   -moz-opacity: 1;
