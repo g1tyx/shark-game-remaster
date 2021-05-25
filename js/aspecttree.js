@@ -126,7 +126,10 @@ SharkGame.AspectTree = {
             return staticButton;
         }
 
-        const upgrade = _.find(SharkGame.Aspects, ({ posX, posY, width, height }) => {
+        const aspect = _.find(SharkGame.Aspects, ({ posX, posY, width, height, prerequisites }) => {
+            if (_.some(prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0)) {
+                return;
+            }
             return (
                 CANVAS_WIDTH / 2 - (CANVAS_WIDTH / 2 - mousePos.posX) / zoom - offset.posX >= posX &&
                 CANVAS_HEIGHT / 2 - (CANVAS_HEIGHT / 2 - mousePos.posY) / zoom - offset.posY >= posY &&
@@ -134,7 +137,7 @@ SharkGame.AspectTree = {
                 CANVAS_HEIGHT / 2 - (CANVAS_HEIGHT / 2 - mousePos.posY) / zoom - offset.posY <= posY + height
             );
         });
-        return upgrade;
+        return aspect;
     },
     /** @param {MouseEvent} event */
     updateMouse(event) {
@@ -215,7 +218,7 @@ SharkGame.AspectTree = {
             -context.canvas.height / 2 + SharkGame.AspectTree.cameraOffset.posY
         );
 
-        // Lines between upgrades
+        // Lines between aspects
         context.save();
         context.lineWidth = 5;
         _.each(SharkGame.Aspects, ({ posX, posY, requiredBy, width, height, level }) => {
@@ -249,7 +252,7 @@ SharkGame.AspectTree = {
         });
         context.restore();
 
-        // Upgrades
+        // Aspects
         context.save();
         context.lineWidth = 1;
         context.fillStyle = buttonColor;
