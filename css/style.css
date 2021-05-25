@@ -1181,10 +1181,10 @@ button.gateway.disabled div {
 .gateway ::-moz-selection {
   background-color: #174636;
 }
-#artifactList {
+#aspectList {
   margin: 0.5em auto;
 }
-.artifactDiv {
+.aspectDiv {
   display: inline-block;
   vertical-align: middle;
   -webkit-border-radius: 0.5em;
@@ -1198,7 +1198,7 @@ button.gateway.disabled div {
   margin: 1.5em;
   max-width: 14em;
 }
-.artifactDiv .gatewayButton {
+.aspectDiv .gatewayButton {
   -webkit-box-shadow: 0 0 3px 3px #73d0b1;
   -moz-box-shadow: 0 0 3px 3px #73d0b1;
   box-shadow: 0 0 3px 3px #73d0b1;

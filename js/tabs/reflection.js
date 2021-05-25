@@ -33,7 +33,7 @@ SharkGame.Reflection = {
         const ref = SharkGame.Reflection;
         const content = $("#content");
         content.append($("<div>").attr("id", "tabMessage"));
-        content.append($("<div>").attr("id", "artifactList"));
+        content.append($("<div>").attr("id", "aspectList"));
         let message = ref.message;
         const tabMessageSel = $("#tabMessage");
         if (SharkGame.Settings.current.showTabImages) {
@@ -42,30 +42,31 @@ SharkGame.Reflection = {
         }
         tabMessageSel.html(message);
 
-        ref.updateArtifactList();
+        ref.updateAspectList();
     },
 
     update() {},
 
-    updateArtifactList() {
-        const listSel = $("#artifactList");
-        $.each(SharkGame.Artifacts, (artifactKey, artifactData) => {
-            if (artifactData.level > 0 && !artifactData.ignore) {
-                let artifactLabel = artifactData.name + "<br><span class='medDesc'>";
-                if (artifactData.level >= artifactData.max) {
-                    artifactLabel += "(Maximum Power)";
+    updateAspectList() {
+        const listSel = $("#aspectList");
+        $.each(SharkGame.Aspects, (aspectId, aspectData) => {
+            if (aspectData.level > 0 && !aspectData.ignore) {
+                let aspectLabel = aspectData.name + "<br><span class='medDesc'>";
+                if (aspectData.level >= aspectData.max) {
+                    aspectLabel += "(Maximum Power)";
                 } else {
-                    artifactLabel += "(Power: " + main.beautify(artifactData.level) + ")";
+                    aspectLabel += "(Power: " + main.beautify(aspectData.level) + ")";
                 }
-                artifactLabel += "<br>" + artifactData.desc(artifactData.level);
-                artifactLabel += "</span><br><em>" + artifactData.flavour + "</em>";
+                aspectLabel += "<br>" + aspectData.desc(aspectData.level);
+                aspectLabel += "</span><br><em>" + aspectData.flavour + "</em>";
 
-                const item = $("<div>").addClass("artifactDiv");
-                item.append(artifactLabel);
+                const item = $("<div>").addClass("aspectDiv");
+                item.append(aspectLabel);
                 listSel.append(item);
 
                 if (SharkGame.Settings.current.showIcons) {
-                    const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, "artifacts/" + artifactKey, null, "general/missing-artifact");
+                    // FIXME: artifacts -> aspects
+                    const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, "artifacts/" + aspectId, null, "general/missing-artifact");
                     if (iconDiv) {
                         iconDiv.addClass("button-icon");
                         iconDiv.addClass("gatewayButton");
@@ -74,8 +75,8 @@ SharkGame.Reflection = {
                 }
             }
         });
-        if ($("#artifactList > div").length === 0) {
-            listSel.append("<p><em>You have no artifacts to show.</em></p>");
+        if ($("#aspectList > div").length === 0) {
+            listSel.append("<p><em>You have no aspects to you yet.</em></p>");
         }
     },
 };

@@ -514,10 +514,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.World.apply();
 
         SharkGame.Gateway.init();
-        SharkGame.Gateway.applyArtifacts(); // if there's any effects to carry over from a previous run
 
         // generate requiredBy entries
-        SharkGame.ArtifactTree.init();
+        SharkGame.AspectTree.init();
 
         // initialise tabs
         SharkGame.Home.init();
@@ -603,10 +602,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.cheatsAndDebug.stop) {
             return;
         }
-        if (SharkGame.gameOver) {
-            // tick gateway stuff
-            gateway.update();
-        } else {
+        if (!SharkGame.gameOver) {
             SharkGame.EventHandler.handleEventTick("beforeTick");
 
             // tick main game stuff
@@ -1081,7 +1077,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.hidePane();
 
             // copy over all special category resources
-            // artifacts are preserved automatically within gateway file
+            // aspects are preserved automatically within gateway file
             const backup = {};
             _.each(SharkGame.ResourceCategories.special.resources, (resourceName) => {
                 backup[resourceName] = {

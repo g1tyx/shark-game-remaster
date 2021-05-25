@@ -16,7 +16,7 @@
  *     apply(level): void
  * }>
  */
-SharkGame.Artifacts = {
+SharkGame.Aspects = {
     apotheosis: {
         eventSprite: true,
         icon: "haven-song",
@@ -41,7 +41,7 @@ SharkGame.Artifacts = {
         },
         prerequisites: ["starterResources"],
         clicked(_event) {
-            SharkGame.ArtifactTree.increaseLevel(this);
+            SharkGame.AspectTree.increaseLevel(this);
         },
         apply() {},
     },
@@ -61,7 +61,7 @@ SharkGame.Artifacts = {
             return `level: ${level}`;
         },
         clicked(_event) {
-            SharkGame.ArtifactTree.increaseLevel(this);
+            SharkGame.AspectTree.increaseLevel(this);
         },
         apply(_level) {},
         prerequisites: [],

@@ -11,7 +11,7 @@ SharkGame.Save = {
             tabs: {},
             completedRequirements: {},
             world: { type: world.worldType, level: world.planetLevel },
-            artifacts: {},
+            aspects: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
         };
 
@@ -155,14 +155,12 @@ SharkGame.Save = {
                 gateway.markWorldCompleted(worldType);
             });
 
-            // load artifacts (need to have the cost reducer loaded before world init)
-            $.each(saveData.artifacts, (artifactId, level) => {
-                if (SharkGame.Artifacts[artifactId]) {
-                    SharkGame.Artifacts[artifactId].level = level;
+            // load aspects (need to have the cost reducer loaded before world init)
+            $.each(saveData.aspects, (aspectId, level) => {
+                if (_.has(SharkGame.Aspects, aspectId)) {
+                    SharkGame.Aspects[aspectId].level = level;
                 }
             });
-            // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
-            gateway.applyArtifacts(true);
 
             $.each(saveData.tabs, (tabName, discovered) => {
                 if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
@@ -773,6 +771,13 @@ SharkGame.Save = {
                     save.settings.showTooltops = save.settings.showTabHelp;
                 }
                 delete save.settings.showTabHelp;
+            }
+
+            if (_.has(save, "artifacts")) {
+                delete save.artifacts;
+            }
+            if (!_.has(save, "aspects")) {
+                save.aspects = {};
             }
 
             return save;

@@ -1,6 +1,5 @@
 "use strict";
 SharkGame.Gateway = {
-    NUM_ARTIFACTS_TO_SHOW: 5,
     NUM_PLANETS_TO_SHOW: 2,
     transitioning: false,
     selectedWorld: "",
@@ -12,22 +11,18 @@ SharkGame.Gateway = {
     planetPool: [],
 
     init() {
-        // initialise artifact levels to 0 if they don't have a level
-        // OTHERWISE KEEP THE EXISTING LEVEL
-        _.each(SharkGame.Artifacts, (artifactData) => {
-            if (!artifactData.level) {
-                artifactData.level = 0;
+        // initialise aspect levels to 0 if they don't have a level
+        // otherwise keep the existing level
+        _.each(SharkGame.Aspects, (aspectData) => {
+            if (!aspectData.level) {
+                aspectData.level = 0;
             }
-            artifactData.alreadyApplied = false;
+            aspectData.alreadyApplied = false;
         });
     },
 
-    update() {
-        gateway.updateArtifactButtons();
-    },
-
     enterGate(loadingFromSave) {
-        // AWARD ESSENCE (and mark world completion)
+        // award essence (and mark world completion)
         let essenceReward = 0;
         if (!loadingFromSave) {
             if (SharkGame.wonGame) {
@@ -132,8 +127,8 @@ SharkGame.Gateway = {
 
         // add navigation buttons
         const navButtons = $("<div>").addClass("gatewayButtonList");
-        SharkGame.Button.makeButton("backToGateway", "artifacts", navButtons, () => {
-            gateway.switchViews(gateway.showArtifacts);
+        SharkGame.Button.makeButton("backToGateway", "aspects", navButtons, () => {
+            gateway.switchViews(gateway.showAspects);
         });
         SharkGame.Button.makeButton("backToGateway", "worlds", navButtons, () => {
             gateway.switchViews(gateway.showPlanets);
@@ -152,14 +147,14 @@ SharkGame.Gateway = {
         );
     },
 
-    showArtifacts() {
-        const gatewayContent = $("<div>");
-        gatewayContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
-        gatewayContent.append(SharkGame.ArtifactTree.drawCanvas());
-        gatewayContent.append($("<p>").attr("id", "treeInfobox"));
+    showAspects() {
+        const aspectTreeContent = $("<div>");
+        aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
+        aspectTreeContent.append(SharkGame.AspectTree.drawCanvas());
+        aspectTreeContent.append($("<p>").attr("id", "treeInfobox"));
 
-        SharkGame.ArtifactTree.setUp();
-        SharkGame.ArtifactTree.render();
+        SharkGame.AspectTree.setUp();
+        SharkGame.AspectTree.render();
 
         const returnButtonDiv = $("<div>");
         SharkGame.Button.makeButton("backToGateway", "return to gateway", returnButtonDiv, () => {
@@ -167,17 +162,17 @@ SharkGame.Gateway = {
         });
 
         // add return to gateway button
-        gatewayContent.append(returnButtonDiv);
+        aspectTreeContent.append(returnButtonDiv);
 
-        main.showPane("UPGRADE TREE", gatewayContent, true, 500, true);
+        main.showPane("ASPECT TREE", aspectTreeContent, true, 500, true);
 
         gateway.transitioning = false;
     },
 
     showPlanets() {
         // construct the gateway content
-        const gatewayContent = $("<div>");
-        gatewayContent.append($("<p>").html("Other worlds await."));
+        const planetSelectionContent = $("<div>");
+        planetSelectionContent.append($("<p>").html("Other worlds await."));
 
         // show planet pool
         const planetPool = $("<div>").addClass("gatewayButtonList");
@@ -187,9 +182,9 @@ SharkGame.Gateway = {
                 gateway.switchViews(gateway.confirmWorld);
             }).addClass("planetButton");
         });
-        gatewayContent.append(planetPool);
+        planetSelectionContent.append(planetPool);
 
-        gatewayContent.append(
+        planetSelectionContent.append(
             $("<p>").html("NOTE: v0.2 alpha <b>ONLY</b> CONTAINS <b>2 WORLDS</b> at the moment.<br/>Once you beat them, try v0.11 of the mod.")
         );
 
@@ -198,9 +193,9 @@ SharkGame.Gateway = {
         SharkGame.Button.makeButton("backToGateway", "return to gateway", returnButtonDiv, () => {
             gateway.switchViews(gateway.showGateway);
         });
-        gatewayContent.append(returnButtonDiv);
+        planetSelectionContent.append(returnButtonDiv);
 
-        main.showPane("WORLDS", gatewayContent, true, 500, true);
+        main.showPane("WORLDS", planetSelectionContent, true, 500, true);
         gateway.transitioning = false;
         gateway.updatePlanetButtons();
     },
@@ -265,58 +260,6 @@ SharkGame.Gateway = {
         }
     },
 
-    onUpgradeButton() {
-        const button = $(this);
-        // TODO
-        // disable button until next frame
-        button.addClass("disabled");
-    },
-
-    updateArtifactButtons() {
-        const essenceHeld = res.getResource("essence");
-        _.each(gateway.artifactPool, (artifactName) => {
-            const button = $("#artifact-" + artifactName);
-            if (button.length > 0) {
-                const artifactData = SharkGame.Artifacts[artifactName];
-                const cost = artifactData.cost(artifactData.level);
-                const maxedOut = artifactData.level >= artifactData.max;
-                let enableButton = true;
-                if (essenceHeld < cost || maxedOut) {
-                    enableButton = false;
-                }
-                const purchaseLevel = maxedOut ? "Max" : artifactData.level;
-                let label =
-                    artifactData.name +
-                    "<br><span class='medDesc'>( Pwr <span class='essenceCountBrighter'>" +
-                    purchaseLevel +
-                    "</span> )</span>" +
-                    "<br>" +
-                    artifactData.desc(purchaseLevel, true) +
-                    "<br><br><span class='medDesc'>" +
-                    artifactData.flavour +
-                    "</span><br>";
-                if (!maxedOut) {
-                    label += "</span><br>Cost: <span class='essenceCountBrighter'>" + main.beautify(cost) + "</span> essence";
-                }
-                if (enableButton) {
-                    button.removeClass("disabled");
-                } else {
-                    button.addClass("disabled");
-                }
-                button.html(label);
-
-                const spritename = "artifacts/" + artifactName;
-                if (!SharkGame.Settings.current.showIcons) {
-                    const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-artifact");
-                    if (iconDiv) {
-                        iconDiv.addClass("button-icon");
-                        button.prepend(iconDiv);
-                    }
-                }
-            }
-        });
-    },
-
     preparePlanetSelection(numPlanets) {
         // empty existing pool
         gateway.planetPool = [];
@@ -372,17 +315,6 @@ SharkGame.Gateway = {
         });
     },
 
-    applyArtifacts(force) {
-        // handle general effects
-        // special effects are handled by horrible spaghetti code sprinkled between this, World, and Resources
-        _.each(SharkGame.Artifacts, (artifactData) => {
-            if (artifactData.effect && (!artifactData.alreadyApplied || force)) {
-                artifactData.effect(artifactData.level);
-                artifactData.alreadyApplied = true;
-            }
-        });
-    },
-
     getVoiceMessage() {
         // the point of this function is to add to the message pool all available qualifying messages and then pick one
         const messagePool = [];
@@ -428,7 +360,7 @@ SharkGame.Gateway = {
     // why
     showPlanetAttributes(worldData, planetLevel, contentDiv) {
         // add known attributes
-        const pslevel = Infinity; //SharkGame.Artifacts.planetScanner.level;
+        const pslevel = Infinity; //SharkGame.Aspects.planetScanner.level;
         if (pslevel > 0) {
             const modifiers = _.size(worldData.modifiers);
             const gateSlots = _.size(worldData.gateCosts);
@@ -484,12 +416,6 @@ SharkGame.Gateway = {
                 contentDiv.append(bannedList);
             }
         }
-    },
-
-    deleteArtifacts() {
-        _.each(SharkGame.Artifacts, (artifactData) => {
-            artifactData.level = 0;
-        });
     },
 
     markWorldCompleted(worldType) {

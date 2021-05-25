@@ -411,10 +411,10 @@ SharkGame.Stats = {
                             addCell([res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier)], generatorBoostRowspan);
                         } else addCell(undefined, generatorBoostRowspan);
 
-                        // does this income get an artifact multiplier?
-                        const artifactMultiplier = res.getMultiplierProduct("artifact", generatorName, incomeKey);
-                        if (artifactMultiplier !== 1) {
-                            addCell([res.ARTIFACT_MULTIPLIER_COLOR, "x" + main.beautify(artifactMultiplier)], generatorBoostRowspan);
+                        // does this income get an aspect multiplier?
+                        const aspectMultiplier = res.getMultiplierProduct("aspect", generatorName, incomeKey);
+                        if (aspectMultiplier !== 1) {
+                            addCell([res.ASPECT_MULTIPLIER_COLOR, "x" + main.beautify(aspectMultiplier)], generatorBoostRowspan);
                         } else addCell(undefined, generatorBoostRowspan);
 
                         // does this income get an effect network multiplier?
@@ -585,7 +585,7 @@ SharkGame.Stats = {
                 `<br> <span style='color:${res.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
                 `<br> <span style='color:${res.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for world effects.` +
                 `<br> <span style='color:${res.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect each other.` +
-                `<br> <span style='color:${res.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`;
+                `<br> <span style='color:${res.ASPECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for aspect effects.`;
         } else {
             document.getElementById("tableKey").innerHTML =
                 "<br> <b><u>TABLE KEY</b></u>" +

@@ -271,33 +271,4 @@ SharkGame.ModifierTypes = {
             },
         },
     },
-
-    artifact: {
-        multiplier: {
-            sharkTotem: {
-                defaultValue: 0,
-                getEffect(level, _gen, _out) {
-                    return level + 1;
-                },
-            },
-            rayTotem: {
-                defaultValue: 0,
-                getEffect(level, _gen, _out) {
-                    return level + 1;
-                },
-            },
-            crabTotem: {
-                defaultValue: 0,
-                getEffect(level, _gen, _out) {
-                    return level + 1;
-                },
-            },
-            progressTotem: {
-                defaultValue: 0,
-                getEffect(level, _gen, _out) {
-                    return level + 1;
-                },
-            },
-        },
-    },
 };
