@@ -244,8 +244,8 @@ SharkGame.ArtifactTree = {
 
                     context.stroke();
                 });
-                context.restore();
             }
+            context.restore();
         });
         context.restore();
 
@@ -257,14 +257,15 @@ SharkGame.ArtifactTree = {
         _.each(SharkGame.Artifacts, ({ posX, posY, width, height, icon, eventSprite, prerequisites, level }) => {
             context.save();
             if (_.some(prerequisites, (prereq) => SharkGame.Artifacts[prereq].level === 0)) {
+                // if any prerequisite is unmet, don't render
                 return;
-            } else {
-                if (level === 0) {
-                    context.filter = "brightness(70%) saturate(150%)";
-                }
-                SharkGame.ArtifactTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
-                context.restore();
+            } else if (level === 0) {
+                // if not bought, render darker and more saturated
+                context.filter = "brightness(70%) saturate(150%)";
             }
+            SharkGame.ArtifactTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
+
+            context.restore();
         });
         context.restore();
 

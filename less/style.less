@@ -556,7 +556,7 @@ pre {
                 // background: #135;
                 background: var(--color-dark);
                 cursor: pointer;
-                user-select: none;
+                .no-select();
             }
         }
     }
@@ -1219,6 +1219,10 @@ button.gateway {
         .box-shadow(0, 0, 5px, 5px, @color-discovery);
         width: 800px;
         height: 600px;
+    }
+
+    #treeInfobox {
+        .no-select();
     }
 }
 

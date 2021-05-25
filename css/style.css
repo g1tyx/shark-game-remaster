@@ -389,6 +389,10 @@ pre {
   border-bottom: 0.1em dashed var(--color-lighter);
   background: var(--color-dark);
   cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 #sidebar td {
@@ -1125,6 +1129,13 @@ button.gateway.disabled div {
   box-shadow: 0 0 5px 5px #ace3d1;
   width: 800px;
   height: 600px;
+}
+#pane.gateway #treeInfobox {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #overlay.gateway {
   -webkit-opacity: 1;
