@@ -36,7 +36,7 @@ SharkGame.Artifacts = {
             return "You can do something with this essence...";
         },
         prerequisites: ["starterResources"],
-        clicked(_thing) {
+        clicked(_event) {
             SharkGame.ArtifactTree.increaseLevel(this);
         },
         apply() {},
@@ -56,7 +56,7 @@ SharkGame.Artifacts = {
         getEffect(level) {
             return `level: ${level}`;
         },
-        clicked(_thing) {
+        clicked(_event) {
             SharkGame.ArtifactTree.increaseLevel(this);
         },
         apply(_level) {},
