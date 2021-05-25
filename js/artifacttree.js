@@ -222,29 +222,30 @@ SharkGame.ArtifactTree = {
             context.save();
             if (level === 0) {
                 context.filter = "brightness(70%)";
+            } else {
+                // requiredBy: array of artifactId that depend on this artifact
+                _.each(requiredBy, (requiringId) => {
+                    const requiring = SharkGame.Artifacts[requiringId];
+
+                    const startX = posX + width / 2;
+                    const startY = posY + height / 2;
+
+                    const endX = requiring.posX + requiring.width / 2;
+                    const endY = requiring.posY + requiring.height / 2;
+
+                    const gradient = context.createLinearGradient(startX, startY, endX, endY);
+                    gradient.addColorStop(0, buttonColor);
+                    gradient.addColorStop(1, borderColor);
+                    context.strokeStyle = gradient;
+
+                    context.beginPath();
+                    context.moveTo(startX, startY);
+                    context.lineTo(endX, endY);
+
+                    context.stroke();
+                });
+                context.restore();
             }
-            // requiredBy: array of artifactId that depend on this artifact
-            _.each(requiredBy, (requiringId) => {
-                const requiring = SharkGame.Artifacts[requiringId];
-
-                const startX = posX + width / 2;
-                const startY = posY + height / 2;
-
-                const endX = requiring.posX + requiring.width / 2;
-                const endY = requiring.posY + requiring.height / 2;
-
-                const gradient = context.createLinearGradient(startX, startY, endX, endY);
-                gradient.addColorStop(0, buttonColor);
-                gradient.addColorStop(1, borderColor);
-                context.strokeStyle = gradient;
-
-                context.beginPath();
-                context.moveTo(startX, startY);
-                context.lineTo(endX, endY);
-
-                context.stroke();
-            });
-            context.restore();
         });
         context.restore();
 
@@ -253,13 +254,17 @@ SharkGame.ArtifactTree = {
         context.lineWidth = 1;
         context.fillStyle = buttonColor;
         context.strokeStyle = borderColor;
-        _.each(SharkGame.Artifacts, ({ posX, posY, width, height, icon, eventSprite, prerequisites }) => {
+        _.each(SharkGame.Artifacts, ({ posX, posY, width, height, icon, eventSprite, prerequisites, level }) => {
             context.save();
             if (_.some(prerequisites, (prereq) => SharkGame.Artifacts[prereq].level === 0)) {
-                context.filter = "brightness(70%) saturate(150%)";
+                return;
+            } else {
+                if (level === 0) {
+                    context.filter = "brightness(70%) saturate(150%)";
+                }
+                SharkGame.ArtifactTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
+                context.restore();
             }
-            SharkGame.ArtifactTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
-            context.restore();
         });
         context.restore();
 
