@@ -30,6 +30,52 @@
 SharkGame.Events = {
     frigidActivateIce: {
         handlingTime: "beforeTick",
+        priority: 3,
+        getAction() {
+            if (SharkGame.Upgrades.purchased.indexOf("automation") > -1 && SharkGame.World.worldType === "frigid") {
+                this.trigger();
+            }
+            return "remove";
+        },
+        trigger() {
+            SharkGame.World.worldResources.get("ice").income = 0.01;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.005;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    frigidIntensifyIce: {
+        handlingTime: "beforeTick",
+        priority: 2,
+        getAction() {
+            if (SharkGame.Upgrades.purchased.indexOf("automation") > -1 && SharkGame.World.worldType === "frigid") {
+                this.trigger();
+            }
+            return "remove";
+        },
+        trigger() {
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.002;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    frigidFurtherIntensifyIce: {
+        handlingTime: "beforeTick",
+        priority: 1,
+        getAction() {
+            if (SharkGame.Upgrades.purchased.indexOf("automation") > -1 && SharkGame.World.worldType === "frigid") {
+                this.trigger();
+            }
+            return "remove";
+        },
+        trigger() {
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.0012;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    frigidThaw: {
+        handlingTime: "beforeTick",
         priority: 0,
         getAction() {
             if (SharkGame.Upgrades.purchased.indexOf("automation") > -1 && SharkGame.World.worldType === "frigid") {
@@ -38,8 +84,8 @@ SharkGame.Events = {
             return "remove";
         },
         trigger() {
-            SharkGame.World.worldResources.get("ice").income = 0.1;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.005;
+            SharkGame.World.worldResources.get("ice").income = 0;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.1;
             res.clearNetworks();
             res.buildIncomeNetwork();
         },
