@@ -57,8 +57,9 @@ SharkGame.Reflection = {
                 } else {
                     aspectLabel += "(Power: " + main.beautify(aspectData.level) + ")";
                 }
-                aspectLabel += "<br>" + aspectData.desc(aspectData.level);
-                aspectLabel += "</span><br><em>" + aspectData.flavour + "</em>";
+                aspectLabel += `<br>${aspectData.getEffect(aspectData.level)}</span>`;
+                // FIXME: Either add flavourtext to aspects, or delete this line
+                // aspectLabel += `<br><em>${aspectData.flavour}</em>`;
 
                 const item = $("<div>").addClass("aspectDiv");
                 item.append(aspectLabel);

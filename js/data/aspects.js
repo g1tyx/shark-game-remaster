@@ -25,12 +25,11 @@ SharkGame.Aspects = {
         width: 400,
         height: 200,
 
+        max: 1,
         level: 0,
+        name: "Apotheosis",
         description: "Become unto a god.",
-        getCost(level) {
-            if (level > 0) {
-                return Infinity;
-            }
+        getCost(_level) {
             return 0;
         },
         getEffect(level) {
@@ -52,6 +51,7 @@ SharkGame.Aspects = {
         height: 40,
         level: 0,
 
+        max: 5,
         name: "Start Resources",
         description: "Remove some of that annoying early game",
         getCost(_level) {

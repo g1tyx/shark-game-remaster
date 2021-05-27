@@ -339,14 +339,17 @@ SharkGame.AspectTree = {
             );
         }
     },
-    increaseLevel(button) {
-        const cost = button.getCost(button.level);
+    increaseLevel(aspect) {
+        if (aspect.level >= aspect.max) {
+            return;
+        }
 
+        const cost = aspect.getCost(aspect.level);
         if (cost > res.getResource("essence")) {
             return;
         }
         res.changeResource("essence", -cost);
-        button.level += 1;
-        button.apply();
+        aspect.level++;
+        aspect.apply();
     },
 };

@@ -11,13 +11,11 @@ SharkGame.Gateway = {
     planetPool: [],
 
     init() {
-        // initialise aspect levels to 0 if they don't have a level
-        // otherwise keep the existing level
+        // apply aspect effects
         _.each(SharkGame.Aspects, (aspectData) => {
-            if (!aspectData.level) {
-                aspectData.level = 0;
+            if (aspectData.level) {
+                aspectData.apply(aspectData.level);
             }
-            aspectData.alreadyApplied = false;
         });
     },
 
@@ -145,6 +143,14 @@ SharkGame.Gateway = {
                 .html("<em>Time spent within last ocean:</em><br/>")
                 .append(main.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart))
         );
+    },
+
+    applyAspects() {
+        _.each(SharkGame.Aspects, (aspectData) => {
+            if (aspectData.level) {
+                aspectData.apply(aspectData.level);
+            }
+        });
     },
 
     showAspects() {

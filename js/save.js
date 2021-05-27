@@ -25,6 +25,10 @@ SharkGame.Save = {
         });
 
         saveData.upgrades = _.cloneDeep(SharkGame.Upgrades.purchased);
+        // Save non-zero artifact levels
+        _.each(SharkGame.Aspects, ({ level }, aspectId) => {
+            if (level) saveData.aspects[aspectId] = level;
+        });
 
         $.each(SharkGame.Tabs, (tabId, tab) => {
             if (tabId !== "current") {
@@ -150,16 +154,16 @@ SharkGame.Save = {
                 SharkGame.Lab.addUpgrade(upgradeId);
             });
 
-            gateway.init();
-            _.each(saveData.completedWorlds, (worldType) => {
-                gateway.markWorldCompleted(worldType);
-            });
-
             // load aspects (need to have the cost reducer loaded before world init)
             $.each(saveData.aspects, (aspectId, level) => {
                 if (_.has(SharkGame.Aspects, aspectId)) {
                     SharkGame.Aspects[aspectId].level = level;
                 }
+            });
+
+            gateway.init();
+            _.each(saveData.completedWorlds, (worldType) => {
+                gateway.markWorldCompleted(worldType);
             });
 
             $.each(saveData.tabs, (tabName, discovered) => {
