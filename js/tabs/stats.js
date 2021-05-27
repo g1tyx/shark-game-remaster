@@ -473,7 +473,7 @@ SharkGame.Stats = {
 
         const row = $("<tr>");
 
-        let columns = incomesTable[0].children[0].children[0].children.length;
+        let columns = incomesTable[0].children[0].children.length;
 
         if (SharkGame.Settings.current.switchStats) {
             row.append(

@@ -32,15 +32,16 @@ SharkGame.Events = {
         handlingTime: "beforeTick",
         priority: 0,
         getAction() {
-            if (SharkGame.World.worldType !== "frigid") {
-                return "remove";
+            if (SharkGame.Upgrades.purchased.indexOf("automation") > -1 && SharkGame.World.worldType === "frigid") {
+                this.trigger();
             }
-            return "pass";
+            return "remove";
         },
         trigger() {
-            SharkGame.World.worldResources.set("ice", 0.1);
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.02;
-            return false;
+            SharkGame.World.worldResources.get("ice").income = 0.1;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.005;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
         },
     },
     frigidAddUrchin: {

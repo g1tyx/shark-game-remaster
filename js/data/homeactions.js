@@ -3052,7 +3052,7 @@ SharkGame.HomeActions = {
                 resource: {
                     squid: 1,
                 },
-                upgrade: [""],
+                upgrade: ["coordinatedHunting"],
             },
             outcomes: [""],
             multiOutcomes: [""],
@@ -3070,13 +3070,13 @@ SharkGame.HomeActions = {
             cost: [
                 { resource: "crab", costFunction: "constant", priceIncrease: 1 },
                 { resource: "squid", costFunction: "constant", priceIncrease: 1 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 50 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 25 },
             ],
             max: "extractionTeam",
             prereq: {
                 upgrade: ["assistedExtraction"],
             },
-            outcomes: [""],
+            outcomes: ["Team assembled."],
             multiOutcomes: [""],
             helpText: "Convince a squid and a crab to work together in pursuit of efficient crystal gathering.",
         },
@@ -3090,7 +3090,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "squid", costFunction: "constant", priceIncrease: 20 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 500 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 1000 },
             ],
             max: "collective",
             prereq: {

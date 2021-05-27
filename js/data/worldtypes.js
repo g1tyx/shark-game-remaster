@@ -293,7 +293,7 @@ SharkGame.WorldTypes = {
         shortDesc: "freezing white",
         entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
-        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice"],
+        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "curiousCrab"],
         modifiers: [{ type: "multiplier", modifier: "planetaryFixedIncomeMultiplier", resource: "machines", amount: 1 }],
         gateRequirements: {
             slots: {

@@ -265,18 +265,18 @@ SharkGame.Home = {
             {
                 name: "frigid-default",
                 message:
-                    "The cold here seeps through you. There are giant boulders of ice on the horizon, surrounding you on all sides.<br>There is a quiet hum in the water.",
+                    "The cold here seeps through you. Giant boulders of ice dot the horizon, surrounding you on all sides.<br>A quiet hum fills the water.",
             },
             {
                 name: "frigid-urchin",
-                unlock: { totalResource: { urchin: 10 } },
+                unlock: { totalResource: { urchin: 2 } },
                 message:
-                    "The urchins scuttle along the ground, gathering kelp into a massive pile.<br>They know nothing else. Food is the only thing that is real.",
+                    "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile.<br>They know nothing but the kelp.",
             },
             {
                 name: "frigid-distant-village",
                 unlock: { upgrade: ["seabedGeology"] },
-                message: "While scanning the horizon, you notice some weird outcroppings in the distance.<br>What is that supposed to be??",
+                message: "While scanning the horizon, you notice some weird outcroppings in the distance.<br>What ARE those??",
             },
             {
                 name: "frigid-village",
@@ -285,20 +285,20 @@ SharkGame.Home = {
             },
             {
                 name: "frigid-machine",
-                unlock: { totalResource: { squid: 25 } },
+                unlock: { totalResource: { squid: 100 } },
                 message:
-                    "In the center of the settlement lies a stone structure containing a small, dilapidated structure.<br>One part is a gate, the other, a small box.<br>The box hums loudly. It warms you from the inside.",
+                    "In the center of the settlement lies a small, dilapidated structure.<br>It contains both a deactivated gate and a small box.<br>The box hums. You feel warm.",
             },
             {
                 name: "frigid-squid",
-                unlock: { totalResource: { squid: 75 } },
+                unlock: { totalResource: { squid: 275 } },
                 message:
-                    "The squid speak of an ancient visitor. They say this visitor was the one who saved their world.<br>They ask if you too, have seen this visitor.",
+                    "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
             },
             {
                 name: "frigid-blast",
                 unlock: { upgrade: ["automation"] },
-                message: "A sudden, frigid blast overtakes you, and all the heat is sucked from your body.<br>The hum in the water disappears.",
+                message: "A frigid blast overtakes you, and all the heat is sucked from your body.<br>The hum in the water disappears.",
             },
             {
                 name: "frigid-ice-one",
