@@ -292,8 +292,7 @@ SharkGame.Home = {
             {
                 name: "frigid-squid",
                 unlock: { totalResource: { squid: 275 } },
-                message:
-                    "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
+                message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
             },
             {
                 name: "frigid-blast",

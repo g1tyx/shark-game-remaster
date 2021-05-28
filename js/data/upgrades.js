@@ -1597,7 +1597,8 @@ SharkGame.Upgrades = {
         assistedExtraction: {
             name: "Assisted Extraction",
             desc: "Crabs take forever to get crystals. The squid insist that working together will help them take less time.",
-            researchedMessage: "A crab can reach places a squid cannot, and a squid can help a crab get around faster. Putting them together makes a heck of a team.",
+            researchedMessage:
+                "A crab can reach places a squid cannot, and a squid can help a crab get around faster. Putting them together makes a heck of a team.",
             effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
             cost: {
                 science: 10000,
