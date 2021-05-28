@@ -126,6 +126,7 @@ SharkGame.WorldTypes = {
             "dolphinmachines",
             "coral",
             "chorus",
+            "essence",
         ],
         absentResources: ["laser"],
         modifiers: [
