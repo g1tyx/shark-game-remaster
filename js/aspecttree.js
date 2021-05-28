@@ -18,10 +18,10 @@ const CANVAS_HEIGHT = 600;
  *            V
  *            -y
  */
-const LEFT_EDGE = CANVAS_WIDTH + 50;
-const TOP_EDGE = CANVAS_HEIGHT + 50;
-const RIGHT_EDGE = -50;
-const BOTTOM_EDGE = -50 - CANVAS_HEIGHT;
+const LEFT_EDGE = CANVAS_WIDTH + 400;
+const TOP_EDGE = CANVAS_HEIGHT + 650;
+const RIGHT_EDGE = -400;
+const BOTTOM_EDGE = -150;
 
 const SPRITE_SHEET = new Image();
 const EVENT_SPRITE_SHEET = new Image();
@@ -149,11 +149,53 @@ SharkGame.AspectTree = {
             $("#tooltipbox").html("").removeClass("forAspectTreePurchased").removeClass("forAspectTreeUnpurchased");
         } else {
             context.canvas.style.cursor = "pointer";
-            $("#tooltipbox").html(button.description + "<br />" + button.getEffect(button.level));
-            if (button.level > 0) {
-                $("#tooltipbox").addClass("forAspectTreePurchased").removeClass("forAspectTreeUnpurchased");
-            } else {
+            if (button.level === 0) {
                 $("#tooltipbox").addClass("forAspectTreeUnpurchased").removeClass("forAspectTreePurchased");
+                $("#tooltipbox").html(
+                    button.name.bold() +
+                        "<br />" +
+                        button.getEffect(1) +
+                        "<br />" +
+                        "<span class='littleTooltipText'>" +
+                        button.description +
+                        "</span><br /><b>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
+                        button.getCost(0) +
+                        "</span></b>"
+                );
+            } else if (button.level < button.max) {
+                $("#tooltipbox").addClass("forAspectTreePurchased").removeClass("forAspectTreeUnpurchased");
+                $("#tooltipbox").html(
+                    button.name.bold() +
+                        "<br /><span class='littleTooltipText'><b> level " +
+                        button.level +
+                        "</b></span>" +
+                        "<br />" +
+                        button.getEffect(button.level) +
+                        "<br />" +
+                        "<span class='littleTooltipText'>" +
+                        button.description +
+                        "</span>" +
+                        "<br /><span class='littleTooltipText'><b>NEXT LEVEL:</b></span><br />" +
+                        button.getEffect(button.level + 1) +
+                        "</span><br /><b>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
+                        button.getCost(button.level) +
+                        "</span></b>"
+                );
+            } else {
+                $("#tooltipbox").addClass("forAspectTreePurchased").removeClass("forAspectTreeUnpurchased");
+                $("#tooltipbox").html(
+                    button.name.bold() +
+                        "<br /><span class='littleTooltipText'><b> level " +
+                        button.level +
+                        "</b></span>" +
+                        "<br />" +
+                        button.getEffect(button.level) +
+                        "<br />" +
+                        "<span class='littleTooltipText'>" +
+                        button.description +
+                        "</span>" +
+                        "<br /><span class='littleTooltipText'><b>MAXIMUM LEVEL.</b></span>"
+                );
             }
         }
     },
