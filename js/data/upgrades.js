@@ -1498,8 +1498,8 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeMultiplier: {
-                    shark: 2,
-                    squid: 2,
+                    shark: 4,
+                    squid: 4,
                 },
             },
         },
