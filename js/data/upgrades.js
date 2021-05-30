@@ -1267,7 +1267,7 @@ SharkGame.Upgrades = {
                 "Urchins gather sand twice as fast. Not that they understand how to do it faster, but that we've shown them better techniques to mimic.",
             cost: {
                 science: 250,
-                sand: 250,
+                sand: 200,
             },
             required: {
                 upgrades: ["urchinAttraction", "crystalContainer"],
@@ -1280,28 +1280,14 @@ SharkGame.Upgrades = {
         },
         civilContact: {
             name: "Civil Contact",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
+            desc: "We see a number of strange structures in the distance. What are we looking at, exactly?",
+            researchedMessage: "We visited the structures, and it turns out it's an entire civilization!",
+            effectDesc: "Found the squids. They can be enlisted to help catch fish.",
             cost: {
                 science: 300,
             },
             required: {
                 upgrades: ["seabedGeology"],
-            },
-        },
-        transmutation: {
-            name: "Transmutation",
-            desc: "By heating things up and doing science things to them, maybe new things can be made!",
-            researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
-            effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
-            cost: {
-                science: 22500,
-                crystal: 10000,
-                sand: 8000,
-            },
-            required: {
-                upgrades: ["underwaterChemistry"],
             },
         },
         automation: {
@@ -1310,8 +1296,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 27500,
-                sharkonium: 7500,
+                science: 7500,
+                sharkonium: 12500,
             },
             required: {
                 upgrades: ["transmutation"],
@@ -1399,8 +1385,8 @@ SharkGame.Upgrades = {
                 "It sorta worked. We've had to plant kelp all over the place, since the urchins just tear through it if it's all together.",
             effectDesc: "Urchins gather kelp twice as fast. Just kelp.",
             cost: {
-                science: 450,
-                sand: 1000,
+                science: 550,
+                sand: 500,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -1412,12 +1398,8 @@ SharkGame.Upgrades = {
             },
         },
         biology: {
-            name: "Biology",
-            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
-            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
-            effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
-                science: 500,
+                science: 700,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -1429,12 +1411,12 @@ SharkGame.Upgrades = {
             },
         },
         squidBiology: {
-            name: "Biology",
+            name: "Squid Biology",
             desc: "",
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 750,
+                science: 850,
             },
             required: {
                 upgrades: ["biology"],
@@ -1446,12 +1428,6 @@ SharkGame.Upgrades = {
             },
         },
         crabBiology: {
-            name: "Crab Biology",
-            desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
-            researchedMessage:
-                "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
-            effectDesc:
-                "Crabs are twice as effective. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
                 science: 1750,
                 kelp: 1500,
@@ -1483,7 +1459,7 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        coordinatedHunting: {
+        /* coordinatedHunting: {
             name: "Coordinated Hunting",
             desc: "",
             researchedMessage: "",
@@ -1493,7 +1469,7 @@ SharkGame.Upgrades = {
                 fish: 25000,
             },
             required: {
-                upgrades: ["civilContact"],
+                upgrades: ["civilContact", "sunObservation"],
                 seen: ["squid"],
             },
             effect: {
@@ -1509,7 +1485,7 @@ SharkGame.Upgrades = {
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 1750,
+                science: 2500,
                 fish: 150000,
             },
             required: {
@@ -1527,7 +1503,7 @@ SharkGame.Upgrades = {
                 fish: 100000,
             },
             required: {
-                upgrades: ["coordinatedHunting"],
+                upgrades: ["coordinatedHunting", "exploration"],
                 seen: ["huntingSquad"],
             },
             effect: {
@@ -1537,7 +1513,7 @@ SharkGame.Upgrades = {
                     huntingSquad: 2,
                 },
             },
-        },
+        }, */
         sunObservation: {
             name: "Sun Observation",
             desc: "We must determine what is with the weird glare on the surface of the water.",
@@ -1559,10 +1535,10 @@ SharkGame.Upgrades = {
             name: "Exploration",
             desc: "Swim beyond the home seas to see what can be found!",
             researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
-            effectDesc: "Squids and hunting squads are twice as effective. Did you know oceans are big? Fascinating!",
+            effectDesc: "Sharks are twice as effective, squids are 4 times as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 5000,
-                fish: 250000,
+                science: 4000,
+                fish: 75000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -1570,8 +1546,7 @@ SharkGame.Upgrades = {
             effect: {
                 incomeMultiplier: {
                     shark: 2,
-                    huntingSquad: 2,
-                    squid: 2,
+                    squid: 4,
                 },
             },
         },
@@ -1582,45 +1557,73 @@ SharkGame.Upgrades = {
                 "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves at the border.",
             effectDesc: "Extraction teams are twice as effective thanks to newly-discovered crystal deposits.",
             cost: {
-                science: 25000,
-                fish: 500000,
+                science: 5000,
+                fish: 200000,
             },
             required: {
                 upgrades: ["exploration"],
             },
             effect: {
                 incomeMultiplier: {
-                    extractionTeam: 2,
+                    extractionTeam: 4,
                 },
             },
         },
         assistedExtraction: {
             name: "Assisted Extraction",
-            desc: "Crabs take forever to get crystals. The squid insist that working together will help them take less time.",
+            desc: "Crabs take forever to get crystals. The squid insist that working together will make them take less time.",
             researchedMessage:
-                "A crab can reach places a squid cannot, and a squid can help a crab get around faster. Putting them together makes a heck of a team.",
+                "A crab can reach places a squid cannot, and a squid can help a crab get around faster. Putting them together makes a heck of a team!",
             effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
             cost: {
-                science: 10000,
-                kelp: 20000,
+                science: 2500,
+                kelp: 8000,
             },
             required: {
-                upgrades: ["highEfficiencyHunting", "curiousCrabs"],
+                upgrades: ["crabBiology", "squidBiology"],
             },
         },
-        // artificialHeating: {
-        //     name: "Artificial Heating",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
+        transmutation: {
+            name: "Transmutation",
+            desc: "By heating things up and doing science things to them, maybe new things can be made!",
+            researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
+            effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
+            cost: {
+                science: 7500,
+                crystal: 20000,
+                sand: 75000,
+            },
+            required: {
+                upgrades: ["underwaterChemistry", "seabedGeology"],
+            },
+        },
+        internalInvestigation: {
+            name: "Internal Investigation",
+            desc: "The box in the center of the village is a mystery, and so is the gate. What if we open them up and see how they tick?",
+            researchedMessage: "Well, that was a really bad idea, though a necessary one if we want to make the gate work. Now the box is broken.",
+            effectDesc:
+                "We accidentally broke the box by trying to open it up. I guess it was too old. We should probably try and correct that mistake.",
+            cost: {
+                science: 2500,
+                sharkonium: 1000,
+            },
+            required: {
+                upgrades: ["automation"],
+            },
+        },
+        artificialHeating: {
+            name: "Artificial Heating",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["internalInvestigation"],
+            },
+        },
         // coldproofSpines: {
         //     name: "Coldproof Spines",
         //     desc: "",
@@ -1649,19 +1652,6 @@ SharkGame.Upgrades = {
         // },
         // thermalConditioning: {
         //     name: "Thermal Conditioning",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
-        // internalInvestigation: {
-        //     name: "Internal Investigation",
         //     desc: "",
         //     researchedMessage: "",
         //     effectDesc: "",

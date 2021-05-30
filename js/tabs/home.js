@@ -264,8 +264,7 @@ SharkGame.Home = {
         frigid: [
             {
                 name: "frigid-default",
-                message:
-                    "The cold here seeps through you. Giant boulders of ice dot the horizon, surrounding you on all sides.<br>A quiet hum fills the water.",
+                message: "Giant boulders of ice dot the horizon, surrounding you on all sides.<br>You hear a quiet, ambient hum.",
             },
             {
                 name: "frigid-urchin",
@@ -276,7 +275,7 @@ SharkGame.Home = {
             {
                 name: "frigid-distant-village",
                 unlock: { upgrade: ["seabedGeology"] },
-                message: "While scanning the horizon, you notice some weird outcroppings in the distance.<br>What ARE those??",
+                message: "While scanning the horizon, you notice some outcroppings in the distance.",
             },
             {
                 name: "frigid-village",
@@ -287,7 +286,7 @@ SharkGame.Home = {
                 name: "frigid-machine",
                 unlock: { totalResource: { squid: 100 } },
                 message:
-                    "In the center of the settlement lies a small, dilapidated structure.<br>It contains both a deactivated gate and a small box.<br>The box hums. You feel warm.",
+                    "In the center of the settlement lies a small, dilapidated structure.<br>It contains both a deactivated gate and a small, vibrating box. It hums with energy.",
             },
             {
                 name: "frigid-squid",
@@ -297,12 +296,12 @@ SharkGame.Home = {
             {
                 name: "frigid-blast",
                 unlock: { upgrade: ["automation"] },
-                message: "A frigid blast overtakes you, and all the heat is sucked from your body.<br>The hum in the water disappears.",
+                message: "A frigid blast overtakes you as the machine opens.<br>Its worn internals spill out.",
             },
             {
                 name: "frigid-ice-one",
                 unlock: { resource: { ice: 25 } },
-                message: "The water around you begins to crystallize as shards of ice appear on every surface in view.",
+                message: "Shards of ice appear on every surface in view.<br>The machine must be repaired.",
             },
             {
                 name: "frigid-ice-two",

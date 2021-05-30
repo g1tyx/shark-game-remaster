@@ -279,6 +279,8 @@ SharkGame.Lab = {
             } else {
                 upgradeElt.prependTo(list);
             }
+
+            console.log(upgrade.name + " at: " + main.formatTime(_.now() - SharkGame.timestampRunStart));
         }
     },
 

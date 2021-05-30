@@ -3335,7 +3335,7 @@ SharkGame.HomeActions = {
             cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 250 }],
             max: "heater",
             prereq: {
-                upgrade: ["thermalConditioning"],
+                upgrade: ["artificialHeating"],
             },
             outcomes: [
                 "Heater activated.",
