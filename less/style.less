@@ -179,6 +179,10 @@
     }
 }
 
+.bold {
+    font-weight: bold;
+}
+
 /*------------------------------------------------------
   CSS VARIABLES FOR THEMES
 -------------------------------------------------------*/
@@ -1365,16 +1369,14 @@ button.planetButton {
     width: auto;
 }
 
-.forAspectTreePurchased {
+.forAspectTree {
     width: 300px;
     background-color: @color-discovery-dark3;
     border-color: @color-discovery-dark2;
-}
-
-.forAspectTreeUnpurchased {
-    width: 300px;
-    background-color: @color-discovery-dark4;
-    border-color: @color-discovery-dark3;
+    &Unpurchased {
+        background-color: @color-discovery-dark4;
+        border-color: @color-discovery-dark3;
+    }
 }
 
 .collapser {

@@ -226,6 +226,10 @@ $.extend(SharkGame, {
         const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return SharkGame.convertColorString(color);
     },
+    /** @param {string} string */
+    boldString(string) {
+        return `<span class='bold'>${string}</span>`;
+    },
     getImageIconHTML(imagePath, width, height) {
         if (!imagePath) {
             imagePath = "http://placekitten.com/g/" + Math.floor(width) + "/" + Math.floor(height);

@@ -46,7 +46,8 @@ SharkGame.AspectTree = {
             width: 15,
             height: 15,
 
-            description: "Zoom",
+            name: "Zoom",
+            description: "Change the zoom level.",
             getEffect() {
                 if (SharkGame.AspectTree.cameraZoom === 1) {
                     return "Zoom out.";
@@ -144,58 +145,50 @@ SharkGame.AspectTree = {
         const context = SharkGame.AspectTree.context;
 
         const button = SharkGame.AspectTree.getButtonUnderMouse(event);
+        const tooltipBox = $("#tooltipbox");
         if (button === undefined) {
             context.canvas.style.cursor = "default";
-            $("#tooltipbox").html("").removeClass("forAspectTreePurchased").removeClass("forAspectTreeUnpurchased");
+            tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         } else {
             context.canvas.style.cursor = "pointer";
+            tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased");
+
+            // FIXME: Hard-coded color "#ace3d1"
             if (button.level === 0) {
-                $("#tooltipbox").addClass("forAspectTreeUnpurchased").removeClass("forAspectTreePurchased");
-                $("#tooltipbox").html(
-                    button.name.bold() +
-                        "<br />" +
-                        button.getEffect(1) +
-                        "<br />" +
-                        "<span class='littleTooltipText'>" +
-                        button.description +
-                        "</span><br /><b>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
-                        button.getCost(0) +
-                        "</span></b>"
-                );
+                const tooltipText =
+                    SharkGame.boldString(button.name) +
+                    `<br/>${button.getEffect(button.level + 1)}<br/>` +
+                    `<span class='littleTooltipText'>${button.description}</span><br/>` +
+                    `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
+                    `${button.getCost(button.level)}</span></span>`;
+
+                tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
             } else if (button.level < button.max) {
-                $("#tooltipbox").addClass("forAspectTreePurchased").removeClass("forAspectTreeUnpurchased");
-                $("#tooltipbox").html(
-                    button.name.bold() +
-                        "<br /><span class='littleTooltipText'><b> level " +
-                        button.level +
-                        "</b></span>" +
-                        "<br />" +
-                        button.getEffect(button.level) +
-                        "<br />" +
-                        "<span class='littleTooltipText'>" +
-                        button.description +
-                        "</span>" +
-                        "<br /><span class='littleTooltipText'><b>NEXT LEVEL:</b></span><br />" +
-                        button.getEffect(button.level + 1) +
-                        "</span><br /><b>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
-                        button.getCost(button.level) +
-                        "</span></b>"
-                );
+                const tooltipText =
+                    SharkGame.boldString(button.name) +
+                    `<br /><span class='littleTooltipText' class='bold'> level ${button.level}</span><br />` +
+                    button.getEffect(button.level) +
+                    `<br /><span class='littleTooltipText'>${button.description}</span>` +
+                    "<br /><span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
+                    button.getEffect(button.level + 1) +
+                    "<br /><span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
+                    button.getCost(button.level) +
+                    "</span>";
+                tooltipBox.html(tooltipText);
+            } else if (button.level === undefined) {
+                const tooltipText =
+                    SharkGame.boldString(button.name) +
+                    `<br />${button.getEffect(button.level)}` +
+                    `<br /><span class='littleTooltipText'>${button.description}</span>`;
+                tooltipBox.html(tooltipText);
             } else {
-                $("#tooltipbox").addClass("forAspectTreePurchased").removeClass("forAspectTreeUnpurchased");
-                $("#tooltipbox").html(
-                    button.name.bold() +
-                        "<br /><span class='littleTooltipText'><b> level " +
-                        button.level +
-                        "</b></span>" +
-                        "<br />" +
-                        button.getEffect(button.level) +
-                        "<br />" +
-                        "<span class='littleTooltipText'>" +
-                        button.description +
-                        "</span>" +
-                        "<br /><span class='littleTooltipText'><b>MAXIMUM LEVEL.</b></span>"
-                );
+                const tooltipText =
+                    SharkGame.boldString(button.name) +
+                    `<br /><span class='littleTooltipText bold'> level ${button.level}</span>` +
+                    `<br />${button.getEffect(button.level)}` +
+                    `<br /><span class='littleTooltipText'>${button.description}</span>` +
+                    "<br /><b>MAXIMUM LEVEL.</b></span>";
+                tooltipBox.html(tooltipText);
             }
         }
     },
@@ -249,11 +242,15 @@ SharkGame.AspectTree = {
         context.canvas.width = CANVAS_WIDTH;
         context.canvas.height = CANVAS_HEIGHT;
 
+        // Only one call to getComputedStyle for two properties, otherwise we'd use SharkGame.getElementColor
+        // Also, beware that these values change if the button is pressed, but that should never happen in the same frame
+        // as the aspect tree gets redrawn
         const buttonStyle = getComputedStyle(document.getElementById("backToGateway"));
         const buttonColor = buttonStyle.backgroundColor;
         const borderColor = buttonStyle.borderTopColor;
 
         context.save();
+        // FIXME: Hard-coded color
         context.fillStyle = "#155c4b";
         context.fillRect(0, 0, context.canvas.width, context.canvas.height);
         context.restore();
