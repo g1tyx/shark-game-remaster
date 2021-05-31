@@ -280,7 +280,7 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
-            console.log(upgrade.name + " at: " + main.formatTime(_.now() - SharkGame.timestampRunStart));
+            console.debug(`Added upgrade ${upgrade.name} at: ${main.formatTime(_.now() - SharkGame.timestampRunStart)}`);
         }
     },
 
