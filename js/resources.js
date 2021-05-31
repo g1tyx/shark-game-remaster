@@ -748,16 +748,22 @@ SharkGame.Resources = {
         SharkGame.ResourceIncomeAffected = {};
     },
 
-    // FIXME: Explain these parameters, and functions
-    // "resource" used to be called "main", before "main" became a global
-    addNetworkNode(network, resource, effect, sub, degree) {
-        if (!network[resource]) {
-            network[resource] = {};
+    /**
+     * Adds a parameter in a nested object, specifically 3 layers deep
+     * @param {object} network The nested object to add a paramater to
+     * @param {string} high The top-level parameter to index
+     * @param {string} mid The second-level paramater to index
+     * @param {string} low The paramater to assign
+     * @param {number} value The value of that parameter
+     */
+    addNetworkNode(network, high, mid, low, value) {
+        if (!network[high]) {
+            network[high] = {};
         }
-        if (!network[resource][effect]) {
-            network[resource][effect] = {};
+        if (!network[high][mid]) {
+            network[high][mid] = {};
         }
-        network[resource][effect][sub] = degree;
+        network[high][mid][low] = value;
     },
 
     applyModifier(name, target, degree, level = 1) {
