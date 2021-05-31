@@ -702,17 +702,18 @@ SharkGame.Resources = {
         const rgad = SharkGame.GeneratorIncomeAffected;
         const resourceCategories = SharkGame.ResourceCategories;
         // recursively parse the gia
-        $.each(gia, (resource) => {
-            $.each(gia[resource], (type) => {
-                $.each(gia[resource][type], (generator, value) => {
+        $.each(gia, (affectorResource) => {
+            $.each(gia[affectorResource], (type) => {
+                $.each(gia[affectorResource][type], (affectedGeneratorCategory, value) => {
                     // is it a category or a generator?
-                    const nodes = res.isCategory(generator) ? resourceCategories[generator].resources : [generator];
+                    const nodes = res.isCategory(affectedGeneratorCategory)
+                        ? resourceCategories[affectedGeneratorCategory].resources
+                        : [affectedGeneratorCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // FIXME: Rename - No idea what these are
                     // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, v) => {
-                        if (world.worldResources.get(v).exists && world.worldResources.get(resource).exists) {
-                            res.addNetworkNode(rgad, v, type, resource, value);
+                    $.each(nodes, (_k, affectedGenerator) => {
+                        if (world.worldResources.get(affectedGenerator).exists && world.worldResources.get(affectorResource).exists) {
+                            res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
                     });
                 });
@@ -725,15 +726,16 @@ SharkGame.Resources = {
         // recursively parse the ria
         $.each(ria, (affectorResource) => {
             $.each(ria[affectorResource], (type) => {
-                $.each(ria[affectorResource][type], (affectedResource, degree) => {
+                $.each(ria[affectorResource][type], (affectedResourceCategory, degree) => {
                     // is it a category?
-                    const nodes = res.isCategory(affectedResource) ? resourceCategories[affectedResource].resources : [affectedResource];
+                    const nodes = res.isCategory(affectedResourceCategory)
+                        ? resourceCategories[affectedResourceCategory].resources
+                        : [affectedResourceCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // FIXME: Rename - No idea what these are
                     // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, v) => {
-                        if (world.worldResources.get(v).exists && world.worldResources.get(affectorResource).exists) {
-                            res.addNetworkNode(rad, v, type, affectorResource, degree);
+                    $.each(nodes, (_k, affectedResource) => {
+                        if (world.worldResources.get(affectedResource).exists && world.worldResources.get(affectorResource).exists) {
+                            res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }
                     });
                 });
