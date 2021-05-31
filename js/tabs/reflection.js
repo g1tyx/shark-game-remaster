@@ -60,6 +60,7 @@ SharkGame.Reflection = {
                 aspectLabel += `<br>${aspectData.getEffect(aspectData.level)}</span>`;
                 // FIXME: Either add flavourtext to aspects, or delete this line
                 // aspectLabel += `<br><em>${aspectData.flavour}</em>`;
+                // base: this will be better to address once functional aspect prototypes are implemented
 
                 const item = $("<div>").addClass("aspectDiv");
                 item.append(aspectLabel);
@@ -67,6 +68,7 @@ SharkGame.Reflection = {
 
                 if (SharkGame.Settings.current.showIcons) {
                     // FIXME: artifacts -> aspects
+                    // base: ditto what i said above
                     const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, "artifacts/" + aspectId, null, "general/missing-artifact");
                     if (iconDiv) {
                         iconDiv.addClass("button-icon");

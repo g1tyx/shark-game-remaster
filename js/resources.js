@@ -227,12 +227,12 @@ SharkGame.Resources = {
 
                     if (!cheap) {
                         const trueIncomeObject = {};
-                        let value; // FIXME: Rename
+                        let income;
                         changeMap.forEach((amount, generatedResource) => {
-                            value = amount * costScaling;
-                            trueIncomeObject[generatedResource] = value;
-                            SharkGame.FlippedBreakdownIncomeTable.get(generatedResource)[resourceId] = value;
-                            SharkGame.PlayerIncomeTable.set(generatedResource, SharkGame.PlayerIncomeTable.get(generatedResource) + value);
+                            income = amount * costScaling;
+                            trueIncomeObject[generatedResource] = income;
+                            SharkGame.FlippedBreakdownIncomeTable.get(generatedResource)[resourceId] = income;
+                            SharkGame.PlayerIncomeTable.set(generatedResource, SharkGame.PlayerIncomeTable.get(generatedResource) + income);
                         });
                         SharkGame.BreakdownIncomeTable.set(resourceId, trueIncomeObject);
                     } else {

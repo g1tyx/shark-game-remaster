@@ -651,14 +651,8 @@ SharkGame.Home = {
             prereqsMet &&= !action.prereq.notWorlds.includes(world.worldType);
         }
 
-        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
-
         // check upgrade prerequisites
-        // FIXME: Upgrades not contained in upgradeTable should not be purchased anyways, can we remove this check?
-        prereqsMet &&= _.every(
-            action.prereq.upgrade,
-            (upgradeId) => _.has(upgradeTable, upgradeId) && SharkGame.Upgrades.purchased.includes(upgradeId)
-        );
+        prereqsMet &&= _.every(action.prereq.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
         // check if resulting resource exists
         prereqsMet &&= _.every(action.effect.resource, (_amount, resourceId) => world.doesResourceExist(resourceId));
         return prereqsMet;
@@ -900,14 +894,7 @@ SharkGame.Home = {
 
         _.each(rawCost, (costObj) => {
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-
-            // FIXME: PlayerResources doesn't have jobs, is this intended?
-            // If so, delete this _.each
-            _.each(resource.jobs, (job) => {
-                currAmount += res.getResource(job);
-            });
-
+            const currAmount = resource.amount;
             const priceIncrease = costObj.priceIncrease;
             let cost = 0;
             switch (costObj.costFunction) {
@@ -935,10 +922,7 @@ SharkGame.Home = {
             // max is really ambiguous
             // its used as the determining resource for linear cost functions
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-            _.each(resource.jobs, (job) => {
-                currAmount += res.getResource(job);
-            });
+            const currAmount = resource.amount;
             max = Number.MAX_VALUE;
             _.each(action.cost, (costObject) => {
                 const costResource = SharkGame.PlayerResources.get(costObject.resource).amount;

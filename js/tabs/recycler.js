@@ -441,26 +441,25 @@ SharkGame.Recycler = {
         return rec.efficiency.toFixed(4);
     },
 
-    // FIXME: What does 'evalue' mean?
     updateEfficiency(resource) {
-        let evalue = 5;
+        let maxEfficiencyRecyclePowerOfTen = 5;
         let baseEfficiency = 0.5;
 
         if (SharkGame.Upgrades.purchased.includes("superprocessing")) {
-            evalue = 8;
+            maxEfficiencyRecyclePowerOfTen = 8;
             baseEfficiency = 1;
         }
 
         const purchaseAmount = res.getPurchaseAmount(resource);
         // check if the amount to eat is less than the threshold
-        if (purchaseAmount <= Math.pow(10, evalue)) {
+        if (purchaseAmount <= Math.pow(10, maxEfficiencyRecyclePowerOfTen)) {
             rec.efficiency = baseEfficiency;
         } else {
             //otherwise, scale back based purely on the number to process
             // 'cheating' by lowering the value of n is ok if the player wants to put in a ton of effort
             // the system is more sensible, and people can get a feel for it easier if i make this change
             // the amount that this effects things isn't crazy high either, so
-            rec.efficiency = 1 / (Math.log10(purchaseAmount) - evalue + Math.round(1 / baseEfficiency));
+            rec.efficiency = 1 / (Math.log10(purchaseAmount) - maxEfficiencyRecyclePowerOfTen + Math.round(1 / baseEfficiency));
         }
     },
 };
