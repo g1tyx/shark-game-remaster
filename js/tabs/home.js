@@ -267,7 +267,7 @@ SharkGame.Home = {
                 message: "Giant boulders of ice dot the horizon, surrounding you on all sides.<br>You hear a quiet, ambient hum.",
             },
             {
-                name: "frigid-urchin",
+                name: "frigid-urchins",
                 unlock: { totalResource: { urchin: 2 } },
                 message:
                     "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile.<br>They know nothing but the kelp.",

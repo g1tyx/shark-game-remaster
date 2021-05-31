@@ -391,6 +391,26 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "frigid-urchins": {
+        frame: {
+            x: 1618,
+            y: 1634,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "haven-default": {
         frame: {
             x: 810,
