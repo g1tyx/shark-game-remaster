@@ -53,7 +53,7 @@ SharkGame.Aspects = {
             return level * 2 + 2;
         },
         getEffect(level) {
-            return "Sharks catch fish " + (level > 0 ? level + 1 : 1) + " times faster.";
+            return res.getResourceName("shark", false, false, 69) + " collect things " + (level > 0 ? level + 1 : 1) + " times faster.";
         },
         prerequisites: ["apotheosis"],
         clicked(_event) {
@@ -107,7 +107,7 @@ SharkGame.Aspects = {
             return (level + 2) ** 2;
         },
         getEffect(level) {
-            return "Gain nothing immediately. After beating 3 more worlds, gain " + 2 * (level + 1) ** 2 + " essence.";
+            return "Gain nothing now. After beating 3 more worlds, gain " + 2 * (level + 1) ** 2 + " essence.";
         },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
@@ -129,7 +129,7 @@ SharkGame.Aspects = {
             return (level + 1) ** 2 + 1;
         },
         getEffect(level) {
-            return "Bring " + 10 * level ** 3 + " crabs with you between worlds.";
+            return "Start with " + 10 * level ** 3 + " crabs (if possible).";
         },
         prerequisites: ["apotheosis"],
         clicked(_event) {
@@ -151,7 +151,14 @@ SharkGame.Aspects = {
             return 2 * level + 1;
         },
         getEffect(level) {
-            return "Rays hunt fish " + 2 ** level * 2.5 + "x faster.";
+            return (
+                res.getResourceName("ray", false, false, 69) +
+                " hunt " +
+                res.getResourceName("fish", false, false, 69) +
+                " " +
+                2 ** level * 2.5 +
+                "x faster."
+            );
         },
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
@@ -203,6 +210,50 @@ SharkGame.Aspects = {
             return "Sharkonium is " + 20 * level + "% cheaper to produce.";
         },
         prerequisites: ["pathOfIndustry"],
+        clicked(_event) {
+            SharkGame.AspectTree.increaseLevel(this);
+        },
+        apply() {},
+    },
+    crystallineSkin: {
+        posX: 0,
+        posY: 250,
+        width: 40,
+        height: 40,
+
+        max: 5,
+        level: 0,
+        name: "Crystalline Skin",
+        description: "Become one with the lattice.",
+        getCost(level) {
+            return 2 * level + 3;
+        },
+        getEffect(level) {
+            return "Start with " + 20 * level ** 2 + " crystals. If they do not exist, start with an equivalent.";
+        },
+        prerequisites: ["pathOfTime"],
+        clicked(_event) {
+            SharkGame.AspectTree.increaseLevel(this);
+        },
+        apply() {},
+    },
+    internalCalculator: {
+        posX: 140,
+        posY: 250,
+        width: 40,
+        height: 40,
+
+        max: 1,
+        level: 0,
+        name: "Internal Calculator",
+        description: "What's a calculator?",
+        getCost(_level) {
+            return 3;
+        },
+        getEffect(_level) {
+            return "Start with the grotto unlocked.";
+        },
+        prerequisites: ["pathOfTime"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
