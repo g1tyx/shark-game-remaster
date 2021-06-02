@@ -154,14 +154,15 @@ SharkGame.AspectTree = {
             tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased");
 
             // FIXME: Hard-coded color "#ace3d1"
-            if (button.level === 0) {
+            if (button.getUnlocked && button.getUnlocked()) {
+                tooltipBox.addClass("forAspectTreeUnpurchased").html(SharkGame.boldString(button.getUnlocked()));
+            } else if (button.level === 0) {
                 const tooltipText =
                     SharkGame.boldString(button.name) +
                     `<br/>${button.getEffect(button.level + 1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
                     `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
                     `${button.getCost(button.level)}</span></span>`;
-
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
             } else if (button.level < button.max) {
                 const tooltipText =
@@ -284,7 +285,11 @@ SharkGame.AspectTree = {
                     context.strokeStyle = gradient;
 
                     if (requiring.level === 0) {
-                        context.filter = "brightness(70%)";
+                        if (requiring.getUnlocked()) {
+                            context.filter = "brightness(40%)";
+                        } else {
+                            context.filter = "brightness(65%)";
+                        }
                     }
 
                     context.beginPath();
@@ -303,16 +308,21 @@ SharkGame.AspectTree = {
         context.lineWidth = 1;
         context.fillStyle = buttonColor;
         context.strokeStyle = borderColor;
-        _.each(SharkGame.Aspects, ({ posX, posY, width, height, icon, eventSprite, prerequisites, level }) => {
+        _.each(SharkGame.Aspects, ({ posX, posY, width, height, icon, eventSprite, prerequisites, level, getUnlocked }, name) => {
             context.save();
             if (_.some(prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0)) {
                 // if any prerequisite is unmet, don't render
                 return;
             } else if (level === 0) {
-                // if not bought, render darker and more saturated
-                context.filter = "brightness(70%) saturate(150%)";
+                if (getUnlocked()) {
+                    // if not unlocked, render even darker and more saturated
+                    context.filter = "brightness(40%) saturate(150%)";
+                } else {
+                    // if not bought, render darker and more saturated
+                    context.filter = "brightness(65%) saturate(150%)";
+                }
             }
-            SharkGame.AspectTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
+            SharkGame.AspectTree.renderButton(context, posX, posY, width, height, icon, eventSprite, name);
 
             context.restore();
         });
@@ -331,10 +341,13 @@ SharkGame.AspectTree = {
         context.lineWidth = 1;
         context.fillStyle = buttonColor;
         context.strokeStyle = borderColor;
-        _.each(SharkGame.AspectTree.staticButtons, ({ posX, posY, width, height, icon, eventSprite }) => {
-            SharkGame.AspectTree.renderButton(context, posX, posY, width, height, icon, eventSprite);
+        _.each(SharkGame.AspectTree.staticButtons, ({ posX, posY, width, height, icon, eventSprite }, name) => {
+            SharkGame.AspectTree.renderButton(context, posX, posY, width, height, icon, eventSprite, name);
         });
         context.restore();
+
+        // update essence count
+        SharkGame.AspectTree.updateEssenceCounter();
     },
     /**
      * Draws a rounded rectangle using the current state of the canvas
@@ -344,8 +357,9 @@ SharkGame.AspectTree = {
      * @param {number} width The width of the rectangle
      * @param {number} height The height of the rectangle
      * @param {string} icon The icon to draw in the rectangle
+     * @param {string} name The name of the button
      */
-    renderButton(context, posX, posY, width, height, icon = "general/missing-action", eventIcon = false) {
+    renderButton(context, posX, posY, width, height, icon = "general/missing-action", eventIcon = false, name) {
         context.beginPath();
         context.moveTo(posX + BUTTON_BORDER_RADIUS, posY);
         context.lineTo(posX + width - BUTTON_BORDER_RADIUS, posY);
@@ -360,6 +374,9 @@ SharkGame.AspectTree = {
         context.fill();
         context.stroke();
         if (icon !== null) {
+            if (icon === "general/missing-action" && SharkGame.Sprites["aspects/" + name]) {
+                icon = "aspects/" + name;
+            }
             const sprite = SharkGame.Sprites[icon];
             if (sprite === undefined) {
                 SharkGame.Log.addError(new Error(`Unknown sprite '${icon}' in prestige tree.`));
@@ -379,7 +396,7 @@ SharkGame.AspectTree = {
         }
     },
     increaseLevel(aspect) {
-        if (aspect.level >= aspect.max) {
+        if (aspect.level >= aspect.max || aspect.getUnlocked()) {
             return;
         }
 
@@ -390,5 +407,10 @@ SharkGame.AspectTree = {
         res.changeResource("essence", -cost);
         aspect.level++;
         aspect.apply();
+    },
+    updateEssenceCounter() {
+        if (document.getElementById("essenceCount")) {
+            document.getElementById("essenceCount").innerHTML = res.getResource("essence") + " ESSENCE";
+        }
     },
 };

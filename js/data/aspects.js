@@ -12,6 +12,7 @@
  *     prerequisites: string[]
  *     getCost(level: number): number
  *     getEffect(level: number): string
+ *     getUnlocked(): string // tells you if miscellaneous requirements have been met. if they have, returns nothing. if they have not, returns a message stating why not.
  *     clicked(): void
  *     apply(level): void
  * }>
@@ -33,6 +34,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Manual resource collection x" + (level > 0 ? level * 4 : 1) + ".";
         },
+        getUnlocked() {},
         prerequisites: [],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -55,6 +57,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return res.getResourceName("shark", false, false, 69) + " collect things " + (level > 0 ? level + 1 : 1) + " times faster.";
         },
+        getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -87,6 +90,7 @@ SharkGame.Aspects = {
                     return "Reveals all information about a world before you choose to visit it and gives insight into your hypothetical experience.";
             }
         },
+        getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -109,6 +113,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Gain nothing now. After beating 3 more worlds, gain " + 2 * (level + 1) ** 2 + " essence.";
         },
+        getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -131,6 +136,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Start with " + 10 * level ** 3 + " crabs (if possible).";
         },
+        getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -160,6 +166,7 @@ SharkGame.Aspects = {
                 "x faster."
             );
         },
+        getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -187,6 +194,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Between worlds, have the opportunity to reroll your world selection up to " + level + " time" + (level > 0 ? "s" : "") + ".";
         },
+        getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -209,6 +217,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Sharkonium is " + 20 * level + "% cheaper to produce.";
         },
+        getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -231,6 +240,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Start with " + 20 * level ** 2 + " crystals. If they do not exist, start with an equivalent.";
         },
+        getUnlocked() {},
         prerequisites: ["pathOfTime"],
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
@@ -252,6 +262,9 @@ SharkGame.Aspects = {
         },
         getEffect(_level) {
             return "Start with the grotto unlocked.";
+        },
+        getUnlocked() {
+            return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {
