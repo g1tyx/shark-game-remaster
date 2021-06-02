@@ -13,8 +13,8 @@ SharkGame.Gateway = {
     init() {
         // apply aspect effects
         _.each(SharkGame.Aspects, (aspectData) => {
-            if (aspectData.level) {
-                aspectData.apply(aspectData.level);
+            if (aspectData.level && typeof aspectData.level === "function") {
+                aspectData.apply();
             }
         });
     },
@@ -147,8 +147,8 @@ SharkGame.Gateway = {
 
     applyAspects() {
         _.each(SharkGame.Aspects, (aspectData) => {
-            if (aspectData.level) {
-                aspectData.apply(aspectData.level);
+            if (aspectData.level && typeof aspectData.level === "function") {
+                aspectData.apply();
             }
         });
     },

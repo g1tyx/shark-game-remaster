@@ -406,7 +406,9 @@ SharkGame.AspectTree = {
         }
         res.changeResource("essence", -cost);
         aspect.level++;
-        aspect.apply();
+        if (typeof aspect.apply === "function") {
+            aspect.apply();
+        }
     },
     updateEssenceCounter() {
         if (document.getElementById("essenceCount")) {

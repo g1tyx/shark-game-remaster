@@ -39,7 +39,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     pathOfIndustry: {
         posX: 690,
@@ -62,7 +61,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     pathOfEnlightenment: {
         posX: 380,
@@ -95,7 +93,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     patience: {
         posX: 300,
@@ -118,7 +115,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     pathOfTime: {
         posX: 70,
@@ -141,7 +137,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     adjustedAquadynamics: {
         posX: 610,
@@ -171,7 +166,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     destinyGamble: {
         posX: 460,
@@ -199,7 +193,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     syntheticTransmutation: {
         posX: 770,
@@ -222,7 +215,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     crystallineSkin: {
         posX: 0,
@@ -245,7 +237,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
     internalCalculator: {
         posX: 140,
@@ -270,6 +261,5 @@ SharkGame.Aspects = {
         clicked(_event) {
             SharkGame.AspectTree.increaseLevel(this);
         },
-        apply() {},
     },
 };
