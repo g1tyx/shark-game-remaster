@@ -788,9 +788,9 @@ SharkGame.Resources = {
     reapplyModifiers(generator, generated) {
         let income = SharkGame.ResourceMap.get(generator).baseIncome[generated];
         SharkGame.ModifierReference.forEach((modifier, name) => {
-            const type = modifier.type;
-            const category = modifier.category;
-            income *= modifier.getEffect(SharkGame.ModifierMap.get(generator)[category][type][name], generator, generated);
+            const generatorDegree = SharkGame.ModifierMap.get(generator)[modifier.category][modifier.type][name];
+            const generatedDegree = SharkGame.ModifierMap.get(generated)[modifier.category][modifier.type][name];
+            income = modifier.applyToInput(income, generatorDegree, generatedDegree, generator, generated);
         });
         SharkGame.ResourceMap.get(generator).income[generated] = income;
     },
@@ -798,10 +798,9 @@ SharkGame.Resources = {
     getMultiplierProduct(category, generator, generated, treatOneAsNone = false) {
         let product = 1;
         $.each(SharkGame.ModifierTypes[category].multiplier, (name, data) => {
-            product *= data.getEffect(SharkGame.ModifierMap.get(generator)[category].multiplier[name], generator, generated);
-        });
-        $.each(SharkGame.ModifierTypes[category].multiplier, (name, data) => {
-            product *= data.getEffect(SharkGame.ModifierMap.get(generated)[category].multiplier[name], generator, generated);
+            const generatorDegree = SharkGame.ModifierMap.get(generator)[data.category][data.type][name];
+            const generatedDegree = SharkGame.ModifierMap.get(generated)[data.category][data.type][name];
+            product *= data.getEffect(generatorDegree, generatedDegree, generator, generated);
         });
         if (treatOneAsNone && product === 1) {
             return "";
