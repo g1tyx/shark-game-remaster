@@ -436,10 +436,6 @@ SharkGame.Stats = {
                             addCell([res.ASPECT_MULTIPLIER_COLOR, "x" + main.beautify(aspectMultiplier)], multipliers.aspect ? "inline" : undefined);
                         } else addCell(undefined, multipliers.aspect ? "inline" : undefined);
                     }
-                    // does this generator get a world multiplier?
-                    // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
-
-                    // does this income get an aspect multiplier?
 
                     if (generatorBoostRowspan === "inline" || counter === 0) {
                         const resourceAffectMultiplier =
