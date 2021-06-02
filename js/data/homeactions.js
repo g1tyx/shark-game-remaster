@@ -24,31 +24,26 @@ SharkGame.HomeActions = {
 
     /** @param worldType {string} */
     generateActionTable(worldType = world.worldType) {
+        const finalTable = {};
         const actionTable = _.cloneDeep(SharkGame.HomeActions.default);
 
         // Check if world type has modifications
         if (_.has(SharkGame.HomeActions, worldType)) {
             const worldMods = _.cloneDeep(SharkGame.HomeActions[worldType]);
 
-            // Delete non-existing upgrades from world
-            for (const upgrade in actionTable) {
-                if (!_.has(worldMods, upgrade)) {
-                    delete actionTable[upgrade];
-                }
-            }
-
             // Apply world-specific modifications
             for (const action in worldMods) {
                 if (_.has(actionTable, action)) {
                     // If upgrade exists in both, it's just a modification
-                    _.assign(actionTable[action], worldMods[action]);
+                    finalTable[action] = actionTable[action];
+                    _.assign(finalTable[action], worldMods[action]);
                 } else {
                     // Otherwise, it's a world-specific upgrade and needs to be added
-                    actionTable[action] = worldMods[action];
+                    finalTable[action] = worldMods[action];
                 }
             }
         }
-        return actionTable;
+        return finalTable;
     },
 
     default: {
