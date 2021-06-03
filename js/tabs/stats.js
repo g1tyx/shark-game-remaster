@@ -365,9 +365,26 @@ SharkGame.Stats = {
                 }
             }
 
-            $.each(headingData, (subheadingKey, subheadingValue) => {
-                // the income was formerly the subheadingKey, but then it got changed so it could be flipped
+            const multipliers = {
+                upgrade: [],
+                world: [],
+                aspect: [],
+            };
 
+            $.each(headingData, (subheadingKey, _subheadingValue) => {
+                multipliers.upgrade.push(res.getMultiplierProduct("upgrade", headingName, subheadingKey));
+                multipliers.world.push(res.getMultiplierProduct("world", headingName, subheadingKey));
+                multipliers.aspect.push(res.getMultiplierProduct("aspect", headingName, subheadingKey));
+            });
+            $.each(multipliers, (category, values) => {
+                //thanks stackoverflow
+                multipliers[category] =
+                    values.filter((value, index, list) => {
+                        return list.indexOf(value) === index;
+                    }).length !== 1;
+            });
+
+            $.each(headingData, (subheadingKey, subheadingValue) => {
                 const incomeKey = SharkGame.Settings.current.switchStats ? headingName : subheadingKey;
                 const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
                 const incomeValue = subheadingValue;
@@ -396,28 +413,31 @@ SharkGame.Stats = {
                         "inline",
                         "advanced-base-income-" + generatorName + "-" + incomeKey
                     );
-                    // if its inline then many rowspans will fill the gap
-
-                    if (generatorBoostRowspan === "inline" || counter === 0) {
+                    if (multipliers.upgrade || generatorBoostRowspan === "inline" || counter === 0) {
                         const upgradeMutiplier = res.getMultiplierProduct("upgrade", generatorName, incomeKey);
                         if (upgradeMutiplier !== 1) {
-                            addCell([res.UPGRADE_MULTIPLIER_COLOR, "x" + main.beautify(upgradeMutiplier)], generatorBoostRowspan);
-                        } else addCell(undefined, generatorBoostRowspan);
+                            addCell(
+                                [res.UPGRADE_MULTIPLIER_COLOR, "x" + main.beautify(upgradeMutiplier)],
+                                multipliers.upgrade ? "inline" : undefined
+                            );
+                        } else addCell(undefined, multipliers.upgrade ? "inline" : undefined);
+                    }
 
-                        // does this generator get a world multiplier?
-                        // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
+                    if (multipliers.world || generatorBoostRowspan === "inline" || counter === 0) {
                         const worldMultiplier = res.getMultiplierProduct("world", generatorName, incomeKey);
                         if (worldMultiplier !== 1) {
-                            addCell([res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier)], generatorBoostRowspan);
-                        } else addCell(undefined, generatorBoostRowspan);
+                            addCell([res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier)], multipliers.world ? "inline" : undefined);
+                        } else addCell(undefined, multipliers.world ? "inline" : undefined);
+                    }
 
-                        // does this income get an artifact multiplier?
-                        const artifactMultiplier = res.getMultiplierProduct("artifact", generatorName, incomeKey);
-                        if (artifactMultiplier !== 1) {
-                            addCell([res.ARTIFACT_MULTIPLIER_COLOR, "x" + main.beautify(artifactMultiplier)], generatorBoostRowspan);
-                        } else addCell(undefined, generatorBoostRowspan);
+                    if (multipliers.aspect || generatorBoostRowspan === "inline" || counter === 0) {
+                        const aspectMultiplier = res.getMultiplierProduct("aspect", generatorName, incomeKey);
+                        if (aspectMultiplier !== 1) {
+                            addCell([res.ASPECT_MULTIPLIER_COLOR, "x" + main.beautify(aspectMultiplier)], multipliers.aspect ? "inline" : undefined);
+                        } else addCell(undefined, multipliers.aspect ? "inline" : undefined);
+                    }
 
-                        // does this income get an effect network multiplier?
+                    if (generatorBoostRowspan === "inline" || counter === 0) {
                         const resourceAffectMultiplier =
                             res.getNetworkIncomeModifier("generator", generatorName) * res.getNetworkIncomeModifier("resource", incomeKey);
                         if (resourceAffectMultiplier !== 1) {
@@ -585,7 +605,7 @@ SharkGame.Stats = {
                 `<br> <span style='color:${res.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
                 `<br> <span style='color:${res.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for world effects.` +
                 `<br> <span style='color:${res.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect each other.` +
-                `<br> <span style='color:${res.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`;
+                `<br> <span style='color:${res.ASPECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for aspect effects.`;
         } else {
             document.getElementById("tableKey").innerHTML =
                 "<br> <b><u>TABLE KEY</b></u>" +

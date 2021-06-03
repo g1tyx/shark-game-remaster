@@ -14,7 +14,7 @@ SharkGame.Resources = {
     TOTAL_INCOME_COLOR: "#A0A0A0",
     UPGRADE_MULTIPLIER_COLOR: "#60A060",
     WORLD_MULTIPLIER_COLOR: "#6060A0",
-    ARTIFACT_MULTIPLIER_COLOR: "#70B5A0",
+    ASPECT_MULTIPLIER_COLOR: "#70B5A0",
     RESOURCE_AFFECT_MULTIPLIER_COLOR: "#BFBF5A",
 
     specialMultiplier: null,
@@ -227,12 +227,12 @@ SharkGame.Resources = {
 
                     if (!cheap) {
                         const trueIncomeObject = {};
-                        let value; // FIXME: Rename
+                        let income;
                         changeMap.forEach((amount, generatedResource) => {
-                            value = amount * costScaling;
-                            trueIncomeObject[generatedResource] = value;
-                            SharkGame.FlippedBreakdownIncomeTable.get(generatedResource)[resourceId] = value;
-                            SharkGame.PlayerIncomeTable.set(generatedResource, SharkGame.PlayerIncomeTable.get(generatedResource) + value);
+                            income = amount * costScaling;
+                            trueIncomeObject[generatedResource] = income;
+                            SharkGame.FlippedBreakdownIncomeTable.get(generatedResource)[resourceId] = income;
+                            SharkGame.PlayerIncomeTable.set(generatedResource, SharkGame.PlayerIncomeTable.get(generatedResource) + income);
                         });
                         SharkGame.BreakdownIncomeTable.set(resourceId, trueIncomeObject);
                     } else {
@@ -702,17 +702,18 @@ SharkGame.Resources = {
         const rgad = SharkGame.GeneratorIncomeAffected;
         const resourceCategories = SharkGame.ResourceCategories;
         // recursively parse the gia
-        $.each(gia, (resource) => {
-            $.each(gia[resource], (type) => {
-                $.each(gia[resource][type], (generator, value) => {
+        $.each(gia, (affectorResource) => {
+            $.each(gia[affectorResource], (type) => {
+                $.each(gia[affectorResource][type], (affectedGeneratorCategory, value) => {
                     // is it a category or a generator?
-                    const nodes = res.isCategory(generator) ? resourceCategories[generator].resources : [generator];
+                    const nodes = res.isCategory(affectedGeneratorCategory)
+                        ? resourceCategories[affectedGeneratorCategory].resources
+                        : [affectedGeneratorCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // FIXME: Rename - No idea what these are
                     // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, v) => {
-                        if (world.worldResources.get(v).exists && world.worldResources.get(resource).exists) {
-                            res.addNetworkNode(rgad, v, type, resource, value);
+                    $.each(nodes, (_k, affectedGenerator) => {
+                        if (world.worldResources.get(affectedGenerator).exists && world.worldResources.get(affectorResource).exists) {
+                            res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
                     });
                 });
@@ -725,15 +726,16 @@ SharkGame.Resources = {
         // recursively parse the ria
         $.each(ria, (affectorResource) => {
             $.each(ria[affectorResource], (type) => {
-                $.each(ria[affectorResource][type], (affectedResource, degree) => {
+                $.each(ria[affectorResource][type], (affectedResourceCategory, degree) => {
                     // is it a category?
-                    const nodes = res.isCategory(affectedResource) ? resourceCategories[affectedResource].resources : [affectedResource];
+                    const nodes = res.isCategory(affectedResourceCategory)
+                        ? resourceCategories[affectedResourceCategory].resources
+                        : [affectedResourceCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // FIXME: Rename - No idea what these are
                     // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, v) => {
-                        if (world.worldResources.get(v).exists && world.worldResources.get(affectorResource).exists) {
-                            res.addNetworkNode(rad, v, type, affectorResource, degree);
+                    $.each(nodes, (_k, affectedResource) => {
+                        if (world.worldResources.get(affectedResource).exists && world.worldResources.get(affectorResource).exists) {
+                            res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }
                     });
                 });
@@ -746,18 +748,31 @@ SharkGame.Resources = {
         SharkGame.ResourceIncomeAffected = {};
     },
 
-    // FIXME: Explain these parameters, and functions
-    // "resource" used to be called "main", before "main" became a global
-    addNetworkNode(network, resource, effect, sub, degree) {
-        if (!network[resource]) {
-            network[resource] = {};
+    /**
+     * Adds a parameter in a nested object, specifically 3 layers deep.
+     * @param {object} network The nested object to add a paramater to
+     * @param {string} high The top-level parameter to index
+     * @param {string} mid The second-level paramater to index
+     * @param {string} low The paramater to assign
+     * @param {number} value The value of that parameter
+     */
+    addNetworkNode(network, high, mid, low, value) {
+        if (!network[high]) {
+            network[high] = {};
         }
-        if (!network[resource][effect]) {
-            network[resource][effect] = {};
+        if (!network[high][mid]) {
+            network[high][mid] = {};
         }
-        network[resource][effect][sub] = degree;
+        network[high][mid][low] = value;
     },
 
+    /**
+     * Completes the necessary steps to apply the effects of a modifier to the income table.
+     * @param {string} name The index of the modifier in the modifier map.
+     * @param {string} target The affected resource or category of resources.
+     * @param {any} degree The incoming change to the modifier, or a separate value denoting the strength of a world modifier.
+     * @param {number} level Climate level. Deprecated soon.
+     */
     applyModifier(name, target, degree, level = 1) {
         if (res.isCategory(target)) {
             target = res.getResourcesInCategory(target);
@@ -777,27 +792,34 @@ SharkGame.Resources = {
         });
     },
 
+    /**
+     * Reapplies the effects of all modifiers on a specific generator-income pair. Used when changing base income, which necessitates recalculation.
+     * @param {string} generator The generator in question.
+     * @param {string} generated The resource associated with the income.
+     */
     reapplyModifiers(generator, generated) {
         let income = SharkGame.ResourceMap.get(generator).baseIncome[generated];
         SharkGame.ModifierReference.forEach((modifier, name) => {
-            const type = modifier.type;
-            const category = modifier.category;
-            income *= modifier.getEffect(SharkGame.ModifierMap.get(generator)[category][type][name], generator, generated);
+            const generatorDegree = SharkGame.ModifierMap.get(generator)[modifier.category][modifier.type][name];
+            const generatedDegree = SharkGame.ModifierMap.get(generated)[modifier.category][modifier.type][name];
+            income = modifier.applyToInput(income, generatorDegree, generatedDegree, generator, generated);
         });
         SharkGame.ResourceMap.get(generator).income[generated] = income;
     },
 
-    getMultiplierProduct(category, generator, generated, treatOneAsNone = false) {
+    /**
+     * Gets the combined effect of all multiplicative modifiers of a certain type on a specific generator-income pair. Used in the grotto for advanced mode.
+     * @param {string} category The category of modifier (may be upgrade, world, or aspect).
+     * @param {string} generator The generator in question.
+     * @param {string} generated The generated resource.
+     */
+    getMultiplierProduct(category, generator, generated) {
         let product = 1;
         $.each(SharkGame.ModifierTypes[category].multiplier, (name, data) => {
-            product *= data.getEffect(SharkGame.ModifierMap.get(generator)[category].multiplier[name], generator, generated);
+            const generatorDegree = SharkGame.ModifierMap.get(generator)[data.category][data.type][name];
+            const generatedDegree = SharkGame.ModifierMap.get(generated)[data.category][data.type][name];
+            product *= data.getEffect(generatorDegree, generatedDegree, generator, generated);
         });
-        $.each(SharkGame.ModifierTypes[category].multiplier, (name, data) => {
-            product *= data.getEffect(SharkGame.ModifierMap.get(generated)[category].multiplier[name], generator, generated);
-        });
-        if (treatOneAsNone && product === 1) {
-            return "";
-        }
         return product;
     },
 

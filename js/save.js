@@ -11,7 +11,7 @@ SharkGame.Save = {
             tabs: {},
             completedRequirements: {},
             world: { type: world.worldType, level: world.planetLevel },
-            artifacts: {},
+            aspects: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
         };
 
@@ -25,6 +25,10 @@ SharkGame.Save = {
         });
 
         saveData.upgrades = _.cloneDeep(SharkGame.Upgrades.purchased);
+        // Save non-zero artifact levels
+        _.each(SharkGame.Aspects, ({ level }, aspectId) => {
+            if (level) saveData.aspects[aspectId] = level;
+        });
 
         $.each(SharkGame.Tabs, (tabId, tab) => {
             if (tabId !== "current") {
@@ -36,12 +40,6 @@ SharkGame.Save = {
 
         saveData.completedRequirements = _.cloneDeep(SharkGame.Gate.completedRequirements);
         saveData.settings = _.cloneDeep(SharkGame.Settings.current);
-
-        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
-            if (artifact.level !== 0) {
-                saveData.artifacts[artifactName] = artifact.level;
-            }
-        });
 
         saveData.completedWorlds = _.cloneDeep(SharkGame.Gateway.completedWorlds);
 
@@ -156,19 +154,17 @@ SharkGame.Save = {
                 SharkGame.Lab.addUpgrade(upgradeId);
             });
 
+            // load aspects (need to have the cost reducer loaded before world init)
+            $.each(saveData.aspects, (aspectId, level) => {
+                if (_.has(SharkGame.Aspects, aspectId)) {
+                    SharkGame.Aspects[aspectId].level = level;
+                }
+            });
+
             gateway.init();
             _.each(saveData.completedWorlds, (worldType) => {
                 gateway.markWorldCompleted(worldType);
             });
-
-            // load artifacts (need to have the cost reducer loaded before world init)
-            $.each(saveData.artifacts, (artifactId, level) => {
-                if (SharkGame.Artifacts[artifactId]) {
-                    SharkGame.Artifacts[artifactId].level = level;
-                }
-            });
-            // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
-            gateway.applyArtifacts(true);
 
             $.each(saveData.tabs, (tabName, discovered) => {
                 if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
@@ -779,6 +775,13 @@ SharkGame.Save = {
                     save.settings.showTooltops = save.settings.showTabHelp;
                 }
                 delete save.settings.showTabHelp;
+            }
+
+            if (_.has(save, "artifacts")) {
+                delete save.artifacts;
+            }
+            if (!_.has(save, "aspects")) {
+                save.aspects = {};
             }
 
             return save;

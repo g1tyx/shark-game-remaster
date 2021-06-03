@@ -72,10 +72,10 @@
 @color-error-bg: #800000;
 
 @color-discovery: #ace3d1;
-@color-discovery-bg: darken(@color-discovery, 15%);
-@color-discovery-bg-dark: darken(@color-discovery, 30%);
-@color-discovery-bg-darker: darken(@color-discovery, 45%);
-@color-discovery-bg-darkest: darken(@color-discovery, 60%);
+@color-discovery-dark: darken(#ace3d1, 15%);
+@color-discovery-dark2: darken(#ace3d1, 30%);
+@color-discovery-dark3: darken(#ace3d1, 45%);
+@color-discovery-dark4: darken(#ace3d1, 60%);
 
 @color-text: white;
 
@@ -177,6 +177,10 @@
         clear: both;
         visibility: hidden;
     }
+}
+
+.bold {
+    font-weight: bold;
 }
 
 /*------------------------------------------------------
@@ -556,7 +560,7 @@ pre {
                 // background: #135;
                 background: var(--color-dark);
                 cursor: pointer;
-                user-select: none;
+                .no-select();
             }
         }
     }
@@ -603,7 +607,7 @@ pre {
 
     .discovery {
         color: @color-discovery;
-        text-shadow: 0 0 0.8em @color-discovery-bg;
+        text-shadow: 0 0 0.8em @color-discovery-dark;
     }
 }
 
@@ -688,19 +692,19 @@ button.newlyDiscovered {
         a {
             &:link {
                 color: @color-discovery;
-                text-shadow: 0 0 0.8em @color-discovery-bg;
+                text-shadow: 0 0 0.8em @color-discovery-dark;
             }
             &:visited {
                 color: @color-discovery;
-                text-shadow: 0 0 0.8em @color-discovery-bg;
+                text-shadow: 0 0 0.8em @color-discovery-dark;
             }
             &:hover {
                 color: lighten(@color-discovery, 10%);
-                text-shadow: 0 0 0.8em lighten(@color-discovery-bg, 10%);
+                text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
             }
             &:active {
                 color: lighten(@color-discovery, 10%);
-                text-shadow: 0 0 0.8em lighten(@color-discovery-bg, 10%);
+                text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
             }
         }
     }
@@ -1142,7 +1146,7 @@ button {
     }
 
     .medDesc {
-        color: lighten(@color-discovery-bg-dark, 30%);
+        color: lighten(@color-discovery-dark2, 30%);
     }
 
     .smallDesc {
@@ -1151,14 +1155,14 @@ button {
 }
 
 .gatewayButton {
-    background-color: @color-discovery-bg-dark;
+    background-color: @color-discovery-dark2;
     border-color: @color-discovery;
     text-shadow: 0 0 0.5em lighten(@color-discovery, 5%);
     max-width: 16em;
 
     div {
-        background-color: @color-discovery-bg;
-        .box-shadow(0, 0, 3px, 3px, @color-discovery-bg);
+        background-color: @color-discovery-dark;
+        .box-shadow(0, 0, 3px, 3px, @color-discovery-dark);
     }
 
     &:hover {
@@ -1168,62 +1172,63 @@ button {
     }
 
     &:active {
-        background-color: @color-discovery-bg-darker;
-        color: @color-discovery-bg;
-        .box-shadow-inset(0px, 3px, 7px, 7px, @color-discovery-bg-darker);
+        background-color: @color-discovery-dark3;
+        color: @color-discovery-dark;
+        .box-shadow-inset(0px, 3px, 7px, 7px, @color-discovery-dark3);
 
         .medDesc {
             color: darken(@color-discovery, 10%);
         }
 
         div {
-            background-color: @color-discovery-bg-darker;
+            background-color: @color-discovery-dark3;
             .clear-box-shadow();
         }
     }
 
     &.disabled {
-        background-color: @color-discovery-bg-darkest;
-        color: lighten(@color-discovery-bg-darker, 10%);
-        border-color: lighten(@color-discovery-bg-darker, 10%);
+        background-color: @color-discovery-dark4;
+        color: lighten(@color-discovery-dark3, 10%);
+        border-color: lighten(@color-discovery-dark3, 10%);
 
         .medDesc {
-            color: darken(@color-discovery-bg, 15%);
+            color: darken(@color-discovery-dark, 15%);
         }
 
         div {
-            background-color: @color-discovery-bg-darkest;
+            background-color: @color-discovery-dark4;
             .clear-box-shadow();
         }
     }
 }
 
-.gateway button {
-    .gatewayButton();
-}
-
+.gateway button,
 button.gateway {
     .gatewayButton();
 }
 
 #pane.gateway {
     .border-radius(3em);
-    background-color: @color-discovery-bg-darker;
-    .box-shadow(0, 0, 2em, 2em, @color-discovery-bg-darker);
+    background-color: @color-discovery-dark3;
+    .box-shadow(0, 0, 2em, 2em, @color-discovery-dark3);
     border: none;
 
-    #paneHeaderEnd {
-        border-bottom: none; //0.1em solid @color-discovery-bg-dark;
+    #paneHeaderEnd,
+    .paneContentDiv {
+        border-bottom: none;
     }
 
-    .paneContentDiv {
-        border-bottom: none; //0.1em solid @color-discovery-bg-dark;
+    #treeCanvas {
+        .border-radius(10px);
+        .box-shadow(0, 0, 5px, 5px, @color-discovery);
+        width: 800px;
+        height: 600px;
     }
 }
 
 #overlay.gateway {
     .opacity(1);
-    background-color: @color-discovery-bg-darkest;
+    background-color: @color-discovery-dark4;
 }
 
 .gateway .essenceCount {
@@ -1266,37 +1271,37 @@ button.gateway {
 }
 
 .gateway ::selection {
-    background-color: @color-discovery-bg-darkest;
+    background-color: @color-discovery-dark4;
 }
 
 .gateway ::-moz-selection {
-    background-color: @color-discovery-bg-darkest;
+    background-color: @color-discovery-dark4;
 }
 
-#artifactList {
+#aspectList {
     margin: 0.5em auto;
 }
 
-.artifactDiv {
+.aspectDiv {
     display: inline-block;
     vertical-align: middle;
 
     .border-radius(0.5em);
-    background-color: @color-discovery-bg-darker;
-    .box-shadow(0, 0, 0.5em, 0.5em, @color-discovery-bg-darker);
+    background-color: @color-discovery-dark3;
+    .box-shadow(0, 0, 0.5em, 0.5em, @color-discovery-dark3);
     padding: 0.2em;
     margin: 1.5em;
     max-width: 14em;
 
     .gatewayButton {
-        .box-shadow(0, 0, 3px, 3px, @color-discovery-bg);
+        .box-shadow(0, 0, 3px, 3px, @color-discovery-dark);
     }
 }
 
 .planetDisplay {
     .border-radius(50px);
-    background-color: @color-discovery-bg;
-    .box-shadow(0, 0, 3px, 3px, @color-discovery-bg);
+    background-color: @color-discovery-dark;
+    .box-shadow(0, 0, 3px, 3px, @color-discovery-dark);
     margin: 0 auto;
 }
 
@@ -1341,7 +1346,7 @@ button.planetButton {
     padding-bottom: 12px;
     min-width: 200px;
     position: fixed;
-    z-index: 1;
+    z-index: 12;
     opacity: 1;
     transition: opacity 0.3s;
     text-shadow: 0px 0px 3px #000000;
@@ -1362,6 +1367,16 @@ button.planetButton {
 
 .forIncomeTable {
     width: auto;
+}
+
+.forAspectTree {
+    width: 300px;
+    background-color: @color-discovery-dark3;
+    border-color: @color-discovery-dark2;
+    &Unpurchased {
+        background-color: @color-discovery-dark4;
+        border-color: @color-discovery-dark3;
+    }
 }
 
 .collapser {

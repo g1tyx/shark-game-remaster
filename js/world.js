@@ -32,7 +32,7 @@ SharkGame.World = {
             worldResources.set(resourceName, {});
             worldResources.get(resourceName).exists = true;
             worldResources.get(resourceName).income = 0;
-            worldResources.get(resourceName).artifactMultiplier = 1;
+            worldResources.get(resourceName).aspectMultiplier = 1;
         });
     },
 
@@ -81,7 +81,10 @@ SharkGame.World = {
         return SharkGame.WorldTypes[world.worldType].entry;
     },
 
-    // does this resource exist on this planet?
+    /**
+     * @param {string} resourceName ID of resource to check
+     * @returns Whether or not the resource exists on the current planet
+     */
     doesResourceExist(resourceName) {
         return world.worldResources.get(resourceName).exists;
     },
@@ -90,10 +93,7 @@ SharkGame.World = {
         world.worldResources.get(resourceName).exists = true;
     },
 
-    // these things are only impacted by artifacts so far
-
     getGateCostMultiplier() {
-        const gcrLevel = SharkGame.Artifacts.gateCostReducer.level;
-        return gcrLevel > 0 ? Math.pow(0.9, gcrLevel) : 1;
+        return 1;
     },
 };

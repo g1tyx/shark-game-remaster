@@ -48,7 +48,6 @@
 
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/util.js"></script>
-        <script type="text/javascript" src="js/artifactutil.js"></script>
 
         <script type="text/javascript" src="js/data/resourcetable.js"></script>
         <script type="text/javascript" src="js/data/homeactions.js"></script>
@@ -56,7 +55,7 @@
         <script type="text/javascript" src="js/data/upgrades.js"></script>
         <script type="text/javascript" src="js/data/events.js"></script>
         <script type="text/javascript" src="js/data/modifiertypes.js"></script>
-        <script type="text/javascript" src="js/data/artifacts.js"></script>
+        <script type="text/javascript" src="js/data/aspects.js"></script>
         <script type="text/javascript" src="js/data/sprites.js"></script>
 
         <script type="text/javascript" src="js/eventhandler.js"></script>
@@ -66,6 +65,7 @@
         <script type="text/javascript" src="js/save.js"></script>
         <script type="text/javascript" src="js/settings.js"></script>
         <script type="text/javascript" src="js/gateway.js"></script>
+        <script type="text/javascript" src="js/aspecttree.js"></script>
 
         <script type="text/javascript" src="js/tabs/home.js"></script>
         <script type="text/javascript" src="js/tabs/lab.js"></script>
@@ -357,19 +357,18 @@
         </script>
     </head>
     <body>
-        <div id="wrapper">
-            <span id="tooltipbox" class="tooltip click-passthrough"></span>
-            <span id="updateGameBox" class="tooltip"></span>
-            <noscript>
-                <div class="section">
-                    <h1>Shark Game??</h1>
+        <span id="tooltipbox" class="tooltip click-passthrough"></span>
+        <span id="updateGameBox" class="tooltip"></span>
+        <noscript>
+            <div class="section">
+                <h1>Shark Game??</h1>
 
-                    <p>Oh dear! It seems you have Javascript disabled, or that your current browser does not support scripts.</p>
+                <p>Oh dear! It seems you have Javascript disabled, or that your current browser does not support scripts.</p>
 
-                    <p>Shark Game requires scripts to work. Otherwise it's just a static webpage that doesn't do much.</p>
+                <p>Shark Game requires scripts to work. Otherwise it's just a static webpage that doesn't do much.</p>
 
-                    <div style="margin: auto; width: 20em">
-                        <pre>
+                <div style="margin: auto; width: 20em">
+                    <pre>
      ,
        .';
    .-'` .'
@@ -383,11 +382,11 @@
   jgs   `'--....(`- ,__..--'
                  '-'`
 
-                        </pre>
-                    </div>
+                    </pre>
                 </div>
-            </noscript>
-
+            </div>
+        </noscript>
+        <div id="wrapper">
             <div id="game">
                 <div id="title">
                     <h1 id="gameName">- SHARK GAME -</h1>

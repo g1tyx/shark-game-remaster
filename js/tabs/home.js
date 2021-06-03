@@ -125,7 +125,7 @@ SharkGame.Home = {
             {
                 name: "haven-papyrus",
                 unlock: { upgrade: ["sunObservation"] },
-                message: "Pieces of strange, crunchy kelp have begun washing up in the currents.<br/>Something is carved into them.",
+                message: "Pieces of condensed kelp (???) are washing up in the currents.<br/>Something is carved into them.",
             },
             {
                 name: "haven-stories",
@@ -142,7 +142,7 @@ SharkGame.Home = {
                 name: "haven-history",
                 unlock: { upgrade: ["retroactiveRecordkeeping"] },
                 message:
-                    "The grand sum of all dolphin knowledge is laid out before us -<br/> and it is pitifully small. The original collections have been lost to time.",
+                    "The grand sum of all dolphin knowledge is laid out before us,<br/>and it is pitifully small. The original collections have been lost to time.",
             },
             {
                 name: "haven-song",
@@ -187,12 +187,12 @@ SharkGame.Home = {
             },
             {
                 name: "abandoned-octopus",
-                unlock: { resource: { octopus: 1 } },
+                unlock: { totalResource: { octopus: 1 } },
                 message: "The octopus works tirelessly.",
             },
             {
                 name: "abandoned-octopuses",
-                unlock: { resource: { octopus: 2 } },
+                unlock: { totalResource: { octopus: 8 } },
                 message: "More octopuses join. They work in perfect unison.",
             },
             {
@@ -214,12 +214,14 @@ SharkGame.Home = {
             {
                 name: "abandoned-gate",
                 unlock: { upgrade: ["farAbandonedExploration"] },
-                message: "This gate stands inert and lifeless like the city around it.<br>But the slots are already filled.",
+                message:
+                    "This gate stands inert and lifeless like the city around it.<br>The slots are already filled, but it looks like it's turned off.",
             },
             {
                 name: "abandoned-reverse-engineering",
                 unlock: { upgrade: ["reverseEngineering"] },
-                message: "The components spin and whirr and click together, but their purpose eludes us.<br>What secrets are you hiding, parts?",
+                message:
+                    "The components spin and whirr and click together, but their purpose eludes us.<br>What secrets are you hiding in your mechanisms?",
             },
             {
                 name: "abandoned-high-energy-fusion",
@@ -694,14 +696,8 @@ SharkGame.Home = {
             prereqsMet &&= !action.prereq.notWorlds.includes(world.worldType);
         }
 
-        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
-
         // check upgrade prerequisites
-        // FIXME: Upgrades not contained in upgradeTable should not be purchased anyways, can we remove this check?
-        prereqsMet &&= _.every(
-            action.prereq.upgrade,
-            (upgradeId) => _.has(upgradeTable, upgradeId) && SharkGame.Upgrades.purchased.includes(upgradeId)
-        );
+        prereqsMet &&= _.every(action.prereq.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
         // check if resulting resource exists
         prereqsMet &&= _.every(action.effect.resource, (_amount, resourceId) => world.doesResourceExist(resourceId));
         return prereqsMet;
@@ -943,14 +939,7 @@ SharkGame.Home = {
 
         _.each(rawCost, (costObj) => {
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-
-            // FIXME: PlayerResources doesn't have jobs, is this intended?
-            // If so, delete this _.each
-            _.each(resource.jobs, (job) => {
-                currAmount += res.getResource(job);
-            });
-
+            const currAmount = resource.amount;
             const priceIncrease = costObj.priceIncrease;
             let cost = 0;
             switch (costObj.costFunction) {
@@ -978,10 +967,7 @@ SharkGame.Home = {
             // max is really ambiguous
             // its used as the determining resource for linear cost functions
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-            _.each(resource.jobs, (job) => {
-                currAmount += res.getResource(job);
-            });
+            const currAmount = resource.amount;
             max = Number.MAX_VALUE;
             _.each(action.cost, (costObject) => {
                 const costResource = SharkGame.PlayerResources.get(costObject.resource).amount;

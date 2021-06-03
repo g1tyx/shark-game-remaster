@@ -226,6 +226,10 @@ $.extend(SharkGame, {
         const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return SharkGame.convertColorString(color);
     },
+    /** @param {string} string */
+    boldString(string) {
+        return `<span class='bold'>${string}</span>`;
+    },
     getImageIconHTML(imagePath, width, height) {
         if (!imagePath) {
             imagePath = "http://placekitten.com/g/" + Math.floor(width) + "/" + Math.floor(height);
@@ -514,7 +518,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.World.apply();
 
         SharkGame.Gateway.init();
-        SharkGame.Gateway.applyArtifacts(); // if there's any effects to carry over from a previous run
+
+        // generate requiredBy entries
+        SharkGame.AspectTree.init();
 
         // initialise tabs
         SharkGame.Home.init();
@@ -600,10 +606,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.cheatsAndDebug.stop) {
             return;
         }
-        if (SharkGame.gameOver) {
-            // tick gateway stuff
-            gateway.update();
-        } else {
+        if (!SharkGame.gameOver) {
             SharkGame.EventHandler.handleEventTick("beforeTick");
 
             // tick main game stuff
@@ -1078,7 +1081,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.hidePane();
 
             // copy over all special category resources
-            // artifacts are preserved automatically within gateway file
+            // aspects are preserved automatically within gateway file
             const backup = {};
             _.each(SharkGame.ResourceCategories.special.resources, (resourceName) => {
                 backup[resourceName] = {
