@@ -477,7 +477,7 @@ SharkGame.Main = {
     },
 
     // also functions as a reset
-    init() {
+    init(foregoLoad) {
         const now = _.now();
         SharkGame.before = now;
         if (SharkGame.GAME_NAME === null) {
@@ -550,7 +550,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         });
 
         // load save game data if present
-        if (SharkGame.Save.savedGameExists()) {
+        if (SharkGame.Save.savedGameExists() && !foregoLoad) {
             try {
                 SharkGame.Save.loadGame();
                 SharkGame.Log.addMessage("Loaded game.");
@@ -1090,8 +1090,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 };
             });
 
-            SharkGame.Save.deleteSave(); // otherwise it will be loaded during main init and fuck up everything!!
-            main.init();
+            main.init(true);
             SharkGame.Log.addMessage(world.getWorldEntryMessage());
 
             // restore special resources
