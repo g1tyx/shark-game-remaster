@@ -92,9 +92,6 @@ SharkGame.Stats = {
         const genStats = $("#generalStats");
         genStats.append($("<h3>").html("General Stats"));
         const firstTime = main.isFirstTime();
-        if (!firstTime) {
-            genStats.append($("<p>").html("<span class='medDesc'>Climate Level</span><br>" + main.beautify(world.planetLevel)));
-        }
         genStats.append($("<p>").html("Time since you began:<br/><span id='gameTime' class='timeDisplay'></span>").addClass("medDesc"));
         if (!firstTime) {
             genStats.append(

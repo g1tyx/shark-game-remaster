@@ -22,7 +22,7 @@ SharkGame.Gateway = {
         let essenceReward = 0;
         if (!loadingFromSave) {
             if (SharkGame.wonGame) {
-                essenceReward = 4 + Math.floor(world.planetLevel / 4);
+                essenceReward = 4;
                 gateway.markWorldCompleted(world.worldType);
             } else {
                 essenceReward = 0;
@@ -199,7 +199,6 @@ SharkGame.Gateway = {
 
     confirmWorld() {
         const selectedWorldData = SharkGame.WorldTypes[gateway.selectedWorld];
-        const planetLevel = _.find(gateway.planetPool, (generatedWorld) => generatedWorld.type === gateway.selectedWorld).level;
 
         // construct the gateway content
         const gatewayContent = $("<div>").append($("<p>").html("Travel to the " + selectedWorldData.name + " World?"));
@@ -215,7 +214,7 @@ SharkGame.Gateway = {
         }
 
         const attributeDiv = $("<div>");
-        gateway.showPlanetAttributes(selectedWorldData, planetLevel, attributeDiv);
+        gateway.showPlanetAttributes(selectedWorldData, attributeDiv);
         gatewayContent.append(attributeDiv);
 
         // add confirm button
@@ -223,7 +222,6 @@ SharkGame.Gateway = {
         SharkGame.Button.makeButton("progress", "proceed", confirmButtonDiv, () => {
             // kick back to main to start up the game again
             world.worldType = gateway.selectedWorld;
-            world.planetLevel = planetLevel;
             main.loopGame();
         });
         gatewayContent.append(confirmButtonDiv);
@@ -273,13 +271,9 @@ SharkGame.Gateway = {
             // take it out of the qualified pool (avoid duplicates)
             qualifiedPlanetTypes.splice(index, 1);
 
-            // generate random level
-            const newLevel = Math.floor(Math.max(world.planetLevel + (Math.random() * 10 - 4), 1));
-
             // add choice to pool
             gateway.planetPool.push({
                 type: choice,
-                level: newLevel,
             });
         }
     },
@@ -288,15 +282,8 @@ SharkGame.Gateway = {
         _.each(gateway.planetPool, (planetData) => {
             const buttonSel = $("#planet-" + planetData.type);
             if (buttonSel.length > 0) {
-                const planetLevel = _.find(gateway.planetPool, (generatedWorld) => generatedWorld.type === planetData.type).level;
                 const deeperPlanetData = SharkGame.WorldTypes[planetData.type];
-                const label =
-                    deeperPlanetData.name +
-                    "<br><span class='medDesc'>( Climate Level " +
-                    main.beautify(planetLevel) +
-                    " )</span>" +
-                    "<br>" +
-                    deeperPlanetData.desc;
+                const label = deeperPlanetData.name + "<br>" + deeperPlanetData.desc;
 
                 buttonSel.html(label);
 
@@ -348,7 +335,7 @@ SharkGame.Gateway = {
     // I'M SO SORRY FUTURE ME AND ANYONE ELSE READING THIS
 
     // why
-    showPlanetAttributes(worldData, planetLevel, contentDiv) {
+    showPlanetAttributes(worldData, contentDiv) {
         // add known attributes
         const pslevel = Infinity; //SharkGame.Aspects.planetScanner.level;
         if (pslevel > 0) {
@@ -368,9 +355,7 @@ SharkGame.Gateway = {
                 const modifier = worldData.modifiers[i];
                 const target = modifier.resource;
                 modifierList.append(
-                    $("<li>")
-                        .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, target, planetLevel))
-                        .addClass("medDesc")
+                    $("<li>").html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, target)).addClass("medDesc")
                 );
             }
             contentDiv.append(modifierList);
@@ -383,7 +368,7 @@ SharkGame.Gateway = {
                 const gateKeySet = _.keys(worldData.gateCosts);
                 for (let i = 0; i < Math.min(numberLeft, gateSlots); i++) {
                     const gateSlot = gateKeySet[i];
-                    const gateCost = Math.floor(worldData.gateCosts[gateSlot] * planetLevel * world.getGateCostMultiplier());
+                    const gateCost = Math.floor(worldData.gateCosts[gateSlot] * world.getGateCostMultiplier());
                     const resourceName = main.toTitleCase(SharkGame.ResourceMap.get(gateSlot).singleName);
                     gateList.append(
                         $("<li>")

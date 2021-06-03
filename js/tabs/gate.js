@@ -39,7 +39,7 @@ SharkGame.Gate = {
         gate.opened = false;
     },
 
-    createSlots(gateRequirements, planetLevel, gateCostMultiplier) {
+    createSlots(gateRequirements, gateCostMultiplier) {
         const gate = SharkGame.Gate;
         gate.requirements = {};
         gate.completedRequirements = {};
@@ -49,7 +49,7 @@ SharkGame.Gate = {
             gate.completedRequirements.slots = {};
             // create costs and costsMet
             $.each(gateRequirements.slots, (resourceId, requiredAmount) => {
-                gate.requirements.slots[resourceId] = Math.floor(requiredAmount * planetLevel * gateCostMultiplier);
+                gate.requirements.slots[resourceId] = Math.floor(requiredAmount * gateCostMultiplier);
                 gate.completedRequirements.slots[resourceId] = false;
             });
         }

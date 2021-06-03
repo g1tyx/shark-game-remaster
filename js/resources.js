@@ -771,9 +771,8 @@ SharkGame.Resources = {
      * @param {string} name The index of the modifier in the modifier map.
      * @param {string} target The affected resource or category of resources.
      * @param {any} degree The incoming change to the modifier, or a separate value denoting the strength of a world modifier.
-     * @param {number} level Climate level. Deprecated soon.
      */
-    applyModifier(name, target, degree, level = 1) {
+    applyModifier(name, target, degree) {
         if (res.isCategory(target)) {
             target = res.getResourcesInCategory(target);
         } else if (typeof target !== "object") {
@@ -786,8 +785,7 @@ SharkGame.Resources = {
             SharkGame.ModifierMap.get(resource)[category][type][name] = modifier.apply(
                 SharkGame.ModifierMap.get(resource)[category][type][name],
                 degree,
-                resource,
-                level
+                resource
             );
         });
     },

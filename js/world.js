@@ -12,7 +12,6 @@ SharkGame.World = {
     },
     worldResources: new Map(),
     worldRestrictedCombinations: new Map(),
-    planetLevel: 1,
 
     init() {
         world.resetWorldProperties();
@@ -20,7 +19,7 @@ SharkGame.World = {
 
     apply() {
         world.applyWorldProperties();
-        world.applyGateCosts(world.planetLevel);
+        world.applyGateCosts();
     },
 
     resetWorldProperties() {
@@ -68,13 +67,13 @@ SharkGame.World = {
         res.buildIncomeNetwork();
     },
 
-    applyGateCosts(_level) {
+    applyGateCosts() {
         const worldInfo = SharkGame.WorldTypes[world.worldType];
 
         // get multiplier
         const gateCostMultiplier = world.getGateCostMultiplier();
 
-        SharkGame.Gate.createSlots(worldInfo.gateRequirements, world.planetLevel, gateCostMultiplier);
+        SharkGame.Gate.createSlots(worldInfo.gateRequirements, gateCostMultiplier);
     },
 
     getWorldEntryMessage() {

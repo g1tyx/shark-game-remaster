@@ -261,42 +261,6 @@
                 return "Did something really cool.";
                 // this doesn't do anything
             }
-            function lowerClimatePlease() {
-                world.planetLevel -= 10;
-                if (world.planetLevel < 1) {
-                    world.planetLevel = 1;
-                }
-                world.apply();
-                return "Made the climate easier.";
-            }
-            function waylowerClimatePlease() {
-                world.planetLevel -= 1000;
-                if (world.planetLevel < 1) {
-                    world.planetLevel = 1;
-                }
-                world.apply();
-                return "Made the climate way easier.";
-            }
-            function higherClimatePlease() {
-                world.planetLevel += 10;
-                world.apply();
-                return "Made the climate harder.";
-            }
-            function wayHigherClimatePlease() {
-                world.planetLevel += 1000;
-                world.apply();
-                return "Made the climate way harder.";
-            }
-            function resetClimatePlease() {
-                world.planetLevel = 1;
-                world.apply();
-                return "Made the climate level 1.";
-            }
-            function multiplyClimatePlease() {
-                world.planetLevel *= 10;
-                world.apply();
-                return "Made the climate 10 times harder.";
-            }
             function beatWorldPlease() {
                 SharkGame.wonGame = true;
                 main.endGame();

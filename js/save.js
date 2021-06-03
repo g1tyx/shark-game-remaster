@@ -10,7 +10,7 @@ SharkGame.Save = {
             resources: {},
             tabs: {},
             completedRequirements: {},
-            world: { type: world.worldType, level: world.planetLevel },
+            world: { type: world.worldType },
             aspects: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
         };
@@ -140,7 +140,6 @@ SharkGame.Save = {
             if (saveData.world) {
                 world.init();
                 world.worldType = saveData.world.type;
-                world.planetLevel = saveData.world.level;
                 world.apply();
                 home.init();
             }
