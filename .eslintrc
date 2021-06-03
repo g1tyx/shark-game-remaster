@@ -20,6 +20,7 @@
         "stats": "readonly",
         "world": "readonly",
         "home": "readonly",
+        "tree": "readonly",
         "cad": "readonly"
     },
     "ignorePatterns": ["js/lib/**"],

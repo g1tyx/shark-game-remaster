@@ -37,7 +37,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: [],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     pathOfIndustry: {
@@ -59,7 +59,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     pathOfEnlightenment: {
@@ -91,7 +91,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     patience: {
@@ -113,7 +113,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     pathOfTime: {
@@ -135,7 +135,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     adjustedAquadynamics: {
@@ -164,7 +164,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     destinyGamble: {
@@ -191,7 +191,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     syntheticTransmutation: {
@@ -213,7 +213,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     crystallineSkin: {
@@ -235,7 +235,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfTime"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
     internalCalculator: {
@@ -259,7 +259,8 @@ SharkGame.Aspects = {
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {
-            SharkGame.AspectTree.increaseLevel(this);
+            tree.increaseLevel(this);
         },
     },
+    // remember to add upgrade which adds manual crystal button, locked behind shrouded worldtype
 };

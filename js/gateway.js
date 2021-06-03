@@ -151,10 +151,10 @@ SharkGame.Gateway = {
                 .html(main.beautify(res.getResource("essence")) + " ESSENCE")
         );
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
-        aspectTreeContent.append(SharkGame.AspectTree.drawCanvas());
+        aspectTreeContent.append(tree.drawCanvas());
 
-        SharkGame.AspectTree.setUp();
-        SharkGame.AspectTree.render();
+        tree.setUp();
+        tree.render();
 
         // add return to gateway button
         SharkGame.Button.makeButton("backToGateway", "return to gateway", aspectTreeContent, () => {
@@ -323,16 +323,9 @@ SharkGame.Gateway = {
         } else {
             // determine which essence based messages should go into the pool
             _.each(gateway.Messages.essenceBased, (message) => {
-                let min = 0;
-                if (message.min) {
-                    min = message.min;
-                }
+                const min = message.min || 0;
+                const max = message.max || Number.MAX_VALUE;
 
-                let max = Number.MAX_VALUE;
-                // This would not work when message.max === 0
-                if (message.max) {
-                    max = message.max;
-                }
                 if (totalEssence >= min && totalEssence <= max) {
                     messagePool.push(...message.messages);
                 }
