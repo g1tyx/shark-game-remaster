@@ -661,11 +661,11 @@ SharkGame.Resources = {
                 // if the text's value is more, make it 20 above that of the background
                 const backValue = SharkGame.getColorValue(background);
                 const colorValue = SharkGame.getColorValue(color);
-                if (Math.abs(colorValue - backValue) < 20) {
+                if (Math.abs(colorValue - backValue) < 60) {
                     if (colorValue > backValue) {
-                        color = SharkGame.colorLum(color, (backValue + 20) / colorValue - 1);
+                        color = SharkGame.colorLum(color, (backValue + 60) / colorValue - 1);
                     } else {
-                        color = SharkGame.colorLum(color, (backValue - 20) / colorValue - 1);
+                        color = SharkGame.colorLum(color, (backValue - 60) / colorValue - 1);
                     }
                 }
             }

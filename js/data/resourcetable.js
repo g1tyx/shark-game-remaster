@@ -48,7 +48,7 @@ SharkGame.ResourceTable = {
         name: "crabs",
         singleName: "crab",
         desc: "Dutiful, loyal crustaceans.",
-        color: "#9C2424",
+        color: "#C03030",
         income: {
             crystal: 0.02,
             coral: 0.01,
