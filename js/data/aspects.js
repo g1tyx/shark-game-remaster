@@ -14,7 +14,7 @@
  *     getEffect(level: number): string
  *     getUnlocked(): string // tells you if miscellaneous requirements have been met. if they have, returns nothing. if they have not, returns a message stating why not.
  *     clicked(): void
- *     apply(level): void
+ *     apply(time: string): void
  * }>
  */
 SharkGame.Aspects = {

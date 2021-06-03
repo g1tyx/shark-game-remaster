@@ -78,6 +78,7 @@ SharkGame.AspectTree = {
                 SharkGame.Aspects[prerequisite].requiredBy.push(aspectId);
             });
         });
+        this.applyAspects();
     },
     setUp() {
         SharkGame.AspectTree.dragStart = { posX: 0, posY: 0 };
@@ -407,13 +408,19 @@ SharkGame.AspectTree = {
         res.changeResource("essence", -cost);
         aspect.level++;
         if (typeof aspect.apply === "function") {
-            aspect.apply();
+            aspect.apply("levelUp");
         }
     },
     updateEssenceCounter() {
         if (document.getElementById("essenceCount")) {
-            document.getElementById("essenceCount").innerHTML = res.getResource("essence") + " ESSENCE";
             document.getElementById("essenceCount").innerHTML = main.beautify(res.getResource("essence")) + " ESSENCE";
         }
+    },
+    applyAspects() {
+        _.each(SharkGame.Aspects, (aspectData) => {
+            if (aspectData.level && typeof aspectData.level === "function") {
+                aspectData.apply("init");
+            }
+        });
     },
 };

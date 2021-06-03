@@ -85,7 +85,7 @@ SharkGame.Events = {
         },
         trigger() {
             SharkGame.World.worldResources.get("ice").income = 0;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.1;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -1;
             res.clearNetworks();
             res.buildIncomeNetwork();
         },

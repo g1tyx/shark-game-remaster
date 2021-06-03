@@ -13,12 +13,8 @@ SharkGame.Gateway = {
     planetPool: [],
 
     init() {
-        // apply aspect effects
-        _.each(SharkGame.Aspects, (aspectData) => {
-            if (aspectData.level && typeof aspectData.level === "function") {
-                aspectData.apply();
-            }
-        });
+        // does nothing lol
+        // toby dont even think about removing this, you know we're going to need it eventually
     },
 
     enterGate(loadingFromSave) {
@@ -147,20 +143,11 @@ SharkGame.Gateway = {
         );
     },
 
-    applyAspects() {
-        _.each(SharkGame.Aspects, (aspectData) => {
-            if (aspectData.level && typeof aspectData.level === "function") {
-                aspectData.apply();
-            }
-        });
-    },
-
     showAspects() {
         const aspectTreeContent = $("<div>");
         aspectTreeContent.append(
             $("<strong>")
                 .attr("id", "essenceCount")
-                .html(res.getResource("essence") + " ESSENCE")
                 .html(main.beautify(res.getResource("essence")) + " ESSENCE")
         );
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
