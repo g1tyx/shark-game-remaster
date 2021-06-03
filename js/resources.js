@@ -749,7 +749,7 @@ SharkGame.Resources = {
     },
 
     /**
-     * Adds a parameter in a nested object, specifically 3 layers deep
+     * Adds a parameter in a nested object, specifically 3 layers deep.
      * @param {object} network The nested object to add a paramater to
      * @param {string} high The top-level parameter to index
      * @param {string} mid The second-level paramater to index
@@ -766,6 +766,13 @@ SharkGame.Resources = {
         network[high][mid][low] = value;
     },
 
+    /**
+     * Completes the necessary steps to apply the effects of a modifier to the income table.
+     * @param {string} name The index of the modifier in the modifier map.
+     * @param {string} target The affected resource or category of resources.
+     * @param {any} degree The incoming change to the modifier, or a separate value denoting the strength of a world modifier.
+     * @param {number} level Climate level. Deprecated soon.
+     */
     applyModifier(name, target, degree, level = 1) {
         if (res.isCategory(target)) {
             target = res.getResourcesInCategory(target);
@@ -785,6 +792,11 @@ SharkGame.Resources = {
         });
     },
 
+    /**
+     * Reapplies the effects of all modifiers on a specific generator-income pair. Used when changing base income, which necessitates recalculation.
+     * @param {string} generator The generator in question.
+     * @param {string} generated The resource associated with the income.
+     */
     reapplyModifiers(generator, generated) {
         let income = SharkGame.ResourceMap.get(generator).baseIncome[generated];
         SharkGame.ModifierReference.forEach((modifier, name) => {
@@ -795,16 +807,19 @@ SharkGame.Resources = {
         SharkGame.ResourceMap.get(generator).income[generated] = income;
     },
 
-    getMultiplierProduct(category, generator, generated, treatOneAsNone = false) {
+    /**
+     * Gets the combined effect of all multiplicative modifiers of a certain type on a specific generator-income pair. Used in the grotto for advanced mode.
+     * @param {string} category The category of modifier (may be upgrade, world, or aspect).
+     * @param {string} generator The generator in question.
+     * @param {string} generated The generated resource.
+     */
+    getMultiplierProduct(category, generator, generated) {
         let product = 1;
         $.each(SharkGame.ModifierTypes[category].multiplier, (name, data) => {
             const generatorDegree = SharkGame.ModifierMap.get(generator)[data.category][data.type][name];
             const generatedDegree = SharkGame.ModifierMap.get(generated)[data.category][data.type][name];
             product *= data.getEffect(generatorDegree, generatedDegree, generator, generated);
         });
-        if (treatOneAsNone && product === 1) {
-            return "";
-        }
         return product;
     },
 
