@@ -51,7 +51,9 @@ SharkGame.HomeActions = {
             name: "Catch fish",
             effect: {
                 resource: {
-                    fish: 1,
+                    get fish() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
                 },
             },
             cost: {},
@@ -140,7 +142,9 @@ SharkGame.HomeActions = {
             name: "Pry sponge",
             effect: {
                 resource: {
-                    sponge: 1,
+                    get sponge() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
                 },
             },
             cost: {},
@@ -179,7 +183,9 @@ SharkGame.HomeActions = {
             name: "Get clam",
             effect: {
                 resource: {
-                    clam: 1,
+                    get clam() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
                 },
             },
             cost: {},
@@ -215,7 +221,9 @@ SharkGame.HomeActions = {
             name: "Grab jellyfish",
             effect: {
                 resource: {
-                    jellyfish: 1,
+                    get jellyfish() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
                 },
             },
             cost: {},
@@ -2005,7 +2013,9 @@ SharkGame.HomeActions = {
     },
     abandoned: {
         catchFish: {},
+
         debugbutton: {},
+
         prySponge: {
             prereq: {
                 upgrade: ["spongeCollection"],
