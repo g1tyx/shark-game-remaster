@@ -852,8 +852,7 @@ SharkGame.Home = {
                     main
                         .beautifyIncome(
                             amount,
-                            " " +
-                                res.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
+                            " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
             }
@@ -869,8 +868,7 @@ SharkGame.Home = {
                     main
                         .beautifyIncome(
                             -amount,
-                            " " +
-                                res.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
+                            " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
             }
@@ -890,7 +888,7 @@ SharkGame.Home = {
                         }
                         text +=
                             "all ".bold() +
-                            res.getResourceName(affected, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                            res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                             " gains ".bold() +
                             " by " +
                             (Math.round(degree * 100) + "%").bold() +
@@ -909,14 +907,14 @@ SharkGame.Home = {
                 text =
                     main.beautify(amount).bold() +
                     " " +
-                    res.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
                     text;
             } else {
                 const determiner = main.getDeterminer(resource);
                 text =
                     (determiner ? determiner + " " : "") +
-                    res.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
                     text;
             }

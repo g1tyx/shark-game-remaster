@@ -1,41 +1,3 @@
-// SECRET PLANS
-// SECRET PLANS
-//
-// secret plans for v0.2, please do not read if you don't wanna be spoiled:
-// marine: lobsters, clams
-// haven: dolphins, whales, and coral :check:
-// chaotic: scrap completely
-// tempestuous: swordfish and the storm. lots of stuff related to that storm
-// violent: shrimp, coral, sponge, algae, crustacean machines
-// abandoned: octopuses, sponge and clams?
-// shrouded: eels, chimaera, and jellyfish, no crabs
-// frigid: squid and urchins, squids replace rays, maybe sponge or clams? or new resource?
-//
-// it would be interesting to have clams as a resource in one world but as a frenzy member in another
-//
-// marine justification: lobsters are often found in coastal regions and hunt clams. they are well-suited to a temperate sea
-//
-// haven justification: while various species of whale appear everywhere, they are closely tied to dolphins,
-// who live primarily in warm environments. coral is also very cleanly tied into dolphin progression
-//
-// chaotic: idk yet lol
-//
-// tempestuous justification: swordfish are fast predators, and are likely to survive well in such an environment.
-//
-// violent justification: shrimp are capable of living in a wide, wide variety of environments.
-// so is algae, and coral, and especially sponge. these factors make them more likely to adapt to the heat,
-// more specifically, to have a particular species that is adapted to the heat.
-//
-// abandoned justification: octopuses are sensitive to pollution, but the game establishes that they have dirty machinery and such.
-// caring only about efficiency, they fit the bill thematically.
-//
-// shrouded justification: eels and chimaeras are both arguably mysterious creatures, and the eel pallete somewhat matches the theme.
-//
-// frigid justification: squids and sea urchin live in arctic seas. urchins eat kelp, giving kelp another use.
-//
-// SECRET PLANS
-// SECRET PLANS
-
 SharkGame.WorldTypes = {
     test: {
         name: "Test",
@@ -60,6 +22,12 @@ SharkGame.WorldTypes = {
         name: "Home",
         desc: "You shouldn't be seeing this.",
         shortDesc: "strange blue",
+        foresight: {
+            longDesc: "...Home.",
+            missing: [],
+            present: [],
+            tip: "...",
+        },
         entry: "You enter a familiar blue sea, all your previous knowledge a dim memory.",
         style: "default",
         includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence"],
@@ -112,6 +80,14 @@ SharkGame.WorldTypes = {
         name: "Haven",
         desc: "An aquamarine world of plenty. So beautiful, yet so vulnerable.",
         shortDesc: "thriving aquamarine",
+        foresight: {
+            longDesc:
+                "This world is teeming with life, more than any other place you've seen before. The water is clear, the sand is clean, the fish are plenty. A paradise in every way.",
+            missing: ["laser"],
+            present: ["coral", "dolphin", "whale"],
+            hazards: "No hazards detected.",
+            tip: "You will waste no time if you choose to visit this place. The abundance of resources makes it quick and painless.",
+        },
         entry: "Remembering nothing, you find yourself in a beautiful atoll teeming with life. Life will be good here.",
         style: "haven",
         includedResources: [
@@ -223,6 +199,22 @@ SharkGame.WorldTypes = {
         name: "Abandoned",
         desc: "A dying world filled with machinery.",
         shortDesc: "murky dark green",
+        foresight: {
+            get longDesc() {
+                return (
+                    "The water here is dank and tinted green. The ocean is polluted with " +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? res.getResourceName("tar") + "." : "an unrecognizable substance.")
+                );
+            },
+            missing: ["seaApple", "kelp"],
+            present: ["octopus", "sponge", "clam"],
+            get hazards() {
+                return gateway.completedWorlds.indexOf("abandoned") > -1
+                    ? "Machines here will pollute the ocean, killing the frenzy."
+                    : "Pollution may harm the frenzy.";
+            },
+            tip: "These tainted waves will surely present a challenge. Sea life is sensitive, you know, so be responsible!",
+        },
         entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
         absentResources: [
@@ -292,6 +284,15 @@ SharkGame.WorldTypes = {
         name: "Frigid",
         desc: "An arctic ocean dangling on the edge of frozen doom.",
         shortDesc: "freezing white",
+        foresight: {
+            longDesc: "This world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
+            missing: ["seaApple"],
+            present: ["squid", "urchin"],
+            get hazards() {
+                return (gateway.completedWorlds.indexOf("frigid") > -1 ? res.getResourceName("ice") : "The cold ") + " will slow down the frenzy.";
+            },
+            tip: "Take care not to be swallowed by ice. Should it ever descend upon you, get out ahead of it, and work quickly.",
+        },
         entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
         includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "curiousCrab"],

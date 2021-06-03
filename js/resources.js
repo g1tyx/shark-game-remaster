@@ -595,7 +595,7 @@ SharkGame.Resources = {
                     producertext +=
                         main.beautify(res.getResource(which)).bold() +
                         " " +
-                        res.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                        res.getResourceName(which, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         main.beautifyIncome(amount).bold();
                 } else if (amount < 0) {
@@ -603,7 +603,7 @@ SharkGame.Resources = {
                     consumertext +=
                         main.beautify(res.getResource(which)).bold() +
                         " " +
-                        res.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                        res.getResourceName(which, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         main.beautifyIncome(-amount).bold();
                 }
@@ -614,7 +614,7 @@ SharkGame.Resources = {
             return;
         } */
 
-        let text = res.getResourceName(resourceName, false, false, 2, SharkGame.getElementColor("tooltipbox", "background-color"));
+        let text = res.getResourceName(resourceName, false, 2, SharkGame.getElementColor("tooltipbox", "background-color"));
         if (producertext !== "") {
             text += "<br><span class='littleTooltipText'>PRODUCED BY</span>" + producertext;
         }
@@ -636,13 +636,28 @@ SharkGame.Resources = {
         $(".tooltip").removeClass("forIncomeTable").attr("current", "");
     },
 
-    getResourceName(resourceName, darken, forceSingle, arbitraryAmount, background) {
+    applyResourceColoration(resourceName, textToColor) {
+        if (res.isCategory(resourceName)) {
+            return textToColor;
+        }
+
+        if (SharkGame.Settings.current.boldCosts) {
+            textToColor = textToColor.bold();
+        }
+        let extraStyle = "";
+        if (SharkGame.Settings.current.colorCosts) {
+            extraStyle = " style='color:" + SharkGame.ResourceMap.get(resourceName).color + "'";
+        }
+        return "<span class='click-passthrough'" + extraStyle + ">" + textToColor + "</span>";
+    },
+
+    getResourceName(resourceName, darken, arbitraryAmount, background) {
         if (res.isCategory(resourceName)) {
             return SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
         const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
-        let name = amount - 1 < SharkGame.EPSILON || forceSingle ? resource.singleName : resource.name;
+        let name = amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name;
         let extraStyle = "";
 
         if (SharkGame.Settings.current.boldCosts) {
@@ -684,9 +699,8 @@ SharkGame.Resources = {
             const listResource = resourceList[resourceId];
             // amend for unspecified resources (assume zero)
             if (listResource > 0 && world.doesResourceExist(resourceId)) {
-                const isSingular = Math.floor(listResource) - 1 < SharkGame.EPSILON;
                 formattedResourceList += main.beautify(listResource);
-                formattedResourceList += " " + res.getResourceName(resourceId, darken, isSingular, listResource, backgroundColor) + ", ";
+                formattedResourceList += " " + res.getResourceName(resourceId, darken, listResource, backgroundColor) + ", ";
             }
         });
         // snip off trailing suffix

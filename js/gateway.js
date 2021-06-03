@@ -1,4 +1,5 @@
 "use strict";
+
 SharkGame.Gateway = {
     NUM_ARTIFACTS_TO_SHOW: 5,
     NUM_PLANETS_TO_SHOW: 3,
@@ -331,66 +332,86 @@ SharkGame.Gateway = {
         return '"' + SharkGame.choose(messagePool) + '"';
     },
 
-    // GOD THIS IS A MESS
-    // I'M SO SORRY FUTURE ME AND ANYONE ELSE READING THIS
-
-    // why
     showPlanetAttributes(worldData, contentDiv) {
-        // add known attributes
-        const pslevel = Infinity; //SharkGame.Aspects.planetScanner.level;
-        if (pslevel > 0) {
-            const modifiers = _.size(worldData.modifiers);
-            const gateSlots = _.size(worldData.gateCosts);
-            const bannedResources = _.size(worldData.absentResources);
-            const totalAttributes = modifiers + gateSlots + bannedResources;
-            const numberKnown = Math.floor((totalAttributes * pslevel) / 5);
-            let numberLeft = numberKnown;
-
-            contentDiv.append(
-                $("<p>").html("Known modifiers (" + Math.floor(modifiers === 0 ? 100 : Math.min(1, numberKnown / modifiers) * 100) + "%):")
-            );
-
-            const modifierList = $("<ul>").addClass("gatewayPropertyList");
-            for (let i = 0; i < Math.min(numberKnown, modifiers); i++) {
-                const modifier = worldData.modifiers[i];
-                const target = modifier.resource;
-                modifierList.append(
-                    $("<li>").html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, target)).addClass("medDesc")
-                );
-            }
-            contentDiv.append(modifierList);
-            numberLeft = numberLeft - modifiers;
-
-            // if all modifiers are revealed, carry over to the gate requirements and abandoned resources
-            if (numberLeft > 0) {
-                contentDiv.append($("<p>").html("Known gate requirements (" + Math.floor(Math.min(1, numberLeft / gateSlots) * 100) + "%):"));
-                const gateList = $("<ul>").addClass("gatewayPropertyList");
-                const gateKeySet = _.keys(worldData.gateCosts);
-                for (let i = 0; i < Math.min(numberLeft, gateSlots); i++) {
-                    const gateSlot = gateKeySet[i];
-                    const gateCost = Math.floor(worldData.gateCosts[gateSlot] * world.getGateCostMultiplier());
-                    const resourceName = main.toTitleCase(SharkGame.ResourceMap.get(gateSlot).singleName);
-                    gateList.append(
-                        $("<li>")
-                            .html(resourceName + ": " + main.beautify(gateCost))
-                            .addClass("medDesc")
-                    );
+        switch (SharkGame.Aspects.pathOfEnlightenment.level) {
+            case 4:
+                if (worldData.foresight.tip) {
+                    contentDiv.prepend($("<p>").html(worldData.foresight.tip));
                 }
-                contentDiv.append(gateList);
-            }
-
-            numberLeft = numberLeft - gateSlots;
-            if (numberLeft > 0) {
-                contentDiv.append($("<p>").html("Known absences (" + Math.floor(Math.min(1, numberLeft / bannedResources) * 100) + "%):"));
-                const bannedList = $("<ul>").addClass("gatewayPropertyList");
-                for (let i = 0; i < Math.min(numberLeft, bannedResources); i++) {
-                    const bannedResource = worldData.absentResources[i];
-                    const resourceName = SharkGame.ResourceMap.get(bannedResource).singleName;
-                    bannedList.append($("<li>").html(resourceName).addClass("smallDesc"));
+            case 3:
+                if (worldData.foresight.hazards) {
+                    contentDiv.prepend($("<p>").html(worldData.foresight.hazards));
                 }
-                contentDiv.append(bannedList);
-            }
+                if (worldData.gateRequirements.slots) {
+                    const gateList = $("<ul>").addClass("gatewayPropertyList");
+                    $.each(worldData.gateRequirements.slots, (resource, amount) => {
+                        gateList.prepend(
+                            $("<li>")
+                                .html(res.getResourceName(resource, false, amount) + ": " + main.beautify(amount))
+                                .addClass("medDesc")
+                        );
+                    });
+                    contentDiv.prepend(gateList);
+                    contentDiv.prepend($("<p>").html("GATE REQUIREMENTS:"));
+                } else {
+                    contentDiv.prepend($("<p>").html("NO GATE COSTS DETECTED"));
+                }
+            case 2:
+                if (worldData.foresight.missing.length > 0) {
+                    const missingList = $("<ul>").addClass("gatewayPropertyList");
+                    _.each(worldData.foresight.missing, (missingResource) => {
+                        missingList.append(
+                            $("<li>")
+                                .html("This world has no " + res.getResourceName(missingResource, false, 2) + ".")
+                                .addClass("medDesc")
+                        );
+                    });
+                    contentDiv.prepend(missingList);
+                }
+                if (worldData.foresight.present.length > 0) {
+                    const presentList = $("<ul>").addClass("gatewayPropertyList");
+                    _.each(worldData.foresight.present, (presentResource) => {
+                        presentList.append(
+                            $("<li>")
+                                .html(
+                                    "You feel the presence of " +
+                                        (gateway.playerHasSeenResource(presentResource)
+                                            ? res.getResourceName(presentResource, false, 2)
+                                            : res.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
+                                        "."
+                                )
+                                .addClass("medDesc")
+                        );
+                    });
+                    contentDiv.prepend(presentList);
+                }
+            case 1:
+                if (worldData.modifiers.length > 0) {
+                    const modifierList = $("<ul>").addClass("gatewayPropertyList");
+                    _.each(worldData.modifiers, (modifier) => {
+                        modifierList.append(
+                            $("<li>")
+                                .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource))
+                                .addClass("medDesc")
+                        );
+                    });
+                    contentDiv.prepend(modifierList);
+                    contentDiv.prepend($("<p>").html("ATTRIBUTES:"));
+                } else {
+                    contentDiv.prepend($("<p>").html("NO KNOWN ATTRIBUTES"));
+                }
+                contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
         }
+    },
+
+    playerHasSeenResource(resource) {
+        const seenResources = [];
+        _.each(gateway.completedWorlds, (completedWorld) => {
+            _.each(SharkGame.WorldTypes[completedWorld].foresight.seen, (seenResource) => {
+                seenResources.push(seenResource);
+            });
+        });
+        return seenResources.indexOf(resource) > -1;
     },
 
     markWorldCompleted(worldType) {
@@ -398,6 +419,23 @@ SharkGame.Gateway = {
             gateway.completedWorlds.push(worldType);
         }
     },
+};
+
+SharkGame.Gateway.PresenceFeelings = {
+    clam: "hard things",
+    sponge: "soft things",
+    jellyfish: "squishy things",
+    coral: "colorful things",
+    dolphin: "annoying creatures",
+    whale: "wise creatures",
+    octopus: "logical creatures",
+    squid: "loyal creatures",
+    urchin: "dimwitted creatures",
+    shrimp: "simple creatures",
+    lobster: "unfamiliar crustaceans",
+    chimaera: "shark-like creatures",
+    eel: "stealthy creatures",
+    // swordfish: "wary creatures",
 };
 
 SharkGame.Gateway.Messages = {

@@ -131,8 +131,7 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0 && stats.bannedDisposeCategories.indexOf(res.getCategoryOfResource(resourceId)) === -1) {
                 SharkGame.Button.makeButton(
                     "dispose-" + resourceId,
-                    "Dispose of<br/>" +
-                        res.getResourceName(resourceId, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
+                    "Dispose of<br/>" + res.getResourceName(resourceId, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
                     buttonDiv,
                     stats.onDispose
                 );
@@ -151,7 +150,6 @@ SharkGame.Stats = {
                     const divisor = Math.floor(amountToDispose) * -1;
                     amountToDispose = Math.floor(max / divisor);
                 }
-                const forceSingular = amountToDispose === 1;
                 const disableButton = resourceAmount < amountToDispose || amountToDispose <= 0;
                 let label =
                     "Dispose of " +
@@ -160,8 +158,7 @@ SharkGame.Stats = {
                     res.getResourceName(
                         resourceName,
                         disableButton,
-                        forceSingular,
-                        false,
+                        amountToDispose,
                         SharkGame.getElementColor("dispose-" + resourceName, "background-color")
                     );
                 if (amountToDispose <= 0) {
@@ -170,8 +167,7 @@ SharkGame.Stats = {
                         res.getResourceName(
                             resourceName,
                             disableButton,
-                            forceSingular,
-                            false,
+                            amountToDispose,
                             SharkGame.getElementColor("dispose-" + resourceName, "background-color")
                         );
                 }

@@ -121,7 +121,6 @@ SharkGame.Recycler = {
 
                 // determine amounts for input and what would be retrieved from output
                 const buy = main.getBuyAmount();
-                const forceSingular = buy === 1;
                 let inputAmount = buy;
                 let outputAmount = buy;
                 const maxOutputAmount = rec.getMaxToBuy(resourceName);
@@ -158,8 +157,7 @@ SharkGame.Recycler = {
                 label += res.getResourceName(
                     resourceName,
                     disableButton,
-                    forceSingular,
-                    false,
+                    buy,
                     SharkGame.getElementColor("input-" + resourceName, "background-color")
                 );
                 if (inputButton.html() !== label.replace(/'/g, '"')) {
@@ -186,8 +184,7 @@ SharkGame.Recycler = {
                 label += res.getResourceName(
                     resourceName,
                     disableButton,
-                    forceSingular,
-                    false,
+                    buy,
                     SharkGame.getElementColor("output-" + resourceName, "background-color")
                 );
                 if (outputButton.html() !== label.replace(/'/g, '"')) {
@@ -371,7 +368,7 @@ SharkGame.Recycler = {
                     " " +
                     res.getResourceName("tar") +
                     " WITH<br/>" +
-                    res.getResourceName("filter", false, false, 2) +
+                    res.getResourceName("filter", false, 2) +
                     ")";
             }
             return amountstring;

@@ -54,7 +54,7 @@ SharkGame.Aspects = {
             return level * 2 + 2;
         },
         getEffect(level) {
-            return res.getResourceName("shark", false, false, 69) + " collect things " + (level > 0 ? level + 1 : 1) + " times faster.";
+            return res.getResourceName("shark", false, 69) + " collect things " + (level > 0 ? level + 1 : 1) + " times faster.";
         },
         getUnlocked() {},
         prerequisites: ["apotheosis"],
@@ -79,13 +79,13 @@ SharkGame.Aspects = {
             //return "Gain " + level + " extra choice" + (level > 1 ? "s" : "") + " when choosing a world to visit.";
             switch (level) {
                 case 1:
-                    return "Reveals basic information about a world before you choose to visit it.";
+                    return "Reveals information about a world before you choose to visit it.";
                 case 2:
-                    return "Reveals all properties of a world before you choose to visit it.";
+                    return "Reveals most information about a world before you choose to visit it.";
                 case 3:
-                    return "Reveals important resources that are and are not present, as well as all properties of a world before you choose to visit it.";
+                    return "Reveals almost all information about a world before you choose to visit it.";
                 case 4:
-                    return "Reveals all information about a world before you choose to visit it and gives insight into your hypothetical experience.";
+                    return "Reveals almost all information about a world before you choose to visit it, and gives you deeper insight about your choice.";
             }
         },
         getUnlocked() {},
@@ -152,14 +152,7 @@ SharkGame.Aspects = {
             return 2 * level + 1;
         },
         getEffect(level) {
-            return (
-                res.getResourceName("ray", false, false, 69) +
-                " hunt " +
-                res.getResourceName("fish", false, false, 69) +
-                " " +
-                2 ** level * 2.5 +
-                "x faster."
-            );
+            return res.getResourceName("ray", false, 69) + " hunt " + res.getResourceName("fish", false, 69) + " " + 2 ** level * 2.5 + "x faster.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
