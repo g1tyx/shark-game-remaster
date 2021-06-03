@@ -1,6 +1,5 @@
 "use strict";
 SharkGame.Gateway = {
-
     NUM_ARTIFACTS_TO_SHOW: 5,
     NUM_PLANETS_TO_SHOW: 3,
 
