@@ -413,6 +413,7 @@ SharkGame.AspectTree = {
     updateEssenceCounter() {
         if (document.getElementById("essenceCount")) {
             document.getElementById("essenceCount").innerHTML = res.getResource("essence") + " ESSENCE";
+            document.getElementById("essenceCount").innerHTML = main.beautify(res.getResource("essence")) + " ESSENCE";
         }
     },
 };

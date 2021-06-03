@@ -161,6 +161,7 @@ SharkGame.Gateway = {
             $("<strong>")
                 .attr("id", "essenceCount")
                 .html(res.getResource("essence") + " ESSENCE")
+                .html(main.beautify(res.getResource("essence")) + " ESSENCE")
         );
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         aspectTreeContent.append(SharkGame.AspectTree.drawCanvas());
