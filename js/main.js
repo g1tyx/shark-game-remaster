@@ -211,6 +211,41 @@ $.extend(SharkGame, {
         color = String(color).replace(/[^0-9a-f]/gi, "");
         return Math.max(parseInt(color.substr(0, 2), 16), parseInt(color.substr(2, 2), 16), parseInt(color.substr(4, 2), 16));
     },
+    getRelativeLuminance(color) {
+        color = String(color).replace(/[^0-9a-f]/gi, "");
+        let red = parseInt(color.substr(0, 2), 16);
+        let green = parseInt(color.substr(2, 2), 16);
+        let blue = parseInt(color.substr(4, 2), 16);
+        red = red / 255;
+        green = green / 255;
+        blue = blue / 255;
+        let lum = 0;
+        _.each([red, green, blue], (piece, index) => {
+            if (piece <= 0.03928) {
+                piece = piece / 12.92;
+            } else {
+                piece = ((piece + 0.055) / 1.055) ** 2.4;
+            }
+            lum += piece * [0.2126, 0.7152, 0.0722][index];
+        });
+        return lum;
+    },
+    correctLuminance(color, luminance) {
+        color = String(color).replace(/[^0-9a-f]/gi, "");
+        let red = parseInt(color.substr(0, 2), 16);
+        let green = parseInt(color.substr(2, 2), 16);
+        let blue = parseInt(color.substr(4, 2), 16);
+        red = red / 255;
+        green = green / 255;
+        blue = blue / 255;
+        const varA = 1.075 * (0.2126 * red ** 2 + 0.7152 * green ** 2 + 0.0722 * blue ** 2);
+        const varB = -0.075 * (0.2126 * red + 0.7152 * green + 0.0722 * blue);
+        const ratio = Math.max((-varB + Math.sqrt(varB ** 2 + 4 * varA * luminance)) / (2 * varA), 0);
+        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0)).toString(16);
+        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0)).toString(16);
+        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0)).toString(16);
+        return "#" + red + green + blue;
+    },
     convertColorString(color) {
         const colors = color
             .substring(4)

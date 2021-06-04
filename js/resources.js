@@ -669,19 +669,19 @@ SharkGame.Resources = {
             if (darken) {
                 color = SharkGame.colorLum(resource.color, -0.5);
             } else if (background) {
-                // this code takes the HSV of the text and its background, if its color is provided,
-                // and compares their Values. If they are less than 20 away, then they're too close
-                // then calculate exactly how much it takes to get them up to 20 away
-                // if the text's value is less, make it 20 below that of the background
-                // if the text's value is more, make it 20 above that of the background
-                const backValue = SharkGame.getColorValue(background);
-                const colorValue = SharkGame.getColorValue(color);
-                if (Math.abs(colorValue - backValue) < 60) {
-                    if (colorValue > backValue) {
-                        color = SharkGame.colorLum(color, (backValue + 60) / colorValue - 1);
-                    } else {
-                        color = SharkGame.colorLum(color, (backValue - 60) / colorValue - 1);
-                    }
+                // this code
+                const backRLum = SharkGame.getRelativeLuminance(background);
+                const colorRLum = SharkGame.getRelativeLuminance(color);
+                let contrast;
+                if (colorRLum > backRLum) {
+                    contrast = (colorRLum + 0.05) / (backRLum + 0.05);
+                } else {
+                    contrast = (backRLum + 0.05) / (colorRLum + 0.05);
+                }
+                const tolerance = 2; // for easy changing
+                if (contrast < tolerance) {
+                    const requiredLuminance = tolerance * backRLum + 0.05 * tolerance - 0.05;
+                    color = SharkGame.correctLuminance(color, requiredLuminance > 1 ? (backRLum + 0.05) / tolerance - 0.05 : requiredLuminance);
                 }
             }
             extraStyle = " style='color:" + color + "'";
