@@ -896,6 +896,12 @@ button.disabled div {
   filter: brightness(130%);
   pointer-events: none;
 }
+.largeDesc {
+  font-size: 125%;
+  color: var(--color-lighter);
+  filter: brightness(130%);
+  pointer-events: none;
+}
 .copyrightNotice {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -1001,6 +1007,9 @@ button.disabled div {
   text-shadow: 0 0 0.5em #d2f0e6, 0 0 1em #d2f0e6;
 }
 .gateway .medDesc {
+  color: #ace3d1;
+}
+.gateway .largeDesc {
   color: #ace3d1;
 }
 .gateway .smallDesc {
@@ -1162,6 +1171,7 @@ button.gateway.disabled div {
 .gatewayPropertyList {
   list-style-type: none;
   padding-left: 0;
+  text-shadow: 0 0 0.6em black;
 }
 .gatewayPropertyList li {
   padding-left: 0;

@@ -210,7 +210,7 @@ SharkGame.WorldTypes = {
             present: ["octopus", "sponge", "clam"],
             get hazards() {
                 return gateway.completedWorlds.indexOf("abandoned") > -1
-                    ? "Machines here will pollute the ocean, killing the frenzy."
+                    ? "Machines here pollute the ocean with " + res.getResourceName("tar") + ", killing the frenzy."
                     : "Pollution may harm the frenzy.";
             },
             tip: "These tainted waves will surely present a challenge. Sea life is sensitive, you know, so be responsible!",
@@ -289,7 +289,7 @@ SharkGame.WorldTypes = {
             missing: ["seaApple"],
             present: ["squid", "urchin"],
             get hazards() {
-                return (gateway.completedWorlds.indexOf("frigid") > -1 ? res.getResourceName("ice") : "The cold ") + " will slow down the frenzy.";
+                return (gateway.completedWorlds.indexOf("frigid") > -1 ? res.getResourceName("ice") : "The cold ") + " may slow the frenzy.";
             },
             tip: "Take care not to be swallowed by ice. Should it ever descend upon you, get out ahead of it, and work quickly.",
         },

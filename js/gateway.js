@@ -1,7 +1,6 @@
 "use strict";
 
 SharkGame.Gateway = {
-    NUM_ARTIFACTS_TO_SHOW: 5,
     NUM_PLANETS_TO_SHOW: 3,
 
     transitioning: false,
@@ -14,8 +13,7 @@ SharkGame.Gateway = {
     planetPool: [],
 
     init() {
-        // does nothing lol
-        // toby dont even think about removing this, you know we're going to need it eventually
+        this.completedWorlds = [];
     },
 
     enterGate(loadingFromSave) {
@@ -340,19 +338,23 @@ SharkGame.Gateway = {
                 }
             case 3:
                 if (worldData.foresight.hazards) {
-                    contentDiv.prepend($("<p>").html(worldData.foresight.hazards));
+                    contentDiv.prepend($("<p>").html(worldData.foresight.hazards).addClass("largeDesc"));
                 }
                 if (worldData.gateRequirements.slots) {
                     const gateList = $("<ul>").addClass("gatewayPropertyList");
                     $.each(worldData.gateRequirements.slots, (resource, amount) => {
-                        gateList.prepend(
-                            $("<li>")
-                                .html(res.getResourceName(resource, false, amount) + ": " + main.beautify(amount))
-                                .addClass("medDesc")
-                        );
+                        if (gateway.playerHasSeenResource(resource) || !(worldData.foresight.present.indexOf(resource) > -1)) {
+                            gateList.prepend(
+                                $("<li>")
+                                    .html("<strong>" + res.getResourceName(resource, false, amount) + ": " + main.beautify(amount) + "</strong>")
+                                    .addClass("largeDesc")
+                            );
+                        } else {
+                            gateList.prepend($("<li>").html("<strong>???</strong>").addClass("largeDesc"));
+                        }
                     });
                     contentDiv.prepend(gateList);
-                    contentDiv.prepend($("<p>").html("GATE REQUIREMENTS:"));
+                    contentDiv.prepend($("<p>").html("GATE REQUIREMENTS:").addClass("largeDesc"));
                 } else {
                     contentDiv.prepend($("<p>").html("NO GATE COSTS DETECTED"));
                 }
@@ -362,8 +364,8 @@ SharkGame.Gateway = {
                     _.each(worldData.foresight.missing, (missingResource) => {
                         missingList.append(
                             $("<li>")
-                                .html("This world has no " + res.getResourceName(missingResource, false, 2) + ".")
-                                .addClass("medDesc")
+                                .html("<strong>This world has no " + res.getResourceName(missingResource, false, 2) + ".</strong>")
+                                .addClass("largeDesc")
                         );
                     });
                     contentDiv.prepend(missingList);
@@ -374,13 +376,13 @@ SharkGame.Gateway = {
                         presentList.append(
                             $("<li>")
                                 .html(
-                                    "You feel the presence of " +
+                                    "<strong>You feel the presence of " +
                                         (gateway.playerHasSeenResource(presentResource)
                                             ? res.getResourceName(presentResource, false, 2)
                                             : res.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
-                                        "."
+                                        ".</strong>"
                                 )
-                                .addClass("medDesc")
+                                .addClass("largeDesc")
                         );
                     });
                     contentDiv.prepend(presentList);
@@ -389,14 +391,26 @@ SharkGame.Gateway = {
                 if (worldData.modifiers.length > 0) {
                     const modifierList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.modifiers, (modifier) => {
-                        modifierList.append(
-                            $("<li>")
-                                .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource))
-                                .addClass("medDesc")
-                        );
+                        if (gateway.playerHasSeenResource(modifier.resource) || !(worldData.foresight.present.indexOf(modifier.resource) > -1)) {
+                            modifierList.append(
+                                $("<li>")
+                                    .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource))
+                                    .addClass("largeDesc")
+                            );
+                        } else {
+                            modifierList.append(
+                                $("<li>")
+                                    .html(
+                                        SharkGame.ModifierReference.get(modifier.modifier)
+                                            .effectDescription(modifier.amount, modifier.resource)
+                                            .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource])
+                                    )
+                                    .addClass("largeDesc")
+                            );
+                        }
                     });
                     contentDiv.prepend(modifierList);
-                    contentDiv.prepend($("<p>").html("ATTRIBUTES:"));
+                    contentDiv.prepend($("<p>").html("ATTRIBUTES:").addClass("largeDesc"));
                 } else {
                     contentDiv.prepend($("<p>").html("NO KNOWN ATTRIBUTES"));
                 }
@@ -405,9 +419,12 @@ SharkGame.Gateway = {
     },
 
     playerHasSeenResource(resource) {
+        if (res.isCategory(resource)) {
+            return true;
+        }
         const seenResources = [];
         _.each(gateway.completedWorlds, (completedWorld) => {
-            _.each(SharkGame.WorldTypes[completedWorld].foresight.seen, (seenResource) => {
+            _.each(SharkGame.WorldTypes[completedWorld].foresight.present, (seenResource) => {
                 seenResources.push(seenResource);
             });
         });

@@ -1029,6 +1029,13 @@ button {
     .click-passthrough;
 }
 
+.largeDesc {
+    font-size: 125%;
+    color: var(--color-lighter);
+    filter: brightness(130%);
+    .click-passthrough;
+}
+
 .copyrightNotice {
     .no-select;
     // In Chrome, rendering error makes copyright notice be in front
@@ -1149,6 +1156,10 @@ button {
         color: lighten(@color-discovery-dark2, 30%);
     }
 
+    .largeDesc {
+        color: lighten(@color-discovery-dark2, 30%);
+    }
+
     .smallDesc {
         color: @color-discovery;
     }
@@ -1259,6 +1270,7 @@ button.gateway {
 .gatewayPropertyList {
     list-style-type: none;
     padding-left: 0;
+    text-shadow: 0 0 0.6em black;
     li {
         padding-left: 0;
     }
