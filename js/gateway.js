@@ -331,6 +331,7 @@ SharkGame.Gateway = {
     },
 
     showPlanetAttributes(worldData, contentDiv) {
+        /* eslint-disable no-fallthrough */
         switch (SharkGame.Aspects.pathOfEnlightenment.level) {
             case 4:
                 if (worldData.foresight.tip) {
@@ -416,6 +417,7 @@ SharkGame.Gateway = {
                 }
                 contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
         }
+        /* eslint-enable no-fallthrough */
     },
 
     playerHasSeenResource(resource) {
