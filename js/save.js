@@ -153,6 +153,9 @@ SharkGame.Save = {
                 SharkGame.Lab.addUpgrade(upgradeId);
             });
 
+            _.each(SharkGame.Aspects, (aspectData) => {
+                aspectData.level = 0;
+            });
             // load aspects (need to have the cost reducer loaded before world init)
             $.each(saveData.aspects, (aspectId, level) => {
                 if (_.has(SharkGame.Aspects, aspectId)) {
