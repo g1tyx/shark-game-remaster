@@ -282,7 +282,7 @@ SharkGame.Home = {
             {
                 name: "frigid-village",
                 unlock: { upgrade: ["civilContact"] },
-                message: "A colony of squid greets you respectfully.<br>Many small structures form the basis of a tiny village.",
+                message: "A colony of squid greets you respectfully from within a tiny village.",
             },
             {
                 name: "frigid-machine",
@@ -292,12 +292,12 @@ SharkGame.Home = {
             },
             {
                 name: "frigid-squid",
-                unlock: { totalResource: { squid: 275 } },
+                unlock: { totalResource: { squid: 225 } },
                 message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
             },
             {
                 name: "frigid-blast",
-                unlock: { upgrade: ["automation"] },
+                unlock: { upgrade: ["internalInvestigation"] },
                 message: "A frigid blast overtakes you as the machine opens.<br>Its worn internals spill out.",
             },
             {

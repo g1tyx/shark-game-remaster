@@ -104,4 +104,16 @@ SharkGame.Events = {
             }
         },
     },
+    frigidIncreaseUrchinIceResist: {
+        handlingTime: "beforeTick",
+        priority: 1,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.urchin = -0.0001;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
 };

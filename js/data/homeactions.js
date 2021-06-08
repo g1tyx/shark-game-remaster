@@ -3094,7 +3094,7 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "squid", costFunction: "constant", priceIncrease: 20 },
+                { resource: "squid", costFunction: "constant", priceIncrease: 10 },
                 { resource: "fish", costFunction: "linear", priceIncrease: 1000 },
             ],
             max: "collective",
@@ -3337,7 +3337,10 @@ SharkGame.HomeActions = {
                     heater: 1,
                 },
             },
-            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 250 }],
+            cost: [
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 250 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 10 },
+            ],
             max: "heater",
             prereq: {
                 upgrade: ["artificialHeating"],
@@ -3347,17 +3350,18 @@ SharkGame.HomeActions = {
                 "Heater constructed.",
                 "Climate control online.",
                 "Construction complete.",
-                "The end of ice.",
+                "Less-ice-inator is ready to go.",
             ],
             multiOutcomes: [
-                "The ice age comes to a close.",
-                "Is this replacing one form of destruction for another?",
-                "Life becomes easier.",
+                "The ice crawls toward us regardless.",
+                "Are we fighting a hopeless cause?",
+                "The machines extend our lives, but can they truly save us?",
                 "The warmth. The warmth we desired so much.",
-                "Life returns to the frozen sea.",
-                "This world awakens.",
+                "The frozen sea lives a little longer.",
+                "This world dies slower.",
             ],
-            helpText: "Construct a machine to combat the advancing ice shelf.",
+            helpText:
+                "Construct a machine to slow down the advancing ice shelf. If we buy too many then we might run out of kelp.",
         },
     },
 };

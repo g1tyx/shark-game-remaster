@@ -614,10 +614,10 @@ SharkGame.ResourceTable = {
         desc: "A hopeless effort to prevent the inevitable, but it buys precious time.",
         color: "#D13F32",
         income: {
-            ice: -0.1,
             kelp: -5,
         },
         value: 50000,
+        forceIncome: true,
     },
 
     /* coalescer: {
@@ -1067,7 +1067,7 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
     ice: {
         multiply: {
             ice: -0.00101,
-            urchin: -0.001,
+            urchin: -0.0005,
             squid: -0.001,
             shark: -0.001,
             crab: -0.001,

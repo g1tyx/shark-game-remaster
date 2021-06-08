@@ -1291,13 +1291,12 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 7500,
-                sharkonium: 12500,
+                science: 6500,
+                sharkonium: 5000,
             },
             required: {
                 upgrades: ["transmutation"],
             },
-            events: ["frigidActivateIce"],
         },
         engineering: {
             name: "Engineering",
@@ -1424,8 +1423,8 @@ SharkGame.Upgrades = {
         },
         crabBiology: {
             cost: {
-                science: 1750,
-                kelp: 1500,
+                science: 1500,
+                kelp: 1250,
             },
             required: {
                 upgrades: ["biology", "sunObservation"],
@@ -1515,7 +1514,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
             effectDesc: "Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
-                science: 1500,
+                science: 1250,
             },
             required: {
                 upgrades: ["agriculture"],
@@ -1532,8 +1531,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
             effectDesc: "Sharks are twice as effective, squids are 4 times as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 4000,
-                fish: 75000,
+                science: 3500,
+                fish: 50000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -1552,8 +1551,8 @@ SharkGame.Upgrades = {
                 "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves at the border.",
             effectDesc: "Extraction teams are twice as effective thanks to newly-discovered crystal deposits.",
             cost: {
-                science: 5000,
-                fish: 200000,
+                science: 4500,
+                fish: 125000,
             },
             required: {
                 upgrades: ["exploration"],
@@ -1571,8 +1570,8 @@ SharkGame.Upgrades = {
                 "A crab can reach places a squid cannot, and a squid can help a crab get around faster. Putting them together makes a heck of a team!",
             effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
             cost: {
-                science: 2500,
-                kelp: 8000,
+                science: 2000,
+                kelp: 5000,
             },
             required: {
                 upgrades: ["crabBiology", "squidBiology"],
@@ -1584,9 +1583,9 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 7500,
-                crystal: 20000,
-                sand: 75000,
+                science: 5000,
+                crystal: 10000,
+                sand: 50000,
             },
             required: {
                 upgrades: ["underwaterChemistry", "seabedGeology"],
@@ -1594,44 +1593,44 @@ SharkGame.Upgrades = {
         },
         internalInvestigation: {
             name: "Internal Investigation",
-            desc: "The box in the center of the village is a mystery, and so is the gate. What if we open them up and see how they tick?",
-            researchedMessage: "Well, that was a really bad idea, though a necessary one if we want to make the gate work. Now the box is broken.",
-            effectDesc:
-                "We accidentally broke the box by trying to open it up. I guess it was too old. We should probably try and correct that mistake.",
-            cost: {
-                science: 2500,
-                sharkonium: 1000,
-            },
+            desc:
+                "If we want to maybe get the gate working, we're gonna have to look inside the box. It could be risky, though, so we should be prepared before we try!",
+            researchedMessage: "Well, that was a really bad idea! Now the box is broken.",
+            effectDesc: "We accidentally broke the box by trying to open it up. Maybe we - wait, is that ice?!",
+            cost: {},
             required: {
                 upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
+            events: ["frigidActivateIce"],
         },
         artificialHeating: {
             name: "Artificial Heating",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
+            desc: "Okay, nobody panic, but thE OCEAN IS FREEZING, HOW DO WE HEAT IT BACK UP?!",
+            researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
+            effectDesc: "Developed artificial heating machine to slow the incoming ice. Not stop. Only slow.",
             cost: {
                 science: 1000,
-                sand: 2000,
+                kelp: 5000,
             },
             required: {
                 upgrades: ["internalInvestigation"],
             },
         },
-        // coldproofSpines: {
-        //     name: "Coldproof Spines",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
+        coldproofSpines: {
+            name: "Coldproof Spines",
+            desc: "The urchins seem unfazed by our new predicament. What's up with them?",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 17500,
+                kelp: 20000,
+            },
+            required: {
+                upgrades: ["internalInvestigation", "glacialNavigation"],
+            },
+            events: ["frigidIncreaseUrchinIceResist"],
+        },
         // kelpExtraction: {
         //     name: "Kelp Extraction",
         //     desc: "",
