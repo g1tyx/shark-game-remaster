@@ -8,9 +8,7 @@ Cirrial originally developed this game for Seamergency 2014, but continued to de
 
 While the game is in a more-than-playable state, it remains unfinished. This mod, dubbed New Frontiers, intends to finish what Cirrial started, and then move on to reimagine the game and its world.
 
-Development will come in two phases: first, filling in the gaps in the original game and rebalancing it. This will entail rebalancing each of the worldtypes, filling in a number of missing sprites, and rebalancing the recycler and shark machines.
-
-In the second phase, the game will be reimagined with completely new ideas. Each of the 8 original worldtypes will have major changes to clean up their resource networks, making progression simpler and every creature and job more meaningful. New basic animals will be added, and there will be very little overlap between worlds in terms of those animals, making each place visited unique from the last. All of the non-shark machines will receive reworks during this time. Finally, there are a number of secret plans for a larger and more robust game progression.
+This repository holds the first step of development, which is to retool and polish the original game, improve its UI, and complete basic redevelopment of its internals. The next version is in the process of reimagining each of the worlds as unique places with individually significant and different gameplay elements.
 
 The Projects tab has a project which details the development of the first version.
 
