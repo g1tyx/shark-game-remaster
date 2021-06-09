@@ -10,6 +10,4 @@ While the game is in a more-than-playable state, it remains unfinished. This mod
 
 This repository holds the first step of development, which is to retool and polish the original game, improve its UI, and complete basic redevelopment of its internals. The next version is in the process of reimagining each of the worlds as unique places with individually significant and different gameplay elements.
 
-The Projects tab has a project which details the development of the first version.
-
 Contributions welcome.
