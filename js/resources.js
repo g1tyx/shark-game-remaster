@@ -206,7 +206,7 @@ SharkGame.Resources = {
                     changeMap.forEach((generatedAmount, generatedResource) => {
                         // run over all resources first to check if costs can be met
                         // if the cost can't be taken, scale the cost and output down to feasible levels
-                        if (!generatedResource.forceIncome) {
+                        if (!resource.forceIncome) {
                             if (generatedAmount < 0) {
                                 const resourceHeld = res.getResource(generatedResource);
                                 if (resourceHeld + generatedAmount <= 0) {

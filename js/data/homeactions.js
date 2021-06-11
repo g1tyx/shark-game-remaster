@@ -3338,8 +3338,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 250 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 10 },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 200 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 100 },
             ],
             max: "heater",
             prereq: {

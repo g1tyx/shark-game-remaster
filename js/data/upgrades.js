@@ -1292,7 +1292,7 @@ SharkGame.Upgrades = {
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
                 science: 6500,
-                sharkonium: 5000,
+                sharkonium: 4000,
             },
             required: {
                 upgrades: ["transmutation"],
@@ -1308,7 +1308,7 @@ SharkGame.Upgrades = {
                 sharkonium: 1750,
             },
             required: {
-                upgrades: ["automation"],
+                upgrades: ["internalInvestigation"],
                 seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
             effect: {
@@ -1326,8 +1326,8 @@ SharkGame.Upgrades = {
                 "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
             effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
             cost: {
-                science: 25000,
-                sharkonium: 6000,
+                science: 75000,
+                sharkonium: 10000,
             },
             required: {
                 upgrades: ["engineering"],
@@ -1339,7 +1339,7 @@ SharkGame.Upgrades = {
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
             effectDesc: "All shark machines run twice as fast. Again!",
             cost: {
-                science: 25000,
+                science: 100000,
                 sharkonium: 17500,
             },
             required: {
@@ -1423,7 +1423,7 @@ SharkGame.Upgrades = {
         },
         crabBiology: {
             cost: {
-                science: 1500,
+                science: 1250,
                 kelp: 1250,
             },
             required: {
@@ -1583,9 +1583,9 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 5000,
-                crystal: 10000,
-                sand: 50000,
+                science: 2500,
+                crystal: 2000,
+                sand: 20000,
             },
             required: {
                 upgrades: ["underwaterChemistry", "seabedGeology"],
@@ -1594,15 +1594,14 @@ SharkGame.Upgrades = {
         internalInvestigation: {
             name: "Internal Investigation",
             desc:
-                "If we want to maybe get the gate working, we're gonna have to look inside the box. It could be risky, though, so we should be prepared before we try!",
-            researchedMessage: "Well, that was a really bad idea! Now the box is broken.",
+                "This could be really risky, so we should make sure we're ready before trying: If we want to get the gate working, we're gonna have to open the box.",
+            researchedMessage: "Well, that went pretty badly! Now the box is broken.",
             effectDesc: "We accidentally broke the box by trying to open it up. Maybe we - wait, is that ice?!",
             cost: {},
             required: {
                 upgrades: ["automation"],
                 seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
-            events: ["frigidActivateIce"],
         },
         artificialHeating: {
             name: "Artificial Heating",
@@ -1610,8 +1609,8 @@ SharkGame.Upgrades = {
             researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
             effectDesc: "Developed artificial heating machine to slow the incoming ice. Not stop. Only slow.",
             cost: {
-                science: 1000,
-                kelp: 5000,
+                science: 10000,
+                kelp: 50000,
             },
             required: {
                 upgrades: ["internalInvestigation"],
@@ -1620,94 +1619,92 @@ SharkGame.Upgrades = {
         coldproofSpines: {
             name: "Coldproof Spines",
             desc: "The urchins seem unfazed by our new predicament. What's up with them?",
-            researchedMessage: "",
-            effectDesc: "",
+            researchedMessage:
+                "What's up with them is that they're pretty good at taking cold temperatures. Something about efficient metabowhatevers.",
+            effectDesc:
+                "Now that we know better, we can take advantage of urchins' natural cold resistance, making them 10 times less slowed by ice than the rest of the frenzy!",
             cost: {
                 science: 17500,
                 kelp: 20000,
             },
             required: {
                 upgrades: ["internalInvestigation", "glacialNavigation"],
+                totals: {
+                    ice: 100,
+                },
             },
             events: ["frigidIncreaseUrchinIceResist"],
         },
-        // kelpExtraction: {
-        //     name: "Kelp Extraction",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
-        // thermalConditioning: {
-        //     name: "Thermal Conditioning",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
-        // sonicEnergizers: {
-        //     name: "Sonic Energizers",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
-        // rapidRepairs: {
-        //     name: "Rapid Repairs",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
-        // teamSpirit: {
-        //     name: "Team Spirit",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
-        // creatureCoalition: {
-        //     name: "Creature Coalition",
-        //     desc: "",
-        //     researchedMessage: "",
-        //     effectDesc: "",
-        //     cost: {
-        //         science: 1000,
-        //         sand: 2000,
-        //     },
-        //     required: {
-        //         upgrades: ["agriculture"],
-        //     },
-        // },
+        // remember to have rapid repairs remove coldproofspines and thermalconditioning somehow without jeporadizing future runs
+        thermalConditioning: {
+            name: "Thermal Conditioning",
+            desc: "Hold on - if the urchins can resist the cold, couldn't we learn to do that too?",
+            researchedMessage: "Yes, as it turns out, we can! Sorta!",
+            effectDesc: "Everyone (except urchins) is 25% less slowed by ice. I guess maybe we can learn something from the urchins after all.",
+            cost: {
+                science: 200000,
+            },
+            required: {
+                upgrades: ["coldproofSpines"],
+                totals: {
+                    ice: 500,
+                },
+            },
+            events: ["frigidIncreaseFrenzyIceResist"],
+        },
+        sonicEnergizers: {
+            name: "Sonic Energizers",
+            desc: "Alright, so, upon further inspection, the internals of the box seem to be using some kind of sonic emitters. But, like...why?",
+            researchedMessage:
+                "It seems that by vibrating the water at the right frequency, we can forcibly increase the temperature of everything around us. Woah.",
+            effectDesc: "Learned the secrets of sonic energizers. Heaters now slow ice by 10% instead of by 5%.",
+            cost: {
+                science: 50000,
+                sharkonium: 20000,
+            },
+            required: {
+                upgrades: ["artificialHeating"],
+            },
+            events: ["frigidIncreaseHeaterEffectiveness"],
+        },
+        rapidRepairs: {
+            name: "Rapid Repairs",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000000,
+                sharkonium: 75000,
+            },
+            required: {
+                upgrades: ["sonicEnergizers", "iterativeDesign"],
+            },
+        },
+        teamSpirit: {
+            name: "Team Spirit",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        creatureCoalition: {
+            name: "Creature Coalition",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000,
+                sand: 2000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
     },
 };

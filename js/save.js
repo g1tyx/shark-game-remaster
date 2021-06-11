@@ -150,7 +150,7 @@ SharkGame.Save = {
             SharkGame.Lab.resetUpgrades();
 
             _.each(saveData.upgrades, (upgradeId) => {
-                SharkGame.Lab.addUpgrade(upgradeId);
+                SharkGame.Lab.addUpgrade(upgradeId, "load");
             });
 
             _.each(SharkGame.Aspects, (aspectData) => {

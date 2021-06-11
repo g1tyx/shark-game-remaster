@@ -303,12 +303,12 @@ SharkGame.Home = {
             {
                 name: "frigid-ice-one",
                 unlock: { resource: { ice: 25 } },
-                message: "Shards of ice appear on every surface in view.<br>The machine must be repaired.",
+                message: "Shards of ice appear on every surface in view.",
             },
             {
                 name: "frigid-ice-two",
                 unlock: { resource: { ice: 300 } },
-                message: "As the ice shelf advances, some of the frenzy have stopped sleeping.<br>They fear they might not wake back up.",
+                message: "As the ice shelf advances, the frenzy becomes sluggish.<br>The cold seeps through you.",
             },
             {
                 name: "frigid-icy-doom",

@@ -614,7 +614,7 @@ SharkGame.ResourceTable = {
         desc: "A hopeless effort to prevent the inevitable, but it buys precious time.",
         color: "#D13F32",
         income: {
-            kelp: -5,
+            kelp: -100,
         },
         value: 50000,
         forceIncome: true,
@@ -1028,7 +1028,7 @@ SharkGame.ResourceTable = {
         desc: "Impending doom.",
         color: "#E4F1FB",
         income: {
-            ice: 0.01,
+            ice: 0.02,
         },
         value: -100,
         forceIncome: true,
@@ -1072,7 +1072,10 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
             shark: -0.001,
             crab: -0.001,
             specialists: -0.001,
-            breeders: -0.001,
+            nurse: -0.001,
+            collective: -0.001,
+            brood: -0.001,
+            spawner: -0.0005,
         },
     },
     tar: {
@@ -1093,6 +1096,11 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
     historian: {
         multiply: {
             science: 0.01,
+        },
+    },
+    heater: {
+        exponentiate: {
+            ice: 0.95,
         },
     },
 };

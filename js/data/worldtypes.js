@@ -295,7 +295,7 @@ SharkGame.WorldTypes = {
         },
         entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
-        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "curiousCrab"],
+        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "heater"],
         modifiers: [],
         gateRequirements: {
             slots: {

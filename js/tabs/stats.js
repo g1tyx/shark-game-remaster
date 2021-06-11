@@ -310,13 +310,6 @@ SharkGame.Stats = {
         // You would filter or sort here if you want to filter or sort using higher order operations
         // You would filter or sort above the statement where it's checked if the view is switched if you want to do an if statement
 
-        /*
-        incomesTable.append($("<tr>").append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
-            .append($("<td>").html("test2").attr("rowspan", 1).addClass("evenRow"))
-            .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
-            .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")));
-        */
-
         drawnResourceMap.forEach((headingData, headingName) => {
             // if the resource has an income requiring any costs
             // and it isn't a forced income
@@ -365,9 +358,11 @@ SharkGame.Stats = {
             };
 
             $.each(headingData, (subheadingKey, _subheadingValue) => {
-                multipliers.upgrade.push(res.getMultiplierProduct("upgrade", headingName, subheadingKey));
-                multipliers.world.push(res.getMultiplierProduct("world", headingName, subheadingKey));
-                multipliers.aspect.push(res.getMultiplierProduct("aspect", headingName, subheadingKey));
+                const incomeKey = SharkGame.Settings.current.switchStats ? headingName : subheadingKey;
+                const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
+                multipliers.upgrade.push(res.getMultiplierProduct("upgrade", generatorName, incomeKey));
+                multipliers.world.push(res.getMultiplierProduct("world", generatorName, incomeKey));
+                multipliers.aspect.push(res.getMultiplierProduct("aspect", generatorName, incomeKey));
             });
             $.each(multipliers, (category, values) => {
                 //thanks stackoverflow
