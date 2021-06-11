@@ -1252,6 +1252,13 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
+        "Fixed bug where haven had no essence. Oops.",
+        "Changed home messages a little.",
+        "Retconned some previous patch notes.",
+        "Added sprite for octopus investigator.",
+        "Internal stuff.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210515a": ["Added missing flavor text.", "Internal stuff."],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210422a": [
         "Implemented reworked gameplay for the Haven worldtype.",
@@ -1260,7 +1267,7 @@ SharkGame.Changelog = {
         "Changed the colors for Haven worlds.",
         "In the grotto, amounts for each producer now update live.",
         "Both kinds of tooltips update live.",
-        "Tooltips can tell you more things: e.gateway., it now says how much science you get from sea apples.",
+        "Tooltips can tell you more things: for example, it now says how much science you get from sea apples.",
         "Added minimized titlebar. You can switch it back to the old one in the options menu.",
         "Added categories to options menu. Now it's readable!",
     ],
