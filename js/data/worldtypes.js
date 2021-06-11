@@ -115,6 +115,7 @@ SharkGame.WorldTypes = {
         entry: "Remembering nothing, you find yourself in a beautiful atoll teeming with life. Life will be good here.",
         style: "haven",
         includedResources: [
+            "essence",
             "sharks",
             "rays",
             "crabs",
