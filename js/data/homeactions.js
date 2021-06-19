@@ -3338,8 +3338,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 200 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 100 },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 50 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 200 },
             ],
             max: "heater",
             prereq: {
@@ -3360,8 +3360,7 @@ SharkGame.HomeActions = {
                 "The frozen sea lives a little longer.",
                 "This world dies slower.",
             ],
-            helpText:
-                "Construct a machine to slow down the advancing ice shelf. If we buy too many then we might run out of kelp.",
+            helpText: "Construct a machine to slow down the advancing ice shelf.",
         },
     },
 };

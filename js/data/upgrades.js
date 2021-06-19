@@ -1351,7 +1351,6 @@ SharkGame.Upgrades = {
                     fishMachine: 2,
                     sandDigger: 2,
                     autoTransmuter: 2,
-                    heater: 2,
                     scientist: 4,
                 },
             },
@@ -1453,61 +1452,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        /* coordinatedHunting: {
-            name: "Coordinated Hunting",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 1250,
-                fish: 25000,
-            },
-            required: {
-                upgrades: ["civilContact", "sunObservation"],
-                seen: ["squid"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 4,
-                    squid: 4,
-                },
-            },
-        },
-        curiousCrabs: {
-            name: "Crab Curiosity",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 2500,
-                fish: 150000,
-            },
-            required: {
-                upgrades: ["exploration", "crabBiology"],
-                seen: ["huntingSquad"],
-            },
-        },
-        highEfficiencyHunting: {
-            name: "High Efficiency Hunting",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
-            cost: {
-                science: 7500,
-                fish: 100000,
-            },
-            required: {
-                upgrades: ["coordinatedHunting", "exploration"],
-                seen: ["huntingSquad"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 4,
-                    squid: 2,
-                    huntingSquad: 2,
-                },
-            },
-        }, */
         sunObservation: {
             name: "Sun Observation",
             desc: "We must determine what is with the weird glare on the surface of the water.",
@@ -1595,7 +1539,7 @@ SharkGame.Upgrades = {
             name: "Internal Investigation",
             desc:
                 "This could be really risky, so we should make sure we're ready before trying: If we want to get the gate working, we're gonna have to open the box.",
-            researchedMessage: "Well, that went pretty badly! Now the box is broken.",
+            researchedMessage: "As expected, that didn't go so well. Now the box is broken.",
             effectDesc: "We accidentally broke the box by trying to open it up. Maybe we - wait, is that ice?!",
             cost: {},
             required: {
@@ -1609,7 +1553,7 @@ SharkGame.Upgrades = {
             researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
             effectDesc: "Developed artificial heating machine to slow the incoming ice. Not stop. Only slow.",
             cost: {
-                science: 10000,
+                science: 5000,
                 kelp: 50000,
             },
             required: {
@@ -1630,7 +1574,7 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["internalInvestigation", "glacialNavigation"],
                 totals: {
-                    ice: 100,
+                    ice: 475,
                 },
             },
             events: ["frigidIncreaseUrchinIceResist"],
@@ -1647,7 +1591,7 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["coldproofSpines"],
                 totals: {
-                    ice: 500,
+                    ice: 550,
                 },
             },
             events: ["frigidIncreaseFrenzyIceResist"],
@@ -1663,9 +1607,8 @@ SharkGame.Upgrades = {
                 sharkonium: 20000,
             },
             required: {
-                upgrades: ["artificialHeating"],
+                upgrades: ["artificialHeating", "engineering", "teamSpirit"],
             },
-            events: ["frigidIncreaseHeaterEffectiveness"],
         },
         rapidRepairs: {
             name: "Rapid Repairs",
@@ -1682,15 +1625,23 @@ SharkGame.Upgrades = {
         },
         teamSpirit: {
             name: "Team Spirit",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
+            desc: "Alright, I'll admit it, this looks bad. We're gonna need a plan.",
+            researchedMessage:
+                "We put our heads together and came up with a straightforward plan: dissect the machine, learn about its internals, and repair it.",
+            effectDesc: "Sharks, crabs, urchins, and squid production times 4. We can do this.",
             cost: {
-                science: 1000,
-                sand: 2000,
+                science: 55000,
             },
             required: {
-                upgrades: ["agriculture"],
+                upgrades: ["artificialHeating"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 4,
+                    crab: 4,
+                    urchin: 4,
+                    squid: 4,
+                },
             },
         },
         creatureCoalition: {
@@ -1699,11 +1650,27 @@ SharkGame.Upgrades = {
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 1000,
-                sand: 2000,
+                science: 400000,
             },
             required: {
-                upgrades: ["agriculture"],
+                upgrades: ["teamSpirit"],
+                totals: {
+                    ice: 300,
+                },
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 4,
+                    crab: 4,
+                    urchin: 4,
+                    squid: 4,
+                    nurse: 4,
+                    scientist: 4,
+                    brood: 4,
+                    spawner: 4,
+                    collective: 4,
+                    extractionTeam: 4,
+                },
             },
         },
     },

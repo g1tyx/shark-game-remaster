@@ -1028,7 +1028,7 @@ SharkGame.ResourceTable = {
         desc: "Impending doom.",
         color: "#E4F1FB",
         income: {
-            ice: 0.02,
+            ice: 0.05,
         },
         value: -100,
         forceIncome: true,
@@ -1115,7 +1115,7 @@ SharkGame.ResourceSpecialProperties = {
         //
     ],
     incomeCap: {
-        ice: 2,
+        //ice: 2,
     },
 };
 
