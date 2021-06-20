@@ -840,6 +840,7 @@ SharkGame.Home = {
         let appendedProduce = false;
         let appendedConsume = false;
         let appendedMultiply = false;
+        let appendedExponentiate = false;
         let text = "";
 
         $.each(validGenerators, (incomeResource, amount) => {
@@ -877,6 +878,7 @@ SharkGame.Home = {
         $.each(effects.resource, (resource) => {
             $.each(SharkGame.ResourceIncomeAffectors[resource], (type, object) => {
                 $.each(object, (affected, degree) => {
+                    //FIXME: This system is NOT compatible with kinds of resources that have both 'increase' and 'decrease' entries in the affector table.
                     if (type === "multiply") {
                         if (!appendedMultiply) {
                             appendedMultiply = true;
@@ -886,6 +888,26 @@ SharkGame.Home = {
                                 text += "<span class='littleTooltipText'>DECREASES</span><br/>";
                             }
                         }
+                        text +=
+                            "all ".bold() +
+                            res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                            " gains ".bold() +
+                            " by " +
+                            (Math.round(degree * 100) + "%").bold() +
+                            " each<br>";
+                    }
+                    if (type === "exponentiate") {
+                        if (!appendedExponentiate) {
+                            appendedExponentiate = true;
+                            if (degree > 1) {
+                                text += "<span class='littleTooltipText'>MULTIPLICATIVELY INCREASES</span><br/>";
+                            } else if (degree < 1) {
+                                text += "<span class='littleTooltipText'>MULTIPLICATIVELY DECREASES</span><br/>";
+                            } else {
+                                return true;
+                            }
+                        }
+                        degree = degree < 1 ? 1 - degree : degree - 1;
                         text +=
                             "all ".bold() +
                             res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
