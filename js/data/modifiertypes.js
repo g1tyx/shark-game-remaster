@@ -138,6 +138,9 @@ SharkGame.ModifierTypes = {
                 getEffect(degree, _gen, _out) {
                     return degree;
                 },
+                applyToInput(input, genDegree, _outDegree, _gen, out) {
+                    return input * (out !== "sand" ? genDegree : 1);
+                },
             },
             kelpMultiplier: {
                 defaultValue: 1,
@@ -153,6 +156,9 @@ SharkGame.ModifierTypes = {
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, out) {
+                    return input * (out !== "kelp" ? genDegree : 1);
                 },
             },
         },
