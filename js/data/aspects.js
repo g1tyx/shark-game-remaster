@@ -240,12 +240,12 @@ SharkGame.Aspects = {
         max: 1,
         level: 0,
         name: "Internal Calculator",
-        description: "What's a calculator?",
+        description: "Shark science gets started a lot faster when we don't need to use an abacus. Also, what's a calculator?",
         getCost(_level) {
-            return 3;
+            return 4;
         },
         getEffect(_level) {
-            return "Start with the grotto unlocked.";
+            return "If a research costs 100 science or less, then it now costs half as much.";
         },
         getUnlocked() {
             return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
