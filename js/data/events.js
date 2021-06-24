@@ -63,7 +63,6 @@ SharkGame.Events = {
             SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.0011;
             res.clearNetworks();
             res.buildIncomeNetwork();
-            alert("did that");
         },
     },
     frigidThaw: {
@@ -84,7 +83,6 @@ SharkGame.Events = {
             SharkGame.ResourceIncomeAffectors.heater.exponentiate.ice = 1;
             res.clearNetworks();
             res.buildIncomeNetwork();
-            alert("did this");
         },
     },
     frigidAddUrchin: {
