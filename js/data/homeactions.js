@@ -2997,7 +2997,7 @@ SharkGame.HomeActions = {
                 "The urchins go straight to harvesting kelp, and in the process, sand.",
                 "And we're sure that we need urchins this badly?",
             ],
-            helpText: "Attract an urchin with some kelp and entice it to join us.",
+            helpText: "Attract an urchin who will gather kelp and sand.",
         },
 
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3041,29 +3041,6 @@ SharkGame.HomeActions = {
 
         // SQUID JOBS ////////////////////////////////////////////////////////////////////////////////
 
-        getHuntingSquad: {
-            name: "Assemble hunting squad",
-            effect: {
-                resource: {
-                    huntingSquad: 1,
-                },
-            },
-            cost: [
-                { resource: "squid", costFunction: "constant", priceIncrease: 5 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 5 },
-            ],
-            max: "huntingSquad",
-            prereq: {
-                resource: {
-                    squid: 1,
-                },
-                upgrade: ["coordinatedHunting"],
-            },
-            outcomes: [""],
-            multiOutcomes: [""],
-            helpText: "Gear up a handful of squid to hunt together, increasing their collective effectiveness.",
-        },
-
         getExtractionTeam: {
             //i consider this a squid job
             name: "Organize extraction team",
@@ -3106,28 +3083,7 @@ SharkGame.HomeActions = {
             helpText: "Bring together a group of squid to produce even more squid.",
         },
 
-        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
-
-        getCuriousCrab: {
-            name: "Look for curious crab",
-            effect: {
-                resource: {
-                    curiousCrab: 1,
-                },
-            },
-            cost: [
-                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 250 },
-            ],
-            max: "curiousCrab",
-            prereq: {
-                upgrade: ["curiousCrabs"],
-            },
-            outcomes: [""],
-            multiOutcomes: [""],
-            helpText:
-                "Search the frenzy for any particularly curious crabs and see if they can help us make science happen.",
-        },
+        // CRAB JOB ////////////////////////////////////////////////////////////////////////////////
 
         getBrood: {
             name: "Form crab brood",
@@ -3338,8 +3294,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 50 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 200 },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 750 },
             ],
             max: "heater",
             prereq: {
@@ -3419,8 +3375,6 @@ SharkGame.HomeActionCategories = {
             "getScavenger",
             "getHistorian",
             "getExtractionTeam",
-            "getCuriousCrab",
-            "getHuntingSquad",
         ],
     },
 

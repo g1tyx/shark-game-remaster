@@ -33,7 +33,7 @@ SharkGame.Events = {
         priority: 0,
         getAction() {
             if (SharkGame.World.worldType === "frigid") {
-                if (SharkGame.Upgrades.purchased.indexOf("internalInvestigation") > -1) {
+                if (SharkGame.Upgrades.purchased.indexOf("openTheMachine") > -1) {
                     return "trigger";
                 }
                 return "pass";
@@ -52,6 +52,25 @@ SharkGame.Events = {
         priority: 1,
         getAction() {
             if (SharkGame.World.worldType === "frigid") {
+                if (SharkGame.Upgrades.purchased.indexOf("internalInvestigation") > -1) {
+                    return "trigger";
+                }
+                return "pass";
+            }
+            return "remove";
+        },
+        trigger() {
+            SharkGame.World.worldResources.get("ice").income = 0;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.0016;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    frigidInitiateIcyDoom: {
+        handlingTime: "beforeTick",
+        priority: 2,
+        getAction() {
+            if (SharkGame.World.worldType === "frigid") {
                 if (SharkGame.Upgrades.purchased.indexOf("sonicEnergizers") > -1) {
                     return "trigger";
                 }
@@ -63,12 +82,11 @@ SharkGame.Events = {
             SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.0011;
             res.clearNetworks();
             res.buildIncomeNetwork();
-            alert("did that");
         },
     },
     frigidThaw: {
         handlingTime: "beforeTick",
-        priority: 2,
+        priority: 3,
         getAction() {
             if (SharkGame.World.worldType === "frigid") {
                 if (SharkGame.Upgrades.purchased.indexOf("rapidRepairs") > -1) {
@@ -82,9 +100,28 @@ SharkGame.Events = {
             SharkGame.World.worldResources.get("ice").income = 0;
             SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -1;
             SharkGame.ResourceIncomeAffectors.heater.exponentiate.ice = 1;
+            SharkGame.ResourceMap.get("heater").baseIncome.kelp = 0;
+            SharkGame.ResourceMap.get("heater").desc = "Kept ice at bay. Not very useful anymore.";
+            res.reapplyModifiers("heater", "kelp");
             res.clearNetworks();
             res.buildIncomeNetwork();
-            alert("did this");
+        },
+    },
+    frigidEmergencyIceCap: {
+        handlingTime: "afterTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.World.worldType === "frigid") {
+                if (res.getResource("ice") > 999) {
+                    return "trigger";
+                }
+                return "pass";
+            }
+            return "remove";
+        },
+        trigger() {
+            res.setResource("ice", 999);
+            return true;
         },
     },
     frigidAddUrchin: {
@@ -101,35 +138,35 @@ SharkGame.Events = {
             }
         },
     },
-    frigidIncreaseUrchinIceResist: {
-        handlingTime: "beforeTick",
-        priority: 0,
-        getAction() {
-            return "remove";
-        },
-        trigger() {
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.urchin = -0.0001;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.spawner = -0.0001;
-            res.clearNetworks();
-            res.buildIncomeNetwork();
-        },
-    },
-    frigidIncreaseFrenzyIceResist: {
-        handlingTime: "beforeTick",
-        priority: 0,
-        getAction() {
-            return "remove";
-        },
-        trigger() {
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.shark = -0.00075;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.squid = -0.00075;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.crab = -0.00075;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.specialists = -0.00075;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.nurse = -0.00075;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.collective = -0.00075;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.brood = -0.00075;
-            res.clearNetworks();
-            res.buildIncomeNetwork();
-        },
-    },
+    // frigidIncreaseUrchinIceResist: {
+    //     handlingTime: "beforeTick",
+    //     priority: 0,
+    //     getAction() {
+    //         return "remove";
+    //     },
+    //     trigger() {
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.urchin = -0.0001;
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.spawner = -0.0001;
+    //         res.clearNetworks();
+    //         res.buildIncomeNetwork();
+    //     },
+    // },
+    // frigidIncreaseFrenzyIceResist: {
+    //     handlingTime: "beforeTick",
+    //     priority: 0,
+    //     getAction() {
+    //         return "remove";
+    //     },
+    //     trigger() {
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.shark = -0.00075;
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.squid = -0.00075;
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.crab = -0.00075;
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.specialists = -0.00075;
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.nurse = -0.00075;
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.collective = -0.00075;
+    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.brood = -0.00075;
+    //         res.clearNetworks();
+    //         res.buildIncomeNetwork();
+    //     },
+    // },
 };

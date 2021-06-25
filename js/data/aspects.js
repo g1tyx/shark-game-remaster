@@ -245,7 +245,7 @@ SharkGame.Aspects = {
             return 4;
         },
         getEffect(_level) {
-            return "If a research costs 100 science or less, then it now costs half as much.";
+            return "If a research costs 150 science or less, then it now costs half as much.";
         },
         getUnlocked() {
             return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";

@@ -282,23 +282,29 @@ SharkGame.Home = {
             {
                 name: "frigid-village",
                 unlock: { upgrade: ["civilContact"] },
-                message: "A colony of squid greets you respectfully from within a tiny village.",
+                message: "A small village of squids greets you respectfully.",
             },
             {
                 name: "frigid-machine",
-                unlock: { totalResource: { squid: 100 } },
-                message:
-                    "In the center of the settlement lies a small, dilapidated structure.<br>It contains both a deactivated gate and a small, vibrating box. It hums with energy.",
+                unlock: { totalResource: { squid: 40 } },
+                message: "In the center of the settlement lies a vibrating machine and a strange gate.<br>The machine hums with enormous energy.",
             },
             {
                 name: "frigid-squid",
-                unlock: { totalResource: { squid: 225 } },
+                unlock: { totalResource: { squid: 100 } },
                 message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
             },
             {
+                name: "frigid-teamwork",
+                unlock: { totalResource: { extractionTeam: 1 } },
+                message: "The squid champion the value of teamwork and the necessity of cooperation.<br>They say they follow by example.",
+            },
+            // really cool line for another world: "they see something we do not"
+            {
                 name: "frigid-blast",
-                unlock: { upgrade: ["internalInvestigation"] },
-                message: "A frigid blast overtakes you as the machine opens.<br>Its worn internals spill out.",
+                unlock: { upgrade: ["openTheMachine"] },
+                message:
+                    "A violent shockwave erupts from the machine as it opens, and a frigid blast overtakes you.<br>Its worn internals spill out everywhere.",
             },
             {
                 name: "frigid-ice-one",
@@ -308,7 +314,7 @@ SharkGame.Home = {
             {
                 name: "frigid-ice-two",
                 unlock: { resource: { ice: 300 } },
-                message: "As the ice shelf advances, the frenzy becomes sluggish.<br>The cold seeps through you.",
+                message: "As the ice shelf advances, the frenzy becomes sluggish.<br>You feel tired.",
             },
             {
                 name: "frigid-icy-doom",
@@ -318,14 +324,14 @@ SharkGame.Home = {
             {
                 name: "frigid-heat-returns",
                 unlock: { upgrade: ["rapidRepairs"] },
-                message:
-                    "The machine comes to life, and a wave of heat washes over you.<br>The glassy shards of ice disappear from the water, and the glaciers begin to recede.",
+                message: "The machine comes to life, and a wave of heat washes over you.<br>The glaciers begin to recede.",
             },
             /*{
                 name: "frigid-end",
                 unlock: { upgrade: ["rapidRepairs"] },
-                message: "The gate, filled once again, comes to life alongside the whirring machine.",
+                message: "The gate opens.<br>The squid bid you farewell.",
             },*/
+            //another one: "the maw of the gate opens"
         ],
         /*
         {

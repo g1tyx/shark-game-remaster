@@ -1245,7 +1245,7 @@ SharkGame.Upgrades = {
         urchinAttraction: {
             name: "Urchin Attraction",
             desc: "We can see these little spiny balls moving around on the ocean floor. What are they? Why are they everywhere?!",
-            researchedMessage: "We have made two miraculous discoveries: they're sentient (barely), and spikes exist and are painful.",
+            researchedMessage: "We have made two miraculous discoveries: they're sentient (barely), and they are painful to touch.",
             effectDesc:
                 "We've managed to attract the attention of one of the sea urchins, and it's bringing stuff to us. I think it likes us?? Maybe???",
             cost: {
@@ -1262,7 +1262,7 @@ SharkGame.Upgrades = {
                 "Urchins gather sand twice as fast. Not that they understand how to do it faster, but that we've shown them better techniques to mimic.",
             cost: {
                 science: 250,
-                sand: 200,
+                sand: 100,
             },
             required: {
                 upgrades: ["urchinAttraction", "crystalContainer"],
@@ -1305,11 +1305,9 @@ SharkGame.Upgrades = {
             effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
             cost: {
                 science: 35000,
-                sharkonium: 1750,
             },
             required: {
                 upgrades: ["internalInvestigation"],
-                seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
             effect: {
                 incomeMultiplier: {
@@ -1340,7 +1338,6 @@ SharkGame.Upgrades = {
             effectDesc: "All shark machines run twice as fast. Again!",
             cost: {
                 science: 100000,
-                sharkonium: 17500,
             },
             required: {
                 upgrades: ["engineering"],
@@ -1363,7 +1360,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
             cost: {
-                science: 1e6,
+                science: 3e6,
                 sharkonium: 1e6,
                 junk: 1e6,
             },
@@ -1392,7 +1389,7 @@ SharkGame.Upgrades = {
         },
         biology: {
             cost: {
-                science: 700,
+                science: 750,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -1409,7 +1406,7 @@ SharkGame.Upgrades = {
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 850,
+                science: 900,
             },
             required: {
                 upgrades: ["biology"],
@@ -1423,7 +1420,7 @@ SharkGame.Upgrades = {
         crabBiology: {
             cost: {
                 science: 1250,
-                kelp: 1250,
+                kelp: 1000,
             },
             required: {
                 upgrades: ["biology", "sunObservation"],
@@ -1440,8 +1437,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Indirectly, as it turns out. Ew.",
             effectDesc: "Urchins can now be assigned to go make more urchins.",
             cost: {
-                science: 1000,
-                kelp: 800,
+                science: 1150,
+                kelp: 750,
             },
             required: {
                 upgrades: ["biology"],
@@ -1476,7 +1473,7 @@ SharkGame.Upgrades = {
             effectDesc: "Sharks are twice as effective, squids are 4 times as effective. Did you know oceans are big? Fascinating!",
             cost: {
                 science: 3500,
-                fish: 50000,
+                fish: 25000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -1496,7 +1493,7 @@ SharkGame.Upgrades = {
             effectDesc: "Extraction teams are twice as effective thanks to newly-discovered crystal deposits.",
             cost: {
                 science: 4500,
-                fish: 125000,
+                fish: 80000,
             },
             required: {
                 upgrades: ["exploration"],
@@ -1514,11 +1511,12 @@ SharkGame.Upgrades = {
                 "A crab can reach places a squid cannot, and a squid can help a crab get around faster. Putting them together makes a heck of a team!",
             effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
             cost: {
-                science: 2000,
+                science: 2250,
                 kelp: 5000,
             },
             required: {
                 upgrades: ["crabBiology", "squidBiology"],
+                seen: ["brood"],
             },
         },
         transmutation: {
@@ -1527,12 +1525,26 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 2500,
-                crystal: 2000,
-                sand: 20000,
+                science: 2750,
+                crystal: 1000,
+                sand: 10000,
             },
             required: {
                 upgrades: ["underwaterChemistry", "seabedGeology"],
+            },
+        },
+        openTheMachine: {
+            name: "Opening the Machine",
+            desc:
+                "This could be really risky, so we should make sure we're ready before trying: If we want to figure out this technology, we're gonna have to open the machine.",
+            researchedMessage: "The internals spilled out the second we opened it. I guess we were supposed to turn it off first?",
+            effectDesc: "We accidentally broke the machine by trying to open it up. Maybe we - wait, is that ice?!",
+            cost: {
+                science: 25000,
+            },
+            required: {
+                upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
         },
         internalInvestigation: {
@@ -1541,9 +1553,11 @@ SharkGame.Upgrades = {
                 "This could be really risky, so we should make sure we're ready before trying: If we want to get the gate working, we're gonna have to open the box.",
             researchedMessage: "As expected, that didn't go so well. Now the box is broken.",
             effectDesc: "We accidentally broke the box by trying to open it up. Maybe we - wait, is that ice?!",
-            cost: {},
+            cost: {
+                science: 30000,
+            },
             required: {
-                upgrades: ["automation"],
+                upgrades: ["teamSpirit"],
                 seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
         },
@@ -1553,49 +1567,49 @@ SharkGame.Upgrades = {
             researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
             effectDesc: "Developed artificial heating machine to slow the incoming ice. Not stop. Only slow.",
             cost: {
-                science: 5000,
-                kelp: 50000,
+                science: 10000,
+                kelp: 25000,
             },
             required: {
-                upgrades: ["internalInvestigation"],
+                upgrades: ["openTheMachine"],
             },
         },
-        coldproofSpines: {
-            name: "Coldproof Spines",
-            desc: "The urchins seem unfazed by our new predicament. What's up with them?",
-            researchedMessage:
-                "What's up with them is that they're pretty good at taking cold temperatures. Something about efficient metabowhatevers.",
-            effectDesc:
-                "Now that we know better, we can take advantage of urchins' natural cold resistance, making them 10 times less slowed by ice than the rest of the frenzy!",
-            cost: {
-                science: 17500,
-                kelp: 20000,
-            },
-            required: {
-                upgrades: ["internalInvestigation", "glacialNavigation"],
-                totals: {
-                    ice: 475,
-                },
-            },
-            events: ["frigidIncreaseUrchinIceResist"],
-        },
+        // coldproofSpines: {
+        //     name: "Coldproof Spines",
+        //     desc: "The urchins seem unfazed by our new predicament. What's up with them?",
+        //     researchedMessage:
+        //         "What's up with them is that they're pretty good at taking cold temperatures. Something about efficient metabowhatevers.",
+        //     effectDesc:
+        //         "Now that we know better, we can take advantage of urchins' natural cold resistance, making them 10 times less slowed by ice than the rest of the frenzy!",
+        //     cost: {
+        //         science: 17500,
+        //         kelp: 20000,
+        //     },
+        //     required: {
+        //         upgrades: ["internalInvestigation", "glacialNavigation"],
+        //         totals: {
+        //             ice: 475,
+        //         },
+        //     },
+        //     events: ["frigidIncreaseUrchinIceResist"],
+        // },
         // remember to have rapid repairs remove coldproofspines and thermalconditioning somehow without jeporadizing future runs
-        thermalConditioning: {
-            name: "Thermal Conditioning",
-            desc: "Hold on - if the urchins can resist the cold, couldn't we learn to do that too?",
-            researchedMessage: "Yes, as it turns out, we can! Sorta!",
-            effectDesc: "Everyone (except urchins) is 25% less slowed by ice. I guess maybe we can learn something from the urchins after all.",
-            cost: {
-                science: 200000,
-            },
-            required: {
-                upgrades: ["coldproofSpines"],
-                totals: {
-                    ice: 550,
-                },
-            },
-            events: ["frigidIncreaseFrenzyIceResist"],
-        },
+        // thermalConditioning: {
+        //     name: "Thermal Conditioning",
+        //     desc: "Hold on - if the urchins can resist the cold, couldn't we learn to do that too?",
+        //     researchedMessage: "Well, no! But we can try!",
+        //     effectDesc: "Everyone (except urchins) is slowed half as much by ice. I guess maybe we can learn something from the urchins after all.",
+        //     cost: {
+        //         science: 200000,
+        //     },
+        //     required: {
+        //         upgrades: ["coldproofSpines"],
+        //         totals: {
+        //             ice: 550,
+        //         },
+        //     },
+        //     events: ["frigidIncreaseFrenzyIceResist"],
+        // },
         sonicEnergizers: {
             name: "Sonic Energizers",
             desc: "Alright, so, upon further inspection, the internals of the box seem to be using some kind of sonic emitters. But, like...why?",
@@ -1604,7 +1618,6 @@ SharkGame.Upgrades = {
             effectDesc: "Learned the secrets of sonic energizers. Heaters now slow ice by 10% instead of by 5%.",
             cost: {
                 science: 50000,
-                sharkonium: 20000,
             },
             required: {
                 upgrades: ["artificialHeating", "engineering", "teamSpirit"],
@@ -1616,11 +1629,11 @@ SharkGame.Upgrades = {
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 1000000,
-                sharkonium: 75000,
+                science: 200000,
+                sharkonium: 25000,
             },
             required: {
-                upgrades: ["sonicEnergizers", "iterativeDesign"],
+                upgrades: ["sonicEnergizers"],
             },
         },
         teamSpirit: {
@@ -1628,19 +1641,20 @@ SharkGame.Upgrades = {
             desc: "Alright, I'll admit it, this looks bad. We're gonna need a plan.",
             researchedMessage:
                 "We put our heads together and came up with a straightforward plan: dissect the machine, learn about its internals, and repair it.",
-            effectDesc: "Sharks, crabs, urchins, and squid production times 4. We can do this.",
+            effectDesc: "Sharks, crabs, urchins, and squid production times 2. We can do this.",
             cost: {
-                science: 55000,
+                science: 30000,
             },
             required: {
-                upgrades: ["artificialHeating"],
+                upgrades: ["openTheMachine"],
             },
             effect: {
                 incomeMultiplier: {
-                    shark: 4,
-                    crab: 4,
-                    urchin: 4,
-                    squid: 4,
+                    shark: 2,
+                    crab: 2,
+                    urchin: 2,
+                    squid: 2,
+                    extractionTeam: 2,
                 },
             },
         },
@@ -1650,13 +1664,10 @@ SharkGame.Upgrades = {
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 400000,
+                science: 70000,
             },
             required: {
-                upgrades: ["teamSpirit"],
-                totals: {
-                    ice: 300,
-                },
+                upgrades: ["sonicEnergizers"],
             },
             effect: {
                 incomeMultiplier: {
@@ -1664,11 +1675,7 @@ SharkGame.Upgrades = {
                     crab: 4,
                     urchin: 4,
                     squid: 4,
-                    nurse: 4,
                     scientist: 4,
-                    brood: 4,
-                    spawner: 4,
-                    collective: 4,
                     extractionTeam: 4,
                 },
             },
