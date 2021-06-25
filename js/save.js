@@ -225,6 +225,7 @@ SharkGame.Save = {
                 }
             }
 
+            SharkGame.EventHandler.init();
             // if offline mode is enabled
             if (simulateOffline) {
                 // get times elapsed since last save game

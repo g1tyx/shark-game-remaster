@@ -592,6 +592,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             } catch (err) {
                 SharkGame.Log.addError(err);
             }
+        } else {
+            SharkGame.EventHandler.init();
         }
 
         // rename a game option if this is a first time run
@@ -630,7 +632,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         // finally, set up events handler
         // this will also end up processing one event cycle to weed out inapplicable events and trigger the aftereffects of applicable events
-        SharkGame.EventHandler.init();
     },
 
     tick() {
