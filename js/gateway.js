@@ -447,14 +447,14 @@ SharkGame.Gateway.PresenceFeelings = {
     coral: "colorful things",
     dolphin: "annoying creatures",
     whale: "wise creatures",
-    octopus: "logical creatures",
-    squid: "loyal creatures",
+    octopus: "logical beings",
+    squid: "loyal hunters",
     urchin: "dimwitted creatures",
-    shrimp: "simple creatures",
+    shrimp: "simple workers",
     lobster: "unfamiliar crustaceans",
     chimaera: "shark-like creatures",
-    eel: "stealthy creatures",
-    // swordfish: "wary creatures",
+    eel: "slithering hunters",
+    // swordfish: "wary hunters",
 };
 
 SharkGame.Gateway.Messages = {
@@ -538,7 +538,8 @@ SharkGame.Gateway.Messages = {
             "Why did you leave?",
             "The incessant chatter of the dolphins has stopped.",
             "Something echoed from the gate into this realm. Was that you?",
-            "These dolphins are not reflective of others, I assure you.",
+            //"What happened to the dolphins?",
+            //"How did the dolphins forget?",
         ],
         tempestuous: [
             "You braved the maelstrom and came from it unscathed.",
@@ -563,10 +564,10 @@ SharkGame.Gateway.Messages = {
             "Who brought darkness to this place? Or, was it always like this?",
         ],
         frigid: [
-            "The squid do not usually take so well to outsiders.",
             "...did you miss the rays?",
             "Tell me: Where do you see the line between friend and food? The urchins are as simple-minded as the fish.",
-            "The squid thought they recognized you. They would be wrong.",
+            "Who do the squid look up to?",
+            "Who built the great machine?",
             // The squid are primitive and prideful, yet wise.<br>They are no fools, else the ice would have claimed them long ago.
             // save that for the squid status
         ],
