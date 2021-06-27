@@ -401,27 +401,33 @@ SharkGame.Stats = {
                         "inline",
                         "advanced-base-income-" + generatorName + "-" + incomeKey
                     );
-                    if (multipliers.upgrade || generatorBoostRowspan === "inline" || counter === 0) {
+                    if (multipliers.upgrade || counter === 0) {
                         const upgradeMutiplier = res.getMultiplierProduct("upgrade", generatorName, incomeKey);
                         if (upgradeMutiplier !== 1) {
                             addCell(
-                                [res.UPGRADE_MULTIPLIER_COLOR, "x" + main.beautify(upgradeMutiplier)],
+                                [res.UPGRADE_MULTIPLIER_COLOR, "x" + main.beautify(upgradeMutiplier, false, 1)],
                                 multipliers.upgrade ? "inline" : undefined
                             );
                         } else addCell(undefined, multipliers.upgrade ? "inline" : undefined);
                     }
 
-                    if (multipliers.world || generatorBoostRowspan === "inline" || counter === 0) {
+                    if (multipliers.world || counter === 0) {
                         const worldMultiplier = res.getMultiplierProduct("world", generatorName, incomeKey);
                         if (worldMultiplier !== 1) {
-                            addCell([res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier)], multipliers.world ? "inline" : undefined);
+                            addCell(
+                                [res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier, false, 1)],
+                                multipliers.world ? "inline" : undefined
+                            );
                         } else addCell(undefined, multipliers.world ? "inline" : undefined);
                     }
 
-                    if (multipliers.aspect || generatorBoostRowspan === "inline" || counter === 0) {
+                    if (multipliers.aspect || counter === 0) {
                         const aspectMultiplier = res.getMultiplierProduct("aspect", generatorName, incomeKey);
                         if (aspectMultiplier !== 1) {
-                            addCell([res.ASPECT_MULTIPLIER_COLOR, "x" + main.beautify(aspectMultiplier)], multipliers.aspect ? "inline" : undefined);
+                            addCell(
+                                [res.ASPECT_MULTIPLIER_COLOR, "x" + main.beautify(aspectMultiplier, false, 1)],
+                                multipliers.aspect ? "inline" : undefined
+                            );
                         } else addCell(undefined, multipliers.aspect ? "inline" : undefined);
                     }
 
@@ -442,8 +448,6 @@ SharkGame.Stats = {
                         "base-income-" + generatorName + "-" + incomeKey
                     );
                 }
-
-                // grotto is currently missing functionality to display resource effect (not affect) multipliers, needs to be added, but not pertinent since no resources currently use this multiplier type
 
                 addCell(undefined, "inline");
 

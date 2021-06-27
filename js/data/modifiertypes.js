@@ -395,8 +395,8 @@ SharkGame.ModifierTypes = {
                 effectDescription(degree, resource) {
                     return res.getResourceName(resource) + " collection of " + res.getResourceName("fish") + " x " + degree;
                 },
-                getEffect(degree, _gen, out) {
-                    return out === "fish" ? 1 + degree : 1;
+                getEffect(genDegree, _outDegree, _gen, out) {
+                    return out === "fish" ? 1 + genDegree : 1;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
                     return input * (out !== "fish" ? 1 + genDegree : 1);
@@ -414,8 +414,8 @@ SharkGame.ModifierTypes = {
                 effectDescription(degree, resource) {
                     return res.getResourceName(resource) + " collection of " + res.getResourceName("fish") + " x " + degree;
                 },
-                getEffect(degree, _gen, out) {
-                    return degree > 0 && out === "fish" ? 2.5 * 2 ** (degree - 1) : 1;
+                getEffect(genDegree, _outDegree, _gen, out) {
+                    return genDegree > 0 && out === "fish" ? 2.5 * 2 ** (genDegree - 1) : 1;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
                     return input * (genDegree > 0 && out !== "fish" ? 2.5 * 2 ** (genDegree - 1) : 1);
