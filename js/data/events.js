@@ -102,35 +102,4 @@ SharkGame.Events = {
             }
         },
     },
-    // frigidIncreaseUrchinIceResist: {
-    //     handlingTime: "beforeTick",
-    //     priority: 0,
-    //     getAction() {
-    //         return "remove";
-    //     },
-    //     trigger() {
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.urchin = -0.0001;
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.spawner = -0.0001;
-    //         res.clearNetworks();
-    //         res.buildIncomeNetwork();
-    //     },
-    // },
-    // frigidIncreaseFrenzyIceResist: {
-    //     handlingTime: "beforeTick",
-    //     priority: 0,
-    //     getAction() {
-    //         return "remove";
-    //     },
-    //     trigger() {
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.shark = -0.00075;
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.squid = -0.00075;
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.crab = -0.00075;
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.specialists = -0.00075;
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.nurse = -0.00075;
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.collective = -0.00075;
-    //         SharkGame.GeneratorIncomeAffectors.ice.multiply.brood = -0.00075;
-    //         res.clearNetworks();
-    //         res.buildIncomeNetwork();
-    //     },
-    // },
 };

@@ -78,7 +78,6 @@ SharkGame.AspectTree = {
                 SharkGame.Aspects[prerequisite].requiredBy.push(aspectId);
             });
         });
-        this.applyAspects();
     },
     setUp() {
         this.dragStart = { posX: 0, posY: 0 };
@@ -404,7 +403,7 @@ SharkGame.AspectTree = {
     },
     applyAspects() {
         _.each(SharkGame.Aspects, (aspectData) => {
-            if (aspectData.level && typeof aspectData.level === "function") {
+            if (aspectData.level && typeof aspectData.apply === "function") {
                 aspectData.apply("init");
             }
         });

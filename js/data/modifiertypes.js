@@ -382,6 +382,45 @@ SharkGame.ModifierTypes = {
     },
 
     aspect: {
-        //cool placeholder
+        multiplier: {
+            pathOfIndustry: {
+                defaultValue: 0,
+                apply(_current, degree, resource) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    if (incomes.fish) {
+                        incomes.fish = incomes.fish * (degree + 1);
+                    }
+                    return degree;
+                },
+                effectDescription(degree, resource) {
+                    return res.getResourceName(resource) + " collection of " + res.getResourceName("fish") + " x " + degree;
+                },
+                getEffect(degree, _gen, out) {
+                    return out === "fish" ? 1 + degree : 1;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, out) {
+                    return input * (out !== "fish" ? 1 + genDegree : 1);
+                },
+            },
+            adjustedAquadynamics: {
+                defaultValue: 0,
+                apply(_current, degree, resource) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    if (incomes.fish) {
+                        incomes.fish = incomes.fish * 2.5 * degree;
+                    }
+                    return degree;
+                },
+                effectDescription(degree, resource) {
+                    return res.getResourceName(resource) + " collection of " + res.getResourceName("fish") + " x " + degree;
+                },
+                getEffect(degree, _gen, out) {
+                    return degree > 0 && out === "fish" ? 2.5 * 2 ** (degree - 1) : 1;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, out) {
+                    return input * (genDegree > 0 && out !== "fish" ? 2.5 * 2 ** (genDegree - 1) : 1);
+                },
+            },
+        },
     },
 };

@@ -593,6 +593,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 SharkGame.Log.addError(err);
             }
         } else {
+            SharkGame.AspectTree.applyAspects();
             SharkGame.EventHandler.init();
         }
 
@@ -629,9 +630,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 event.currentTarget.classList.add("radical");
             }
         });
-
-        // finally, set up events handler
-        // this will also end up processing one event cycle to weed out inapplicable events and trigger the aftereffects of applicable events
     },
 
     tick() {

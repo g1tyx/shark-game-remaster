@@ -225,6 +225,7 @@ SharkGame.Save = {
                 }
             }
 
+            SharkGame.AspectTree.applyAspects();
             SharkGame.EventHandler.init();
             // if offline mode is enabled
             if (simulateOffline) {

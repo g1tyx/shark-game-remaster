@@ -55,12 +55,24 @@ SharkGame.Aspects = {
             return level * 2 + 2;
         },
         getEffect(level) {
-            return res.getResourceName("shark", false, 69) + " collect things " + (level > 0 ? level + 1 : 1) + " times faster.";
+            return (
+                res.getResourceName("shark", false, 69) +
+                " collect " +
+                res.getResourceName("fish") +
+                " " +
+                (level > 0 ? level + 1 : 1) +
+                " times faster."
+            );
         },
         getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
             tree.increaseLevel(this);
+        },
+        apply(when) {
+            if (when === "init") {
+                res.applyModifier("pathOfIndustry", "shark", this.level);
+            }
         },
     },
     pathOfEnlightenment: {
@@ -77,7 +89,6 @@ SharkGame.Aspects = {
             return (level + 1) ** 2 + 1;
         },
         getEffect(level) {
-            //return "Gain " + level + " extra choice" + (level > 1 ? "s" : "") + " when choosing a world to visit.";
             switch (level) {
                 case 1:
                     return "Reveals information about a world before you choose to visit it.";
@@ -136,6 +147,11 @@ SharkGame.Aspects = {
         clicked(_event) {
             tree.increaseLevel(this);
         },
+        apply(when) {
+            if (when === "init") {
+                SharkGame.Resources.changeResource("crab", 10 * SharkGame.Aspects.pathOfTime.level ** 3);
+            }
+        },
     },
     adjustedAquadynamics: {
         posX: 610,
@@ -151,12 +167,19 @@ SharkGame.Aspects = {
             return 2 * level + 1;
         },
         getEffect(level) {
-            return res.getResourceName("ray", false, 69) + " hunt " + res.getResourceName("fish", false, 69) + " " + 2 ** level * 2.5 + "x faster.";
+            return (
+                res.getResourceName("ray", false, 69) + " hunt " + res.getResourceName("fish", false, 69) + " " + 2 ** (level - 1) * 2.5 + "x faster."
+            );
         },
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
             tree.increaseLevel(this);
+        },
+        apply(when) {
+            if (when === "init") {
+                res.applyModifier("adjustedAquadynamics", "ray", this.level);
+            }
         },
     },
     destinyGamble: {
