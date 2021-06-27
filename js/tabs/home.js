@@ -266,7 +266,28 @@ SharkGame.Home = {
         frigid: [
             {
                 name: "frigid-default",
-                message: "Giant boulders of ice dot the horizon, surrounding you on all sides.<br>You hear a quiet, ambient hum.",
+                message: "Giant shards of glassy ice surround you on all sides.",
+            },
+            {
+                name: "frigid-ice-one",
+                unlock: { resource: { ice: 300 } },
+                message: "You feel tired.",
+            },
+            {
+                name: "frigid-icy-doom",
+                unlock: { resource: { ice: 750 } },
+                message: "So cold. So hungry.<br><span class='smallDesc'>So hopeless.</span>",
+            },
+            {
+                name: "frigid-distant-village",
+                unlock: { totalResource: { science: 1 } },
+                message: "While scanning the horizon, you notice a gap in the ice.<br>You peer through it, and spot something else.",
+            },
+            {
+                name: "frigid-village",
+                unlock: { upgrade: ["civilContact"] },
+                message:
+                    "A small village of squid greets you respectfully.<br>The water in this place is a little warmer, and you hear a quiet, ambient hum.",
             },
             {
                 name: "frigid-urchins",
@@ -275,56 +296,36 @@ SharkGame.Home = {
                     "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile.<br>They know nothing but the kelp.",
             },
             {
-                name: "frigid-distant-village",
-                unlock: { upgrade: ["seabedGeology"] },
-                message: "While scanning the horizon, you notice some outcroppings in the distance.",
-            },
-            {
-                name: "frigid-village",
-                unlock: { upgrade: ["civilContact"] },
-                message: "A small village of squids greets you respectfully.",
-            },
-            {
-                name: "frigid-machine",
-                unlock: { totalResource: { squid: 40 } },
-                message: "In the center of the settlement lies a vibrating machine and a strange gate.<br>The machine hums with enormous energy.",
-            },
-            {
-                name: "frigid-squid",
-                unlock: { totalResource: { squid: 100 } },
-                message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
-            },
-            {
                 name: "frigid-teamwork",
                 unlock: { totalResource: { extractionTeam: 1 } },
                 message: "The squid champion the value of teamwork and the necessity of cooperation.<br>They say they follow by example.",
             },
-            // really cool line for another world: "they see something we do not"
             {
-                name: "frigid-blast",
-                unlock: { upgrade: ["openTheMachine"] },
+                name: "frigid-machine",
+                unlock: { totalResource: { squid: 125 } },
                 message:
-                    "A violent shockwave erupts from the machine as it opens, and a frigid blast overtakes you.<br>Its worn internals spill out everywhere.",
+                    "In the center of the settlement lies a vibrating...thing, and a strange gate.<br>The thing buzzes with extraordinary energy.",
             },
             {
-                name: "frigid-ice-one",
-                unlock: { resource: { ice: 25 } },
-                message: "Shards of ice appear on every surface in view.",
+                name: "frigid-squid",
+                unlock: { totalResource: { squid: 250 } },
+                message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
             },
             {
-                name: "frigid-ice-two",
-                unlock: { resource: { ice: 300 } },
-                message: "As the ice shelf advances, the frenzy becomes sluggish.<br>You feel tired.",
+                name: "frigid-suspicion",
+                unlock: { upgrade: ["automation"] },
+                message: "The squid look at the great machine in awe when they pass it by.<br>They see something we do not.",
             },
             {
-                name: "frigid-icy-doom",
-                unlock: { resource: { ice: 800 } },
-                message: "So cold. So hungry.<br><span class='smallDesc'>So hopeless.</span>",
+                name: "frigid-battery",
+                unlock: { upgrade: ["internalInquiry"] },
+                message:
+                    "Buried deep within the complex lies a massive, dimly glowing battery.<br>The squid say replacing it will melt the ice and let us leave.",
             },
             {
                 name: "frigid-heat-returns",
-                unlock: { upgrade: ["rapidRepairs"] },
-                message: "The machine comes to life, and a wave of heat washes over you.<br>The glaciers begin to recede.",
+                unlock: { upgrade: ["rapidRecharging"] },
+                message: "A wave of heat washes over you, and the dingy complex comes back to life.<br>The gate turns on, but doesn't open.",
             },
             /*{
                 name: "frigid-end",

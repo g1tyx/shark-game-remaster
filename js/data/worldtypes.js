@@ -85,8 +85,7 @@ SharkGame.WorldTypes = {
                 "This world is teeming with life, more than any other place you've seen before. The water is clear, the sand is clean, the fish are plenty. A paradise in every way.",
             missing: ["laser"],
             present: ["coral", "dolphin", "whale"],
-            hazards: "No hazards detected.",
-            tip: "You will waste no time if you choose to visit this place. The abundance of resources makes it quick and painless.",
+            tip: "The abudance of resources might may your stay here shorter than others.",
         },
         entry: "Remembering nothing, you find yourself in a beautiful atoll teeming with life. Life will be good here.",
         style: "haven",
@@ -202,18 +201,21 @@ SharkGame.WorldTypes = {
         foresight: {
             get longDesc() {
                 return (
-                    "The water here is dank and tinted green. The ocean is polluted with " +
-                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? res.getResourceName("tar") + "." : "an unrecognizable substance.")
+                    "The water here is dank and tinted green by " +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? res.getResourceName("tar") + "." : "an unrecognizable substance.") +
+                    " Husks of machinery litter the ocean floor."
                 );
             },
             missing: ["seaApple", "kelp"],
             present: ["octopus", "sponge", "clam"],
-            get hazards() {
-                return gateway.completedWorlds.indexOf("abandoned") > -1
-                    ? "Machines here pollute the ocean with " + res.getResourceName("tar") + ", killing the frenzy."
-                    : "Pollution may harm the frenzy.";
+            get tip() {
+                return (
+                    "This ocean is polluted with " +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1
+                        ? res.getResourceName("tar")
+                        : "an unrecognizable substance" + ". It is only harmful when machines produce it.")
+                );
             },
-            tip: "These tainted waves will surely present a challenge. Sea life is sensitive, you know, so be responsible!",
         },
         entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
@@ -288,23 +290,28 @@ SharkGame.WorldTypes = {
             longDesc: "This world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
             missing: ["seaApple"],
             present: ["squid", "urchin"],
-            get hazards() {
-                return (gateway.completedWorlds.indexOf("frigid") > -1 ? res.getResourceName("ice") : "The cold ") + " may slow the frenzy.";
+            get tip() {
+                return (
+                    "This world has " +
+                    res.getResourceName("ice") +
+                    ". " +
+                    res.getResourceName("ice") +
+                    " will slow some of the frenzy, and will be present from the start."
+                );
             },
-            tip: "Take care not to be swallowed by ice. Should it ever descend upon you, get out ahead of it, and work quickly.",
         },
         entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
         includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "heater"],
-        modifiers: [],
+        modifiers: [{ type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 1 }],
         gateRequirements: {
             slots: {
-                sand: 1e7,
-                crystal: 1e7,
-                clam: 1e6,
-                heater: 5,
-                sharkonium: 1e8,
-                fish: 1e8,
+                sand: 2e7,
+                crystal: 2e7,
+                kelp: 1e8,
+                heater: 50,
+                sharkonium: 2e6,
+                fish: 5e8,
             },
         },
     },

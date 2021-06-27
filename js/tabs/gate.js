@@ -6,7 +6,7 @@ SharkGame.Gate = {
     tabBg: "img/bg/bg-gate.png",
 
     discoverReq: {
-        upgrade: ["gateDiscovery", "farAbandonedExploration", "farHavenExploration"],
+        upgrade: ["gateDiscovery", "farAbandonedExploration", "farHavenExploration", "rapidRecharging"],
     },
 
     message: "A foreboding circular structure, closed shut.<br/>There are many slots, and a sign you know to mean 'insert items here'.",

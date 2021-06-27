@@ -1241,7 +1241,15 @@ SharkGame.Upgrades = {
         },
     },
     frigid: {
-        crystalBite: {},
+        crystalBite: {
+            cost: {
+                science: 25,
+                fish: 100,
+            },
+            required: {
+                upgrades: ["civilContact"],
+            },
+        },
         urchinAttraction: {
             name: "Urchin Attraction",
             desc: "We can see these little spiny balls moving around on the ocean floor. What are they? Why are they everywhere?!",
@@ -1249,19 +1257,39 @@ SharkGame.Upgrades = {
             effectDesc:
                 "We've managed to attract the attention of one of the sea urchins, and it's bringing stuff to us. I think it likes us?? Maybe???",
             cost: {
-                science: 50,
+                science: 25,
+            },
+            required: {
+                upgrades: ["civilContact"],
             },
             events: ["frigidAddUrchin"],
         },
-        crystalContainer: {},
-        statsDiscovery: {},
-        underwaterChemistry: {},
+        crystalContainer: {
+            cost: {
+                science: 50,
+                crystal: 25,
+            },
+            required: {
+                upgrades: ["civilContact"],
+            },
+        },
+        statsDiscovery: {
+            cost: {
+                science: 50,
+            },
+        },
+        underwaterChemistry: {
+            cost: {
+                science: 100,
+                crystal: 25,
+            },
+        },
         seabedGeology: {
             researchedMessage: "Not only did we find a whole bunch of weird things, we found that there was more sand!",
             effectDesc:
                 "Urchins gather sand twice as fast. Not that they understand how to do it faster, but that we've shown them better techniques to mimic.",
             cost: {
-                science: 250,
+                science: 150,
                 sand: 100,
             },
             required: {
@@ -1275,97 +1303,35 @@ SharkGame.Upgrades = {
         },
         civilContact: {
             name: "Civil Contact",
-            desc: "We see a number of strange structures in the distance. What are we looking at, exactly?",
+            desc: "We see a number of strange structures through the gap in the ice. What are we looking at, exactly?",
             researchedMessage: "We visited the structures, and it turns out it's an entire civilization!",
-            effectDesc: "Found the squids. They can be enlisted to help catch fish.",
+            effectDesc: "Found the squids. They can be enlisted to help catch fish. Also moved to a less frozen place.",
             cost: {
-                science: 300,
-            },
-            required: {
-                upgrades: ["seabedGeology"],
+                science: 25,
             },
         },
-        automation: {
-            name: "Automation",
-            desc: "Using sharkonium, we can make things to do things so we don't have to do the things!",
-            researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
-            effectDesc: "Machines can be built to supplement population duties. This is efficient.",
-            cost: {
-                science: 6500,
-                sharkonium: 4000,
-            },
-            required: {
-                upgrades: ["transmutation"],
-            },
-        },
-        engineering: {
-            name: "Engineering",
-            desc: "The machines sort of suck. Let's make them better by learning how!",
-            researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
-            effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
-            cost: {
-                science: 35000,
-            },
-            required: {
-                upgrades: ["internalInvestigation"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    crystalMiner: 2,
-                    fishMachine: 2,
-                    sandDigger: 2,
-                },
-            },
-        },
-        recyclerDiscovery: {
-            name: "Recycler",
-            desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
+        teamSpirit: {
+            name: "Team Spirit",
+            desc: "The squid seem adamant on showing us the way of teamwork, or something.",
             researchedMessage:
-                "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
-            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
+                "The squid said something about being efficient and cooperative and blah blah blah. It's a little pretentious, but I GUESS they have a point.",
+            effectDesc: "Sharks, crabs, urchins, extraction teams, scientists, and squid production times 2.",
             cost: {
-                science: 75000,
-                sharkonium: 10000,
+                science: 2500,
             },
             required: {
-                upgrades: ["engineering"],
-            },
-        },
-        iterativeDesign: {
-            name: "Iterative Design",
-            desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
-            researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
-            effectDesc: "All shark machines run twice as fast. Again!",
-            cost: {
-                science: 100000,
-            },
-            required: {
-                upgrades: ["engineering"],
+                upgrades: ["crabBiology", "squidBiology"],
+                seen: ["extractionTeam"],
             },
             effect: {
                 incomeMultiplier: {
-                    crystalMiner: 2,
-                    fishMachine: 2,
-                    sandDigger: 2,
-                    autoTransmuter: 2,
-                    scientist: 4,
+                    shark: 2,
+                    crab: 2,
+                    squid: 2,
+                    urchin: 2,
+                    scientist: 2,
+                    extractionTeam: 2,
                 },
-            },
-        },
-        superprocessing: {
-            name: "Superprocessing",
-            desc:
-                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
-            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
-            effectDesc:
-                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
-            cost: {
-                science: 3e6,
-                sharkonium: 1e6,
-                junk: 1e6,
-            },
-            required: {
-                upgrades: ["iterativeDesign", "recyclerDiscovery"],
             },
         },
         agriculture: {
@@ -1375,8 +1341,8 @@ SharkGame.Upgrades = {
                 "It sorta worked. We've had to plant kelp all over the place, since the urchins just tear through it if it's all together.",
             effectDesc: "Urchins gather kelp twice as fast. Just kelp.",
             cost: {
-                science: 550,
-                sand: 500,
+                science: 350,
+                sand: 400,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -1387,9 +1353,23 @@ SharkGame.Upgrades = {
                 },
             },
         },
+        assistedExtraction: {
+            name: "Assisted Extraction",
+            desc: "Crabs take forever to get crystals. The squid insist that working together will help. I guess it's better than nothing.",
+            researchedMessage:
+                "A crab can reach places a squid cannot, and a squid can help a crab get around faster. The squid were right, this is great!",
+            effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
+            cost: {
+                science: 500,
+                kelp: 250,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
         biology: {
             cost: {
-                science: 750,
+                science: 1000,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -1402,11 +1382,11 @@ SharkGame.Upgrades = {
         },
         squidBiology: {
             name: "Squid Biology",
-            desc: "",
+            desc: "Discover the secrets of squid reproduction.",
             researchedMessage: "",
-            effectDesc: "",
+            effectDesc: "Squid can now be assigned to breed in a collective.",
             cost: {
-                science: 900,
+                science: 1250,
             },
             required: {
                 upgrades: ["biology"],
@@ -1419,8 +1399,8 @@ SharkGame.Upgrades = {
         },
         crabBiology: {
             cost: {
-                science: 1250,
-                kelp: 1000,
+                science: 1750,
+                kelp: 2500,
             },
             required: {
                 upgrades: ["biology", "sunObservation"],
@@ -1437,7 +1417,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Indirectly, as it turns out. Ew.",
             effectDesc: "Urchins can now be assigned to go make more urchins.",
             cost: {
-                science: 1150,
+                science: 1250,
                 kelp: 750,
             },
             required: {
@@ -1472,7 +1452,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
             effectDesc: "Sharks are twice as effective, squids are 4 times as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 3500,
+                science: 4500,
                 fish: 25000,
             },
             required: {
@@ -1492,7 +1472,7 @@ SharkGame.Upgrades = {
                 "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves at the border.",
             effectDesc: "Extraction teams are twice as effective thanks to newly-discovered crystal deposits.",
             cost: {
-                science: 4500,
+                science: 6000,
                 fish: 80000,
             },
             required: {
@@ -1502,21 +1482,6 @@ SharkGame.Upgrades = {
                 incomeMultiplier: {
                     extractionTeam: 4,
                 },
-            },
-        },
-        assistedExtraction: {
-            name: "Assisted Extraction",
-            desc: "Crabs take forever to get crystals. The squid insist that working together will make them take less time.",
-            researchedMessage:
-                "A crab can reach places a squid cannot, and a squid can help a crab get around faster. Putting them together makes a heck of a team!",
-            effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
-            cost: {
-                science: 2250,
-                kelp: 5000,
-            },
-            required: {
-                upgrades: ["crabBiology", "squidBiology"],
-                seen: ["brood"],
             },
         },
         transmutation: {
@@ -1533,45 +1498,139 @@ SharkGame.Upgrades = {
                 upgrades: ["underwaterChemistry", "seabedGeology"],
             },
         },
-        openTheMachine: {
-            name: "Opening the Machine",
-            desc:
-                "This could be really risky, so we should make sure we're ready before trying: If we want to figure out this technology, we're gonna have to open the machine.",
-            researchedMessage: "The internals spilled out the second we opened it. I guess we were supposed to turn it off first?",
-            effectDesc: "We accidentally broke the machine by trying to open it up. Maybe we - wait, is that ice?!",
+        automation: {
+            name: "Automation",
+            desc: "Using sharkonium, we can make things to do things so we don't have to do the things!",
+            researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
+            effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 25000,
+                science: 7500,
+                sharkonium: 4000,
+            },
+            required: {
+                upgrades: ["transmutation"],
+            },
+        },
+        internalInvestigation: {
+            name: "Internal Investigation",
+            desc: "There's something up with that big machine. Why is it there? What does it do? Why is there a gate attached to it?",
+            researchedMessage:
+                "When we went to tamper with the machine, we found a secret hatch. It leads to a massive underground complex beneath the village!",
+            effectDesc: "We accidentally discovered the underground complex. The squid do not seem to know we have stumbled upon it.",
+            cost: {
+                science: 32500,
             },
             required: {
                 upgrades: ["automation"],
                 seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
         },
-        internalInvestigation: {
-            name: "Internal Investigation",
-            desc:
-                "This could be really risky, so we should make sure we're ready before trying: If we want to get the gate working, we're gonna have to open the box.",
-            researchedMessage: "As expected, that didn't go so well. Now the box is broken.",
-            effectDesc: "We accidentally broke the box by trying to open it up. Maybe we - wait, is that ice?!",
+        artificialHeating: {
+            name: "Artificial Heating",
+            desc: "Okay, seriously, I'm getting real sick of being cold all the time! How do we heat stuff up?",
+            researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
+            effectDesc: "Developed artificial heating machines to battle the ice.",
             cost: {
-                science: 30000,
+                science: 25000,
+                kelp: 250000,
             },
             required: {
-                upgrades: ["teamSpirit"],
+                upgrades: ["automation"],
                 seen: ["fishMachine", "crystalMiner", "sandDigger"],
             },
         },
-        artificialHeating: {
-            name: "Artificial Heating",
-            desc: "Okay, nobody panic, but thE OCEAN IS FREEZING, HOW DO WE HEAT IT BACK UP?!",
-            researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
-            effectDesc: "Developed artificial heating machine to slow the incoming ice. Not stop. Only slow.",
+        engineering: {
+            name: "Engineering",
+            desc: "The machines sort of suck. Let's make them better by learning how!",
+            researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
+            effectDesc: "Machines are twice as effective. Auto-transmuters are now possible to create.",
             cost: {
-                science: 10000,
-                kelp: 25000,
+                science: 40000,
+                sharkonium: 10000,
             },
             required: {
-                upgrades: ["openTheMachine"],
+                upgrades: ["automation"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                },
+            },
+        },
+        recyclerDiscovery: {
+            name: "Recycler",
+            desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
+            researchedMessage:
+                "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
+            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
+            cost: {
+                science: 150000,
+                sharkonium: 40000,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+        },
+        iterativeDesign: {
+            name: "Iterative Design",
+            desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
+            researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
+            effectDesc: "All shark machines run twice as fast. Again!",
+            cost: {
+                science: 250000,
+                sharkonium: 75000,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                    autoTransmuter: 2,
+                    scientist: 4,
+                },
+            },
+        },
+        superprocessing: {
+            name: "Superprocessing",
+            desc:
+                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
+            effectDesc:
+                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
+            cost: {
+                science: 3e6,
+                sharkonium: 250000,
+                junk: 1e6,
+            },
+            required: {
+                upgrades: ["iterativeDesign", "recyclerDiscovery"],
+            },
+        },
+        creatureCoalition: {
+            name: "Creature Coalition",
+            desc: "Everyone feels it; the cold eats at us all. The squid are right, we have to cooperate to make progress.",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000000,
+            },
+            required: {
+                upgrades: ["internalInquiry"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 8,
+                    crab: 8,
+                    urchin: 4,
+                    squid: 4,
+                    scientist: 4,
+                    extractionTeam: 4,
+                },
             },
         },
         // coldproofSpines: {
@@ -1610,74 +1669,54 @@ SharkGame.Upgrades = {
         //     },
         //     events: ["frigidIncreaseFrenzyIceResist"],
         // },
-        sonicEnergizers: {
-            name: "Sonic Energizers",
-            desc: "Alright, so, upon further inspection, the internals of the box seem to be using some kind of sonic emitters. But, like...why?",
-            researchedMessage:
-                "It seems that by vibrating the water at the right frequency, we can forcibly increase the temperature of everything around us. Woah.",
-            effectDesc: "Learned the secrets of sonic energizers. Heaters now slow ice by 10% instead of by 5%.",
+        internalExpedition: {
+            name: "Internal Expedition",
+            desc: "We have the resources to launch a secret expedition into the machine. Its secrets must be known.",
+            researchedMessage: "The expedition went well, but on the way out, a squid noticed us leaving the machine. The jig is up.",
+            effectDesc: "Discovered little more than endless hallways of unrecognizable text and rooms filled with incomprehensible control schemes.",
             cost: {
-                science: 50000,
+                science: 75000,
+            },
+            effect: {
+                incomeMultiplier: {
+                    scientist: 2,
+                },
             },
             required: {
-                upgrades: ["artificialHeating", "engineering", "teamSpirit"],
+                upgrades: ["internalInvestigation"],
             },
         },
-        rapidRepairs: {
-            name: "Rapid Repairs",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
+        internalInquiry: {
+            name: "Internal Inquiry",
+            desc: "We haven't spoken to the squid about what happened. Maybe we should say something.",
+            researchedMessage:
+                "They're not mad, just disappointed. They had hoped we would work together with them - they don't understand the controls either, as it turns out.",
+            effectDesc: "Reconciled with the squids. They told us what they know about the machine's inner workings.",
             cost: {
                 science: 200000,
-                sharkonium: 25000,
-            },
-            required: {
-                upgrades: ["sonicEnergizers"],
-            },
-        },
-        teamSpirit: {
-            name: "Team Spirit",
-            desc: "Alright, I'll admit it, this looks bad. We're gonna need a plan.",
-            researchedMessage:
-                "We put our heads together and came up with a straightforward plan: dissect the machine, learn about its internals, and repair it.",
-            effectDesc: "Sharks, crabs, urchins, and squid production times 2. We can do this.",
-            cost: {
-                science: 30000,
-            },
-            required: {
-                upgrades: ["openTheMachine"],
             },
             effect: {
                 incomeMultiplier: {
-                    shark: 2,
-                    crab: 2,
-                    urchin: 2,
                     squid: 2,
-                    extractionTeam: 2,
+                    extractionTeam: 4,
+                    collective: 2,
                 },
             },
+            required: {
+                upgrades: ["internalExpedition", "engineering"],
+            },
         },
-        creatureCoalition: {
-            name: "Creature Coalition",
-            desc: "",
+        rapidRecharging: {
+            name: "Rapid Recharging",
+            desc: "Replace the battery. Melt the ice. Open the gate.",
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 70000,
+                science: 2500000,
+                sharkonium: 250000,
             },
             required: {
-                upgrades: ["sonicEnergizers"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 4,
-                    crab: 4,
-                    urchin: 4,
-                    squid: 4,
-                    scientist: 4,
-                    extractionTeam: 4,
-                },
+                upgrades: ["internalInquiry", "iterativeDesign"],
             },
         },
     },

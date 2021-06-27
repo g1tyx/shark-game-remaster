@@ -28,50 +28,12 @@
  */
 /** @type Record<string, SharkEventHandler> */
 SharkGame.Events = {
-    frigidActivateIce: {
-        handlingTime: "beforeTick",
-        priority: 0,
-        getAction() {
-            if (SharkGame.World.worldType === "frigid") {
-                if (SharkGame.Upgrades.purchased.indexOf("openTheMachine") > -1) {
-                    return "trigger";
-                }
-                return "pass";
-            }
-            return "remove";
-        },
-        trigger() {
-            SharkGame.World.worldResources.get("ice").income = 0.1;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.002;
-            res.clearNetworks();
-            res.buildIncomeNetwork();
-        },
-    },
-    frigidIntensifyIce: {
-        handlingTime: "beforeTick",
-        priority: 1,
-        getAction() {
-            if (SharkGame.World.worldType === "frigid") {
-                if (SharkGame.Upgrades.purchased.indexOf("internalInvestigation") > -1) {
-                    return "trigger";
-                }
-                return "pass";
-            }
-            return "remove";
-        },
-        trigger() {
-            SharkGame.World.worldResources.get("ice").income = 0;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.0016;
-            res.clearNetworks();
-            res.buildIncomeNetwork();
-        },
-    },
     frigidInitiateIcyDoom: {
         handlingTime: "beforeTick",
         priority: 2,
         getAction() {
             if (SharkGame.World.worldType === "frigid") {
-                if (SharkGame.Upgrades.purchased.indexOf("sonicEnergizers") > -1) {
+                if (SharkGame.Upgrades.purchased.indexOf("civilContact") > -1) {
                     return "trigger";
                 }
                 return "pass";
@@ -79,7 +41,7 @@ SharkGame.Events = {
             return "remove";
         },
         trigger() {
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -0.0011;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.world = -0.0015015;
             res.clearNetworks();
             res.buildIncomeNetwork();
         },
@@ -89,7 +51,7 @@ SharkGame.Events = {
         priority: 3,
         getAction() {
             if (SharkGame.World.worldType === "frigid") {
-                if (SharkGame.Upgrades.purchased.indexOf("rapidRepairs") > -1) {
+                if (SharkGame.Upgrades.purchased.indexOf("rapidRecharging") > -1) {
                     return "trigger";
                 }
                 return "pass";
@@ -97,12 +59,14 @@ SharkGame.Events = {
             return "remove";
         },
         trigger() {
-            SharkGame.World.worldResources.get("ice").income = 0;
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.ice = -1;
-            SharkGame.ResourceIncomeAffectors.heater.exponentiate.ice = 1;
-            SharkGame.ResourceMap.get("heater").baseIncome.kelp = 0;
+            world.worldResources.get("ice").income = -50;
+            SharkGame.ResourceMap.get("heater").baseIncome = {
+                kelp: 0,
+                ice: 0,
+            };
             SharkGame.ResourceMap.get("heater").desc = "Kept ice at bay. Not very useful anymore.";
             res.reapplyModifiers("heater", "kelp");
+            res.reapplyModifiers("heater", "ice");
             res.clearNetworks();
             res.buildIncomeNetwork();
         },

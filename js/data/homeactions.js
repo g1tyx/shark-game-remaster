@@ -2962,7 +2962,7 @@ SharkGame.HomeActions = {
                 "A squad of squid! A squid squad!",
                 "A school of squid!",
             ],
-            helpText: "Enlist a squid to help us hunt down fish.",
+            helpText: "Enlist a squid to help us hunt down fish. Squid are used to the cold.",
         },
 
         getCrab: {
@@ -2997,7 +2997,7 @@ SharkGame.HomeActions = {
                 "The urchins go straight to harvesting kelp, and in the process, sand.",
                 "And we're sure that we need urchins this badly?",
             ],
-            helpText: "Attract an urchin who will gather kelp and sand.",
+            helpText: "Attract an urchin who will gather kelp and sand. Urchins are used to the cold.",
         },
 
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3052,7 +3052,7 @@ SharkGame.HomeActions = {
             cost: [
                 { resource: "crab", costFunction: "constant", priceIncrease: 1 },
                 { resource: "squid", costFunction: "constant", priceIncrease: 1 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 25 },
+                { resource: "kelp", costFunction: "linear", priceIncrease: 50 },
             ],
             max: "extractionTeam",
             prereq: {

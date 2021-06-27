@@ -349,17 +349,6 @@ SharkGame.ResourceTable = {
         value: 4000,
     },
 
-    curiousCrab: {
-        name: "curious crabs",
-        singleName: "curious crab",
-        desc: "Rummagers, unearthing great secrets.",
-        color: "#AAE03D", //needs new color
-        income: {
-            science: 1,
-        },
-        value: 4000,
-    },
-
     /* miller: {
         name: "miller crabs",
         singleName: "miller crab",
@@ -509,17 +498,6 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
-    huntingSquad: {
-        name: "hunting squads",
-        singleName: "hunting squad",
-        desc: "United. Effective. Deadly.",
-        color: "#473E21", //also needs new color
-        income: {
-            fish: 160,
-        },
-        value: 3000,
-    },
-
     extractionTeam: {
         name: "extraction teams",
         singleName: "extraction team",
@@ -611,13 +589,13 @@ SharkGame.ResourceTable = {
     heater: {
         name: "heaters",
         singleName: "heater",
-        desc: "A hopeless effort to prevent the inevitable, but it buys precious time.",
+        desc: "Bringer of life to the frozen wasteland.",
         color: "#D13F32",
         income: {
-            kelp: -100,
+            kelp: -500,
+            ice: -0.01,
         },
         value: 50000,
-        forceIncome: true,
     },
 
     /* coalescer: {
@@ -1025,11 +1003,8 @@ SharkGame.ResourceTable = {
     ice: {
         name: "ice",
         singleName: "ice",
-        desc: "Impending doom.",
+        desc: "Impending doom. Slows down some of the frenzy.",
         color: "#E4F1FB",
-        income: {
-            ice: 0.05,
-        },
         value: -100,
         forceIncome: true,
     },
@@ -1066,16 +1041,12 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
 
     ice: {
         multiply: {
-            ice: -0.00101,
-            urchin: -0.0005,
-            squid: -0.001,
             shark: -0.001,
             crab: -0.001,
-            specialists: -0.001,
+            scientist: -0.001,
             nurse: -0.001,
-            collective: -0.001,
             brood: -0.001,
-            spawner: -0.0005,
+            world: -0.00125,
         },
     },
     tar: {
@@ -1098,11 +1069,11 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
             science: 0.01,
         },
     },
-    heater: {
-        exponentiate: {
-            ice: 0.95,
+    /*     ice: {
+        multiply: {
+            ice: -0.00125,
         },
-    },
+    }, */
 };
 
 SharkGame.ResourceIncomeAffected = {
@@ -1176,9 +1147,7 @@ SharkGame.ResourceCategories = {
             "scavenger",
             "technician",
             "sifter",
-            "huntingSquad",
             "extractionTeam",
-            "curiousCrab",
             //"prospector",
             //"shoveler",
             //"miller",
@@ -1328,7 +1297,7 @@ SharkGame.InternalCategories = {
     },
     squids: {
         name: "Squids",
-        resources: ["squid", "huntingSquad", "extractionTeam", "collective"],
+        resources: ["squid", "extractionTeam", "collective"],
     },
     urchins: {
         name: "Urchins",
