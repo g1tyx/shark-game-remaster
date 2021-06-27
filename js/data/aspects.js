@@ -17,6 +17,7 @@
  *     apply(time: string): void
  * }>
  */
+// idea: aspect which helps to reveal more of the tree
 SharkGame.Aspects = {
     apotheosis: {
         posX: 380,
@@ -81,11 +82,9 @@ SharkGame.Aspects = {
                 case 1:
                     return "Reveals information about a world before you choose to visit it.";
                 case 2:
-                    return "Reveals most information about a world before you choose to visit it.";
+                    return "Reveals information about a world and the resources and animals it has before you choose to visit it.";
                 case 3:
-                    return "Reveals almost all information about a world before you choose to visit it.";
-                case 4:
-                    return "Reveals almost all information about a world before you choose to visit it, and gives you deeper insight about your choice.";
+                    return "Reveals information about a world, its resources, and its animals, and grants additional insight before you choose to visit it.";
             }
         },
         getUnlocked() {},

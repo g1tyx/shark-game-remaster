@@ -333,31 +333,9 @@ SharkGame.Gateway = {
     showPlanetAttributes(worldData, contentDiv) {
         /* eslint-disable no-fallthrough */
         switch (SharkGame.Aspects.pathOfEnlightenment.level) {
-            case 4:
-                if (worldData.foresight.tip) {
-                    contentDiv.prepend($("<p>").html(worldData.foresight.tip));
-                }
             case 3:
-                if (worldData.foresight.hazards) {
-                    contentDiv.prepend($("<p>").html(worldData.foresight.hazards).addClass("largeDesc"));
-                }
-                if (worldData.gateRequirements.slots) {
-                    const gateList = $("<ul>").addClass("gatewayPropertyList");
-                    $.each(worldData.gateRequirements.slots, (resource, amount) => {
-                        if (gateway.playerHasSeenResource(resource) || !(worldData.foresight.present.indexOf(resource) > -1)) {
-                            gateList.prepend(
-                                $("<li>")
-                                    .html("<strong>" + res.getResourceName(resource, false, amount) + ": " + main.beautify(amount) + "</strong>")
-                                    .addClass("largeDesc")
-                            );
-                        } else {
-                            gateList.prepend($("<li>").html("<strong>???</strong>").addClass("largeDesc"));
-                        }
-                    });
-                    contentDiv.prepend(gateList);
-                    contentDiv.prepend($("<p>").html("GATE REQUIREMENTS:").addClass("largeDesc"));
-                } else {
-                    contentDiv.prepend($("<p>").html("NO GATE COSTS DETECTED"));
+                if (worldData.foresight.tip) {
+                    contentDiv.prepend($("<p>").html(worldData.foresight.tip).addClass("largeDesc"));
                 }
             case 2:
                 if (worldData.foresight.missing.length > 0) {
@@ -395,16 +373,22 @@ SharkGame.Gateway = {
                         if (gateway.playerHasSeenResource(modifier.resource) || !(worldData.foresight.present.indexOf(modifier.resource) > -1)) {
                             modifierList.append(
                                 $("<li>")
-                                    .html(SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource))
+                                    .html(
+                                        "<strong>" +
+                                            SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource) +
+                                            "</strong>"
+                                    )
                                     .addClass("largeDesc")
                             );
                         } else {
                             modifierList.append(
                                 $("<li>")
                                     .html(
-                                        SharkGame.ModifierReference.get(modifier.modifier)
-                                            .effectDescription(modifier.amount, modifier.resource)
-                                            .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource])
+                                        "<strong>" +
+                                            SharkGame.ModifierReference.get(modifier.modifier)
+                                                .effectDescription(modifier.amount, modifier.resource)
+                                                .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource]) +
+                                            "</strong>"
                                     )
                                     .addClass("largeDesc")
                             );
@@ -441,16 +425,16 @@ SharkGame.Gateway = {
 };
 
 SharkGame.Gateway.PresenceFeelings = {
-    clam: "hard things",
-    sponge: "soft things",
-    jellyfish: "squishy things",
-    coral: "colorful things",
-    dolphin: "annoying creatures",
-    whale: "wise creatures",
+    clam: "hard things?",
+    sponge: "soft things?",
+    jellyfish: "squishy things?",
+    coral: "colorful things?",
+    dolphin: "annoying scholars",
+    whale: "wise scholars",
     octopus: "logical beings",
     squid: "loyal hunters",
     urchin: "dimwitted creatures",
-    shrimp: "simple workers",
+    shrimp: "simple creatures",
     lobster: "unfamiliar crustaceans",
     chimaera: "shark-like creatures",
     eel: "slithering hunters",
