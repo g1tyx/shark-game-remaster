@@ -578,12 +578,16 @@ SharkGame.Resources = {
         return row;
     },
 
-    tableTextEnter(_mouseEnterEvent, resourceName = false) {
+    tableTextEnter(_mouseEnterEvent, resourceName) {
         if (!SharkGame.Settings.current.showTooltips) {
             return;
         }
         if (!resourceName) {
-            resourceName = $(this).attr("id");
+            if ($(this).attr("id")) {
+                resourceName = $(this).attr("id");
+            } else {
+                return;
+            }
         }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
         let producertext = "";
