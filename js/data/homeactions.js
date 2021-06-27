@@ -24,24 +24,31 @@ SharkGame.HomeActions = {
 
     /** @param worldType {string} */
     generateActionTable(worldType = world.worldType) {
-        const finalTable = {};
-        const actionTable = _.cloneDeep(SharkGame.HomeActions.default);
-
-        // Check if world type has modifications
+        let finalTable = {};
+        const defaultActions = SharkGame.HomeActions.default;
         if (_.has(SharkGame.HomeActions, worldType)) {
-            const worldMods = _.cloneDeep(SharkGame.HomeActions[worldType]);
-
-            // Apply world-specific modifications
-            for (const action in worldMods) {
-                if (_.has(actionTable, action)) {
-                    // If upgrade exists in both, it's just a modification
-                    finalTable[action] = actionTable[action];
-                    _.assign(finalTable[action], worldMods[action]);
+            const worldActions = SharkGame.HomeActions[worldType];
+            _.each(Object.getOwnPropertyNames(worldActions), (actionName) => {
+                if (defaultActions[actionName]) {
+                    finalTable[actionName] = {};
+                    const names = Object.getOwnPropertyNames(worldActions[actionName]);
+                    _.each(names, (theName) => {
+                        const descriptor = Object.getOwnPropertyDescriptor(worldActions[actionName], theName);
+                        Object.defineProperty(finalTable[actionName], theName, descriptor);
+                    });
+                    const defaultNames = Object.getOwnPropertyNames(defaultActions[actionName]);
+                    _.each(defaultNames, (theName) => {
+                        if (!finalTable[actionName][theName]) {
+                            const descriptor = Object.getOwnPropertyDescriptor(defaultActions[actionName], theName);
+                            Object.defineProperty(finalTable[actionName], theName, descriptor);
+                        }
+                    });
                 } else {
-                    // Otherwise, it's a world-specific upgrade and needs to be added
-                    finalTable[action] = worldMods[action];
+                    finalTable[actionName] = worldActions[actionName];
                 }
-            }
+            });
+        } else {
+            finalTable = defaultActions;
         }
         return finalTable;
     },

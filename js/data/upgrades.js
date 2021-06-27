@@ -37,24 +37,31 @@ SharkGame.Upgrades = {
 
     /** @param worldType {string} */
     generateUpgradeTable(worldType = world.worldType) {
-        const finalTable = {};
-        const upgradeTable = _.cloneDeep(SharkGame.Upgrades.default);
-
-        // Check if world type has modifications
+        let finalTable = {};
+        const defaultUpgrades = SharkGame.Upgrades.default;
         if (_.has(SharkGame.Upgrades, worldType)) {
-            const worldMods = _.cloneDeep(SharkGame.Upgrades[worldType]);
-
-            // Apply world-specific modifications
-            for (const upgrade in worldMods) {
-                if (_.has(upgradeTable, upgrade)) {
-                    // If upgrade exists in both, it's just a modification
-                    finalTable[upgrade] = upgradeTable[upgrade];
-                    _.assign(finalTable[upgrade], worldMods[upgrade]);
+            const worldUpgrades = SharkGame.Upgrades[worldType];
+            _.each(Object.getOwnPropertyNames(worldUpgrades), (upgradeName) => {
+                if (defaultUpgrades[upgradeName]) {
+                    finalTable[upgradeName] = {};
+                    const names = Object.getOwnPropertyNames(worldUpgrades[upgradeName]);
+                    _.each(names, (theName) => {
+                        const descriptor = Object.getOwnPropertyDescriptor(worldUpgrades[upgradeName], theName);
+                        Object.defineProperty(finalTable[upgradeName], theName, descriptor);
+                    });
+                    const defaultNames = Object.getOwnPropertyNames(defaultUpgrades[upgradeName]);
+                    _.each(defaultNames, (theName) => {
+                        if (!finalTable[upgradeName][theName]) {
+                            const descriptor = Object.getOwnPropertyDescriptor(defaultUpgrades[upgradeName], theName);
+                            Object.defineProperty(finalTable[upgradeName], theName, descriptor);
+                        }
+                    });
                 } else {
-                    // Otherwise, it's a world-specific upgrade and needs to be added
-                    finalTable[upgrade] = worldMods[upgrade];
+                    finalTable[upgradeName] = worldUpgrades[upgradeName];
                 }
-            }
+            });
+        } else {
+            finalTable = defaultUpgrades;
         }
         return finalTable;
     },
