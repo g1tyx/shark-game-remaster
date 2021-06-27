@@ -223,9 +223,8 @@ SharkGame.Stats = {
                             // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + main.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
                             (changeChar + main.beautifyIncome(realIncome)).bold() +
                             "</span>";
-                        let oldValue = cell.html();
 
-                        if (oldValue !== newValue.replace(/'/g, '"')) {
+                        if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
                         }
 
@@ -236,8 +235,22 @@ SharkGame.Stats = {
                         }
 
                         newValue = "<div style='text-align:right'>" + main.beautify(res.getResource(resourceId)).bold() + "</div>";
-                        oldValue = cell.html();
-                        if (oldValue !== newValue.replace(/'/g, '"')) {
+                        if (cell.html() !== newValue.replace(/'/g, '"')) {
+                            cell.html(newValue);
+                        }
+
+                        cell = $("#network-" + resourceId + "-" + incomeKey);
+                        newValue =
+                            "<span style='color:" +
+                            res.RESOURCE_AFFECT_MULTIPLIER_COLOR +
+                            "'>x" +
+                            main.beautify(
+                                res.getNetworkIncomeModifier("generator", resourceId) * res.getNetworkIncomeModifier("resource", incomeKey),
+                                false,
+                                2
+                            ) +
+                            "</span>";
+                        if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
                         }
                     });
@@ -437,7 +450,8 @@ SharkGame.Stats = {
                         if (resourceAffectMultiplier !== 1) {
                             addCell(
                                 [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + main.beautify(resourceAffectMultiplier, false, 2)],
-                                generatorBoostRowspan
+                                generatorBoostRowspan,
+                                "network-" + generatorName + "-" + incomeKey
                             );
                         } else addCell(undefined, generatorBoostRowspan);
                     }
