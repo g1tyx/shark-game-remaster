@@ -1,6 +1,4 @@
 SharkGame.HomeActions = {
-    // FREEBIES ////////////////////////////////////////////////////////////////////////////////
-
     /**
      * @type Record<string, Record<string, any>>
      * Generated cache on-demand
@@ -9,7 +7,7 @@ SharkGame.HomeActions = {
 
     /** @param worldType {string} */
     getActionTable(worldType = world.worldType) {
-        if (typeof SharkGame.HomeActions[worldType] !== "object") {
+        if (typeof SharkGame.HomeActions[worldType] !== "object" || worldType === "generated") {
             // This world type doesn't have any special upgrades, so use the default ones.
             // We don't want to generate the same upgrade table multiple times for no reason.
             worldType = "default";
@@ -22,38 +20,49 @@ SharkGame.HomeActions = {
         }
     },
 
-    /** @param worldType {string} */
+    /**
+     * @param worldType {string}
+     * @returns {Record<string, Record<string, unknown>>}
+     */
     generateActionTable(worldType = world.worldType) {
-        let finalTable = {};
         const defaultActions = SharkGame.HomeActions.default;
-        if (_.has(SharkGame.HomeActions, worldType)) {
-            const worldActions = SharkGame.HomeActions[worldType];
-            _.each(Object.getOwnPropertyNames(worldActions), (actionName) => {
-                if (defaultActions[actionName]) {
-                    finalTable[actionName] = {};
-                    const names = Object.getOwnPropertyNames(worldActions[actionName]);
-                    _.each(names, (theName) => {
-                        const descriptor = Object.getOwnPropertyDescriptor(worldActions[actionName], theName);
-                        Object.defineProperty(finalTable[actionName], theName, descriptor);
-                    });
-                    const defaultNames = Object.getOwnPropertyNames(defaultActions[actionName]);
-                    _.each(defaultNames, (theName) => {
-                        if (!finalTable[actionName][theName]) {
-                            const descriptor = Object.getOwnPropertyDescriptor(defaultActions[actionName], theName);
-                            Object.defineProperty(finalTable[actionName], theName, descriptor);
-                        }
-                    });
-                } else {
-                    finalTable[actionName] = worldActions[actionName];
-                }
-            });
-        } else {
-            finalTable = defaultActions;
+
+        if (!_.has(SharkGame.HomeActions, worldType)) {
+            return defaultActions;
         }
+
+        const finalTable = {};
+        const worldActions = SharkGame.HomeActions[worldType];
+
+        // _.has
+        _.each(Object.getOwnPropertyNames(worldActions), (actionName) => {
+            if (!_.has(defaultActions, actionName)) {
+                finalTable[actionName] = worldActions[actionName];
+            } else {
+                finalTable[actionName] = {};
+
+                Object.defineProperties(
+                    finalTable[actionName],
+                    Object.getOwnPropertyDescriptors(worldActions[actionName])
+                );
+
+                const defaultPropertiesToDefine = _.pickBy(
+                    Object.getOwnPropertyDescriptors(defaultActions[actionName]),
+                    (_propertyDescriptor, propertyName) => {
+                        return !_.has(finalTable, [actionName, propertyName]);
+                    }
+                );
+
+                Object.defineProperties(finalTable[actionName], defaultPropertiesToDefine);
+            }
+        });
+
         return finalTable;
     },
 
     default: {
+        // FREEBIES ////////////////////////////////////////////////////////////////////////////////
+
         catchFish: {
             name: "Catch fish",
             effect: {
