@@ -239,7 +239,7 @@ SharkGame.Save = {
 
                 // process this
                 res.recalculateIncomeTable();
-                main.processSimTime(secondsElapsed);
+                main.processSimTime(secondsElapsed, true);
 
                 // acknowledge long time gaps
                 if (secondsElapsed > 3600) {

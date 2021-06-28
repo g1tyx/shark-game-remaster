@@ -150,8 +150,8 @@ SharkGame.Aspects = {
             tree.increaseLevel(this);
         },
         apply(when) {
-            if (when === "init") {
-                SharkGame.Resources.changeResource("crab", 10 * SharkGame.Aspects.pathOfTime.level ** 3);
+            if (when === "init" && SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000) {
+                SharkGame.Resources.changeResource("crab", 20 * this.level ** 2);
             }
         },
     },
@@ -197,11 +197,11 @@ SharkGame.Aspects = {
             return "Perhaps " + res.getResourceName("crab", false, 69) + " could collect more than crystal if they were better equipped for hunting.";
         },
         getCost(level) {
-            return 2 * level + 2;
+            return level + 2;
         },
         getEffect(level) {
             return (
-                res.getResourceName("crab", false, 69) + " hunt " + res.getResourceName("fish", false, 69) + " at " + 0.01 * 2 ** (level - 1) + "/s."
+                res.getResourceName("crab", false, 69) + " hunt " + res.getResourceName("fish", false, 69) + " at " + 0.1 * 2 ** (level - 1) + "/s."
             );
         },
         getUnlocked() {},
@@ -231,16 +231,17 @@ SharkGame.Aspects = {
             return 2 * level + 4;
         },
         getEffect(level) {
-            return res.getResourceName("crab", false, 69) + " and their professions collect world-specific resources " + level + 1 + "x faster.";
+            return res.getResourceName("crab", false, 69) + " and their professions collect world-specific resources " + (level + 1) + "x faster.";
         },
         getUnlocked() {},
-        prerequisites: ["adjustedAquadynamics"],
+        prerequisites: ["clawSharpening"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
         apply(when) {
             if (when === "init") {
-                res.applyModifier("crustaceanAptitute", "crab", this.level);
+                res.applyModifier("crustaceanAptitude", "crab", this.level);
+                res.applyModifier("crustaceanAptitude", "collector", this.level);
             }
         },
     },
@@ -258,7 +259,7 @@ SharkGame.Aspects = {
             return 2 * level + 3;
         },
         getEffect(level) {
-            return res.getResourceName("nurse", false, 69) + " and " + res.getResourceName("maker", false, 69) + " are " + 2 * level + "x faster.";
+            return res.getResourceName("nurse", false, 69) + " and " + res.getResourceName("maker", false, 69) + " are " + (level + 1) + "x faster.";
         },
         getUnlocked() {},
         prerequisites: ["adjustedAquadynamics"],
@@ -267,8 +268,60 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "init") {
-                res.applyModifier("adjustedAquadynamics", "ray", this.level);
+                res.applyModifier("constructedConception", "nurse", this.level);
+                res.applyModifier("constructedConception", "maker", this.level);
             }
+        },
+    },
+    syntheticTransmutation: {
+        posX: 770,
+        posY: 250,
+        width: 40,
+        height: 40,
+
+        max: 3,
+        level: 0,
+        name: "Synthetic Transmutation",
+        description: "Sharkonium is naturally unaffected by small impurities. Perhaps we can cheat a little.",
+        getCost(level) {
+            return 2 * level + 4;
+        },
+        getEffect(level) {
+            return "Sharkonium is " + 20 * level + "% cheaper to produce.";
+        },
+        getUnlocked() {},
+        prerequisites: ["pathOfIndustry"],
+        clicked(_event) {
+            tree.increaseLevel(this);
+        },
+    },
+    amorphousAssembly: {
+        posX: 770,
+        posY: 150,
+        width: 40,
+        height: 40,
+
+        max: 1,
+        level: 0,
+        name: "Amorphous Assembly",
+        description: "Machines that make use of similar components are better machines.",
+        getCost(_level) {
+            return 7;
+        },
+        getEffect(_level) {
+            return (
+                res.getResourceName("crystalMiner", false, 2) +
+                " and " +
+                res.getResourceName("sandDigger") +
+                " have non-" +
+                res.getResourceName("sharkonium") +
+                " costs reduced by half."
+            );
+        },
+        getUnlocked() {},
+        prerequisites: ["syntheticTransmutation"],
+        clicked(_event) {
+            tree.increaseLevel(this);
         },
     },
     destinyGamble: {
@@ -300,28 +353,6 @@ SharkGame.Aspects = {
             tree.increaseLevel(this);
         },
     },
-    syntheticTransmutation: {
-        posX: 770,
-        posY: 250,
-        width: 40,
-        height: 40,
-
-        max: 4,
-        level: 0,
-        name: "Synthetic Transmutation",
-        description: "Sharkonium is naturally unaffected by small impurities. Perhaps we can cheat a little.",
-        getCost(level) {
-            return 2 * level + 4;
-        },
-        getEffect(level) {
-            return "Sharkonium is " + 20 * level + "% cheaper to produce.";
-        },
-        getUnlocked() {},
-        prerequisites: ["pathOfIndustry"],
-        clicked(_event) {
-            tree.increaseLevel(this);
-        },
-    },
     crystallineSkin: {
         posX: 0,
         posY: 150,
@@ -342,6 +373,11 @@ SharkGame.Aspects = {
         prerequisites: ["theMinuteHand"],
         clicked(_event) {
             tree.increaseLevel(this);
+        },
+        apply(when) {
+            if (when === "init" && SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000) {
+                SharkGame.Resources.changeResource("crystal", 20 * this.level ** 2);
+            }
         },
     },
     keenEyesight: {
@@ -369,7 +405,8 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {
-            //return SharkGame.Gateway.completedWorlds.includes("tempestuous") ? "" : "Complete the Tempestuous worldtype to unlock this aspect.";
+            //return SharkGame.Gateway.completedWorlds.includes("shrouded") ? "" : "Complete the Shrouded worldtype to unlock this aspect.";
+            return "This aspect will be implemented in a future update.";
         },
         prerequisites: ["crystallineSkin"],
         clicked(_event) {
@@ -390,13 +427,14 @@ SharkGame.Aspects = {
             return 1 * level + 3;
         },
         getEffect(level) {
-            return "For the first minute after arriving in a world, gain x" + 10 * level + " production.";
+            return "For the first minute after arriving in a world, gain x" + 5 * level + " production.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfTime"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
+        //draw like a big ol minute hand of a clock, dark
     },
     internalCalculator: {
         posX: 140,
@@ -419,7 +457,7 @@ SharkGame.Aspects = {
             }
         },
         getUnlocked() {
-            return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
+            return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "not implemented yet lol";
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {

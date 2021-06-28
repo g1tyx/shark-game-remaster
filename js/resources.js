@@ -74,20 +74,34 @@ SharkGame.Resources = {
         res.clearNetworks();
     },
 
-    processIncomes(timeDelta, debug) {
+    processIncomes(timeDelta, debug, simulatingOffline) {
         res.recalculateIncomeTable(true);
         if (res.testGracePeriod()) {
             return;
         }
 
-        if (!debug && timeDelta > 51) {
-            for (let i = 0; i < 50; i++) {
+        if (simulatingOffline) {
+            SharkGame.timestampSimulated = SharkGame.timestampLastSave;
+        } else {
+            SharkGame.timestampSimulated = _.now() - timeDelta * 1000;
+        }
+        if (!debug && timeDelta > 61) {
+            for (let i = 0; i < 60; i++) {
+                SharkGame.EventHandler.handleEventTick("beforeTick");
                 SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
                     res.changeResource(resourceId, amount);
                 });
                 res.recalculateIncomeTable(true);
                 timeDelta -= 1;
+                SharkGame.timestampSimulated += 1000;
+                SharkGame.EventHandler.handleEventTick("afterTick");
             }
+            // it should be noted that to greatly increase speed, events are not processed during res.RKMethod.
+            // this will need to be planned around; if we have a reactive event that could be triggered during
+            // offline progress, then we need to either design around that never happening or design around it
+            // happening within 60 seconds of loading a save. as of frigid update, this is not a concern,
+            // but i can think of a time in the future where it definitely will be.
+            // I'm willing to make things a little messy and add some special rules if it'll get the damn thing to work properly.
             if (timeDelta > 172800) {
                 timeDelta = res.doRKMethod(timeDelta, timeDelta / 1728, 50000);
             }
@@ -100,11 +114,12 @@ SharkGame.Resources = {
             if (timeDelta > 2000) {
                 timeDelta = res.doRKMethod(timeDelta, 40, 500);
             }
-            if (timeDelta > 50) {
+            if (timeDelta > 60) {
                 timeDelta = res.doRKMethod(timeDelta, 20, 50);
             }
         }
         while (timeDelta > 1) {
+            //SharkGame.EventHandler.handleEventTick("beforeTick");
             SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
                 if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
                     res.changeResource(resourceId, income);
@@ -114,6 +129,8 @@ SharkGame.Resources = {
             });
             res.recalculateIncomeTable(true);
             timeDelta -= 1;
+            //SharkGame.timestampSimulated += 1000;
+            //SharkGame.EventHandler.handleEventTick("afterTick");
         }
         SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
             if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {

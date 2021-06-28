@@ -401,8 +401,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "constant", priceIncrease: 5 },
-                { resource: "sand", costFunction: "constant", priceIncrease: 15 },
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "sand",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "sharkonium",
             prereq: {
@@ -1635,8 +1647,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
-                { resource: "sand", costFunction: "linear", priceIncrease: 200 },
+                {
+                    resource: "crystal",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
+                {
+                    resource: "sand",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 200 - 100 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 25 },
             ],
             max: "crystalMiner",
@@ -1670,7 +1694,13 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "sand", costFunction: "linear", priceIncrease: 500 },
+                {
+                    resource: "sand",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 500 - 250 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 150 },
             ],
             max: "sandDigger",
@@ -3163,144 +3193,13 @@ SharkGame.HomeActions = {
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
 
-        getCrystalMiner: {
-            name: "Build crystal miner",
-            effect: {
-                resource: {
-                    crystalMiner: 1,
-                },
-            },
-            cost: [
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
-                { resource: "sand", costFunction: "linear", priceIncrease: 200 },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 25 },
-            ],
-            max: "crystalMiner",
-            prereq: {
-                resource: {
-                    sharkonium: 25,
-                },
-                upgrade: ["automation"],
-            },
-            outcomes: [
-                "Crystal miner activated.",
-                "Crystal miner constructed.",
-                "Mining machine online.",
-                "Construction complete.",
-                "Carve rock. Remove sand. Retrieve target.",
-            ],
-            multiOutcomes: [
-                "The machines rise.",
-                "The miners dig.",
-                "The crystal shall be harvested.",
-                "Crystal miners are complete.",
-            ],
-            helpText: "Construct a machine to automatically harvest crystals efficiently.",
-        },
+        getCrystalMiner: {},
 
-        getSandDigger: {
-            name: "Build sand digger",
-            effect: {
-                resource: {
-                    sandDigger: 1,
-                },
-            },
-            cost: [
-                { resource: "sand", costFunction: "linear", priceIncrease: 500 },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 150 },
-            ],
-            max: "sandDigger",
-            prereq: {
-                resource: {
-                    sharkonium: 150,
-                },
-                upgrade: ["automation"],
-            },
-            outcomes: [
-                "Sand digger constructed.",
-                "Sand digger reaches into the seabed.",
-                "The digger begins to shuffle sand into its machine maw. Rays dart away.",
-                "The machine is online.",
-                "The machine acts immediately, shovelling sand.",
-            ],
-            multiOutcomes: [
-                "The machines increase in number.",
-                "The diggers devour.",
-                "All sand must be gathered.",
-                "The rays are concerned.",
-                "Devour the sands. Consume.",
-                "Giant machines blot out our sun.",
-            ],
-            helpText: "Construct a machine to automatically dig up sand efficiently.",
-        },
+        getSandDigger: {},
 
-        getFishMachine: {
-            name: "Build fish machine",
-            effect: {
-                resource: {
-                    fishMachine: 1,
-                },
-            },
-            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 100 }],
-            max: "fishMachine",
-            prereq: {
-                resource: {
-                    sharkonium: 100,
-                },
-                upgrade: ["automation"],
-            },
-            outcomes: [
-                "Fish machine activated.",
-                "Fish machine constructed.",
-                "Fishing machine online.",
-                "Construction complete.",
-                "The quarry moves. But the machine is faster.",
-            ],
-            multiOutcomes: [
-                "One day there will be no fish left. Only the machines.",
-                "Today the shark is flesh. Tomorrow, machine.",
-                "Your metal servants can sate the hunger. The hunger for fish.",
-                "The fishing machines are more efficient than the sharks. But they aren't very smart.",
-                "Automated fishing.",
-                "The power of many, many sharks, in many, many devices.",
-            ],
-            helpText: "Construct a machine to automatically gather fish efficiently.",
-        },
+        getFishMachine: {},
 
-        getAutoTransmuter: {
-            name: "Build auto-transmuter",
-            effect: {
-                resource: {
-                    autoTransmuter: 1,
-                },
-            },
-            cost: [
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
-            ],
-            max: "autoTransmuter",
-            prereq: {
-                resource: {
-                    sharkonium: 100,
-                },
-                upgrade: ["engineering"],
-            },
-            outcomes: [
-                "Auto-transmuter activated.",
-                "Auto-transmuter constructed.",
-                "Transmutation machine online.",
-                "Construction complete.",
-                "Provide inputs. Only the output matters.",
-            ],
-            multiOutcomes: [
-                "Auto-transmuters are prepared.",
-                "The difference between science and magic is reliable application.",
-                "All is change.",
-                "Change is all.",
-                "The machines know many secrets, yet cannot speak of them.",
-            ],
-            helpText: "Construct a machine to automatically and efficiently transmute sand and crystal to sharkonium.",
-        },
+        getAutoTransmuter: {},
 
         getHeater: {
             name: "Build heater",

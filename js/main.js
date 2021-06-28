@@ -83,6 +83,9 @@ $.extend(SharkGame, {
     timestampGameStart: false,
     timestampRunStart: false,
     timestampRunEnd: false,
+    get timestampSimulated() {
+        return _.now();
+    },
 
     sidebarHidden: true,
     paneGenerated: false,
@@ -712,9 +715,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         });
     },
 
-    processSimTime(numberOfSeconds) {
+    processSimTime(numberOfSeconds, load = false) {
         // income calculation
-        res.processIncomes(numberOfSeconds);
+        res.processIncomes(numberOfSeconds, false, load);
     },
 
     autosave() {
@@ -1124,6 +1127,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 };
             });
 
+            SharkGame.timestampRunStart = _.now();
             main.init(true);
             SharkGame.Log.addMessage(world.getWorldEntryMessage());
 
@@ -1133,7 +1137,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.setTotalResource(resourceName, resourceData.totalAmount);
             });
 
-            SharkGame.timestampRunStart = _.now();
             try {
                 SharkGame.Save.saveGame();
                 SharkGame.Log.addMessage("Game saved.");

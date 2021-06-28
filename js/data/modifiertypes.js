@@ -337,9 +337,6 @@ SharkGame.ModifierTypes = {
                     }
                     return degree;
                 },
-                effectDescription(degree, resource) {
-                    return res.getResourceName(resource) + " collection of " + res.getResourceName("fish") + " x " + degree;
-                },
                 getEffect(genDegree, _outDegree, _gen, out) {
                     return out === "fish" ? 1 + genDegree : 1;
                 },
@@ -356,14 +353,62 @@ SharkGame.ModifierTypes = {
                     }
                     return degree;
                 },
-                effectDescription(degree, resource) {
-                    return res.getResourceName(resource) + " collection of " + res.getResourceName("fish") + " x " + degree;
-                },
                 getEffect(genDegree, _outDegree, _gen, out) {
                     return genDegree > 0 && out === "fish" ? 2.5 * 2 ** (genDegree - 1) : 1;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
                     return input * (genDegree > 0 && out !== "fish" ? 2.5 * 2 ** (genDegree - 1) : 1);
+                },
+            },
+            crustaceanAptitude: {
+                defaultValue: 0,
+                apply(_current, degree, resource) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    _.each(["clam", "coral", "sponge", "algae", "jellyfish"], (resourceInQuestion) => {
+                        if (incomes[resourceInQuestion]) {
+                            incomes[resourceInQuestion] = incomes[resourceInQuestion] * (degree + 1);
+                        }
+                    });
+                    return degree;
+                },
+                getEffect(genDegree, _outDegree, _gen, out) {
+                    return ["clam", "coral", "sponge", "algae", "jellyfish"].includes(out) ? 1 + genDegree : 1;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, out) {
+                    return input * (!["clam", "coral", "sponge", "algae", "jellyfish"].includes(out) ? 1 + genDegree : 1);
+                },
+            },
+            constructedConception: {
+                defaultValue: 0,
+                apply(_current, degree, resource) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * (degree + 1);
+                    });
+                    return degree;
+                },
+                getEffect(genDegree, _outDegree, _gen, _out) {
+                    return genDegree + 1;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, _out) {
+                    return input * (genDegree + 1);
+                },
+            },
+        },
+        other: {
+            clawSharpening: {
+                defaultValue: 0,
+                apply(_current, degree, resource) {
+                    const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
+                    baseIncomes.fish = 0.1 * 2 ** (degree - 1);
+                    res.reapplyModifiers(resource, "fish");
+                    return degree;
+                },
+                getEffect(_genDegree, _outDegree, _gen, _out) {
+                    return 1;
+                },
+                applyToInput(input, _genDegree, _outDegree, _gen, _out) {
+                    return input;
                 },
             },
         },

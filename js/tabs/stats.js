@@ -8,9 +8,10 @@ SharkGame.Stats = {
     sceneImage: "img/events/misc/scene-grotto.png",
 
     recreateIncomeTable: null,
+    incomeTableEmpty: true,
 
-    discoverReq: {
-        upgrade: ["statsDiscovery"],
+    get discoverReq() {
+        return SharkGame.Aspects.extensiveOrganization.level ? {} : { upgrade: ["statsDiscovery"] };
     },
 
     bannedDisposeCategories: ["special", "harmful"],
@@ -282,8 +283,6 @@ SharkGame.Stats = {
             incomesTable.empty();
         }
 
-        const specialMultiplierCol = null;
-
         let formatCounter = 1;
 
         const drawnResourceMap = new Map();
@@ -492,67 +491,75 @@ SharkGame.Stats = {
             formatCounter++;
         });
 
-        if (specialMultiplierCol) {
-            const rowCount = incomesTable.find("tr").length;
-            specialMultiplierCol.attr("rowspan", rowCount);
-        }
+        if (drawnResourceMap.size) {
+            const row = $("<tr>");
+            let columns = incomesTable[0].children[0].children.length;
 
-        const row = $("<tr>");
+            if (SharkGame.Settings.current.switchStats) {
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
 
-        let columns = incomesTable[0].children[0].children.length;
+                row.append(
+                    $("<td>")
+                        .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+            } else {
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
 
-        if (SharkGame.Settings.current.switchStats) {
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
+                row.append(
+                    $("<td>")
+                        .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+            }
 
             row.append(
                 $("<td>")
-                    .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
+                    .html("<span><u><b>" + (SharkGame.Settings.current.grottoMode === "advanced" ? "BASE INCOME" : "INCOME PER") + "</b></u></span>")
                     .addClass("evenRow")
             );
+
+            columns -= 4;
+            while (columns > 1) {
+                columns -= 1;
+                row.append($("<td>").html(undefined).addClass("evenRow"));
+            }
+
+            if (res.getSpecialMultiplier() !== 1) {
+                row.append(
+                    $("<td>")
+                        .html("x" + res.getSpecialMultiplier())
+                        .addClass("evenRow")
+                        .attr("rowspan", incomesTable.find("tr").length + 1)
+                );
+            }
+
+            row.append($("<td>").html("<span><u><b>TOTAL</b></u></span>").addClass("evenRow"));
+
+            incomesTable.prepend(row);
+            SharkGame.Stats.incomeTableEmpty = false;
         } else {
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
-
-            row.append(
-                $("<td>")
-                    .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
+            incomesTable.prepend($("<tr>").append($("<td>").html("<span><i><b>There's nothing here.</b></i></span>")));
+            SharkGame.Stats.incomeTableEmpty = true;
         }
-
-        row.append(
-            $("<td>")
-                .html("<span><u><b>" + (SharkGame.Settings.current.grottoMode === "advanced" ? "BASE INCOME" : "INCOME PER") + "</b></u></span>")
-                .addClass("evenRow")
-        );
-
-        columns -= 4;
-        while (columns > 1) {
-            columns -= 1;
-            row.append($("<td>").html(undefined).addClass("evenRow"));
-        }
-
-        row.append($("<td>").html("<span><u><b>TOTAL</b></u></span>").addClass("evenRow"));
-
-        incomesTable.prepend(row);
-
         return incomesTable;
     },
 
@@ -595,12 +602,12 @@ SharkGame.Stats = {
             SharkGame.Settings.current.grottoMode = "simple";
             document.getElementById("modeButton").innerHTML = "Swap to Advanced mode";
         }
-        stats.updateTableKey();
         stats.createIncomeTable();
+        stats.updateTableKey();
     },
 
     updateTableKey() {
-        if (SharkGame.Settings.current.grottoMode !== "advanced") {
+        if (SharkGame.Settings.current.grottoMode !== "advanced" || SharkGame.Stats.incomeTableEmpty) {
             document.getElementById("tableKey").innerHTML = "";
             return;
         }
