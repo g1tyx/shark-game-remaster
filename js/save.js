@@ -126,6 +126,26 @@ SharkGame.Save = {
                 SharkGame.Log.addMessage("Updated save data from v " + saveData.version + " to " + SharkGame.VERSION + ".");
             }
 
+            const currTimestamp = _.now();
+            // create surrogate timestamps if necessary
+            if (typeof saveData.timestampLastSave !== "number") {
+                saveData.timestampLastSave = currTimestamp;
+            }
+            if (typeof saveData.timestampGameStart !== "number") {
+                saveData.timestampGameStart = currTimestamp;
+            }
+            if (typeof saveData.timestampRunStart !== "number") {
+                saveData.timestampRunStart = currTimestamp;
+            }
+            if (typeof saveData.timestampRunEnd !== "number") {
+                saveData.timestampRunEnd = currTimestamp;
+            }
+
+            SharkGame.timestampLastSave = saveData.timestampLastSave;
+            SharkGame.timestampGameStart = saveData.timestampGameStart;
+            SharkGame.timestampRunStart = saveData.timestampRunStart;
+            SharkGame.timestampRunEnd = saveData.timestampRunEnd;
+
             res.init();
 
             $.each(saveData.resources, (resourceId, resource) => {
@@ -193,26 +213,6 @@ SharkGame.Save = {
                     }
                 }
             });
-
-            const currTimestamp = _.now();
-            // create surrogate timestamps if necessary
-            if (typeof saveData.timestampLastSave !== "number") {
-                saveData.timestampLastSave = currTimestamp;
-            }
-            if (typeof saveData.timestampGameStart !== "number") {
-                saveData.timestampGameStart = currTimestamp;
-            }
-            if (typeof saveData.timestampRunStart !== "number") {
-                saveData.timestampRunStart = currTimestamp;
-            }
-            if (typeof saveData.timestampRunEnd !== "number") {
-                saveData.timestampRunEnd = currTimestamp;
-            }
-
-            SharkGame.timestampLastSave = saveData.timestampLastSave;
-            SharkGame.timestampGameStart = saveData.timestampGameStart;
-            SharkGame.timestampRunStart = saveData.timestampRunStart;
-            SharkGame.timestampRunEnd = saveData.timestampRunEnd;
 
             // load existence in in-between state,
             // else check for offline mode and process
