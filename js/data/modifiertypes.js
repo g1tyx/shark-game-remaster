@@ -207,26 +207,6 @@ SharkGame.ModifierTypes = {
                     return input * genDegree;
                 },
             },
-            planetaryFixedIncomeMultiplier: {
-                defaultValue: 1,
-                name: "Fixed Planetary Income Multiplier",
-                apply(current, degree, resource) {
-                    const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (resourceId, income) => {
-                        incomes[resourceId] = income * degree;
-                    });
-                    return current * degree;
-                },
-                effectDescription(degree, resource) {
-                    return "Income from " + res.getResourceName(resource, false, 2) + " x" + degree;
-                },
-                getEffect(genDegree, _outDegree, _gen, _out) {
-                    return genDegree;
-                },
-                applyToInput(input, genDegree, _outDegree, _gen, _out) {
-                    return input * genDegree;
-                },
-            },
             planetaryIncomeReciprocalMultiplier: {
                 defaultValue: 1,
                 name: "Planetary Income Reciprocal Multiplier",
@@ -239,26 +219,6 @@ SharkGame.ModifierTypes = {
                 },
                 effectDescription(degree, resource) {
                     return "Income from " + res.getResourceName(resource, false, 2) + " x" + (1 / (1 + degree)).toFixed(2);
-                },
-                getEffect(genDegree, _outDegree, _gen, _out) {
-                    return genDegree;
-                },
-                applyToInput(input, genDegree, _outDegree, _gen, _out) {
-                    return input * genDegree;
-                },
-            },
-            planetaryFixedIncomeReciprocalMultiplier: {
-                defaultValue: 1,
-                name: "Fixed Planetary Income Reciprocal Multiplier",
-                apply(current, degree, resource) {
-                    const incomes = SharkGame.ResourceMap.get(resource).income;
-                    $.each(incomes, (resourceId, income) => {
-                        incomes[resourceId] = income * (1 / degree);
-                    });
-                    return current * (1 / degree);
-                },
-                effectDescription(degree, resource) {
-                    return "Income from " + res.getResourceName(resource, false, 2) + " x" + (1 / degree).toFixed(2);
                 },
                 getEffect(genDegree, _outDegree, _gen, _out) {
                     return genDegree;
@@ -323,22 +283,7 @@ SharkGame.ModifierTypes = {
                     return current + degree;
                 },
                 effectDescription(degree, resource) {
-                    return main.beautify(degree) + " " + res.getResourceName(resource, false, degree) + " per Second";
-                },
-                applyToInput(input, _genDegree, _outDegree, _gen, _out) {
-                    // planetary income handled separately
-                    return input;
-                },
-            },
-            planetaryConstantIncome: {
-                defaultValue: 0,
-                name: "Fixed Planetary Income",
-                apply(current, degree, resource) {
-                    world.worldResources.get(resource).income = degree;
-                    return current + degree;
-                },
-                effectDescription(degree, resource) {
-                    return degree + " " + res.getResourceName(resource, false, degree) + " per Second";
+                    return "Gain " + main.beautify(degree) + " " + res.getResourceName(resource, false, degree) + " per second";
                 },
                 applyToInput(input, _genDegree, _outDegree, _gen, _out) {
                     // planetary income handled separately
