@@ -590,11 +590,8 @@ SharkGame.Resources = {
             return;
         }
         if (!resourceName) {
-            if ($(this).attr("id")) {
-                resourceName = $(this).attr("id");
-            } else {
-                return;
-            }
+            resourceName = $(this).attr("id");
+            if (!resourceName) return;
         }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
         let producertext = "";
