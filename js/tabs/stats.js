@@ -213,7 +213,7 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0) {
                 if (SharkGame.ResourceMap.get(resourceId).income) {
                     const income = SharkGame.ResourceMap.get(resourceId).income;
-                    $.each(income, (incomeKey) => {
+                    $.each(income, (incomeKey, incomeValue) => {
                         let cell = $("#income-" + resourceId + "-" + incomeKey);
                         const realIncome = SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey];
                         const changeChar = !(realIncome < 0) ? "+" : "";
@@ -240,19 +240,40 @@ SharkGame.Stats = {
                             cell.html(newValue);
                         }
 
-                        cell = $("#network-" + resourceId + "-" + incomeKey);
-                        newValue =
-                            "<span style='color:" +
-                            res.RESOURCE_AFFECT_MULTIPLIER_COLOR +
-                            "'>x" +
-                            main.beautify(
-                                res.getNetworkIncomeModifier("generator", resourceId) * res.getNetworkIncomeModifier("resource", incomeKey),
-                                false,
-                                2
-                            ) +
-                            "</span>";
-                        if (cell.html() !== newValue.replace(/'/g, '"')) {
-                            cell.html(newValue);
+                        if (SharkGame.Settings.current.grottoMode === "advanced") {
+                            cell = $("#network-" + resourceId + "-" + incomeKey);
+                            newValue =
+                                "<span style='color:" +
+                                res.RESOURCE_AFFECT_MULTIPLIER_COLOR +
+                                "'>x" +
+                                main.beautify(
+                                    res.getNetworkIncomeModifier("generator", resourceId) * res.getNetworkIncomeModifier("resource", incomeKey),
+                                    false,
+                                    2
+                                ) +
+                                "</span>";
+                            if (cell.html() !== newValue.replace(/'/g, '"')) {
+                                cell.html(newValue);
+                            }
+                        } else {
+                            cell = $("#base-income-" + resourceId + "-" + incomeKey);
+                            newValue =
+                                "<span style='color:" +
+                                res.INCOME_COLOR +
+                                "'>" +
+                                (!(SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey] < 0) ? "+" : "") +
+                                main.beautify(
+                                    incomeValue *
+                                        res.getNetworkIncomeModifier("generator", resourceId) *
+                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                    false,
+                                    2
+                                ) +
+                                "/s" +
+                                "</span>";
+                            if (cell.html() !== newValue.replace(/'/g, '"')) {
+                                cell.html(newValue);
+                            }
                         }
                     });
                 }
@@ -456,7 +477,18 @@ SharkGame.Stats = {
                     }
                 } else {
                     addCell(
-                        [res.INCOME_COLOR, changeChar + main.beautify(incomeValue, false, 2) + "/s"],
+                        [
+                            res.INCOME_COLOR,
+                            changeChar +
+                                main.beautify(
+                                    incomeValue *
+                                        res.getNetworkIncomeModifier("generator", generatorName) *
+                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                    false,
+                                    2
+                                ) +
+                                "/s",
+                        ],
                         "inline",
                         "base-income-" + generatorName + "-" + incomeKey
                     );
