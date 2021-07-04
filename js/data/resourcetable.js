@@ -255,7 +255,7 @@ SharkGame.ResourceTable = {
         name: "urchin spawners",
         singleName: "urchin spawner",
         desc: "A hope for offspring, with no coordinated effort.",
-        color: "#3F6E86",
+        color: "#B056FF",
         income: {
             urchin: 0.05,
         },
@@ -266,7 +266,7 @@ SharkGame.ResourceTable = {
         name: "squid collectives",
         singleName: "squid collective",
         desc: "Group interaction leads to better selection.",
-        color: "#3F6E86",
+        color: "#FF4E28",
         income: {
             squid: 0.05,
         },
@@ -593,7 +593,7 @@ SharkGame.ResourceTable = {
         color: "#D13F32",
         income: {
             kelp: -500,
-            ice: -0.01,
+            ice: -0.02,
         },
         value: 50000,
     },
