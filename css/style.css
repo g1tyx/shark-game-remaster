@@ -52,12 +52,12 @@
   --color-title: rgba(69, 105, 93, 0.2);
 }
 :root :not(.no-theme).frigid {
-  --color-lighter: #b1bcc3;
-  --color-light: #8098a8;
-  --color-med: #4d7a99;
-  --color-dark: #2b5f82;
-  --color-darker: #124669;
-  --color-title: rgba(77, 122, 153, 0.2);
+  --color-lighter: #c0cdd4;
+  --color-light: #5d829b;
+  --color-med: #2f5d7c;
+  --color-dark: #14415f;
+  --color-darker: #05283f;
+  --color-title: rgba(47, 93, 124, 0.2);
 }
 :root :not(.no-theme).haven {
   --color-lighter: #699eaa;
