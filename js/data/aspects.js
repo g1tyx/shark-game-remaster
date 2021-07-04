@@ -81,7 +81,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 4,
+        max: 2,
         level: 0,
         name: "Path of Enlightenment",
         description: "Unlock the potential of yourself.",
@@ -93,9 +93,7 @@ SharkGame.Aspects = {
                 case 1:
                     return "Reveals information about a world before you choose to visit it.";
                 case 2:
-                    return "Reveals information about a world and the resources and animals it has before you choose to visit it.";
-                case 3:
-                    return "Reveals information about a world, its resources, and its animals, and grants additional insight before you choose to visit it.";
+                    return "Reveals information about a world and its resources before you choose to visit it.";
             }
         },
         getUnlocked() {},
@@ -166,7 +164,7 @@ SharkGame.Aspects = {
         name: "Adjusted Aquadynamics",
         description: "A thin layer of essence greatly reduces drag, improving hunting profiency.",
         getCost(level) {
-            return 2 * level + 1;
+            return 2 * level + 2;
         },
         getEffect(level) {
             return (
@@ -194,7 +192,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Claw Sharpening",
         get description() {
-            return "Perhaps " + res.getResourceName("crab", false, 69) + " could collect more than crystal if they were better equipped for hunting.";
+            return "Perhaps " + res.getResourceName("crab", false, 69) + " could collect fish if they were better equipped for hunting.";
         },
         getCost(level) {
             return level + 2;
@@ -424,10 +422,10 @@ SharkGame.Aspects = {
         name: "The Minute Hand",
         description: "Time is relative.",
         getCost(level) {
-            return 1 * level + 3;
+            return 1 * level + 4;
         },
         getEffect(level) {
-            return "For the first minute after arriving in a world, gain x" + 5 * level + " production.";
+            return "For the first minute after arriving in a world, gain x" + (3 + level) + " production.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfTime"],
@@ -457,7 +455,7 @@ SharkGame.Aspects = {
             }
         },
         getUnlocked() {
-            return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "not implemented yet lol";
+            return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {
