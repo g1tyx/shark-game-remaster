@@ -147,9 +147,9 @@ $.extend(SharkGame, {
         "He has a rarely updated <a href='https://twitter.com/Cirrial'>Twitter</a> though.</p>" +
         "<p>Additional code and credit help provided by Dylan and Sam Red.<br/>" +
         "<span class='smallDesc'>Dylan is also graciously hosting the original game.</span></p>" +
-        "<br><p><a href='https://github.com/spencers145/SharkGame'>NEW FRONTIERS</a> created by base4/spencers145,<br/>" +
-        "with spritework help from <a href='https://twitter.com/vhs_static'>@vhs_static</a> and friends,<br/>" +
-        "and with a little help from <a href='https://github.com/stampyzfanz'>Ixbixbam</a>.<br/>" +
+        "<br><p><a href='https://github.com/spencers145/SharkGame'>NEW FRONTIERS</a> created by base4/spencers145.<br/>" +
+        "Art and sprite contributions by Jay, and <a href='https://twitter.com/vhs_static'>@vhs_static</a> and friends.<br/>" +
+        "Additional help from <a href='https://github.com/stampyzfanz'>Ixbixbam</a>.<br/>" +
         "<span class='smallDesc'>Ixbix's games at his little corner of the internet are </span><a href='https://stampyzfanz.github.io/games'>here</a><span class='smallDesc'>.</span><br/>" +
         '<span style="color: rgba(0,0,0,0);">With some help by <a href="https://github.com/Toby222" style="color: rgba(0,0,0,0);">Toby</a></span><br/>',
 
@@ -182,9 +182,9 @@ $.extend(SharkGame, {
 
     notice:
         "<p>Welcome to the open <b>alpha</b> of v0.2 for New Frontiers.</p>" +
-        "<p>v0.2 is a total rework.<br/>Currently, only two worlds (besides starter) are playable.<br><b>Things will be missing.</b> New stuff will be added.</p>" +
+        "<p>v0.2 is a total rework.<br/>Right now only three worlds (besides starter) are playable.<br><b>Things will be missing.</b> New stuff will be added.</p>" +
         "<p>To give feedback or contribute, check out our <a href='https://discord.gg/eYqApFkFPY'>Discord</a>.</p>" +
-        "<p>To play the stable version (with all planets), visit <a href='https://spencers145.github.io/SharkGame/'>this link</a>.</p>",
+        "<p>To play the stable (OUTDATED) version (with all planets), visit <a href='https://spencers145.github.io/SharkGame/'>this link</a>.</p>",
 
     spriteIconPath: "img/sharksprites.png",
     spriteHomeEventPath: "img/sharkeventsprites.png",
@@ -1308,6 +1308,14 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202107??a": [
+        "Added the Frigid worldtype.",
+        "Replaced the Artifacts system with the Aspects system.",
+        "Tweaked Haven.",
+        "Probably fixed bugs.",
+        "Tweaked UI.",
+        "Improved grotto. Again! Just a little.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
         "Fixed bug where haven had no essence. Oops.",
         "Changed home messages a little.",

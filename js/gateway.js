@@ -181,7 +181,9 @@ SharkGame.Gateway = {
         planetSelectionContent.append(planetPool);
 
         planetSelectionContent.append(
-            $("<p>").html("NOTE: v0.2 alpha <b>ONLY</b> CONTAINS <b>2 WORLDS</b> at the moment.<br/>Once you beat them, try v0.11 of the mod.")
+            $("<p>").html(
+                "NOTE: v0.2 alpha <b>ONLY</b> CONTAINS <b>3 WORLDS</b> at the moment.<br/>Once you beat them, maybe try v0.11 of the mod, a remaster of the original Shark Game?"
+            )
         );
 
         // add return to gateway button
