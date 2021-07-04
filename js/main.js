@@ -83,9 +83,7 @@ $.extend(SharkGame, {
     timestampGameStart: false,
     timestampRunStart: false,
     timestampRunEnd: false,
-    get timestampSimulated() {
-        return _.now();
-    },
+    timestampSimulated: false,
 
     sidebarHidden: true,
     paneGenerated: false,
@@ -518,6 +516,7 @@ SharkGame.Main = {
     init(foregoLoad) {
         const now = _.now();
         SharkGame.before = now;
+        SharkGame.timestampSimulated = now;
         if (SharkGame.GAME_NAME === null) {
             SharkGame.GAME_NAME = SharkGame.choose(SharkGame.GAME_NAMES);
             document.title = SharkGame.ACTUAL_GAME_NAME + ": " + SharkGame.GAME_NAME;

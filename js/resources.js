@@ -118,8 +118,9 @@ SharkGame.Resources = {
                 timeDelta = res.doRKMethod(timeDelta, 20, 50);
             }
         }
+        SharkGame.timestampSimulated = _.now() - 1000 * timeDelta;
         while (timeDelta > 1) {
-            //SharkGame.EventHandler.handleEventTick("beforeTick");
+            SharkGame.EventHandler.handleEventTick("beforeTick");
             SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
                 if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
                     res.changeResource(resourceId, income);
@@ -129,8 +130,8 @@ SharkGame.Resources = {
             });
             res.recalculateIncomeTable(true);
             timeDelta -= 1;
-            //SharkGame.timestampSimulated += 1000;
-            //SharkGame.EventHandler.handleEventTick("afterTick");
+            SharkGame.timestampSimulated += 1000;
+            SharkGame.EventHandler.handleEventTick("afterTick");
         }
         SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
             if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {

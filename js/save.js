@@ -145,6 +145,7 @@ SharkGame.Save = {
             SharkGame.timestampGameStart = saveData.timestampGameStart;
             SharkGame.timestampRunStart = saveData.timestampRunStart;
             SharkGame.timestampRunEnd = saveData.timestampRunEnd;
+            SharkGame.timestampSimulated = saveData.timestampLastSave;
 
             res.init();
 
