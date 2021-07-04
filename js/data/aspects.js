@@ -378,7 +378,7 @@ SharkGame.Aspects = {
             }
         },
     },
-    keenEyesight: {
+    /*     keenEyesight: {
         posX: 0,
         posY: 50,
         width: 40,
@@ -410,7 +410,7 @@ SharkGame.Aspects = {
         clicked(_event) {
             tree.increaseLevel(this);
         },
-    },
+    }, */
     theMinuteHand: {
         posX: 0,
         posY: 250,
