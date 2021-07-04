@@ -65,6 +65,16 @@ $.extend(SharkGame, {
         "League of Lobsters",
         "Eel Team Six",
         "Dungeons And Dolphins",
+        "Gameshark",
+        "Sharkiplier Plays",
+        "Five Nights in Frigid",
+        "The Shark of Wall Street",
+        ":the shark game:",
+        "Sharkware Edition",
+        "Help Wanted",
+        "NOT FINISHED",
+        "Deluxe",
+        "doo doo do do do do",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
@@ -83,6 +93,7 @@ $.extend(SharkGame, {
     timestampGameStart: false,
     timestampRunStart: false,
     timestampRunEnd: false,
+    timestampSimulated: false,
 
     sidebarHidden: true,
     paneGenerated: false,
@@ -211,6 +222,41 @@ $.extend(SharkGame, {
         color = String(color).replace(/[^0-9a-f]/gi, "");
         return Math.max(parseInt(color.substr(0, 2), 16), parseInt(color.substr(2, 2), 16), parseInt(color.substr(4, 2), 16));
     },
+    getRelativeLuminance(color) {
+        color = String(color).replace(/[^0-9a-f]/gi, "");
+        let red = parseInt(color.substr(0, 2), 16);
+        let green = parseInt(color.substr(2, 2), 16);
+        let blue = parseInt(color.substr(4, 2), 16);
+        red = red / 255;
+        green = green / 255;
+        blue = blue / 255;
+        let lum = 0;
+        _.each([red, green, blue], (piece, index) => {
+            if (piece <= 0.03928) {
+                piece = piece / 12.92;
+            } else {
+                piece = ((piece + 0.055) / 1.055) ** 2.4;
+            }
+            lum += piece * [0.2126, 0.7152, 0.0722][index];
+        });
+        return lum;
+    },
+    correctLuminance(color, luminance) {
+        color = String(color).replace(/[^0-9a-f]/gi, "");
+        let red = parseInt(color.substr(0, 2), 16);
+        let green = parseInt(color.substr(2, 2), 16);
+        let blue = parseInt(color.substr(4, 2), 16);
+        red = red / 255;
+        green = green / 255;
+        blue = blue / 255;
+        const varA = 1.075 * (0.2126 * red ** 2 + 0.7152 * green ** 2 + 0.0722 * blue ** 2);
+        const varB = -0.075 * (0.2126 * red + 0.7152 * green + 0.0722 * blue);
+        const ratio = Math.max((-varB + Math.sqrt(varB ** 2 + 4 * varA * luminance)) / (2 * varA), 0);
+        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0)).toString(16);
+        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0)).toString(16);
+        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0)).toString(16);
+        return "#" + red + green + blue;
+    },
     convertColorString(color) {
         const colors = color
             .substring(4)
@@ -225,6 +271,10 @@ $.extend(SharkGame, {
     getElementColor(id, propertyName) {
         const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return SharkGame.convertColorString(color);
+    },
+    /** @param {string} string */
+    boldString(string) {
+        return `<span class='bold'>${string}</span>`;
     },
     getImageIconHTML(imagePath, width, height) {
         if (!imagePath) {
@@ -473,9 +523,10 @@ SharkGame.Main = {
     },
 
     // also functions as a reset
-    init() {
+    init(foregoLoad) {
         const now = _.now();
         SharkGame.before = now;
+        SharkGame.timestampSimulated = now;
         if (SharkGame.GAME_NAME === null) {
             SharkGame.GAME_NAME = SharkGame.choose(SharkGame.GAME_NAMES);
             document.title = SharkGame.ACTUAL_GAME_NAME + ": " + SharkGame.GAME_NAME;
@@ -514,7 +565,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.World.apply();
 
         SharkGame.Gateway.init();
-        SharkGame.Gateway.applyArtifacts(); // if there's any effects to carry over from a previous run
+
+        // generate requiredBy entries
+        SharkGame.AspectTree.init();
 
         // initialise tabs
         SharkGame.Home.init();
@@ -544,13 +597,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         });
 
         // load save game data if present
-        if (SharkGame.Save.savedGameExists()) {
+        if (SharkGame.Save.savedGameExists() && !foregoLoad) {
             try {
                 SharkGame.Save.loadGame();
                 SharkGame.Log.addMessage("Loaded game.");
             } catch (err) {
                 SharkGame.Log.addError(err);
             }
+        } else {
+            SharkGame.AspectTree.applyAspects();
+            SharkGame.EventHandler.init();
         }
 
         // rename a game option if this is a first time run
@@ -596,10 +652,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.cheatsAndDebug.stop) {
             return;
         }
-        if (SharkGame.gameOver) {
-            // tick gateway stuff
-            gateway.update();
-        } else {
+        if (!SharkGame.gameOver) {
+            SharkGame.EventHandler.handleEventTick("beforeTick");
+
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
@@ -622,6 +677,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.checkTabUnlocks();
 
             SharkGame.before = now;
+
+            SharkGame.EventHandler.handleEventTick("afterTick");
         }
 
         //see if resource table tooltip needs updating
@@ -667,9 +724,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         });
     },
 
-    processSimTime(numberOfSeconds) {
+    processSimTime(numberOfSeconds, load = false) {
         // income calculation
-        res.processIncomes(numberOfSeconds);
+        res.processIncomes(numberOfSeconds, false, load);
     },
 
     autosave() {
@@ -1070,7 +1127,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.hidePane();
 
             // copy over all special category resources
-            // artifacts are preserved automatically within gateway file
+            // aspects are preserved automatically within gateway file
             const backup = {};
             _.each(SharkGame.ResourceCategories.special.resources, (resourceName) => {
                 backup[resourceName] = {
@@ -1079,8 +1136,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 };
             });
 
-            SharkGame.Save.deleteSave(); // otherwise it will be loaded during main init and fuck up everything!!
-            main.init();
+            SharkGame.timestampRunStart = _.now();
+            main.init(true);
             SharkGame.Log.addMessage(world.getWorldEntryMessage());
 
             // restore special resources
@@ -1089,7 +1146,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.setTotalResource(resourceName, resourceData.totalAmount);
             });
 
-            SharkGame.timestampRunStart = _.now();
             try {
                 SharkGame.Save.saveGame();
                 SharkGame.Log.addMessage("Game saved.");

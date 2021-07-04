@@ -48,7 +48,7 @@ SharkGame.ResourceTable = {
         name: "crabs",
         singleName: "crab",
         desc: "Dutiful, loyal crustaceans.",
-        color: "#9C2424",
+        color: "#C03030",
         income: {
             crystal: 0.02,
             coral: 0.01,
@@ -146,6 +146,34 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
+    squid: {
+        name: "squid",
+        singleName: "squid",
+        // when referring to a group of squid, they are squid.
+        // when referring to various kinds of squids, they are squids.
+        // therefore references to the different professions lumped in with other squids will use 'squids'
+        // and other circumstances referring to a single kind, like this one, will use 'squid'
+        // why are you reading this
+        desc: "Indebted, and forever loyal.",
+        color: "#FA9272",
+        income: {
+            fish: 2,
+        },
+        value: 3000,
+    },
+
+    urchin: {
+        name: "sea urchins",
+        singleName: "sea urchin",
+        desc: "Simple-minded. Others will do thinking for them.",
+        color: "#B98DE0",
+        income: {
+            sand: 0.1,
+            kelp: 0.1,
+        },
+        value: 3000,
+    },
+
     // BREEDERS
 
     nurse: {
@@ -219,6 +247,28 @@ SharkGame.ResourceTable = {
         color: "#3F6E86",
         income: {
             eel: 0.01,
+        },
+        value: 4000,
+    },
+
+    spawner: {
+        name: "urchin spawners",
+        singleName: "urchin spawner",
+        desc: "A hope for offspring, with no coordinated effort.",
+        color: "#B056FF",
+        income: {
+            urchin: 0.05,
+        },
+        value: 4000,
+    },
+
+    collective: {
+        name: "squid collectives",
+        singleName: "squid collective",
+        desc: "Group interaction leads to better selection.",
+        color: "#FF4E28",
+        income: {
+            squid: 0.05,
         },
         value: 4000,
     },
@@ -377,9 +427,6 @@ SharkGame.ResourceTable = {
         singleName: "great chorus",
         desc: "A grand ensemble, singing to the tune of life itself.",
         color: "#85BBA9",
-        income: {
-            essence: 4e-4,
-        },
         value: 100000,
     },
 
@@ -443,11 +490,23 @@ SharkGame.ResourceTable = {
         singleName: "eel sifter",
         color: "#473E21",
         income: {
-            sand: 0.2,
-            crystal: 0.9,
-            kelp: 0.5,
+            sand: 1,
+            crystal: 0.05,
+            kelp: 0.01,
+            // this is not the original incomes for this specialist
         },
         value: 3000,
+    },
+
+    extractionTeam: {
+        name: "extraction teams",
+        singleName: "extraction team",
+        desc: "We work better together.",
+        color: "#ff7847", //needs new color
+        income: {
+            crystal: 1,
+        },
+        value: 4000,
     },
 
     // MACHINES
@@ -530,15 +589,14 @@ SharkGame.ResourceTable = {
     heater: {
         name: "heaters",
         singleName: "heater",
+        desc: "Bringer of life to the frozen wasteland.",
         color: "#D13F32",
         income: {
-            ice: -0.01,
+            kelp: -500,
+            ice: -0.02,
         },
         value: 50000,
-        forceIncome: true,
     },
-
-    // MODDED MACHINES
 
     /* coalescer: {
         name: "coalescers",
@@ -705,7 +763,7 @@ SharkGame.ResourceTable = {
     eggBrooder: {
         name: "egg brooders",
         singleName: "egg brooder",
-        desc: "Directive: increase population size.",
+        desc: "Directive: repopulation.",
         color: "#836E5F",
         income: {
             octopus: 1,
@@ -726,15 +784,6 @@ SharkGame.ResourceTable = {
         }, */
         value: 100,
     },
-
-    // SCIENCE, MODDED
-
-    /* knowledge: {
-        name: "knowledge",
-        singleName: "knowledge",
-        color: "#96FFD3",
-        value: 1000,
-    }, */
 
     // ANIMALS
 
@@ -954,24 +1003,22 @@ SharkGame.ResourceTable = {
     ice: {
         name: "ice",
         singleName: "ice",
+        desc: "Impending doom. Slows down some of the frenzy.",
         color: "#E4F1FB",
-        income: {
-            ice: 0.001,
-        },
         value: -100,
         forceIncome: true,
     },
 };
 
-SharkGame.GeneratorIncomeAffectors = {
-    // s: table of all the ways that various resources affect the production of others
+SharkGame.GeneratorIncomeAffectorsOriginal = {
+    // table of all the ways that various resources affect the production of others
     // in the following structure:
     // resource which affects the income... {
     //                                      ...through this manner... {
     //                                                          ...of this generator: by this degree
     // see SharkGame.Resources.buildIncomeNetwork, then see SharkGame.Resource.getNetworkIncomeModifier
     //
-    // multiply multiplies the income of the specified generator by    degree * amount of resource
+    // multiply multiplies the income of the specified generator by    1 + degree * amount of resource
     // exponentiate multiplies the income of a generator by            degree ^ amount
     // reciprocal multiplies the income of a generator by              1  / (1 + degree * amount)
     // polynomial multiplies the income of a generator by              amount ^ degree
@@ -992,22 +1039,14 @@ SharkGame.GeneratorIncomeAffectors = {
     // problem has since been solved
     // introduced RK4 method, added income caps to stop over-zealous growth.
 
-    /* knowledge: {
-        multiply: {
-            frenzy: 1,
-            specialists: 1,
-        },
-        exponentiate: {
-            science: 0.05,
-        },
-    }, */
     ice: {
         multiply: {
-            heater: 0.01,
-            ice: -0.001,
-        },
-        exponentiate: {
-            frenzy: 0.99,
+            shark: -0.001,
+            crab: -0.001,
+            scientist: -0.001,
+            nurse: -0.001,
+            brood: -0.001,
+            world: -0.00125,
         },
     },
     tar: {
@@ -1020,39 +1059,34 @@ SharkGame.GeneratorIncomeAffectors = {
 };
 
 SharkGame.GeneratorIncomeAffected = {
-    // This table automatically populates with the affects on every relevant resource
+    // This table automatically populates with the effects on every relevant resource
     // see SharkGame.Resources.buildIncomeNetwork
 };
 
-SharkGame.GeneratorIncomeAffectedApplicable = {
-    // This table automatically populates with the affects on every resource which exists in the world
-    // see SharkGame.Resources.buildApplicableNetworks
-};
-
-SharkGame.ResourceIncomeAffectors = {
+SharkGame.ResourceIncomeAffectorsOriginal = {
     historian: {
         multiply: {
             science: 0.01,
         },
     },
+    /*     ice: {
+        multiply: {
+            ice: -0.00125,
+        },
+    }, */
 };
 
 SharkGame.ResourceIncomeAffected = {
-    // This table automatically populates with the affects on every relevant resource
+    // This table automatically populates with the effects on every relevant resource
     // see SharkGame.Resources.buildIncomeNetwork
-};
-
-SharkGame.ResourceIncomeAffectedApplicable = {
-    // This table automatically populates with the affects on every resource which exists in the world
-    // see SharkGame.Resources.buildApplicableNetworks
 };
 
 SharkGame.ResourceSpecialProperties = {
     timeImmune: [
-        //"knowledge"
+        //
     ],
     incomeCap: {
-        //
+        //ice: 2,
     },
 };
 
@@ -1073,7 +1107,7 @@ SharkGame.ResourceCategories = {
             "Was it something they said?",
             "Are you happy with what you've done?",
         ],
-        resources: ["shark", "ray", "crab", "shrimp", "lobster", "dolphin", "whale", "chimaera", "octopus", "eel"],
+        resources: ["shark", "ray", "crab", "shrimp", "lobster", "dolphin", "whale", "chimaera", "octopus", "eel", "squid", "urchin"],
     },
     breeders: {
         name: "Breeders",
@@ -1084,7 +1118,7 @@ SharkGame.ResourceCategories = {
             "You sure you want to disrupt this accelerated growth curve?",
             "Back to a simpler life, maybe.",
         ],
-        resources: ["nurse", "maker", "brood", "queen", "berrier", "biologist", "pit"],
+        resources: ["nurse", "maker", "brood", "queen", "berrier", "biologist", "pit", "collective", "spawner"],
     },
     specialists: {
         name: "Specialists",
@@ -1113,6 +1147,7 @@ SharkGame.ResourceCategories = {
             "scavenger",
             "technician",
             "sifter",
+            "extractionTeam",
             //"prospector",
             //"shoveler",
             //"miller",
@@ -1259,6 +1294,14 @@ SharkGame.InternalCategories = {
     eels: {
         name: "Eels",
         resources: ["eel", "technician", "sifter", "pit"],
+    },
+    squids: {
+        name: "Squids",
+        resources: ["squid", "extractionTeam", "collective"],
+    },
+    urchins: {
+        name: "Urchins",
+        resources: ["urchin", "spawner"],
     },
     chimaeras: {
         name: "Chimaeras",

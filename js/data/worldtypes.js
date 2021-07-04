@@ -1,41 +1,3 @@
-// SECRET PLANS
-// SECRET PLANS
-//
-// secret plans for v0.2, please do not read if you don't wanna be spoiled:
-// marine: lobsters, clams
-// haven: dolphins, whales, and coral :check:
-// chaotic: scrap completely
-// tempestuous: swordfish and the storm. lots of stuff related to that storm
-// violent: shrimp, coral, sponge, algae, crustacean machines
-// abandoned: octopuses, sponge and clams?
-// shrouded: eels, chimaera, and jellyfish, no crabs
-// frigid: squid and urchins, squids replace rays, maybe sponge or clams? or new resource?
-//
-// it would be interesting to have clams as a resource in one world but as a frenzy member in another
-//
-// marine justification: lobsters are often found in coastal regions and hunt clams. they are well-suited to a temperate sea
-//
-// haven justification: while various species of whale appear everywhere, they are closely tied to dolphins,
-// who live primarily in warm environments. coral is also very cleanly tied into dolphin progression
-//
-// chaotic: idk yet lol
-//
-// tempestuous justification: swordfish are fast predators, and are likely to survive well in such an environment.
-//
-// violent justification: shrimp are capable of living in a wide, wide variety of environments.
-// so is algae, and coral, and especially sponge. these factors make them more likely to adapt to the heat,
-// more specifically, to have a particular species that is adapted to the heat.
-//
-// abandoned justification: octopuses are sensitive to pollution, but the game establishes that they have dirty machinery and such.
-// caring only about efficiency, they fit the bill thematically.
-//
-// shrouded justification: eels and chimaeras are both arguably mysterious creatures, and the eel pallete somewhat matches the theme.
-//
-// frigid justification: squids and sea urchin live in arctic seas. urchins eat kelp, giving kelp another use.
-//
-// SECRET PLANS
-// SECRET PLANS
-
 SharkGame.WorldTypes = {
     test: {
         name: "Test",
@@ -58,8 +20,14 @@ SharkGame.WorldTypes = {
     },
     start: {
         name: "Home",
-        desc: "You shouldn't be seeing this.",
+        desc: "...",
         shortDesc: "strange blue",
+        foresight: {
+            longDesc: "...Home.",
+            missing: [],
+            present: [],
+            tip: "...",
+        },
         entry: "You enter a familiar blue sea, all your previous knowledge a dim memory.",
         style: "default",
         includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence"],
@@ -112,7 +80,14 @@ SharkGame.WorldTypes = {
         name: "Haven",
         desc: "An aquamarine world of plenty. So beautiful, yet so vulnerable.",
         shortDesc: "thriving aquamarine",
-        entry: "Remembering nothing, you find yourself in a beautiful atoll teeming with life. Life will be good here.",
+        foresight: {
+            longDesc:
+                "This world is teeming with life, more than any other place you've seen before. The water is clear, the sand is clean, the fish are plenty. A paradise in every way.",
+            missing: ["laser"],
+            present: ["coral", "dolphin", "whale"],
+            tip: "The abudance of resources might may your stay here shorter than others.",
+        },
+        entry: "Remembering nothing, you find yourself in a beautiful atoll. Life will be good here.",
         style: "haven",
         includedResources: [
             "essence",
@@ -127,6 +102,7 @@ SharkGame.WorldTypes = {
             "dolphinmachines",
             "coral",
             "chorus",
+            "essence",
         ],
         absentResources: ["laser"],
         modifiers: [
@@ -145,17 +121,10 @@ SharkGame.WorldTypes = {
             "sharks",
             "rays",
             "crabs",
-            "shrimps",
-            "octopuses",
             "basicmaterials",
             "kelpstuff",
             "sharkmachines",
-            "octopusmachines",
-            "sponge",
-            "clam",
-            "algae",
         ], */
-        absentResources: ["tar", "ice", "heater", "chimaera", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: -0.5 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: -0.5 },
@@ -188,16 +157,12 @@ SharkGame.WorldTypes = {
             "rays",
             "crabs",
             "shrimps",
-            "",
-            "whales",
             "basicmaterials",
             "kelpstuff",
             "sharkmachines",
             "sponge",
             "algae",
-            "coral",
         ], */
-        absentResources: ["tar", "ice", "heater", "octopus", "eel", "chimaera", "whale", "jellyfish"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "breeders", amount: 1 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 1 },
@@ -223,6 +188,25 @@ SharkGame.WorldTypes = {
         name: "Abandoned",
         desc: "A dying world filled with machinery.",
         shortDesc: "murky dark green",
+        foresight: {
+            get longDesc() {
+                return (
+                    "The water here is dank and tinted green by " +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? res.getResourceName("tar") + "." : "an unrecognizable substance.") +
+                    " Husks of machinery litter the ocean floor."
+                );
+            },
+            missing: ["seaApple", "kelp"],
+            present: ["octopus", "sponge", "clam"],
+            get tip() {
+                return (
+                    "This ocean is polluted with " +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1
+                        ? res.getResourceName("tar")
+                        : "an unrecognizable substance" + ". It is only harmful when machines produce it.")
+                );
+            },
+        },
         entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
         absentResources: [
@@ -290,71 +274,35 @@ SharkGame.WorldTypes = {
     },
     frigid: {
         name: "Frigid",
-        desc: "A cold, chilling ocean freezing slowly to death.",
+        desc: "An arctic ocean dangling on the edge of frozen doom.",
         shortDesc: "freezing white",
-        entry: "As you struggle with sudden amnesia, you notice crystals forming in front of you. So cold.",
-        style: "frigid",
-        absentResources: ["tar", "dolphin", "whale", "lobster", "chimaera", "shrimp", "seaApple", "coral", "algae", "jellyfish"],
-        modifiers: [
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "machines", amount: 0.5 },
-            {
-                type: "restriction",
-                modifier: "planetaryGeneratorRestriction",
-                resource: "sponge",
-                amount: "sponge",
-            },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 0.002 },
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ice", amount: 0.1 },
-        ],
-        gateRequirements: {
-            slots: {
-                sand: 1e7,
-                crystal: 1e7,
-                clam: 1e6,
-                heater: 5,
-                sharkonium: 1e8,
-                fish: 1e8,
+        foresight: {
+            longDesc: "This world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
+            missing: ["seaApple", "ray"],
+            present: ["squid", "urchin"],
+            get tip() {
+                return (
+                    "This world has " +
+                    res.getResourceName("ice") +
+                    ". " +
+                    res.getResourceName("ice") +
+                    " will slow some of the frenzy, and will be present from the start."
+                );
             },
         },
-    },
-    ethereal: {
-        name: "Ethereal",
-        desc: "A strange, glowing ocean, where thought escapes into reality.",
-        shortDesc: "radiant teal",
-        entry: "As you arrive, you feel woozy, and you black out. When you wake up, you feel clear-headed and focused.",
-        style: "default",
-        absentResources: [
-            "stone",
-            "gravel",
-            "prospector",
-            "shoveler",
-            "miller",
-            "crusher",
-            "pulverizer",
-            "tar",
-            "ice",
-            "heater",
-            "eel",
-            "shrimp",
-            "sponge",
-            "algae",
-            "lobster",
-            "chimaera",
-        ],
-        modifiers: [
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "science", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "science", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "science", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryResourceReciprocalBoost", resource: "animals", amount: 0.5 },
-        ],
-        gateType: "slots",
-        gateCosts: {
-            science: 1e9,
-            crystal: 1e8,
-            coral: 1e8,
-            silentArchivist: 5,
-            delphinium: 1e8,
-            jellyfish: 1e7,
+        entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
+        style: "frigid",
+        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "heater", "essence"],
+        modifiers: [{ type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 1 }],
+        gateRequirements: {
+            slots: {
+                sand: 2e7,
+                crystal: 2e7,
+                kelp: 1e8,
+                heater: 50,
+                sharkonium: 2e6,
+                fish: 5e8,
+            },
         },
     },
     template: {
@@ -363,20 +311,7 @@ SharkGame.WorldTypes = {
         shortDesc: "status",
         entry: "enter world",
         style: "default",
-        absentResources: [
-            "knowledge",
-            "tar",
-            "ice",
-            "heater",
-            "chimaera",
-            "stone",
-            "gravel",
-            "prospector",
-            "shoveler",
-            "miller",
-            "crusher",
-            "pulverizer",
-        ],
+        absentResources: ["knowledge", "tar", "ice", "heater", "chimaera"],
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1.5 }],
         gateType: "slots",
         gateCosts: {
@@ -417,7 +352,7 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "clamCollector", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "eggBrooder", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "sprongeSmelter", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryFixedIncomeMultiplier", resource: "ray", amount: 5 },
+            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ray", amount: 5 },
             { type: "restriction", modifier: "planetaryGeneratorRestriction", resource: "ray", amount: "sand" },
             {
                 type: "restriction",

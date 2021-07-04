@@ -6,7 +6,7 @@ SharkGame.Gate = {
     tabBg: "img/bg/bg-gate.png",
 
     discoverReq: {
-        upgrade: ["gateDiscovery", "farAbandonedExploration", "farHavenExploration"],
+        upgrade: ["gateDiscovery", "farAbandonedExploration", "farHavenExploration", "rapidRecharging"],
     },
 
     message: "A foreboding circular structure, closed shut.<br/>There are many slots, and a sign you know to mean 'insert items here'.",
@@ -39,7 +39,7 @@ SharkGame.Gate = {
         gate.opened = false;
     },
 
-    createSlots(gateRequirements, planetLevel, gateCostMultiplier) {
+    createSlots(gateRequirements, gateCostMultiplier) {
         const gate = SharkGame.Gate;
         gate.requirements = {};
         gate.completedRequirements = {};
@@ -49,7 +49,7 @@ SharkGame.Gate = {
             gate.completedRequirements.slots = {};
             // create costs and costsMet
             $.each(gateRequirements.slots, (resourceId, requiredAmount) => {
-                gate.requirements.slots[resourceId] = Math.floor(requiredAmount * planetLevel * gateCostMultiplier);
+                gate.requirements.slots[resourceId] = Math.floor(requiredAmount * gateCostMultiplier);
                 gate.completedRequirements.slots[resourceId] = false;
             });
         }
@@ -90,13 +90,7 @@ SharkGame.Gate = {
                 const buttonList = $("#buttonList");
                 $.each(gate.requirements.slots, (resource, requiredAmount) => {
                     if (!gate.completedRequirements.slots[resource]) {
-                        const resourceName = res.getResourceName(
-                            resource,
-                            false,
-                            false,
-                            false,
-                            SharkGame.getElementColor("tooltipbox", "background-color")
-                        );
+                        const resourceName = res.getResourceName(resource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"));
                         SharkGame.Button.makeHoverscriptButton(
                             "gateCost-" + resource,
                             "Insert " + main.beautify(requiredAmount) + " " + resourceName + " into " + resourceName + " slot",
@@ -207,15 +201,8 @@ SharkGame.Gate = {
                     resourceName,
                     false,
                     false,
-                    false,
                     SharkGame.getElementColor(button.attr("id"), "background-color")
-                )} for ${res.getResourceName(
-                    resourceName,
-                    false,
-                    false,
-                    false,
-                    SharkGame.getElementColor(button.attr("id"), "background-color")
-                )} slot`
+                )} for ${res.getResourceName(resourceName, false, false, SharkGame.getElementColor(button.attr("id"), "background-color"))} slot`
             );
         }
     },
@@ -229,9 +216,9 @@ SharkGame.Gate = {
             "Insert " +
                 main.beautify(required) +
                 " " +
-                res.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
+                res.getResourceName(resourceName, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
                 " into " +
-                res.getResourceName(resourceName, false, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
+                res.getResourceName(resourceName, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
                 " slot"
         );
     },

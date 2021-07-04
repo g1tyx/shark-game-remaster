@@ -48,22 +48,24 @@
 
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/util.js"></script>
-        <script type="text/javascript" src="js/artifactutil.js"></script>
 
         <script type="text/javascript" src="js/data/resourcetable.js"></script>
         <script type="text/javascript" src="js/data/homeactions.js"></script>
         <script type="text/javascript" src="js/data/worldtypes.js"></script>
         <script type="text/javascript" src="js/data/upgrades.js"></script>
+        <script type="text/javascript" src="js/data/events.js"></script>
         <script type="text/javascript" src="js/data/modifiertypes.js"></script>
-        <script type="text/javascript" src="js/data/artifacts.js"></script>
+        <script type="text/javascript" src="js/data/aspects.js"></script>
         <script type="text/javascript" src="js/data/sprites.js"></script>
 
+        <script type="text/javascript" src="js/eventhandler.js"></script>
         <script type="text/javascript" src="js/resources.js"></script>
         <script type="text/javascript" src="js/world.js"></script>
         <script type="text/javascript" src="js/log.js"></script>
         <script type="text/javascript" src="js/save.js"></script>
         <script type="text/javascript" src="js/settings.js"></script>
         <script type="text/javascript" src="js/gateway.js"></script>
+        <script type="text/javascript" src="js/aspecttree.js"></script>
 
         <script type="text/javascript" src="js/tabs/home.js"></script>
         <script type="text/javascript" src="js/tabs/lab.js"></script>
@@ -79,6 +81,7 @@
             var stats = SharkGame.Stats;
             var world = SharkGame.World;
             var home = SharkGame.Home;
+            var tree = SharkGame.AspectTree;
             var cad = SharkGame.cheatsAndDebug;
             var cheats = "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
             var cheatcodes = "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
@@ -124,17 +127,13 @@
             function freezePlease() {
                 world.forceExistence("ice");
                 SharkGame.PlayerResources.get("ice").discovered = true;
-                res.clearNetworks();
-                res.buildApplicableNetworks();
-                res.setResource("ice", 1000);
-                res.setTotalResource("ice", 1000);
-                res.rebuildTable = true;
+
                 SharkGame.Log.addMessage("ICE going, doofus!");
                 return "Game frozen.";
             }
             function unfreezePlease() {
-                res.setResource("ice", 0);
-                SharkGame.Log.addMessage("What, did you need some bailing out?");
+                r.setResource("ice", 0);
+                SharkGame.Log.addMessage("Couldn't handle the big chill?");
                 return "Game unfrozen.";
             }
             function exponentialGrowthPlease() {
@@ -262,42 +261,6 @@
                 return "Did something really cool.";
                 // this doesn't do anything
             }
-            function lowerClimatePlease() {
-                world.planetLevel -= 10;
-                if (world.planetLevel < 1) {
-                    world.planetLevel = 1;
-                }
-                world.apply();
-                return "Made the climate easier.";
-            }
-            function waylowerClimatePlease() {
-                world.planetLevel -= 1000;
-                if (world.planetLevel < 1) {
-                    world.planetLevel = 1;
-                }
-                world.apply();
-                return "Made the climate way easier.";
-            }
-            function higherClimatePlease() {
-                world.planetLevel += 10;
-                world.apply();
-                return "Made the climate harder.";
-            }
-            function wayHigherClimatePlease() {
-                world.planetLevel += 1000;
-                world.apply();
-                return "Made the climate way harder.";
-            }
-            function resetClimatePlease() {
-                world.planetLevel = 1;
-                world.apply();
-                return "Made the climate level 1.";
-            }
-            function multiplyClimatePlease() {
-                world.planetLevel *= 10;
-                world.apply();
-                return "Made the climate 10 times harder.";
-            }
             function beatWorldPlease() {
                 SharkGame.wonGame = true;
                 main.endGame();
@@ -359,19 +322,18 @@
         </script>
     </head>
     <body>
-        <div id="wrapper">
-            <span id="tooltipbox" class="tooltip click-passthrough"></span>
-            <span id="updateGameBox" class="tooltip"></span>
-            <noscript>
-                <div class="section">
-                    <h1>Shark Game??</h1>
+        <span id="tooltipbox" class="tooltip click-passthrough"></span>
+        <span id="updateGameBox" class="tooltip"></span>
+        <noscript>
+            <div class="section">
+                <h1>Shark Game??</h1>
 
-                    <p>Oh dear! It seems you have Javascript disabled, or that your current browser does not support scripts.</p>
+                <p>Oh dear! It seems you have Javascript disabled, or that your current browser does not support scripts.</p>
 
-                    <p>Shark Game requires scripts to work. Otherwise it's just a static webpage that doesn't do much.</p>
+                <p>Shark Game requires scripts to work. Otherwise it's just a static webpage that doesn't do much.</p>
 
-                    <div style="margin: auto; width: 20em">
-                        <pre>
+                <div style="margin: auto; width: 20em">
+                    <pre>
      ,
        .';
    .-'` .'
@@ -385,11 +347,11 @@
   jgs   `'--....(`- ,__..--'
                  '-'`
 
-                        </pre>
-                    </div>
+                    </pre>
                 </div>
-            </noscript>
-
+            </div>
+        </noscript>
+        <div id="wrapper">
             <div id="game">
                 <div id="title">
                     <h1 id="gameName">- SHARK GAME -</h1>

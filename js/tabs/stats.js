@@ -8,9 +8,10 @@ SharkGame.Stats = {
     sceneImage: "img/events/misc/scene-grotto.png",
 
     recreateIncomeTable: null,
+    incomeTableEmpty: true,
 
-    discoverReq: {
-        upgrade: ["statsDiscovery"],
+    get discoverReq() {
+        return SharkGame.Aspects.extensiveOrganization.level ? {} : { upgrade: ["statsDiscovery"] };
     },
 
     bannedDisposeCategories: ["special", "harmful"],
@@ -92,9 +93,6 @@ SharkGame.Stats = {
         const genStats = $("#generalStats");
         genStats.append($("<h3>").html("General Stats"));
         const firstTime = main.isFirstTime();
-        if (!firstTime) {
-            genStats.append($("<p>").html("<span class='medDesc'>Climate Level</span><br>" + main.beautify(world.planetLevel)));
-        }
         genStats.append($("<p>").html("Time since you began:<br/><span id='gameTime' class='timeDisplay'></span>").addClass("medDesc"));
         if (!firstTime) {
             genStats.append(
@@ -134,8 +132,7 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0 && stats.bannedDisposeCategories.indexOf(res.getCategoryOfResource(resourceId)) === -1) {
                 SharkGame.Button.makeButton(
                     "dispose-" + resourceId,
-                    "Dispose of<br/>" +
-                        res.getResourceName(resourceId, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
+                    "Dispose of<br/>" + res.getResourceName(resourceId, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
                     buttonDiv,
                     stats.onDispose
                 );
@@ -154,7 +151,6 @@ SharkGame.Stats = {
                     const divisor = Math.floor(amountToDispose) * -1;
                     amountToDispose = Math.floor(max / divisor);
                 }
-                const forceSingular = amountToDispose === 1;
                 const disableButton = resourceAmount < amountToDispose || amountToDispose <= 0;
                 let label =
                     "Dispose of " +
@@ -163,8 +159,7 @@ SharkGame.Stats = {
                     res.getResourceName(
                         resourceName,
                         disableButton,
-                        forceSingular,
-                        false,
+                        amountToDispose,
                         SharkGame.getElementColor("dispose-" + resourceName, "background-color")
                     );
                 if (amountToDispose <= 0) {
@@ -173,8 +168,7 @@ SharkGame.Stats = {
                         res.getResourceName(
                             resourceName,
                             disableButton,
-                            forceSingular,
-                            false,
+                            amountToDispose,
                             SharkGame.getElementColor("dispose-" + resourceName, "background-color")
                         );
                 }
@@ -219,7 +213,7 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0) {
                 if (SharkGame.ResourceMap.get(resourceId).income) {
                     const income = SharkGame.ResourceMap.get(resourceId).income;
-                    $.each(income, (incomeKey) => {
+                    $.each(income, (incomeKey, incomeValue) => {
                         let cell = $("#income-" + resourceId + "-" + incomeKey);
                         const realIncome = SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey];
                         const changeChar = !(realIncome < 0) ? "+" : "";
@@ -230,9 +224,8 @@ SharkGame.Stats = {
                             // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + main.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
                             (changeChar + main.beautifyIncome(realIncome)).bold() +
                             "</span>";
-                        let oldValue = cell.html();
 
-                        if (oldValue !== newValue.replace(/'/g, '"')) {
+                        if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
                         }
 
@@ -243,9 +236,44 @@ SharkGame.Stats = {
                         }
 
                         newValue = "<div style='text-align:right'>" + main.beautify(res.getResource(resourceId)).bold() + "</div>";
-                        oldValue = cell.html();
-                        if (oldValue !== newValue.replace(/'/g, '"')) {
+                        if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
+                        }
+
+                        if (SharkGame.Settings.current.grottoMode === "advanced") {
+                            cell = $("#network-" + resourceId + "-" + incomeKey);
+                            newValue =
+                                "<span style='color:" +
+                                res.RESOURCE_AFFECT_MULTIPLIER_COLOR +
+                                "'>x" +
+                                main.beautify(
+                                    res.getNetworkIncomeModifier("generator", resourceId) * res.getNetworkIncomeModifier("resource", incomeKey),
+                                    false,
+                                    2
+                                ) +
+                                "</span>";
+                            if (cell.html() !== newValue.replace(/'/g, '"')) {
+                                cell.html(newValue);
+                            }
+                        } else {
+                            cell = $("#base-income-" + resourceId + "-" + incomeKey);
+                            newValue =
+                                "<span style='color:" +
+                                res.INCOME_COLOR +
+                                "'>" +
+                                (!(SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey] < 0) ? "+" : "") +
+                                main.beautify(
+                                    incomeValue *
+                                        res.getNetworkIncomeModifier("generator", resourceId) *
+                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                    false,
+                                    2
+                                ) +
+                                "/s" +
+                                "</span>";
+                            if (cell.html() !== newValue.replace(/'/g, '"')) {
+                                cell.html(newValue);
+                            }
                         }
                     });
                 }
@@ -275,8 +303,6 @@ SharkGame.Stats = {
         } else {
             incomesTable.empty();
         }
-
-        const specialMultiplierCol = null;
 
         let formatCounter = 1;
 
@@ -316,13 +342,6 @@ SharkGame.Stats = {
 
         // You would filter or sort here if you want to filter or sort using higher order operations
         // You would filter or sort above the statement where it's checked if the view is switched if you want to do an if statement
-
-        /*
-        incomesTable.append($("<tr>").append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
-            .append($("<td>").html("test2").attr("rowspan", 1).addClass("evenRow"))
-            .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow"))
-            .append($("<td>").html("test").attr("rowspan", 1).addClass("evenRow")));
-        */
 
         drawnResourceMap.forEach((headingData, headingName) => {
             // if the resource has an income requiring any costs
@@ -365,9 +384,28 @@ SharkGame.Stats = {
                 }
             }
 
-            $.each(headingData, (subheadingKey, subheadingValue) => {
-                // the income was formerly the subheadingKey, but then it got changed so it could be flipped
+            const multipliers = {
+                upgrade: [],
+                world: [],
+                aspect: [],
+            };
 
+            $.each(headingData, (subheadingKey, _subheadingValue) => {
+                const incomeKey = SharkGame.Settings.current.switchStats ? headingName : subheadingKey;
+                const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
+                multipliers.upgrade.push(res.getMultiplierProduct("upgrade", generatorName, incomeKey));
+                multipliers.world.push(res.getMultiplierProduct("world", generatorName, incomeKey));
+                multipliers.aspect.push(res.getMultiplierProduct("aspect", generatorName, incomeKey));
+            });
+            $.each(multipliers, (category, values) => {
+                //thanks stackoverflow
+                multipliers[category] =
+                    values.filter((value, index, list) => {
+                        return list.indexOf(value) === index;
+                    }).length !== 1;
+            });
+
+            $.each(headingData, (subheadingKey, subheadingValue) => {
                 const incomeKey = SharkGame.Settings.current.switchStats ? headingName : subheadingKey;
                 const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
                 const incomeValue = subheadingValue;
@@ -396,46 +434,65 @@ SharkGame.Stats = {
                         "inline",
                         "advanced-base-income-" + generatorName + "-" + incomeKey
                     );
-                    // if its inline then many rowspans will fill the gap
-
-                    if (generatorBoostRowspan === "inline" || counter === 0) {
+                    if (multipliers.upgrade || counter === 0) {
                         const upgradeMutiplier = res.getMultiplierProduct("upgrade", generatorName, incomeKey);
                         if (upgradeMutiplier !== 1) {
-                            addCell([res.UPGRADE_MULTIPLIER_COLOR, "x" + main.beautify(upgradeMutiplier)], generatorBoostRowspan);
-                        } else addCell(undefined, generatorBoostRowspan);
+                            addCell(
+                                [res.UPGRADE_MULTIPLIER_COLOR, "x" + main.beautify(upgradeMutiplier, false, 1)],
+                                multipliers.upgrade ? "inline" : undefined
+                            );
+                        } else addCell(undefined, multipliers.upgrade ? "inline" : undefined);
+                    }
 
-                        // does this generator get a world multiplier?
-                        // world multipliers are per generator, so when its sorted by material being produced you need it for all its income
+                    if (multipliers.world || counter === 0) {
                         const worldMultiplier = res.getMultiplierProduct("world", generatorName, incomeKey);
                         if (worldMultiplier !== 1) {
-                            addCell([res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier)], generatorBoostRowspan);
-                        } else addCell(undefined, generatorBoostRowspan);
+                            addCell(
+                                [res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier, false, 1)],
+                                multipliers.world ? "inline" : undefined
+                            );
+                        } else addCell(undefined, multipliers.world ? "inline" : undefined);
+                    }
 
-                        // does this income get an artifact multiplier?
-                        const artifactMultiplier = res.getMultiplierProduct("artifact", generatorName, incomeKey);
-                        if (artifactMultiplier !== 1) {
-                            addCell([res.ARTIFACT_MULTIPLIER_COLOR, "x" + main.beautify(artifactMultiplier)], generatorBoostRowspan);
-                        } else addCell(undefined, generatorBoostRowspan);
+                    if (multipliers.aspect || counter === 0) {
+                        const aspectMultiplier = res.getMultiplierProduct("aspect", generatorName, incomeKey);
+                        if (aspectMultiplier !== 1) {
+                            addCell(
+                                [res.ASPECT_MULTIPLIER_COLOR, "x" + main.beautify(aspectMultiplier, false, 1)],
+                                multipliers.aspect ? "inline" : undefined
+                            );
+                        } else addCell(undefined, multipliers.aspect ? "inline" : undefined);
+                    }
 
-                        // does this income get an effect network multiplier?
+                    if (generatorBoostRowspan === "inline" || counter === 0) {
                         const resourceAffectMultiplier =
                             res.getNetworkIncomeModifier("generator", generatorName) * res.getNetworkIncomeModifier("resource", incomeKey);
                         if (resourceAffectMultiplier !== 1) {
                             addCell(
                                 [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + main.beautify(resourceAffectMultiplier, false, 2)],
-                                generatorBoostRowspan
+                                generatorBoostRowspan,
+                                "network-" + generatorName + "-" + incomeKey
                             );
                         } else addCell(undefined, generatorBoostRowspan);
                     }
                 } else {
                     addCell(
-                        [res.INCOME_COLOR, changeChar + main.beautify(incomeValue, false, 2) + "/s"],
+                        [
+                            res.INCOME_COLOR,
+                            changeChar +
+                                main.beautify(
+                                    incomeValue *
+                                        res.getNetworkIncomeModifier("generator", generatorName) *
+                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                    false,
+                                    2
+                                ) +
+                                "/s",
+                        ],
                         "inline",
                         "base-income-" + generatorName + "-" + incomeKey
                     );
                 }
-
-                // grotto is currently missing functionality to display resource effect (not affect) multipliers, needs to be added, but not pertinent since no resources currently use this multiplier type
 
                 addCell(undefined, "inline");
 
@@ -466,67 +523,75 @@ SharkGame.Stats = {
             formatCounter++;
         });
 
-        if (specialMultiplierCol) {
-            const rowCount = incomesTable.find("tr").length;
-            specialMultiplierCol.attr("rowspan", rowCount);
-        }
+        if (drawnResourceMap.size) {
+            const row = $("<tr>");
+            let columns = incomesTable[0].children[0].children.length;
 
-        const row = $("<tr>");
+            if (SharkGame.Settings.current.switchStats) {
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
 
-        let columns = incomesTable[0].children[0].children[0].children.length;
+                row.append(
+                    $("<td>")
+                        .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+            } else {
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+                row.append(
+                    $("<th>")
+                        .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
 
-        if (SharkGame.Settings.current.switchStats) {
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
+                row.append(
+                    $("<td>")
+                        .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
+                        .addClass("evenRow")
+                );
+            }
 
             row.append(
                 $("<td>")
-                    .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
+                    .html("<span><u><b>" + (SharkGame.Settings.current.grottoMode === "advanced" ? "BASE INCOME" : "INCOME PER") + "</b></u></span>")
                     .addClass("evenRow")
             );
+
+            columns -= 4;
+            while (columns > 1) {
+                columns -= 1;
+                row.append($("<td>").html(undefined).addClass("evenRow"));
+            }
+
+            if (res.getSpecialMultiplier() !== 1) {
+                row.append(
+                    $("<td>")
+                        .html("x" + res.getSpecialMultiplier())
+                        .addClass("evenRow")
+                        .attr("rowspan", incomesTable.find("tr").length + 1)
+                );
+            }
+
+            row.append($("<td>").html("<span><u><b>TOTAL</b></u></span>").addClass("evenRow"));
+
+            incomesTable.prepend(row);
+            SharkGame.Stats.incomeTableEmpty = false;
         } else {
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
-            row.append(
-                $("<th>")
-                    .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
-
-            row.append(
-                $("<td>")
-                    .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
-                    .addClass("evenRow")
-            );
+            incomesTable.prepend($("<tr>").append($("<td>").html("<span><i><b>There's nothing here.</b></i></span>")));
+            SharkGame.Stats.incomeTableEmpty = true;
         }
-
-        row.append(
-            $("<td>")
-                .html("<span><u><b>" + (SharkGame.Settings.current.grottoMode === "advanced" ? "BASE INCOME" : "INCOME PER") + "</b></u></span>")
-                .addClass("evenRow")
-        );
-
-        columns -= 4;
-        while (columns > 1) {
-            columns -= 1;
-            row.append($("<td>").html(undefined).addClass("evenRow"));
-        }
-
-        row.append($("<td>").html("<span><u><b>TOTAL</b></u></span>").addClass("evenRow"));
-
-        incomesTable.prepend(row);
-
         return incomesTable;
     },
 
@@ -569,12 +634,12 @@ SharkGame.Stats = {
             SharkGame.Settings.current.grottoMode = "simple";
             document.getElementById("modeButton").innerHTML = "Swap to Advanced mode";
         }
-        stats.updateTableKey();
         stats.createIncomeTable();
+        stats.updateTableKey();
     },
 
     updateTableKey() {
-        if (SharkGame.Settings.current.grottoMode !== "advanced") {
+        if (SharkGame.Settings.current.grottoMode !== "advanced" || SharkGame.Stats.incomeTableEmpty) {
             document.getElementById("tableKey").innerHTML = "";
             return;
         }
@@ -585,7 +650,7 @@ SharkGame.Stats = {
                 `<br> <span style='color:${res.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
                 `<br> <span style='color:${res.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for world effects.` +
                 `<br> <span style='color:${res.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect each other.` +
-                `<br> <span style='color:${res.ARTIFACT_MULTIPLIER_COLOR}'><b>This color</b></span> is for artifact effects.`;
+                `<br> <span style='color:${res.ASPECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for aspect effects.`;
         } else {
             document.getElementById("tableKey").innerHTML =
                 "<br> <b><u>TABLE KEY</b></u>" +

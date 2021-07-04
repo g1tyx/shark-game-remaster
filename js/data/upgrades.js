@@ -35,33 +35,61 @@ SharkGame.Upgrades = {
         return SharkGame.Upgrades.generated[worldType];
     },
 
-    /** @param worldType {string} */
-    generateUpgradeTable(worldType = world.worldType) {
-        const upgradeTable = _.cloneDeep(SharkGame.Upgrades.default);
+    /**
+     * Retrieves, modifies, and returns the data for an upgrade. Implemented to intercept retreival of upgrade data to handle special logic where alternatives are inconvenient or impossible.
+     * @param {object} table The table to retrieve the upgrade data from
+     * @param {string} upgradeName The name of the upgrade
+     */
+    getUpgradeData(table, upgradeName) {
+        // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
+        const data = _.cloneDeep(table[upgradeName]);
 
-        // Check if world type has modifications
-        if (_.has(SharkGame.Upgrades, worldType)) {
-            const worldMods = _.cloneDeep(SharkGame.Upgrades[worldType]);
-
-            // Delete non-existing upgrades from world
-            for (const upgrade in upgradeTable) {
-                if (!_.has(worldMods, upgrade)) {
-                    delete upgradeTable[upgrade];
-                }
-            }
-
-            // Apply world-specific modifications
-            for (const upgrade in worldMods) {
-                if (_.has(upgradeTable, upgrade)) {
-                    // If upgrade exists in both, it's just a modification
-                    _.assign(upgradeTable[upgrade], worldMods[upgrade]);
-                } else {
-                    // Otherwise, it's a world-specific upgrade and needs to be added
-                    upgradeTable[upgrade] = worldMods[upgrade];
-                }
+        // apply effect of internal calculator aspect if indeed applicable
+        // would use getters but there would be too many getters to be reasonable
+        if (data.cost && data.cost.science && data.cost.science <= 150) {
+            switch (SharkGame.Aspects.internalCalculator.level) {
+                case 1:
+                    data.cost.science *= 0.5;
+                    break;
+                case 2:
+                    $.each(data.cost, (resource) => {
+                        data.cost[resource] *= 0.5;
+                    });
             }
         }
-        return upgradeTable;
+
+        return data;
+    },
+
+    /** @param worldType {string} */
+    generateUpgradeTable(worldType = world.worldType) {
+        let finalTable = {};
+        const defaultUpgrades = SharkGame.Upgrades.default;
+        if (_.has(SharkGame.Upgrades, worldType)) {
+            const worldUpgrades = SharkGame.Upgrades[worldType];
+            _.each(Object.getOwnPropertyNames(worldUpgrades), (upgradeName) => {
+                if (defaultUpgrades[upgradeName]) {
+                    finalTable[upgradeName] = {};
+                    const names = Object.getOwnPropertyNames(worldUpgrades[upgradeName]);
+                    _.each(names, (theName) => {
+                        const descriptor = Object.getOwnPropertyDescriptor(worldUpgrades[upgradeName], theName);
+                        Object.defineProperty(finalTable[upgradeName], theName, descriptor);
+                    });
+                    const defaultNames = Object.getOwnPropertyNames(defaultUpgrades[upgradeName]);
+                    _.each(defaultNames, (theName) => {
+                        if (!finalTable[upgradeName][theName]) {
+                            const descriptor = Object.getOwnPropertyDescriptor(defaultUpgrades[upgradeName], theName);
+                            Object.defineProperty(finalTable[upgradeName], theName, descriptor);
+                        }
+                    });
+                } else {
+                    finalTable[upgradeName] = worldUpgrades[upgradeName];
+                }
+            });
+        } else {
+            finalTable = defaultUpgrades;
+        }
+        return finalTable;
     },
     default: {
         crystalBite: {
@@ -883,9 +911,10 @@ SharkGame.Upgrades = {
         underwaterChemistry: {},
         seabedGeology: {},
         transmutation: {
-            desc: "Delphinium is a terrible material! And it makes terrible machines! We can do better, surely.",
+            desc:
+                "The properties of delphinium make it totally usuable for the applications we have in mind. Maybe if we try some different ingredients, we can make a new kind of material?",
             cost: {
-                science: 75000,
+                science: 150000,
                 crystal: 75000,
                 sand: 4000000,
             },
@@ -897,12 +926,12 @@ SharkGame.Upgrades = {
         aquamarineFusion: {
             name: "Aquamarine Fusion",
             desc:
-                "Those uppity dolphins think they're the only ones who can make their special delphinium. But the kelp papyrus things have instructions, so we'll show them!",
+                "The kelp papyrus things have instructions on how to make some gross thing called delphinium, so now we feel obligated to make it. Are we sure we want to do this?",
             researchedMessage:
                 "Using the knowledge gained from the kelp slab things, we've figured out how to make delphinium and now we feel gross.",
-            effectDesc: "Enables transmutation of a different bunch of junk into delphinium.",
+            effectDesc: "Enables transmutation of a bunch of junk into delphinium.",
             cost: {
-                science: 30000,
+                science: 75000,
                 coral: 75000,
                 crystal: 50000,
             },
@@ -912,22 +941,22 @@ SharkGame.Upgrades = {
         },
         automation: {
             name: "Automation",
-            desc: "Using sharkonium, we can make our own things to do things so we don't have to do the things!",
+            desc: "Using sharkonium, we can make new things to do things so we don't have to do the things!",
             cost: {
-                science: 125000,
+                science: 150000,
                 sharkonium: 17500,
             },
         },
         engineering: {
-            effectDesc: "Machines are twice as effective. Auto-transmuters are now possible to create.",
+            effectDesc: "Shark machines are twice as effective. Auto-transmuters are now possible to create.",
             cost: {
-                science: 525000,
+                science: 625000,
                 sharkonium: 60000,
             },
         },
         recyclerDiscovery: {
             cost: {
-                science: 500000,
+                science: 750000,
                 sharkonium: 75000,
             },
         },
@@ -948,13 +977,13 @@ SharkGame.Upgrades = {
         },
         dolphinTechnology: {
             name: "Dolphin Technology",
-            desc: "The warm-blooded squeakers have machinery that might be useful. Let's reverse-engineer it.",
+            desc: "Regardless of the uselessness of the material, the machines might be good. Probably not, though. Probably.",
             researchedMessage:
-                "The elaborate crystalline structures of dolphin technology are a ruse to mask their limited function. Inside, they're not so different to our machines.",
-            effectDesc: "We've reverse-engineered some dolphin machinery. We also, regretfully, learned what the designs are called.",
+                "Dolphin technology is pretty ornate. We spent more time figuring out what parts of the machines were actually necessary than we spent actually building them.",
+            effectDesc: "We've figured out some dolphin machinery. As expected, it's not the best - but it'll have to do.",
             cost: {
-                science: 37500,
-                delphinium: 3750,
+                science: 75000,
+                delphinium: 4750,
             },
             required: {
                 upgrades: ["aquamarineFusion"],
@@ -975,20 +1004,20 @@ SharkGame.Upgrades = {
         },
         kelpHorticulture: {
             cost: {
-                science: 100,
+                science: 250,
                 sand: 2500,
             },
         },
         biology: {
             cost: {
-                science: 750,
+                science: 1500,
             },
         },
         xenobiology: {
             effectDesc:
                 "We know how to harvest sea apples twice as quickly, and we can dissect sea apples for science. Also, sea apple isn't a fruit.",
             cost: {
-                seaApple: 2,
+                seaApple: 3,
             },
             required: {
                 upgrades: ["kelpHorticulture"],
@@ -999,7 +1028,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Rays are four times as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
-                science: 1250,
+                science: 1750,
                 sand: 5000,
             },
             required: {
@@ -1015,7 +1044,7 @@ SharkGame.Upgrades = {
             name: "Crab Biology",
             desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
             cost: {
-                science: 1500,
+                science: 2500,
                 kelp: 100,
             },
             required: {
@@ -1029,14 +1058,14 @@ SharkGame.Upgrades = {
             researchedMessage: "So it's a cultural thing. Fine, collect your coral. See if I care.",
             effectDesc: "Dolphins can now specialize in becoming treasurers.",
             cost: {
-                science: 800,
-                coral: 750,
+                science: 500,
+                coral: 150,
             },
             required: {
                 upgrades: ["seabedGeology"],
                 seen: ["dolphin"],
                 totals: {
-                    coral: 1250,
+                    coral: 750,
                 },
             },
         },
@@ -1068,7 +1097,7 @@ SharkGame.Upgrades = {
             researchedMessage: "A dolphin overheard us talking about it, and they came over and 'read' something from it. What?!",
             effectDesc: "Discovered the remnants of dolphin civilization in the form of kelp...papyrus. Okay then??",
             cost: {
-                science: 10000,
+                science: 25000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -1086,7 +1115,8 @@ SharkGame.Upgrades = {
             name: "Imperial Designs",
             desc:
                 "Finally, with all the materials in one place, we can stop relying on shoddy copies and use the original designs for the dolphin machines.",
-            researchedMessage: "What? These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
+            researchedMessage:
+                "We found the originals, but they suck! These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
             effectDesc:
                 "Kelp cultivators and crimson combines are 8 times faster, and tireless crafters are twice as efficient. We begrudingly admit their quality is not entirely terrible.",
             cost: {
@@ -1113,11 +1143,11 @@ SharkGame.Upgrades = {
             researchedMessage: "The dolphins were the first to volunteer with helping to organize this stuff. I GUESS we could give them a chance.",
             effectDesc: "Can now assign dolphins as historians who will help catalogue all of the information we have on these kelp things.",
             cost: {
-                science: 900000,
+                science: 2000000,
             },
             required: {
                 totals: {
-                    science: 850000,
+                    science: 950000,
                 },
             },
             effect: {
@@ -1130,7 +1160,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Planter crabs are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
-                science: 2750,
+                science: 4500,
             },
             required: {
                 upgrades: ["kelpHorticulture"],
@@ -1143,7 +1173,7 @@ SharkGame.Upgrades = {
         },
         exploration: {
             cost: {
-                science: 5000,
+                science: 30000,
                 fish: 50000,
             },
         },
@@ -1154,8 +1184,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Crystal-rich deposits were found, as well as what appears to be the portal of dolphin legend.",
             effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
             cost: {
-                science: 80000,
-                fish: 15000,
+                science: 225000,
+                fish: 1500000,
             },
             required: {
                 upgrades: ["exploration", "delphineHistory"],
@@ -1173,7 +1203,7 @@ SharkGame.Upgrades = {
                 "Okay, 'whales' are out there. They're similar to dolphins, except less rude, and really big. Oh, and, they collect tons of fish.",
             effectDesc: "Whales can now be recruited.",
             cost: {
-                fish: 2500000,
+                fish: 7500000,
             },
             required: {
                 upgrades: ["exploration"],
@@ -1187,7 +1217,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though. Whales are 4 times as effective.",
             cost: {
-                fish: 100000000,
+                fish: 750000000,
             },
             required: {
                 upgrades: ["whaleCommunication"],
@@ -1242,6 +1272,487 @@ SharkGame.Upgrades = {
                     sandDigger: 8,
                     scientist: 16,
                 },
+            },
+        },
+    },
+    frigid: {
+        crystalBite: {
+            cost: {
+                science: 25,
+                fish: 100,
+            },
+            required: {
+                upgrades: ["civilContact"],
+            },
+        },
+        urchinAttraction: {
+            name: "Urchin Attraction",
+            desc: "We can see these little spiny balls moving around on the ocean floor. What are they? Why are they everywhere?!",
+            researchedMessage: "We have made two miraculous discoveries: they're sentient (barely), and they are painful to touch.",
+            effectDesc:
+                "We've managed to attract the attention of one of the sea urchins, and it's bringing stuff to us. I think it likes us?? Maybe???",
+            cost: {
+                science: 25,
+            },
+            required: {
+                upgrades: ["civilContact"],
+            },
+            events: ["frigidAddUrchin"],
+        },
+        crystalContainer: {
+            cost: {
+                science: 50,
+                crystal: 25,
+            },
+            required: {
+                upgrades: ["civilContact"],
+            },
+        },
+        statsDiscovery: {
+            cost: {
+                science: 50,
+            },
+        },
+        underwaterChemistry: {
+            cost: {
+                science: 100,
+                crystal: 25,
+            },
+        },
+        seabedGeology: {
+            researchedMessage: "Not only did we find a whole bunch of weird things, we found that there was more sand!",
+            effectDesc:
+                "Urchins gather sand twice as fast. Not that they understand how to do it faster, but that we've shown them better techniques to mimic.",
+            cost: {
+                science: 150,
+                sand: 100,
+            },
+            required: {
+                upgrades: ["urchinAttraction", "crystalContainer"],
+            },
+            effect: {
+                sandMultiplier: {
+                    urchin: 2,
+                },
+            },
+        },
+        civilContact: {
+            name: "Civil Contact",
+            desc: "We see a number of strange structures through the gap in the ice. What are we looking at, exactly?",
+            researchedMessage: "We visited the structures, and it turns out it's an entire civilization!",
+            effectDesc: "Found the squids. They can be enlisted to help catch fish. Also moved to a less frozen place.",
+            cost: {
+                science: 25,
+            },
+        },
+        teamSpirit: {
+            name: "Team Spirit",
+            desc: "The squid seem adamant on showing us the way of teamwork, or something.",
+            researchedMessage:
+                "The squid said something about being efficient and cooperative and blah blah blah. It's a little pretentious, but I GUESS they have a point.",
+            effectDesc: "Sharks, crabs, urchins, extraction teams, scientists, and squid production times 2.",
+            cost: {
+                science: 2500,
+            },
+            required: {
+                upgrades: ["crabBiology", "squidBiology"],
+                seen: ["extractionTeam"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                    crab: 2,
+                    squid: 2,
+                    urchin: 2,
+                    scientist: 2,
+                    extractionTeam: 2,
+                },
+            },
+        },
+        agriculture: {
+            name: "Agriculture",
+            desc: "The hunter-gatherer lifestyle seems like the only option, but maybe we could learn something more sustainable?",
+            researchedMessage:
+                "It sorta worked. We've had to plant kelp all over the place, since the urchins just tear through it if it's all together.",
+            effectDesc: "Urchins gather kelp twice as fast. Just kelp.",
+            cost: {
+                science: 350,
+                sand: 400,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+            effect: {
+                kelpMultiplier: {
+                    urchin: 2,
+                },
+            },
+        },
+        assistedExtraction: {
+            name: "Assisted Extraction",
+            desc: "Crabs take forever to get crystals. The squid insist that working together will help. I guess it's better than nothing.",
+            researchedMessage:
+                "A crab can reach places a squid cannot, and a squid can help a crab get around faster. The squid were right, this is great!",
+            effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
+            cost: {
+                science: 500,
+                kelp: 250,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+        },
+        biology: {
+            cost: {
+                science: 1000,
+            },
+            required: {
+                upgrades: ["underwaterChemistry", "agriculture"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                },
+            },
+        },
+        squidBiology: {
+            name: "Squid Biology",
+            desc: "Discover the secrets of squid reproduction.",
+            researchedMessage: "",
+            effectDesc: "Squid can now be assigned to breed in a collective.",
+            cost: {
+                science: 1250,
+            },
+            required: {
+                upgrades: ["biology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    squid: 2,
+                },
+            },
+        },
+        crabBiology: {
+            cost: {
+                science: 1750,
+                kelp: 2500,
+            },
+            required: {
+                upgrades: ["biology", "sunObservation"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 2,
+                },
+            },
+        },
+        urchinBiology: {
+            name: "Urchin Biology",
+            desc: "Discover how these little things get so numerous.",
+            researchedMessage: "Indirectly, as it turns out. Ew.",
+            effectDesc: "Urchins can now be assigned to go make more urchins.",
+            cost: {
+                science: 1250,
+                kelp: 750,
+            },
+            required: {
+                upgrades: ["biology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    urchin: 2,
+                },
+            },
+        },
+        sunObservation: {
+            name: "Sun Observation",
+            desc: "We must determine what is with the weird glare on the surface of the water.",
+            researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
+            effectDesc: "Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
+            cost: {
+                science: 1250,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+            effect: {
+                kelpMultiplier: {
+                    urchin: 2,
+                },
+            },
+        },
+        exploration: {
+            name: "Exploration",
+            desc: "Swim beyond the home seas to see what can be found!",
+            researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
+            effectDesc: "Sharks are twice as effective, squids are 4 times as effective. Did you know oceans are big? Fascinating!",
+            cost: {
+                science: 4500,
+                fish: 25000,
+            },
+            required: {
+                upgrades: ["sunObservation"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                    squid: 4,
+                },
+            },
+        },
+        glacialNavigation: {
+            name: "Glacial Navigation",
+            desc: "Explore the icebergs that lie beyond the warmth. Maybe we can learn something useful?",
+            researchedMessage:
+                "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves at the border.",
+            effectDesc: "Extraction teams are twice as effective thanks to newly-discovered crystal deposits.",
+            cost: {
+                science: 6000,
+                fish: 80000,
+            },
+            required: {
+                upgrades: ["exploration"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    extractionTeam: 4,
+                },
+            },
+        },
+        transmutation: {
+            name: "Transmutation",
+            desc: "By heating things up and doing science things to them, maybe new things can be made!",
+            researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
+            effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
+            cost: {
+                science: 2750,
+                crystal: 1000,
+                sand: 10000,
+            },
+            required: {
+                upgrades: ["underwaterChemistry", "seabedGeology"],
+            },
+        },
+        automation: {
+            name: "Automation",
+            desc: "Using sharkonium, we can make things to do things so we don't have to do the things!",
+            researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
+            effectDesc: "Machines can be built to supplement population duties. This is efficient.",
+            cost: {
+                science: 7500,
+                sharkonium: 4000,
+            },
+            required: {
+                upgrades: ["transmutation"],
+            },
+        },
+        internalInvestigation: {
+            name: "Internal Investigation",
+            desc: "There's something up with that big machine. Why is it there? What does it do? Why is there a gate attached to it?",
+            researchedMessage:
+                "When we went to tamper with the machine, we found a secret hatch. It leads to a massive underground complex beneath the village!",
+            effectDesc: "We accidentally discovered the underground complex. The squid do not seem to know we have stumbled upon it.",
+            cost: {
+                science: 32500,
+            },
+            required: {
+                upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
+            },
+        },
+        artificialHeating: {
+            name: "Artificial Heating",
+            desc: "Okay, seriously, I'm getting real sick of being cold all the time! How do we heat stuff up?",
+            researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
+            effectDesc: "Developed artificial heating machines to battle the ice.",
+            cost: {
+                science: 25000,
+                kelp: 250000,
+            },
+            required: {
+                upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
+            },
+        },
+        engineering: {
+            name: "Engineering",
+            desc: "The machines sort of suck. Let's make them better by learning how!",
+            researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
+            effectDesc: "Machines are twice as effective. Auto-transmuters are now possible to create.",
+            cost: {
+                science: 40000,
+                sharkonium: 10000,
+            },
+            required: {
+                upgrades: ["automation"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                },
+            },
+        },
+        recyclerDiscovery: {
+            name: "Recycler",
+            desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
+            researchedMessage:
+                "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
+            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
+            cost: {
+                science: 150000,
+                sharkonium: 40000,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+        },
+        iterativeDesign: {
+            name: "Iterative Design",
+            desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
+            researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
+            effectDesc: "All shark machines run twice as fast. Again!",
+            cost: {
+                science: 250000,
+                sharkonium: 75000,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                    autoTransmuter: 2,
+                    scientist: 4,
+                },
+            },
+        },
+        superprocessing: {
+            name: "Superprocessing",
+            desc:
+                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
+            effectDesc:
+                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
+            cost: {
+                science: 3e6,
+                sharkonium: 250000,
+                junk: 1e6,
+            },
+            required: {
+                upgrades: ["iterativeDesign", "recyclerDiscovery"],
+            },
+        },
+        creatureCoalition: {
+            name: "Creature Coalition",
+            desc: "Everyone feels it; the cold eats at us all. The squid are right, we have to cooperate to make progress.",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                science: 1000000,
+            },
+            required: {
+                upgrades: ["internalInquiry"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 8,
+                    crab: 8,
+                    urchin: 4,
+                    squid: 4,
+                    scientist: 4,
+                    extractionTeam: 4,
+                },
+            },
+        },
+        // coldproofSpines: {
+        //     name: "Coldproof Spines",
+        //     desc: "The urchins seem unfazed by our new predicament. What's up with them?",
+        //     researchedMessage:
+        //         "What's up with them is that they're pretty good at taking cold temperatures. Something about efficient metabowhatevers.",
+        //     effectDesc:
+        //         "Now that we know better, we can take advantage of urchins' natural cold resistance, making them 10 times less slowed by ice than the rest of the frenzy!",
+        //     cost: {
+        //         science: 17500,
+        //         kelp: 20000,
+        //     },
+        //     required: {
+        //         upgrades: ["internalInvestigation", "glacialNavigation"],
+        //         totals: {
+        //             ice: 475,
+        //         },
+        //     },
+        //     events: ["frigidIncreaseUrchinIceResist"],
+        // },
+        // remember to have rapid repairs remove coldproofspines and thermalconditioning somehow without jeporadizing future runs
+        // thermalConditioning: {
+        //     name: "Thermal Conditioning",
+        //     desc: "Hold on - if the urchins can resist the cold, couldn't we learn to do that too?",
+        //     researchedMessage: "Well, no! But we can try!",
+        //     effectDesc: "Everyone (except urchins) is slowed half as much by ice. I guess maybe we can learn something from the urchins after all.",
+        //     cost: {
+        //         science: 200000,
+        //     },
+        //     required: {
+        //         upgrades: ["coldproofSpines"],
+        //         totals: {
+        //             ice: 550,
+        //         },
+        //     },
+        //     events: ["frigidIncreaseFrenzyIceResist"],
+        // },
+        internalExpedition: {
+            name: "Internal Expedition",
+            desc: "We have the resources to launch a secret expedition into the machine. Its secrets must be known.",
+            researchedMessage: "The expedition went well, but on the way out, a squid noticed us leaving the machine. I guess the jig is up.",
+            effectDesc: "Discovered little more than endless hallways of unrecognizable text and rooms filled with incomprehensible control schemes.",
+            cost: {
+                science: 75000,
+            },
+            effect: {
+                incomeMultiplier: {
+                    scientist: 2,
+                },
+            },
+            required: {
+                upgrades: ["internalInvestigation"],
+            },
+        },
+        internalInquiry: {
+            name: "Internal Inquiry",
+            desc: "We haven't spoken to the squid about what happened. Maybe we should say something.",
+            researchedMessage:
+                "They're not mad, just disappointed. They had hoped we would work together with them - they don't understand the controls either, as it turns out.",
+            effectDesc: "Reconciled with the squids. They told us what they know about the machine's inner workings.",
+            cost: {
+                science: 200000,
+            },
+            effect: {
+                incomeMultiplier: {
+                    squid: 2,
+                    extractionTeam: 4,
+                    collective: 2,
+                },
+            },
+            required: {
+                upgrades: ["internalExpedition", "engineering"],
+            },
+        },
+        rapidRecharging: {
+            name: "Rapid Recharging",
+            desc: "Replace the battery. Melt the ice. Open the gate.",
+            researchedMessage:
+                "A wave of heat washes over you as the switch is flipped. The ice around the village quickly vaporizes, and like magic, a giant bubble is carved in the surrounding glaciers.",
+            effectDesc: "Battery has been replaced. All the nearby ice has melted and we can now begin using the gate.",
+            cost: {
+                science: 2500000,
+                sharkonium: 250000,
+            },
+            required: {
+                upgrades: ["internalInquiry", "iterativeDesign"],
             },
         },
     },

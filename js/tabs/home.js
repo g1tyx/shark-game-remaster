@@ -120,7 +120,7 @@ SharkGame.Home = {
                 name: "haven-dolphin-empire",
                 unlock: { totalResource: { dolphin: 20 } },
                 message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
+                    "The dolphin pods that work with us speak of a star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
             {
                 name: "haven-papyrus",
@@ -266,23 +266,75 @@ SharkGame.Home = {
         frigid: [
             {
                 name: "frigid-default",
-                message: "So cold. Hard to move. Hard to do anything.",
+                message: "Giant shards of glassy ice surround you on all sides.",
             },
             {
                 name: "frigid-ice-one",
-                unlock: { resource: { ice: 50 } },
-                message: "Something has to be done before the ice destroys us all!<br>Maybe a machine can save us?",
+                unlock: { resource: { ice: 100 } },
+                message: "You feel tired.",
             },
             {
-                name: "frigid-ice-two",
-                unlock: { resource: { ice: 250 } },
+                name: "frigid-icy-doom",
+                unlock: { resource: { ice: 500 } },
                 message: "So cold. So hungry.<br><span class='smallDesc'>So hopeless.</span>",
             },
+            {
+                name: "frigid-distant-village",
+                unlock: { totalResource: { science: 8 } },
+                message: "While scanning the horizon, you notice a gap in the ice.<br>You peer through it, and spot something else.",
+            },
+            {
+                name: "frigid-village",
+                unlock: { upgrade: ["civilContact"] },
+                message:
+                    "A small village of squid greets you respectfully.<br>The water in this place is a little warmer, and you hear a quiet, ambient hum.",
+            },
+            {
+                name: "frigid-urchins",
+                unlock: { totalResource: { urchin: 2 } },
+                message:
+                    "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile.<br>They know nothing but the kelp.",
+            },
+            {
+                name: "frigid-teamwork",
+                unlock: { totalResource: { extractionTeam: 1 } },
+                message: "The squid champion the value of teamwork and the necessity of cooperation.<br>They say they follow by example.",
+            },
+            {
+                name: "frigid-machine",
+                unlock: { totalResource: { squid: 125 } },
+                message:
+                    "In the center of the settlement lies a vibrating...thing, and a strange gate.<br>The thing buzzes loudly, casting enormous energy across the water.",
+            },
+            {
+                name: "frigid-squid",
+                unlock: { totalResource: { squid: 250 } },
+                message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
+            },
+            {
+                name: "frigid-suspicion",
+                unlock: { upgrade: ["automation"] },
+                message: "The squid describe the machine with fascination. They ask if we feel the same.<br>They see something we do not.",
+            },
+            {
+                name: "frigid-battery",
+                unlock: { upgrade: ["internalInquiry"] },
+                message:
+                    "Buried deep within the complex lies a massive, dimly glowing battery.<br>The squid say replacing it will get the machine running at full power.",
+            },
+            {
+                name: "frigid-heat-returns",
+                unlock: { upgrade: ["rapidRecharging"] },
+                message: "A wave of heat washes over you, and the dingy complex comes back to life.<br>The gate turns on.",
+            },
+            /*{
+                name: "frigid-end",
+                unlock: { upgrade: ["rapidRepairs"] },
+                message: "The gate opens.<br>The squid bid you farewell.",
+            },*/
+            //another one: "the maw of the gate opens"
         ],
         /*
-        {
-            message: "The water glows here.<br>It feels familiar.",
-        },
         {
             message:
                 "The jagged seafloor looks ancient, yet pristine.<br>Sponges thrive in great numbers on the rocks.",
@@ -651,14 +703,8 @@ SharkGame.Home = {
             prereqsMet &&= !action.prereq.notWorlds.includes(world.worldType);
         }
 
-        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
-
         // check upgrade prerequisites
-        // FIXME: Upgrades not contained in upgradeTable should not be purchased anyways, can we remove this check?
-        prereqsMet &&= _.every(
-            action.prereq.upgrade,
-            (upgradeId) => _.has(upgradeTable, upgradeId) && SharkGame.Upgrades.purchased.includes(upgradeId)
-        );
+        prereqsMet &&= _.every(action.prereq.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
         // check if resulting resource exists
         prereqsMet &&= _.every(action.effect.resource, (_amount, resourceId) => world.doesResourceExist(resourceId));
         return prereqsMet;
@@ -801,6 +847,7 @@ SharkGame.Home = {
         let appendedProduce = false;
         let appendedConsume = false;
         let appendedMultiply = false;
+        let appendedExponentiate = false;
         let text = "";
 
         $.each(validGenerators, (incomeResource, amount) => {
@@ -813,8 +860,7 @@ SharkGame.Home = {
                     main
                         .beautifyIncome(
                             amount,
-                            " " +
-                                res.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
+                            " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
             }
@@ -830,8 +876,7 @@ SharkGame.Home = {
                     main
                         .beautifyIncome(
                             -amount,
-                            " " +
-                                res.getResourceName(incomeResource, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
+                            " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
             }
@@ -840,6 +885,7 @@ SharkGame.Home = {
         $.each(effects.resource, (resource) => {
             $.each(SharkGame.ResourceIncomeAffectors[resource], (type, object) => {
                 $.each(object, (affected, degree) => {
+                    //FIXME: This system is NOT compatible with kinds of resources that have both 'increase' and 'decrease' entries in the affector table.
                     if (type === "multiply") {
                         if (!appendedMultiply) {
                             appendedMultiply = true;
@@ -851,7 +897,27 @@ SharkGame.Home = {
                         }
                         text +=
                             "all ".bold() +
-                            res.getResourceName(affected, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                            res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                            " gains ".bold() +
+                            " by " +
+                            (Math.round(degree * 100) + "%").bold() +
+                            " each<br>";
+                    }
+                    if (type === "exponentiate") {
+                        if (!appendedExponentiate) {
+                            appendedExponentiate = true;
+                            if (degree > 1) {
+                                text += "<span class='littleTooltipText'>MULTIPLICATIVELY INCREASES</span><br/>";
+                            } else if (degree < 1) {
+                                text += "<span class='littleTooltipText'>MULTIPLICATIVELY DECREASES</span><br/>";
+                            } else {
+                                return true;
+                            }
+                        }
+                        degree = degree < 1 ? 1 - degree : degree - 1;
+                        text +=
+                            "all ".bold() +
+                            res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                             " gains ".bold() +
                             " by " +
                             (Math.round(degree * 100) + "%").bold() +
@@ -870,14 +936,14 @@ SharkGame.Home = {
                 text =
                     main.beautify(amount).bold() +
                     " " +
-                    res.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
                     text;
             } else {
                 const determiner = main.getDeterminer(resource);
                 text =
                     (determiner ? determiner + " " : "") +
-                    res.getResourceName(resource, false, true, false, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
                     text;
             }
@@ -900,14 +966,7 @@ SharkGame.Home = {
 
         _.each(rawCost, (costObj) => {
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-
-            // FIXME: PlayerResources doesn't have jobs, is this intended?
-            // If so, delete this _.each
-            _.each(resource.jobs, (job) => {
-                currAmount += res.getResource(job);
-            });
-
+            const currAmount = resource.amount;
             const priceIncrease = costObj.priceIncrease;
             let cost = 0;
             switch (costObj.costFunction) {
@@ -935,10 +994,7 @@ SharkGame.Home = {
             // max is really ambiguous
             // its used as the determining resource for linear cost functions
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-            _.each(resource.jobs, (job) => {
-                currAmount += res.getResource(job);
-            });
+            const currAmount = resource.amount;
             max = Number.MAX_VALUE;
             _.each(action.cost, (costObject) => {
                 const costResource = SharkGame.PlayerResources.get(costObject.resource).amount;

@@ -6,13 +6,15 @@ SharkGame.ResourceMap = new Map(); // every resource and what it produces at bas
 SharkGame.BreakdownIncomeTable = new Map(); // a map which has every single generator and what it produces, after costScaling
 SharkGame.FlippedBreakdownIncomeTable = new Map(); // each resource and what produces it and how much
 SharkGame.ModifierMap = new Map(); // the static multipliers and modifiers to each resource from upgrades, the world, etc
+SharkGame.ResourceIncomeAffectors = {}; // these two are used to preserve the integrity of the original table in sharkgame.resourcetable
+SharkGame.GeneratorIncomeAffectors = {}; // this allows free modification of these, in accordance with modifiers and events
 
 SharkGame.Resources = {
     INCOME_COLOR: "#909090",
     TOTAL_INCOME_COLOR: "#A0A0A0",
     UPGRADE_MULTIPLIER_COLOR: "#60A060",
     WORLD_MULTIPLIER_COLOR: "#6060A0",
-    ARTIFACT_MULTIPLIER_COLOR: "#70B5A0",
+    ASPECT_MULTIPLIER_COLOR: "#70B5A0",
     RESOURCE_AFFECT_MULTIPLIER_COLOR: "#BFBF5A",
 
     specialMultiplier: null,
@@ -67,24 +69,39 @@ SharkGame.Resources = {
         });
 
         res.specialMultiplier = 1;
+        SharkGame.ResourceIncomeAffectors = _.cloneDeep(SharkGame.ResourceIncomeAffectorsOriginal);
+        SharkGame.GeneratorIncomeAffectors = _.cloneDeep(SharkGame.GeneratorIncomeAffectorsOriginal);
         res.clearNetworks();
-        res.buildIncomeNetwork();
     },
 
-    processIncomes(timeDelta, debug) {
+    processIncomes(timeDelta, debug, simulatingOffline) {
         res.recalculateIncomeTable(true);
         if (res.testGracePeriod()) {
             return;
         }
 
-        if (!debug && timeDelta > 51) {
-            for (let i = 0; i < 50; i++) {
+        if (simulatingOffline) {
+            SharkGame.timestampSimulated = SharkGame.timestampLastSave;
+        } else {
+            SharkGame.timestampSimulated = _.now() - timeDelta * 1000;
+        }
+        if (!debug && timeDelta > 61) {
+            for (let i = 0; i < 60; i++) {
+                SharkGame.EventHandler.handleEventTick("beforeTick");
                 SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
                     res.changeResource(resourceId, amount);
                 });
                 res.recalculateIncomeTable(true);
                 timeDelta -= 1;
+                SharkGame.timestampSimulated += 1000;
+                SharkGame.EventHandler.handleEventTick("afterTick");
             }
+            // it should be noted that to greatly increase speed, events are not processed during res.RKMethod.
+            // this will need to be planned around; if we have a reactive event that could be triggered during
+            // offline progress, then we need to either design around that never happening or design around it
+            // happening within 60 seconds of loading a save. as of frigid update, this is not a concern,
+            // but i can think of a time in the future where it definitely will be.
+            // I'm willing to make things a little messy and add some special rules if it'll get the damn thing to work properly.
             if (timeDelta > 172800) {
                 timeDelta = res.doRKMethod(timeDelta, timeDelta / 1728, 50000);
             }
@@ -97,26 +114,30 @@ SharkGame.Resources = {
             if (timeDelta > 2000) {
                 timeDelta = res.doRKMethod(timeDelta, 40, 500);
             }
-            if (timeDelta > 50) {
+            if (timeDelta > 60) {
                 timeDelta = res.doRKMethod(timeDelta, 20, 50);
             }
         }
+        SharkGame.timestampSimulated = _.now() - 1000 * timeDelta;
         while (timeDelta > 1) {
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, value);
+            SharkGame.EventHandler.handleEventTick("beforeTick");
+            SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, income);
                 } else {
-                    res.changeResource(key, value);
+                    res.changeResource(resourceId, income);
                 }
             });
             res.recalculateIncomeTable(true);
             timeDelta -= 1;
+            SharkGame.timestampSimulated += 1000;
+            SharkGame.EventHandler.handleEventTick("afterTick");
         }
-        SharkGame.PlayerIncomeTable.forEach((aomunt, resourceId) => {
+        SharkGame.PlayerIncomeTable.forEach((amount, resourceId) => {
             if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
-                res.changeResource(resourceId, aomunt * timeDelta);
+                res.changeResource(resourceId, amount * timeDelta);
             } else {
-                res.changeResource(resourceId, aomunt);
+                res.changeResource(resourceId, amount);
             }
         });
         res.recalculateIncomeTable();
@@ -132,9 +153,9 @@ SharkGame.Resources = {
             originalResources = _.cloneDeep(SharkGame.PlayerResources);
             originalIncomes = _.cloneDeep(SharkGame.PlayerIncomeTable);
 
-            SharkGame.PlayerIncomeTable.forEach((value, key) => {
-                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(key)) {
-                    res.changeResource(key, (value * factor) / 2, true);
+            SharkGame.PlayerIncomeTable.forEach((income, resourceId) => {
+                if (!SharkGame.ResourceSpecialProperties.timeImmune.includes(resourceId)) {
+                    res.changeResource(resourceId, (income * factor) / 2, true);
                 }
             });
 
@@ -224,12 +245,12 @@ SharkGame.Resources = {
 
                     if (!cheap) {
                         const trueIncomeObject = {};
-                        let value; // FIXME: Rename
+                        let income;
                         changeMap.forEach((amount, generatedResource) => {
-                            value = amount * costScaling;
-                            trueIncomeObject[generatedResource] = value;
-                            SharkGame.FlippedBreakdownIncomeTable.get(generatedResource)[resourceId] = value;
-                            SharkGame.PlayerIncomeTable.set(generatedResource, SharkGame.PlayerIncomeTable.get(generatedResource) + value);
+                            income = amount * costScaling;
+                            trueIncomeObject[generatedResource] = income;
+                            SharkGame.FlippedBreakdownIncomeTable.get(generatedResource)[resourceId] = income;
+                            SharkGame.PlayerIncomeTable.set(generatedResource, SharkGame.PlayerIncomeTable.get(generatedResource) + income);
                         });
                         SharkGame.BreakdownIncomeTable.set(resourceId, trueIncomeObject);
                     } else {
@@ -244,7 +265,14 @@ SharkGame.Resources = {
 
                 // calculate any world income that should be added to this resource
                 if (worldResourceInfo) {
-                    SharkGame.PlayerIncomeTable.set(resourceId, SharkGame.PlayerIncomeTable.get(resourceId) + worldResourceInfo.income * cad.speed);
+                    SharkGame.PlayerIncomeTable.set(
+                        resourceId,
+                        SharkGame.PlayerIncomeTable.get(resourceId) +
+                            worldResourceInfo.income *
+                                res.getNetworkIncomeModifier("resource", resourceId) *
+                                res.getNetworkIncomeModifier("generator", "world") *
+                                cad.speed
+                    );
                 }
             }
         });
@@ -270,10 +298,10 @@ SharkGame.Resources = {
     getNetworkIncomeModifier(network, resource) {
         switch (network) {
             case "generator":
-                network = SharkGame.GeneratorIncomeAffectedApplicable;
+                network = SharkGame.GeneratorIncomeAffected;
                 break;
             case "resource":
-                network = SharkGame.ResourceIncomeAffectedApplicable;
+                network = SharkGame.ResourceIncomeAffected;
         }
 
         const node = network[resource];
@@ -575,12 +603,13 @@ SharkGame.Resources = {
         return row;
     },
 
-    tableTextEnter(_mouseEnterEvent, resourceName = false) {
+    tableTextEnter(_mouseEnterEvent, resourceName) {
         if (!SharkGame.Settings.current.showTooltips) {
             return;
         }
         if (!resourceName) {
             resourceName = $(this).attr("id");
+            if (!resourceName) return;
         }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
         let producertext = "";
@@ -592,7 +621,7 @@ SharkGame.Resources = {
                     producertext +=
                         main.beautify(res.getResource(which)).bold() +
                         " " +
-                        res.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                        res.getResourceName(which, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         main.beautifyIncome(amount).bold();
                 } else if (amount < 0) {
@@ -600,7 +629,7 @@ SharkGame.Resources = {
                     consumertext +=
                         main.beautify(res.getResource(which)).bold() +
                         " " +
-                        res.getResourceName(which, false, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                        res.getResourceName(which, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         main.beautifyIncome(-amount).bold();
                 }
@@ -611,7 +640,7 @@ SharkGame.Resources = {
             return;
         } */
 
-        let text = res.getResourceName(resourceName, false, false, 2, SharkGame.getElementColor("tooltipbox", "background-color"));
+        let text = res.getResourceName(resourceName, false, 2, SharkGame.getElementColor("tooltipbox", "background-color"));
         if (producertext !== "") {
             text += "<br><span class='littleTooltipText'>PRODUCED BY</span>" + producertext;
         }
@@ -633,13 +662,28 @@ SharkGame.Resources = {
         $(".tooltip").removeClass("forIncomeTable").attr("current", "");
     },
 
-    getResourceName(resourceName, darken, forceSingle, arbitraryAmount, background) {
+    applyResourceColoration(resourceName, textToColor) {
+        if (res.isCategory(resourceName)) {
+            return textToColor;
+        }
+
+        if (SharkGame.Settings.current.boldCosts) {
+            textToColor = textToColor.bold();
+        }
+        let extraStyle = "";
+        if (SharkGame.Settings.current.colorCosts) {
+            extraStyle = " style='color:" + SharkGame.ResourceMap.get(resourceName).color + "'";
+        }
+        return "<span class='click-passthrough'" + extraStyle + ">" + textToColor + "</span>";
+    },
+
+    getResourceName(resourceName, darken, arbitraryAmount, background) {
         if (res.isCategory(resourceName)) {
             return SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
         const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
-        let name = amount - 1 < SharkGame.EPSILON || forceSingle ? resource.singleName : resource.name;
+        let name = amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name;
         let extraStyle = "";
 
         if (SharkGame.Settings.current.boldCosts) {
@@ -651,19 +695,19 @@ SharkGame.Resources = {
             if (darken) {
                 color = SharkGame.colorLum(resource.color, -0.5);
             } else if (background) {
-                // this code takes the HSV of the text and its background, if its color is provided,
-                // and compares their Values. If they are less than 20 away, then they're too close
-                // then calculate exactly how much it takes to get them up to 20 away
-                // if the text's value is less, make it 20 below that of the background
-                // if the text's value is more, make it 20 above that of the background
-                const backValue = SharkGame.getColorValue(background);
-                const colorValue = SharkGame.getColorValue(color);
-                if (Math.abs(colorValue - backValue) < 20) {
-                    if (colorValue > backValue) {
-                        color = SharkGame.colorLum(color, (backValue + 20) / colorValue - 1);
-                    } else {
-                        color = SharkGame.colorLum(color, (backValue - 20) / colorValue - 1);
-                    }
+                // this code
+                const backRLum = SharkGame.getRelativeLuminance(background);
+                const colorRLum = SharkGame.getRelativeLuminance(color);
+                let contrast;
+                if (colorRLum > backRLum) {
+                    contrast = (colorRLum + 0.05) / (backRLum + 0.05);
+                } else {
+                    contrast = (backRLum + 0.05) / (colorRLum + 0.05);
+                }
+                const tolerance = 2; // for easy changing
+                if (contrast < tolerance) {
+                    const requiredLuminance = tolerance * backRLum + 0.05 * tolerance - 0.05;
+                    color = SharkGame.correctLuminance(color, requiredLuminance > 1 ? (backRLum + 0.05) / tolerance - 0.05 : requiredLuminance);
                 }
             }
             extraStyle = " style='color:" + color + "'";
@@ -681,9 +725,8 @@ SharkGame.Resources = {
             const listResource = resourceList[resourceId];
             // amend for unspecified resources (assume zero)
             if (listResource > 0 && world.doesResourceExist(resourceId)) {
-                const isSingular = Math.floor(listResource) - 1 < SharkGame.EPSILON;
                 formattedResourceList += main.beautify(listResource);
-                formattedResourceList += " " + res.getResourceName(resourceId, darken, isSingular, listResource, backgroundColor) + ", ";
+                formattedResourceList += " " + res.getResourceName(resourceId, darken, listResource, backgroundColor) + ", ";
             }
         });
         // snip off trailing suffix
@@ -691,108 +734,88 @@ SharkGame.Resources = {
         return formattedResourceList;
     },
 
-    buildIncomeNetwork(specifically) {
+    buildIncomeNetwork() {
         // completes the network of resources whose incomes are affected by other resources
         // takes the order of the gia and reverses it to get the rgad.
 
         const gia = SharkGame.GeneratorIncomeAffectors;
         const rgad = SharkGame.GeneratorIncomeAffected;
         const resourceCategories = SharkGame.ResourceCategories;
-        if (!specifically) {
-            // recursively parse the gia
-            $.each(gia, (resource) => {
-                $.each(gia[resource], (type) => {
-                    $.each(gia[resource][type], (generator, value) => {
-                        // check for issues worth throwing over
-                        if (SharkGame.ResourceMap.get(generator)) {
-                            if (!SharkGame.ResourceMap.get(generator).income) {
-                                throw new Error(
-                                    "Issue building income network, generator has no income, not actually a generator! Try changing resource table generators."
-                                );
-                            }
+        // recursively parse the gia
+        $.each(gia, (affectorResource) => {
+            $.each(gia[affectorResource], (type) => {
+                $.each(gia[affectorResource][type], (affectedGeneratorCategory, value) => {
+                    // is it a category or a generator?
+                    const nodes = res.isCategory(affectedGeneratorCategory)
+                        ? resourceCategories[affectedGeneratorCategory].resources
+                        : [affectedGeneratorCategory];
+                    // recursively reconstruct the table with the keys in the inverse order
+                    // eslint-disable-next-line id-length
+                    $.each(nodes, (_k, affectedGenerator) => {
+                        if (
+                            (affectedGenerator === "world" || world.worldResources.get(affectedGenerator).exists) &&
+                            world.worldResources.get(affectorResource).exists
+                        ) {
+                            res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
-                        // is it a category or a generator?
-                        const nodes = res.isCategory(generator) ? resourceCategories[generator].resources : [generator];
-                        // recursively reconstruct the table with the keys in the inverse order
-                        // FIXME: Rename
-                        // I have no clue what any of this is, so I'll just ignore it for now
-                        // eslint-disable-next-line id-length
-                        $.each(nodes, (_k, v) => {
-                            res.addNetworkNode(rgad, v, type, resource, value);
-                        });
                     });
-                });
-            });
-        }
-        // resources incomes below, generators above
-        const ria = SharkGame.ResourceIncomeAffectors;
-        const rad = SharkGame.ResourceIncomeAffected;
-        if (!specifically) {
-            // recursively parse the ria
-            $.each(ria, (affectorResource) => {
-                $.each(ria[affectorResource], (type) => {
-                    $.each(ria[affectorResource][type], (affectedResource, degree) => {
-                        // s: is it a category?
-                        const nodes = res.isCategory(affectedResource) ? resourceCategories[affectedResource].resources : [affectedResource];
-
-                        // recursively reconstruct the table with the keys in the inverse order
-                        // FIXME: Rename
-                        // I have no clue what any of this is, so I'll just ignore it for now
-                        // eslint-disable-next-line id-length
-                        $.each(nodes, (_k, v) => {
-                            res.addNetworkNode(rad, v, type, affectorResource, degree);
-                        });
-                    });
-                });
-            });
-        }
-    },
-
-    buildApplicableNetworks() {
-        // this function builds two networks that contain all actually relevant relationships for a given world
-        // this is meant to save on calculations when searching the network
-        const apprgad = SharkGame.GeneratorIncomeAffectedApplicable;
-        const apprad = SharkGame.ResourceIncomeAffectedApplicable;
-        const rgad = SharkGame.GeneratorIncomeAffected;
-        const rad = SharkGame.ResourceIncomeAffected;
-        $.each(rgad, (generator) => {
-            $.each(rgad[generator], (type) => {
-                $.each(rgad[generator][type], (affector, degree) => {
-                    if (world.worldResources.get(generator).exists && world.worldResources.get(affector).exists) {
-                        res.addNetworkNode(apprgad, generator, type, affector, degree);
-                    }
                 });
             });
         });
-        $.each(rad, (resource) => {
-            $.each(rad[resource], (type) => {
-                $.each(rad[resource][type], (affector, degree) => {
-                    if (world.worldResources.get(resource).exists && world.worldResources.get(affector).exists) {
-                        res.addNetworkNode(apprad, resource, type, affector, degree);
-                    }
+
+        // resources incomes below, generators above
+        const ria = SharkGame.ResourceIncomeAffectors;
+        const rad = SharkGame.ResourceIncomeAffected;
+        // recursively parse the ria
+        $.each(ria, (affectorResource) => {
+            $.each(ria[affectorResource], (type) => {
+                $.each(ria[affectorResource][type], (affectedResourceCategory, degree) => {
+                    // is it a category?
+                    const nodes = res.isCategory(affectedResourceCategory)
+                        ? resourceCategories[affectedResourceCategory].resources
+                        : [affectedResourceCategory];
+                    // recursively reconstruct the table with the keys in the inverse order
+                    // eslint-disable-next-line id-length
+                    $.each(nodes, (_k, affectedResource) => {
+                        if (world.worldResources.get(affectedResource).exists && world.worldResources.get(affectorResource).exists) {
+                            res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
+                        }
+                    });
                 });
             });
         });
     },
 
     clearNetworks() {
-        SharkGame.GeneratorIncomeAffectedApplicable = {};
-        SharkGame.ResourceIncomeAffectedApplicable = {};
+        SharkGame.GeneratorIncomeAffected = {};
+        SharkGame.ResourceIncomeAffected = {};
     },
 
-    // FIXME: Explain these parameters, and functions
-    // "resource" used to be called "main", before "main" became a global
-    addNetworkNode(network, resource, effect, sub, degree) {
-        if (!network[resource]) {
-            network[resource] = {};
+    /**
+     * Adds a parameter in a nested object, specifically 3 layers deep.
+     * @param {object} network The nested object to add a paramater to
+     * @param {string} high The top-level parameter to index
+     * @param {string} mid The second-level paramater to index
+     * @param {string} low The paramater to assign
+     * @param {number} value The value of that parameter
+     */
+    addNetworkNode(network, high, mid, low, value) {
+        if (!network[high]) {
+            network[high] = {};
         }
-        if (!network[resource][effect]) {
-            network[resource][effect] = {};
+        if (!network[high][mid]) {
+            network[high][mid] = {};
         }
-        network[resource][effect][sub] = degree;
+        network[high][mid][low] = value;
     },
 
-    applyModifier(name, target, degree, level = 1) {
+    /**
+     * Completes the necessary steps to apply the effects of a modifier to the income table.
+     * @param {string} name The index of the modifier in the modifier map.
+     * @param {string} target The affected resource or category of resources.
+     * @param {any} degree The incoming change to the modifier, or a separate value denoting the strength of a world modifier.
+     */
+    applyModifier(name, target, degree) {
         if (res.isCategory(target)) {
             target = res.getResourcesInCategory(target);
         } else if (typeof target !== "object") {
@@ -805,33 +828,39 @@ SharkGame.Resources = {
             SharkGame.ModifierMap.get(resource)[category][type][name] = modifier.apply(
                 SharkGame.ModifierMap.get(resource)[category][type][name],
                 degree,
-                resource,
-                level
+                resource
             );
         });
     },
 
+    /**
+     * Reapplies the effects of all modifiers on a specific generator-income pair. Used when changing base income, which necessitates recalculation.
+     * @param {string} generator The generator in question.
+     * @param {string} generated The resource associated with the income.
+     */
     reapplyModifiers(generator, generated) {
         let income = SharkGame.ResourceMap.get(generator).baseIncome[generated];
         SharkGame.ModifierReference.forEach((modifier, name) => {
-            const type = modifier.type;
-            const category = modifier.category;
-            income *= modifier.getEffect(SharkGame.ModifierMap.get(generator)[category][type][name], generator, generated);
+            const generatorDegree = SharkGame.ModifierMap.get(generator)[modifier.category][modifier.type][name];
+            const generatedDegree = SharkGame.ModifierMap.get(generated)[modifier.category][modifier.type][name];
+            income = modifier.applyToInput(income, generatorDegree, generatedDegree, generator, generated);
         });
         SharkGame.ResourceMap.get(generator).income[generated] = income;
     },
 
-    getMultiplierProduct(category, generator, generated, treatOneAsNone = false) {
+    /**
+     * Gets the combined effect of all multiplicative modifiers of a certain type on a specific generator-income pair. Used in the grotto for advanced mode.
+     * @param {string} category The category of modifier (may be upgrade, world, or aspect).
+     * @param {string} generator The generator in question.
+     * @param {string} generated The generated resource.
+     */
+    getMultiplierProduct(category, generator, generated) {
         let product = 1;
         $.each(SharkGame.ModifierTypes[category].multiplier, (name, data) => {
-            product *= data.getEffect(SharkGame.ModifierMap.get(generator)[category].multiplier[name], generator, generated);
+            const generatorDegree = SharkGame.ModifierMap.get(generator)[data.category][data.type][name];
+            const generatedDegree = SharkGame.ModifierMap.get(generated)[data.category][data.type][name];
+            product *= data.getEffect(generatorDegree, generatedDegree, generator, generated);
         });
-        $.each(SharkGame.ModifierTypes[category].multiplier, (name, data) => {
-            product *= data.getEffect(SharkGame.ModifierMap.get(generated)[category].multiplier[name], generator, generated);
-        });
-        if (treatOneAsNone && product === 1) {
-            return "";
-        }
         return product;
     },
 

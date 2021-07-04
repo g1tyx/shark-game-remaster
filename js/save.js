@@ -10,8 +10,8 @@ SharkGame.Save = {
             resources: {},
             tabs: {},
             completedRequirements: {},
-            world: { type: world.worldType, level: world.planetLevel },
-            artifacts: {},
+            world: { type: world.worldType },
+            aspects: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
         };
 
@@ -25,6 +25,10 @@ SharkGame.Save = {
         });
 
         saveData.upgrades = _.cloneDeep(SharkGame.Upgrades.purchased);
+        // Save non-zero artifact levels
+        _.each(SharkGame.Aspects, ({ level }, aspectId) => {
+            if (level) saveData.aspects[aspectId] = level;
+        });
 
         $.each(SharkGame.Tabs, (tabId, tab) => {
             if (tabId !== "current") {
@@ -36,12 +40,6 @@ SharkGame.Save = {
 
         saveData.completedRequirements = _.cloneDeep(SharkGame.Gate.completedRequirements);
         saveData.settings = _.cloneDeep(SharkGame.Settings.current);
-
-        $.each(SharkGame.Artifacts, (artifactName, artifact) => {
-            if (artifact.level !== 0) {
-                saveData.artifacts[artifactName] = artifact.level;
-            }
-        });
 
         saveData.completedWorlds = _.cloneDeep(SharkGame.Gateway.completedWorlds);
 
@@ -128,6 +126,27 @@ SharkGame.Save = {
                 SharkGame.Log.addMessage("Updated save data from v " + saveData.version + " to " + SharkGame.VERSION + ".");
             }
 
+            const currTimestamp = _.now();
+            // create surrogate timestamps if necessary
+            if (typeof saveData.timestampLastSave !== "number") {
+                saveData.timestampLastSave = currTimestamp;
+            }
+            if (typeof saveData.timestampGameStart !== "number") {
+                saveData.timestampGameStart = currTimestamp;
+            }
+            if (typeof saveData.timestampRunStart !== "number") {
+                saveData.timestampRunStart = currTimestamp;
+            }
+            if (typeof saveData.timestampRunEnd !== "number") {
+                saveData.timestampRunEnd = currTimestamp;
+            }
+
+            SharkGame.timestampLastSave = saveData.timestampLastSave;
+            SharkGame.timestampGameStart = saveData.timestampGameStart;
+            SharkGame.timestampRunStart = saveData.timestampRunStart;
+            SharkGame.timestampRunEnd = saveData.timestampRunEnd;
+            SharkGame.timestampSimulated = saveData.timestampLastSave;
+
             res.init();
 
             $.each(saveData.resources, (resourceId, resource) => {
@@ -142,7 +161,6 @@ SharkGame.Save = {
             if (saveData.world) {
                 world.init();
                 world.worldType = saveData.world.type;
-                world.planetLevel = saveData.world.level;
                 world.apply();
                 home.init();
             }
@@ -153,22 +171,23 @@ SharkGame.Save = {
             SharkGame.Lab.resetUpgrades();
 
             _.each(saveData.upgrades, (upgradeId) => {
-                SharkGame.Lab.addUpgrade(upgradeId);
+                SharkGame.Lab.addUpgrade(upgradeId, "load");
+            });
+
+            _.each(SharkGame.Aspects, (aspectData) => {
+                aspectData.level = 0;
+            });
+            // load aspects (need to have the cost reducer loaded before world init)
+            $.each(saveData.aspects, (aspectId, level) => {
+                if (_.has(SharkGame.Aspects, aspectId)) {
+                    SharkGame.Aspects[aspectId].level = level;
+                }
             });
 
             gateway.init();
             _.each(saveData.completedWorlds, (worldType) => {
                 gateway.markWorldCompleted(worldType);
             });
-
-            // load artifacts (need to have the cost reducer loaded before world init)
-            $.each(saveData.artifacts, (artifactId, level) => {
-                if (SharkGame.Artifacts[artifactId]) {
-                    SharkGame.Artifacts[artifactId].level = level;
-                }
-            });
-            // apply artifacts (world needs to be init first before applying other artifacts, but special ones need to be _loaded_ first)
-            gateway.applyArtifacts(true);
 
             $.each(saveData.tabs, (tabName, discovered) => {
                 if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
@@ -196,26 +215,6 @@ SharkGame.Save = {
                 }
             });
 
-            const currTimestamp = _.now();
-            // create surrogate timestamps if necessary
-            if (typeof saveData.timestampLastSave !== "number") {
-                saveData.timestampLastSave = currTimestamp;
-            }
-            if (typeof saveData.timestampGameStart !== "number") {
-                saveData.timestampGameStart = currTimestamp;
-            }
-            if (typeof saveData.timestampRunStart !== "number") {
-                saveData.timestampRunStart = currTimestamp;
-            }
-            if (typeof saveData.timestampRunEnd !== "number") {
-                saveData.timestampRunEnd = currTimestamp;
-            }
-
-            SharkGame.timestampLastSave = saveData.timestampLastSave;
-            SharkGame.timestampGameStart = saveData.timestampGameStart;
-            SharkGame.timestampRunStart = saveData.timestampRunStart;
-            SharkGame.timestampRunEnd = saveData.timestampRunEnd;
-
             // load existence in in-between state,
             // else check for offline mode and process
             let simulateOffline = SharkGame.Settings.current.offlineModeActive;
@@ -227,6 +226,8 @@ SharkGame.Save = {
                 }
             }
 
+            SharkGame.AspectTree.applyAspects();
+            SharkGame.EventHandler.init();
             // if offline mode is enabled
             if (simulateOffline) {
                 // get times elapsed since last save game
@@ -239,7 +240,7 @@ SharkGame.Save = {
 
                 // process this
                 res.recalculateIncomeTable();
-                main.processSimTime(secondsElapsed);
+                main.processSimTime(secondsElapsed, true);
 
                 // acknowledge long time gaps
                 if (secondsElapsed > 3600) {
@@ -779,6 +780,13 @@ SharkGame.Save = {
                     save.settings.showTooltops = save.settings.showTabHelp;
                 }
                 delete save.settings.showTabHelp;
+            }
+
+            if (_.has(save, "artifacts")) {
+                delete save.artifacts;
+            }
+            if (!_.has(save, "aspects")) {
+                save.aspects = {};
             }
 
             return save;

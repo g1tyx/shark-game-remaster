@@ -12,18 +12,14 @@ SharkGame.World = {
     },
     worldResources: new Map(),
     worldRestrictedCombinations: new Map(),
-    planetLevel: 1,
 
     init() {
-        //world.worldType = "start";
-        //world.planetLevel = 1;
-        //world.worldResources = {};
         world.resetWorldProperties();
     },
 
     apply() {
         world.applyWorldProperties();
-        world.applyGateCosts(world.planetLevel);
+        world.applyGateCosts();
     },
 
     resetWorldProperties() {
@@ -35,7 +31,7 @@ SharkGame.World = {
             worldResources.set(resourceName, {});
             worldResources.get(resourceName).exists = true;
             worldResources.get(resourceName).income = 0;
-            worldResources.get(resourceName).artifactMultiplier = 1;
+            worldResources.get(resourceName).aspectMultiplier = 1;
         });
     },
 
@@ -68,23 +64,26 @@ SharkGame.World = {
         _.each(worldInfo.modifiers, (modifierData) => {
             res.applyModifier(modifierData.modifier, modifierData.resource, modifierData.amount);
         });
-        res.buildApplicableNetworks();
+        res.buildIncomeNetwork();
     },
 
-    applyGateCosts(_level) {
+    applyGateCosts() {
         const worldInfo = SharkGame.WorldTypes[world.worldType];
 
         // get multiplier
         const gateCostMultiplier = world.getGateCostMultiplier();
 
-        SharkGame.Gate.createSlots(worldInfo.gateRequirements, world.planetLevel, gateCostMultiplier);
+        SharkGame.Gate.createSlots(worldInfo.gateRequirements, gateCostMultiplier);
     },
 
     getWorldEntryMessage() {
         return SharkGame.WorldTypes[world.worldType].entry;
     },
 
-    // does this resource exist on this planet?
+    /**
+     * @param {string} resourceName ID of resource to check
+     * @returns Whether or not the resource exists on the current planet
+     */
     doesResourceExist(resourceName) {
         return world.worldResources.get(resourceName).exists;
     },
@@ -93,10 +92,7 @@ SharkGame.World = {
         world.worldResources.get(resourceName).exists = true;
     },
 
-    // these things are only impacted by artifacts so far
-
     getGateCostMultiplier() {
-        const gcrLevel = SharkGame.Artifacts.gateCostReducer.level;
-        return gcrLevel > 0 ? Math.pow(0.9, gcrLevel) : 1;
+        return 1;
     },
 };
