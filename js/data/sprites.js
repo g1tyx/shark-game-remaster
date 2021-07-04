@@ -331,10 +331,30 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "frigid-ice-two": {
+    "frigid-default": {
         frame: {
             x: 1214,
             y: 614,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "frigid-ice-one": {
+        frame: {
+            x: 2,
+            y: 818,
             w: 400,
             h: 200,
         },
@@ -375,6 +395,46 @@ SharkGame.Sprites = {
         frame: {
             x: 1618,
             y: 1634,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "frigid-distant-village": {
+        frame: {
+            x: 1214,
+            y: 1838,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "frigid-machine": {
+        frame: {
+            x: 1618,
+            y: 1838,
             w: 400,
             h: 200,
         },
@@ -1259,6 +1319,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getUrchin": {
+        frame: { x: 2282, y: 2, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/getWhale": {
         frame: { x: 1094, y: 106, w: 50, h: 50 },
         rotated: false,
@@ -1446,6 +1514,14 @@ SharkGame.Sprites = {
     },
     "technologies/aquamarineFusion": {
         frame: { x: 1918, y: 100, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/artificialHeating": {
+        frame: { x: 1818, y: 100, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1719,14 +1795,6 @@ SharkGame.Sprites = {
     },
     "technologies/superprocessing": {
         frame: { x: 1768, y: 0, w: 50, h: 50 },
-        rotated: false,
-        trimmed: false,
-        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
-        sourceSize: { w: 50, h: 50 },
-        pivot: { x: 0, y: 0 },
-    },
-    "technologies/thermalConditioning": {
-        frame: { x: 1818, y: 100, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
