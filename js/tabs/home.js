@@ -120,7 +120,7 @@ SharkGame.Home = {
                 name: "haven-dolphin-empire",
                 unlock: { totalResource: { dolphin: 20 } },
                 message:
-                    "The dolphin pods that work with us speak of an star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
+                    "The dolphin pods that work with us speak of a star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
             },
             {
                 name: "haven-papyrus",

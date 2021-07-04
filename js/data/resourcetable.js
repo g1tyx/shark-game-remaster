@@ -261,7 +261,7 @@ SharkGame.ResourceTable = {
 
     collective: {
         name: "squid collectives",
-        singleName: "squid collectives",
+        singleName: "squid collective",
         desc: "Group interaction leads to better selection.",
         color: "#3F6E86",
         income: {
