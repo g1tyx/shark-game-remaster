@@ -178,8 +178,7 @@ SharkGame.Lab = {
 
     updateLabButton(upgradeName) {
         const button = $("#" + upgradeName);
-        const ups = SharkGame.Upgrades.getUpgradeTable();
-        const upgradeData = ups[upgradeName];
+        const upgradeData = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeName);
         const upgradeCost = upgradeData.cost;
 
         let enableButton;
@@ -222,19 +221,17 @@ SharkGame.Lab = {
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
         const upgradeId = $(this).attr("id");
-        const upgrade = upgradeTable[upgradeId];
+        const upgrade = SharkGame.Upgrades.getUpgradeData(upgradeTable, upgradeId);
         if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
             $(this).remove();
             return; // something went wrong don't even pay attention to this function
         }
 
-        const upgradeCost = upgradeTable[upgradeId].cost;
-
-        if (res.checkResources(upgradeCost)) {
+        if (res.checkResources(upgrade.cost)) {
             // kill button
             $(this).remove();
             // take resources
-            res.changeManyResources(upgradeCost, true);
+            res.changeManyResources(upgrade.cost, true);
             // purchase upgrade
             SharkGame.Lab.addUpgrade(upgradeId);
 
@@ -247,8 +244,7 @@ SharkGame.Lab = {
     },
 
     addUpgrade(upgradeId) {
-        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
-        const upgrade = upgradeTable[upgradeId];
+        const upgrade = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeId);
         if (upgrade && !SharkGame.Upgrades.purchased.includes(upgradeId)) {
             SharkGame.Upgrades.purchased.push(upgradeId);
             //l.updateResearchList();
@@ -298,8 +294,7 @@ SharkGame.Lab = {
 
     isUpgradePossible(upgradeName) {
         const lab = SharkGame.Lab;
-        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
-        const upgradeData = upgradeTable[upgradeName];
+        const upgradeData = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeName);
         let isPossible = true;
 
         if (!upgradeData) {
@@ -330,8 +325,7 @@ SharkGame.Lab = {
     },
 
     isUpgradeVisible(upgradeId) {
-        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
-        const upgrade = upgradeTable[upgradeId];
+        const upgrade = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeId);
         if (_.has(upgrade, "required.seen")) {
             // Checks if any of the required resources has been seen
             // change to _.every to make it require all to have been seen
@@ -369,7 +363,7 @@ SharkGame.Lab = {
         });
 
         for (const upgradeId of upgrades) {
-            const upgrade = upgradeTable[upgradeId];
+            const upgrade = SharkGame.Upgrades.getUpgradeData(upgradeTable, upgradeId);
             list.append($("<li>").html(`${upgrade.name}<br/><span class='medDesc'>${upgrade.effectDesc}</span>`));
         }
         upgradeList.append(list);

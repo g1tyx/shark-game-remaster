@@ -35,6 +35,32 @@ SharkGame.Upgrades = {
         return SharkGame.Upgrades.generated[worldType];
     },
 
+    /**
+     * Retrieves, modifies, and returns the data for an upgrade. Implemented to intercept retreival of upgrade data to handle special logic where alternatives are inconvenient or impossible.
+     * @param {object} table The table to retrieve the upgrade data from
+     * @param {string} upgradeName The name of the upgrade
+     */
+    getUpgradeData(table, upgradeName) {
+        // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
+        const data = _.cloneDeep(table[upgradeName]);
+
+        // apply effect of internal calculator aspect if indeed applicable
+        // would use getters but there would be too many getters to be reasonable
+        if (data.cost && data.cost.science && data.cost.science <= 150) {
+            switch (SharkGame.Aspects.internalCalculator.level) {
+                case 1:
+                    data.cost.science *= 0.5;
+                    break;
+                case 2:
+                    $.each(data.cost, (resource) => {
+                        data.cost[resource] *= 0.5;
+                    });
+            }
+        }
+
+        return data;
+    },
+
     /** @param worldType {string} */
     generateUpgradeTable(worldType = world.worldType) {
         let finalTable = {};
