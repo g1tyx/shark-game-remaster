@@ -2943,40 +2943,7 @@ SharkGame.HomeActions = {
     frigid: {
         catchFish: {},
 
-        debugbutton: {
-            name: "Debug stuff",
-            effect: {
-                resource: {
-                    fish: 10000000,
-                    crystal: 10000000,
-                    sharkonium: 100000000,
-                    sand: 100000000,
-                    kelp: 100000000,
-                    science: 1000000000,
-                    shark: 10000,
-                },
-            },
-            cost: {},
-            prereq: {
-                // no prereqs
-            },
-            outcomes: [
-                "Tested.",
-                "Debugged.",
-                "Ah, yes...this doesn't work as intended.",
-                "Very interesting results here.",
-                "A gift from the developer.",
-                "You had better be testing something.",
-                "Not intended for actual gameplay.",
-                "...cheater.",
-                "Oh, wow, you went into console and typed debug(). What a hacker!",
-            ],
-            helpText: "Use your natural coding prowess to find and catch bugs.",
-            /* removedBy: {
-                upgrades: ["crystalContainer"],
-            }, */
-            unauthorized: true,
-        },
+        debugbutton: {},
 
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
 
@@ -2998,10 +2965,18 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["civilContact"],
             },
-            outcomes: ["placeholder"],
+            outcomes: [
+                "Skwid. I mean, squid.",
+                "You. Hunting duty. Get on it.",
+                "Squid at your service.",
+                "Squid ready to hunt.",
+                "The squid ventures out in search of fish.",
+                "The squid has no qualms about joining the frenzy.",
+                "The squid offers its upmost respect.",
+            ],
             multiOutcomes: [
                 "Squids? Squid.",
-                "The squid do not join your frenzy directly, so much as they gather more resources for the village.",
+                "The squid join the frenzy, but stay close to the village.",
                 "The squid are cooperative and obedient. They do as directed.",
                 "A squiggle of squid! No, of course that's not real.",
                 "A...group! Of squid!",
@@ -3033,7 +3008,7 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["urchinAttraction"],
             },
-            outcomes: ["OUCH", "OW", "YEOUCH", "OUCHIE", "OWIE", "insert pain noise", "OOCH"],
+            outcomes: ["OUCH!", "OW!", "YEOUCH!", "OUCHIE!", "insert pain noise", "OOCH!"],
             multiOutcomes: [
                 "ow ow ow spikes hurt",
                 "The urchins join the frenzy. The frenzy keeps its distance.",
@@ -3043,6 +3018,8 @@ SharkGame.HomeActions = {
                 "How many urchins could we possibly need?",
                 "The urchins go straight to harvesting kelp, and in the process, sand.",
                 "And we're sure that we need urchins this badly?",
+                "I wonder if these things can be weaponized...",
+                "These aren't poisonous...Right?",
             ],
             helpText: "Attract an urchin who will gather kelp and sand. Urchins are used to the cold.",
         },
@@ -3105,9 +3082,18 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["assistedExtraction"],
             },
-            outcomes: ["Team assembled."],
-            multiOutcomes: [""],
-            helpText: "Convince a squid and a crab to work together in pursuit of efficient crystal gathering.",
+            outcomes: [
+                "Team assembled.",
+                "Initiating teamwork.",
+                "Cooperation commencing.",
+                "The crab climbs onto the squid's head.",
+                "Crab + Squid = Crystal???",
+            ],
+            multiOutcomes: [
+                "The method of cooperation varies, but the result is always the same.",
+                "Some of these pairs have...unique strategies. This one is carrying the crab in its tentacles. That one has a crab on its head.",
+            ],
+            helpText: "Convince a squid and a crab to work together to gather crystals.",
         },
 
         getCollective: {
@@ -3187,9 +3173,20 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["urchinBiology"],
             },
-            outcomes: [""],
-            multiOutcomes: [""],
-            helpText: "Tell an urchin to go make more urchins. It's a solitary effort, but it gets the job done.",
+            outcomes: [
+                "Wait, so, run this process by me again real quick?",
+                "The urchin stops collecting kelp.",
+                "If urchins could talk, I'd want to know what they think of this change of profession.",
+            ],
+            multiOutcomes: [
+                "Hold on - more?",
+                "Wait, who said we needed more?",
+                "Did we not already have enough?",
+                "At this rate, the entire sea floor will eventually fill up with urchins!",
+                "Seriously, I can't look anywhere and NOT see more of them.",
+                "I'm gonna wake up tomorrow covered in these things, I swear.",
+            ],
+            helpText: "Tell an urchin to go make more urchins.",
         },
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////

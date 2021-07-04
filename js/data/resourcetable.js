@@ -153,6 +153,8 @@ SharkGame.ResourceTable = {
         // when referring to various kinds of squids, they are squids.
         // therefore references to the different professions lumped in with other squids will use 'squids'
         // and other circumstances referring to a single kind, like this one, will use 'squid'
+        // why are you reading this
+        desc: "Indebted, and forever loyal.",
         color: "#FA9272",
         income: {
             fish: 2,
@@ -163,6 +165,7 @@ SharkGame.ResourceTable = {
     urchin: {
         name: "sea urchins",
         singleName: "sea urchin",
+        desc: "Simple-minded. Others will do thinking for them.",
         color: "#B98DE0",
         income: {
             sand: 0.1,

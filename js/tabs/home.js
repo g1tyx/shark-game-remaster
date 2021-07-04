@@ -270,17 +270,17 @@ SharkGame.Home = {
             },
             {
                 name: "frigid-ice-one",
-                unlock: { resource: { ice: 300 } },
+                unlock: { resource: { ice: 100 } },
                 message: "You feel tired.",
             },
             {
                 name: "frigid-icy-doom",
-                unlock: { resource: { ice: 750 } },
+                unlock: { resource: { ice: 500 } },
                 message: "So cold. So hungry.<br><span class='smallDesc'>So hopeless.</span>",
             },
             {
                 name: "frigid-distant-village",
-                unlock: { totalResource: { science: 1 } },
+                unlock: { totalResource: { science: 8 } },
                 message: "While scanning the horizon, you notice a gap in the ice.<br>You peer through it, and spot something else.",
             },
             {
@@ -304,7 +304,7 @@ SharkGame.Home = {
                 name: "frigid-machine",
                 unlock: { totalResource: { squid: 125 } },
                 message:
-                    "In the center of the settlement lies a vibrating...thing, and a strange gate.<br>The thing buzzes with extraordinary energy.",
+                    "In the center of the settlement lies a vibrating...thing, and a strange gate.<br>The thing buzzes loudly, casting enormous energy across the water.",
             },
             {
                 name: "frigid-squid",
@@ -314,18 +314,18 @@ SharkGame.Home = {
             {
                 name: "frigid-suspicion",
                 unlock: { upgrade: ["automation"] },
-                message: "The squid look at the great machine in awe when they pass it by.<br>They see something we do not.",
+                message: "The squid describe the machine with fascination. They ask if we feel the same.<br>They see something we do not.",
             },
             {
                 name: "frigid-battery",
                 unlock: { upgrade: ["internalInquiry"] },
                 message:
-                    "Buried deep within the complex lies a massive, dimly glowing battery.<br>The squid say replacing it will melt the ice and let us leave.",
+                    "Buried deep within the complex lies a massive, dimly glowing battery.<br>The squid say replacing it will get the machine running at full power.",
             },
             {
                 name: "frigid-heat-returns",
                 unlock: { upgrade: ["rapidRecharging"] },
-                message: "A wave of heat washes over you, and the dingy complex comes back to life.<br>The gate turns on, but doesn't open.",
+                message: "A wave of heat washes over you, and the dingy complex comes back to life.<br>The gate turns on.",
             },
             /*{
                 name: "frigid-end",

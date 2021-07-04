@@ -1707,7 +1707,7 @@ SharkGame.Upgrades = {
         internalExpedition: {
             name: "Internal Expedition",
             desc: "We have the resources to launch a secret expedition into the machine. Its secrets must be known.",
-            researchedMessage: "The expedition went well, but on the way out, a squid noticed us leaving the machine. The jig is up.",
+            researchedMessage: "The expedition went well, but on the way out, a squid noticed us leaving the machine. I guess the jig is up.",
             effectDesc: "Discovered little more than endless hallways of unrecognizable text and rooms filled with incomprehensible control schemes.",
             cost: {
                 science: 75000,
@@ -1744,8 +1744,9 @@ SharkGame.Upgrades = {
         rapidRecharging: {
             name: "Rapid Recharging",
             desc: "Replace the battery. Melt the ice. Open the gate.",
-            researchedMessage: "",
-            effectDesc: "",
+            researchedMessage:
+                "A wave of heat washes over you as the switch is flipped. The ice around the village quickly vaporizes, and like magic, a giant bubble is carved in the surrounding glaciers.",
+            effectDesc: "Battery has been replaced. All the nearby ice has melted and we can now begin using the gate.",
             cost: {
                 science: 2500000,
                 sharkonium: 250000,
