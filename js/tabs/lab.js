@@ -8,10 +8,11 @@ SharkGame.Lab = {
     sceneImage: "img/events/misc/scene-lab.png",
     sceneDoneImage: "img/events/misc/scene-lab-done.png",
 
-    discoverReq: {
-        resource: {
-            science: 10,
-        },
+    get discoverReq() {
+        if (SharkGame.Aspects.extensiveOrganization.level >= 2) {
+            return {};
+        }
+        return { resource: { science: 10 } };
     },
 
     listEmpty: true,
