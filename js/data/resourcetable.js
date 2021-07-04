@@ -424,9 +424,6 @@ SharkGame.ResourceTable = {
         singleName: "great chorus",
         desc: "A grand ensemble, singing to the tune of life itself.",
         color: "#85BBA9",
-        income: {
-            essence: 4e-4,
-        },
         value: 100000,
     },
 
