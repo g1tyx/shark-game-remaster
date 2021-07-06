@@ -2972,7 +2972,7 @@ SharkGame.HomeActions = {
                 "Squid ready to hunt.",
                 "The squid ventures out in search of fish.",
                 "The squid has no qualms about joining the frenzy.",
-                "The squid offers its upmost respect.",
+                "The squid offers its utmost respect.",
             ],
             multiOutcomes: [
                 "Squids? Squid.",
