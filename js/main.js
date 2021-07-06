@@ -1128,23 +1128,25 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             // copy over all special category resources
             // aspects are preserved automatically within gateway file
-            const backup = {};
+            const backup = { resources: {} };
             _.each(SharkGame.ResourceCategories.special.resources, (resourceName) => {
-                backup[resourceName] = {
+                backup.resources[resourceName] = {
                     amount: res.getResource(resourceName),
                     totalAmount: res.getTotalResource(resourceName),
                 };
             });
+            backup.completedWorlds = SharkGame.Gateway.completedWorlds;
 
             SharkGame.timestampRunStart = _.now();
             main.init(true);
             SharkGame.Log.addMessage(world.getWorldEntryMessage());
 
             // restore special resources
-            $.each(backup, (resourceName, resourceData) => {
+            $.each(backup.resources, (resourceName, resourceData) => {
                 res.setResource(resourceName, resourceData.amount);
                 res.setTotalResource(resourceName, resourceData.totalAmount);
             });
+            SharkGame.Gateway.completedWorlds = backup.completedWorlds;
 
             try {
                 SharkGame.Save.saveGame();
