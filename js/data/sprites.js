@@ -1007,6 +1007,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 32, h: 32 },
         pivot: { x: 0, y: 0 },
     },
+    "aspects/amorphousAssembly": {
+        frame: { x: 2250, y: 96, w: 32, h: 32 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 32, h: 32 },
+        sourceSize: { w: 32, h: 32 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/catchFish": {
         frame: { x: 2, y: 104, w: 50, h: 50 },
         rotated: false,
