@@ -122,7 +122,7 @@ SharkGame.Events = {
             return "remove";
         },
         trigger() {
-            res.specialMultiplier = SharkGame.Aspects.theMinuteHand.level * 5;
+            res.specialMultiplier = SharkGame.Aspects.theMinuteHand.level + 3;
             return true;
         },
     },
