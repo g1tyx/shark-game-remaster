@@ -653,7 +653,14 @@ SharkGame.Home = {
         if (button.html().includes("button-icon") !== SharkGame.Settings.current.showIcons) {
             button.html(label);
 
-            const spritename = "actions/" + actionName;
+            let spritename;
+            switch (actionName) {
+                case "getUrchin":
+                    spritename = Math.random() < 0.001 ? "actions/getUrchinHatted" : "actions/getUrchin";
+                    break;
+                default:
+                    spritename = "actions/" + actionName;
+            }
             if (SharkGame.Settings.current.showIcons) {
                 const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "general/missing-action");
                 if (iconDiv) {
