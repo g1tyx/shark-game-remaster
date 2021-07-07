@@ -3028,40 +3028,7 @@ SharkGame.HomeActions = {
 
         getScientist: {},
 
-        getNurse: {
-            name: "Train nurse shark",
-            effect: {
-                resource: {
-                    nurse: 1,
-                },
-            },
-            cost: [
-                { resource: "shark", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 100 },
-            ],
-            max: "nurse",
-            prereq: {
-                resource: {
-                    shark: 1,
-                },
-                upgrade: ["biology"],
-            },
-            outcomes: [
-                "A nurse shark is ready!",
-                "Shark manufacturer primed.",
-                "Nurse shark trained.",
-                "Medical exam passed! Nurse shark is go!",
-            ],
-            multiOutcomes: [
-                "More sharks are on the way soon.",
-                "Shark swarm begins!",
-                "There will be no end to the sharks!",
-                "Sharks forever!",
-                "The sharks will never end. The sharks are eternal.",
-                "More sharks to make more sharks to make more sharks...",
-            ],
-            helpText: "Remove a shark from fish duty and set them to shark making duty.",
-        },
+        getNurse: {},
 
         // SQUID JOBS ////////////////////////////////////////////////////////////////////////////////
 
@@ -3086,12 +3053,19 @@ SharkGame.HomeActions = {
                 "Team assembled.",
                 "Initiating teamwork.",
                 "Cooperation commencing.",
-                "The crab climbs onto the squid's head.",
+                "The crab climbs onto the squid's head. Now, they are a team.",
                 "Crab + Squid = Crystal???",
+                "The squid's speed quickly makes up for the effect of the cold on the crab, and they zip into the distance.",
+                "The squid straps the crab to itself with a band of kelp. That's one way, I guess.",
             ],
             multiOutcomes: [
                 "The method of cooperation varies, but the result is always the same.",
-                "Some of these pairs have...unique strategies. This one is carrying the crab in its tentacles. That one has a crab on its head.",
+                "Some of these pairs have...unique strategies. That one has make a bundle with its kelp.",
+                "The pairs dart off into the ocean.",
+                "The teams form a loose group, which then moves in a general direction.",
+                "Teamwork makes the dream work, or something.",
+                "That's a lot of crystal.",
+                "Has anyone ever stopped to consider why these things need kelp?",
             ],
             helpText: "Convince a squid and a crab to work together to gather crystals.",
         },
@@ -3111,50 +3085,27 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["squidBiology"],
             },
-            outcomes: [""],
-            multiOutcomes: [""],
+            outcomes: [
+                "The squid have been collected.",
+                "The group congregates and begins doing whatever it is they do.",
+                "A collective of squid collectively collects itself.",
+                "I collect that this collective is collectively collected.",
+                "Why is it not called a collection?",
+                "A bunch of squid get together and do something or other.",
+            ],
+            multiOutcomes: [
+                "Collect the squid. Collect them.",
+                "Collected a bunch of squid, I guess.",
+                "Why do squid have to do everything as a team???",
+                "I'm a bit concerned about future living space at this point.",
+                "How many squid could possibly be needed to do this job??",
+            ],
             helpText: "Bring together a group of squid to produce even more squid.",
         },
 
         // CRAB JOB ////////////////////////////////////////////////////////////////////////////////
 
-        getBrood: {
-            name: "Form crab brood",
-            effect: {
-                resource: {
-                    brood: 1,
-                },
-            },
-            cost: [
-                { resource: "crab", costFunction: "constant", priceIncrease: 20 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 200 },
-            ],
-            max: "brood",
-            prereq: {
-                resource: {
-                    crab: 1,
-                },
-                upgrade: ["crabBiology"],
-            },
-            outcomes: [
-                "A bunch of crabs pile together into some sort of weird cluster.",
-                "Crab team, assemble! FORM THE CRAB BROOD!",
-                "[This message has been censored for reasons of being mostly really gross.]",
-                "Eggs, eggs everywhere, but never stop and think.",
-                "Writhing crab pile. Didn't expect those words next to each other today, did you.",
-                "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.",
-            ],
-            multiOutcomes: [
-                "The broods grow. The swarm rises.",
-                "All these crabs are probably a little excessive. ...is what I could say, but I'm going to say this instead. MORE CRABS.",
-                "A sea of crabs on the bottom of the sea. Clickity clackity.",
-                "Snip snap clack clack burble burble crabs crabs crabs crabs.",
-                "More crabs are always a good idea. Crystals aren't cheap.",
-                "The broods swell in number. The sharks are uneasy, but the concern soon passes.",
-                "Yes. Feed the kelp. Feed it. Feeeeeed it.",
-            ],
-            helpText: "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.",
-        },
+        getBrood: {},
 
         // URCHIN JOB ////////////////////////////////////////////////////////////////////////////////////
 
@@ -3185,6 +3136,7 @@ SharkGame.HomeActions = {
                 "At this rate, the entire sea floor will eventually fill up with urchins!",
                 "Seriously, I can't look anywhere and NOT see more of them.",
                 "I'm gonna wake up tomorrow covered in these things, I swear.",
+                "I'm a bit concerned about future living space at this point.",
             ],
             helpText: "Tell an urchin to go make more urchins.",
         },
@@ -3229,7 +3181,11 @@ SharkGame.HomeActions = {
                 "The frozen sea lives a little longer.",
                 "This world dies slower.",
             ],
-            helpText: "Construct a machine to slow down the advancing ice shelf.",
+            get helpText() {
+                return SharkGame.Upgrades.purchased.indexOf("rapidRecharging") > -1
+                    ? "Construct one of the machines we used to slow the formerly-advancing ice shelf. Not much use now."
+                    : "Construct a machine to slow down the advancing ice shelf.";
+            },
         },
     },
 };
