@@ -382,10 +382,13 @@ SharkGame.Resources = {
     },
 
     isCategoryVisible(category) {
-        return _.some(category.resources, (resourceName) => {
-            const resource = SharkGame.PlayerResources.get(resourceName);
-            return (resource.totalAmount > 0 || resource.discovered) && world.doesResourceExist(resourceName);
-        });
+        return (
+            category.name !== "Hidden" &&
+            _.some(category.resources, (resourceName) => {
+                const resource = SharkGame.PlayerResources.get(resourceName);
+                return (resource.totalAmount > 0 || resource.discovered) && world.doesResourceExist(resourceName);
+            })
+        );
     },
 
     getCategoryOfResource(resourceName) {

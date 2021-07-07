@@ -14,7 +14,7 @@ SharkGame.Stats = {
         return SharkGame.Aspects.extensiveOrganization.level ? {} : { upgrade: ["statsDiscovery"] };
     },
 
-    bannedDisposeCategories: ["special", "harmful"],
+    bannedDisposeCategories: ["special", "harmful", "hidden"],
 
     message:
         "The grotto is a place to keep a better track of resources." +
@@ -287,7 +287,7 @@ SharkGame.Stats = {
     updateTotalAmountTable() {
         SharkGame.ResourceMap.forEach((_resource, resourceId) => {
             const totalResource = res.getTotalResource(resourceId);
-            if (totalResource > 0) {
+            if (totalResource > 0 && res.getCategoryOfResource(resourceId) !== "hidden") {
                 const cell = $("#totalAmount-" + resourceId);
                 const newValue = main.beautify(totalResource);
                 const oldValue = cell.html();
@@ -612,7 +612,7 @@ SharkGame.Stats = {
         }
 
         SharkGame.ResourceMap.forEach((_resource, resourceId) => {
-            if (res.getTotalResource(resourceId) > 0) {
+            if (res.getTotalResource(resourceId) > 0 && res.getCategoryOfResource(resourceId) !== "hidden") {
                 const row = $("<tr>");
 
                 row.append($("<td>").html(res.getResourceName(resourceId)));

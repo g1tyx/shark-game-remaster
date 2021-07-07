@@ -1265,6 +1265,11 @@ SharkGame.ResourceCategories = {
         disposeMessage: ["Oh, you'd like that, wouldn't you."],
         resources: ["tar", "ice"],
     },
+    hidden: {
+        name: "Hidden",
+        disposeMessage: ["Bad player! Stop it!"],
+        resources: ["world"],
+    },
 };
 
 SharkGame.InternalCategories = {
