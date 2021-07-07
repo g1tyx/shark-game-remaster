@@ -235,7 +235,10 @@ SharkGame.Stats = {
                             cell = $("#table-amount-" + resourceId);
                         }
 
-                        newValue = "<div style='text-align:right'>" + main.beautify(res.getResource(resourceId)).bold() + "</div>";
+                        newValue =
+                            resourceId !== "world"
+                                ? "<div style='text-align:right'>" + main.beautify(res.getResource(resourceId)).bold() + "</div>"
+                                : "";
                         if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
                         }
@@ -340,9 +343,6 @@ SharkGame.Stats = {
             }
         });
 
-        // You would filter or sort here if you want to filter or sort using higher order operations
-        // You would filter or sort above the statement where it's checked if the view is switched if you want to do an if statement
-
         drawnResourceMap.forEach((headingData, headingName) => {
             // if the resource has an income requiring any costs
             // and it isn't a forced income
@@ -358,7 +358,11 @@ SharkGame.Stats = {
                 resourceMapRow.append(
                     $("<td>")
                         .attr("rowspan", subheadings)
-                        .html("<div style='text-align:right'>" + main.beautify(res.getResource(headingName)).bold() + "</div>")
+                        .html(
+                            headingName !== "world"
+                                ? "<div style='text-align:right'>" + main.beautify(res.getResource(headingName)).bold() + "</div>"
+                                : ""
+                        )
                         .addClass(rowStyle)
                         .attr("id", "table-amount-" + headingName)
                 );
@@ -417,7 +421,11 @@ SharkGame.Stats = {
                 if (SharkGame.Settings.current.switchStats) {
                     resourceMapRow.append(
                         $("<td>")
-                            .html("<div style='text-align:right'>" + main.beautify(res.getResource(subheadingKey)).bold() + "</div>")
+                            .html(
+                                generatorName !== "world"
+                                    ? "<div style='text-align:right'>" + main.beautify(res.getResource(subheadingKey)).bold() + "</div>"
+                                    : ""
+                            )
                             .addClass(rowStyle)
                             .attr("id", "table-amount-" + generatorName + "-" + incomeKey)
                     );

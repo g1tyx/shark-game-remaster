@@ -298,7 +298,13 @@ SharkGame.ModifierTypes = {
                 defaultValue: 0,
                 name: "Income per Climate Level",
                 apply(current, degree, resource) {
-                    world.worldResources.get(resource).income = degree;
+                    if (!SharkGame.ResourceMap.get("world").baseIncome) {
+                        SharkGame.ResourceMap.get("world").baseIncome = {};
+                        SharkGame.ResourceMap.get("world").income = {};
+                    }
+                    const baseIncomes = SharkGame.ResourceMap.get("world").baseIncome;
+                    baseIncomes[resource] = (baseIncomes[resource] ? baseIncomes[resource] : 0) + degree;
+                    res.reapplyModifiers("world", resource);
                     return current + degree;
                 },
                 effectDescription(degree, resource) {

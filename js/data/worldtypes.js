@@ -30,7 +30,7 @@ SharkGame.WorldTypes = {
         },
         entry: "You enter a familiar blue sea, all your previous knowledge a dim memory.",
         style: "default",
-        includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence"],
+        includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence", "world"],
         modifiers: [],
         // initial gate cost, scaled by planetary level
         gateRequirements: {
@@ -103,6 +103,7 @@ SharkGame.WorldTypes = {
             "coral",
             "chorus",
             "essence",
+            "world",
         ],
         absentResources: ["laser"],
         modifiers: [
@@ -292,7 +293,7 @@ SharkGame.WorldTypes = {
         },
         entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
-        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "heater", "essence"],
+        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "heater", "essence", "world"],
         modifiers: [{ type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 1 }],
         gateRequirements: {
             slots: {

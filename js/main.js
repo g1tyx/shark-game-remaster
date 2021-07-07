@@ -629,6 +629,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // apply tick settings
         main.applyFramerate();
 
+        // add the hidden world resource
+        res.setResource("world", 1);
+
         if (main.autosaveHandler === -1) {
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }

@@ -262,18 +262,6 @@ SharkGame.Resources = {
                         });
                     }
                 }
-
-                // calculate any world income that should be added to this resource
-                if (worldResourceInfo) {
-                    SharkGame.PlayerIncomeTable.set(
-                        resourceId,
-                        SharkGame.PlayerIncomeTable.get(resourceId) +
-                            worldResourceInfo.income *
-                                res.getNetworkIncomeModifier("resource", resourceId) *
-                                res.getNetworkIncomeModifier("generator", "world") *
-                                cad.speed
-                    );
-                }
             }
         });
 
@@ -752,10 +740,7 @@ SharkGame.Resources = {
                     // recursively reconstruct the table with the keys in the inverse order
                     // eslint-disable-next-line id-length
                     $.each(nodes, (_k, affectedGenerator) => {
-                        if (
-                            (affectedGenerator === "world" || world.worldResources.get(affectedGenerator).exists) &&
-                            world.worldResources.get(affectorResource).exists
-                        ) {
+                        if (world.worldResources.get(affectedGenerator).exists && world.worldResources.get(affectorResource).exists) {
                             res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
                     });

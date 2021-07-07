@@ -59,7 +59,7 @@ SharkGame.Events = {
             return "remove";
         },
         trigger() {
-            world.worldResources.get("ice").income = -50;
+            res.applyModifier("planetaryIncome", "ice", -51);
             SharkGame.ResourceMap.get("heater").baseIncome = {
                 kelp: 0,
                 ice: 0,

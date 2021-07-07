@@ -656,7 +656,7 @@ SharkGame.Home = {
             let spritename;
             switch (actionName) {
                 case "getUrchin":
-                    spritename = Math.random() < 0.001 ? "actions/getUrchinHatted" : "actions/getUrchin";
+                    spritename = Math.random() < 0.002 ? "actions/getUrchinHatted" : "actions/getUrchin";
                     break;
                 default:
                     spritename = "actions/" + actionName;

@@ -1008,6 +1008,15 @@ SharkGame.ResourceTable = {
         value: -100,
         forceIncome: true,
     },
+
+    world: {
+        name: "world",
+        singleName: "world",
+        desc: "how are you seeing this",
+        color: "#FFFFFF",
+        value: 123456789,
+        forceIncome: true,
+    },
 };
 
 SharkGame.GeneratorIncomeAffectorsOriginal = {
