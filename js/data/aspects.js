@@ -259,7 +259,9 @@ SharkGame.Aspects = {
         getEffect(level) {
             return res.getResourceName("nurse", false, 69) + " and " + res.getResourceName("maker", false, 69) + " are " + (level + 1) + "x faster.";
         },
-        getUnlocked() {},
+        getUnlocked() {
+            return SharkGame.Gateway.completedWorlds.includes("haven") ? "" : "Complete the Haven worldtype to unlock this aspect.";
+        },
         prerequisites: ["adjustedAquadynamics"],
         clicked(_event) {
             tree.increaseLevel(this);
