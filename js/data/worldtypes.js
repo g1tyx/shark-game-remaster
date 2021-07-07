@@ -296,12 +296,12 @@ SharkGame.WorldTypes = {
         modifiers: [{ type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 1 }],
         gateRequirements: {
             slots: {
-                sand: 2e7,
-                crystal: 2e7,
-                kelp: 1e8,
-                heater: 50,
-                sharkonium: 2e6,
-                fish: 5e8,
+                sand: 1e7,
+                crystal: 1e7,
+                kelp: 5e7,
+                heater: 40,
+                sharkonium: 1e6,
+                fish: 2e8,
             },
         },
     },

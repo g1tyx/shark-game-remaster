@@ -157,7 +157,7 @@ SharkGame.ResourceTable = {
         desc: "Indebted, and forever loyal.",
         color: "#FA9272",
         income: {
-            fish: 2,
+            fish: 4,
         },
         value: 3000,
     },

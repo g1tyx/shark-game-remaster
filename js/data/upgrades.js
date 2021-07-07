@@ -1496,7 +1496,7 @@ SharkGame.Upgrades = {
             effect: {
                 incomeMultiplier: {
                     shark: 2,
-                    squid: 4,
+                    squid: 2,
                 },
             },
         },
@@ -1592,6 +1592,9 @@ SharkGame.Upgrades = {
                     fishMachine: 2,
                     sandDigger: 2,
                 },
+                heaterMultiplier: {
+                    heater: 2,
+                },
             },
         },
         recyclerDiscovery: {
@@ -1627,6 +1630,9 @@ SharkGame.Upgrades = {
                     sandDigger: 2,
                     autoTransmuter: 2,
                     scientist: 4,
+                },
+                heaterMultiplier: {
+                    heater: 2,
                 },
             },
         },
@@ -1668,42 +1674,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        // coldproofSpines: {
-        //     name: "Coldproof Spines",
-        //     desc: "The urchins seem unfazed by our new predicament. What's up with them?",
-        //     researchedMessage:
-        //         "What's up with them is that they're pretty good at taking cold temperatures. Something about efficient metabowhatevers.",
-        //     effectDesc:
-        //         "Now that we know better, we can take advantage of urchins' natural cold resistance, making them 10 times less slowed by ice than the rest of the frenzy!",
-        //     cost: {
-        //         science: 17500,
-        //         kelp: 20000,
-        //     },
-        //     required: {
-        //         upgrades: ["internalInvestigation", "glacialNavigation"],
-        //         totals: {
-        //             ice: 475,
-        //         },
-        //     },
-        //     events: ["frigidIncreaseUrchinIceResist"],
-        // },
-        // remember to have rapid repairs remove coldproofspines and thermalconditioning somehow without jeporadizing future runs
-        // thermalConditioning: {
-        //     name: "Thermal Conditioning",
-        //     desc: "Hold on - if the urchins can resist the cold, couldn't we learn to do that too?",
-        //     researchedMessage: "Well, no! But we can try!",
-        //     effectDesc: "Everyone (except urchins) is slowed half as much by ice. I guess maybe we can learn something from the urchins after all.",
-        //     cost: {
-        //         science: 200000,
-        //     },
-        //     required: {
-        //         upgrades: ["coldproofSpines"],
-        //         totals: {
-        //             ice: 550,
-        //         },
-        //     },
-        //     events: ["frigidIncreaseFrenzyIceResist"],
-        // },
         internalExpedition: {
             name: "Internal Expedition",
             desc: "We have the resources to launch a secret expedition into the machine. Its secrets must be known.",

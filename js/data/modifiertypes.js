@@ -161,6 +161,25 @@ SharkGame.ModifierTypes = {
                     return input * (out !== "kelp" ? genDegree : 1);
                 },
             },
+            heaterMultiplier: {
+                defaultValue: 1,
+                apply(current, degree, resource) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    if (incomes.ice && incomes.ice < 0) {
+                        incomes.ice = incomes.ice * degree;
+                    }
+                    return current * degree;
+                },
+                effectDescription(degree, resource) {
+                    return res.getResourceName(resource) + " melts " + res.getResourceName("ice") + " " + degree + "x faster.";
+                },
+                getEffect(degree, _gen, _out) {
+                    return degree;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, out) {
+                    return input * (out === "ice" && input < 0 ? genDegree : 1);
+                },
+            },
         },
         other: {
             addCoralIncome: {
