@@ -422,7 +422,7 @@ SharkGame.Aspects = {
         name: "The Minute Hand",
         description: "Time is relative.",
         getCost(level) {
-            return 1 * level + 4;
+            return level + 3;
         },
         getEffect(level) {
             return "For the first minute after arriving in a world, gain x" + (3 + level) + " production.";
