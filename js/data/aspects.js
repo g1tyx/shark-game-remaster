@@ -148,8 +148,12 @@ SharkGame.Aspects = {
             tree.increaseLevel(this);
         },
         apply(when) {
-            if (when === "init" && SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000) {
-                SharkGame.Resources.changeResource("crab", 20 * this.level ** 2);
+            if (
+                when === "init" &&
+                SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000 &&
+                res.getResource("crab") === 0
+            ) {
+                res.changeResource("crab", 20 * this.level ** 2);
             }
         },
     },
@@ -260,7 +264,7 @@ SharkGame.Aspects = {
             return res.getResourceName("nurse", false, 69) + " and " + res.getResourceName("maker", false, 69) + " are " + (level + 1) + "x faster.";
         },
         getUnlocked() {
-            return SharkGame.Gateway.completedWorlds.includes("haven") ? "" : "Complete the Haven worldtype to unlock this aspect.";
+            return gateway.completedWorlds.includes("haven") ? "" : "Complete the Haven worldtype to unlock this aspect.";
         },
         prerequisites: ["adjustedAquadynamics"],
         clicked(_event) {
@@ -375,8 +379,12 @@ SharkGame.Aspects = {
             tree.increaseLevel(this);
         },
         apply(when) {
-            if (when === "init" && SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000) {
-                SharkGame.Resources.changeResource("crystal", 20 * this.level ** 2);
+            if (
+                when === "init" &&
+                SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000 &&
+                res.getResource("crystal") === 0
+            ) {
+                res.changeResource("crystal", 20 * this.level ** 2);
             }
         },
     },
@@ -457,7 +465,7 @@ SharkGame.Aspects = {
             }
         },
         getUnlocked() {
-            return SharkGame.Gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
+            return gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {
