@@ -677,6 +677,11 @@ SharkGame.Resources = {
         let name = amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name;
         let extraStyle = "";
 
+        // easter egg logic
+        if (name === "world") {
+            name = Math.random() > 0.0005 ? "world" : "ZA WARUDO";
+        }
+
         if (SharkGame.Settings.current.boldCosts) {
             name = name.bold();
         }
