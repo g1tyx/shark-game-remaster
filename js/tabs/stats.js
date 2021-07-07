@@ -537,12 +537,12 @@ SharkGame.Stats = {
 
             if (SharkGame.Settings.current.switchStats) {
                 row.append(
-                    $("<th>")
+                    $("<td>")
                         .html("<span><u>" + "RESOURCE".bold() + "</u></span>")
                         .addClass("evenRow")
                 );
                 row.append(
-                    $("<th>")
+                    $("<td>")
                         .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
                         .addClass("evenRow")
                 );
@@ -554,12 +554,12 @@ SharkGame.Stats = {
                 );
             } else {
                 row.append(
-                    $("<th>")
+                    $("<td>")
                         .html("<span><u>" + "AMOUNT".bold() + "</u></span>")
                         .addClass("evenRow")
                 );
                 row.append(
-                    $("<th>")
+                    $("<td>")
                         .html("<span><u>" + "GENERATOR".bold() + "</u></span>")
                         .addClass("evenRow")
                 );
