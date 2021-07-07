@@ -37,10 +37,10 @@
 }
 :root :not(.no-theme).abandoned {
   --color-lighter: #7e798f;
-  --color-light: #363241;
+  --color-light: #454152;
   --color-med: #1f1b2c;
   --color-dark: #171226;
-  --color-darker: #0e091c;
+  --color-darker: #0a0514;
   --color-title: rgba(31, 27, 44, 0.2);
 }
 :root :not(.no-theme).chaotic {
@@ -60,11 +60,11 @@
   --color-title: rgba(47, 93, 124, 0.2);
 }
 :root :not(.no-theme).haven {
-  --color-lighter: #699eaa;
+  --color-lighter: #75aab6;
   --color-light: #2f7591;
   --color-med: #1d5372;
-  --color-dark: #083b53;
-  --color-darker: #002f42;
+  --color-dark: #053247;
+  --color-darker: #001d2b;
   --color-title: rgba(29, 83, 114, 0.2);
 }
 :root :not(.no-theme).shrouded {
