@@ -335,11 +335,7 @@ SharkGame.Gateway = {
     showPlanetAttributes(worldData, contentDiv) {
         /* eslint-disable no-fallthrough */
         switch (SharkGame.Aspects.pathOfEnlightenment.level) {
-            case 3:
-                if (worldData.foresight.tip) {
-                    contentDiv.prepend($("<p>").html(worldData.foresight.tip).addClass("largeDesc"));
-                }
-            case 2:
+            case 1:
                 if (worldData.foresight.missing.length > 0) {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.foresight.missing, (missingResource) => {
@@ -368,7 +364,6 @@ SharkGame.Gateway = {
                     });
                     contentDiv.prepend(presentList);
                 }
-            case 1:
                 if (worldData.modifiers.length > 0) {
                     const modifierList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.modifiers, (modifier) => {
@@ -431,15 +426,16 @@ SharkGame.Gateway.PresenceFeelings = {
     sponge: "soft things?",
     jellyfish: "squishy things?",
     coral: "colorful things?",
-    dolphin: "annoying scholars",
-    whale: "wise scholars",
-    octopus: "logical entities",
-    squid: "loyal hunters",
-    urchin: "dimwitted creatures",
-    shrimp: "simple creatures",
-    lobster: "unfamiliar crustaceans",
-    chimaera: "familiar predators",
-    eel: "slithering hunters",
+    dolphin: "annoying scholars?",
+    whale: "wise scholars?",
+    octopus: "logical entities?",
+    squid: "loyal hunters?",
+    urchin: "dimwitted creatures?",
+    shrimp: "simple creatures?",
+    lobster: "unfamiliar crustaceans?",
+    chimaera: "familiar predators?",
+    eel: "slithering hunters?",
+    tar: "something dirty?",
     // swordfish: "wary hunters",
 };
 

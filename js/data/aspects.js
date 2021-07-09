@@ -81,19 +81,19 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 2,
+        max: 1,
         level: 0,
         name: "Path of Enlightenment",
         description: "Unlock the potential of yourself.",
-        getCost(level) {
-            return (level + 1) ** 2 + 1;
+        getCost(_level) {
+            return 2;
         },
         getEffect(level) {
             switch (level) {
                 case 1:
-                    return "Reveals information about a world before you choose to visit it.";
-                case 2:
-                    return "Reveals information about a world and its resources before you choose to visit it.";
+                    return "Reveals basic information about a world before you choose to visit it.";
+                //case 2:
+                //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
             }
         },
         getUnlocked() {},
@@ -217,7 +217,7 @@ SharkGame.Aspects = {
             }
         },
     },
-    crustaceanAptitute: {
+    crustaceanAptitude: {
         posX: 690,
         posY: 50,
         width: 40,
@@ -227,10 +227,10 @@ SharkGame.Aspects = {
         level: 0,
         name: "Crustacean Aptitude",
         get description() {
-            return "Perhaps " + res.getResourceName("crab", false, 69) + " could collect more than crystal if they were better equipped for hunting.";
+            return res.getResourceName("crab", false, 69) + " are flexible. They'll do whatever we need them to.";
         },
         getCost(level) {
-            return 2 * level + 4;
+            return 2 * level + 5;
         },
         getEffect(level) {
             return res.getResourceName("crab", false, 69) + " and their professions collect world-specific resources " + (level + 1) + "x faster.";
@@ -258,7 +258,7 @@ SharkGame.Aspects = {
         name: "Constructed Conception",
         description: "Making new sharks and crabs could be more efficient. It doesn't hurt to use a little essence to help out.",
         getCost(level) {
-            return 2 * level + 3;
+            return 2 * level + 4;
         },
         getEffect(level) {
             return res.getResourceName("nurse", false, 69) + " and " + res.getResourceName("maker", false, 69) + " are " + (level + 1) + "x faster.";
@@ -368,7 +368,7 @@ SharkGame.Aspects = {
         name: "Crystalline Skin",
         description: "Become one with the lattice.",
         getCost(level) {
-            return 2 * level + 3;
+            return 2 * level + 4;
         },
         getEffect(level) {
             return "Start with " + 20 * level ** 2 + " crystals. If they do not exist, start with an equivalent.";
@@ -432,7 +432,12 @@ SharkGame.Aspects = {
         name: "The Minute Hand",
         description: "Time is relative.",
         getCost(level) {
-            return level + 3;
+            switch (level) {
+                case 1:
+                    return 3;
+                default:
+                    return 2;
+            }
         },
         getEffect(level) {
             return "For the first minute after arriving in a world, gain x" + (3 + level) + " production.";
@@ -442,7 +447,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             tree.increaseLevel(this);
         },
-        //draw like a big ol minute hand of a clock, dark
     },
     internalCalculator: {
         posX: 140,
@@ -454,8 +458,8 @@ SharkGame.Aspects = {
         level: 0,
         name: "Internal Calculator",
         description: "Shark science gets started a lot faster when we don't need to use an abacus. Also, what's a calculator?",
-        getCost(level) {
-            return 3 + 2 * level;
+        getCost(_level) {
+            return 4;
         },
         getEffect(level) {
             if (level === 1) {
@@ -482,8 +486,8 @@ SharkGame.Aspects = {
         level: 0,
         name: "Extensive Organization",
         description: "Be prepared. Organize. No wasted time.",
-        getCost(level) {
-            return 2 + level;
+        getCost(_level) {
+            return 2;
         },
         getEffect(level) {
             if (level === 1) {
@@ -498,6 +502,11 @@ SharkGame.Aspects = {
         prerequisites: ["internalCalculator"],
         clicked(_event) {
             tree.increaseLevel(this);
+        },
+        apply(when) {
+            if (when === "init") {
+                SharkGame.Lab.addUpgrade("statsDiscovery");
+            }
         },
     },
     // remember to add upgrade which adds manual crystal button, locked behind shrouded worldtype

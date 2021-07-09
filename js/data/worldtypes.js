@@ -198,7 +198,7 @@ SharkGame.WorldTypes = {
                 );
             },
             missing: ["seaApple", "kelp"],
-            present: ["octopus", "sponge", "clam"],
+            present: ["octopus", "sponge", "clam", "tar"],
             get tip() {
                 return (
                     "This ocean is polluted with " +
@@ -234,6 +234,7 @@ SharkGame.WorldTypes = {
                 resource: "sponge",
                 amount: "sponge",
             },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "tar", amount: -0.02 },
         ],
         gateRequirements: { upgrades: ["artifactAssembly"] },
     },

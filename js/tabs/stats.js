@@ -10,9 +10,7 @@ SharkGame.Stats = {
     recreateIncomeTable: null,
     incomeTableEmpty: true,
 
-    get discoverReq() {
-        return SharkGame.Aspects.extensiveOrganization.level ? {} : { upgrade: ["statsDiscovery"] };
-    },
+    discoverReq: { upgrade: ["statsDiscovery"] },
 
     bannedDisposeCategories: ["special", "harmful", "hidden"],
 
