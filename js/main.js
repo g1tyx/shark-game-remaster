@@ -631,6 +631,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         // add the hidden world resource
         res.setResource("world", 1);
+        res.setTotalResource("world", 1);
 
         if (main.autosaveHandler === -1) {
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
