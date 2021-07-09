@@ -74,7 +74,7 @@ $.extend(SharkGame, {
         "Help Wanted",
         "NOT FINISHED",
         "Deluxe",
-        "doo doo do do do do",
+        "doo doo do-do do-do",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
