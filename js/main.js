@@ -1340,13 +1340,15 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202107??a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210709a": [
         "Added the Frigid worldtype.",
         "Replaced the Artifacts system with the Aspects system.",
         "Tweaked Haven.",
-        "Probably fixed bugs.",
-        "Tweaked UI.",
-        "Improved grotto. Again! Just a little.",
+        "Tweaked UI colors.",
+        "Grotto now shows how the world affects resources.",
+        "Moved UI elements around to make the game not freak out on smaller screens.",
+        "Moved buy amount buttons closer to the places you'll need them, they're not in the tab list anymore!",
+        "Added 'bright' text color mode, screws up some colors but makes colored text easier to read.",
     ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
         "Fixed bug where haven had no essence. Oops.",
