@@ -788,10 +788,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         const content = $("#content");
 
         content.empty();
-        content.append('<div id="contentMenu"><ul id="tabList"></ul><ul id="tabButtons"></ul></div><div id="tabBorder" class="clear-fix"></div>');
+        content.append('<div id="contentMenu"><ul id="tabList"></ul></div><div id="tabBorder" class="clear-fix"></div>');
 
         main.createTabNavigation();
-        main.createBuyButtons();
 
         // set up tab specific stuff
         const tab = tabs[tabs.current];
@@ -801,7 +800,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     createTabMenu() {
         main.createTabNavigation();
-        main.createBuyButtons();
     },
 
     createTabNavigation() {
@@ -843,10 +841,24 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
     },
 
-    createBuyButtons(customLabel) {
+    createBuyButtons(customLabel, addToWhere, appendOrPrepend) {
+        if (!addToWhere) {
+            SharkGame.Log.addError("Attempted to create buy buttons without specifying what to do with them.");
+        }
+
         // add buy buttons
-        const buttonList = $("#tabButtons");
-        buttonList.empty();
+        const buttonList = $("<ul>").attr("id", "buyButtons");
+        switch (appendOrPrepend) {
+            case "append":
+                addToWhere.append(buttonList);
+                break;
+            case "prepend":
+                addToWhere.prepend(buttonList);
+                break;
+            default:
+                SharkGame.Log.addError("Attempted to create buy buttons without specifying whether to append or prepend.");
+                return;
+        }
         _.each(SharkGame.Settings.buyAmount.options, (amount) => {
             const disableButton = amount === SharkGame.Settings.current.buyAmount;
             buttonList.append(

@@ -331,6 +331,7 @@ pre {
 }
 #contentMenu #tabList {
   float: left;
+  margin-bottom: 0.4em;
 }
 #contentMenu #tabList li {
   font-weight: bold;
@@ -343,10 +344,14 @@ pre {
 #contentMenu #tabList li:first-child:before {
   content: none;
 }
-#contentMenu #tabButtons {
-  float: right;
-  text-align: right;
-  overflow: auto;
+#buyButtons {
+  padding-left: 0px;
+}
+#buyButtons li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: inline;
 }
 #sidebar {
   float: left;
@@ -705,6 +710,9 @@ button.newlyDiscovered.disabled div {
   margin: auto;
   width: 35%;
   text-shadow: 0px 0px 2px #000000;
+}
+#recyclerContainer #buyButtons {
+  padding-left: 0px;
 }
 #tabBorder {
   border-bottom: 0.5em double var(--color-light);
@@ -1307,4 +1315,7 @@ button.planetButton:active {
 }
 .disposeArrangement button.newlyDiscovered {
   max-width: 12em;
+}
+.disposeArrangement #buyButtons button {
+  margin: 0 2px 3px;
 }

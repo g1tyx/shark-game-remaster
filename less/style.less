@@ -509,17 +509,22 @@ pre {
 
     #tabList {
         float: left;
+        margin-bottom: 0.4em;
 
         li {
             font-weight: bold;
             .pipe-separators;
         }
     }
+}
 
-    #tabButtons {
-        float: right;
-        text-align: right;
-        overflow: auto;
+#buyButtons {
+    padding-left: 0px;
+    li {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        display: inline;
     }
 }
 
@@ -840,6 +845,10 @@ button.newlyDiscovered {
         margin: auto;
         width: 35%;
         text-shadow: 0px 0px 2px #000000;
+    }
+
+    #buyButtons {
+        padding-left: 0px;
     }
 }
 
@@ -1412,6 +1421,12 @@ button.planetButton {
 
         &.newlyDiscovered {
             max-width: 12em;
+        }
+    }
+
+    #buyButtons {
+        button {
+            margin: 0 2px 3px;
         }
     }
 }

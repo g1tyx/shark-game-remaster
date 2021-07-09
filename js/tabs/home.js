@@ -376,6 +376,8 @@ SharkGame.Home = {
         const buttonTabDiv = $("<div>").attr("id", "homeTabs");
         content.append(buttonTabDiv);
         home.createButtonTabs();
+        // buy amount buttons
+        main.createBuyButtons("buy", content, "append");
         // button list
         const buttonList = $("<div>").attr("id", "buttonList");
         content.append(buttonList);

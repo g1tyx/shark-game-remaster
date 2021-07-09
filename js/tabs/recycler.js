@@ -75,7 +75,7 @@ SharkGame.Recycler = {
         }
         tabMessageSel.html(message);
 
-        main.createBuyButtons("eat");
+        main.createBuyButtons("eat", container, "prepend");
         rec.createButtons();
     },
 

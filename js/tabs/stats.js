@@ -53,6 +53,7 @@ SharkGame.Stats = {
 
         const disposeSel = $("#disposeResource");
         disposeSel.append($("<h3>").html("Dispose of Stuff"));
+        main.createBuyButtons("rid", disposeSel, "append");
         stats.createDisposeButtons();
 
         const table = stats.createIncomeTable();
@@ -104,8 +105,6 @@ SharkGame.Stats = {
             );
         }
         genStats.append(stats.createTotalAmountTable());
-
-        main.createBuyButtons("rid");
     },
 
     update() {
