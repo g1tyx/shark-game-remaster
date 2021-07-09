@@ -37,9 +37,8 @@ SharkGame.Stats = {
         const statsContainer = $("<div>").attr("id", "statsContainer");
         content.append(statsContainer);
 
-        statsContainer.append(
-            $("<div>").attr("id", "statsLeftContainer").append($("<div>").attr("id", "incomeData")).append($("<div>").attr("id", "disposeResource"))
-        );
+        statsContainer.append($("<div>").attr("id", "statsUpperContainer").append($("<div>").attr("id", "incomeData")));
+        statsContainer.append($("<div>").attr("id", "statsLeftContainer").append($("<div>").attr("id", "disposeResource")));
         statsContainer.append($("<div>").attr("id", "statsRightContainer").append($("<div>").attr("id", "generalStats")));
 
         statsContainer.append($("<div>").addClass("clear-fix"));

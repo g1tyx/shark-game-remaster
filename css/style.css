@@ -602,6 +602,23 @@ button.newlyDiscovered.disabled div {
   font-size: 0.9em;
   padding: 0.4em;
 }
+#statsUpperContainer {
+  width: 100%;
+}
+#statsUpperContainer table {
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.1em;
+  border: 2px solid var(--color-lighter);
+  border-collapse: collapse;
+  background: var(--color-darker);
+}
+#statsUpperContainer td {
+  margin: 0.2em;
+  font-size: 0.9em;
+  padding: 0.4em;
+}
 #statsLeftContainer {
   float: left;
   width: 50%;
