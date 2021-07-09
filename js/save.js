@@ -403,7 +403,7 @@ SharkGame.Save = {
                 logMessageMax: 15,
                 sidebarWidth: "25%",
                 showAnimations: true,
-                colorCosts: true,
+                colorCosts: "colored",
             };
             save.gateCostsMet = {
                 fish: false,

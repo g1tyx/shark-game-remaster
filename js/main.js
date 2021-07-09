@@ -268,6 +268,20 @@ $.extend(SharkGame, {
         }
         return colorstring;
     },
+    getBrightColor(color) {
+        color = String(color).replace(/[^0-9a-f]/gi, "");
+        let red = parseInt(color.substr(0, 2), 16);
+        let green = parseInt(color.substr(2, 2), 16);
+        let blue = parseInt(color.substr(4, 2), 16);
+        red = red / 255;
+        green = green / 255;
+        blue = blue / 255;
+        const most = Math.max(red, green, blue);
+        red = parseInt((255 * (1 / most) * red).toFixed(0)).toString(16);
+        green = parseInt((255 * (1 / most) * green).toFixed(0)).toString(16);
+        blue = parseInt((255 * (1 / most) * blue).toFixed(0)).toString(16);
+        return "#" + red + green + blue;
+    },
     getElementColor(id, propertyName) {
         const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return SharkGame.convertColorString(color);

@@ -627,10 +627,6 @@ SharkGame.Resources = {
             }
         });
 
-        /*         if (producertext === "" && consumertext === "") {
-            return;
-        } */
-
         let text = res.getResourceName(resourceName, false, 2, SharkGame.getElementColor("tooltipbox", "background-color"));
         if (producertext !== "") {
             text += "<br><span class='littleTooltipText'>PRODUCED BY</span>" + producertext;
@@ -662,8 +658,13 @@ SharkGame.Resources = {
             textToColor = textToColor.bold();
         }
         let extraStyle = "";
-        if (SharkGame.Settings.current.colorCosts) {
-            extraStyle = " style='color:" + SharkGame.ResourceMap.get(resourceName).color + "'";
+        if (SharkGame.Settings.current.colorCosts !== "none") {
+            extraStyle =
+                " style='color:" +
+                (SharkGame.Settings.current.colorCosts === "color"
+                    ? SharkGame.ResourceMap.get(resourceName).color
+                    : SharkGame.getBrightColor(SharkGame.ResourceMap.get(resourceName).color)) +
+                "'";
         }
         return "<span class='click-passthrough'" + extraStyle + ">" + textToColor + "</span>";
     },
@@ -686,8 +687,8 @@ SharkGame.Resources = {
             name = name.bold();
         }
 
-        if (SharkGame.Settings.current.colorCosts) {
-            let color = resource.color;
+        if (SharkGame.Settings.current.colorCosts !== "none") {
+            let color = SharkGame.Settings.current.colorCosts === "color" ? resource.color : SharkGame.getBrightColor(resource.color);
             if (darken) {
                 color = SharkGame.colorLum(resource.color, -0.5);
             } else if (background) {
