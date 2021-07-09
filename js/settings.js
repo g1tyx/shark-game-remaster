@@ -90,7 +90,7 @@ SharkGame.Settings = {
     },
 
     sidebarWidth: {
-        defaultSetting: "25%",
+        defaultSetting: "30%",
         name: "Sidebar Width",
         desc: "How much screen space the sidebar should take.",
         category: "LAYOUT",
