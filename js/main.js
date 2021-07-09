@@ -1349,6 +1349,7 @@ SharkGame.Changelog = {
         "Moved UI elements around to make the game not freak out on smaller screens.",
         "Moved buy amount buttons closer to the places you'll need them, they're not in the tab list anymore!",
         "Added 'bright' text color mode, screws up some colors but makes colored text easier to read.",
+        "Added auto color-visibility adjuster. Tries to change the color of text if it would be hard to read on a certain background.",
     ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
         "Fixed bug where haven had no essence. Oops.",
