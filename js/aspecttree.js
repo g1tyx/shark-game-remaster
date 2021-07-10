@@ -85,6 +85,76 @@ SharkGame.AspectTree = {
         this.cameraOffset = { posX: 0, posY: 0 };
     },
 
+    drawTree(disableCanvas = true) {
+        if (disableCanvas) {
+            return tree.drawTable();
+        } else {
+            return tree.drawCanvas();
+        }
+    },
+    drawTable(table = document.createElement("table")) {
+        table.innerHTML = "";
+        table.id = "aspectTable";
+
+        const headerRow = document.createElement("tr");
+        headerRow.innerHTML = "<th>Name</th><th>Description</th><th>Level</th><th>Essence Cost</th>";
+
+        table.appendChild(headerRow);
+
+        function clickCallback(event) {
+            const aspectId = event.currentTarget.getAttribute("data-aspectId");
+            const aspect = SharkGame.Aspects[aspectId];
+            // console.debug(aspect);
+
+            if (_.every(aspect.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level > 0)) {
+                aspect.clicked(event);
+            }
+
+            requestAnimationFrame(() => {
+                tree.drawTable(table);
+            });
+        }
+
+        $.each(SharkGame.Aspects, (aspectId, aspectData) => {
+            const aspectTableRowCurrent = document.createElement("tr");
+
+            //aspectTableRowCurrent.classList.add("aspect-table-row");
+            //aspectTableRowCurrent.id = "aspect-table-row-" + aspectId;
+
+            const aspectNameTableData = document.createElement("td");
+            aspectNameTableData.innerText = aspectData.name;
+            aspectNameTableData.classList.add("aspectTableName");
+            aspectNameTableData.setAttribute("rowspan", "2");
+
+            if (aspectData.level > 0) {
+                aspectTableRowCurrent.innerHTML = `<td>CURRENT: ${aspectData.getEffect(aspectData.level)}</td><td>${
+                    aspectData.level
+                }</td><td rowspan="2">${aspectData.level < aspectData.max ? aspectData.getCost(aspectData.level) : "n/A"}</td>`;
+            } else {
+                aspectTableRowCurrent.innerHTML = `<td>CURRENT: Not bought, no effect.</td><td>${
+                    aspectData.level
+                }</td><td rowspan="2">${aspectData.getCost(aspectData.level)}</td>`;
+            }
+            aspectTableRowCurrent.prepend(aspectNameTableData);
+
+            const aspectTableRowNext = document.createElement("tr");
+            if (aspectData.level < aspectData.max) {
+                aspectTableRowNext.innerHTML = `<td>NEXT: ${aspectData.getEffect(aspectData.level + 1)}</td><td>${aspectData.level + 1}</td>`;
+            } else {
+                aspectTableRowNext.innerHTML = `<td>NEXT: Already at maximum level</td><td>n/A</td>`;
+            }
+
+            $([aspectTableRowNext, aspectTableRowCurrent])
+                .attr("data-aspectId", aspectId)
+                .on("click", clickCallback)
+                .attr("aria-role", "button")
+                .attr("disabled", _.every(aspectData.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level > 0).toString());
+
+            table.appendChild(aspectTableRowCurrent);
+            table.appendChild(aspectTableRowNext);
+        });
+        return table;
+    },
     drawCanvas() {
         const canvas = document.createElement("canvas");
         canvas.id = "treeCanvas";
