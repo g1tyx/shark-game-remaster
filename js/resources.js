@@ -488,6 +488,11 @@ SharkGame.Resources = {
         let resourceTable = $("#resourceTable");
 
         const statusDiv = $("#status");
+        if (SharkGame.Settings.current.conciseTable) {
+            resourceTable.addClass("littleGeneralText");
+        } else {
+            resourceTable.removeClass("littleGeneralText");
+        }
         // if resource table does not exist, create
         if (resourceTable.length <= 0) {
             statusDiv.prepend("<h3>Stuff</h3>");

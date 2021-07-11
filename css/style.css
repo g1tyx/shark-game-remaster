@@ -907,6 +907,9 @@ button.disabled div {
 .pointy {
   cursor: pointer;
 }
+.littleGeneralText {
+  font-size: 10pt;
+}
 .smallDesc {
   font-size: 80%;
   color: var(--color-lighter);

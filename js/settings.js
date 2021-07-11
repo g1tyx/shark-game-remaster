@@ -67,6 +67,17 @@ SharkGame.Settings = {
         },
     },
 
+    smallTable: {
+        defaultSetting: false,
+        name: "Smaller Table",
+        desc: "Whether to make the stuff table smaller.",
+        category: "LAYOUT",
+        options: [true, false],
+        onChange() {
+            res.rebuildTable = true;
+        },
+    },
+
     buttonDisplayType: {
         defaultSetting: "pile",
         name: "Home Sea Button Display",
