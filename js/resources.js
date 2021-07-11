@@ -488,7 +488,7 @@ SharkGame.Resources = {
         let resourceTable = $("#resourceTable");
 
         const statusDiv = $("#status");
-        if (SharkGame.Settings.current.conciseTable) {
+        if (SharkGame.Settings.current.smallTable) {
             resourceTable.addClass("littleGeneralText");
         } else {
             resourceTable.removeClass("littleGeneralText");
@@ -538,7 +538,8 @@ SharkGame.Resources = {
             SharkGame.ResourceMap.forEach((_resource, resourceId) => {
                 if (
                     (res.getTotalResource(resourceId) > 0 || SharkGame.PlayerResources.get(resourceId).discovered) &&
-                    world.doesResourceExist(resourceId)
+                    world.doesResourceExist(resourceId) &&
+                    res.isCategoryVisible(SharkGame.ResourceCategories[res.getCategoryOfResource(resourceId)])
                 ) {
                     const row = res.constructResourceTableRow(resourceId);
                     resourceTable.append(row);
