@@ -150,6 +150,14 @@ SharkGame.Settings = {
         options: [true, false],
     },
 
+    tooltipQuantityReminders: {
+        defaultSetting: true,
+        name: "Tooltip Amount Reminder",
+        desc: "Should tooltips tell you much you own of stuff?",
+        category: "APPEARANCE",
+        options: [true, false],
+    },
+
     enableThemes: {
         defaultSetting: true,
         name: "Enable Planet-dependent Styles",
