@@ -441,8 +441,8 @@ pre {
   color: #ace3d1;
   text-shadow: 0 0 0.8em #60c9a7;
 }
-#log ul {
-  overflow-y: scroll;
+#log #messageList {
+  overflow-y: hidden;
   max-height: 400pt;
 }
 #resource-numen {
