@@ -1010,8 +1010,8 @@ SharkGame.ResourceTable = {
     },
 
     world: {
-        name: "world",
-        singleName: "world",
+        name: "the world",
+        singleName: "the world",
         desc: "how are you seeing this",
         color: "#FFFFFF",
         value: 123456789,
