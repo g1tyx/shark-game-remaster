@@ -8,6 +8,6 @@ Cirrial originally developed this game for Seamergency 2014, but continued to de
 
 While the game is in a more-than-playable state, it remains unfinished. This mod, dubbed New Frontiers, intends to finish what Cirrial started, and then move on to reimagine the game and its world.
 
-This repository holds the first step of development, which is to retool and polish the original game, improve its UI, and complete basic redevelopment of its internals. The next version is in the process of reimagining each of the worlds as unique places with individually significant and different gameplay elements.
+This repository holds the second step of development, which is to reimagine each of the worlds as unique places with individually significant and different gameplay elements, along with UI improvements and overhauls to major game mechanics.
 
 Contributions welcome.
