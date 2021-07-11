@@ -281,7 +281,7 @@ SharkGame.Upgrades = {
             name: "Iterative Design",
             desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
-            effectDesc: "All shark machines run twice as fast. Again!",
+            effectDesc: "All shark machines run twice as fast. Again! Scientists are 4 times faster as well.",
             cost: {
                 science: 15000,
                 sharkonium: 17500,
@@ -321,7 +321,7 @@ SharkGame.Upgrades = {
             name: "Agriculture",
             desc: "The hunter-gatherer lifestyle will only work so well for us. Maybe we should gather these animals in one place and let them grow.",
             researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
-            effectDesc: "Various roles are twice as effective thanks to farming regions for coral and sponge.",
+            effectDesc: "Advances in agriculture will fuel future endeavors. Who knows what we'll do next!",
             cost: {
                 science: 500,
                 sand: 1000,
@@ -348,7 +348,8 @@ SharkGame.Upgrades = {
             name: "Biology",
             desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
             researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
-            effectDesc: "Sharks are twice as effective. Did you know shark eggs don't actually form just because a shark wills them to exist?",
+            effectDesc:
+                "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
                 science: 400,
             },
@@ -366,7 +367,7 @@ SharkGame.Upgrades = {
             desc: "Determine what is with these weird faceless creatures we keep finding.",
             researchedMessage: "Results inconclusive! Further research required. It could be such a benefit for science!",
             effectDesc:
-                "Kelp produces sea apples twice as fast. Also, sea apple isn't a fruit. We can also dissect sea apples and jellyfish for science.",
+                "Kelp produces sea apples twice as fast. We can dissect sea apples and jellyfish for science. Also, sea apple isn't a fruit. Gross.",
             cost: {
                 science: 600,
             },
@@ -387,7 +388,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
             effectDesc:
-                "Rays and laser rays are twice as effective. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+                "Rays and laser rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
                 science: 700,
                 sand: 600,
@@ -409,7 +410,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
             effectDesc:
-                "Crabs and planter crabs are four and two times as effective, respectively. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
+                "Crabs and planter crabs are four and two times as effective, respectively, and crab brood are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
                 science: 500,
                 kelp: 100,
@@ -673,7 +674,7 @@ SharkGame.Upgrades = {
             name: "Octopus Methodology",
             desc: "The octopuses claim they know ways to improve their routines and machines.",
             researchedMessage: "We have no idea what thought processes guide these cephalopod allies of ours, but they know how to get results.",
-            effectDesc: "Octopuses can specialise in different tasks, and octopuses work more efficiently.",
+            effectDesc: "Octopuses can specialise in investigation, and octopuses work twice as efficiently.",
             cost: {
                 science: 888,
                 clam: 888,
@@ -694,7 +695,7 @@ SharkGame.Upgrades = {
             desc: "The octopuses wish to further enhance their productivity for collective gain.",
             researchedMessage:
                 "The instructions constructed and disseminated by the octopuses are complex and only understood to other octopuses. Head hurts. Something about the number eight.",
-            effectDesc: "Octopuses, their specialists, and their machines are twice as effective. Find unity in efficiency.",
+            effectDesc: "Octopuses, investigators, and their machines are twice as effective. Find unity in efficiency.",
             cost: {
                 science: 8888,
                 clam: 88888,
@@ -733,7 +734,7 @@ SharkGame.Upgrades = {
         exploration: {
             desc: "Venture into open waters to see what can be found!",
             researchedMessage: "Fish, sand, and crystals can be found! Even further out, though, there's something else.",
-            effectDesc: "Sharks, rays, crabs, and crab collectors are more effective...and something was spotted in the distance.",
+            effectDesc: "Crabs are 4 times more effective, and collectors are twice as effective...and something was spotted in the distance.",
             cost: {
                 science: 25000,
                 fish: 30000,
@@ -789,8 +790,7 @@ SharkGame.Upgrades = {
             name: "Reverse Engineering",
             desc: "What is up with these parts? Why are they shaped like that?!",
             researchedMessage: "Results inconclusive. Further analysis pending.",
-            effectDesc:
-                "Ancient parts can be sacrificed for science. Scientists and scavengers are twice as effective, and investigators are 4 times as effective.",
+            effectDesc: "Ancient parts can be sacrificed for science. Scientists are twice as effective, and investigators are 4 times as effective.",
             cost: {
                 science: 125000,
                 ancientPart: 250,
@@ -811,7 +811,7 @@ SharkGame.Upgrades = {
             desc: "These old parts must have some kind of use! Question is, can we figure it out???",
             researchedMessage: "The secret of high-energy fusion has been unlocked. Scavenge no more. We will do it ourselves.",
             effectDesc:
-                "Laser rays can fuse sand to crystal at an absurd rate. We have figured out how to create more ancient parts by fusing clams and crystals.",
+                "Laser rays can fuse sand to crystal at an absurd rate: 128 times faster! We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
                 science: 2500000,
                 ancientPart: 1750,
@@ -866,7 +866,8 @@ SharkGame.Upgrades = {
             name: "Mechanised Alchemy",
             desc: "Better engineering and transmutation processes lead to a refinement of our machines.",
             researchedMessage: "We are blurring the line between science and magic more than ever before!",
-            effectDesc: "Shark machines are all four times as effective, as are filters. We work better with the machines, not against them.",
+            effectDesc:
+                "Shark machines are all four times as effective, filters are 4 times as effective. We work better with the machines, not against them.",
             cost: {
                 science: 4e7,
             },
@@ -991,7 +992,7 @@ SharkGame.Upgrades = {
             },
         },
         agriculture: {
-            effectDesc: "Discovered agricultural methods. We'll see if this bears fruit.",
+            effectDesc: "Dolphin effectiveness times 2. Discovered agricultural methods. We'll see if this bears fruit.",
             cost: {
                 science: 300,
                 sand: 1000,
@@ -1075,7 +1076,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "We managed to offend the dolphins with our questions so much they decided to form their own biological research team.",
             effectDesc:
-                "All dolphins are four times as effective but four times a small number is still small. Also now they can make more dolphins. <em>Hooray.</em>",
+                "Dolphins are four times as effective but four times a small number is still small. Treasurers a twice as effective. Also now they can make more dolphins. <em>Hooray.</em>",
             cost: {
                 science: 1500,
                 coral: 1000,
@@ -1095,7 +1096,8 @@ SharkGame.Upgrades = {
             name: "Delphine History",
             desc: "We keep finding all these flat pieces of kelp washing up in the current. What is with them? Why are they crunchy?!",
             researchedMessage: "A dolphin overheard us talking about it, and they came over and 'read' something from it. What?!",
-            effectDesc: "Discovered the remnants of dolphin civilization in the form of kelp...papyrus. Okay then??",
+            effectDesc:
+                "All dolphin roles are twice as effective. Discovered the remnants of dolphin civilization in the form of kelp...papyrus. Okay then??",
             cost: {
                 science: 25000,
             },
@@ -1118,7 +1120,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "We found the originals, but they suck! These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
             effectDesc:
-                "Kelp cultivators and crimson combines are 8 times faster, and tireless crafters are twice as efficient. We begrudingly admit their quality is not entirely terrible.",
+                "Kelp cultivators and crimson combines are 8 times faster, and tireless crafters are four times as efficient. We begrudingly admit their quality is not entirely terrible.",
             cost: {
                 science: 25000000,
                 delphinium: 250000,
@@ -1141,7 +1143,8 @@ SharkGame.Upgrades = {
             name: "Retroactive Recordkeeping",
             desc: "We've been sitting on a massive stockpile of these kelp papyrus...things. Maybe we should actually try organizing them.",
             researchedMessage: "The dolphins were the first to volunteer with helping to organize this stuff. I GUESS we could give them a chance.",
-            effectDesc: "Can now assign dolphins as historians who will help catalogue all of the information we have on these kelp things.",
+            effectDesc:
+                "Scientists are 4 times as effective. Can now assign dolphins as historians who will help catalogue all of the information we have on these kelp things.",
             cost: {
                 science: 2000000,
             },
@@ -1234,7 +1237,8 @@ SharkGame.Upgrades = {
             desc: "The song of the whales is mentioned in dolphin texts dating back as far as we can find. I think we're onto something.",
             researchedMessage:
                 "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
-            effectDesc: "A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
+            effectDesc:
+                "Whales and dolphins and treasurers times 16, biologists times 4. A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
             cost: {
                 science: 250000000,
             },
@@ -1256,7 +1260,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "By integrating the genius of shark design with only the good parts of dolphin design, we've managed to create a superior set of machines. Maybe we work better together than we do apart.",
             effectDesc:
-                "All shark machines run eight times as fast. Holy moley! Also, shark science is way more informative now that we have more perspective.",
+                "All shark machines run eight times as fast. Holy moley! Also, shark science is way more informative now that we have more perspective, so scientists are 16 times faster.",
             cost: {
                 science: 100000000,
                 sharkonium: 250000,
@@ -1350,7 +1354,7 @@ SharkGame.Upgrades = {
             desc: "The squid seem adamant on showing us the way of teamwork, or something.",
             researchedMessage:
                 "The squid said something about being efficient and cooperative and blah blah blah. It's a little pretentious, but I GUESS they have a point.",
-            effectDesc: "Sharks, crabs, urchins, extraction teams, scientists, and squid production times 2.",
+            effectDesc: "Sharks, crabs, urchins, extraction teams, scientists, and squid production times 2. Go team?",
             cost: {
                 science: 2500,
             },
@@ -1374,7 +1378,7 @@ SharkGame.Upgrades = {
             desc: "The hunter-gatherer lifestyle seems like the only option, but maybe we could learn something more sustainable?",
             researchedMessage:
                 "It sorta worked. We've had to plant kelp all over the place, since the urchins just tear through it if it's all together.",
-            effectDesc: "Urchins gather kelp twice as fast. Just kelp.",
+            effectDesc: "Urchins gather kelp twice as fast. Just kelp. Only the kelp.",
             cost: {
                 science: 350,
                 sand: 400,
@@ -1419,7 +1423,7 @@ SharkGame.Upgrades = {
             name: "Squid Biology",
             desc: "Discover the secrets of squid reproduction.",
             researchedMessage: "",
-            effectDesc: "Squid can now be assigned to breed in a collective.",
+            effectDesc: "Squid are twice as effective. Squid can now be assigned to breed in a collective.",
             cost: {
                 science: 1250,
             },
@@ -1450,7 +1454,7 @@ SharkGame.Upgrades = {
             name: "Urchin Biology",
             desc: "Discover how these little things get so numerous.",
             researchedMessage: "Indirectly, as it turns out. Ew.",
-            effectDesc: "Urchins can now be assigned to go make more urchins.",
+            effectDesc: "Urchins are twice as effective. Urchins can now be assigned to go make more urchins.",
             cost: {
                 science: 1250,
                 kelp: 750,
@@ -1468,7 +1472,8 @@ SharkGame.Upgrades = {
             name: "Sun Observation",
             desc: "We must determine what is with the weird glare on the surface of the water.",
             researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
-            effectDesc: "Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
+            effectDesc:
+                "Urchins collect kelp twice as fast. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
                 science: 1250,
             },
@@ -1485,7 +1490,7 @@ SharkGame.Upgrades = {
             name: "Exploration",
             desc: "Swim beyond the home seas to see what can be found!",
             researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
-            effectDesc: "Sharks are twice as effective, squids are 4 times as effective. Did you know oceans are big? Fascinating!",
+            effectDesc: "Sharks are twice as effective, squids are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
                 science: 4500,
                 fish: 25000,
@@ -1505,7 +1510,7 @@ SharkGame.Upgrades = {
             desc: "Explore the icebergs that lie beyond the warmth. Maybe we can learn something useful?",
             researchedMessage:
                 "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves at the border.",
-            effectDesc: "Extraction teams are twice as effective thanks to newly-discovered crystal deposits.",
+            effectDesc: "Extraction teams are four times as effective thanks to newly-discovered crystal deposits.",
             cost: {
                 science: 6000,
                 fish: 80000,
@@ -1615,7 +1620,7 @@ SharkGame.Upgrades = {
             name: "Iterative Design",
             desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
-            effectDesc: "All shark machines run twice as fast. Again!",
+            effectDesc: "Scientists are 4 times as effective, and all shark machines run twice as fast. Again!",
             cost: {
                 science: 250000,
                 sharkonium: 75000,
@@ -1655,8 +1660,9 @@ SharkGame.Upgrades = {
         creatureCoalition: {
             name: "Creature Coalition",
             desc: "Everyone feels it; the cold eats at us all. The squid are right, we have to cooperate to make progress.",
-            researchedMessage: "",
-            effectDesc: "",
+            researchedMessage:
+                "Had a sort of group huddle to decide our plan. The squid had some sort of motivational speech prepared or something, and it seems to have lifted the frenzy's spirits.",
+            effectDesc: "Sharks and crabs x8. Urchins, squids, extraction teams and scientists x4. Go team!",
             cost: {
                 science: 1000000,
             },
@@ -1678,7 +1684,8 @@ SharkGame.Upgrades = {
             name: "Internal Expedition",
             desc: "We have the resources to launch a secret expedition into the machine. Its secrets must be known.",
             researchedMessage: "The expedition went well, but on the way out, a squid noticed us leaving the machine. I guess the jig is up.",
-            effectDesc: "Discovered little more than endless hallways of unrecognizable text and rooms filled with incomprehensible control schemes.",
+            effectDesc:
+                "Scientists are twice as effective. Discovered little more than endless hallways of unrecognizable text and rooms filled with incomprehensible control schemes.",
             cost: {
                 science: 75000,
             },
@@ -1696,7 +1703,8 @@ SharkGame.Upgrades = {
             desc: "We haven't spoken to the squid about what happened. Maybe we should say something.",
             researchedMessage:
                 "They're not mad, just disappointed. They had hoped we would work together with them - they don't understand the controls either, as it turns out.",
-            effectDesc: "Reconciled with the squids. They told us what they know about the machine's inner workings.",
+            effectDesc:
+                "Squid and collectives x2, extraction teams x4. Reconciled with the squids. They told us what they know about the machine's inner workings.",
             cost: {
                 science: 200000,
             },
