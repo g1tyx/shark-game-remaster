@@ -1026,7 +1026,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         let row = $("<tr>");
         row.append(
             $("<td>").html(
-                "Import/Export Save:<br/><span class='smallDesc'>(You should probably save first!) Import or export save as text. Keep it safe!</span>"
+                "Import/Export Save:<br/><span class='smallDesc'>(Turn your save into text for other people to load, or as a backup.)</span>"
             )
         );
         row.append(
@@ -1065,7 +1065,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // add save wipe
         row = $("<tr>");
         row.append(
-            $("<td>").html("Wipe Save<br/><span class='smallDesc'>(Completely wipe your save and reset the game. COMPLETELY. FOREVER.)</span>")
+            $("<td>").html("Wipe Save:<br/><span class='smallDesc'>(Completely wipe your save and reset the game. COMPLETELY. FOREVER.)</span>")
         );
         row.append(
             $("<td>").append(
