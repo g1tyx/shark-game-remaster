@@ -441,6 +441,10 @@ pre {
   color: #ace3d1;
   text-shadow: 0 0 0.8em #60c9a7;
 }
+#log ul {
+  overflow-y: scroll;
+  max-height: 400pt;
+}
 #resource-numen {
   text-shadow: 0 0 0.3em #ffffff, 0 0 0.6em #ffffff, 0 0 0.8em #ffffff;
 }
@@ -691,6 +695,8 @@ button.newlyDiscovered.disabled div {
   list-style-type: square;
   padding: 0;
   margin: 0;
+  max-height: 600pt;
+  overflow-y: scroll;
 }
 #upgradeList li {
   padding: 0.5em 0.5em 0.5em 0.2em;
