@@ -977,6 +977,7 @@ SharkGame.Home = {
         if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
             document.getElementById("tooltipbox").innerHTML = text;
         }
+        $(".tooltip").removeClass("forIncomeTable").attr("current", "");
         $("#tooltipbox").addClass("forHomeButton").attr("current", actionName);
     },
 
