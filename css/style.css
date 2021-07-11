@@ -904,6 +904,9 @@ button.disabled div {
   height: 100%;
   z-index: 10;
 }
+.pointy {
+  cursor: pointer;
+}
 .smallDesc {
   font-size: 80%;
   color: var(--color-lighter);

@@ -1208,7 +1208,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         return pane;
     },
 
-    showPane(title, contents, hideCloseButton, fadeInTime, customOpacity) {
+    showPane(title, contents, notCloseable, fadeInTime, customOpacity) {
         let pane;
 
         // GENERATE PANE IF THIS IS THE FIRST TIME
@@ -1240,7 +1240,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             titleDiv.hide();
         } else {
             titleDiv.show();
-            if (!hideCloseButton) {
+            if (!notCloseable) {
                 // put back to left
                 titleDiv.css({ float: "left", "text-align": "left", clear: "none" });
                 titleDiv.html("<h3>" + title + "</h3>");
@@ -1250,7 +1250,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 titleDiv.html("<h2>" + title + "</h2>");
             }
         }
-        if (hideCloseButton) {
+        if (notCloseable) {
             closeButtonDiv.hide();
         } else {
             closeButtonDiv.show();
@@ -1266,9 +1266,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         } else {
             pane.show();
         }
+
+        if (!notCloseable) {
+            document.getElementById("overlay").addEventListener("click", main.hidePane);
+            overlay.addClass("pointy");
+        }
     },
 
     hidePane() {
+        document.getElementById("overlay").removeEventListener("click", main.hidePane);
+        $("#overlay").removeClass("pointy");
         $("#overlay").hide();
         $("#pane").hide();
     },
