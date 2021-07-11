@@ -858,9 +858,8 @@ SharkGame.Resources = {
         return product;
     },
 
-    getPurchaseAmount(resource) {
+    getPurchaseAmount(resource, owned = res.getResource(resource)) {
         const buy = main.getBuyAmount();
-        const owned = res.getResource(resource);
 
         if (buy > 0) {
             return buy;

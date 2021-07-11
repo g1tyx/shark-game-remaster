@@ -853,6 +853,14 @@ SharkGame.Home = {
             });
         }
 
+        let buyingHowMuch = 1;
+        if (!SharkGame.Settings.current.alwaysSingularTooltip) {
+            buyingHowMuch = res.getPurchaseAmount("doesntmatter", home.getMax(SharkGame.HomeActions.getActionTable()[actionName]));
+            if (buyingHowMuch < 1) {
+                buyingHowMuch = 1;
+            }
+        }
+
         let appendedProduce = false;
         let appendedConsume = false;
         let appendedMultiply = false;
@@ -863,12 +871,12 @@ SharkGame.Home = {
             if (amount > 0) {
                 if (!appendedProduce) {
                     appendedProduce = true;
-                    text += "<span class='littleTooltipText'>PRODUCES</span><br/>";
+                    text += "<span class='littleTooltipText'>PRODUCE" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                 }
                 text +=
                     main
                         .beautifyIncome(
-                            amount,
+                            buyingHowMuch * amount,
                             " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
@@ -879,12 +887,12 @@ SharkGame.Home = {
             if (amount < 0) {
                 if (!appendedConsume) {
                     appendedConsume = true;
-                    text += "<span class='littleTooltipText'>CONSUMES</span><br/>";
+                    text += "<span class='littleTooltipText'>CONSUME" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                 }
                 text +=
                     main
                         .beautifyIncome(
-                            -amount,
+                            -buyingHowMuch * amount,
                             " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
@@ -899,9 +907,9 @@ SharkGame.Home = {
                         if (!appendedMultiply) {
                             appendedMultiply = true;
                             if (degree > 0) {
-                                text += "<span class='littleTooltipText'>INCREASES</span><br/>";
+                                text += "<span class='littleTooltipText'>INCREASE" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                             } else {
-                                text += "<span class='littleTooltipText'>DECREASES</span><br/>";
+                                text += "<span class='littleTooltipText'>DECREASE" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                             }
                         }
                         text +=
@@ -909,28 +917,30 @@ SharkGame.Home = {
                             res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                             " gains ".bold() +
                             " by " +
-                            (Math.round(degree * 100) + "%").bold() +
-                            " each<br>";
+                            (Math.round(buyingHowMuch * degree * 100) + "%").bold() +
+                            "<br>";
                     }
                     if (type === "exponentiate") {
                         if (!appendedExponentiate) {
                             appendedExponentiate = true;
                             if (degree > 1) {
-                                text += "<span class='littleTooltipText'>MULTIPLICATIVELY INCREASES</span><br/>";
+                                text +=
+                                    "<span class='littleTooltipText'>MULTIPLICATIVELY INCREASE" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                             } else if (degree < 1) {
-                                text += "<span class='littleTooltipText'>MULTIPLICATIVELY DECREASES</span><br/>";
+                                text +=
+                                    "<span class='littleTooltipText'>MULTIPLICATIVELY DECREASE" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                             } else {
                                 return true;
                             }
                         }
-                        degree = degree < 1 ? 1 - degree : degree - 1;
+                        degree = degree < 1 ? 1 - degree ** buyingHowMuch : degree ** buyingHowMuch - 1;
                         text +=
                             "all ".bold() +
                             res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
                             " gains ".bold() +
                             " by " +
                             (Math.round(degree * 100) + "%").bold() +
-                            " each<br>";
+                            "<br>";
                     }
                 });
             });
@@ -941,11 +951,11 @@ SharkGame.Home = {
         }
 
         $.each(effects.resource, (resource, amount) => {
-            if (amount !== 1) {
+            if (buyingHowMuch * amount >= 2) {
                 text =
-                    main.beautify(amount).bold() +
+                    main.beautify(buyingHowMuch * amount).bold() +
                     " " +
-                    res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    res.getResourceName(resource, false, buyingHowMuch * amount, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
                     "<span class='medDesc'>you have " +
                     main.beautify(res.getResource(resource)) +

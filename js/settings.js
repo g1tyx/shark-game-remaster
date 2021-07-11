@@ -131,6 +131,14 @@ SharkGame.Settings = {
         },
     },
 
+    alwaysSingularTooltip: {
+        defaultSetting: false,
+        name: "Tooltip Always Singular",
+        desc: "Whether to make the tooltip always show what one of each thing produces.",
+        category: "APPEARANCE",
+        options: [true, false],
+    },
+
     enableThemes: {
         defaultSetting: true,
         name: "Enable Planet-dependent Styles",
