@@ -947,6 +947,9 @@ SharkGame.Home = {
                     " " +
                     res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
+                    "<span class='medDesc'>you have " +
+                    main.beautify(res.getResource(resource)) +
+                    "</span><br>" +
                     text;
             } else {
                 const determiner = main.getDeterminer(resource);
@@ -954,6 +957,9 @@ SharkGame.Home = {
                     (determiner ? determiner + " " : "") +
                     res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
+                    "<span class='medDesc'>you have " +
+                    main.beautify(res.getResource(resource)) +
+                    "</span><br>" +
                     text;
             }
         });
