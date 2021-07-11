@@ -349,7 +349,7 @@ SharkGame.Resources = {
             resourceTable.totalAmount += amount;
         }
 
-        if (prevTotalAmount < SharkGame.EPSILON) {
+        if (prevTotalAmount < SharkGame.EPSILON && amount > 0) {
             // we got a new resource
             res.rebuildTable = true;
         }
