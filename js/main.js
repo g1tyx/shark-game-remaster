@@ -1347,6 +1347,16 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210711a": [
+        "Tooltips show you how much you already own of what you're buying. Can be turned off in options.",
+        "Tooltips have their numbers scale based on how much of something you're buying. Can be turned off in options.",
+        "Gave scroll bars to some stuff.",
+        "Changed the order of categories in the resource table to make more sense.",
+        "You can close windows by clicking outside of them.",
+        "Options menu is less wordy.",
+        "Corrected a bunch of upgrade effect descriptions.",
+        "Minor bugfixes.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210709a": [
         "Added the Frigid worldtype.",
         "Replaced the Artifacts system with the Aspects system.",
