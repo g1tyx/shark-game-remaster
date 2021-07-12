@@ -1371,9 +1371,11 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210711a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210713a": [
         "Tooltips show you how much you already own of what you're buying. Can be turned off in options.",
         "Tooltips have their numbers scale based on how much of something you're buying. Can be turned off in options.",
+        "The key for advanced mode grotto has been enhanced.",
+        "Tabs you haven't visited yet will glow. This is on a per-world basis.",
         "Gave scroll bars to some stuff.",
         "Changed the order of categories in the resource table to make more sense.",
         "You can close windows by clicking outside of them.",
