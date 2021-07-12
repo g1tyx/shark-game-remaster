@@ -826,6 +826,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         main.createTabNavigation();
     },
 
+    registerTab(tab) {
+        SharkGame.Tabs[tab.tabId] = {
+            id: tab.tabId,
+            name: tab.tabName,
+            discovered: tab.tabDiscovered,
+            code: tab,
+            discoverReq: tab.discoverReq,
+        };
+    },
+
     createTabNavigation() {
         const tabs = SharkGame.Tabs;
         const tabList = $("#tabList");

@@ -20,14 +20,7 @@ SharkGame.Stats = {
         "</br>Disposing specialists returns them to their normal, previous lives.",
 
     init() {
-        // register tab
-        SharkGame.Tabs[stats.tabId] = {
-            id: stats.tabId,
-            name: stats.tabName,
-            discovered: stats.tabDiscovered,
-            discoverReq: stats.discoverReq,
-            code: stats,
-        };
+        main.registerTab(this);
         stats.recreateIncomeTable = true;
     },
 

@@ -48,14 +48,7 @@ SharkGame.Recycler = {
     expectedJunkSpent: "NA",
 
     init() {
-        // register tab
-        SharkGame.Tabs[rec.tabId] = {
-            id: rec.tabId,
-            name: rec.tabName,
-            discovered: rec.tabDiscovered,
-            discoverReq: rec.discoverReq,
-            code: rec,
-        };
+        main.registerTab(this);
     },
 
     switchTo() {

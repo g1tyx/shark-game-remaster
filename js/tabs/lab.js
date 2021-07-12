@@ -24,14 +24,7 @@ SharkGame.Lab = {
 
     init() {
         const lab = SharkGame.Lab;
-        // register tab
-        SharkGame.Tabs[lab.tabId] = {
-            id: lab.tabId,
-            name: lab.tabName,
-            discovered: lab.tabDiscovered,
-            discoverReq: lab.discoverReq,
-            code: lab,
-        };
+        main.registerTab(this);
         // add default purchased state to each upgrade
         lab.resetUpgrades();
     },

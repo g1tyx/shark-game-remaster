@@ -2,6 +2,7 @@
 SharkGame.Home = {
     tabId: "home",
     tabDiscovered: true,
+    tabSeen: true,
     tabName: "Home Sea",
     tabBg: "img/bg/bg-homesea.png",
 
@@ -347,14 +348,8 @@ SharkGame.Home = {
         const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
         home.tabName = tabName;
 
-        // register tab
-        SharkGame.Tabs[home.tabId] = {
-            id: home.tabId,
-            name: home.tabName,
-            discovered: home.tabDiscovered,
-            code: home,
-            discoverReq: [],
-        };
+        main.registerTab(this);
+
         // populate action discoveries (and reset removals)
         _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
             actionData.discovered = false;

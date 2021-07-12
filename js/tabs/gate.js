@@ -29,13 +29,7 @@ SharkGame.Gate = {
     init() {
         const gate = SharkGame.Gate;
         // register tab
-        SharkGame.Tabs[gate.tabId] = {
-            id: gate.tabId,
-            name: gate.tabName,
-            discovered: gate.tabDiscovered,
-            discoverReq: gate.discoverReq,
-            code: gate,
-        };
+        main.registerTab(this);
         gate.opened = false;
     },
 
