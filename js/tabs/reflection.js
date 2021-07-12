@@ -2,6 +2,7 @@
 SharkGame.Reflection = {
     tabId: "reflection",
     tabDiscovered: false,
+    tabSeen: false,
     tabName: "Reflection",
     tabBg: "img/bg/bg-gate.png",
 

@@ -832,7 +832,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             name: tab.tabName,
             discovered: tab.tabDiscovered,
             code: tab,
-            discoverReq: tab.discoverReq,
+            discoverReq: tab.discoverReq || {},
         };
     },
 
@@ -868,6 +868,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                                     main.changeTab(tab);
                                 })
                         );
+                        if (!tabData.seen) {
+                            tabListItem.addClass("newTab");
+                        }
                     }
                     tabList.append(tabListItem);
                 }
@@ -963,6 +966,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     changeTab(tab) {
         SharkGame.Tabs.current = tab;
+        SharkGame.Tabs[tab].seen = true;
         main.setUpTab();
     },
 

@@ -2,6 +2,7 @@
 SharkGame.Gate = {
     tabId: "gate",
     tabDiscovered: false,
+    tabSeen: false,
     tabName: "Strange Gate",
     tabBg: "img/bg/bg-gate.png",
 

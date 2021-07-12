@@ -344,6 +344,22 @@ pre {
 #contentMenu #tabList li:first-child:before {
   content: none;
 }
+#contentMenu #tabList .newTab a:link {
+  color: #ace3d1;
+  text-shadow: 0 0 0.8em #60c9a7;
+}
+#contentMenu #tabList .newTab a:visited {
+  color: #ace3d1;
+  text-shadow: 0 0 0.8em #60c9a7;
+}
+#contentMenu #tabList .newTab a:hover {
+  color: #d2f0e6;
+  text-shadow: 0 0 0.8em #86d6bc;
+}
+#contentMenu #tabList .newTab a:active {
+  color: #d2f0e6;
+  text-shadow: 0 0 0.8em #86d6bc;
+}
 #buyButtons {
   padding-left: 0px;
 }

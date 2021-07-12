@@ -2,6 +2,7 @@
 SharkGame.Stats = {
     tabId: "stats",
     tabDiscovered: false,
+    tabSeen: false,
     tabName: "Grotto",
     tabBg: "img/bg/bg-grotto.png",
 

@@ -515,6 +515,27 @@ pre {
             font-weight: bold;
             .pipe-separators;
         }
+
+        .newTab {
+            a {
+                &:link {
+                    color: @color-discovery;
+                    text-shadow: 0 0 0.8em @color-discovery-dark;
+                }
+                &:visited {
+                    color: @color-discovery;
+                    text-shadow: 0 0 0.8em @color-discovery-dark;
+                }
+                &:hover {
+                    color: lighten(@color-discovery, 10%);
+                    text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
+                }
+                &:active {
+                    color: lighten(@color-discovery, 10%);
+                    text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
+                }
+            }
+        }
     }
 }
 

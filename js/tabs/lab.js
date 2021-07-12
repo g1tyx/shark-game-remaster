@@ -2,6 +2,7 @@
 SharkGame.Lab = {
     tabId: "lab",
     tabDiscovered: false,
+    tabSeen: false,
     tabName: "Laboratory",
     tabBg: "img/bg/bg-lab.png",
 

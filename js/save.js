@@ -32,7 +32,7 @@ SharkGame.Save = {
 
         $.each(SharkGame.Tabs, (tabId, tab) => {
             if (tabId !== "current") {
-                saveData.tabs[tabId] = tab.discovered;
+                saveData.tabs[tabId] = [tab.discovered, tab.seen];
             } else {
                 saveData.tabs.current = tab;
             }
@@ -189,11 +189,24 @@ SharkGame.Save = {
                 gateway.markWorldCompleted(worldType);
             });
 
-            $.each(saveData.tabs, (tabName, discovered) => {
-                if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
-                    SharkGame.Tabs[tabName].discovered = discovered;
+            if (saveData.tabs && saveData.tabs.home) {
+                if (typeof saveData.tabs.home === "object") {
+                    $.each(saveData.tabs, (tabName, discoveryArray) => {
+                        if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
+                            SharkGame.Tabs[tabName].discovered = discoveryArray[0];
+                            SharkGame.Tabs[tabName].seen = discoveryArray[1];
+                        }
+                    });
+                } else {
+                    $.each(saveData.tabs, (tabName, discovered) => {
+                        if (_.has(SharkGame.Tabs, tabName) && tabName !== "current") {
+                            SharkGame.Tabs[tabName].discovered = discovered;
+                            SharkGame.Tabs[tabName].seen = true;
+                        }
+                    });
                 }
-            });
+            }
+
             if (saveData.tabs.current) {
                 SharkGame.Tabs.current = saveData.tabs.current;
             }
