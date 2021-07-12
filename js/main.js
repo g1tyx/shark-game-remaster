@@ -105,7 +105,9 @@ $.extend(SharkGame, {
         pause: false,
         stop: false,
         speed: 1,
-        chunky: false,
+        upgradePriceModifier: 1,
+        actionPriceModifier: 1,
+        noNumberBeautifying: false,
         cycling: false,
         cycleStyles(time = 2000) {
             if (cad.cycling) return;
@@ -420,6 +422,10 @@ SharkGame.Main = {
     autosaveHandler: -1,
 
     beautify(number, suppressDecimals, toPlaces) {
+        if (cad.noNumberBeautifying) {
+            return number.toString();
+        }
+
         let formatted;
 
         let negative = false;
@@ -485,6 +491,10 @@ SharkGame.Main = {
     },
 
     beautifyIncome(number, also = "") {
+        if (cad.noNumberBeautifying) {
+            return number.toString();
+        }
+
         const abs = Math.abs(number);
         if (abs >= 0.001) {
             number = main.beautify(number, false, 2);

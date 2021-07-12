@@ -8,8 +8,6 @@ SharkGame.HomeActions = {
     /** @param worldType {string} */
     getActionTable(worldType = world.worldType) {
         if (typeof SharkGame.HomeActions[worldType] !== "object" || worldType === "generated") {
-            // This world type doesn't have any special upgrades, so use the default ones.
-            // We don't want to generate the same upgrade table multiple times for no reason.
             worldType = "default";
         }
 
@@ -18,6 +16,26 @@ SharkGame.HomeActions = {
         } else {
             return SharkGame.HomeActions.generated[worldType];
         }
+    },
+
+    /**
+     * Retrieves, modifies, and returns the data for an action. Implemented to intercept retreival of action data to handle special logic where alternatives are inconvenient or impossible.
+     * @param {object} table The table to retrieve the action data from
+     * @param {string} actionName The name of the action
+     */
+    getActionData(table, actionName) {
+        // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
+        const data = _.cloneDeep(table[actionName]);
+
+        if (cad.actionPriceModifier !== 1) {
+            if (data.cost) {
+                _.each(data.cost, (costData) => {
+                    costData.priceIncrease *= cad.actionPriceModifier;
+                });
+            }
+        }
+
+        return data;
     },
 
     /**

@@ -497,7 +497,7 @@ SharkGame.Home = {
                 );
                 requirementsMet &&= _.every(extraMessage.unlock.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
                 requirementsMet &&= _.every(extraMessage.unlock.homeAction, (actionName) => {
-                    const action = SharkGame.HomeActions.getActionTable()[actionName];
+                    const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
                     return action.discovered && !action.newlyDiscovered;
                 });
                 return requirementsMet;
@@ -586,7 +586,7 @@ SharkGame.Home = {
         const amountToBuy = main.getBuyAmount();
 
         const button = $("#" + actionName);
-        const actionData = SharkGame.HomeActions.getActionTable()[actionName];
+        const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
 
         if (actionData.removedBy) {
             if (home.shouldRemoveHomeButton(actionData)) {
@@ -685,7 +685,7 @@ SharkGame.Home = {
 
     areActionPrereqsMet(actionName) {
         let prereqsMet = true; // assume true until proven false
-        const action = SharkGame.HomeActions.getActionTable()[actionName];
+        const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         if (action.unauthorized) {
             return false;
         }
@@ -737,7 +737,7 @@ SharkGame.Home = {
 
     addButton(actionName) {
         const buttonListSel = $("#buttonList");
-        const actionData = SharkGame.HomeActions.getActionTable()[actionName];
+        const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
 
         const buttonSelector = SharkGame.Button.makeHoverscriptButton(
             actionName,
@@ -766,8 +766,8 @@ SharkGame.Home = {
         // get related entry in home button table
         const button = $(this);
         if (button.hasClass("disabled")) return;
-        const buttonName = button.attr("id");
-        const action = SharkGame.HomeActions.getActionTable()[buttonName];
+        const actionName = button.attr("id");
+        const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         let actionCost = {};
         let amount = 0;
         if (amountToBuy < 0) {
@@ -795,7 +795,7 @@ SharkGame.Home = {
             if (action.effect.resource) {
                 res.changeManyResources(action.effect.resource);
             }
-            SharkGame.Log.addMessage(SharkGame.choose(action.outcomes));
+            log.addMessage(SharkGame.choose(action.outcomes));
         } else if (amount > 0) {
             // cost action
             // check cost, only proceed if sufficient resources (prevention against lazy cheating, god, at least cheat in the right resources)
@@ -838,7 +838,7 @@ SharkGame.Home = {
             const button = $(this);
             actionName = button.attr("id");
         }
-        const effects = SharkGame.HomeActions.getActionTable()[actionName].effect;
+        const effects = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName).effect;
         const validGenerators = {};
         if (effects.resource) {
             $.each(effects.resource, (resource) => {
@@ -855,7 +855,10 @@ SharkGame.Home = {
 
         let buyingHowMuch = 1;
         if (!SharkGame.Settings.current.alwaysSingularTooltip) {
-            buyingHowMuch = res.getPurchaseAmount("doesntmatter", home.getMax(SharkGame.HomeActions.getActionTable()[actionName]));
+            buyingHowMuch = res.getPurchaseAmount(
+                "doesntmatter",
+                home.getMax(SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName))
+            );
             if (buyingHowMuch < 1) {
                 buyingHowMuch = 1;
             }

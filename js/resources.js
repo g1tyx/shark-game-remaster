@@ -522,10 +522,13 @@ SharkGame.Resources = {
                         .on("click", () => SharkGame.Resources.collapseResourceTableRow(categoryName));
 
                     resourceTable.append(headerRow);
-                    $.each(category.resources, (_resourceName, resourceValue) => {
-                        if (res.getTotalResource(resourceValue) > 0 || SharkGame.PlayerResources.get(resourceValue).discovered) {
+                    _.each(category.resources, (resource) => {
+                        if (
+                            res.getTotalResource(resource) > 0 ||
+                            (SharkGame.PlayerResources.get(resource).discovered && world.doesResourceExist(resource))
+                        ) {
                             if (!res.collapsedRows.has(categoryName)) {
-                                const row = res.constructResourceTableRow(resourceValue);
+                                const row = res.constructResourceTableRow(resource);
                                 resourceTable.append(row);
                             }
                             anyResourcesInTable = true;

@@ -92,7 +92,7 @@
                 // debug is a command-line API
                 SharkGame.HomeActions.getActionTable().debugbutton.unauthorized = false;
             }
-            function pause() {
+            function pausePlease() {
                 if (cad.stop) {
                     log.addError("The game is stopped. You can't also pause it.");
                     return "The game is stopped. You can't also pause it.";
@@ -104,7 +104,7 @@
                     log.addError("The game is already paused.");
                 }
             }
-            function unpause() {
+            function unpausePlease() {
                 if (cad.pause || cad.stop) {
                     cad.pause = false;
                     cad.stop = false;
@@ -113,7 +113,7 @@
                     log.addError("The game is not paused or stopped.");
                 }
             }
-            function stop() {
+            function stopPlease() {
                 if (cad.pause) {
                     log.addError("The game is paused. You can't also stop it.");
                     return "The game is paused. You can't also stop it.";
@@ -125,77 +125,85 @@
                     log.addError("The game is already stopped.");
                 }
             }
-            function freezePlease() {
+            function freezeGamePlease() {
                 world.forceExistence("ice");
                 SharkGame.PlayerResources.get("ice").discovered = true;
-
+                res.setResource("ice", 1000);
+                res.setTotalResource("ice", 1000);
+                res.clearNetworks();
+                res.buildIncomeNetwork();
+                res.reconstructResourcesTable();
                 log.addMessage("ICE going, doofus!");
                 return "Game frozen.";
             }
             function unfreezePlease() {
-                r.setResource("ice", 0);
+                res.setResource("ice", 0);
                 log.addMessage("Unfroze game.");
                 return "Game unfrozen.";
             }
             function exponentialGrowthPlease() {
                 if (world.doesResourceExist("sponge")) {
-                    res.addNetworkNode(SharkGame.ResourceIncomeAffectedApplicable, "sponge", "multiply", "sponge", 0.00000001);
+                    res.addNetworkNode(SharkGame.ResourceIncomeAffected, "sponge", "multiply", "sponge", 0.00000001);
                     if (world.doesResourceExist("algae") && world.doesResourceExist("shrimp")) {
-                        res.addNetworkNode(SharkGame.ResourceIncomeAffectedApplicable, "algae", "multiply", "sponge", 0.00000001);
-                        res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "shrimp", "multiply", "algae", 0.0000001);
+                        res.addNetworkNode(SharkGame.ResourceIncomeAffected, "algae", "multiply", "sponge", 0.00000001);
+                        res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "shrimp", "multiply", "algae", 0.0000001);
                     }
                 }
                 if (world.doesResourceExist("shark") && world.doesResourceExist("fish")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "shark", "multiply", "fish", 0.000001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "shark", "multiply", "fish", 0.000001);
                 }
                 if (world.doesResourceExist("ray") && world.doesResourceExist("sand")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "ray", "multiply", "sand", 0.000001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "ray", "multiply", "sand", 0.000001);
                 }
                 if (world.doesResourceExist("crab") && world.doesResourceExist("crystal")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "crab", "multiply", "crystal", 0.001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "crab", "multiply", "crystal", 0.001);
                 }
                 if (world.doesResourceExist("science") && world.doesResourceExist("scientist")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "scientist", "multiply", "science", 0.000001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "scientist", "multiply", "science", 0.000001);
                 }
                 if (world.doesResourceExist("kelp") && world.doesResourceExist("seaApple")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "kelp", "multiply", "seaApple", 0.0001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "kelp", "multiply", "seaApple", 0.0001);
                 }
+                res.clearNetworks();
+                res.buildIncomeNetwork();
                 return "Growing exponentially.";
             }
             function stupidExponentialGrowthPlease() {
                 if (world.doesResourceExist("sponge")) {
-                    res.addNetworkNode(SharkGame.ResourceIncomeAffectedApplicable, "sponge", "multiply", "sponge", 0.001);
+                    res.addNetworkNode(SharkGame.ResourceIncomeAffected, "sponge", "multiply", "sponge", 0.001);
                     if (world.doesResourceExist("algae") && world.doesResourceExist("shrimp")) {
-                        res.addNetworkNode(SharkGame.ResourceIncomeAffectedApplicable, "algae", "multiply", "sponge", 0.001);
-                        res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "shrimp", "multiply", "algae", 0.001);
+                        res.addNetworkNode(SharkGame.ResourceIncomeAffected, "algae", "multiply", "sponge", 0.001);
+                        res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "shrimp", "multiply", "algae", 0.001);
                     }
                 }
                 if (world.doesResourceExist("shark") && world.doesResourceExist("fish")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "shark", "multiply", "fish", 0.001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "shark", "multiply", "fish", 0.001);
                 }
                 if (world.doesResourceExist("ray") && world.doesResourceExist("sand")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "ray", "multiply", "sand", 0.001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "ray", "multiply", "sand", 0.001);
                 }
                 if (world.doesResourceExist("crab") && world.doesResourceExist("crystal")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "crab", "multiply", "crystal", 0.01);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "crab", "multiply", "crystal", 0.01);
                 }
                 if (world.doesResourceExist("science") && world.doesResourceExist("scientist")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "scientist", "multiply", "science", 0.001);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "scientist", "multiply", "science", 0.001);
                 }
                 if (world.doesResourceExist("kelp") && world.doesResourceExist("seaApple")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectedApplicable, "kelp", "multiply", "seaApple", 0.01);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "kelp", "multiply", "seaApple", 0.01);
                 }
-                return "Growing really fast.";
+                res.clearNetworks();
+                res.buildIncomeNetwork();
+                return "Growing really exponentially.";
             }
             function freeEssencePlease() {
-                res.changeResource("essence", 1000);
+                res.changeResource("essence", 15);
                 return "Okay, but only because you asked nicely.";
             }
-            function aLotOfEssencePlease() {
-                res.changeResource("essence", 1000000);
+            function moreFreeEssencePlease() {
+                res.changeResource("essence", 100);
                 return "Is this enough?.";
             }
-            function tooMuchEssencePlease() {
+            function lotsOfEssencePlease() {
                 res.changeResource("essence", 1e41);
                 return "You asked for it.";
             }
@@ -213,7 +221,7 @@
                         msg = "Going...really fast.";
                         break;
                     default:
-                        msg = "Going " + cad.speed + " times as fast.";
+                        msg = "Going " + cad.speed + " times normal speed.";
                         break;
                 }
                 return msg;
@@ -223,12 +231,27 @@
                 return "Set game speed to 512x.";
             }
             function goSlowerPlease() {
+                if (cad.speed === 1 / 512) {
+                    return "I think that's slow enough, don't you?";
+                }
+                let msg = "";
                 cad.speed *= 0.5;
-                return "Slowed things down to " + cad.speed + " times as fast.";
+                switch (cad.speed) {
+                    case 1 / 2:
+                        msg = "Going twice as slow.";
+                        break;
+                    case 1 / 512:
+                        msg = "Going...really slow.";
+                        break;
+                    default:
+                        msg = "Going " + cad.speed + " times normal speed.";
+                        break;
+                }
+                return msg;
             }
             function reallySlowPlease() {
                 cad.speed = 1 / 512;
-                return "Reset game speed to 1/512th speed.";
+                return "Set game speed to 1/512th speed.";
             }
             function resetSpeedPlease() {
                 cad.speed = 1;
@@ -250,14 +273,12 @@
                 });
                 return "Gave you one-thousand times more of everything.";
             }
-            /*
             function fixMyGamePlease() {
                 SharkGame.ResourceMap.forEach((v, key) => {
                     res.setResource(key, 0);
                 });
-                return "Set everything back to 0. This should 'fix' everything.";
+                return "Set everything back to 0. This should 'fix' everything. That's what you get for using cheats.";
             }
-            */
             function doSomethingCoolPlease() {
                 return "Did something really cool.";
                 // this doesn't do anything
@@ -267,59 +288,248 @@
                 main.endGame();
                 return "You got it, boss.";
             }
-            /*
-            function rollTheDicePlease() {
-                switch Math.floor(Math.random()*20+1) {
+            function rollTheDicePlease(number = Math.floor(Math.random() * 20 + 1)) {
+                switch (number) {
                     case 1:
+                        world.forceExistence("tar");
+                        res.setResource("tar", 10000);
+                        res.setTotalResource("tar", 10000);
+                        res.reconstructResourcesTable();
+                        return "Rolled a one. Uh oh.";
+                    case 2:
+                        res.specialMultiplier *= 1 / 2;
+                        return "Rolled a two. Everything is 2 times slower.";
+                    case 3:
+                        if (world.doesResourceExist("fish")) {
+                            SharkGame.ResourceMap.get("fish").income = {};
+                            SharkGame.ResourceMap.get("fish").income.shark = -0.001;
+                            SharkGame.ResourceMap.get("fish").income.ray = -0.001;
+                            SharkGame.ResourceMap.get("fish").income.crab = -0.001;
+                            SharkGame.ResourceMap.get("fish").income.whale = -0.001;
+                            SharkGame.ResourceMap.get("fish").income.squid = -0.001;
+                            SharkGame.ResourceMap.get("fish").baseIncome = {};
+                            SharkGame.ResourceMap.get("fish").baseIncome.shark = -0.001;
+                            SharkGame.ResourceMap.get("fish").baseIncome.ray = -0.001;
+                            SharkGame.ResourceMap.get("fish").baseIncome.crab = -0.001;
+                            SharkGame.ResourceMap.get("fish").baseIncome.whale = -0.001;
+                            SharkGame.ResourceMap.get("fish").baseIncome.squid = -0.001;
+                            return "Rolled a three. The fish are fighting back!";
+                        }
+                        return "Rolled a three, but fish don't exist, so nothing happened.";
+                    case 4:
+                        if (SharkGame.ResourceMap.get("shark").baseIncome.fish) {
+                            SharkGame.ResourceMap.get("shark").baseIncome.fish = -1;
+                            res.reapplyModifiers("shark", "fish");
+                            return "Rolled a four. The sharks are eating all the fish!";
+                        } else {
+                            SharkGame.ResourceMap.get("shark").baseIncome.shark = -1;
+                            res.reapplyModifiers("shark", "shark");
+                            return "Rolled a four. The sharks would be eating fish, but they don't catch fish anymore. NOW THEY'RE EATING EACHOTHER! AAAAAAAAAAAAAAAA";
+                        }
+
+                    case 5:
+                        res.applyModifier("resourceBoost", "fish", 0.125);
+                        return "Rolled a five. I just killed 87.5% of all fish in the ocean. Now you get 87.5% less fish.";
+                    case 6:
                         SharkGame.ResourceMap.forEach((v, key) => {
                             if (key !== "essence") {
-                                SharkGame.PlayerResources.get(key).amount *= 1/3;
+                                SharkGame.PlayerResources.get(key).amount = 1;
                             }
                         });
-                        return "Rolled a one...you lost a third of all your resources.";
-                    case 2:
-                        res.changeResource("shark",res.getResource("shark")*3);
-                        return "Rolled a two. Your sharks have been quadrupled.";
-                    case 3:
-                        return "Rolled a three. Nothing happened.";
-                    case 4:
+                        return "Rolled a 6...you own one of exactly everything now. Only one.";
+                    case 7:
+                        res.changeResource("shark", res.getResource("shark") * 255);
+                        return "Rolled a seven. Your sharks have been duplicated. A lot.";
+                    case 8:
                         SharkGame.ResourceMap.forEach((v, key) => {
                             if (key !== "essence") {
                                 if (world.doesResourceExist(key)) {
-                                    SharkGame.PlayerResources.get(key).amount += 4;
+                                    SharkGame.PlayerResources.get(key).amount += 888;
                                 }
                             }
                         });
-                        return "Rolled a four. You got exactly 4 more of EVERYTHING.";
-
+                        return "Rolled an eight. You gained exactly 888 of everything.";
+                    case 9:
+                        res.changeResource("fish", 10000000000 * Math.random() ** 3);
+                        return "Rolled a nine. You eat fish hooray!";
+                    case 10:
+                        SharkGame.ResourceMap.get("shark").income = { shark: 1 };
+                        SharkGame.ResourceMap.get("shark").baseIncome = { shark: 1 };
+                        res.reapplyModifiers("shark", "shark");
+                        return "Rolled a ten. Sharks now produce themselves. And nothing else.";
+                    case 11:
+                        cad.noNumberBeautifying = true;
+                        return "Rolled an eleven...wait. Oh no. OH NO. WHAT DID YOU DO?!";
+                    case 12:
+                        return "Rolled a twelve. Nothing happened.";
+                    case 13:
+                        if (world.doesResourceExist("fish")) {
+                            res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "shark", "multiply", "fish", 0.00005);
+                            return "Rolled a thirteen. Sharks get faster for every fish owned. I guess a good meal makes for better workers.";
+                        }
+                        return "Rolled a thirteen, but fish don't exist, so nothing happened.";
+                    case 14:
+                        if (world.worldResources.get("crab").exists) {
+                            world.worldResources.get("crab").exists = false;
+                            res.setResource("crab", 0);
+                            res.setTotalResource("crab", 0);
+                            world.worldResources.get("brood").exists = false;
+                            res.setResource("brood", 0);
+                            res.setTotalResource("brood", 0);
+                            world.worldResources.get("planter").exists = false;
+                            res.setResource("planter", 0);
+                            res.setTotalResource("planter", 0);
+                            world.worldResources.get("collector").exists = false;
+                            res.setResource("collector", 0);
+                            res.setTotalResource("collector", 0);
+                            world.worldResources.get("extractionTeam").exists = false;
+                            res.setResource("extractionTeam", 0);
+                            res.setTotalResource("extractionTeam", 0);
+                            res.reconstructResourcesTable();
+                            if (world.worldType === "start") {
+                                delete SharkGame.HomeActions.generated.default.getCrab;
+                                delete SharkGame.HomeActions.generated.default.getBrood;
+                                delete SharkGame.HomeActions.generated.default.getPlanter;
+                                delete SharkGame.HomeActions.generated.default.getCollector;
+                                delete SharkGame.HomeActions.generated.default.getExtractionTeam;
+                            } else {
+                                delete SharkGame.HomeActions.generated[world.worldType].getCrab;
+                                delete SharkGame.HomeActions.generated[world.worldType].getBrood;
+                                delete SharkGame.HomeActions.generated[world.worldType].getPlanter;
+                                delete SharkGame.HomeActions.generated[world.worldType].getCollector;
+                                delete SharkGame.HomeActions.generated[world.worldType].getExtractionTeam;
+                            }
+                            main.setUpTab();
+                            return "Rolled a fourteen. What are you talking about? Crabs aren't real. There were never crabs to begin with.";
+                        }
+                        return "Rolled a fourteen, but crabs don't exist, so nothing happened.";
+                    case 15:
+                        SharkGame.ResourceMap.get("science").baseIncome = { scientist: 0.01 };
+                        SharkGame.ResourceMap.get("science").income = { scientist: 0.01 };
+                        return "Rolled a fifteen. Science produces more science sharks. I guess knowledge is contagious?";
+                    case 16:
+                        SharkGame.ResourceMap.get("crystal").income = { sand: 1 };
+                        SharkGame.ResourceMap.get("crystal").baseIncome = { sand: 1 };
+                        SharkGame.ResourceMap.get("sand").income = { fish: 1 };
+                        SharkGame.ResourceMap.get("sand").baseIncome = { fish: 1 };
+                        return "Rolled a sixteen. Crystals now produce sand. Sand produces fish. Fish still produces whatever it did before. What?";
+                    case 17:
+                        world.forceExistence("crab");
+                        world.forceExistence("brood");
+                        res.changeResource("crab", 10);
+                        SharkGame.ResourceMap.get("crab").baseIncome.brood = 0.01;
+                        res.reapplyModifiers("crab", "brood");
+                        return "Rolled a seventeen. The crabs. They're multiplying.";
+                    case 18:
+                        if (world.doesResourceExist("fish")) {
+                            SharkGame.ResourceMap.get("fish").income = {};
+                            SharkGame.ResourceMap.get("fish").income.shark = 0.01;
+                            SharkGame.ResourceMap.get("fish").income.ray = 0.01;
+                            SharkGame.ResourceMap.get("fish").income.crab = 0.01;
+                            SharkGame.ResourceMap.get("fish").income.squid = 0.01;
+                            SharkGame.ResourceMap.get("fish").income.whale = 0.01;
+                            SharkGame.ResourceMap.get("fish").income.fish = -0.999;
+                            SharkGame.ResourceMap.get("fish").baseIncome = {};
+                            SharkGame.ResourceMap.get("fish").baseIncome.shark = 0.01;
+                            SharkGame.ResourceMap.get("fish").baseIncome.ray = 0.01;
+                            SharkGame.ResourceMap.get("fish").baseIncome.crab = 0.01;
+                            SharkGame.ResourceMap.get("fish").baseIncome.squid = 0.01;
+                            SharkGame.ResourceMap.get("fish").baseIncome.whale = 0.01;
+                            SharkGame.ResourceMap.get("fish").baseIncome.fish = -0.999;
+                            return "Rolled an eighteen. Fish will now purchase frenzy members for you. Thank me later.";
+                        }
+                        return "Rolled an eighteen, but fish don't exist, so nothing happened.";
+                    case 19:
+                        cad.upgradePriceModifier = 0;
+                        cad.actionPriceModifier = 4;
+                        return "Rolled a nineteen. Upgrades are free, yay! But everything is four times as expensive. Not-so-yay.";
+                    case 20:
+                        res.specialMultiplier *= 20;
+                        return "Rolled a perfect twenty. Speed times 20.";
                 }
             }
-            function easyModePlease() {
-
-                return "And isn't that what cheats are all about?";
-            }
-            */
             function listAllCheatsPlease() {
                 return "Nice try.";
             }
-            /*
-            function discretePlease() {
-                if (cad.chunky) {
-                    return "Game is already discrete.";
+            function expensiveUpgradesPlease() {
+                if (cad.upgradePriceModifier === 512) {
+                    return "I'm not letting you subject yourself to any more of this.";
                 }
-                cad.chunky = true;
-                return "Forced discrete ticks.";
-            }
-            function smoothPlease() {
-                if (!cad.chunky) {
-                    return "Game is already smooth.";
+                let msg = "";
+                cad.upgradePriceModifier *= 2;
+                switch (cad.upgradePriceModifier) {
+                    case 2:
+                        msg = "Upgrades are twice as expensive.";
+                        break;
+                    case 512:
+                        msg = "Upgrades are...really expensive.";
+                        break;
+                    default:
+                        msg = "Upgrades are " + cad.upgradePriceModifier + " times normal price.";
+                        break;
                 }
-                cad.chunky = false;
-                SharkGame.INTERVAL = 100;
-                SharkGame.dt = 1 / 10;
-                return "Returned game to smoothness.";
+                return msg;
             }
-            */
+            function cheaperUpgradesPlease() {
+                if (cad.upgradePriceModifier === 1 / 512) {
+                    return "Is this not easy enough for you yet??";
+                }
+                let msg = "";
+                cad.upgradePriceModifier *= 0.5;
+                switch (cad.upgradePriceModifier) {
+                    case 1 / 2:
+                        msg = "Upgrades are half as expensive.";
+                        break;
+                    case 1 / 512:
+                        msg = "Upgrades are...really cheap.";
+                        break;
+                    default:
+                        msg = "Upgrades are " + cad.upgradePriceModifier + " times normal price.";
+                        break;
+                }
+                return msg;
+            }
+            function expensiveStuffPlease() {
+                if (cad.actionPriceModifier === 512) {
+                    return "Seriously?";
+                }
+                let msg = "";
+                cad.actionPriceModifier *= 2;
+                switch (cad.actionPriceModifier) {
+                    case 2:
+                        msg = "Stuff is twice as expensive.";
+                        break;
+                    case 512:
+                        msg = "Stuff is...really expensive.";
+                        break;
+                    default:
+                        msg = "Stuff is " + cad.actionPriceModifier + " times normal price.";
+                        break;
+                }
+                return msg;
+            }
+            function cheaperStuffPlease() {
+                if (cad.actionPriceModifier === 1 / 512) {
+                    return "Is this not easy enough for you yet??";
+                }
+                let msg = "";
+                cad.actionPriceModifier *= 0.5;
+                switch (cad.actionPriceModifier) {
+                    case 1 / 2:
+                        msg = "Stuff is half as expensive.";
+                        break;
+                    case 1 / 512:
+                        msg = "Stuff is...really cheap.";
+                        break;
+                    default:
+                        msg = "Stuff is " + cad.actionPriceModifier + " times normal price.";
+                        break;
+                }
+                return msg;
+            }
+            function hello() {
+                return "hi";
+            }
         </script>
     </head>
     <body>

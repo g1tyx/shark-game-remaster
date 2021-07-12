@@ -58,6 +58,14 @@ SharkGame.Upgrades = {
             }
         }
 
+        if (cad.upgradePriceModifier !== 1) {
+            if (data.cost) {
+                $.each(data.cost, (resource) => {
+                    data.cost[resource] *= cad.upgradePriceModifier;
+                });
+            }
+        }
+
         return data;
     },
 

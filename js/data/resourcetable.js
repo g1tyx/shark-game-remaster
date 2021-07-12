@@ -995,6 +995,11 @@ SharkGame.ResourceTable = {
             investigator: -0.005,
             technician: -0.001,
             sifter: -0.001,
+            squid: -0.001,
+            urchin: -0.001,
+            collective: -0.001,
+            extractionTeam: -0.001,
+            spawner: -0.001,
         },
         value: -100,
         forceIncome: true,
@@ -1051,9 +1056,11 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
     ice: {
         multiply: {
             shark: -0.001,
+            ray: -0.001,
             crab: -0.001,
             scientist: -0.001,
             nurse: -0.001,
+            maker: -0.001,
             brood: -0.001,
             world: -0.00125,
         },
