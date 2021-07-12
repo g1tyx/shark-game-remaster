@@ -574,6 +574,30 @@ SharkGame.Stats = {
             );
 
             columns -= 4;
+
+            if (SharkGame.Settings.current.grottoMode === "advanced") {
+                row.append(
+                    $("<td>")
+                        .html("<div style='text-align:center; color:" + res.UPGRADE_MULTIPLIER_COLOR + "'><strong>U</strong></div>")
+                        .addClass("evenRow")
+                );
+                row.append(
+                    $("<td>")
+                        .html("<div style='text-align:center; color:" + res.WORLD_MULTIPLIER_COLOR + "'><strong>W</strong></div>")
+                        .addClass("evenRow")
+                );
+                row.append(
+                    $("<td>")
+                        .html("<div style='text-align:center; color:" + res.ASPECT_MULTIPLIER_COLOR + "'><strong>A</strong></div>")
+                        .addClass("evenRow")
+                );
+                row.append(
+                    $("<td>")
+                        .html("<div style='text-align:center; color:" + res.RESOURCE_AFFECT_MULTIPLIER_COLOR + "'><strong>R</strong></div>")
+                        .addClass("evenRow")
+                );
+                columns -= 4;
+            }
             while (columns > 1) {
                 columns -= 1;
                 row.append($("<td>").html(undefined).addClass("evenRow"));
@@ -651,10 +675,10 @@ SharkGame.Stats = {
         if (world.worldType !== "start") {
             document.getElementById("tableKey").innerHTML =
                 "<br> <b><u>TABLE KEY</b></u>" +
-                `<br> <span style='color:${res.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.` +
-                `<br> <span style='color:${res.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for world effects.` +
-                `<br> <span style='color:${res.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some resources affect each other.` +
-                `<br> <span style='color:${res.ASPECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for aspect effects.`;
+                `<br> <span style='color:${res.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for <strong>U</strong>pgrade effects.` +
+                `<br> <span style='color:${res.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for <strong>W</strong>orld effects.` +
+                `<br> <span style='color:${res.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some <strong>R</strong>esources affect each other.` +
+                `<br> <span style='color:${res.ASPECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for <strong>A</strong>spect effects.`;
         } else {
             document.getElementById("tableKey").innerHTML =
                 "<br> <b><u>TABLE KEY</b></u>" +
