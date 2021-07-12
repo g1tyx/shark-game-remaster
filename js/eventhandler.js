@@ -29,7 +29,7 @@ SharkGame.EventHandler = {
     /** @param {eventName | "load"} handlingTime */
     handleEventTick(handlingTime) {
         if (!handlingTime) {
-            SharkGame.Log.addError("tried to call handleEventTick without passing handlingTime");
+            log.addError("tried to call handleEventTick without passing handlingTime");
             return;
         }
 
@@ -51,7 +51,7 @@ SharkGame.EventHandler = {
                         case "pass":
                             break;
                         default:
-                            SharkGame.Log.addError(new Error("eventHandler.getAction() returned unexpected result"));
+                            log.addError(new Error("eventHandler.getAction() returned unexpected result"));
                     }
                 }
                 if (keep) {

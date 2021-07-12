@@ -106,7 +106,7 @@ SharkGame.Lab = {
                     $("<p>").html("You get the feeling that " + res.getResourceName(hintResource, false, 2) + " may be the key.")
                 );
             } else {
-                SharkGame.Log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade}), but no valid hint resource.`);
+                log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade}), but no valid hint resource.`);
             }
         }
     },
@@ -237,7 +237,7 @@ SharkGame.Lab = {
             SharkGame.Lab.addUpgrade(upgradeId);
 
             if (upgrade.researchedMessage) {
-                SharkGame.Log.addMessage(upgrade.researchedMessage);
+                log.addMessage(upgrade.researchedMessage);
             }
         }
         SharkGame.Lab.update();

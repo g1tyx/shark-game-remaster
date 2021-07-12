@@ -235,9 +235,9 @@ SharkGame.Recycler = {
             res.changeResource("junk", amount * junkPerResource * rec.getEfficiency());
             res.changeResource(resourceName, -amount);
             res.changeResource("tar", Math.max(amount * junkPerResource * 0.0000002 + res.getProductAmountFromGeneratorResource("filter", "tar"), 0));
-            SharkGame.Log.addMessage(SharkGame.choose(rec.recyclerInputMessages));
+            log.addMessage(SharkGame.choose(rec.recyclerInputMessages));
         } else {
-            SharkGame.Log.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
+            log.addError("Not enough resources for that transaction. This might be caused by putting in way too many resources at once.");
         }
 
         rec.updateEfficiency(resourceName);
@@ -277,9 +277,9 @@ SharkGame.Recycler = {
         if (junkAmount >= junkNeeded) {
             res.changeResource(resourceName, amount);
             res.changeResource("junk", -junkNeeded);
-            SharkGame.Log.addMessage(SharkGame.choose(rec.recyclerOutputMessages));
+            log.addMessage(SharkGame.choose(rec.recyclerOutputMessages));
         } else {
-            SharkGame.Log.addMessage("You don't have enough for that!");
+            log.addMessage("You don't have enough for that!");
         }
 
         // disable button until next frame

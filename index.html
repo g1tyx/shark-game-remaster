@@ -82,6 +82,7 @@
             var world = SharkGame.World;
             var home = SharkGame.Home;
             var tree = SharkGame.AspectTree;
+            var log = SharkGame.Log;
             var cad = SharkGame.cheatsAndDebug;
             var cheats = "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
             var cheatcodes = "When you find a cheat code, put () after it and hit enter. I'm not going to tell you them.";
@@ -93,14 +94,14 @@
             }
             function pause() {
                 if (cad.stop) {
-                    SharkGame.Log.addError("The game is stopped. You can't also pause it.");
+                    log.addError("The game is stopped. You can't also pause it.");
                     return "The game is stopped. You can't also pause it.";
                 }
                 if (!cad.pause) {
                     cad.pause = true;
                     return "Paused game.";
                 } else {
-                    SharkGame.Log.addError("The game is already paused.");
+                    log.addError("The game is already paused.");
                 }
             }
             function unpause() {
@@ -109,31 +110,31 @@
                     cad.stop = false;
                     return "Resumed game.";
                 } else {
-                    SharkGame.Log.addError("The game is not paused or stopped.");
+                    log.addError("The game is not paused or stopped.");
                 }
             }
             function stop() {
                 if (cad.pause) {
-                    SharkGame.Log.addError("The game is paused. You can't also stop it.");
+                    log.addError("The game is paused. You can't also stop it.");
                     return "The game is paused. You can't also stop it.";
                 }
                 if (!cad.stop) {
                     cad.stop = true;
                     return "Stopped game.";
                 } else {
-                    SharkGame.Log.addError("The game is already stopped.");
+                    log.addError("The game is already stopped.");
                 }
             }
             function freezePlease() {
                 world.forceExistence("ice");
                 SharkGame.PlayerResources.get("ice").discovered = true;
 
-                SharkGame.Log.addMessage("ICE going, doofus!");
+                log.addMessage("ICE going, doofus!");
                 return "Game frozen.";
             }
             function unfreezePlease() {
                 r.setResource("ice", 0);
-                SharkGame.Log.addMessage("Couldn't handle the big chill?");
+                log.addMessage("Unfroze game.");
                 return "Game unfrozen.";
             }
             function exponentialGrowthPlease() {

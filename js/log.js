@@ -4,7 +4,6 @@ SharkGame.Log = {
     messages: [],
 
     init() {
-        const log = SharkGame.Log;
         // create log
         $("#log").append("<h3>Log<h3/>").append("<button id='clearLog' class='min close-button'>✕</button>").append("<ul id='messageList'></ul>");
         // add clear button
@@ -13,7 +12,6 @@ SharkGame.Log = {
     },
 
     addMessage(message) {
-        const log = SharkGame.Log;
         const showAnims = SharkGame.Settings.current.showAnimations;
 
         if (!log.initialised) {
@@ -27,7 +25,7 @@ SharkGame.Log = {
         }
         log.messages.push(messageItem);
 
-        SharkGame.Log.correctLogLength();
+        log.correctLogLength();
 
         return messageItem;
     },
@@ -37,19 +35,18 @@ SharkGame.Log = {
             console.error(message);
             message = message.message;
         }
-        const messageItem = SharkGame.Log.addMessage("Error: " + message);
+        const messageItem = log.addMessage("Error: " + message);
         messageItem.addClass("error");
         return messageItem;
     },
 
     addDiscovery(message) {
-        const messageItem = SharkGame.Log.addMessage(message);
+        const messageItem = log.addMessage(message);
         messageItem.addClass("discovery");
         return messageItem;
     },
 
     correctLogLength() {
-        const log = SharkGame.Log;
         const showAnims = SharkGame.Settings.current.showAnimations;
         const logMax = SharkGame.Settings.current.logMessageMax;
 
@@ -71,17 +68,17 @@ SharkGame.Log = {
         }
     },
 
-    clearMessages(log = true) {
+    clearMessages(logThing = true) {
         // remove each element from page
-        _.each(SharkGame.Log.messages, (message) => {
+        _.each(log.messages, (message) => {
             message.remove();
         });
         // wipe array
-        SharkGame.Log.messages = [];
-        if (log) SharkGame.Log.addMessage("Log cleared.");
+        log.messages = [];
+        if (logThing) log.addMessage("Log cleared.");
     },
 
     haveAnyMessages() {
-        return SharkGame.Log.messages.length > 0;
+        return log.messages.length > 0;
     },
 };

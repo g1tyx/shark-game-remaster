@@ -365,7 +365,7 @@ SharkGame.AspectTree = {
             }
             const sprite = SharkGame.Sprites[icon];
             if (sprite === undefined) {
-                SharkGame.Log.addError(new Error(`Unknown sprite '${icon}' in prestige tree.`));
+                log.addError(new Error(`Unknown sprite '${icon}' in prestige tree.`));
                 return;
             }
             context.drawImage(

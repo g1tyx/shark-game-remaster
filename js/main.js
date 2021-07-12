@@ -333,9 +333,9 @@ SharkGame.TitleBar = {
             try {
                 SharkGame.Save.saveGame();
             } catch (err) {
-                SharkGame.Log.addError(err);
+                log.addError(err);
             }
-            SharkGame.Log.addMessage("Saved game.");
+            log.addMessage("Saved game.");
         },
     },
 
@@ -614,9 +614,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.Save.savedGameExists() && !foregoLoad) {
             try {
                 SharkGame.Save.loadGame();
-                SharkGame.Log.addMessage("Loaded game.");
+                log.addMessage("Loaded game.");
             } catch (err) {
-                SharkGame.Log.addError(err);
+                log.addError(err);
             }
         } else {
             SharkGame.AspectTree.applyAspects();
@@ -737,7 +737,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             if (reqsMet) {
                 // unlock tab!
                 main.discoverTab(tabName);
-                SharkGame.Log.addDiscovery("Discovered " + tab.name + "!");
+                log.addDiscovery("Discovered " + tab.name + "!");
             }
         });
     },
@@ -750,9 +750,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     autosave() {
         try {
             SharkGame.Save.saveGame();
-            SharkGame.Log.addMessage("Autosaved.");
+            log.addMessage("Autosaved.");
         } catch (err) {
-            SharkGame.Log.addError(err);
+            log.addError(err);
         }
     },
 
@@ -766,9 +766,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                             SharkGame.Save.saveGame();
                             history.go(0);
                         } catch (err) {
-                            SharkGame.Log.addError(err);
+                            log.addError(err);
                             console.error(err);
-                            SharkGame.Log.addMessage("Something went wrong while saving.");
+                            log.addMessage("Something went wrong while saving.");
                         }
                     });
             }
@@ -857,7 +857,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     createBuyButtons(customLabel, addToWhere, appendOrPrepend) {
         if (!addToWhere) {
-            SharkGame.Log.addError("Attempted to create buy buttons without specifying what to do with them.");
+            log.addError("Attempted to create buy buttons without specifying what to do with them.");
         }
 
         // add buy buttons
@@ -870,7 +870,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 addToWhere.prepend(buttonList);
                 break;
             default:
-                SharkGame.Log.addError("Attempted to create buy buttons without specifying whether to append or prepend.");
+                log.addError("Attempted to create buy buttons without specifying whether to append or prepend.");
                 return;
         }
         _.each(SharkGame.Settings.buyAmount.options, (amount) => {
@@ -955,7 +955,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     showSidebarIfNeeded() {
         // if we have any non-zero resources, show sidebar
         // if we have any log entries, show sidebar
-        if (res.haveAnyResources() || SharkGame.Log.haveAnyMessages()) {
+        if (res.haveAnyResources() || log.haveAnyMessages()) {
             // show sidebar
             if (SharkGame.Settings.current.showAnimations) {
                 $("#sidebar").show("500");
@@ -1039,7 +1039,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                         const importText = $("#importExportField").val();
                         if (importText === "") {
                             SharkGame.Main.hidePane();
-                            SharkGame.Log.addError("You need to paste something in first!");
+                            log.addError("You need to paste something in first!");
                         } else if (confirm("Are you absolutely sure? This will override your current save.")) {
                             SharkGame.Save.importData(importText);
                         }
@@ -1146,7 +1146,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     purgeGame() {
         // empty out all the containers!
         $("#status").empty();
-        SharkGame.Log.clearMessages();
+        log.clearMessages();
         $("#content").empty();
     },
 
@@ -1169,7 +1169,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             SharkGame.timestampRunStart = _.now();
             main.init(true);
-            SharkGame.Log.addMessage(world.getWorldEntryMessage());
+            log.addMessage(world.getWorldEntryMessage());
 
             // restore special resources
             $.each(backup.resources, (resourceName, resourceData) => {
@@ -1180,9 +1180,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             try {
                 SharkGame.Save.saveGame();
-                SharkGame.Log.addMessage("Game saved.");
+                log.addMessage("Game saved.");
             } catch (err) {
-                SharkGame.Log.addError(err);
+                log.addError(err);
             }
         }
     },

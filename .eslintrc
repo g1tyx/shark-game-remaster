@@ -21,6 +21,7 @@
         "world": "readonly",
         "home": "readonly",
         "tree": "readonly",
+        "log": "readonly",
         "cad": "readonly"
     },
     "ignorePatterns": ["js/lib/**"],

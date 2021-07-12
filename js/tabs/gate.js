@@ -143,7 +143,7 @@ SharkGame.Gate = {
 
         // if there are no upgrades needed, then that implies that there are no gate requirements
         // send an error to the log and return a debug message
-        SharkGame.Log.addError("No gate requirements found.");
+        log.addError("No gate requirements found.");
         return "This is a failsafe message. Something has gone wrong internally.";
     },
 

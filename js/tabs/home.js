@@ -814,12 +814,12 @@ SharkGame.Home = {
                 }
                 // print outcome to log
                 if (!action.multiOutcomes || amount === 1) {
-                    SharkGame.Log.addMessage(SharkGame.choose(action.outcomes));
+                    log.addMessage(SharkGame.choose(action.outcomes));
                 } else {
-                    SharkGame.Log.addMessage(SharkGame.choose(action.multiOutcomes));
+                    log.addMessage(SharkGame.choose(action.multiOutcomes));
                 }
             } else {
-                SharkGame.Log.addMessage("You can't afford that!");
+                log.addMessage("You can't afford that!");
             }
         }
         if (button.hasClass("newlyDiscovered")) {
