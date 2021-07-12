@@ -591,8 +591,8 @@ SharkGame.Home = {
         if (actionData.removedBy) {
             if (home.shouldRemoveHomeButton(actionData)) {
                 button.remove();
-                actionData.isRemoved = true;
-                actionData.discovered = true;
+                SharkGame.HomeActions.getActionTable()[actionName].isRemoved = true;
+                SharkGame.HomeActions.getActionTable()[actionName].discovered = true;
                 return;
             }
         }
@@ -737,7 +737,7 @@ SharkGame.Home = {
 
     addButton(actionName) {
         const buttonListSel = $("#buttonList");
-        const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+        const actionData = SharkGame.HomeActions.getActionTable()[actionName];
 
         const buttonSelector = SharkGame.Button.makeHoverscriptButton(
             actionName,
@@ -823,7 +823,7 @@ SharkGame.Home = {
             }
         }
         if (button.hasClass("newlyDiscovered")) {
-            action.newlyDiscovered = false;
+            SharkGame.HomeActions.getActionTable()[actionName].newlyDiscovered = false;
             button.removeClass("newlyDiscovered");
         }
         // disable button until next frame
