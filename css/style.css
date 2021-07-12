@@ -439,15 +439,19 @@ pre {
   padding: 0;
 }
 #log {
-  padding: 5px;
-  margin: 5px;
   overflow: hidden;
   /* overflow anchor fixes jittering!
     It disables scroll anchoring where chrome tries to help by scrolling the page */
   overflow-anchor: none;
+  position: relative;
+}
+#log li {
+  display: block;
 }
 #log h3 {
   display: inline;
+  margin-top: 0;
+  float: left;
 }
 #log .error {
   color: #e03030;
@@ -458,6 +462,9 @@ pre {
   text-shadow: 0 0 0.8em #60c9a7;
 }
 #log #messageList {
+  box-sizing: border-box;
+  text-align: center;
+  padding: 0;
   overflow-y: hidden;
   max-height: 400pt;
 }

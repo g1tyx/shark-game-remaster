@@ -616,14 +616,20 @@ pre {
 }
 
 #log {
-    .inner-section;
     overflow: hidden;
     /* overflow anchor fixes jittering!
     It disables scroll anchoring where chrome tries to help by scrolling the page */
     overflow-anchor: none;
+    position: relative;
+
+    li {
+        display: block;
+    }
 
     h3 {
         display: inline;
+        margin-top: 0;
+        float: left;
     }
 
     .error {
@@ -637,6 +643,9 @@ pre {
     }
 
     #messageList {
+        box-sizing: border-box;
+        text-align: center;
+        padding: 0;
         overflow-y: hidden;
         max-height: 400pt;
     }
