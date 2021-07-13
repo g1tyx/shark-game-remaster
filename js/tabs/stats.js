@@ -575,21 +575,27 @@ SharkGame.Stats = {
                         .html("<div style='text-align:center; color:" + res.UPGRADE_MULTIPLIER_COLOR + "'><strong>U</strong></div>")
                         .addClass("evenRow")
                 );
-                row.append(
-                    $("<td>")
-                        .html("<div style='text-align:center; color:" + res.WORLD_MULTIPLIER_COLOR + "'><strong>W</strong></div>")
-                        .addClass("evenRow")
-                );
-                row.append(
-                    $("<td>")
-                        .html("<div style='text-align:center; color:" + res.ASPECT_MULTIPLIER_COLOR + "'><strong>A</strong></div>")
-                        .addClass("evenRow")
-                );
-                row.append(
-                    $("<td>")
-                        .html("<div style='text-align:center; color:" + res.RESOURCE_AFFECT_MULTIPLIER_COLOR + "'><strong>R</strong></div>")
-                        .addClass("evenRow")
-                );
+                if (main.isFirstTime()) {
+                    row.append($("<td>").html(undefined).addClass("evenRow"));
+                    row.append($("<td>").html(undefined).addClass("evenRow"));
+                    row.append($("<td>").html(undefined).addClass("evenRow"));
+                } else {
+                    row.append(
+                        $("<td>")
+                            .html("<div style='text-align:center; color:" + res.WORLD_MULTIPLIER_COLOR + "'><strong>W</strong></div>")
+                            .addClass("evenRow")
+                    );
+                    row.append(
+                        $("<td>")
+                            .html("<div style='text-align:center; color:" + res.ASPECT_MULTIPLIER_COLOR + "'><strong>A</strong></div>")
+                            .addClass("evenRow")
+                    );
+                    row.append(
+                        $("<td>")
+                            .html("<div style='text-align:center; color:" + res.RESOURCE_AFFECT_MULTIPLIER_COLOR + "'><strong>R</strong></div>")
+                            .addClass("evenRow")
+                    );
+                }
                 columns -= 4;
             }
             while (columns > 1) {
