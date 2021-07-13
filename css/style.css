@@ -164,7 +164,7 @@ h4 {
   background-color: var(--color-dark);
   margin-left: auto;
   margin-right: auto;
-  margin-top: 5px;
+  margin-top: 53px;
   padding: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -230,7 +230,7 @@ pre {
 .top-bar #title {
   padding: 0;
   width: 100%;
-  height: 32px;
+  height: 3em;
   position: fixed;
   background-image: none;
   font-size: initial;
@@ -288,18 +288,6 @@ pre {
   color: var(--color-lighter);
   font-size: 1.3em;
 }
-#titlebar li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  display: inline;
-}
-#titlebar li:before {
-  content: " | ";
-}
-#titlebar li:first-child:before {
-  content: none;
-}
 #titlebar ul {
   padding: 0.2em 0;
   margin: 0.4em auto 0.6em auto;
@@ -313,8 +301,32 @@ pre {
   color: var(--color-lighter);
   filter: brightness(130%);
 }
+#titlemenu li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: inline;
+}
+#titlemenu li:before {
+  content: " | ";
+}
+#titlemenu li:first-child:before {
+  content: none;
+}
 #subtitlemenu {
   font-size: 0.8em;
+}
+#subtitlemenu li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: inline;
+}
+#subtitlemenu li:before {
+  content: " | ";
+}
+#subtitlemenu li:first-child:before {
+  content: none;
 }
 #contentMenu {
   overflow: hidden;
