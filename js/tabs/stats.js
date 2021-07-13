@@ -677,8 +677,8 @@ SharkGame.Stats = {
                 "<br> <b><u>TABLE KEY</b></u>" +
                 `<br> <span style='color:${res.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for <strong>U</strong>pgrade effects.` +
                 `<br> <span style='color:${res.WORLD_MULTIPLIER_COLOR}'><b>This color</b></span> is for <strong>W</strong>orld effects.` +
-                `<br> <span style='color:${res.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some <strong>R</strong>esources affect each other.` +
-                `<br> <span style='color:${res.ASPECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for <strong>A</strong>spect effects.`;
+                `<br> <span style='color:${res.ASPECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for <strong>A</strong>spect effects.` +
+                `<br> <span style='color:${res.RESOURCE_AFFECT_MULTIPLIER_COLOR}'><b>This color</b></span> is for how some <strong>R</strong>esources affect each other.`;
         } else {
             document.getElementById("tableKey").innerHTML =
                 "<br> <b><u>TABLE KEY</b></u>" +
