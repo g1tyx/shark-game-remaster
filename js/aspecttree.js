@@ -116,6 +116,9 @@ SharkGame.AspectTree = {
         }
 
         $.each(SharkGame.Aspects, (aspectId, aspectData) => {
+            if (aspectData.getUnlocked() || !_.every(aspectData.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level > 0)) {
+                return true;
+            }
             const aspectTableRowCurrent = document.createElement("tr");
 
             //aspectTableRowCurrent.classList.add("aspect-table-row");
