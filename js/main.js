@@ -101,47 +101,6 @@ $.extend(SharkGame, {
     gameOver: false,
     wonGame: false,
 
-    cheatsAndDebug: {
-        pause: false,
-        stop: false,
-        speed: 1,
-        upgradePriceModifier: 1,
-        actionPriceModifier: 1,
-        noNumberBeautifying: false,
-        cycling: false,
-        cycleStyles(time = 2000) {
-            if (cad.cycling) return;
-            cad.cycling = true;
-            let i = 0;
-            let intervalId = NaN;
-            function nextStyle() {
-                if (i >= gateway.allowedWorlds.length && !isNaN(intervalId)) {
-                    clearInterval(intervalId);
-                } else {
-                    world.worldType = gateway.allowedWorlds[i++];
-                    console.debug(`worldType now ${world.worldType}`);
-                }
-            }
-            setTimeout(nextStyle);
-            intervalId = setInterval(nextStyle, time);
-            cad.cycling = false;
-        },
-
-        discoverAll() {
-            $.each(SharkGame.Tabs, (tabName) => {
-                if (tabName !== "current") {
-                    main.discoverTab(tabName);
-                }
-            });
-        },
-
-        giveEverything(amount = 1) {
-            SharkGame.ResourceMap.forEach((_resource, resourceId) => {
-                res.changeResource(resourceId, amount);
-            });
-        },
-    },
-
     credits:
         "<p>This game was originally created in 3 days for Seamergency 2014.<br/>" +
         "<span class='smallDesc'>(Technically it was 4 days, but sometimes plans go awry.)</span></p>" +
@@ -600,6 +559,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Recycler.init();
         SharkGame.Gate.init();
         SharkGame.Reflection.init();
+        SharkGame.CheatsAndDebug.init();
 
         SharkGame.Main.setUpTitleBar();
 
@@ -673,11 +633,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     tick() {
-        if (SharkGame.cheatsAndDebug.pause) {
+        if (cad.pause) {
             SharkGame.before = _.now();
             return;
         }
-        if (SharkGame.cheatsAndDebug.stop) {
+        if (cad.stop) {
             return;
         }
         if (!SharkGame.gameOver) {
@@ -878,7 +838,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
     },
 
-    createBuyButtons(customLabel, addToWhere, appendOrPrepend) {
+    createBuyButtons(customLabel, addToWhere, appendOrPrepend, absoluteOnly) {
         if (!addToWhere) {
             log.addError("Attempted to create buy buttons without specifying what to do with them.");
         }
@@ -897,6 +857,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 return;
         }
         _.each(SharkGame.Settings.buyAmount.options, (amount) => {
+            if (amount < 0 && absoluteOnly) {
+                return true;
+            }
+
             const disableButton = amount === SharkGame.Settings.current.buyAmount;
             buttonList.append(
                 $("<li>").append(
@@ -954,13 +918,17 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Settings.current.customSetting = $("#custom-input")[0].value;
     },
 
-    getBuyAmount() {
+    getBuyAmount(noMaxBuy) {
         if (SharkGame.Settings.current.buyAmount === "custom") {
             return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
                 ? Math.floor($("#custom-input")[0].valueAsNumber)
                 : 1;
         } else {
-            return SharkGame.Settings.current.buyAmount;
+            if (SharkGame.Settings.current.buyAmount < 0 && noMaxBuy) {
+                return 1;
+            } else {
+                return SharkGame.Settings.current.buyAmount;
+            }
         }
     },
 
