@@ -137,8 +137,9 @@ $.extend(SharkGame, {
         "item_number=Shark%20Game%20Support&no_note=1&" +
         "no_shipping=1&currency_code=USD&" +
         "bn=PP%2dDonationsBF%3adonate%2epng%3aNonHosted' " +
-        "target='_blank'>support the original developer</a>" +
-        " if you'd like.)</span></p>",
+        "target='_blank'>support the developer of the original shark game,</a>" +
+        " if you'd like.)</span></p>" +
+        "<p>The developers of the mod are not currently taking donations.</p>",
 
     notice:
         "<p>Welcome to the open <b>alpha</b> of v0.2 for New Frontiers.</p>" +
