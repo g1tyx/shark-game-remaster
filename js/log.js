@@ -2,12 +2,13 @@
 SharkGame.Log = {
     initialised: false,
     messages: [],
+    totalCount: 0,
 
     init() {
         // create log
-        $("#log").append("<button id='clearLog' class='min close-button'>✕</button>").append("<ul id='messageList'></ul>");
+        $("#log").append("<button id='extendLog' class='min close-button'>⯆</button>").append("<ul id='messageList'></ul>");
         // add clear button
-        $("#clearLog").on("click", log.clearMessages);
+        $("#extendLog").on("click", log.toggleExtendedLog);
         log.initialised = true;
     },
 
@@ -18,6 +19,11 @@ SharkGame.Log = {
             log.init();
         }
         const messageItem = $("<li>").html(message);
+
+        if (this.totalCount % 2 === 1) {
+            messageItem.addClass("evenMessage");
+        }
+
         if (showAnims) {
             messageItem.hide().css("opacity", 0).prependTo("#messageList").slideDown(50).animate({ opacity: 1.0 }, 100);
         } else {
@@ -26,6 +32,8 @@ SharkGame.Log = {
         log.messages.push(messageItem);
 
         log.correctLogLength();
+
+        this.totalCount += 1;
 
         return messageItem;
     },
@@ -76,6 +84,20 @@ SharkGame.Log = {
         // wipe array
         log.messages = [];
         if (logThing) log.addMessage("Log cleared.");
+    },
+
+    toggleExtendedLog() {
+        const title = $("#title");
+        const messageList = $("#messageList");
+        if (messageList.hasClass("scrollable")) {
+            title.removeClass("biggerTitleDiv");
+            messageList.removeClass("scrollable");
+            $("#extendLog").html("⯆");
+        } else {
+            title.addClass("biggerTitleDiv");
+            messageList.addClass("scrollable");
+            $("#extendLog").html("⯅");
+        }
     },
 
     haveAnyMessages() {
