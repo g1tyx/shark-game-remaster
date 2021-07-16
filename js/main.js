@@ -559,7 +559,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Recycler.init();
         SharkGame.Gate.init();
         SharkGame.Reflection.init();
-        SharkGame.CheatsAndDebug.init();
+        // SharkGame.CheatsAndDebug.init();
 
         SharkGame.Main.setUpTitleBar();
 

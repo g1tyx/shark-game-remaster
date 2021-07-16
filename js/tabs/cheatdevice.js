@@ -1,8 +1,8 @@
 SharkGame.CheatsAndDebug = {
-    tabId: "cheats",
+    /* tabId: "cheats",
     tabDiscovered: false,
     tabSeen: false,
-    tabName: "Cheaty Powers",
+    tabName: "Cheaty Powers", */
 
     pause: false,
     stop: false,
@@ -82,7 +82,7 @@ SharkGame.CheatsAndDebug = {
         },
     },
 
-    init() {
+    /*     init() {
         main.registerTab(this);
     },
 
@@ -140,7 +140,7 @@ SharkGame.CheatsAndDebug = {
                 }
             }
         });
-    },
+    }, */
 
     cycleStyles(time = 2000) {
         if (cad.cycling) return;
@@ -175,7 +175,7 @@ SharkGame.CheatsAndDebug = {
     },
 
     debug() {
-        cad.tabDiscovered = true;
+        // cad.tabDiscovered = true;
         SharkGame.HomeActions.getActionTable().debugbutton.unauthorized = false;
     },
     togglePausePlease() {
