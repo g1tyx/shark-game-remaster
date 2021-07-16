@@ -633,12 +633,6 @@ SharkGame.Home = {
             }
         }
 
-        /*
-        if (document.querySelector("#wrapper button.hoverbutton:hover") === null) {
-            home.onHomeUnhover();
-        }
-        */
-
         label = $('<span id="' + actionName + 'Label" class="click-passthrough">' + label + "</span>");
 
         // Only redraw the whole button when necessary.
@@ -742,6 +736,7 @@ SharkGame.Home = {
             home.onHomeHover,
             home.onHomeUnhover
         );
+        buttonSelector.html($("<span id='" + actionName + "Label' class='click-passthrough'></span>"));
         home.updateButton(actionName);
         if (SharkGame.Settings.current.showAnimations) {
             buttonSelector.hide().css("opacity", 0).slideDown(50).animate({ opacity: 1.0 }, 50);
