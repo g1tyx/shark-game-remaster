@@ -470,9 +470,8 @@ pre {
   padding-bottom: 0.1em;
 }
 #log h3 {
-  display: inline;
-  margin-top: 0;
-  float: left;
+  display: block;
+  text-align: center;
 }
 #log .error {
   color: #e03030;
@@ -500,8 +499,33 @@ pre {
 #log #messageList.scrollable {
   overflow-y: scroll;
 }
+#log #messageList.forRightSide {
+  border-style: none;
+  max-height: 70em;
+}
+#log #messageList.forRightSide li {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+#log #messageList.forLeftSide {
+  border-style: none;
+  max-height: 30em;
+}
+#log #messageList.forLeftSide li {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
 #log #messageList .evenMessage {
   background-color: var(--color-dark);
+}
+#rightLogContainer {
+  float: right;
+  width: 18%;
+  max-height: 40em;
 }
 #resource-numen {
   text-shadow: 0 0 0.3em #ffffff, 0 0 0.6em #ffffff, 0 0 0.8em #ffffff;

@@ -5,14 +5,34 @@ SharkGame.Log = {
     totalCount: 0,
 
     init() {
-        // create log
-        $("#log").append("<button id='extendLog' class='min close-button'>⯆</button>").append("<ul id='messageList'></ul>");
-        // add clear button
-        $("#extendLog").on("click", log.toggleExtendedLog);
+        this.moveLog();
         log.initialised = true;
     },
 
-    addMessage(message) {
+    moveLog() {
+        $("#log").remove();
+        const logDiv = $("<div id='log'></div>");
+
+        switch (SharkGame.Settings.current.logLocation) {
+            case "left":
+                $("#sidebar").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forLeftSide")));
+                break;
+            case "top":
+                $("#titlebar").append(logDiv);
+                logDiv
+                    .append($("<button id='extendLog' class='min close-button'>⯆</button>").on("click", log.toggleExtendedLog))
+                    .append("<ul id='messageList'></ul>");
+                break;
+            default:
+                $("#rightLogContainer").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forRightSide")));
+        }
+
+        _.each(log.messages, (message) => {
+            log.addMessage(message.html(), true);
+        });
+    },
+
+    addMessage(message, skipAppendingToMessageArray) {
         const showAnims = SharkGame.Settings.current.showAnimations;
 
         if (!log.initialised) {
@@ -29,7 +49,9 @@ SharkGame.Log = {
         } else {
             messageItem.prependTo("#messageList");
         }
-        log.messages.push(messageItem);
+        if (!skipAppendingToMessageArray) {
+            log.messages.push(messageItem);
+        }
 
         log.correctLogLength();
 

@@ -654,9 +654,8 @@ pre {
     }
 
     h3 {
-        display: inline;
-        margin-top: 0;
-        float: left;
+        display: block;
+        text-align: center;
     }
 
     .error {
@@ -686,10 +685,38 @@ pre {
             overflow-y: scroll;
         }
 
+        &.forRightSide {
+            border-style: none;
+            max-height: 70em;
+            li {
+                padding-top: 1em;
+                padding-bottom: 1em;
+                padding-left: 0.4em;
+                padding-right: 0.4em;
+            }
+        }
+
+        &.forLeftSide {
+            border-style: none;
+            max-height: 30em;
+            li {
+                padding-top: 1em;
+                padding-bottom: 1em;
+                padding-left: 0.4em;
+                padding-right: 0.4em;
+            }
+        }
+
         .evenMessage {
             background-color: var(--color-dark);
         }
     }
+}
+
+#rightLogContainer {
+    float: right;
+    width: 18%;
+    max-height: 40em;
 }
 
 #resource-numen {

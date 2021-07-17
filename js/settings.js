@@ -56,6 +56,17 @@ SharkGame.Settings = {
         },
     },
 
+    logLocation: {
+        defaultSetting: "right",
+        name: "Log Location",
+        desc: "Where to put the log.",
+        category: "LAYOUT",
+        options: ["right", "left", "top"],
+        onChange() {
+            log.moveLog();
+        },
+    },
+
     groupResources: {
         defaultSetting: true,
         name: "Group Resources",
