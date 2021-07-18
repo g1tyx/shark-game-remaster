@@ -95,10 +95,9 @@ SharkGame.Events = {
             return "remove";
         },
         trigger() {
-            if (res.getResource("urchin") < 1) {
+            if (!SharkGame.flags.frigidAddedUrchin) {
                 SharkGame.Resources.changeResource("urchin", 1);
-                // I know this opens up an exploit for one free urchin if you load a save with none with this upgrade,
-                // but the exploit is meaningless, sooo
+                SharkGame.flags.frigidAddedUrchin = true;
             }
         },
     },

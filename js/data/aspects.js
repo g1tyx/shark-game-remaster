@@ -149,12 +149,9 @@ SharkGame.Aspects = {
             tree.increaseLevel(this);
         },
         apply(when) {
-            if (
-                when === "init" &&
-                SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000 &&
-                res.getResource("crab") === 0
-            ) {
+            if (when === "init" && res.getResource("crab") === 0 && !SharkGame.flags.pathOfTimeApplied) {
                 res.changeResource("crab", 20 * this.level ** 2);
+                SharkGame.flags.pathOfTimeApplied = true;
             }
         },
     },
@@ -395,12 +392,9 @@ SharkGame.Aspects = {
             tree.increaseLevel(this);
         },
         apply(when) {
-            if (
-                when === "init" &&
-                SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 1000 &&
-                res.getResource("crystal") === 0
-            ) {
+            if (when === "init" && res.getResource("crystal") === 0 && !SharkGame.flags.crystallineSkinApplied) {
                 res.changeResource("crystal", 20 * this.level ** 2);
+                SharkGame.flags.crystallineSkinApplied = true;
             }
         },
     },
