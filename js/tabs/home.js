@@ -385,6 +385,9 @@ SharkGame.Home = {
         if (SharkGame.Settings.current.showTabImages) {
             tabMessage.css("background-image", "url('" + home.tabBg + "')");
         }
+        if (SharkGame.Settings.current.logLocation === "right") {
+            buttonList.addClass("smallerMargin");
+        }
     },
 
     discoverActions() {

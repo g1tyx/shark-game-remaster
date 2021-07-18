@@ -16,15 +16,18 @@ SharkGame.Log = {
         switch (SharkGame.Settings.current.logLocation) {
             case "left":
                 $("#sidebar").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forLeftSide")));
+                $("#buttonList").removeClass("smallerMargin");
                 break;
             case "top":
                 $("#titlebar").append(logDiv);
                 logDiv
                     .append($("<button id='extendLog' class='min close-button'>⯆</button>").on("click", log.toggleExtendedLog))
                     .append("<ul id='messageList'></ul>");
+                $("#buttonList").removeClass("smallerMargin");
                 break;
             default:
                 $("#rightLogContainer").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forRightSide")));
+                $("#buttonList").addClass("smallerMargin");
         }
 
         _.each(log.messages, (message) => {

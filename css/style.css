@@ -583,6 +583,9 @@ pre {
 .pileArrangement button.newlyDiscovered {
   max-width: 12em;
 }
+.pileArrangement.smallerMargin button {
+  margin: 0.4em;
+}
 button.newlyDiscovered {
   background-color: #38a581;
   border-color: #ace3d1;
@@ -787,7 +790,7 @@ button.newlyDiscovered.disabled div {
 #recyclerContainer {
   margin: 0 auto;
   overflow: hidden;
-  width: 55em;
+  max-width: 55em;
 }
 #recyclerContainer > #inputButtons {
   float: left;
