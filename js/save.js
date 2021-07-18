@@ -13,6 +13,9 @@ SharkGame.Save = {
             world: { type: world.worldType },
             aspects: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
+            flags: {},
+            persistentFlags: {},
+            planetPool: {},
         };
 
         SharkGame.PlayerResources.forEach((resource, resourceId) => {
@@ -42,6 +45,10 @@ SharkGame.Save = {
         saveData.settings = _.cloneDeep(SharkGame.Settings.current);
 
         saveData.completedWorlds = _.cloneDeep(SharkGame.Gateway.completedWorlds);
+
+        saveData.flags = _.cloneDeep(SharkGame.flags);
+        saveData.persistentFlags = _.cloneDeep(SharkGame.persistentFlags);
+        saveData.planetPool = _.cloneDeep(gateway.planetPool);
 
         // add timestamp
         saveData.timestampLastSave = _.now();
@@ -213,6 +220,18 @@ SharkGame.Save = {
 
             if (saveData.completedRequirements) {
                 SharkGame.Gate.completedRequirements = _.cloneDeep(saveData.completedRequirements);
+            }
+
+            if (saveData.flags) {
+                SharkGame.flags = saveData.flags;
+            }
+
+            if (saveData.persistentFlags) {
+                SharkGame.persistentFlags = saveData.persistentFlags;
+            }
+
+            if (saveData.planetPool) {
+                gateway.planetPool = saveData.planetPool;
             }
 
             // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads

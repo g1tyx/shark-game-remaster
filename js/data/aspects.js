@@ -1,4 +1,5 @@
 "use strict";
+
 /**
  * @type {Record<string, {
  *     requiredBy: string[] | undefined
@@ -342,7 +343,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 5,
+        max: 4,
         level: 0,
         name: "Destiny Gamble",
         description: "Where we end up is all luck, but sometimes, we can stack the deck.",
@@ -351,18 +352,25 @@ SharkGame.Aspects = {
                 case 0:
                     return 1;
                 default:
-                    return 3 * level;
+                    return 2 * level;
             }
         },
         getEffect(level) {
             return "Between worlds, have the opportunity to reroll your world selection up to " + level + " time" + (level > 0 ? "s" : "") + ".";
         },
-        getUnlocked() {
-            return "Not useful as of now, locked until next update.";
-        },
+        getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
+        },
+        apply(when) {
+            if (when === "levelUp") {
+                if (_.isUndefined(SharkGame.persistentFlags.destinyRolls)) {
+                    SharkGame.persistentFlags.destinyRolls = this.level;
+                } else {
+                    SharkGame.persistentFlags.destinyRolls += 1;
+                }
+            }
         },
     },
     crystallineSkin: {

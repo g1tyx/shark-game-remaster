@@ -23,17 +23,23 @@ SharkGame.Gateway = {
             if (SharkGame.wonGame) {
                 essenceReward = 4;
                 gateway.markWorldCompleted(world.worldType);
+                SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
+                gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
             } else {
                 essenceReward = 0;
             }
             res.changeResource("essence", essenceReward);
         }
 
+        if (this.planetPool.length === 0) {
+            gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
+        }
+
         // RESET COMPLETED GATE REQUIREMENTS
         SharkGame.Gate.completedRequirements = {};
 
-        // PREPARE PLANETS
-        gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
+        // clear non-persistent flags
+        SharkGame.flags = {};
 
         // SAVE
         SharkGame.Save.saveGame();
@@ -165,7 +171,7 @@ SharkGame.Gateway = {
         gateway.transitioning = false;
     },
 
-    showPlanets() {
+    showPlanets(foregoAnimation) {
         // construct the gateway content
         const planetSelectionContent = $("<div>");
         planetSelectionContent.append($("<p>").html("Other worlds await."));
@@ -186,6 +192,10 @@ SharkGame.Gateway = {
             )
         );
 
+        if (SharkGame.Aspects.destinyGamble.level > 0) {
+            SharkGame.Button.makeButton("destinyGamble", "foobar", planetSelectionContent, gateway.rerollWorlds);
+        }
+
         // add return to gateway button
         const returnButtonDiv = $("<div>");
         SharkGame.Button.makeButton("backToGateway", "return to gateway", returnButtonDiv, () => {
@@ -193,9 +203,34 @@ SharkGame.Gateway = {
         });
         planetSelectionContent.append(returnButtonDiv);
 
-        main.showPane("WORLDS", planetSelectionContent, true, 500, true);
+        main.showPane("WORLDS", planetSelectionContent, true, foregoAnimation ? 0 : 500, true);
         gateway.transitioning = false;
         gateway.updatePlanetButtons();
+        gateway.formatDestinyGamble();
+    },
+
+    formatDestinyGamble() {
+        if (!_.isUndefined(SharkGame.persistentFlags.destinyRolls)) {
+            switch (SharkGame.persistentFlags.destinyRolls) {
+                case 0:
+                    $("#destinyGamble").html("No rerolls remain. Beat a world to recharge.").addClass("disabled");
+                    break;
+                case 1:
+                    $("#destinyGamble").html("Reroll Worlds (1 reroll remains)");
+                    break;
+                default:
+                    $("#destinyGamble").html("Reroll Worlds (" + SharkGame.persistentFlags.destinyRolls + " rerolls remain)");
+            }
+        }
+    },
+
+    rerollWorlds() {
+        if (SharkGame.persistentFlags.destinyRolls && SharkGame.persistentFlags.destinyRolls > 0) {
+            SharkGame.persistentFlags.destinyRolls -= 1;
+            gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
+            gateway.showPlanets(true);
+            SharkGame.Save.saveGame();
+        }
     },
 
     confirmWorld() {

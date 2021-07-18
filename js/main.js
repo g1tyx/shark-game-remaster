@@ -101,6 +101,9 @@ $.extend(SharkGame, {
     gameOver: false,
     wonGame: false,
 
+    flags: {},
+    persistentFlags: {},
+
     credits:
         "<p>This game was originally created in 3 days for Seamergency 2014.<br/>" +
         "<span class='smallDesc'>(Technically it was 4 days, but sometimes plans go awry.)</span></p>" +
@@ -560,6 +563,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Gate.init();
         SharkGame.Reflection.init();
         // SharkGame.CheatsAndDebug.init();
+
+        // clear flags
+        SharkGame.flags = {};
+        SharkGame.persistentFlags = {};
 
         SharkGame.Main.setUpTitleBar();
 
@@ -1158,6 +1165,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 };
             });
             backup.completedWorlds = SharkGame.Gateway.completedWorlds;
+            backup.persistentFlags = SharkGame.persistentFlags;
 
             SharkGame.timestampRunStart = _.now();
             main.init(true);
@@ -1169,6 +1177,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.setTotalResource(resourceName, resourceData.totalAmount);
             });
             SharkGame.Gateway.completedWorlds = backup.completedWorlds;
+            SharkGame.persistentFlags = backup.persistentFlags;
 
             try {
                 SharkGame.Save.saveGame();
@@ -1200,7 +1209,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         return pane;
     },
 
-    showPane(title, contents, notCloseable, fadeInTime, customOpacity) {
+    showPane(title, contents, notCloseable, fadeInTime = 600, customOpacity) {
         let pane;
 
         // GENERATE PANE IF THIS IS THE FIRST TIME
@@ -1213,7 +1222,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // begin fading in/displaying overlay if it isn't already visible
         const overlay = $("#overlay");
         // is it already up?
-        fadeInTime = fadeInTime || 600;
         if (overlay.is(":hidden")) {
             // nope, show overlay
             const overlayOpacity = customOpacity || 0.5;
