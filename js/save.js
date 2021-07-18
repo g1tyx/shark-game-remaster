@@ -13,9 +13,6 @@ SharkGame.Save = {
             world: { type: world.worldType },
             aspects: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
-            flags: {},
-            persistentFlags: {},
-            planetPool: {},
         };
 
         SharkGame.PlayerResources.forEach((resource, resourceId) => {
@@ -154,6 +151,14 @@ SharkGame.Save = {
             SharkGame.timestampRunEnd = saveData.timestampRunEnd;
             SharkGame.timestampSimulated = saveData.timestampLastSave;
 
+            if (saveData.flags) {
+                SharkGame.flags = saveData.flags;
+            }
+
+            if (saveData.persistentFlags) {
+                SharkGame.persistentFlags = saveData.persistentFlags;
+            }
+
             res.init();
 
             $.each(saveData.resources, (resourceId, resource) => {
@@ -220,14 +225,6 @@ SharkGame.Save = {
 
             if (saveData.completedRequirements) {
                 SharkGame.Gate.completedRequirements = _.cloneDeep(saveData.completedRequirements);
-            }
-
-            if (saveData.flags) {
-                SharkGame.flags = saveData.flags;
-            }
-
-            if (saveData.persistentFlags) {
-                SharkGame.persistentFlags = saveData.persistentFlags;
             }
 
             if (saveData.planetPool) {
@@ -828,7 +825,7 @@ SharkGame.Save = {
         function update16(save) {
             save.flags = {};
             save.persistentFlags = {};
-            save.planetPool = {};
+            save.planetPool = [];
 
             return save;
         },
