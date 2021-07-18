@@ -1191,6 +1191,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getExtractionTeam": {
+        frame: { x: 2332, y: 96, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/spongeFiltration": {
         frame: { x: 2118, y: 100, w: 50, h: 50 },
         rotated: false,
