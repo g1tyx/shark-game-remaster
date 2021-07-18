@@ -823,5 +823,14 @@ SharkGame.Save = {
 
             return save;
         },
+
+        // flags
+        function update16(save) {
+            save.flags = {};
+            save.persistentFlags = {};
+            save.planetPool = {};
+
+            return save;
+        },
     ],
 };
