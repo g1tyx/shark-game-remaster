@@ -432,7 +432,7 @@ SharkGame.Save = {
                 logMessageMax: 15,
                 sidebarWidth: "25%",
                 showAnimations: true,
-                colorCosts: "colored",
+                colorCosts: true,
             };
             save.gateCostsMet = {
                 fish: false,
@@ -821,8 +821,14 @@ SharkGame.Save = {
             return save;
         },
 
-        // flags
+        // flags and colorcosts
         function update16(save) {
+            if (save.settings.colorCosts) {
+                save.settings.colorCosts = "color";
+            } else {
+                save.settings.colorCosts = "none";
+            }
+
             save.flags = {};
             save.persistentFlags = {};
             save.planetPool = [];
