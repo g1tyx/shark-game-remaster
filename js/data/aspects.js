@@ -256,7 +256,15 @@ SharkGame.Aspects = {
         max: 4,
         level: 0,
         name: "Constructed Conception",
-        description: "Making new sharks and crabs could be more efficient. It doesn't hurt to use a little essence to help out.",
+        get description() {
+            return (
+                "Making new " +
+                res.getResourceName("shark", false, 69) +
+                " and " +
+                res.getResourceName("ray", false, 69) +
+                " could be more efficient. It doesn't hurt to use a little essence to help out."
+            );
+        },
         getCost(level) {
             return 2 * level + 4;
         },
