@@ -56,6 +56,17 @@ SharkGame.Settings = {
         },
     },
 
+    logLocation: {
+        defaultSetting: "right",
+        name: "Log Location",
+        desc: "Where to put the log.",
+        category: "LAYOUT",
+        options: ["right", "left", "top"],
+        onChange() {
+            log.moveLog();
+        },
+    },
+
     groupResources: {
         defaultSetting: true,
         name: "Group Resources",
@@ -90,11 +101,11 @@ SharkGame.Settings = {
     },
 
     logMessageMax: {
-        defaultSetting: 15,
+        defaultSetting: 30,
         name: "Max Log Messages",
         desc: "Max number of messages kept in the log.",
         category: "LAYOUT",
-        options: [5, 10, 15, 20, 30],
+        options: [5, 10, 15, 20, 30, 60],
         onChange() {
             log.correctLogLength();
         },

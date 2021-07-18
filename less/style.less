@@ -339,7 +339,7 @@ h4 {
     background-color: var(--color-dark);
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5px;
+    margin-top: 58px;
     padding: 10px;
     .border-radius(10px);
     height: 100%;
@@ -354,8 +354,6 @@ pre {
 }
 
 .section {
-    background-color: var(--color-med);
-    .box-shadow-inset(0, 0, 5px, 5px, var(--color-dark));
     .border-radius(10px);
     padding: 5px;
     overflow: hidden;
@@ -374,7 +372,6 @@ pre {
 #title {
     clear: both;
     .section;
-    background: linear-gradient(var(--color-title), var(--color-title)), var(--color-med) url("../img/sharklogo.png") no-repeat center;
     text-shadow: 2px 2px 3px var(--color-darker);
 
     &.radical {
@@ -404,7 +401,7 @@ pre {
     #title {
         padding: 0;
         width: 100%;
-        height: 32px;
+        height: 3em;
         position: fixed;
         background-image: none;
         font-size: initial;
@@ -412,20 +409,27 @@ pre {
         top: 0;
         z-index: 2;
         .border-radius(0);
-        .box-shadow(0, 4px, 4px, 4px, var(--color-darker));
+        .click-passthrough;
+
+        &.biggerTitleDiv {
+            height: 13em;
+        }
 
         #titlebar {
             width: 100%;
+            pointer-events: all;
         }
 
         #gameName,
         #versionNumber,
         #updateGame {
             display: none;
+            pointer-events: all;
         }
 
         #titlemenu,
         #subtitlemenu {
+            pointer-events: all;
             float: left;
             font-size: initial;
             height: auto;
@@ -449,8 +453,22 @@ pre {
 
         li {
             font-size: initial;
+            pointer-events: all;
+        }
+
+        #log {
+            pointer-events: all;
         }
     }
+}
+
+#titlebackground {
+    height: 3em;
+    background-color: var(--color-med);
+    position: fixed;
+    width: 100%;
+    z-index: -1;
+    box-shadow: 0 4px 4px 4px var(--color-darker);
 }
 
 #titlebar {
@@ -460,12 +478,6 @@ pre {
     text-align: center;
     font-weight: bold;
     color: var(--color-lighter);
-
-    li {
-        padding: 0;
-        margin: 0;
-        .pipe-separators;
-    }
 
     ul {
         padding: 0.2em 0;
@@ -485,10 +497,21 @@ pre {
         color: var(--color-lighter);
         filter: brightness(130%);
     }
+    li {
+        padding: 0;
+        margin: 0;
+        .pipe-separators;
+    }
 }
 
 #subtitlemenu {
     font-size: 0.8em;
+
+    li {
+        padding: 0;
+        margin: 0;
+        .pipe-separators;
+    }
 }
 
 #contentMenu {
@@ -553,8 +576,10 @@ pre {
     float: left;
     text-align: left;
     width: @sidebar-width;
+    background-color: var(--color-med);
     .section;
     text-shadow: 0px 0px 2px #000000;
+    .box-shadow-inset(0, 0, 5px, 5px, var(--color-dark));
 
     #resourceTableContainer {
         //max-width: 23em;
@@ -616,14 +641,21 @@ pre {
 }
 
 #log {
-    .inner-section;
     overflow: hidden;
     /* overflow anchor fixes jittering!
     It disables scroll anchoring where chrome tries to help by scrolling the page */
     overflow-anchor: none;
+    position: relative;
+
+    li {
+        display: block;
+        padding-top: 0.1em;
+        padding-bottom: 0.1em;
+    }
 
     h3 {
-        display: inline;
+        display: block;
+        text-align: center;
     }
 
     .error {
@@ -637,9 +669,54 @@ pre {
     }
 
     #messageList {
+        box-sizing: border-box;
+        text-align: center;
+        padding: 0;
         overflow-y: hidden;
-        max-height: 400pt;
+        max-height: 9em;
+        margin-top: 0;
+        margin-bottom: 0;
+        border-style: solid;
+        border-width: 2px;
+        background-color: var(--color-med);
+        .box-shadow-inset(0, 0, 2px, 2px, var(--color-dark));
+
+        &.scrollable {
+            overflow-y: scroll;
+        }
+
+        &.forRightSide {
+            border-style: none;
+            max-height: 70em;
+            li {
+                padding-top: 1em;
+                padding-bottom: 1em;
+                padding-left: 0.4em;
+                padding-right: 0.4em;
+            }
+        }
+
+        &.forLeftSide {
+            border-style: none;
+            max-height: 30em;
+            li {
+                padding-top: 1em;
+                padding-bottom: 1em;
+                padding-left: 0.4em;
+                padding-right: 0.4em;
+            }
+        }
+
+        .evenMessage {
+            background-color: var(--color-dark);
+        }
     }
+}
+
+#rightLogContainer {
+    float: right;
+    width: 18%;
+    max-height: 40em;
 }
 
 #resource-numen {
@@ -654,6 +731,8 @@ pre {
 
 #content {
     .section;
+    background-color: var(--color-med);
+    .box-shadow-inset(0, 0, 5px, 5px, var(--color-dark));
     padding: 0.5em;
 
     #helpButton {
@@ -697,6 +776,12 @@ pre {
 
         &.newlyDiscovered {
             max-width: 12em;
+        }
+    }
+
+    &.smallerMargin {
+        button {
+            margin: 0.4em;
         }
     }
 }
@@ -850,7 +935,7 @@ button.newlyDiscovered {
 #recyclerContainer {
     margin: 0 auto;
     overflow: hidden;
-    width: 55em;
+    max-width: 55em;
 
     > #inputButtons {
         float: left;

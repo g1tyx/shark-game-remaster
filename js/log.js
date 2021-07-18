@@ -2,46 +2,85 @@
 SharkGame.Log = {
     initialised: false,
     messages: [],
+    totalCount: 0,
 
     init() {
-        // create log
-        $("#log").append("<h3>Log<h3/>").append("<button id='clearLog' class='min close-button'>✕</button>").append("<ul id='messageList'></ul>");
-        // add clear button
-        $("#clearLog").on("click", log.clearMessages);
+        this.moveLog();
         log.initialised = true;
     },
 
-    addMessage(message) {
+    moveLog() {
+        $("#log").remove();
+        const logDiv = $("<div id='log'></div>");
+
+        switch (SharkGame.Settings.current.logLocation) {
+            case "left":
+                $("#sidebar").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forLeftSide")));
+                $("#buttonList").removeClass("smallerMargin");
+                break;
+            case "top":
+                $("#titlebar").append(logDiv);
+                logDiv
+                    .append($("<button id='extendLog' class='min close-button'>⯆</button>").on("click", log.toggleExtendedLog))
+                    .append("<ul id='messageList'></ul>");
+                $("#buttonList").removeClass("smallerMargin");
+                break;
+            default:
+                $("#rightLogContainer").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forRightSide")));
+                $("#buttonList").addClass("smallerMargin");
+        }
+
+        _.each(log.messages, (message) => {
+            if (message.hasClass("discovery")) {
+                log.addDiscovery(message.html(), true);
+            } else if (message.hasClass("error")) {
+                log.addError(message.html(), true);
+            } else {
+                log.addMessage(message.html(), true);
+            }
+        });
+    },
+
+    addMessage(message, skipAppendingToMessageArray) {
         const showAnims = SharkGame.Settings.current.showAnimations;
 
         if (!log.initialised) {
             log.init();
         }
         const messageItem = $("<li>").html(message);
+
+        if (this.totalCount % 2 === 1) {
+            messageItem.addClass("evenMessage");
+        }
+
         if (showAnims) {
             messageItem.hide().css("opacity", 0).prependTo("#messageList").slideDown(50).animate({ opacity: 1.0 }, 100);
         } else {
             messageItem.prependTo("#messageList");
         }
-        log.messages.push(messageItem);
+        if (!skipAppendingToMessageArray) {
+            log.messages.push(messageItem);
+        }
 
         log.correctLogLength();
+
+        this.totalCount += 1;
 
         return messageItem;
     },
 
-    addError(message) {
+    addError(message, skipAppendingToMessageArray) {
         if (message instanceof Error) {
             console.error(message);
             message = message.message;
         }
-        const messageItem = log.addMessage("Error: " + message);
+        const messageItem = log.addMessage("Error: " + message, skipAppendingToMessageArray);
         messageItem.addClass("error");
         return messageItem;
     },
 
-    addDiscovery(message) {
-        const messageItem = log.addMessage(message);
+    addDiscovery(message, skipAppendingToMessageArray) {
+        const messageItem = log.addMessage(message, skipAppendingToMessageArray);
         messageItem.addClass("discovery");
         return messageItem;
     },
@@ -76,6 +115,20 @@ SharkGame.Log = {
         // wipe array
         log.messages = [];
         if (logThing) log.addMessage("Log cleared.");
+    },
+
+    toggleExtendedLog() {
+        const title = $("#title");
+        const messageList = $("#messageList");
+        if (messageList.hasClass("scrollable")) {
+            title.removeClass("biggerTitleDiv");
+            messageList.removeClass("scrollable");
+            $("#extendLog").html("⯆");
+        } else {
+            title.addClass("biggerTitleDiv");
+            messageList.addClass("scrollable");
+            $("#extendLog").html("⯅");
+        }
     },
 
     haveAnyMessages() {

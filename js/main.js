@@ -121,12 +121,11 @@ $.extend(SharkGame, {
         "<h3>Or are they?</h3>",
 
     help:
-        "<p>This game is a game about discovery, resources, and does not demand your full attention. " +
-        "You are free to pay as much attention to the game as you want. " +
+        "<p>This game is a game about resources and discovery, and does not demand your full attention. " +
         "It will happily run in the background, and works even while closed.</p>" +
-        "<p>To begin, you should catch fish. Once you have some fish, more actions will become available. " +
-        "<p>If you are ever stuck, try actions you haven't yet tried. " +
-        "<p>If you are here because you think you have encountered a bug of some kind, or you really need help, report it on the <a href='https://discord.gg/nN7BQDJR2G' target='blank_'>discord</a>.</p>",
+        "<p>To begin, you should catch fish. Once you have some fish, more actions will become available.</p>" +
+        "<p>If you are ever stuck, double-check that you have already bought everything, then make sure there's not a resource you've been neglecting.</p>" +
+        "<p>If you are still stuck, or if you think it's a bug, you can always ask for help on the <a href='https://discord.gg/nN7BQDJR2G' target='blank_'>discord server</a>.</p>",
 
     donate:
         "<p>You can <a href='https://www.sharktrust.org/Listing/Category/donate' target='_blank'>donate to help save sharks and mantas</a>!</p>" +
@@ -138,8 +137,9 @@ $.extend(SharkGame, {
         "item_number=Shark%20Game%20Support&no_note=1&" +
         "no_shipping=1&currency_code=USD&" +
         "bn=PP%2dDonationsBF%3adonate%2epng%3aNonHosted' " +
-        "target='_blank'>support the original developer</a>" +
-        " if you'd like.)</span></p>",
+        "target='_blank'>support the developer of the original shark game,</a>" +
+        " if you'd like.)</span></p>" +
+        "<p>The developers of the mod are not currently taking donations.</p>",
 
     notice:
         "<p>Welcome to the open <b>alpha</b> of v0.2 for New Frontiers.</p>" +
