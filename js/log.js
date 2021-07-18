@@ -28,7 +28,13 @@ SharkGame.Log = {
         }
 
         _.each(log.messages, (message) => {
-            log.addMessage(message.html(), true);
+            if (message.hasClass("discovery")) {
+                log.addDiscovery(message.html(), true);
+            } else if (message.hasClass("error")) {
+                log.addError(message.html(), true);
+            } else {
+                log.addMessage(message.html(), true);
+            }
         });
     },
 
@@ -60,18 +66,18 @@ SharkGame.Log = {
         return messageItem;
     },
 
-    addError(message) {
+    addError(message, skipAppendingToMessageArray) {
         if (message instanceof Error) {
             console.error(message);
             message = message.message;
         }
-        const messageItem = log.addMessage("Error: " + message);
+        const messageItem = log.addMessage("Error: " + message, skipAppendingToMessageArray);
         messageItem.addClass("error");
         return messageItem;
     },
 
-    addDiscovery(message) {
-        const messageItem = log.addMessage(message);
+    addDiscovery(message, skipAppendingToMessageArray) {
+        const messageItem = log.addMessage(message, skipAppendingToMessageArray);
         messageItem.addClass("discovery");
         return messageItem;
     },
