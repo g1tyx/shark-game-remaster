@@ -164,12 +164,15 @@ h4 {
   background-color: var(--color-dark);
   margin-left: auto;
   margin-right: auto;
-  margin-top: 58px;
+  margin-top: 2.5em;
   padding: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
   height: 100%;
+}
+#wrapper.topLogActive {
+  margin-top: 4.8em;
 }
 pre {
   text-align: left;
@@ -221,7 +224,7 @@ pre {
 .top-bar #title {
   padding: 0;
   width: 100%;
-  height: 3em;
+  height: 4.3em;
   position: fixed;
   background-image: none;
   font-size: initial;
@@ -238,7 +241,7 @@ pre {
 }
 .top-bar #title #titlebar {
   width: 100%;
-  pointer-events: all;
+  pointer-events: none;
 }
 .top-bar #title #gameName,
 .top-bar #title #versionNumber,
@@ -279,12 +282,15 @@ pre {
   pointer-events: all;
 }
 #titlebackground {
-  height: 3em;
+  height: 2em;
   background-color: var(--color-med);
   position: fixed;
   width: 100%;
   z-index: -1;
   box-shadow: 0 4px 4px 4px var(--color-darker);
+}
+#titlebackground.topLogActive {
+  height: 4.3em;
 }
 #titlebar {
   height: auto;
@@ -500,8 +506,9 @@ pre {
   overflow-y: scroll;
 }
 #log #messageList.forRightSide {
+  overflow-y: scroll;
   border-style: none;
-  max-height: 70em;
+  max-height: 42em;
 }
 #log #messageList.forRightSide li {
   padding-top: 1em;
@@ -510,6 +517,7 @@ pre {
   padding-right: 0.4em;
 }
 #log #messageList.forLeftSide {
+  overflow-y: scroll;
   border-style: none;
   max-height: 30em;
 }
