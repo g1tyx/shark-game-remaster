@@ -355,7 +355,9 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Between worlds, have the opportunity to reroll your world selection up to " + level + " time" + (level > 0 ? "s" : "") + ".";
         },
-        getUnlocked() {},
+        getUnlocked() {
+            return "Not useful as of now, locked until next update.";
+        },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
