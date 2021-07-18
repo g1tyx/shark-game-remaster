@@ -790,7 +790,7 @@ SharkGame.Save = {
         function update15(save) {
             if (_.has(save, "settings.showTabHelp")) {
                 if (!_.has(save, "settings.showTooltips")) {
-                    save.settings.showTooltops = save.settings.showTabHelp;
+                    save.settings.showTooltips = save.settings.showTabHelp;
                 }
                 delete save.settings.showTabHelp;
             }
