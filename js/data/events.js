@@ -32,16 +32,16 @@ SharkGame.Events = {
         handlingTime: "beforeTick",
         priority: 2,
         getAction() {
-            if (SharkGame.World.worldType === "frigid") {
-                if (SharkGame.Upgrades.purchased.indexOf("civilContact") > -1) {
-                    return "trigger";
-                }
-                return "pass";
+            if (SharkGame.World.worldType !== "frigid") {
+                return "remove";
             }
-            return "remove";
+            if (SharkGame.Upgrades.purchased.includes("civilContact")) {
+                return "trigger";
+            }
+            return "pass";
         },
         trigger() {
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.world = -0.0015015;
+            SharkGame.GeneratorIncomeAffectors.ice.multiply.world = -(1 / 666);
             res.clearNetworks();
             res.buildIncomeNetwork();
         },
@@ -50,13 +50,13 @@ SharkGame.Events = {
         handlingTime: "beforeTick",
         priority: 3,
         getAction() {
-            if (SharkGame.World.worldType === "frigid") {
-                if (SharkGame.Upgrades.purchased.indexOf("rapidRecharging") > -1) {
-                    return "trigger";
-                }
-                return "pass";
+            if (SharkGame.World.worldType !== "frigid") {
+                return "remove";
             }
-            return "remove";
+            if (SharkGame.Upgrades.purchased.indexOf("rapidRecharging") > -1) {
+                return "trigger";
+            }
+            return "pass";
         },
         trigger() {
             res.applyModifier("planetaryIncome", "ice", -51);
@@ -75,13 +75,13 @@ SharkGame.Events = {
         handlingTime: "afterTick",
         priority: 0,
         getAction() {
-            if (SharkGame.World.worldType === "frigid") {
-                if (res.getResource("ice") > 999) {
-                    return "trigger";
-                }
-                return "pass";
+            if (SharkGame.World.worldType !== "frigid") {
+                return "remove";
             }
-            return "remove";
+            if (res.getResource("ice") > 999) {
+                return "trigger";
+            }
+            return "pass";
         },
         trigger() {
             res.setResource("ice", 999);
@@ -105,18 +105,18 @@ SharkGame.Events = {
         handlingTime: "beforeTick",
         priority: 0,
         getAction() {
-            if (SharkGame.Settings.current.offlineModeActive) {
-                if (SharkGame.timestampSimulated - SharkGame.timestampRunStart < 60000 && SharkGame.Aspects.theMinuteHand.level) {
+            if (SharkGame.Aspects.theMinuteHand.level) {
+                if (SharkGame.Settings.current.offlineModeActive && SharkGame.timestampSimulated - SharkGame.timestampRunStart < 60000) {
                     return "trigger";
                 }
-            } else {
                 if (
-                    SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 60000 &&
-                    SharkGame.Aspects.theMinuteHand.level
+                    !SharkGame.Settings.current.offlineModeActive &&
+                    SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 60000
                 ) {
                     return "trigger";
                 }
             }
+
             res.specialMultiplier = 1;
             return "remove";
         },
