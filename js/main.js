@@ -1351,6 +1351,14 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202107??a": [
+        "Significant changes to the log.",
+        "The log can appear in one of 3 spots. Change which one in options. Default is now right side.",
+        "Added extraction team sprite.",
+        "Fixed a bug where costs disappear in no-icons mode.",
+        "Fixed incorrect description of an aspect.",
+        "Fixed bugs with importing saves.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210713a": [
         "Tooltips show you how much you already own of what you're buying. Can be turned off in options.",
         "Tooltips have their numbers scale based on how much of something you're buying. Can be turned off in options.",
