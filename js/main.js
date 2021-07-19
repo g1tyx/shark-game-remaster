@@ -601,15 +601,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
 
         // rename a game option if this is a first time run
-        if (main.isFirstTime()) {
-            SharkGame.TitleBar.skipLink.name = "reset";
-            main.setUpTitleBar();
-            main.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
-        } else {
-            // and then remember to actually set it back once it's not
-            SharkGame.TitleBar.skipLink.name = "skip";
-            main.setUpTitleBar();
-        }
+        main.correctTitleBar();
 
         // discover actions that were present in last save
         home.discoverActions();
@@ -750,6 +742,18 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     });
             }
         });
+    },
+
+    correctTitleBar() {
+        if (main.isFirstTime()) {
+            SharkGame.TitleBar.skipLink.name = "reset";
+            main.setUpTitleBar();
+            main.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
+        } else {
+            // and then remember to actually set it back once it's not
+            SharkGame.TitleBar.skipLink.name = "skip";
+            main.setUpTitleBar();
+        }
     },
 
     setUpTitleBar() {

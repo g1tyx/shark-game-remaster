@@ -323,7 +323,9 @@ SharkGame.Save = {
         // load the game from this save data string
         try {
             log.clearMessages(false);
+            main.init();
             SharkGame.Save.loadGame(data);
+            main.correctTitleBar();
         } catch (err) {
             log.addError(err);
         }
