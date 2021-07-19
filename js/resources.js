@@ -866,6 +866,7 @@ SharkGame.Resources = {
         return product;
     },
 
+    // This is weird
     getPurchaseAmount(resource, owned = res.getResource(resource)) {
         const buy = main.getBuyAmount();
 
