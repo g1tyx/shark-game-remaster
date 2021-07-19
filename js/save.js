@@ -326,6 +326,7 @@ SharkGame.Save = {
             main.init();
             SharkGame.Save.loadGame(data);
             main.correctTitleBar();
+            home.discoverActions();
         } catch (err) {
             log.addError(err);
         }
