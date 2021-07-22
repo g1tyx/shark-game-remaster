@@ -174,6 +174,9 @@ h4 {
 #wrapper.topLogActive {
   margin-top: 4.8em;
 }
+#wrapper.notMinimized {
+  margin-top: 0;
+}
 pre {
   text-align: left;
 }
@@ -202,11 +205,14 @@ pre {
   padding: 5px;
   overflow: hidden;
   text-shadow: 2px 2px 3px var(--color-darker);
+  margin-bottom: 1em;
+  box-shadow: 0 4px 4px 4px var(--color-darker);
+  background-image: url("../img/sharklogo.png");
+  background-position: center;
+  background-repeat: no-repeat;
 }
 #title.radical {
   background-image: url("../img/sharklogo_radical.png");
-  background-position: center;
-  background-repeat: no-repeat;
 }
 #title h1 {
   margin: 0.1em auto 0.3em auto;
@@ -230,6 +236,8 @@ pre {
   font-size: initial;
   left: 0;
   top: 0;
+  box-shadow: none;
+  margin-bottom: 0;
   z-index: 2;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -281,8 +289,12 @@ pre {
 .top-bar #title #log {
   pointer-events: all;
 }
+.top-bar #title #titlebackground {
+  display: block;
+}
 #titlebackground {
   height: 2em;
+  display: none;
   background-color: var(--color-med);
   position: fixed;
   width: 100%;

@@ -347,6 +347,10 @@ h4 {
     &.topLogActive {
         margin-top: 4.8em;
     }
+
+    &.notMinimized {
+        margin-top: 0;
+    }
 }
 
 pre {
@@ -377,11 +381,14 @@ pre {
     clear: both;
     .section;
     text-shadow: 2px 2px 3px var(--color-darker);
+    margin-bottom: 1em;
+    box-shadow: 0 4px 4px 4px var(--color-darker);
+    background-image: url("../img/sharklogo.png");
+    background-position: center;
+    background-repeat: no-repeat;
 
     &.radical {
         background-image: url("../img/sharklogo_radical.png");
-        background-position: center;
-        background-repeat: no-repeat;
     }
 
     h1 {
@@ -411,6 +418,8 @@ pre {
         font-size: initial;
         left: 0;
         top: 0;
+        box-shadow: none;
+        margin-bottom: 0;
         z-index: 2;
         .border-radius(0);
         .click-passthrough;
@@ -463,11 +472,16 @@ pre {
         #log {
             pointer-events: all;
         }
+
+        #titlebackground {
+            display: block;
+        }
     }
 }
 
 #titlebackground {
     height: 2em;
+    display: none;
     background-color: var(--color-med);
     position: fixed;
     width: 100%;
