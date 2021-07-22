@@ -676,39 +676,45 @@ SharkGame.Home = {
     },
 
     areActionPrereqsMet(actionName) {
-        let prereqsMet = true; // assume true until proven false
         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         if (action.unauthorized) {
             return false;
         }
         // check to see if this action should be forcibly removed
-        if (action.removedBy) {
-            prereqsMet = !home.shouldRemoveHomeButton(action);
+        if (action.removedBy && home.shouldRemoveHomeButton(action)) {
+            return false;
         }
 
         // check resource prerequisites
-        if (action.prereq.resource) {
-            prereqsMet &&= res.checkResources(action.prereq.resource, true);
+        if (action.prereq.resource && !res.checkResources(action.prereq.resource, true)) {
+            return false;
         }
 
         // check if resource cost exists
-        prereqsMet &&= _.every(action.cost, (cost) => world.doesResourceExist(cost.resource));
+        if (!_.every(action.cost, (cost) => world.doesResourceExist(cost.resource))) {
+            return false;
+        }
 
         // check special worldtype prereqs
-        if (action.prereq.world) {
-            prereqsMet &&= world.worldType === action.prereq.world;
+        if (action.prereq.world && world.worldType !== action.prereq.world) {
+            return false;
         }
 
         // check the special worldtype exclusions
-        if (action.prereq.notWorlds) {
-            prereqsMet &&= !action.prereq.notWorlds.includes(world.worldType);
+        if (action.prereq.notWorlds && action.prereq.notWorlds.includes(world.worldType)) {
+            return false;
         }
 
         // check upgrade prerequisites
-        prereqsMet &&= _.every(action.prereq.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
+        if (!_.every(action.prereq.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId))) {
+            return false;
+        }
         // check if resulting resource exists
-        prereqsMet &&= _.every(action.effect.resource, (_amount, resourceId) => world.doesResourceExist(resourceId));
-        return prereqsMet;
+        if (!_.every(action.effect.resource, (_amount, resourceId) => world.doesResourceExist(resourceId))) {
+            return false;
+        }
+        // if nothing fails, return true
+        return true;
     },
 
     shouldRemoveHomeButton(action) {
@@ -833,18 +839,14 @@ SharkGame.Home = {
         }
         const effects = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName).effect;
         const validGenerators = {};
-        if (effects.resource) {
-            $.each(effects.resource, (resource) => {
-                if (SharkGame.ResourceMap.get(resource).income) {
-                    $.each(SharkGame.ResourceMap.get(resource).income, (incomeResource) => {
-                        const genAmount = res.getProductAmountFromGeneratorResource(resource, incomeResource, 1);
-                        if (genAmount !== 0 && world.doesResourceExist(incomeResource)) {
-                            validGenerators[incomeResource] = genAmount;
-                        }
-                    });
+        $.each(effects.resource, (resource) => {
+            $.each(SharkGame.ResourceMap.get(resource).income, (incomeResource) => {
+                const genAmount = res.getProductAmountFromGeneratorResource(resource, incomeResource, 1);
+                if (genAmount !== 0 && world.doesResourceExist(incomeResource)) {
+                    validGenerators[incomeResource] = genAmount;
                 }
             });
-        }
+        });
 
         let buyingHowMuch = 1;
         if (!SharkGame.Settings.current.alwaysSingularTooltip) {
