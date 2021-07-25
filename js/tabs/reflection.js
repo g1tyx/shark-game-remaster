@@ -48,7 +48,7 @@ SharkGame.Reflection = {
                 if (aspectData.level >= aspectData.max) {
                     aspectLabel += "(Maximum Power)";
                 } else {
-                    aspectLabel += "(Power: " + main.beautify(aspectData.level) + ")";
+                    aspectLabel += "(Power: " + sharktext.beautify(aspectData.level) + ")";
                 }
                 aspectLabel += `<br>${aspectData.getEffect(aspectData.level)}</span>`;
                 // FIXME: Either add flavourtext to aspects, or delete this line

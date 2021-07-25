@@ -193,7 +193,7 @@ SharkGame.WorldTypes = {
             get longDesc() {
                 return (
                     "The water here is dank and tinted green by " +
-                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? res.getResourceName("tar") + "." : "an unrecognizable substance.") +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? sharktext.getResourceName("tar") + "." : "an unrecognizable substance.") +
                     " Husks of machinery litter the ocean floor."
                 );
             },
@@ -203,7 +203,7 @@ SharkGame.WorldTypes = {
                 return (
                     "This ocean is polluted with " +
                     (gateway.completedWorlds.indexOf("abandoned") > -1
-                        ? res.getResourceName("tar")
+                        ? sharktext.getResourceName("tar")
                         : "an unrecognizable substance" + ". It is only harmful when machines produce it.")
                 );
             },
@@ -285,9 +285,9 @@ SharkGame.WorldTypes = {
             get tip() {
                 return (
                     "This world has " +
-                    res.getResourceName("ice") +
+                    sharktext.getResourceName("ice") +
                     ". " +
-                    res.getResourceName("ice") +
+                    sharktext.getResourceName("ice") +
                     " will slow some of the frenzy, and will be present from the start."
                 );
             },

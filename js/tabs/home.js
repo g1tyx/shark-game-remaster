@@ -581,7 +581,7 @@ SharkGame.Home = {
     },
 
     updateButton(actionName) {
-        const amountToBuy = main.getBuyAmount();
+        const amountToBuy = sharkmath.getBuyAmount();
 
         const button = $("#" + actionName);
         const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
@@ -617,7 +617,7 @@ SharkGame.Home = {
 
         let label = actionData.name;
         if (!$.isEmptyObject(actionCost) && amount > 1) {
-            label += " (" + main.beautify(amount) + ")";
+            label += " (" + sharktext.beautify(amount) + ")";
         }
 
         if (enableButton) {
@@ -630,7 +630,7 @@ SharkGame.Home = {
         if (_.some(actionCost, (cost) => cost === Infinity)) {
             label += "<br>Maxed out";
         } else {
-            const costText = res.resourceListToString(actionCost, !enableButton, SharkGame.getElementColor(actionName, "background-color"));
+            const costText = sharktext.resourceListToString(actionCost, !enableButton, sharkcolor.getElementColor(actionName, "background-color"));
             if (costText !== "") {
                 label += "<br>Cost: " + costText;
             }
@@ -754,6 +754,7 @@ SharkGame.Home = {
             buttonSelector.addClass("newlyDiscovered");
         }
     },
+
     getActionCategory(actionName) {
         return _.findKey(SharkGame.HomeActionCategories, (category) => {
             return _.some(category.actions, (action) => action === actionName);
@@ -761,7 +762,7 @@ SharkGame.Home = {
     },
 
     onHomeButton() {
-        const amountToBuy = main.getBuyAmount();
+        const amountToBuy = sharkmath.getBuyAmount();
         // get related entry in home button table
         const button = $(this);
         if (button.hasClass("disabled")) return;
@@ -850,7 +851,7 @@ SharkGame.Home = {
 
         let buyingHowMuch = 1;
         if (!SharkGame.Settings.current.alwaysSingularTooltip) {
-            buyingHowMuch = res.getPurchaseAmount(
+            buyingHowMuch = sharkmath.getPurchaseAmount(
                 "doesntmatter",
                 home.getMax(SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName))
             );
@@ -872,10 +873,11 @@ SharkGame.Home = {
                     text += "<span class='littleTooltipText'>PRODUCE" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                 }
                 text +=
-                    main
+                    sharktext
                         .beautifyIncome(
                             buyingHowMuch * amount,
-                            " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
+                            " " +
+                                sharktext.getResourceName(incomeResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
             }
@@ -888,10 +890,11 @@ SharkGame.Home = {
                     text += "<span class='littleTooltipText'>CONSUME" + (buyingHowMuch >= 2 ? "" : "S") + "</span><br/>";
                 }
                 text +=
-                    main
+                    sharktext
                         .beautifyIncome(
                             -buyingHowMuch * amount,
-                            " " + res.getResourceName(incomeResource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"))
+                            " " +
+                                sharktext.getResourceName(incomeResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color"))
                         )
                         .bold() + "<br/>";
             }
@@ -900,7 +903,6 @@ SharkGame.Home = {
         $.each(effects.resource, (resource) => {
             $.each(SharkGame.ResourceIncomeAffectors[resource], (type, object) => {
                 $.each(object, (affected, degree) => {
-                    //FIXME: This system is NOT compatible with kinds of resources that have both 'increase' and 'decrease' entries in the affector table.
                     if (type === "multiply") {
                         if (!appendedMultiply) {
                             appendedMultiply = true;
@@ -912,7 +914,7 @@ SharkGame.Home = {
                         }
                         text +=
                             "all ".bold() +
-                            res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                            sharktext.getResourceName(affected, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                             " gains ".bold() +
                             " by " +
                             (Math.round(buyingHowMuch * degree * 100) + "%").bold() +
@@ -934,7 +936,7 @@ SharkGame.Home = {
                         degree = degree < 1 ? 1 - degree ** buyingHowMuch : degree ** buyingHowMuch - 1;
                         text +=
                             "all ".bold() +
-                            res.getResourceName(affected, false, false, SharkGame.getElementColor("tooltipbox", "background-color")) +
+                            sharktext.getResourceName(affected, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                             " gains ".bold() +
                             " by " +
                             (Math.round(degree * 100) + "%").bold() +
@@ -951,22 +953,24 @@ SharkGame.Home = {
         $.each(effects.resource, (resource, amount) => {
             if (buyingHowMuch * amount >= 2) {
                 text =
-                    main.beautify(buyingHowMuch * amount).bold() +
+                    sharktext.beautify(buyingHowMuch * amount).bold() +
                     " " +
-                    res.getResourceName(resource, false, buyingHowMuch * amount, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    sharktext
+                        .getResourceName(resource, false, buyingHowMuch * amount, sharkcolor.getElementColor("tooltipbox", "background-color"))
+                        .bold() +
                     "<br>" +
                     (SharkGame.Settings.current.tooltipQuantityReminders
-                        ? "<span class='medDesc littleTooltipText'>(you have " + main.beautify(res.getResource(resource)) + ")</span><br>"
+                        ? "<span class='medDesc littleTooltipText'>(you have " + sharktext.beautify(res.getResource(resource)) + ")</span><br>"
                         : "") +
                     text;
             } else {
-                const determiner = main.getDeterminer(resource);
+                const determiner = sharktext.getDeterminer(resource);
                 text =
                     (determiner ? determiner + " " : "") +
-                    res.getResourceName(resource, false, 1, SharkGame.getElementColor("tooltipbox", "background-color")).bold() +
+                    sharktext.getResourceName(resource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")).bold() +
                     "<br>" +
                     (SharkGame.Settings.current.tooltipQuantityReminders
-                        ? "<span class='medDesc littleTooltipText'>(you have " + main.beautify(res.getResource(resource)) + ")</span><br>"
+                        ? "<span class='medDesc littleTooltipText'>(you have " + sharktext.beautify(res.getResource(resource)) + ")</span><br>"
                         : "") +
                     text;
             }
@@ -995,13 +999,13 @@ SharkGame.Home = {
             let cost = 0;
             switch (costObj.costFunction) {
                 case "constant":
-                    cost = SharkGame.MathUtil.constantCost(currAmount, currAmount + amount, priceIncrease);
+                    cost = sharkmath.constantCost(currAmount, currAmount + amount, priceIncrease);
                     break;
                 case "linear":
-                    cost = SharkGame.MathUtil.linearCost(currAmount, currAmount + amount, priceIncrease);
+                    cost = sharkmath.linearCost(currAmount, currAmount + amount, priceIncrease);
                     break;
                 case "unique":
-                    cost = SharkGame.MathUtil.uniqueCost(currAmount, currAmount + amount, priceIncrease);
+                    cost = sharkmath.uniqueCost(currAmount, currAmount + amount, priceIncrease);
                     break;
             }
             if (Math.abs(cost - Math.round(cost)) < SharkGame.EPSILON) {
@@ -1027,13 +1031,13 @@ SharkGame.Home = {
                 let subMax = -1;
                 switch (costObject.costFunction) {
                     case "constant":
-                        subMax = SharkGame.MathUtil.constantMax(0, costResource, priceIncrease);
+                        subMax = sharkmath.constantMax(0, costResource, priceIncrease);
                         break;
                     case "linear":
-                        subMax = SharkGame.MathUtil.linearMax(currAmount, costResource, priceIncrease) - currAmount;
+                        subMax = sharkmath.linearMax(currAmount, costResource, priceIncrease) - currAmount;
                         break;
                     case "unique":
-                        subMax = SharkGame.MathUtil.uniqueMax(currAmount, costResource, priceIncrease) - currAmount;
+                        subMax = sharkmath.uniqueMax(currAmount, costResource, priceIncrease) - currAmount;
                         break;
                 }
                 // prevent flashing action costs

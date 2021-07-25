@@ -112,8 +112,8 @@ SharkGame.Stats = {
 
         // update run times
         const currTime = _.now();
-        $("#gameTime").html(main.formatTime(currTime - SharkGame.timestampGameStart));
-        $("#runTime").html(main.formatTime(currTime - SharkGame.timestampRunStart));
+        $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
+        $("#runTime").html(sharktext.formatTime(currTime - SharkGame.timestampRunStart));
     },
 
     createDisposeButtons() {
@@ -122,7 +122,8 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0 && stats.bannedDisposeCategories.indexOf(res.getCategoryOfResource(resourceId)) === -1) {
                 SharkGame.Button.makeButton(
                     "dispose-" + resourceId,
-                    "Dispose of<br/>" + res.getResourceName(resourceId, false, false, SharkGame.getElementColor("tooltipbox", "background-color")),
+                    "Dispose of<br/>" +
+                        sharktext.getResourceName(resourceId, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")),
                     buttonDiv,
                     stats.onDispose
                 );
@@ -135,7 +136,7 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceName) > 0 && stats.bannedDisposeCategories.indexOf(res.getCategoryOfResource(resourceName)) === -1) {
                 const button = $("#dispose-" + resourceName);
                 const resourceAmount = res.getResource(resourceName);
-                let amountToDispose = main.getBuyAmount();
+                let amountToDispose = sharkmath.getBuyAmount();
                 if (amountToDispose < 0) {
                     const max = resourceAmount;
                     const divisor = Math.floor(amountToDispose) * -1;
@@ -144,22 +145,22 @@ SharkGame.Stats = {
                 const disableButton = resourceAmount < amountToDispose || amountToDispose <= 0;
                 let label =
                     "Dispose of " +
-                    main.beautify(amountToDispose) +
+                    sharktext.beautify(amountToDispose) +
                     "<br/>" +
-                    res.getResourceName(
+                    sharktext.getResourceName(
                         resourceName,
                         disableButton,
                         amountToDispose,
-                        SharkGame.getElementColor("dispose-" + resourceName, "background-color")
+                        sharkcolor.getElementColor("dispose-" + resourceName, "background-color")
                     );
                 if (amountToDispose <= 0) {
                     label =
                         "Can't dispose any more " +
-                        res.getResourceName(
+                        sharktext.getResourceName(
                             resourceName,
                             disableButton,
                             amountToDispose,
-                            SharkGame.getElementColor("dispose-" + resourceName, "background-color")
+                            sharkcolor.getElementColor("dispose-" + resourceName, "background-color")
                         );
                 }
 
@@ -211,8 +212,8 @@ SharkGame.Stats = {
                             "<span style='color: " +
                             res.TOTAL_INCOME_COLOR +
                             "'>" +
-                            // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + main.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
-                            (changeChar + main.beautifyIncome(realIncome)).bold() +
+                            // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + sharktext.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
+                            (changeChar + sharktext.beautifyIncome(realIncome)).bold() +
                             "</span>";
 
                         if (cell.html() !== newValue.replace(/'/g, '"')) {
@@ -227,7 +228,7 @@ SharkGame.Stats = {
 
                         newValue =
                             resourceId !== "world"
-                                ? "<div style='text-align:right'>" + main.beautify(res.getResource(resourceId)).bold() + "</div>"
+                                ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(resourceId)).bold() + "</div>"
                                 : "";
                         if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
@@ -239,7 +240,7 @@ SharkGame.Stats = {
                                 "<span style='color:" +
                                 res.RESOURCE_AFFECT_MULTIPLIER_COLOR +
                                 "'>x" +
-                                main.beautify(
+                                sharktext.beautify(
                                     res.getNetworkIncomeModifier("generator", resourceId) * res.getNetworkIncomeModifier("resource", incomeKey),
                                     false,
                                     2
@@ -255,7 +256,7 @@ SharkGame.Stats = {
                                 res.INCOME_COLOR +
                                 "'>" +
                                 (!(SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey] < 0) ? "+" : "") +
-                                main.beautify(
+                                sharktext.beautify(
                                     incomeValue *
                                         res.getNetworkIncomeModifier("generator", resourceId) *
                                         res.getNetworkIncomeModifier("resource", incomeKey),
@@ -279,7 +280,7 @@ SharkGame.Stats = {
             const totalResource = res.getTotalResource(resourceId);
             if (totalResource > 0 && res.getCategoryOfResource(resourceId) !== "hidden") {
                 const cell = $("#totalAmount-" + resourceId);
-                const newValue = main.beautify(totalResource);
+                const newValue = sharktext.beautify(totalResource);
                 const oldValue = cell.html();
 
                 if (oldValue !== newValue.replace(/'/g, '"')) {
@@ -350,14 +351,14 @@ SharkGame.Stats = {
                         .attr("rowspan", subheadings)
                         .html(
                             headingName !== "world"
-                                ? "<div style='text-align:right'>" + main.beautify(res.getResource(headingName)).bold() + "</div>"
+                                ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(headingName)).bold() + "</div>"
                                 : ""
                         )
                         .addClass(rowStyle)
                         .attr("id", "table-amount-" + headingName)
                 );
             }
-            resourceMapRow.append($("<td>").html(res.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
+            resourceMapRow.append($("<td>").html(sharktext.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
 
             function addCell(text, rowspan, id) {
                 if (id) {
@@ -413,21 +414,21 @@ SharkGame.Stats = {
                         $("<td>")
                             .html(
                                 generatorName !== "world"
-                                    ? "<div style='text-align:right'>" + main.beautify(res.getResource(subheadingKey)).bold() + "</div>"
+                                    ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(subheadingKey)).bold() + "</div>"
                                     : ""
                             )
                             .addClass(rowStyle)
                             .attr("id", "table-amount-" + generatorName + "-" + incomeKey)
                     );
                 }
-                resourceMapRow.append($("<td>").html(res.getResourceName(subheadingKey)).addClass(rowStyle));
+                resourceMapRow.append($("<td>").html(sharktext.getResourceName(subheadingKey)).addClass(rowStyle));
 
                 // which mode are we in?
                 if (SharkGame.Settings.current.grottoMode === "advanced") {
                     addCell(
                         [
                             res.INCOME_COLOR,
-                            changeChar + main.beautify(SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey], false, 2) + "/s",
+                            changeChar + sharktext.beautify(SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey], false, 2) + "/s",
                         ],
                         "inline",
                         "advanced-base-income-" + generatorName + "-" + incomeKey
@@ -436,7 +437,7 @@ SharkGame.Stats = {
                         const upgradeMutiplier = res.getMultiplierProduct("upgrade", generatorName, incomeKey);
                         if (upgradeMutiplier !== 1) {
                             addCell(
-                                [res.UPGRADE_MULTIPLIER_COLOR, "x" + main.beautify(upgradeMutiplier, false, 1)],
+                                [res.UPGRADE_MULTIPLIER_COLOR, "x" + sharktext.beautify(upgradeMutiplier, false, 1)],
                                 multipliers.upgrade ? "inline" : undefined
                             );
                         } else addCell(undefined, multipliers.upgrade ? "inline" : undefined);
@@ -446,7 +447,7 @@ SharkGame.Stats = {
                         const worldMultiplier = res.getMultiplierProduct("world", generatorName, incomeKey);
                         if (worldMultiplier !== 1) {
                             addCell(
-                                [res.WORLD_MULTIPLIER_COLOR, "x" + main.beautify(worldMultiplier, false, 1)],
+                                [res.WORLD_MULTIPLIER_COLOR, "x" + sharktext.beautify(worldMultiplier, false, 1)],
                                 multipliers.world ? "inline" : undefined
                             );
                         } else addCell(undefined, multipliers.world ? "inline" : undefined);
@@ -456,7 +457,7 @@ SharkGame.Stats = {
                         const aspectMultiplier = res.getMultiplierProduct("aspect", generatorName, incomeKey);
                         if (aspectMultiplier !== 1) {
                             addCell(
-                                [res.ASPECT_MULTIPLIER_COLOR, "x" + main.beautify(aspectMultiplier, false, 1)],
+                                [res.ASPECT_MULTIPLIER_COLOR, "x" + sharktext.beautify(aspectMultiplier, false, 1)],
                                 multipliers.aspect ? "inline" : undefined
                             );
                         } else addCell(undefined, multipliers.aspect ? "inline" : undefined);
@@ -467,7 +468,7 @@ SharkGame.Stats = {
                             res.getNetworkIncomeModifier("generator", generatorName) * res.getNetworkIncomeModifier("resource", incomeKey);
                         if (resourceAffectMultiplier !== 1) {
                             addCell(
-                                [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + main.beautify(resourceAffectMultiplier, false, 2)],
+                                [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + sharktext.beautify(resourceAffectMultiplier, false, 2)],
                                 generatorBoostRowspan,
                                 "network-" + generatorName + "-" + incomeKey
                             );
@@ -478,7 +479,7 @@ SharkGame.Stats = {
                         [
                             res.INCOME_COLOR,
                             changeChar +
-                                main.beautify(
+                                sharktext.beautify(
                                     incomeValue *
                                         res.getNetworkIncomeModifier("generator", generatorName) *
                                         res.getNetworkIncomeModifier("resource", incomeKey),
@@ -505,7 +506,7 @@ SharkGame.Stats = {
                     );
                 } else {
                     addCell(
-                        [res.TOTAL_INCOME_COLOR, (changeChar + main.beautifyIncome(realIncome)).bold()],
+                        [res.TOTAL_INCOME_COLOR, (changeChar + sharktext.beautifyIncome(realIncome)).bold()],
                         "inline",
                         "income-" + generatorName + "-" + incomeKey
                     );
@@ -635,10 +636,10 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0 && res.getCategoryOfResource(resourceId) !== "hidden") {
                 const row = $("<tr>");
 
-                row.append($("<td>").html(res.getResourceName(resourceId)));
+                row.append($("<td>").html(sharktext.getResourceName(resourceId)));
                 row.append(
                     $("<td>")
-                        .html(main.beautify(res.getTotalResource(resourceId)))
+                        .html(sharktext.beautify(res.getTotalResource(resourceId)))
                         .attr("id", "totalAmount-" + resourceId)
                 );
 

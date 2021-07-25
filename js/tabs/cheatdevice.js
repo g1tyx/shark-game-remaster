@@ -25,11 +25,11 @@ SharkGame.CheatsAndDebug = {
     cheatButtons: {
         giveEverything: {
             get name() {
-                return "Give " + main.getBuyAmount(true) + " of Everything";
+                return "Give " + sharkmath.getBuyAmount(true) + " of Everything";
             },
             updates: true,
             click() {
-                cad.giveEverything(main.getBuyAmount(true));
+                cad.giveEverything(sharkmath.getBuyAmount(true));
             },
         },
         speedUp: {

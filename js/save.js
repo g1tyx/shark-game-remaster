@@ -287,27 +287,27 @@ SharkGame.Save = {
                                         "almost " +
                                         (numYears === 1 ? "a" : numYears) +
                                         " year" +
-                                        SharkGame.plural(numYears) +
+                                        sharktext.plural(numYears) +
                                         ", thanks for remembering this exists!";
                                 } else {
                                     notification +=
                                         "like " +
                                         (numMonths === 1 ? "a" : numMonths) +
                                         " month" +
-                                        SharkGame.plural(numMonths) +
+                                        sharktext.plural(numMonths) +
                                         ", it's getting kinda crowded.";
                                 }
                             } else {
                                 notification +=
-                                    "about " + (numWeeks === 1 ? "a" : numWeeks) + " week" + SharkGame.plural(numWeeks) + ", you were gone a while!";
+                                    "about " + (numWeeks === 1 ? "a" : numWeeks) + " week" + sharktext.plural(numWeeks) + ", you were gone a while!";
                             }
                         } else {
                             notification +=
-                                (numDays === 1 ? "a" : numDays) + " day" + SharkGame.plural(numDays) + ", and look at all the stuff you have now!";
+                                (numDays === 1 ? "a" : numDays) + " day" + sharktext.plural(numDays) + ", and look at all the stuff you have now!";
                         }
                     } else {
                         notification +=
-                            (numHours === 1 ? "an" : numHours) + " hour" + SharkGame.plural(numHours) + " since you were seen around here!";
+                            (numHours === 1 ? "an" : numHours) + " hour" + sharktext.plural(numHours) + " since you were seen around here!";
                     }
                     log.addMessage(notification);
                 }

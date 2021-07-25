@@ -22,6 +22,9 @@
         "home": "readonly",
         "tree": "readonly",
         "log": "readonly",
+        "sharktext": "readonly",
+        "sharkmath": "readonly",
+        "sharkcolor": "readonly",
         "cad": "readonly"
     },
     "ignorePatterns": ["js/lib/**"],

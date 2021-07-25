@@ -103,19 +103,19 @@ SharkGame.Gateway = {
             gatewayContent.append(
                 $("<p>").html(
                     "Entering this place has changed you, granting you <span class='essenceCount'>" +
-                        main.beautify(essenceRewarded) +
+                        sharktext.beautify(essenceRewarded) +
                         "</span> essence."
                 )
             );
         }
         gatewayContent.append(
-            $("<p>").html("You have <span id='essenceHeldDisplay' class='essenceCount'>" + main.beautify(essenceHeld) + "</span> essence.")
+            $("<p>").html("You have <span id='essenceHeldDisplay' class='essenceCount'>" + sharktext.beautify(essenceHeld) + "</span> essence.")
         );
         if (numenHeld > 0) {
             const numenName = numenHeld > 1 ? "numina" : "numen";
             gatewayContent.append(
                 $("<p>").html(
-                    "You also have <span class='numenCount'>" + main.beautify(numenHeld) + "</span> " + numenName + ", and you radiate divinity."
+                    "You also have <span class='numenCount'>" + sharktext.beautify(numenHeld) + "</span> " + numenName + ", and you radiate divinity."
                 )
             );
         }
@@ -144,7 +144,7 @@ SharkGame.Gateway = {
         containerDiv.append(
             $("<p>")
                 .html("<em>Time spent within last ocean:</em><br/>")
-                .append(main.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart))
+                .append(sharktext.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart))
         );
     },
 
@@ -153,7 +153,7 @@ SharkGame.Gateway = {
         aspectTreeContent.append(
             $("<strong>")
                 .attr("id", "essenceCount")
-                .html(main.beautify(res.getResource("essence")) + " ESSENCE")
+                .html(sharktext.beautify(res.getResource("essence")) + " ESSENCE")
         );
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         aspectTreeContent.append(tree.drawCanvas());
@@ -376,7 +376,7 @@ SharkGame.Gateway = {
                     _.each(worldData.foresight.missing, (missingResource) => {
                         missingList.append(
                             $("<li>")
-                                .html("<strong>This world has no " + res.getResourceName(missingResource, false, 2) + ".</strong>")
+                                .html("<strong>This world has no " + sharktext.getResourceName(missingResource, false, 2) + ".</strong>")
                                 .addClass("largeDesc")
                         );
                     });
@@ -390,8 +390,8 @@ SharkGame.Gateway = {
                                 .html(
                                     "<strong>You feel the presence of " +
                                         (gateway.playerHasSeenResource(presentResource)
-                                            ? res.getResourceName(presentResource, false, 2)
-                                            : res.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
+                                            ? sharktext.getResourceName(presentResource, false, 2)
+                                            : sharktext.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
                                         ".</strong>"
                                 )
                                 .addClass("largeDesc")

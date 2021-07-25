@@ -85,10 +85,15 @@ SharkGame.Gate = {
                 const buttonList = $("#buttonList");
                 $.each(gate.requirements.slots, (resource, requiredAmount) => {
                     if (!gate.completedRequirements.slots[resource]) {
-                        const resourceName = res.getResourceName(resource, false, false, SharkGame.getElementColor("tooltipbox", "background-color"));
+                        const resourceName = sharktext.getResourceName(
+                            resource,
+                            false,
+                            false,
+                            sharkcolor.getElementColor("tooltipbox", "background-color")
+                        );
                         SharkGame.Button.makeHoverscriptButton(
                             "gateCost-" + resource,
-                            "Insert " + main.beautify(requiredAmount) + " " + resourceName + " into " + resourceName + " slot",
+                            "Insert " + sharktext.beautify(requiredAmount) + " " + resourceName + " into " + resourceName + " slot",
                             buttonList,
                             gate.onGateButton,
                             gate.onHover,
@@ -192,12 +197,19 @@ SharkGame.Gate = {
         const required = gate.requirements.slots[resourceName];
         if (amount < required) {
             button.html(
-                `Need <span class='click-passthrough' style='color:#FFDE0A'>${main.beautify(required - amount)}</span> more ${res.getResourceName(
+                `Need <span class='click-passthrough' style='color:#FFDE0A'>${sharktext.beautify(
+                    required - amount
+                )}</span> more ${sharktext.getResourceName(
                     resourceName,
                     false,
                     false,
-                    SharkGame.getElementColor(button.attr("id"), "background-color")
-                )} for ${res.getResourceName(resourceName, false, false, SharkGame.getElementColor(button.attr("id"), "background-color"))} slot`
+                    sharkcolor.getElementColor(button.attr("id"), "background-color")
+                )} for ${sharktext.getResourceName(
+                    resourceName,
+                    false,
+                    false,
+                    sharkcolor.getElementColor(button.attr("id"), "background-color")
+                )} slot`
             );
         }
     },
@@ -209,11 +221,11 @@ SharkGame.Gate = {
         const required = gate.requirements.slots[resourceName];
         button.html(
             "Insert " +
-                main.beautify(required) +
+                sharktext.beautify(required) +
                 " " +
-                res.getResourceName(resourceName, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
+                sharktext.getResourceName(resourceName, false, false, sharkcolor.getElementColor(button.attr("id"), "background-color")) +
                 " into " +
-                res.getResourceName(resourceName, false, false, SharkGame.getElementColor(button.attr("id"), "background-color")) +
+                sharktext.getResourceName(resourceName, false, false, sharkcolor.getElementColor(button.attr("id"), "background-color")) +
                 " slot"
         );
     },
@@ -240,7 +252,7 @@ SharkGame.Gate = {
         } else {
             message = gate.messageCantPay + "<br/>";
             const diff = cost - res.getResource(resourceId);
-            message += main.beautify(diff) + " more.";
+            message += sharktext.beautify(diff) + " more.";
         }
         if (SharkGame.Settings.current.showTabImages) {
             message = "<img width=400 height=200 src='" + gate.getSceneImagePath() + "' id='tabSceneImageEssence'>" + message;

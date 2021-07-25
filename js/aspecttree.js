@@ -155,10 +155,10 @@ SharkGame.AspectTree = {
 
             // FIXME: Hard-coded color "#ace3d1"
             if (button.getUnlocked && button.getUnlocked()) {
-                tooltipBox.addClass("forAspectTreeUnpurchased").html(SharkGame.boldString(button.getUnlocked()));
+                tooltipBox.addClass("forAspectTreeUnpurchased").html(sharktext.boldString(button.getUnlocked()));
             } else if (button.level === 0) {
                 const tooltipText =
-                    SharkGame.boldString(button.name) +
+                    sharktext.boldString(button.name) +
                     `<br/>${button.getEffect(button.level + 1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
                     `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
@@ -166,7 +166,7 @@ SharkGame.AspectTree = {
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
             } else if (button.level < button.max) {
                 const tooltipText =
-                    SharkGame.boldString(button.name) +
+                    sharktext.boldString(button.name) +
                     `<br /><span class='littleTooltipText' class='bold'> level ${button.level}</span><br />` +
                     button.getEffect(button.level) +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
@@ -178,13 +178,13 @@ SharkGame.AspectTree = {
                 tooltipBox.html(tooltipText);
             } else if (button.level === undefined) {
                 const tooltipText =
-                    SharkGame.boldString(button.name) +
+                    sharktext.boldString(button.name) +
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>`;
                 tooltipBox.html(tooltipText);
             } else {
                 const tooltipText =
-                    SharkGame.boldString(button.name) +
+                    sharktext.boldString(button.name) +
                     `<br /><span class='littleTooltipText bold'> level ${button.level}</span>` +
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
@@ -235,7 +235,7 @@ SharkGame.AspectTree = {
         context.canvas.width = CANVAS_WIDTH;
         context.canvas.height = CANVAS_HEIGHT;
 
-        // Only one call to getComputedStyle for two properties, otherwise we'd use SharkGame.getElementColor
+        // Only one call to getComputedStyle for two properties, otherwise we'd use sharkcolor.getElementColor
         // Also, beware that these values change if the button is pressed, but that should never happen in the same frame
         // as the aspect tree gets redrawn
         const buttonStyle = getComputedStyle(document.getElementById("backToGateway"));
@@ -398,7 +398,7 @@ SharkGame.AspectTree = {
     },
     updateEssenceCounter() {
         if (document.getElementById("essenceCount")) {
-            document.getElementById("essenceCount").innerHTML = main.beautify(res.getResource("essence")) + " ESSENCE";
+            document.getElementById("essenceCount").innerHTML = sharktext.beautify(res.getResource("essence")) + " ESSENCE";
         }
     },
     applyAspects() {

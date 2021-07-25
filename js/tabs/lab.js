@@ -97,7 +97,7 @@ SharkGame.Lab = {
                 hintResource = _.find(hintedUpgrade.required.seen, (resource) => world.doesResourceExist(resource));
             if (hintResource) {
                 $("#buttonList").append(
-                    $("<p>").html("You get the feeling that " + res.getResourceName(hintResource, false, 2) + " may be the key.")
+                    $("<p>").html("You get the feeling that " + sharktext.getResourceName(hintResource, false, 2) + " may be the key.")
                 );
             } else {
                 log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade}), but no valid hint resource.`);
@@ -185,7 +185,7 @@ SharkGame.Lab = {
 
         const effects = SharkGame.Lab.getResearchEffects(upgradeData, !enableButton);
         let label = upgradeData.name + "<br/>" + upgradeData.desc + "<br/>" + effects;
-        const costText = res.resourceListToString(upgradeCost, !enableButton);
+        const costText = sharktext.resourceListToString(upgradeCost, !enableButton);
         if (costText !== "") {
             label += "<br/>Cost: " + costText;
         }
@@ -271,7 +271,7 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
-            console.debug(`Added upgrade ${upgrade.name} at: ${main.formatTime(_.now() - SharkGame.timestampRunStart)}`);
+            console.debug(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)}`);
         }
     },
 

@@ -161,99 +161,6 @@ $.extend(SharkGame, {
     choose(choices) {
         return choices[Math.floor(Math.random() * choices.length)];
     },
-    plural(number) {
-        return number === 1 ? "" : "s";
-    },
-    colorLum(hex, lum) {
-        // validate hex string
-        hex = String(hex).replace(/[^0-9a-f]/gi, "");
-        if (hex.length < 6) {
-            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        }
-        lum = lum || 0;
-
-        // convert to decimal and change luminosity
-        let rgb = "#";
-        for (let i = 0; i < 3; i++) {
-            let color = parseInt(hex.substr(i * 2, 2), 16);
-            color = Math.round(Math.min(Math.max(0, color + color * lum), 255)).toString(16);
-            rgb += ("00" + color).substr(color.length);
-        }
-
-        return rgb;
-    },
-    getColorValue(color) {
-        color = String(color).replace(/[^0-9a-f]/gi, "");
-        return Math.max(parseInt(color.substr(0, 2), 16), parseInt(color.substr(2, 2), 16), parseInt(color.substr(4, 2), 16));
-    },
-    getRelativeLuminance(color) {
-        color = String(color).replace(/[^0-9a-f]/gi, "");
-        let red = parseInt(color.substr(0, 2), 16);
-        let green = parseInt(color.substr(2, 2), 16);
-        let blue = parseInt(color.substr(4, 2), 16);
-        red = red / 255;
-        green = green / 255;
-        blue = blue / 255;
-        let lum = 0;
-        _.each([red, green, blue], (piece, index) => {
-            if (piece <= 0.03928) {
-                piece = piece / 12.92;
-            } else {
-                piece = ((piece + 0.055) / 1.055) ** 2.4;
-            }
-            lum += piece * [0.2126, 0.7152, 0.0722][index];
-        });
-        return lum;
-    },
-    correctLuminance(color, luminance) {
-        color = String(color).replace(/[^0-9a-f]/gi, "");
-        let red = parseInt(color.substr(0, 2), 16);
-        let green = parseInt(color.substr(2, 2), 16);
-        let blue = parseInt(color.substr(4, 2), 16);
-        red = red / 255;
-        green = green / 255;
-        blue = blue / 255;
-        const varA = 1.075 * (0.2126 * red ** 2 + 0.7152 * green ** 2 + 0.0722 * blue ** 2);
-        const varB = -0.075 * (0.2126 * red + 0.7152 * green + 0.0722 * blue);
-        const ratio = Math.max((-varB + Math.sqrt(varB ** 2 + 4 * varA * luminance)) / (2 * varA), 0);
-        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0)).toString(16);
-        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0)).toString(16);
-        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0)).toString(16);
-        return "#" + red + green + blue;
-    },
-    convertColorString(color) {
-        const colors = color
-            .substring(4)
-            .replace(/[^0-9a-f]/gi, " ")
-            .split(" ");
-        let colorstring = "#";
-        for (let i = 0; i < 3; i++) {
-            colorstring += ("00" + parseInt(colors[i * 2]).toString(16)).substr(parseInt(colors[i * 2]).toString(16).length);
-        }
-        return colorstring;
-    },
-    getBrightColor(color) {
-        color = String(color).replace(/[^0-9a-f]/gi, "");
-        let red = parseInt(color.substr(0, 2), 16);
-        let green = parseInt(color.substr(2, 2), 16);
-        let blue = parseInt(color.substr(4, 2), 16);
-        red = red / 255;
-        green = green / 255;
-        blue = blue / 255;
-        const most = Math.max(red, green, blue);
-        red = parseInt((255 * (1 / most) * red).toFixed(0)).toString(16);
-        green = parseInt((255 * (1 / most) * green).toFixed(0)).toString(16);
-        blue = parseInt((255 * (1 / most) * blue).toFixed(0)).toString(16);
-        return "#" + red + green + blue;
-    },
-    getElementColor(id, propertyName) {
-        const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
-        return SharkGame.convertColorString(color);
-    },
-    /** @param {string} string */
-    boldString(string) {
-        return `<span class='bold'>${string}</span>`;
-    },
     getImageIconHTML(imagePath, width, height) {
         if (!imagePath) {
             imagePath = "http://placekitten.com/g/" + Math.floor(width) + "/" + Math.floor(height);
@@ -383,96 +290,6 @@ SharkGame.Main = {
     tickHandler: -1,
     autosaveHandler: -1,
 
-    beautify(number, suppressDecimals, toPlaces) {
-        if (cad.noNumberBeautifying) {
-            return number.toString();
-        }
-
-        let formatted;
-
-        let negative = false;
-        if (number < 0) {
-            negative = true;
-            number *= -1;
-        }
-
-        if (number === Number.POSITIVE_INFINITY) {
-            formatted = "infinite";
-        } else if (number < 1 && number >= 0) {
-            if (suppressDecimals) {
-                formatted = "0";
-            } else if (number >= 0.01) {
-                formatted = number.toFixed(2) + "";
-            } else if (number >= 0.001) {
-                formatted = number.toFixed(3) + "";
-            } else if (number >= 0.0001) {
-                formatted = number.toFixed(4) + "";
-            } else if (number >= 0.00001) {
-                // number > 0.00001 && negative -> number > 0.00001 && number < 0 -> false
-                formatted = number.toFixed(5) + "";
-            } else {
-                formatted = "0";
-            }
-
-            if (negative) {
-                formatted = "-" + formatted;
-            }
-        } else {
-            const suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc"];
-            const digits = Math.floor(Math.log10(number));
-            // Max for a case where the supported suffix is not specified
-            const precision = Math.max(0, 2 - (digits % 3));
-            const suffixIndex = Math.floor(digits / 3);
-
-            let suffix;
-            if (suffixIndex >= suffixes.length) {
-                formatted = "lots";
-            } else {
-                suffix = suffixes[suffixIndex];
-                // fix number to be compliant with suffix
-                if (suffixIndex > 0) {
-                    number /= Math.pow(1000, suffixIndex);
-                }
-                let formattedNumber;
-                if (suffixIndex === 0) {
-                    if (toPlaces && toPlaces - digits > 0 && number !== Math.floor(number)) {
-                        formattedNumber = number.toFixed(toPlaces - digits);
-                    } else {
-                        formattedNumber = Math.floor(number);
-                    }
-                } else if (suffixIndex > 0) {
-                    formattedNumber = number.toFixed(precision) + suffix;
-                } else {
-                    formattedNumber = number.toFixed(precision);
-                }
-                formatted = (negative ? "-" : "") + formattedNumber;
-            }
-        }
-
-        return formatted;
-    },
-
-    beautifyIncome(number, also = "") {
-        if (cad.noNumberBeautifying) {
-            return number.toString();
-        }
-
-        const abs = Math.abs(number);
-        if (abs >= 0.001) {
-            number = main.beautify(number, false, 2);
-            number += also;
-            number += "/s";
-        } else if (abs > 0.000001) {
-            number *= 3600;
-            number = number.toFixed(3);
-            number += also;
-            number += "/h";
-        } else {
-            number = 0 + "/s";
-        }
-        return number;
-    },
-
     applyFramerate() {
         SharkGame.INTERVAL = 1000 / SharkGame.Settings.current.framerate;
         SharkGame.dt = 1 / SharkGame.Settings.current.framerate;
@@ -482,31 +299,8 @@ SharkGame.Main = {
         main.tickHandler = setInterval(main.tick, SharkGame.INTERVAL);
     },
 
-    formatTime(milliseconds) {
-        const numSeconds = Math.floor(milliseconds / 1000);
-        const numMinutes = Math.floor(numSeconds / 60);
-        const numHours = Math.floor(numMinutes / 60);
-        const numDays = Math.floor(numHours / 24);
-        const numWeeks = Math.floor(numDays / 7);
-        const numMonths = Math.floor(numWeeks / 4);
-        const numYears = Math.floor(numMonths / 12);
-
-        const formatSeconds = (numSeconds % 60).toString(10).padStart(2, "0");
-        const formatMinutes = numMinutes > 0 ? (numMinutes % 60).toString(10).padStart(2, "0") + ":" : "";
-        const formatHours = numHours > 0 ? (numHours % 24).toString() + ":" : "";
-        const formatDays = numDays > 0 ? (numDays % 7).toString() + "D, " : "";
-        const formatWeeks = numWeeks > 0 ? (numWeeks % 4).toString() + "W, " : "";
-        const formatMonths = numMonths > 0 ? (numMonths % 12).toString() + "M, " : "";
-        const formatYears = numYears > 0 ? numYears.toString() + "Y, " : "";
-
-        return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds;
-    },
-
     // credit where it's due, i didn't write this (regexes fill me with fear), pulled from
     // http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript/196991#196991
-    toTitleCase(str) {
-        return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-    },
 
     // also functions as a reset
     init(foregoLoad) {
@@ -892,7 +686,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             } else if (amount === "custom") {
                 label += "custom";
             } else {
-                label += main.beautify(amount);
+                label += sharktext.beautify(amount);
             }
             $("#buy-" + amount)
                 .html(label)
@@ -927,20 +721,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     onCustomChange() {
         SharkGame.Settings.current.customSetting = $("#custom-input")[0].value;
-    },
-
-    getBuyAmount(noMaxBuy) {
-        if (SharkGame.Settings.current.buyAmount === "custom") {
-            return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
-                ? Math.floor($("#custom-input")[0].valueAsNumber)
-                : 1;
-        } else {
-            if (SharkGame.Settings.current.buyAmount < 0 && noMaxBuy) {
-                return 1;
-            } else {
-                return SharkGame.Settings.current.buyAmount;
-            }
-        }
     },
 
     changeTab(tab) {
@@ -1286,20 +1066,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     isFirstTime() {
         return world.worldType === "start" && res.getTotalResource("essence") <= 0;
-    },
-
-    getDeterminer(name) {
-        const firstLetter = SharkGame.ResourceMap.get(name).name.charAt(0);
-
-        //note to self: make the next line not suck
-        // Possibly add an "uncountable" property to resources somehow? Manual works fine though
-        if (["algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science", "papyrus"].includes(name)) {
-            return "";
-        } else if ("aeiou".includes(firstLetter)) {
-            return "an";
-        } else {
-            return "a";
-        }
     },
 
     resetTimers() {
