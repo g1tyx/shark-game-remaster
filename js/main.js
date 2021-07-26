@@ -1127,6 +1127,7 @@ SharkGame.Changelog = {
         "Added historian sprite; decided to repurpose the old philosopher sprite from OG shark game.",
         "Updated tooltip formatting.",
         "Changed the UI in lots of miscellaneous ways.",
+        "Fixed quirks with the recycler UI.",
         "Fixed a bug where costs disappear in no-icons mode.",
         "Fixed incorrect description of an aspect.",
         "Fixed bugs with importing saves.",
