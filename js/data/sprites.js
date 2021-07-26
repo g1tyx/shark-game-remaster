@@ -1231,6 +1231,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getHistorian": {
+        frame: { x: 938, y: 106, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/getInvestigator": {
         frame: { x: 2168, y: 100, w: 50, h: 50 },
         rotated: false,
@@ -1289,14 +1297,6 @@ SharkGame.Sprites = {
     },
     "actions/getOctopus": {
         frame: { x: 1718, y: 0, w: 50, h: 50 },
-        rotated: false,
-        trimmed: false,
-        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
-        sourceSize: { w: 50, h: 50 },
-        pivot: { x: 0, y: 0 },
-    },
-    "actions/getPhilosopher": {
-        frame: { x: 938, y: 106, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
