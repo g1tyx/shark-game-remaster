@@ -769,7 +769,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         });
 
         $.each(categories, (category, settings) => {
-            optionsTable.append($("<tr>").html("<br><span style='text-decoration: underline'>" + category.bold() + "</span>"));
+            optionsTable.append(
+                $("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString(category) + "</span></h3>")
+            );
             _.each(settings, (settingName) => {
                 const setting = SharkGame.Settings[settingName];
                 if (settingName === "current") {
