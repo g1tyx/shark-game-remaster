@@ -1332,6 +1332,13 @@ button.gateway.disabled div {
 #aspectList {
   margin: 0.5em auto;
 }
+#aspectTable {
+  border-spacing: 0;
+}
+#aspectTable tr:nth-child(4n) td,
+#aspectTable tr:nth-child(4n + 1) td {
+  background-color: #38a581;
+}
 .aspectDiv {
   display: inline-block;
   vertical-align: middle;
