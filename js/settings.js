@@ -69,6 +69,14 @@ SharkGame.Settings = {
         },
     },
 
+    doAspectTable: {
+        defaultSetting: "tree",
+        name: "Aspect Table or Tree",
+        desc: "Whether to draw the visual aspect tree or the more accessible aspect table.",
+        category: "LAYOUT",
+        options: ["tree", "table"],
+    },
+
     groupResources: {
         defaultSetting: true,
         name: "Group Resources",
