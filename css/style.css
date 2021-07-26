@@ -1131,22 +1131,22 @@ button.disabled div {
 .gateway h1 {
   text-align: center;
   color: #d2f0e6;
-  text-shadow: 0 0 0.5em #f8fdfb, 0 0 1em #f8fdfb;
+  text-shadow: 0 0 0.3em #f8fdfb, 0 0 2em #f8fdfb;
 }
 .gateway h2 {
   text-align: center;
   color: #ace3d1;
-  text-shadow: 0 0 0.5em #d2f0e6, 0 0 1em #d2f0e6;
+  text-shadow: 0 0 0.3em #d2f0e6, 0 0 2em #d2f0e6;
 }
 .gateway h3 {
   text-align: center;
   color: #ace3d1;
-  text-shadow: 0 0 0.5em #d2f0e6, 0 0 1em #d2f0e6;
+  text-shadow: 0 0 0.3em #d2f0e6, 0 0 2em #d2f0e6;
 }
 .gateway h4 {
   text-align: center;
   color: #ace3d1;
-  text-shadow: 0 0 0.5em #d2f0e6, 0 0 1em #d2f0e6;
+  text-shadow: 0 0 0.3em #d2f0e6, 0 0 2em #d2f0e6;
 }
 .gateway .medDesc {
   color: #99ddc6;
