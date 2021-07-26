@@ -1085,9 +1085,15 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
             science: 0.01,
         },
     },
-    /*     ice: {
+    // cool tooltip test shark
+    /* shark: {
         multiply: {
-            ice: -0.00125,
+            ray: 0.01,
+            crab: 0.1,
+        },
+        exponentiate: {
+            kelp: 0.95,
+            scientist: 1.02,
         },
     }, */
 };
