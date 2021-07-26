@@ -88,7 +88,7 @@ SharkGame.ResourceTable = {
         income: {
             coral: 0.2,
         },
-        jobs: ["philosopher", "treasurer", "biologist"],
+        jobs: ["treasurer", "biologist"],
         value: 1000,
     },
 
@@ -414,12 +414,6 @@ SharkGame.ResourceTable = {
         desc: "Dissecters of the past looking onward to the future.",
         color: "#9FBCBF",
         value: 3000,
-    },
-
-    philosopher: {
-        name: "dummy dolphin",
-        singleName: "dummy",
-        color: "#000000",
     },
 
     chorus: {
@@ -986,7 +980,6 @@ SharkGame.ResourceTable = {
             planter: -0.001,
             worker: -0.001,
             harvester: -0.001,
-            philosopher: -0.001,
             treasurer: -0.001,
             transmuter: -0.001,
             explorer: -0.001,

@@ -338,7 +338,8 @@ SharkGame.CheatsAndDebug = {
             case 6:
                 SharkGame.ResourceMap.forEach((_value, key) => {
                     if (key !== "essence") {
-                        SharkGame.PlayerResources.get(key).amount = 1;
+                        res.setResource(key, 0);
+                        res.changeResource(key, 1);
                     }
                 });
                 return "Rolled a 6...you own one of exactly everything now. Only one.";

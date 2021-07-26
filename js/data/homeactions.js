@@ -3215,7 +3215,7 @@ SharkGame.HomeActionCategories = {
 
     basic: {
         name: "Basic",
-        actions: ["catchFish", "prySponge", "getClam", "getJellyfish"],
+        actions: ["catchFish", "debugbutton", "prySponge", "getClam", "getJellyfish"],
     },
 
     frenzy: {
