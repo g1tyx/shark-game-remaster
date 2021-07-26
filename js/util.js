@@ -200,7 +200,7 @@ SharkGame.TextUtil = {
             number += also;
             number += "/h";
         } else {
-            number = 0 + "/s";
+            number = 0 + also + "/s";
         }
         return number;
     },
