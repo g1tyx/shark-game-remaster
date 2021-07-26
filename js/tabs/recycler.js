@@ -85,9 +85,9 @@ SharkGame.Recycler = {
         const junkDisplay = $("#junkDisplay");
 
         let junkString = "";
-        if (rec.expectedOutput !== "NA") {
+        if (rec.expectedOutput !== "NA" && rec.expectedOutput !== 0) {
             junkString = "<span class='click-passthrough' style='color:#FFE436'>" + sharktext.beautify(junkAmount + rec.expectedOutput) + "</span> ";
-        } else if (rec.expectedJunkSpent !== "NA") {
+        } else if (rec.expectedJunkSpent !== "NA" && rec.expectedJunkSpent !== 0) {
             junkString =
                 "<span class='click-passthrough' style='color:#FFE436'>" + sharktext.beautify(junkAmount - rec.expectedJunkSpent) + "</span> ";
         } else {
@@ -129,7 +129,7 @@ SharkGame.Recycler = {
                 let disableButton = resourceAmount < inputAmount || inputAmount <= 0;
                 let label = "Recycle ";
                 if (inputAmount > 0) {
-                    if (rec.expectedJunkSpent !== "NA" && !disableButton && resourceName === rec.hoveredResource) {
+                    if (rec.expectedJunkSpent !== "NA" && rec.expectedJunkSpent !== 0 && !disableButton && resourceName === rec.hoveredResource) {
                         if (buy < 0) {
                             label +=
                                 "<span class='click-passthrough' style='color:#FFDE0A'>" +
@@ -163,7 +163,7 @@ SharkGame.Recycler = {
                 disableButton = maxOutputAmount < outputAmount || outputAmount <= 0;
                 label = "Convert to ";
                 if (outputAmount > 0) {
-                    if (rec.expectedOutput !== "NA" && !disableButton) {
+                    if (rec.expectedOutput !== "NA" && rec.expectedOutput !== 0 && !disableButton) {
                         label += "<span class='click-passthrough' style='color:#FFDE0A'>" + sharktext.beautify(outputAmount) + "</span> ";
                     } else {
                         label += sharktext.beautify(outputAmount) + " ";
@@ -372,7 +372,7 @@ SharkGame.Recycler = {
     },
 
     getRecyclerEfficiencyString() {
-        if (rec.efficiency === "NA" || rec.hoveredResource === "NA") {
+        if (rec.efficiency === "NA" || rec.hoveredResource === "NA" || rec.expectedOutput === 0) {
             return "<br/><br/><br/><br/><br/><br/>";
         }
 
@@ -403,9 +403,18 @@ SharkGame.Recycler = {
         const buy = sharkmath.getBuyAmount();
 
         if (buy > 0) {
-            rec.expectedOutput = buy * rec.getEfficiency() * SharkGame.ResourceMap.get(resource).value;
+            if (buy <= amount) {
+                rec.expectedOutput = 0;
+            } else {
+                rec.expectedOutput = buy * rec.getEfficiency() * SharkGame.ResourceMap.get(resource).value;
+            }
         } else {
-            rec.expectedOutput = (amount * rec.getEfficiency() * SharkGame.ResourceMap.get(resource).value) / -buy;
+            const realBuy = amount / -buy;
+            if (realBuy < 1) {
+                rec.expectedOutput = 0;
+                return;
+            }
+            rec.expectedOutput = realBuy * rec.getEfficiency() * SharkGame.ResourceMap.get(resource).value;
         }
     },
 
@@ -415,13 +424,43 @@ SharkGame.Recycler = {
             rec.expectedJunkSpent = "NA";
             return;
         }
-        const junkAmount = res.getResource("junk");
         const buy = sharkmath.getBuyAmount();
 
+        const max = rec.getMaxToBuy(resource);
+
         if (buy > 0) {
-            rec.expectedJunkSpent = buy * SharkGame.ResourceMap.get(resource).value;
+            if (buy <= max) {
+                switch (rec.allowedCategories[res.getCategoryOfResource(resource)]) {
+                    case "constant":
+                        rec.expectedJunkSpent = buy * SharkGame.ResourceMap.get(resource).value;
+                        break;
+                    case "linear":
+                        rec.expectedJunkSpent = sharkmath.linearCost(
+                            res.getResource(resource),
+                            res.getResource(resource) + buy,
+                            SharkGame.ResourceMap.get(resource).value
+                        );
+                }
+            } else {
+                rec.expectedJunkSpent = 0;
+            }
         } else {
-            rec.expectedJunkSpent = junkAmount / -buy;
+            const realBuy = Math.floor(max / -buy);
+            if (realBuy === 0) {
+                rec.expectedJunkSpent = 0;
+                return;
+            }
+            switch (rec.allowedCategories[res.getCategoryOfResource(resource)]) {
+                case "constant":
+                    rec.expectedJunkSpent = realBuy * SharkGame.ResourceMap.get(resource).value;
+                    break;
+                case "linear":
+                    rec.expectedJunkSpent = sharkmath.linearCost(
+                        res.getResource(resource),
+                        res.getResource(resource) + realBuy,
+                        SharkGame.ResourceMap.get(resource).value
+                    );
+            }
         }
     },
 
