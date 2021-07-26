@@ -97,7 +97,7 @@ SharkGame.Gateway = {
         if (!SharkGame.wonGame) {
             gatewayContent.append($("<p>").html("It is not clear how you have ended up here, but you remember a bitter defeat.").addClass("medDesc"));
         }
-        gatewayContent.append($("<p>").html("Something unseen says,").addClass("medDesc"));
+        gatewayContent.append($("<p>").html(sharktext.boldString("Something unseen says,")).addClass("medDesc"));
         gatewayContent.append($("<em>").attr("id", "gatewayVoiceMessage").html(gateway.getVoiceMessage()));
         if (essenceRewarded > 0) {
             gatewayContent.append(
@@ -109,7 +109,11 @@ SharkGame.Gateway = {
             );
         }
         gatewayContent.append(
-            $("<p>").html("You have <span id='essenceHeldDisplay' class='essenceCount'>" + sharktext.beautify(essenceHeld) + "</span> essence.")
+            $("<p>").html(
+                sharktext.boldString(
+                    "You have <span id='essenceHeldDisplay' class='essenceCount'>" + sharktext.beautify(essenceHeld) + "</span> essence."
+                )
+            )
         );
         if (numenHeld > 0) {
             const numenName = numenHeld > 1 ? "numina" : "numen";
@@ -319,7 +323,7 @@ SharkGame.Gateway = {
             const buttonSel = $("#planet-" + planetData.type);
             if (buttonSel.length > 0) {
                 const deeperPlanetData = SharkGame.WorldTypes[planetData.type];
-                const label = deeperPlanetData.name + "<br>" + deeperPlanetData.desc;
+                const label = sharktext.boldString(deeperPlanetData.name) + "<br>" + deeperPlanetData.desc;
 
                 buttonSel.html(label);
 
