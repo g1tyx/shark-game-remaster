@@ -644,7 +644,7 @@ SharkGame.Resources = {
         }
 
         if (SharkGame.ResourceMap.get(resourceName).desc) {
-            text += "<br><span class='medDesc'>" + SharkGame.ResourceMap.get(resourceName).desc + "</span>";
+            text += "<hr class='hrForTooltipSeparation'><span class='medDesc'>" + SharkGame.ResourceMap.get(resourceName).desc + "</span>";
         }
         if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
             document.getElementById("tooltipbox").innerHTML = text;
