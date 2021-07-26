@@ -905,8 +905,8 @@ SharkGame.Home = {
         const condensedObject = res.condenseNode(effects.resource);
 
         if (!$.isEmptyObject(condensedObject.resAffect.increase)) {
-            addedAnyLabelsYet = true;
             text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "INCREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.resAffect.increase, (affectedResource, degreePerPurchase) => {
                 text +=
                     sharktext.boldString("all ") +
@@ -919,8 +919,8 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.resAffect.decrease)) {
-            addedAnyLabelsYet = true;
             text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "DECREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.resAffect.decrease, (affectedResource, degreePerPurchase) => {
                 text +=
                     sharktext.boldString("all ") +
@@ -933,13 +933,13 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.resAffect.multincrease)) {
-            addedAnyLabelsYet = true;
             text +=
                 "<span class='littleTooltipText'>" +
                 (addedAnyLabelsYet ? "and " : "") +
                 "MULTIPLICATIVELY INCREASE" +
                 (usePlural ? "" : "S") +
                 "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.resAffect.multincrease, (affectedResource, degreePerPurchase) => {
                 degreePerPurchase = degreePerPurchase ** buyingHowMuch - 1;
                 text +=
@@ -953,13 +953,13 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.resAffect.multdecrease)) {
-            addedAnyLabelsYet = true;
             text +=
                 "<span class='littleTooltipText'>" +
                 (addedAnyLabelsYet ? "and " : "") +
                 "MULTIPLICATIVELY DECREASE" +
                 (usePlural ? "" : "S") +
                 "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.resAffect.multdecrease, (affectedResource, degreePerPurchase) => {
                 degreePerPurchase = 1 - degreePerPurchase ** buyingHowMuch;
                 text +=
@@ -973,8 +973,8 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.genAffect.increase)) {
-            addedAnyLabelsYet = true;
             text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "INCREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.genAffect.increase, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -986,8 +986,8 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.genAffect.decrease)) {
-            addedAnyLabelsYet = true;
             text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "DECREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.genAffect.decrease, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -999,13 +999,13 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.genAffect.multincrease)) {
-            addedAnyLabelsYet = true;
             text +=
                 "<span class='littleTooltipText'>" +
                 (addedAnyLabelsYet ? "and " : "") +
                 "MULTIPLICATIVELY INCREASE" +
                 (usePlural ? "" : "S") +
                 "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.genAffect.multincrease, (affectedGenerator, degreePerPurchase) => {
                 degreePerPurchase = degreePerPurchase ** buyingHowMuch - 1;
                 text +=
@@ -1018,13 +1018,13 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.genAffect.multdecrease)) {
-            addedAnyLabelsYet = true;
             text +=
                 "<span class='littleTooltipText'>" +
                 (addedAnyLabelsYet ? "and " : "") +
                 "MULTIPLICATIVELY DECREASE" +
                 (usePlural ? "" : "S") +
                 "</span><br/>";
+            addedAnyLabelsYet = true;
             $.each(condensedObject.genAffect.multdecrease, (affectedGenerator, degreePerPurchase) => {
                 degreePerPurchase = 1 - degreePerPurchase ** buyingHowMuch;
                 text +=

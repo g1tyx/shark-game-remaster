@@ -318,6 +318,7 @@ SharkGame.CheatsAndDebug = {
                     SharkGame.ResourceMap.get("fish").baseIncome.crab = -0.001;
                     SharkGame.ResourceMap.get("fish").baseIncome.whale = -0.001;
                     SharkGame.ResourceMap.get("fish").baseIncome.squid = -0.001;
+                    SharkGame.ResourceMap.get("fish").forceIncome = true;
                     return "Rolled a three. The fish are fighting back!";
                 }
                 return "Rolled a three, but fish don't exist, so nothing happened.";
@@ -370,7 +371,9 @@ SharkGame.CheatsAndDebug = {
                 return "Rolled a twelve. Nothing happened.";
             case 13:
                 if (world.doesResourceExist("fish")) {
-                    res.addNetworkNode(SharkGame.GeneratorIncomeAffected, "shark", "multiply", "fish", 0.0005);
+                    res.addNetworkNode(SharkGame.GeneratorIncomeAffectors, "fish", "multiply", "shark", 0.0005);
+                    res.clearNetworks();
+                    res.buildIncomeNetwork();
                     return "Rolled a thirteen. Sharks get faster for every fish owned. I guess a good meal makes for better workers.";
                 }
                 return "Rolled a thirteen, but fish don't exist, so nothing happened.";
