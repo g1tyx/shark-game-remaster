@@ -590,7 +590,7 @@ SharkGame.Gateway.Messages = {
         ],
     },
     loss: [
-        "No matter. You will succeed in future, no doubt.",
+        "No matter. You will succeed in the future, no doubt.",
         "Never give in. Never surrender. Empty platitudes, perhaps, but sound advice nonetheless.",
         "Mistakes are filled with lessons. Learn never to repeat them.",
         "How does it feel to know that everyone who trusted you has perished?",
