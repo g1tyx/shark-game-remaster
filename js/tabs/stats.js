@@ -114,6 +114,10 @@ SharkGame.Stats = {
         const currTime = _.now();
         $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
         $("#runTime").html(sharktext.formatTime(currTime - SharkGame.timestampRunStart));
+
+        if (document.getElementById("tooltipbox").attributes.current) {
+            stats.networkTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
+        }
     },
 
     createDisposeButtons() {
@@ -235,7 +239,9 @@ SharkGame.Stats = {
                         }
 
                         if (SharkGame.Settings.current.grottoMode === "advanced") {
-                            cell = $("#network-" + resourceId + "-" + incomeKey);
+                            cell = $("#network-" + resourceId + "-" + incomeKey)
+                                .on("mouseenter", stats.networkTextEnter)
+                                .on("mouseleave", stats.networkTextLeave);
                             newValue =
                                 "<span style='color:" +
                                 res.RESOURCE_AFFECT_MULTIPLIER_COLOR +
@@ -362,13 +368,25 @@ SharkGame.Stats = {
 
             function addCell(text, rowspan, id) {
                 if (id) {
-                    resourceMapRow.append(
-                        $("<td>")
-                            .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
-                            .attr("id", id)
-                            .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
-                            .addClass(rowStyle)
-                    );
+                    if (id.includes("network")) {
+                        resourceMapRow.append(
+                            $("<td>")
+                                .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
+                                .attr("id", id)
+                                .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
+                                .addClass(rowStyle)
+                                .on("mouseenter", stats.networkTextEnter)
+                                .on("mouseleave", stats.networkTextLeave)
+                        );
+                    } else {
+                        resourceMapRow.append(
+                            $("<td>")
+                                .attr("rowspan", rowspan === "inline" ? 1 : subheadings)
+                                .attr("id", id)
+                                .html(text ? `<span style='color:${text[0]}'>${text[1]}</span>` : undefined)
+                                .addClass(rowStyle)
+                        );
+                    }
                 } else {
                     resourceMapRow.append(
                         $("<td>")
@@ -405,7 +423,6 @@ SharkGame.Stats = {
                 const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
                 const incomeValue = subheadingValue;
 
-                const generatorBoostRowspan = SharkGame.Settings.current.switchStats ? "inline" : undefined;
                 const realIncome = SharkGame.BreakdownIncomeTable.get(generatorName)[incomeKey];
                 const changeChar = !(realIncome < 0) ? "+" : "";
 
@@ -463,17 +480,15 @@ SharkGame.Stats = {
                         } else addCell(undefined, multipliers.aspect ? "inline" : undefined);
                     }
 
-                    if (generatorBoostRowspan === "inline" || counter === 0) {
-                        const resourceAffectMultiplier =
-                            res.getNetworkIncomeModifier("generator", generatorName) * res.getNetworkIncomeModifier("resource", incomeKey);
-                        if (resourceAffectMultiplier !== 1) {
-                            addCell(
-                                [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + sharktext.beautify(resourceAffectMultiplier, false, 2)],
-                                generatorBoostRowspan,
-                                "network-" + generatorName + "-" + incomeKey
-                            );
-                        } else addCell(undefined, generatorBoostRowspan);
-                    }
+                    const resourceAffectMultiplier =
+                        res.getNetworkIncomeModifier("generator", generatorName) * res.getNetworkIncomeModifier("resource", incomeKey);
+                    if (resourceAffectMultiplier !== 1) {
+                        addCell(
+                            [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + sharktext.beautify(resourceAffectMultiplier, false, 2)],
+                            "inline",
+                            "network-" + generatorName + "-" + incomeKey
+                        );
+                    } else addCell(undefined, "inline");
                 } else {
                     addCell(
                         [
@@ -685,5 +700,161 @@ SharkGame.Stats = {
                 "<br> <b><u>TABLE KEY</b></u>" +
                 `<br> <span style='color:${res.UPGRADE_MULTIPLIER_COLOR}'><b>This color</b></span> is for upgrade effects.`;
         }
+    },
+
+    networkTextEnter(_mouseEnterEvent, networkResource = "nothing") {
+        if (!networkResource || !networkResource.includes("network")) {
+            networkResource = $(this).attr("id");
+            if (!networkResource || !networkResource.includes("network")) return;
+        }
+
+        const idArray = networkResource.split("-");
+        const generatorName = idArray[1];
+        const generatedName = idArray[2];
+
+        let addedAnyLabelsYet = false;
+
+        let text = "";
+
+        const generatorObject = {};
+        generatorObject[generatorName] = 1;
+        const generatorCondensedObject = res.condenseNode(generatorObject, true);
+
+        const generatedObject = {};
+        generatedObject[generatedName] = 1;
+        const generatedCondensedObject = res.condenseNode(generatedObject, true);
+
+        if (_.some(generatorCondensedObject.genAffect, (category) => !$.isEmptyObject(category))) {
+            text += sharktext.getResourceName(generatorName, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) + " income<br>";
+            if (!$.isEmptyObject(generatorCondensedObject.genAffect.increase)) {
+                addedAnyLabelsYet = true;
+                text += "<span class='littleTooltipText'>IS INCREASED BY</span><br>";
+                $.each(generatorCondensedObject.genAffect.increase, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round(degree * 100 * amount) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+
+            if (!$.isEmptyObject(generatorCondensedObject.genAffect.decrease)) {
+                text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "<br>then " : "") + "IS DECREASED BY</span><br>";
+                addedAnyLabelsYet = true;
+                $.each(generatorCondensedObject.genAffect.decrease, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round(-degree * 100 * amount) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+
+            if (!$.isEmptyObject(generatorCondensedObject.genAffect.multincrease)) {
+                text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "<br>then " : "") + "IS MULTIPLICATIVELY INCREASED BY</span><br>";
+                addedAnyLabelsYet = true;
+                $.each(generatorCondensedObject.genAffect.multincrease, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round((degree ** amount - 1) * 100) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+
+            if (!$.isEmptyObject(generatorCondensedObject.genAffect.multdecrease)) {
+                text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "<br>then " : "") + "IS MULTIPLICATIVELY DECREASED BY</span><br>";
+                addedAnyLabelsYet = true;
+                $.each(generatorCondensedObject.genAffect.multdecrease, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round((1 - degree ** amount) * 100) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+        }
+
+        if (_.some(generatedCondensedObject.resAffect, (category) => !$.isEmptyObject(category))) {
+            if (addedAnyLabelsYet) {
+                addedAnyLabelsYet = false;
+                text += "<hr class='hrForTooltipJuxtaposition'>";
+            }
+            text += sharktext.getResourceName(generatedName, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) + " gains<br>";
+            if (!$.isEmptyObject(generatedCondensedObject.resAffect.increase)) {
+                addedAnyLabelsYet = true;
+                text += "<span class='littleTooltipText'>ARE INCREASED BY</span><br>";
+                $.each(generatedCondensedObject.resAffect.increase, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round(degree * 100 * amount) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+
+            if (!$.isEmptyObject(generatedCondensedObject.resAffect.decrease)) {
+                text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "<br>then " : "") + "ARE DECREASED BY</span><br>";
+                addedAnyLabelsYet = true;
+                $.each(generatedCondensedObject.resAffect.decrease, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round(-degree * 100 * amount) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+
+            if (!$.isEmptyObject(generatedCondensedObject.resAffect.multincrease)) {
+                text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "<br>then " : "") + "ARE MULTIPLICATIVELY INCREASED BY</span><br>";
+                addedAnyLabelsYet = true;
+                $.each(generatedCondensedObject.resAffect.multincrease, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round((degree ** amount - 1) * 100) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+
+            if (!$.isEmptyObject(generatedCondensedObject.resAffect.multdecrease)) {
+                text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "<br>then " : "") + "ARE MULTIPLICATIVELY DECREASED BY</span><br>";
+                addedAnyLabelsYet = true;
+                $.each(generatedCondensedObject.resAffect.multdecrease, (affector, degree) => {
+                    const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
+                    text +=
+                        sharktext.boldString(Math.round((1 - degree ** amount) * 100) + "%") +
+                        " from " +
+                        sharktext.boldString(sharktext.beautify(amount)) +
+                        " " +
+                        sharktext.getResourceName(affector, false, amount, sharkcolor.getElementColor("tooltipbox", "background-color"));
+                });
+            }
+        }
+
+        if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
+            document.getElementById("tooltipbox").innerHTML = text;
+        }
+        $("#tooltipbox").removeClass("forIncomeTable").attr("current", "");
+        $("#tooltipbox").addClass("forHomeButtonOrGrotto").attr("current", networkResource);
+    },
+
+    networkTextLeave() {
+        document.getElementById("tooltipbox").innerHTML = "";
+        $("#tooltipbox").removeClass("forHomeButtonOrGrotto").attr("current", "");
     },
 };

@@ -1072,6 +1072,13 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
             sandDigger: 0.99,
         },
     },
+    // cool tooltip test crab
+    /*     crab: {
+        exponentiate: {
+            squid: 0.99,
+            shark: 0.99,
+        },
+    }, */
 };
 
 SharkGame.GeneratorIncomeAffected = {
@@ -1086,7 +1093,7 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
         },
     },
     // cool tooltip test shark
-    /* shark: {
+    /*     shark: {
         multiply: {
             ray: 0.01,
             crab: 0.1,

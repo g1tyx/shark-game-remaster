@@ -573,7 +573,7 @@ SharkGame.Home = {
         home.updateMessage();
 
         // update hovering messages
-        if (document.getElementById("tooltipbox").className.split(" ").includes("forHomeButton")) {
+        if (document.getElementById("tooltipbox").className.split(" ").includes("forHomeButtonOrGrotto")) {
             if (document.getElementById("tooltipbox").attributes.current) {
                 home.onHomeHover(null, document.getElementById("tooltipbox").attributes.current.value);
             }
@@ -861,13 +861,13 @@ SharkGame.Home = {
         }
 
         const usePlural = buyingHowMuch > 1 || _.keys(effects.resource).length > 1 || _.some(effects.resource, (amount) => amount > 1);
-        let appendedSomeTextAlready = false; // this keeps track of whether or not little tooltip text has already been appended
+        let addedAnyLabelsYet = false; // this keeps track of whether or not little tooltip text has already been appended
 
         // append valid stuff for generators like production
         let text = "";
 
         if (_.some(validGenerators, (amount) => amount > 0)) {
-            appendedSomeTextAlready = true;
+            addedAnyLabelsYet = true;
             text += "<span class='littleTooltipText'>PRODUCE" + (usePlural ? "" : "S") + "</span><br/>";
         }
 
@@ -885,9 +885,8 @@ SharkGame.Home = {
         });
 
         if (_.some(validGenerators, (amount) => amount < 0)) {
-            appendedSomeTextAlready = true;
-            text +=
-                "<span class='littleTooltipText'>" + (appendedSomeTextAlready ? "and " : "") + "CONSUME" + (usePlural ? "" : "S") + "</span><br/>";
+            addedAnyLabelsYet = true;
+            text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "CONSUME" + (usePlural ? "" : "S") + "</span><br/>";
         }
 
         $.each(validGenerators, (incomeResource, amount) => {
@@ -903,13 +902,12 @@ SharkGame.Home = {
             }
         });
 
-        const condensedArray = res.condenseNode(effects.resource);
+        const condensedObject = res.condenseNode(effects.resource);
 
-        if (!$.isEmptyObject(condensedArray.resAffect.increase)) {
-            appendedSomeTextAlready = true;
-            text +=
-                "<span class='littleTooltipText'>" + (appendedSomeTextAlready ? "and " : "") + "INCREASE" + (usePlural ? "" : "S") + "</span><br/>";
-            $.each(condensedArray.resAffect.increase, (affectedResource, degreePerPurchase) => {
+        if (!$.isEmptyObject(condensedObject.resAffect.increase)) {
+            addedAnyLabelsYet = true;
+            text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "INCREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            $.each(condensedObject.resAffect.increase, (affectedResource, degreePerPurchase) => {
                 text +=
                     sharktext.boldString("all ") +
                     sharktext.getResourceName(affectedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -920,11 +918,10 @@ SharkGame.Home = {
             });
         }
 
-        if (!$.isEmptyObject(condensedArray.resAffect.decrease)) {
-            appendedSomeTextAlready = true;
-            text +=
-                "<span class='littleTooltipText'>" + (appendedSomeTextAlready ? "and " : "") + "DECREASE" + (usePlural ? "" : "S") + "</span><br/>";
-            $.each(condensedArray.resAffect.decrease, (affectedResource, degreePerPurchase) => {
+        if (!$.isEmptyObject(condensedObject.resAffect.decrease)) {
+            addedAnyLabelsYet = true;
+            text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "DECREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            $.each(condensedObject.resAffect.decrease, (affectedResource, degreePerPurchase) => {
                 text +=
                     sharktext.boldString("all ") +
                     sharktext.getResourceName(affectedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -935,15 +932,15 @@ SharkGame.Home = {
             });
         }
 
-        if (!$.isEmptyObject(condensedArray.resAffect.multincrease)) {
-            appendedSomeTextAlready = true;
+        if (!$.isEmptyObject(condensedObject.resAffect.multincrease)) {
+            addedAnyLabelsYet = true;
             text +=
                 "<span class='littleTooltipText'>" +
-                (appendedSomeTextAlready ? "and " : "") +
+                (addedAnyLabelsYet ? "and " : "") +
                 "MULTIPLICATIVELY INCREASE" +
                 (usePlural ? "" : "S") +
                 "</span><br/>";
-            $.each(condensedArray.resAffect.multincrease, (affectedResource, degreePerPurchase) => {
+            $.each(condensedObject.resAffect.multincrease, (affectedResource, degreePerPurchase) => {
                 degreePerPurchase = degreePerPurchase ** buyingHowMuch - 1;
                 text +=
                     sharktext.boldString("all ") +
@@ -955,15 +952,15 @@ SharkGame.Home = {
             });
         }
 
-        if (!$.isEmptyObject(condensedArray.resAffect.multdecrease)) {
-            appendedSomeTextAlready = true;
+        if (!$.isEmptyObject(condensedObject.resAffect.multdecrease)) {
+            addedAnyLabelsYet = true;
             text +=
                 "<span class='littleTooltipText'>" +
-                (appendedSomeTextAlready ? "and " : "") +
+                (addedAnyLabelsYet ? "and " : "") +
                 "MULTIPLICATIVELY DECREASE" +
                 (usePlural ? "" : "S") +
                 "</span><br/>";
-            $.each(condensedArray.resAffect.multdecrease, (affectedResource, degreePerPurchase) => {
+            $.each(condensedObject.resAffect.multdecrease, (affectedResource, degreePerPurchase) => {
                 degreePerPurchase = 1 - degreePerPurchase ** buyingHowMuch;
                 text +=
                     sharktext.boldString("all ") +
@@ -975,12 +972,77 @@ SharkGame.Home = {
             });
         }
 
+        if (!$.isEmptyObject(condensedObject.genAffect.increase)) {
+            addedAnyLabelsYet = true;
+            text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "INCREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            $.each(condensedObject.genAffect.increase, (affectedGenerator, degreePerPurchase) => {
+                text +=
+                    sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    sharktext.boldString(" income ") +
+                    " by " +
+                    sharktext.boldString(Math.round(buyingHowMuch * degreePerPurchase * 100) + "%") +
+                    "<br>";
+            });
+        }
+
+        if (!$.isEmptyObject(condensedObject.genAffect.decrease)) {
+            addedAnyLabelsYet = true;
+            text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "DECREASE" + (usePlural ? "" : "S") + "</span><br/>";
+            $.each(condensedObject.genAffect.decrease, (affectedGenerator, degreePerPurchase) => {
+                text +=
+                    sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    sharktext.boldString(" income ") +
+                    " by " +
+                    sharktext.boldString(Math.round(buyingHowMuch * degreePerPurchase * 100) + "%") +
+                    "<br>";
+            });
+        }
+
+        if (!$.isEmptyObject(condensedObject.genAffect.multincrease)) {
+            addedAnyLabelsYet = true;
+            text +=
+                "<span class='littleTooltipText'>" +
+                (addedAnyLabelsYet ? "and " : "") +
+                "MULTIPLICATIVELY INCREASE" +
+                (usePlural ? "" : "S") +
+                "</span><br/>";
+            $.each(condensedObject.genAffect.multincrease, (affectedGenerator, degreePerPurchase) => {
+                degreePerPurchase = degreePerPurchase ** buyingHowMuch - 1;
+                text +=
+                    sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    sharktext.boldString(" income ") +
+                    " by " +
+                    sharktext.boldString(Math.round(degreePerPurchase * 100) + "%") +
+                    "<br>";
+            });
+        }
+
+        if (!$.isEmptyObject(condensedObject.genAffect.multdecrease)) {
+            addedAnyLabelsYet = true;
+            text +=
+                "<span class='littleTooltipText'>" +
+                (addedAnyLabelsYet ? "and " : "") +
+                "MULTIPLICATIVELY DECREASE" +
+                (usePlural ? "" : "S") +
+                "</span><br/>";
+            $.each(condensedObject.genAffect.multdecrease, (affectedGenerator, degreePerPurchase) => {
+                degreePerPurchase = 1 - degreePerPurchase ** buyingHowMuch;
+                text +=
+                    sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    sharktext.boldString(" income ") +
+                    " by " +
+                    sharktext.boldString(Math.round(degreePerPurchase * 100) + "%") +
+                    "<br>";
+            });
+        }
+
         if (SharkGame.HomeActions.getActionTable()[actionName].helpText) {
-            text += "<span class='medDesc'>" + SharkGame.HomeActions.getActionTable()[actionName].helpText + "</span>";
+            text +=
+                "<hr class='hrForTooltipSeparation'><span class='medDesc'>" + SharkGame.HomeActions.getActionTable()[actionName].helpText + "</span>";
         }
 
         $.each(effects.resource, (resource, amount) => {
-            if (buyingHowMuch * amount >= 2) {
+            if (buyingHowMuch * amount !== 1) {
                 text =
                     sharktext.beautify(buyingHowMuch * amount).bold() +
                     " " +
@@ -1008,13 +1070,13 @@ SharkGame.Home = {
         if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
             document.getElementById("tooltipbox").innerHTML = text;
         }
-        $(".tooltip").removeClass("forIncomeTable").attr("current", "");
-        $("#tooltipbox").addClass("forHomeButton").attr("current", actionName);
+        $("#tooltipbox").removeClass("forIncomeTable").attr("current", "");
+        $("#tooltipbox").addClass("forHomeButtonOrGrotto").attr("current", actionName);
     },
 
     onHomeUnhover() {
         document.getElementById("tooltipbox").innerHTML = "";
-        $("#tooltipbox").removeClass("forHomeButton").attr("current", "");
+        $("#tooltipbox").removeClass("forHomeButtonOrGrotto").attr("current", "");
     },
 
     getCost(action, amount) {

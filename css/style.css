@@ -1417,7 +1417,7 @@ button.planetButton:active {
 .tooltip .littleTooltipText {
   font-size: 0.6em;
 }
-.forHomeButton {
+.forHomeButtonOrGrotto {
   width: 250px;
 }
 .forIncomeTable {
@@ -1431,6 +1431,14 @@ button.planetButton:active {
 .forAspectTreeUnpurchased {
   background-color: #113228;
   border-color: #246c54;
+}
+.hrForTooltipJuxtaposition {
+  border: 0;
+  border-top: 2px solid var(--color-lighter);
+}
+.hrForTooltipSeparation {
+  border: 0;
+  border-top: 2px dashed var(--color-lighter);
 }
 .collapser {
   padding-right: 1em;

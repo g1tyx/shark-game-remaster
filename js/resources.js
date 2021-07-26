@@ -649,7 +649,7 @@ SharkGame.Resources = {
         if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
             document.getElementById("tooltipbox").innerHTML = text;
         }
-        $("#tooltipbox").removeClass("forHomeButton").attr("current", "");
+        $("#tooltipbox").removeClass("forHomeButtonOrGrotto").attr("current", "");
         $(".tooltip").addClass("forIncomeTable").attr("current", resourceName);
     },
 
@@ -796,10 +796,11 @@ SharkGame.Resources = {
     },
 
     /**
-     * Takes an array of resources and gives back an object full of arrays which is used to create text describing the resource and generator effects. It's complicated.
-     * @param {object} resources Object containing each resource produced and how much.
+     * Takes an array of resources and gives back an object which is used to create text describing the resource and generator effects. It's complicated.
+     * @param {object} resources Object containing each resource and how much.
+     * @param {boolean} treatResourcesAsAffected Whether or not to condense the node with respect to the resources as affectors or as the affected.
      */
-    condenseNode(resources) {
+    condenseNode(resources, treatResourcesAsAffected) {
         function convertType(whichType, degree) {
             switch (whichType) {
                 case "multiply":
@@ -824,14 +825,19 @@ SharkGame.Resources = {
             },
         };
         $.each(resources, (resource, amount) => {
-            const genNode = SharkGame.GeneratorIncomeAffectors[resource];
+            let genNode;
+            if (treatResourcesAsAffected) {
+                genNode = SharkGame.GeneratorIncomeAffected[resource];
+            } else {
+                genNode = SharkGame.GeneratorIncomeAffectors[resource];
+            }
             if (genNode) {
                 $.each(genNode, (type, affectorObjects) => {
                     $.each(affectorObjects, (affectedGenerator, degree) => {
                         if (!returnable.genAffect[convertType(type, degree)][affectedGenerator]) {
                             switch (type) {
                                 case "multiply":
-                                    returnable.genAffect[convertType(type, degree)][affectedGenerator] = amount * (degree - 1);
+                                    returnable.genAffect[convertType(type, degree)][affectedGenerator] = amount * degree;
                                     break;
                                 case "exponentiate":
                                     returnable.genAffect[convertType(type, degree)][affectedGenerator] = degree ** amount;
@@ -839,7 +845,7 @@ SharkGame.Resources = {
                         } else {
                             switch (type) {
                                 case "multiply":
-                                    returnable.genAffect[convertType(type, degree)][affectedGenerator] += amount * (degree - 1);
+                                    returnable.genAffect[convertType(type, degree)][affectedGenerator] += amount * degree;
                                     break;
                                 case "exponentiate":
                                     returnable.genAffect[convertType(type, degree)][affectedGenerator] *= degree ** amount;
@@ -849,11 +855,32 @@ SharkGame.Resources = {
                 });
             }
 
-            const resNode = SharkGame.ResourceIncomeAffectors[resource];
+            let resNode;
+            if (treatResourcesAsAffected) {
+                resNode = SharkGame.ResourceIncomeAffected[resource];
+            } else {
+                resNode = SharkGame.ResourceIncomeAffectors[resource];
+            }
             if (resNode) {
                 $.each(resNode, (type, affectorObjects) => {
                     $.each(affectorObjects, (affectedResource, degree) => {
-                        returnable.resAffect[convertType(type, degree)][affectedResource] = degree;
+                        if (!returnable.resAffect[convertType(type, degree)][affectedResource]) {
+                            switch (type) {
+                                case "multiply":
+                                    returnable.resAffect[convertType(type, degree)][affectedResource] = amount * degree;
+                                    break;
+                                case "exponentiate":
+                                    returnable.resAffect[convertType(type, degree)][affectedResource] = degree ** amount;
+                            }
+                        } else {
+                            switch (type) {
+                                case "multiply":
+                                    returnable.resAffect[convertType(type, degree)][affectedResource] += amount * degree;
+                                    break;
+                                case "exponentiate":
+                                    returnable.resAffect[convertType(type, degree)][affectedResource] *= degree ** amount;
+                            }
+                        }
                     });
                 });
             }
