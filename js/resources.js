@@ -486,6 +486,8 @@ SharkGame.Resources = {
 
     // add rows to table (more expensive than updating existing DOM elements)
     reconstructResourcesTable() {
+        res.resetResourceTableMinWidth();
+
         let resourceTable = $("#resourceTable");
 
         const statusDiv = $("#status");
@@ -560,10 +562,17 @@ SharkGame.Resources = {
             statusDiv.show();
         }
 
-        // debugger;
-        resourceTable.css("min-width", resourceTable.outerWidth() + "px");
+        res.setResourceTableMinWidth();
 
         res.rebuildTable = false;
+    },
+
+    setResourceTableMinWidth() {
+        $("#resourceTable").css("min-width", $("#resourceTable").outerWidth() + "px");
+    },
+
+    resetResourceTableMinWidth() {
+        $("#resourceTable").css("min-width", "0px");
     },
 
     collapseResourceTableRow(categoryName) {
