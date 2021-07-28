@@ -161,12 +161,9 @@ SharkGame.HomeActions = {
                 "You had better be testing something.",
                 "Not intended for actual gameplay.",
                 "...cheater.",
-                "Oh, wow, you went into console and typed sgdebug(). What a hacker!",
+                "Oh, wow, you found the cheats menu and pressed a bunch of buttons. What a hacker!",
             ],
             helpText: "Use your natural coding prowess to find and catch bugs.",
-            /* removedBy: {
-                upgrades: ["crystalContainer"],
-            }, */
             unauthorized: true,
         },
 

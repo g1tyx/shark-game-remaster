@@ -1,8 +1,14 @@
 SharkGame.CheatsAndDebug = {
-    /* tabId: "cheats",
+    tabId: "cheats",
     tabDiscovered: false,
     tabSeen: false,
-    tabName: "Cheaty Powers", */
+    tabName: "Cheaty Powers",
+
+    discoverReq: {
+        flag: {
+            debug: true,
+        },
+    },
 
     pause: false,
     stop: false,
@@ -82,7 +88,7 @@ SharkGame.CheatsAndDebug = {
         },
     },
 
-    /*     init() {
+    init() {
         main.registerTab(this);
     },
 
@@ -140,7 +146,7 @@ SharkGame.CheatsAndDebug = {
                 }
             }
         });
-    }, */
+    },
 
     cycleStyles(time = 2000) {
         if (cad.cycling) return;
@@ -175,9 +181,22 @@ SharkGame.CheatsAndDebug = {
     },
 
     debug() {
-        // cad.tabDiscovered = true;
+        SharkGame.persistentFlags.debug = true;
         SharkGame.HomeActions.getActionTable().debugbutton.unauthorized = false;
     },
+
+    hideDebug() {
+        SharkGame.persistentFlags.debug = false;
+        SharkGame.Tabs.cheats.discovered = false;
+        SharkGame.Tabs.cheats.seen = false;
+        SharkGame.HomeActions.getActionTable().debugbutton.unauthorized = true;
+        SharkGame.HomeActions.getActionTable().debugbutton.discovered = false;
+        if (SharkGame.Tabs.current === "cheats") {
+            SharkGame.Tabs.current = "home";
+        }
+        main.setUpTab();
+    },
+
     togglePausePlease() {
         if (cad.stop) {
             log.addError("The game is stopped. You can't also pause it.");

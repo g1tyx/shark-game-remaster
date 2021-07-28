@@ -356,7 +356,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Recycler.init();
         SharkGame.Gate.init();
         SharkGame.Reflection.init();
-        // SharkGame.CheatsAndDebug.init();
+        SharkGame.CheatsAndDebug.init();
 
         // clear flags
         SharkGame.flags = {};
@@ -479,7 +479,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             // check resources
             if (tab.discoverReq.resource) {
-                reqsMet = reqsMet && res.checkResources(tab.discoverReq.resource, true);
+                reqsMet &&= res.checkResources(tab.discoverReq.resource, true);
             }
 
             const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
@@ -495,6 +495,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 if (!anyUpgradeExists) {
                     reqsMet = false;
                 }
+            }
+
+            if (tab.discoverReq.flag) {
+                $.each(tab.discoverReq.flag, (flagName, matchedValue) => {
+                    if (SharkGame.flags[flagName]) {
+                        reqsMet &&= SharkGame.flags[flagName] === matchedValue;
+                    } else if (SharkGame.persistentFlags[flagName]) {
+                        reqsMet &&= SharkGame.persistentFlags[flagName] === matchedValue;
+                    } else {
+                        reqsMet = false;
+                        return false;
+                    }
+                });
             }
 
             if (reqsMet) {
