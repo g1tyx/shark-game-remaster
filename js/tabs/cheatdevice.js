@@ -33,57 +33,64 @@ SharkGame.CheatsAndDebug = {
             get name() {
                 return "Give " + sharkmath.getBuyAmount(true) + " of Everything";
             },
+            type: "numeric",
             updates: true,
             click() {
                 cad.giveEverything(sharkmath.getBuyAmount(true));
             },
         },
-        speedUp: {
-            name: "Speed up game by 2x",
-            click() {
-                cad.goFasterPlease();
-            },
-        },
-        speedDown: {
-            name: "Slow down game by 2x",
-            click() {
-                cad.goSlowerPlease();
-            },
-        },
         pause: {
-            name: "Pause game",
+            get name() {
+                return cad.pause ? "Unpause Game" : "Pause Game";
+            },
+            updates: true,
             click() {
                 cad.togglePausePlease();
             },
         },
         stop: {
-            name: "Halt execution",
+            get name() {
+                return cad.stop ? "Resume Execution" : "Halt Execution";
+            },
+            updates: true,
             click() {
                 cad.toggleStopPlease();
             },
         },
-        pricyUpgrades: {
-            name: "Increase upgrade prices by 2x",
-            click() {
-                cad.expensiveUpgradesPlease();
+        changeSpeed: {
+            name: "Game speed",
+            type: "up-down",
+            clickUp() {
+                cad.goFasterPlease();
+            },
+            clickDown() {
+                cad.goSlowerPlease();
             },
         },
-        cheapUpgrades: {
-            name: "Decrease upgrade prices by 2x",
-            click() {
+        changeUpgradePrices: {
+            name: "Upgrade prices",
+            type: "up-down",
+            clickUp() {
+                cad.expensiveUpgradesPlease();
+            },
+            clickDown() {
                 cad.cheaperUpgradesPlease();
             },
         },
-        pricyStuff: {
-            name: "Increase cost of buying stuff by 2x",
-            click() {
+        changeStuffPrices: {
+            name: "Cost of stuff",
+            type: "up-down",
+            clickUp() {
                 cad.expensiveStuffPlease();
             },
-        },
-        cheapStuff: {
-            name: "Decrease cost of buying stuff by 2x",
-            click() {
+            clickDown() {
                 cad.cheaperStuffPlease();
+            },
+        },
+        rollDice: {
+            name: "Roll the dice for wacky effects",
+            click() {
+                log.addMessage(cad.rollTheDicePlease());
             },
         },
     },
@@ -99,10 +106,48 @@ SharkGame.CheatsAndDebug = {
         $.each(cad.defaultParameters, (parameter) => {
             $("#cheatsDisplay").append($("<tr>").attr("id", parameter + "Row"));
         });
-        main.createBuyButtons("cheat", $("#cheatButtons"), "append", true);
+        let container;
+        let buttonContainer; // prettier gets angry at me if i try to declare these case-specific variables inside the case
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
-            SharkGame.Button.makeButton(buttonName, buttonData.name, $("#cheatButtons"), buttonData.click);
+            switch (buttonData.type) {
+                case "up-down":
+                    if (!buttonData.up || !buttonData.down) {
+                        log.addError("Cheat button is up-down type, but has no functions for its buttons.");
+                        return true;
+                    }
+                    container = $("<div>").attr("id", buttonName).addClass("up-down");
+                    container.append("<span class='up-downText'>" + buttonData.name + "</span>");
+                    buttonContainer = $("<div>").addClass("up-downButtonContainer");
+                    buttonContainer.append(
+                        $("<button id='" + buttonName + "Up' class='min close-button'>⯅</button>").on("click", buttonData.clickUp)
+                    );
+                    buttonContainer.append(
+                        $("<button id='" + buttonName + "Down' class='min close-button'>⯆</button>").on("click", buttonData.clickDown)
+                    );
+                    container.append(buttonContainer);
+                    $("#cheatButtons").append(container);
+                    break;
+                case "numeric":
+                    main.createBuyButtons("cheat", $("#cheatButtons"), "append", true);
+                    SharkGame.Button.makeButton(buttonName, buttonData.name, $("#cheatButtons"), buttonData.click);
+                    break;
+                default:
+                    SharkGame.Button.makeButton(buttonName, buttonData.name, $("#cheatButtons"), buttonData.click);
+            }
         });
+
+        if (cad.pause) {
+            $("#stop").addClass("disabled");
+        } else {
+            $("#stop").removeClass("disabled");
+        }
+
+        if (cad.stop) {
+            $("#pause").addClass("disabled");
+        } else {
+            $("#pause").removeClass("disabled");
+        }
+
         this.update();
     },
 
@@ -141,8 +186,14 @@ SharkGame.CheatsAndDebug = {
 
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
             if (buttonData.updates) {
-                if ($("#" + buttonName).html() !== buttonData.name) {
-                    $("#" + buttonName).html(buttonData.name);
+                switch (buttonData.type) {
+                    case "up-down":
+                        // does nothing yet
+                        break;
+                    default:
+                        if ($("#" + buttonName).html() !== buttonData.name) {
+                            $("#" + buttonName).html(buttonData.name);
+                        }
                 }
             }
         });
@@ -204,8 +255,10 @@ SharkGame.CheatsAndDebug = {
         }
         if (!cad.pause) {
             cad.pause = true;
+            $("#stop").addClass("disabled");
         } else {
             cad.pause = false;
+            $("#stop").removeClass("disabled");
         }
         this.update();
     },
@@ -216,8 +269,10 @@ SharkGame.CheatsAndDebug = {
         }
         if (!cad.stop) {
             cad.stop = true;
+            $("#pause").addClass("disabled");
         } else {
             cad.stop = false;
+            $("#pause").removeClass("disabled");
         }
         this.update();
     },
@@ -321,8 +376,12 @@ SharkGame.CheatsAndDebug = {
                 res.reconstructResourcesTable();
                 return "Rolled a one. Uh oh.";
             case 2:
-                res.specialMultiplier *= 1 / 2;
-                return "Rolled a two. Everything is 2 times slower.";
+                res.addNetworkNode(SharkGame.GeneratorIncomeAffectors, "fish", "exponentiate", "shark", 0.999);
+                res.addNetworkNode(SharkGame.GeneratorIncomeAffectors, "sand", "exponentiate", "ray", 0.999);
+                res.addNetworkNode(SharkGame.GeneratorIncomeAffectors, "crystal", "exponentiate", "crab", 0.999);
+                res.clearNetworks();
+                res.buildIncomeNetwork();
+                return "Rolled a two. Fish make sharks slower. Sand makes rays slower. Crystal makes crabs slower. Oops.";
             case 3:
                 if (world.doesResourceExist("fish")) {
                     SharkGame.ResourceMap.get("fish").income = {};
@@ -351,7 +410,6 @@ SharkGame.CheatsAndDebug = {
                     res.reapplyModifiers("shark", "shark");
                     return "Rolled a four. The sharks would be eating fish, but they don't catch fish anymore. NOW THEY'RE EATING EACHOTHER! AAAAAAAAAAAAAAAA";
                 }
-
             case 5:
                 res.applyModifier("resourceBoost", "fish", 0.125);
                 return "Rolled a five. I just killed 87.5% of all fish in the ocean. Now you get 87.5% less fish.";
@@ -367,14 +425,10 @@ SharkGame.CheatsAndDebug = {
                 res.changeResource("shark", res.getResource("shark") * 255);
                 return "Rolled a seven. Your sharks have been duplicated. A lot.";
             case 8:
-                SharkGame.ResourceMap.forEach((_value, key) => {
-                    if (key !== "essence") {
-                        if (world.doesResourceExist(key)) {
-                            SharkGame.PlayerResources.get(key).amount += 888;
-                        }
-                    }
-                });
-                return "Rolled an eight. You gained exactly 888 of everything.";
+                res.addNetworkNode(SharkGame.ResourceIncomeAffectors, "sand", "multiply", "sand", 0.001);
+                res.clearNetworks();
+                res.buildIncomeNetwork();
+                return "Rolled an eight. Sand makes its own production faster.";
             case 9:
                 res.changeResource("fish", 10000000000 * Math.random() ** 3);
                 return "Rolled a nine. You eat fish hooray!";
@@ -473,7 +527,7 @@ SharkGame.CheatsAndDebug = {
                 return "Rolled a nineteen. Upgrades are free, yay! But everything is four times as expensive. Not-so-yay.";
             case 20:
                 res.specialMultiplier *= 20;
-                return "Rolled a perfect twenty. Speed times 20.";
+                return "Rolled a perfect twenty. Everything times 20.";
         }
     },
     expensiveUpgradesPlease() {

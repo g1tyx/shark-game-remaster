@@ -1468,3 +1468,25 @@ button.planetButton:active {
 .disposeArrangement #buyButtons button {
   margin: 0 2px 3px;
 }
+#cheatsDisplay {
+  margin-top: 1em;
+  width: 50%;
+}
+#cheatButtons {
+  float: left;
+  width: 50%;
+}
+#cheatButtons .up-down {
+  display: flex;
+  width: 12em;
+  margin: 1% auto;
+  overflow: hidden;
+  font-size: 90%;
+}
+#cheatButtons .up-down .up-downText {
+  margin: auto;
+}
+#cheatButtons .up-down .up-downButtonContainer {
+  float: right;
+  max-width: 1.5em;
+}
