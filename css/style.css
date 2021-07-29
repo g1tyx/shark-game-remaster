@@ -850,6 +850,9 @@ button.newlyDiscovered.disabled div {
   right: 15px;
   cursor: pointer;
 }
+#updateGameBox:empty {
+  display: none;
+}
 button {
   background-color: var(--color-light);
   color: white;
