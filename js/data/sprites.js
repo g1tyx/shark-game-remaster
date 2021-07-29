@@ -1512,6 +1512,22 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "general/holeoverlay": {
+        frame: { x: 2396, y: 24, w: 24, h: 24 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "general/theMarker": {
+        frame: { x: 2396, y: 0, w: 24, h: 24 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "planets/abandoned": {
         frame: { x: 2, y: 2, w: 100, h: 100 },
         rotated: false,

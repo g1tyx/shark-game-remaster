@@ -23,6 +23,8 @@ SharkGame.Resources = {
     collapsedRows: new Set(),
 
     init() {
+        this.markers.init();
+
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (resourceId, resource) => {
             SharkGame.ResourceMap.set(resourceId, _.cloneDeep(resource));
@@ -472,7 +474,13 @@ SharkGame.Resources = {
                 if (Math.abs(income) > SharkGame.EPSILON) {
                     const changeChar = income > 0 ? "+" : "";
                     const newIncome =
-                        "⠀" + "<span style='color:" + res.INCOME_COLOR + "'>" + changeChar + sharktext.beautifyIncome(income) + "</span>";
+                        "⠀" +
+                        "<span class='click-passthrough' style='color:" +
+                        res.INCOME_COLOR +
+                        "'>" +
+                        changeChar +
+                        sharktext.beautifyIncome(income) +
+                        "</span>";
                     const oldIncome = $("#income-" + resourceName).html();
                     if (oldIncome !== newIncome.replace(/'/g, '"')) {
                         $("#income-" + resourceName).html(newIncome);
@@ -482,6 +490,114 @@ SharkGame.Resources = {
                 }
             });
         }
+    },
+
+    markers: {
+        list: [],
+
+        init() {
+            // this will be reliant on aspects and loading so for now we'll just make one of them
+            if (this.list.length < 1) {
+                this.makeMarker();
+            } else {
+                _.each(this.list, (marker) => {
+                    marker.location = "NA";
+                });
+            }
+        },
+
+        makeMarker(type = "nobody cares", initialLocation = "NA") {
+            const identifier = "marker-" + this.list.length;
+            const marker = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", null, "general/missing-action")
+                .attr("id", identifier)
+                .attr("type", type)
+                .attr("location", initialLocation)
+                .attr("draggable", true)
+                .on("dragstart", res.markers.handleMarkerDragStart)
+                .on("dragover", (event) => {
+                    if (event.originalEvent.dataTransfer.getData("markerId") && event.originalEvent.dataTransfer.getData("markerId") === identifier) {
+                        event.originalEvent.preventDefault();
+                    }
+                })
+                .on("drop", res.markers.dropMarker);
+            this.list.push(marker);
+            return marker;
+        },
+
+        appendMarkers(where) {
+            _.each(this.list, (marker) => {
+                where.prepend(marker);
+            });
+        },
+
+        handleMarkerDragStart(event) {
+            event.originalEvent.dataTransfer.setData("markerId", event.originalEvent.target.id);
+            //event.originalEvent.dataTransfer.setData("markerType", event.originalEvent.target.type);
+            event.originalEvent.dataTransfer.setData("markerLocation", $("#" + this.id).attr("location"));
+            res.tableTextLeave();
+        },
+
+        handleResourceDragStart(event) {
+            event.originalEvent.dataTransfer.setData("markerId", $("#" + this.id).attr("markerId"));
+            event.originalEvent.dataTransfer.setData("markerLocation", event.originalEvent.target.id);
+            res.tableTextLeave();
+        },
+
+        reapplyMarker(marker) {
+            log.addError(marker);
+            log.addError(marker.attr("location"));
+            $("#" + marker.attr("location"))
+                .css("background-image", "url(img/raw/general/theMarker.png)")
+                .attr("draggable", true)
+                .attr("markerId", marker.attr("id"));
+        },
+
+        dropMarker(event) {
+            const originalMarkerId = event.originalEvent.dataTransfer.getData("markerId");
+            const previousLocation = event.originalEvent.dataTransfer.getData("markerLocation");
+            if (this.id.includes("marker")) {
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + this.id), "general/missing-action");
+                $("#" + this.id)
+                    .attr("draggable", true)
+                    .attr("location", "NA");
+            } else {
+                $("#" + this.id)
+                    .css("background-image", "url(img/raw/general/theMarker.png)")
+                    .attr("draggable", true)
+                    .attr("markerId", originalMarkerId);
+                $("#" + originalMarkerId).attr("location", this.id);
+            }
+            res.markers.unmarkLocation(previousLocation, originalMarkerId);
+            res.markers.applyMarkerEffect(this.id, originalMarkerId, "apply");
+
+            res.updateResourcesTable();
+        },
+
+        unmarkLocation(locationPrevious, id) {
+            if (locationPrevious === "NA") {
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/holeoverlay", $("#" + id), "general/missing-action");
+                $("#" + id).attr("draggable", false);
+            } else {
+                $("#" + locationPrevious)
+                    .attr("draggable", false)
+                    .attr("markerId", "")
+                    .css("background-image", "");
+            }
+            res.markers.applyMarkerEffect(locationPrevious, id, "reverse");
+        },
+
+        applyMarkerEffect(targetId, _id, reverseOrApply = "apply") {
+            if (targetId === "NA" || targetId.includes("marker")) {
+                return;
+            } else if (targetId.includes("resource")) {
+                res.applyModifier("theMarkerForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? 2 : 0.5);
+            } else if (targetId.includes("income")) {
+                res.applyModifier("theMarkerForResources", targetId.split("-")[1], reverseOrApply === "apply" ? 2 : 0.5);
+            } else {
+                SharkGame.Log.addError("Tried to apply marker effect, but couldn't understand the location!");
+                SharkGame.Log.addError("Location was: " + targetId);
+            }
+        },
     },
 
     // add rows to table (more expensive than updating existing DOM elements)
@@ -498,6 +614,7 @@ SharkGame.Resources = {
         }
         // if resource table does not exist, create
         if (resourceTable.length <= 0) {
+            res.markers.appendMarkers(statusDiv);
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
             tableContainer.append($("<table>").attr("id", "resourceTable"));
@@ -560,6 +677,11 @@ SharkGame.Resources = {
             statusDiv.hide();
         } else {
             statusDiv.show();
+            _.each(res.markers.list, (marker) => {
+                if (marker.attr("location") !== "NA") {
+                    res.markers.reapplyMarker(marker);
+                }
+            });
         }
 
         res.setResourceTableMinWidth();
@@ -593,6 +715,13 @@ SharkGame.Resources = {
                 $("<td>")
                     .attr("id", "resource-" + resourceKey)
                     .html(sharktext.getResourceName(resourceKey))
+                    .on("dragstart", res.markers.handleResourceDragStart)
+                    .on("dragover", (event) => {
+                        if (event.originalEvent.dataTransfer.getData("markerId") && SharkGame.ResourceMap.get(resourceKey).baseIncome) {
+                            event.originalEvent.preventDefault();
+                        }
+                    })
+                    .on("drop", res.markers.dropMarker)
             );
 
             row.append(
@@ -607,7 +736,22 @@ SharkGame.Resources = {
 
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
-                incomeId.html("⠀<span style='color:" + res.INCOME_COLOR + "'>" + changeChar + sharktext.beautifyIncome(income) + "</span>");
+                incomeId
+                    .html(
+                        "⠀<span class='click-passthrough' style='color:" +
+                            res.INCOME_COLOR +
+                            "'>" +
+                            changeChar +
+                            sharktext.beautifyIncome(income) +
+                            "</span>"
+                    )
+                    .on("dragstart", res.markers.handleResourceDragStart)
+                    .on("dragover", (event) => {
+                        if (event.originalEvent.dataTransfer.getData("markerId") && SharkGame.PlayerIncomeTable.get(resourceKey)) {
+                            event.originalEvent.preventDefault();
+                        }
+                    })
+                    .on("drop", res.markers.dropMarker);
             }
         }
         return row;
