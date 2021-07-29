@@ -520,9 +520,19 @@ SharkGame.Resources = {
                         event.originalEvent.preventDefault();
                     }
                 })
-                .on("drop", res.markers.dropMarker);
+                .on("drop", res.markers.dropMarker)
+                .on("click", res.markers.tryReturnMarker);
             this.list.push(marker);
             return marker;
+        },
+
+        tryReturnMarker(_event) {
+            const marker = $("#" + this.id);
+            if (marker.attr("location") !== "NA") {
+                res.markers.unmarkLocation(marker.attr("location"), marker.id);
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");
+                marker.attr("draggable", true).attr("location", "NA");
+            }
         },
 
         appendMarkers(where) {
@@ -551,13 +561,6 @@ SharkGame.Resources = {
         },
 
         reapplyMarker(marker) {
-            /*             if (!$("#" + marker.attr("location"))) {
-                unmarkLocation(marker.attr("location"), marker.id);
-                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + marker.id), "general/missing-action");
-                $("#" + marker.id)
-                    .attr("draggable", true)
-                    .attr("location", "NA");
-            } */
             $("#" + marker.attr("location"))
                 .css("background-image", "url(img/raw/general/theMarker.png)")
                 .attr("draggable", true)
