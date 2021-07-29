@@ -562,6 +562,8 @@ SharkGame.Resources = {
             res.tableTextLeave();
         },
 
+        toggleColorfulDropZones() {},
+
         reapplyMarker(marker) {
             $("#" + marker.attr("location"))
                 .css("background-image", "url(img/raw/general/theMarker.png)")
@@ -570,6 +572,7 @@ SharkGame.Resources = {
         },
 
         dropMarker(event) {
+            res.tableTextLeave();
             const originalMarkerId = event.originalEvent.dataTransfer.getData("markerId");
             const previousLocation = event.originalEvent.dataTransfer.getData("markerLocation");
             res.markers.unmarkLocation(previousLocation, originalMarkerId);
@@ -739,8 +742,16 @@ SharkGame.Resources = {
                             event.originalEvent.dataTransfer.getData("markerId") &&
                             SharkGame.ResourceMap.get(resourceKey).baseIncome
                         ) {
+                            $("#tooltipbox").html(
+                                "production from " +
+                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                    " x2"
+                            );
                             event.originalEvent.preventDefault();
                         }
+                    })
+                    .on("dragleave", () => {
+                        $("#tooltipbox").html("");
                     })
                     .on("drop", res.markers.dropMarker)
             );
@@ -773,8 +784,16 @@ SharkGame.Resources = {
                             event.originalEvent.dataTransfer.getData("markerId") &&
                             SharkGame.PlayerIncomeTable.get(resourceKey)
                         ) {
+                            $("#tooltipbox").html(
+                                "production of " +
+                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                    " x2"
+                            );
                             event.originalEvent.preventDefault();
                         }
+                    })
+                    .on("dragleave", () => {
+                        $("#tooltipbox").html("");
                     })
                     .on("drop", res.markers.dropMarker);
             }
