@@ -497,8 +497,10 @@ SharkGame.Resources = {
 
         init() {
             // this will be reliant on aspects and loading so for now we'll just make one of them
-            if (this.list.length < 1) {
-                this.makeMarker();
+            if (this.list.length < 2) {
+                while (this.list.length < 2) {
+                    this.makeMarker();
+                }
             } else {
                 _.each(this.list, (marker) => {
                     marker.attr("location", "NA");
@@ -516,7 +518,7 @@ SharkGame.Resources = {
                 .addClass("marker")
                 .on("dragstart", res.markers.handleMarkerDragStart)
                 .on("dragover", (event) => {
-                    if (event.originalEvent.dataTransfer.getData("markerId") && event.originalEvent.dataTransfer.getData("markerId") === identifier) {
+                    if (event.originalEvent.dataTransfer.getData("markerId") === identifier) {
                         event.originalEvent.preventDefault();
                     }
                 })
@@ -732,7 +734,11 @@ SharkGame.Resources = {
                     .html(sharktext.getResourceName(resourceKey))
                     .on("dragstart", res.markers.handleResourceDragStart)
                     .on("dragover", (event) => {
-                        if (event.originalEvent.dataTransfer.getData("markerId") && SharkGame.ResourceMap.get(resourceKey).baseIncome) {
+                        if (
+                            !$("#resource-" + resourceKey).attr("markerId") &&
+                            event.originalEvent.dataTransfer.getData("markerId") &&
+                            SharkGame.ResourceMap.get(resourceKey).baseIncome
+                        ) {
                             event.originalEvent.preventDefault();
                         }
                     })
@@ -762,7 +768,11 @@ SharkGame.Resources = {
                     )
                     .on("dragstart", res.markers.handleResourceDragStart)
                     .on("dragover", (event) => {
-                        if (event.originalEvent.dataTransfer.getData("markerId") && SharkGame.PlayerIncomeTable.get(resourceKey)) {
+                        if (
+                            !$("#income-" + resourceKey).attr("markerId") &&
+                            event.originalEvent.dataTransfer.getData("markerId") &&
+                            SharkGame.PlayerIncomeTable.get(resourceKey)
+                        ) {
                             event.originalEvent.preventDefault();
                         }
                     })
