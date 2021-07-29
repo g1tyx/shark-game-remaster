@@ -1494,3 +1494,6 @@ button.planetButton:active {
   float: right;
   max-width: 1.5em;
 }
+.marker {
+  margin: 0.5em;
+}

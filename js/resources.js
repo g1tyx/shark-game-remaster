@@ -501,7 +501,7 @@ SharkGame.Resources = {
                 this.makeMarker();
             } else {
                 _.each(this.list, (marker) => {
-                    marker.location = "NA";
+                    marker.attr("location", "NA");
                 });
             }
         },
@@ -513,6 +513,7 @@ SharkGame.Resources = {
                 .attr("type", type)
                 .attr("location", initialLocation)
                 .attr("draggable", true)
+                .addClass("marker")
                 .on("dragstart", res.markers.handleMarkerDragStart)
                 .on("dragover", (event) => {
                     if (event.originalEvent.dataTransfer.getData("markerId") && event.originalEvent.dataTransfer.getData("markerId") === identifier) {
@@ -534,18 +535,29 @@ SharkGame.Resources = {
             event.originalEvent.dataTransfer.setData("markerId", event.originalEvent.target.id);
             //event.originalEvent.dataTransfer.setData("markerType", event.originalEvent.target.type);
             event.originalEvent.dataTransfer.setData("markerLocation", $("#" + this.id).attr("location"));
+            const image = document.createElement("img");
+            image.src = "img/raw/general/theMarker.png";
+            event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
             res.tableTextLeave();
         },
 
         handleResourceDragStart(event) {
             event.originalEvent.dataTransfer.setData("markerId", $("#" + this.id).attr("markerId"));
             event.originalEvent.dataTransfer.setData("markerLocation", event.originalEvent.target.id);
+            const image = document.createElement("img");
+            image.src = "img/raw/general/theMarker.png";
+            event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
             res.tableTextLeave();
         },
 
         reapplyMarker(marker) {
-            log.addError(marker);
-            log.addError(marker.attr("location"));
+            /*             if (!$("#" + marker.attr("location"))) {
+                unmarkLocation(marker.attr("location"), marker.id);
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + marker.id), "general/missing-action");
+                $("#" + marker.id)
+                    .attr("draggable", true)
+                    .attr("location", "NA");
+            } */
             $("#" + marker.attr("location"))
                 .css("background-image", "url(img/raw/general/theMarker.png)")
                 .attr("draggable", true)
@@ -555,6 +567,8 @@ SharkGame.Resources = {
         dropMarker(event) {
             const originalMarkerId = event.originalEvent.dataTransfer.getData("markerId");
             const previousLocation = event.originalEvent.dataTransfer.getData("markerLocation");
+            res.markers.unmarkLocation(previousLocation, originalMarkerId);
+            res.markers.applyMarkerEffect(this.id, originalMarkerId, "apply");
             if (this.id.includes("marker")) {
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + this.id), "general/missing-action");
                 $("#" + this.id)
@@ -567,8 +581,6 @@ SharkGame.Resources = {
                     .attr("markerId", originalMarkerId);
                 $("#" + originalMarkerId).attr("location", this.id);
             }
-            res.markers.unmarkLocation(previousLocation, originalMarkerId);
-            res.markers.applyMarkerEffect(this.id, originalMarkerId, "apply");
 
             res.updateResourcesTable();
         },

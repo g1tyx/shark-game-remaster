@@ -591,7 +591,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         content.empty();
         content.append('<div id="contentMenu"><ul id="tabList"></ul></div><div id="tabBorder" class="clear-fix"></div>');
-        content.append($("<span>").html("this is text!").attr("draggable", true).on("dragstart", main.dragHandle));
 
         main.createTabNavigation();
 
