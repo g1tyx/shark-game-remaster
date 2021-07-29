@@ -522,7 +522,7 @@ SharkGame.Aspects = {
         },
         getEffect(level) {
             if (level === 1) {
-                return "Start with the grotto already unlcoked.";
+                return "Start with the grotto already unlocked.";
             } else {
                 return "Start with the grotto and the laboratory already unlocked.";
             }
