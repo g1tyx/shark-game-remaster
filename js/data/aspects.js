@@ -48,32 +48,34 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 5,
+        max: 3,
         level: 0,
         name: "Path of Industry",
         description: "Unlock the potential of those around you.",
         getCost(level) {
-            return level * 2 + 2;
+            switch (level) {
+                case 0:
+                    return 1;
+                case 1:
+                    return 16;
+                case 2:
+                    return 48;
+            }
         },
         getEffect(level) {
-            return (
-                sharktext.getResourceName("shark", false, 69) +
-                " collect " +
-                sharktext.getResourceName("fish") +
-                " " +
-                (level > 0 ? level + 1 : 1) +
-                " times faster."
-            );
+            switch (level) {
+                case 1:
+                    return "Unlock a moveable token that doubles production of whatever it is placed on.";
+                case 2:
+                    return "Unlock a second marker (markers cannot stack on the same resource).";
+                case 3:
+                    return "Unlock a third marker (markers cannot stack on the same resource).";
+            }
         },
         getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
             tree.increaseLevel(this);
-        },
-        apply(when) {
-            if (when === "init") {
-                res.applyModifier("pathOfIndustry", "shark", this.level);
-            }
         },
     },
     pathOfEnlightenment: {
@@ -471,7 +473,7 @@ SharkGame.Aspects = {
             }
         },
         getEffect(level) {
-            return "For the first minute after arriving in a world, gain x" + (3 + level) + " production.";
+            return "Unlock a rechargeable " + (3 + level) + "x speed boost.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfTime"],

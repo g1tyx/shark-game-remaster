@@ -23,9 +23,6 @@ SharkGame.Resources = {
     collapsedRows: new Set(),
 
     init() {
-        this.markers.init();
-        this.minuteHand.init();
-
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (resourceId, resource) => {
             SharkGame.ResourceMap.set(resourceId, _.cloneDeep(resource));
@@ -498,8 +495,8 @@ SharkGame.Resources = {
 
         init() {
             // this will be reliant on aspects and loading so for now we'll just make one of them
-            if (this.list.length < 2) {
-                while (this.list.length < 2) {
+            if (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
+                while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
                     this.makeMarker();
                 }
             } else {
@@ -507,6 +504,20 @@ SharkGame.Resources = {
                     marker.attr("location", "NA");
                 });
             }
+
+            _.each(this.list, (marker) => {
+                $("#marker-div").append(
+                    marker
+                        .on("dragstart", res.markers.handleMarkerDragStart)
+                        .on("dragover", (event) => {
+                            if (event.originalEvent.dataTransfer.getData("markerId") === marker.attr("id")) {
+                                event.originalEvent.preventDefault();
+                            }
+                        })
+                        .on("drop", res.markers.dropMarker)
+                        .on("click", res.markers.tryReturnMarker)
+                );
+            });
         },
 
         makeMarker(type = "nobody cares", initialLocation = "NA") {
@@ -516,15 +527,7 @@ SharkGame.Resources = {
                 .attr("type", type)
                 .attr("location", initialLocation)
                 .attr("draggable", true)
-                .addClass("marker")
-                .on("dragstart", res.markers.handleMarkerDragStart)
-                .on("dragover", (event) => {
-                    if (event.originalEvent.dataTransfer.getData("markerId") === identifier) {
-                        event.originalEvent.preventDefault();
-                    }
-                })
-                .on("drop", res.markers.dropMarker)
-                .on("click", res.markers.tryReturnMarker);
+                .addClass("marker");
             this.list.push(marker);
             return marker;
         },
@@ -536,12 +539,6 @@ SharkGame.Resources = {
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");
                 marker.attr("draggable", true).attr("location", "NA");
             }
-        },
-
-        appendMarkers(where) {
-            _.each(this.list, (marker) => {
-                where.prepend(marker);
-            });
         },
 
         handleMarkerDragStart(event) {
@@ -626,12 +623,26 @@ SharkGame.Resources = {
 
         init() {
             if (!SharkGame.flags.minuteHandTimer) {
-                SharkGame.flags.minuteHandTimer = 6000;
+                SharkGame.flags.minuteHandTimer = 60000;
+            }
+            if (SharkGame.Aspects.theMinuteHand.level) {
+                SharkGame.Button.makeHoverscriptButton(
+                    "minute-hand-toggle",
+                    "my cool button",
+                    $("#minute-hand-div"),
+                    res.minuteHand.toggleMinuteHand,
+                    null,
+                    null
+                );
             }
             //$("#minute-hand-toggle").addClass("minuteOff");
         },
 
         updateMinuteHand(timeElapsed) {
+            if (!SharkGame.flags.minuteHandTimer) {
+                return;
+            }
+
             if (SharkGame.flags.minuteHandTimer <= 0) {
                 SharkGame.flags.minuteHandTimer = 0;
                 res.minuteHand.toggleMinuteHand();
@@ -679,9 +690,9 @@ SharkGame.Resources = {
         }
         // if resource table does not exist, create
         if (resourceTable.length <= 0) {
-            res.markers.appendMarkers(statusDiv);
             // check for aspect level here later
-            SharkGame.Button.makeHoverscriptButton("minute-hand-toggle", "my cool button", statusDiv, res.minuteHand.toggleMinuteHand, null, null);
+            statusDiv.prepend($("<div>").attr("id", "marker-div"));
+            statusDiv.prepend($("<div>").attr("id", "minute-hand-div"));
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
             tableContainer.append($("<table>").attr("id", "resourceTable"));
