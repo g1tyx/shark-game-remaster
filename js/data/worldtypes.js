@@ -98,7 +98,6 @@ SharkGame.WorldTypes = {
             "whales",
             "basicmaterials",
             "kelpstuff",
-            "sharkmachines",
             "dolphinmachines",
             "coral",
             "chorus",
