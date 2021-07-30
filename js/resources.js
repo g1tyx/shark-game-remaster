@@ -24,6 +24,7 @@ SharkGame.Resources = {
 
     init() {
         this.markers.init();
+        this.minuteHand.init();
 
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (resourceId, resource) => {
@@ -620,6 +621,50 @@ SharkGame.Resources = {
         },
     },
 
+    minuteHand: {
+        active: false,
+
+        init() {
+            if (!SharkGame.flags.minuteHandTimer) {
+                SharkGame.flags.minuteHandTimer = 6000;
+            }
+            //$("#minute-hand-toggle").addClass("minuteOff");
+        },
+
+        updateMinuteHand(timeElapsed) {
+            if (SharkGame.flags.minuteHandTimer <= 0) {
+                SharkGame.flags.minuteHandTimer = 0;
+                res.minuteHand.toggleMinuteHand();
+            }
+
+            if (!res.minuteHand.active) {
+                SharkGame.flags.minuteHandTimer += timeElapsed / 10;
+                if (SharkGame.flags.minuteHandTimer < 3000) {
+                    $("#minute-hand-toggle").addClass("disabled");
+                } else {
+                    $("#minute-hand-toggle").removeClass("disabled");
+                }
+            } else {
+                SharkGame.flags.minuteHandTimer -= timeElapsed;
+            }
+            $("#minute-hand-toggle").html(
+                "<span class='click-passthrough bold'>TOGGLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+            );
+        },
+
+        toggleMinuteHand() {
+            if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 3000) {
+                res.minuteHand.active = true;
+                res.specialMultiplier *= 4;
+                //$("#minute-hand-toggle").removeClass("minuteOff");
+            } else if (res.minuteHand.active) {
+                res.minuteHand.active = false;
+                res.specialMultiplier *= 0.25;
+                //$("#minute-hand-toggle").addClass("minuteOff");
+            }
+        },
+    },
+
     // add rows to table (more expensive than updating existing DOM elements)
     reconstructResourcesTable() {
         res.resetResourceTableMinWidth();
@@ -635,6 +680,8 @@ SharkGame.Resources = {
         // if resource table does not exist, create
         if (resourceTable.length <= 0) {
             res.markers.appendMarkers(statusDiv);
+            // check for aspect level here later
+            SharkGame.Button.makeHoverscriptButton("minute-hand-toggle", "my cool button", statusDiv, res.minuteHand.toggleMinuteHand, null, null);
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
             tableContainer.append($("<table>").attr("id", "resourceTable"));

@@ -1495,5 +1495,15 @@ button.planetButton:active {
   max-width: 1.5em;
 }
 .marker {
-  margin: 0.5em;
+  margin: 0.5em 0 0.5em 0.5em;
+  float: left;
+}
+#minute-hand-toggle {
+  text-shadow: 0 0 0.6em #ffffff;
+}
+#minute-hand-toggle.minuteOff {
+  text-shadow: 0 0 0.1em #ffffff;
+}
+#minute-hand-toggle.disabled {
+  text-shadow: none;
 }

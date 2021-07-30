@@ -856,7 +856,7 @@ SharkGame.ResourceTable = {
     coral: {
         name: "coral",
         singleName: "coral",
-        desc: "Colors brought to life.",
+        desc: "Color brought to life.",
         color: "#CA354F",
         value: 3,
     },

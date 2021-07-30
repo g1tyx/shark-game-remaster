@@ -439,6 +439,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
+
+            res.minuteHand.updateMinuteHand(elapsedTime);
+
             // check if the sidebar needs to come back
             if (SharkGame.sidebarHidden) {
                 main.showSidebarIfNeeded();

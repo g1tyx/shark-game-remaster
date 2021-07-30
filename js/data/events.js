@@ -101,28 +101,4 @@ SharkGame.Events = {
             }
         },
     },
-    theMinuteHandEvent: {
-        handlingTime: "beforeTick",
-        priority: 0,
-        getAction() {
-            if (SharkGame.Aspects.theMinuteHand.level) {
-                if (SharkGame.Settings.current.offlineModeActive && SharkGame.timestampSimulated - SharkGame.timestampRunStart < 60000) {
-                    return "trigger";
-                }
-                if (
-                    !SharkGame.Settings.current.offlineModeActive &&
-                    SharkGame.timestampSimulated + SharkGame.timestampLastSave - 2 * SharkGame.timestampRunStart < 60000
-                ) {
-                    return "trigger";
-                }
-            }
-
-            res.specialMultiplier = 1;
-            return "remove";
-        },
-        trigger() {
-            res.specialMultiplier = SharkGame.Aspects.theMinuteHand.level + 3;
-            return true;
-        },
-    },
 };
