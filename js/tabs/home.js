@@ -830,10 +830,11 @@ SharkGame.Home = {
         button.addClass("disabled");
     },
 
-    onHomeHover(_mouseEnterEvent, actionName) {
-        if (!SharkGame.Settings.current.showTooltips) {
+    onHomeHover(mouseEnterEvent, actionName) {
+        if (!SharkGame.Settings.current.showTooltips || (!actionName && !mouseEnterEvent)) {
             return;
         }
+
         if (!actionName) {
             const button = $(this);
             actionName = button.attr("id");
