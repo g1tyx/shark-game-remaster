@@ -516,6 +516,8 @@ SharkGame.Resources = {
                         })
                         .on("drop", res.markers.dropMarker)
                         .on("click", res.markers.tryReturnMarker)
+                        .on("mouseenter", res.markers.tooltip)
+                        .on("mouseleave", res.tableTextLeave)
                 );
             });
         },
@@ -532,12 +534,23 @@ SharkGame.Resources = {
             return marker;
         },
 
+        tooltip(_event) {
+            if ($("#" + this.id).attr("location") === "NA") {
+                $("#tooltipbox")
+                    .html(sharktext.boldString("Click and drag this marker onto resources or incomes to increase their production."))
+                    .addClass("forHomeButtonOrGrotto");
+            } else {
+                $("#tooltipbox").html(sharktext.boldString("Click this slot to return the marker to it.")).addClass("forHomeButtonOrGrotto");
+            }
+        },
+
         tryReturnMarker(_event) {
             const marker = $("#" + this.id);
             if (marker.attr("location") !== "NA") {
                 res.markers.unmarkLocation(marker.attr("location"), marker.id);
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");
                 marker.attr("draggable", true).attr("location", "NA");
+                res.tableTextLeave();
             }
         },
 
@@ -620,6 +633,44 @@ SharkGame.Resources = {
 
     minuteHand: {
         active: false,
+        onMessages: [
+            "Time warps around you.",
+            "Everything seems to get faster.",
+            "Your vision warps as time bends.",
+            "The hands of a nearby clock speed up.",
+            "Frenzy members acclerate around you.",
+            "You feel strange. Everything feels wrong. It's so fast.",
+            "A strange feeling washes over you, and everything around you speeds up.",
+            "You feel your mind twisting. Churning. Everything seems so fast.",
+            "Things start piling up around you. You can't even tell who's doing it.",
+            "You feel a crushing weight on your mind, and everything seems to get faster.",
+            "You feel groggy. Everything speeds up.",
+            "You can barely understand what's happening around you anymore. The speed is jarring.",
+            "You feel sluggish. Everything around you seems so much faster.",
+            "Your vision gets blurry. Everything is blurry. It's all a blur.",
+            "Time seems to stretch from your perspective. It feels so wrong.",
+            "An otherworldly sensation overcomes you.",
+            "Confusion and distress overtake you as the hands of time speed up.",
+            "You float in place, taking in the sights as beautiful colors buzz by and the light of day flashes against night.",
+            "You feel disconnected, like you've been unplugged from the world. Time whizzes by.",
+            "You approach what feels like an edge: like you could tip over at any moment, and fall deep into the abyss.",
+            "What is this? What's going on? Everything feels like it's spinning.",
+        ],
+        offMessages: [
+            "You feel a headache coming on as time slows down again.",
+            "You feel a weight lifting as time slows down.",
+            "You breathe a sigh of relief as the world returns to normal.",
+            "Compared to how fast it just was, everything seems to grind to a halt.",
+            "Clarity washes over you. You feel alert, aware, as everything goes back to normal.",
+            "The forcible time-warp stops.",
+            "You feel your senses return to you like the sudden snap of a rubber band.",
+            "You are now keenly aware of what's around you as it all slows down.",
+            "You shake your head furiously, clearing the sluggishness from your mind. You feel normal again.",
+            "Your field of view warps significantly. Just how much were you even able to see? You can't remember.",
+            "You simply float right where you are, still coming to your senses.",
+            "Your vision sharpens. Your senses are keen. You can feel everything again.",
+            "You come back from the brink, exhaustion replaced by energy and enthusiasm.",
+        ],
 
         init() {
             if (!SharkGame.flags.minuteHandTimer) {
@@ -635,7 +686,6 @@ SharkGame.Resources = {
                     null
                 );
             }
-            //$("#minute-hand-toggle").addClass("minuteOff");
         },
 
         updateMinuteHand(timeElapsed) {
@@ -655,23 +705,28 @@ SharkGame.Resources = {
                 } else {
                     $("#minute-hand-toggle").removeClass("disabled");
                 }
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>ENABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                );
             } else {
                 SharkGame.flags.minuteHandTimer -= timeElapsed;
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>DISABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                );
             }
-            $("#minute-hand-toggle").html(
-                "<span class='click-passthrough bold'>TOGGLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
-            );
         },
 
         toggleMinuteHand() {
             if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 3000) {
                 res.minuteHand.active = true;
                 res.specialMultiplier *= 4;
-                //$("#minute-hand-toggle").removeClass("minuteOff");
+                $("#minute-hand-toggle").addClass("minuteOn");
+                log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
             } else if (res.minuteHand.active) {
                 res.minuteHand.active = false;
                 res.specialMultiplier *= 0.25;
-                //$("#minute-hand-toggle").addClass("minuteOff");
+                $("#minute-hand-toggle").removeClass("minuteOn");
+                log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
             }
         },
     },
@@ -808,9 +863,9 @@ SharkGame.Resources = {
                             event.originalEvent.preventDefault();
                         }
                     })
-                    .on("dragleave", () => {
-                        $("#tooltipbox").html("");
-                    })
+                    // .on("dragleave", () => {
+                    //     $("#tooltipbox").html("");
+                    // })
                     .on("drop", res.markers.dropMarker)
             );
 
@@ -850,9 +905,9 @@ SharkGame.Resources = {
                             event.originalEvent.preventDefault();
                         }
                     })
-                    .on("dragleave", () => {
-                        $("#tooltipbox").html("");
-                    })
+                    // .on("dragleave", () => {
+                    //     $("#tooltipbox").html("");
+                    // })
                     .on("drop", res.markers.dropMarker);
             }
         }

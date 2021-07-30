@@ -353,7 +353,7 @@ SharkGame.ModifierTypes = {
 
     aspect: {
         multiplier: {
-            pathOfIndustry: {
+            /* pathOfIndustry: {
                 defaultValue: 0,
                 apply(_current, degree, resource) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
@@ -418,7 +418,7 @@ SharkGame.ModifierTypes = {
                 applyToInput(input, genDegree, _outDegree, _gen, _out) {
                     return input * (genDegree + 1);
                 },
-            },
+            }, */
             theMarkerForGenerators: {
                 defaultValue: 1,
                 apply(current, degree, resource) {

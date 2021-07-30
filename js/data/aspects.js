@@ -138,12 +138,12 @@ SharkGame.Aspects = {
         max: 5,
         level: 0,
         name: "Path of Time",
-        description: "Begin each journey with swiftness.",
+        description: "Patience is the choice of those who prefer inaction.",
         getCost(level) {
             return (level + 1) ** 2 + 1;
         },
         getEffect(level) {
-            return "Start with " + 20 * level ** 2 + " crabs (if possible).";
+            return "Start with " + 20 * level ** 2 + " crabs. If they do not exist, start with an equivalent.";
         },
         getUnlocked() {},
         prerequisites: ["apotheosis"],
@@ -157,7 +157,7 @@ SharkGame.Aspects = {
             }
         },
     },
-    adjustedAquadynamics: {
+    /*     adjustedAquadynamics: {
         posX: 610,
         posY: 250,
         width: 40,
@@ -303,7 +303,7 @@ SharkGame.Aspects = {
                 res.applyModifier("constructedConception", "maker", this.level);
             }
         },
-    },
+    }, */
     syntheticTransmutation: {
         posX: 770,
         posY: 250,
@@ -361,7 +361,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 4,
+        max: 5,
         level: 0,
         name: "Destiny Gamble",
         description: "Where we end up is all luck, but sometimes, we can stack the deck.",
@@ -395,7 +395,7 @@ SharkGame.Aspects = {
     },
     crystallineSkin: {
         posX: 0,
-        posY: 150,
+        posY: 250,
         width: 40,
         height: 40,
 
@@ -410,7 +410,7 @@ SharkGame.Aspects = {
             return "Start with " + 20 * level ** 2 + " crystals. If they do not exist, start with an equivalent.";
         },
         getUnlocked() {},
-        prerequisites: ["theMinuteHand"],
+        prerequisites: ["pathOfTime"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
@@ -456,7 +456,7 @@ SharkGame.Aspects = {
     }, */
     theMinuteHand: {
         posX: 0,
-        posY: 250,
+        posY: 150,
         width: 40,
         height: 40,
 
@@ -467,7 +467,7 @@ SharkGame.Aspects = {
         getCost(level) {
             switch (level) {
                 case 1:
-                    return 3;
+                    return 5;
                 default:
                     return 2;
             }
@@ -476,7 +476,7 @@ SharkGame.Aspects = {
             return "Unlock a rechargeable " + (3 + level) + "x speed boost.";
         },
         getUnlocked() {},
-        prerequisites: ["pathOfTime"],
+        prerequisites: ["crystallineSkin"],
         clicked(_event) {
             tree.increaseLevel(this);
         },

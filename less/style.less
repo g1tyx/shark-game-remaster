@@ -1638,13 +1638,16 @@ button.planetButton {
 }
 
 #minute-hand-toggle {
-    text-shadow: 0 0 0.6em @color-numen;
-
-    &.minuteOff {
-        text-shadow: 0 0 0.1em @color-numen;
-    }
-
     &.disabled {
         text-shadow: none;
     }
+}
+
+.minuteOn {
+    color: #fff;
+    text-shadow: 0 0 0.6em @color-numen;
+}
+
+.minuteOff {
+    color: #fff;
 }
