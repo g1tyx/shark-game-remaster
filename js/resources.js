@@ -492,6 +492,7 @@ SharkGame.Resources = {
 
     markers: {
         list: [],
+        chromeForcesWorkarounds: "",
 
         init() {
             // this will be reliant on aspects and loading so for now we'll just make one of them
@@ -510,10 +511,11 @@ SharkGame.Resources = {
                     marker
                         .on("dragstart", res.markers.handleMarkerDragStart)
                         .on("dragover", (event) => {
-                            if (event.originalEvent.dataTransfer.getData("markerId") === marker.attr("id")) {
+                            if (res.markers.chromeForcesWorkarounds === marker.attr("id")) {
                                 event.originalEvent.preventDefault();
                             }
                         })
+                        .on("dragend", res.markers.handleDragEnd)
                         .on("drop", res.markers.dropMarker)
                         .on("click", res.markers.tryReturnMarker)
                         .on("mouseenter", res.markers.tooltip)
@@ -556,6 +558,8 @@ SharkGame.Resources = {
 
         handleMarkerDragStart(event) {
             event.originalEvent.dataTransfer.setData("markerId", event.originalEvent.target.id);
+            //chrome forcing stinky workaround
+            res.markers.chromeForcesWorkarounds = event.originalEvent.target.id;
             //event.originalEvent.dataTransfer.setData("markerType", event.originalEvent.target.type);
             event.originalEvent.dataTransfer.setData("markerLocation", $("#" + this.id).attr("location"));
             const image = document.createElement("img");
@@ -566,11 +570,16 @@ SharkGame.Resources = {
 
         handleResourceDragStart(event) {
             event.originalEvent.dataTransfer.setData("markerId", $("#" + this.id).attr("markerId"));
+            res.markers.chromeForcesWorkarounds = $("#" + this.id).attr("markerId");
             event.originalEvent.dataTransfer.setData("markerLocation", event.originalEvent.target.id);
             const image = document.createElement("img");
             image.src = "img/raw/general/theMarker.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
             res.tableTextLeave();
+        },
+
+        handleDragEnd(_event) {
+            res.markers.chromeForcesWorkarounds = "";
         },
 
         toggleColorfulDropZones() {},
@@ -852,7 +861,7 @@ SharkGame.Resources = {
                     .on("dragover", (event) => {
                         if (
                             !$("#resource-" + resourceKey).attr("markerId") &&
-                            event.originalEvent.dataTransfer.getData("markerId") &&
+                            res.markers.chromeForcesWorkarounds &&
                             SharkGame.ResourceMap.get(resourceKey).baseIncome
                         ) {
                             $("#tooltipbox").html(
@@ -863,6 +872,7 @@ SharkGame.Resources = {
                             event.originalEvent.preventDefault();
                         }
                     })
+                    .on("dragend", res.markers.handleDragEnd)
                     // .on("dragleave", () => {
                     //     $("#tooltipbox").html("");
                     // })
@@ -894,7 +904,7 @@ SharkGame.Resources = {
                     .on("dragover", (event) => {
                         if (
                             !$("#income-" + resourceKey).attr("markerId") &&
-                            event.originalEvent.dataTransfer.getData("markerId") &&
+                            res.markers.chromeForcesWorkarounds &&
                             SharkGame.PlayerIncomeTable.get(resourceKey)
                         ) {
                             $("#tooltipbox").html(
@@ -905,6 +915,7 @@ SharkGame.Resources = {
                             event.originalEvent.preventDefault();
                         }
                     })
+                    .on("dragend", res.markers.handleDragEnd)
                     // .on("dragleave", () => {
                     //     $("#tooltipbox").html("");
                     // })
