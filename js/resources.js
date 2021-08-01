@@ -662,6 +662,31 @@ SharkGame.Resources = {
                 SharkGame.Log.addError("Location was: " + targetId);
             }
         },
+
+        canBePlacedOn(placedOnWhat) {
+            const resource = placedOnWhat.split("-")[1];
+            if (placedOnWhat.includes("resource")) {
+                return !$("#" + placedOnWhat).attr("markerId") && SharkGame.ResourceMap.get(resource).income;
+            } else if (placedOnWhat.includes("income")) {
+                return !$("#" + placedOnWhat).attr("markerId") && SharkGame.PlayerIncomeTable.get(resource);
+            }
+        },
+
+        tryClickToPlace(event) {
+            const textId = event.originalEvent.target.id;
+            if (res.markers.canBePlacedOn(textId)) {
+                $.each(SharkGame.flags.markers, (markerId, currentLocation) => {
+                    if (currentLocation === "NA") {
+                        res.markers.markLocation(markerId, textId);
+                        res.markers.unmarkLocation("NA", markerId);
+                        return false;
+                    }
+                });
+            } else if ($("#" + textId).attr("markerId")) {
+                res.markers.markLocation($("#" + textId).attr("markerId"), $("#" + textId).attr("markerId"));
+                res.markers.unmarkLocation(textId, $("#" + textId).attr("markerId"));
+            }
+        },
     },
 
     minuteHand: {
@@ -883,11 +908,7 @@ SharkGame.Resources = {
                     .html(sharktext.getResourceName(resourceKey))
                     .on("dragstart", res.markers.handleResourceDragStart)
                     .on("dragover", (event) => {
-                        if (
-                            !$("#resource-" + resourceKey).attr("markerId") &&
-                            res.markers.chromeForcesWorkarounds &&
-                            SharkGame.ResourceMap.get(resourceKey).baseIncome
-                        ) {
+                        if (res.markers.canBePlacedOn("resource-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
                             $("#tooltipbox").html(
                                 sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                     " efficiency x2"
@@ -900,6 +921,7 @@ SharkGame.Resources = {
                     //     $("#tooltipbox").html("");
                     // })
                     .on("drop", res.markers.dropMarker)
+                    .on("click", res.markers.tryClickToPlace)
             );
 
             row.append(
@@ -925,11 +947,7 @@ SharkGame.Resources = {
                     )
                     .on("dragstart", res.markers.handleResourceDragStart)
                     .on("dragover", (event) => {
-                        if (
-                            !$("#income-" + resourceKey).attr("markerId") &&
-                            res.markers.chromeForcesWorkarounds &&
-                            SharkGame.PlayerIncomeTable.get(resourceKey)
-                        ) {
+                        if (res.markers.canBePlacedOn("income-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
                             $("#tooltipbox").html(
                                 "all " +
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -942,7 +960,8 @@ SharkGame.Resources = {
                     // .on("dragleave", () => {
                     //     $("#tooltipbox").html("");
                     // })
-                    .on("drop", res.markers.dropMarker);
+                    .on("drop", res.markers.dropMarker)
+                    .on("click", res.markers.tryClickToPlace);
             }
         }
         return row;
