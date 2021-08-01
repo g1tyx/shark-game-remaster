@@ -115,7 +115,8 @@ SharkGame.Home = {
             {
                 name: "haven-dolphins",
                 unlock: { totalResource: { dolphin: 1 }, homeAction: ["getDolphin"] },
-                message: "A dolphin joins the frenzy.<br/>It already wants a raise. Wow.",
+                message:
+                    "A dolphin joins the frenzy. We told it to go get fish, but it came back with coral.<br>It insists that the coral is more valuable.",
             },
             {
                 name: "haven-dolphin-empire",

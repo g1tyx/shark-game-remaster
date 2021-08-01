@@ -667,7 +667,7 @@ SharkGame.ResourceTable = {
         desc: "Harvesters, cloaked in a red mist of coral.",
         color: "#E79E88",
         income: {
-            coral: 150,
+            coral: 200,
         },
         value: 50000,
     },
@@ -678,17 +678,7 @@ SharkGame.ResourceTable = {
         desc: "Gardeners in machine form.",
         color: "#68E06B",
         income: {
-            kelp: 75,
-        },
-        value: 50000,
-    },
-
-    silentArchivist: {
-        name: "silent archivists",
-        singleName: "silent archivist",
-        color: "#608B8F",
-        income: {
-            science: 150,
+            kelp: 200,
         },
         value: 50000,
     },
@@ -1259,7 +1249,6 @@ SharkGame.ResourceCategories = {
             "spongeFarmer",
             "berrySprayer",
             "glassMaker",
-            "silentArchivist",
             "tirelessCrafter",
             "clamCollector",
             "sprongeSmelter",
@@ -1340,7 +1329,7 @@ SharkGame.InternalCategories = {
     },
     dolphinmachines: {
         name: "Dolphin Machines",
-        resources: ["delphinium", "silentArchivist", "tirelessCrafter", "kelpCultivator", "crimsonCombine"],
+        resources: ["delphinium", "tirelessCrafter", "kelpCultivator", "crimsonCombine"],
     },
     crustaceanmachines: {
         name: "Crustacean Machines",

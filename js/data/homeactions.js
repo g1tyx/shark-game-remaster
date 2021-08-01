@@ -3314,7 +3314,6 @@ SharkGame.HomeActionCategories = {
             "getSpongeFarmer",
             "getBerrySprayer",
             "getGlassMaker",
-            "getSilentArchivist",
             "getTirelessCrafter",
             "getClamCollector",
             "getEggBrooder",

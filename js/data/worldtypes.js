@@ -83,7 +83,7 @@ SharkGame.WorldTypes = {
         foresight: {
             longDesc:
                 "This world is teeming with life, more than any other place you've seen before. The water is clear, the sand is clean, the fish are plenty. A paradise in every way.",
-            missing: ["laser"],
+            missing: ["laser", "sharkonium"],
             present: ["coral", "dolphin", "whale"],
             tip: "The abudance of resources might may your stay here shorter than others.",
         },

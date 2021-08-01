@@ -499,6 +499,8 @@ SharkGame.Resources = {
                 SharkGame.flags.markers = {};
             }
 
+            this.list = [];
+
             if (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
                 while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
                     this.makeMarker();
