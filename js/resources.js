@@ -495,18 +495,20 @@ SharkGame.Resources = {
         chromeForcesWorkarounds: "",
 
         init() {
-            // this will be reliant on aspects and loading so for now we'll just make one of them
+            if (!SharkGame.flags.markers) {
+                SharkGame.flags.markers = {};
+            }
+
             if (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
                 while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
                     this.makeMarker();
                 }
-            } else {
-                _.each(this.list, (marker) => {
-                    marker.attr("location", "NA");
-                });
             }
 
             _.each(this.list, (marker) => {
+                if (!SharkGame.flags.markers[marker.attr("id")]) {
+                    SharkGame.flags.markers[marker.attr("id")] = "NA";
+                }
                 $("#marker-div").append(
                     marker
                         .on("dragstart", res.markers.handleMarkerDragStart)
@@ -521,6 +523,15 @@ SharkGame.Resources = {
                         .on("mouseenter", res.markers.tooltip)
                         .on("mouseleave", res.tableTextLeave)
                 );
+                if (
+                    SharkGame.flags.markers[marker.attr("id")] !== "NA" &&
+                    world.doesResourceExist(SharkGame.flags.markers[marker.attr("id")].split("-")[1])
+                ) {
+                    res.markers.markLocation(marker.attr("id"), SharkGame.flags.markers[marker.attr("id")]);
+                    res.markers.unmarkLocation("NA", marker.attr("id"));
+                } else {
+                    res.markers.tryReturnMarker(null, true, marker);
+                }
             });
         },
 
@@ -529,15 +540,17 @@ SharkGame.Resources = {
             const marker = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", null, "general/missing-action")
                 .attr("id", identifier)
                 .attr("type", type)
-                .attr("location", initialLocation)
                 .attr("draggable", true)
                 .addClass("marker");
             this.list.push(marker);
+            if (!SharkGame.flags.markers[identifier]) {
+                SharkGame.flags.markers[identifier] = initialLocation;
+            }
             return marker;
         },
 
         tooltip(_event) {
-            if ($("#" + this.id).attr("location") === "NA") {
+            if (SharkGame.flags.markers[this.id] === "NA") {
                 $("#tooltipbox")
                     .html(sharktext.boldString("Click and drag this marker onto resources or incomes to increase their production."))
                     .addClass("forHomeButtonOrGrotto");
@@ -546,12 +559,19 @@ SharkGame.Resources = {
             }
         },
 
-        tryReturnMarker(_event) {
-            const marker = $("#" + this.id);
-            if (marker.attr("location") !== "NA") {
-                res.markers.unmarkLocation(marker.attr("location"), marker.id);
+        tryReturnMarker(_event, duringLoad, marker = $("#" + this.id)) {
+            if (!marker.length) {
+                log.addError("Tried to return marker, but couldn't find it!");
+                log.addError("Tried to find this marker: " + marker.attr("id"));
+                return;
+            }
+            if (SharkGame.flags.markers[marker.attr("id")] !== "NA") {
+                if (!duringLoad) {
+                    res.markers.unmarkLocation(SharkGame.flags.markers[marker.attr("id")], marker.attr("id"));
+                }
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");
-                marker.attr("draggable", true).attr("location", "NA");
+                marker.attr("draggable", true);
+                SharkGame.flags.markers[marker.attr("id")] = "NA";
                 res.tableTextLeave();
             }
         },
@@ -561,7 +581,7 @@ SharkGame.Resources = {
             //chrome forcing stinky workaround
             res.markers.chromeForcesWorkarounds = event.originalEvent.target.id;
             //event.originalEvent.dataTransfer.setData("markerType", event.originalEvent.target.type);
-            event.originalEvent.dataTransfer.setData("markerLocation", $("#" + this.id).attr("location"));
+            event.originalEvent.dataTransfer.setData("markerLocation", SharkGame.flags.markers[this.id]);
             const image = document.createElement("img");
             image.src = "img/raw/general/theMarker.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
@@ -585,10 +605,12 @@ SharkGame.Resources = {
         toggleColorfulDropZones() {},
 
         reapplyMarker(marker) {
-            $("#" + marker.attr("location"))
-                .css("background-image", "url(img/raw/general/theMarker.png)")
-                .attr("draggable", true)
-                .attr("markerId", marker.attr("id"));
+            if (SharkGame.flags.markers) {
+                $("#" + SharkGame.flags.markers[marker.attr("id")])
+                    .css("background-image", "url(img/raw/general/theMarker.png)")
+                    .attr("draggable", true)
+                    .attr("markerId", marker.attr("id"));
+            }
         },
 
         dropMarker(event) {
@@ -596,21 +618,23 @@ SharkGame.Resources = {
             const originalMarkerId = event.originalEvent.dataTransfer.getData("markerId");
             const previousLocation = event.originalEvent.dataTransfer.getData("markerLocation");
             res.markers.unmarkLocation(previousLocation, originalMarkerId);
-            res.markers.applyMarkerEffect(this.id, originalMarkerId, "apply");
-            if (this.id.includes("marker")) {
-                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + this.id), "general/missing-action");
-                $("#" + this.id)
-                    .attr("draggable", true)
-                    .attr("location", "NA");
+            res.markers.markLocation(originalMarkerId, this.id);
+            res.updateResourcesTable();
+        },
+
+        markLocation(originalId, newId) {
+            res.markers.applyMarkerEffect(newId, originalId, "apply");
+            if (newId.includes("marker")) {
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + newId), "general/missing-action");
+                $("#" + newId).attr("draggable", true);
+                SharkGame.flags.markers[newId] = "NA";
             } else {
-                $("#" + this.id)
+                $("#" + newId)
                     .css("background-image", "url(img/raw/general/theMarker.png)")
                     .attr("draggable", true)
-                    .attr("markerId", originalMarkerId);
-                $("#" + originalMarkerId).attr("location", this.id);
+                    .attr("markerId", originalId);
+                SharkGame.flags.markers[originalId] = newId;
             }
-
-            res.updateResourcesTable();
         },
 
         unmarkLocation(locationPrevious, id) {
@@ -865,9 +889,8 @@ SharkGame.Resources = {
                             SharkGame.ResourceMap.get(resourceKey).baseIncome
                         ) {
                             $("#tooltipbox").html(
-                                "production from " +
-                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                                    " x2"
+                                sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                    " efficiency x2"
                             );
                             event.originalEvent.preventDefault();
                         }
@@ -908,9 +931,9 @@ SharkGame.Resources = {
                             SharkGame.PlayerIncomeTable.get(resourceKey)
                         ) {
                             $("#tooltipbox").html(
-                                "production of " +
+                                "all " +
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                                    " x2"
+                                    " gains x2"
                             );
                             event.originalEvent.preventDefault();
                         }

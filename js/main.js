@@ -393,10 +393,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.AspectTree.applyAspects();
             SharkGame.EventHandler.init();
             res.reconstructResourcesTable();
+            res.minuteHand.init();
+            res.markers.init();
         }
-
-        res.minuteHand.init();
-        res.markers.init();
 
         // rename a game option if this is a first time run
         main.correctTitleBar();
