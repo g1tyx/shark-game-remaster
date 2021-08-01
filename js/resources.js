@@ -513,9 +513,7 @@ SharkGame.Resources = {
                     marker
                         .on("dragstart", res.markers.handleMarkerDragStart)
                         .on("dragover", (event) => {
-                            if (res.markers.chromeForcesWorkarounds === marker.attr("id")) {
-                                event.originalEvent.preventDefault();
-                            }
+                            event.originalEvent.preventDefault();
                         })
                         .on("dragend", res.markers.handleDragEnd)
                         .on("drop", res.markers.dropMarker)
@@ -617,8 +615,14 @@ SharkGame.Resources = {
             res.tableTextLeave();
             const originalMarkerId = event.originalEvent.dataTransfer.getData("markerId");
             const previousLocation = event.originalEvent.dataTransfer.getData("markerLocation");
+
             res.markers.unmarkLocation(previousLocation, originalMarkerId);
-            res.markers.markLocation(originalMarkerId, this.id);
+
+            if (this.id.includes("marker") && this.id !== originalMarkerId) {
+                res.markers.markLocation(originalMarkerId, originalMarkerId);
+            } else {
+                res.markers.markLocation(originalMarkerId, this.id);
+            }
             res.updateResourcesTable();
         },
 
