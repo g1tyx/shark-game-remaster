@@ -294,7 +294,16 @@ SharkGame.WorldTypes = {
         entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
         includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "heater", "essence", "world"],
-        modifiers: [{ type: "multiplier", modifier: "planetaryIncome", resource: "ice", amount: 1 }],
+        modifiers: [
+            {
+                type: "multiplier",
+                modifier: "planetaryIncome",
+                resource: "ice",
+                get amount() {
+                    return 1 / main.getProgressionConstant();
+                },
+            },
+        ],
         gateRequirements: {
             slots: {
                 sand: 1e7,

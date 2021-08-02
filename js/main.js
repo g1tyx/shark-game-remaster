@@ -299,9 +299,6 @@ SharkGame.Main = {
         main.tickHandler = setInterval(main.tick, SharkGame.INTERVAL);
     },
 
-    // credit where it's due, i didn't write this (regexes fill me with fear), pulled from
-    // http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript/196991#196991
-
     // also functions as a reset
     init(foregoLoad) {
         const now = _.now();
@@ -561,7 +558,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (main.isFirstTime()) {
             SharkGame.TitleBar.skipLink.name = "reset";
             main.setUpTitleBar();
-            main.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
+            main.showSpeedSelection();
+            // main.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
         } else {
             // and then remember to actually set it back once it's not
             SharkGame.TitleBar.skipLink.name = "skip";
@@ -932,6 +930,84 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         main.showPane("Help", helpDiv);
     },
 
+    showSpeedSelection() {
+        const speedDiv = $("<div>");
+        const buttonContainer = $("<div class='speedButtons'>");
+        speedDiv.append(buttonContainer.addClass("paneContentDiv"));
+        SharkGame.Button.makeButton(
+            "slowSpeed",
+            "<h class='bigSpeedHeader'><strong>SLOW</strong></h><br><br><br><br><br>Good for <strong>checking occasionally</strong>.",
+            buttonContainer,
+            () => {
+                SharkGame.Settings.current.gameSpeed = "Slow";
+                main.applyProgressionSpeed();
+                main.hidePane();
+            }
+        );
+        SharkGame.Button.makeButton(
+            "medSpeed",
+            "<h class='bigSpeedHeader'><strong>MEDIUM</strong></h><br><br><br><br><strong>Default speed.</strong><br>Good for <strong>multitaskers</strong>.",
+            buttonContainer,
+            () => {
+                SharkGame.Settings.current.gameSpeed = "Medium";
+                main.applyProgressionSpeed();
+                main.hidePane();
+            }
+        );
+        SharkGame.Button.makeButton(
+            "highSpeed",
+            "<h class='bigSpeedHeader'><strong>FAST</strong></h><br><br><br><br><br>Good for <strong>very active</strong> players.",
+            buttonContainer,
+            () => {
+                SharkGame.Settings.current.gameSpeed = "Fast";
+                main.applyProgressionSpeed();
+                main.hidePane();
+            }
+        );
+        SharkGame.Button.makeButton(
+            "veryHighSpeed",
+            "<h class='bigSpeedHeader'><i><strong>VERY FAST</strong></i></h><br><br>Good for <strong>speedrunners</strong>, and that one user in the reddit comments. You know who you are.",
+            buttonContainer,
+            () => {
+                SharkGame.Settings.current.gameSpeed = "Very Fast";
+                main.applyProgressionSpeed();
+                main.hidePane();
+            }
+        );
+        main.showPane("Choose Game Speed", speedDiv, true);
+    },
+
+    applyProgressionSpeed() {
+        switch (SharkGame.Settings.current.gameSpeed) {
+            case "Slow":
+                cad.upgradePriceModifier = 4;
+                cad.speed = 1;
+                break;
+            case "Medium":
+                cad.upgradePriceModifier = 2;
+                cad.speed = 1;
+                break;
+            case "Very Fast":
+                cad.upgradePriceModifier = 1;
+                cad.speed = 2;
+                break;
+            default:
+                cad.upgradePriceModifier = 1;
+                cad.speed = 1;
+        }
+    },
+
+    getProgressionConstant() {
+        switch (SharkGame.Settings.current.gameSpeed) {
+            case "Slow":
+                return 4;
+            case "Medium":
+                return 2;
+            default:
+                return 1;
+        }
+    },
+
     endGame(loadingFromSave) {
         // stop autosaving
         clearInterval(main.autosaveHandler);
@@ -1086,7 +1162,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     isFirstTime() {
-        return world.worldType === "start" && res.getTotalResource("essence") <= 0;
+        return world.worldType === "start" && res.getTotalResource("essence") <= 0 && res.getResource("fish") === 0;
     },
 
     resetTimers() {

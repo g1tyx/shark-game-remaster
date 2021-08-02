@@ -2820,8 +2820,34 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "whale", costFunction: "unique", priceIncrease: 3000 },
-                { resource: "dolphin", costFunction: "unique", priceIncrease: 100000 },
+                {
+                    resource: "whale",
+                    costFunction: "unique",
+                    get priceIncrease() {
+                        switch (SharkGame.Settings.current.gameSpeed) {
+                            default:
+                                return 3000;
+                            case "Medium":
+                                return 4500;
+                            case "Slow":
+                                return 6000;
+                        }
+                    },
+                },
+                {
+                    resource: "dolphin",
+                    costFunction: "unique",
+                    get priceIncrease() {
+                        switch (SharkGame.Settings.current.gameSpeed) {
+                            default:
+                                return 100000;
+                            case "Medium":
+                                return 200000;
+                            case "Slow":
+                                return 300000;
+                        }
+                    },
+                },
             ],
             max: "chorus",
             prereq: {
@@ -3318,8 +3344,6 @@ SharkGame.HomeActionCategories = {
             "getClamCollector",
             "getEggBrooder",
             "getSprongeSmelter",
-            "getSeaScourer",
-            "getProstheticPolyp",
             //"getCoalescer",
             "getCrimsonCombine",
             "getKelpCultivator",
