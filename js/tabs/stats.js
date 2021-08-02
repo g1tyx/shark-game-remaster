@@ -210,7 +210,12 @@ SharkGame.Stats = {
                     const income = SharkGame.ResourceMap.get(resourceId).income;
                     $.each(income, (incomeKey, incomeValue) => {
                         let cell = $("#income-" + resourceId + "-" + incomeKey);
-                        const realIncome = SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey];
+                        let realIncome;
+                        if (SharkGame.BreakdownIncomeTable.get(resourceId)) {
+                            realIncome = SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey];
+                        } else {
+                            return true;
+                        }
                         const changeChar = !(realIncome < 0) ? "+" : "";
                         let newValue =
                             "<span style='color: " +
@@ -423,7 +428,14 @@ SharkGame.Stats = {
                 const generatorName = SharkGame.Settings.current.switchStats ? subheadingKey : headingName;
                 const incomeValue = subheadingValue;
 
-                const realIncome = SharkGame.BreakdownIncomeTable.get(generatorName)[incomeKey];
+                let realIncome;
+                if (SharkGame.BreakdownIncomeTable.get(generatorName)) {
+                    realIncome = SharkGame.BreakdownIncomeTable.get(generatorName)[incomeKey];
+                } else {
+                    formatCounter++;
+                    return false;
+                }
+
                 const changeChar = !(realIncome < 0) ? "+" : "";
 
                 if (SharkGame.Settings.current.switchStats) {
