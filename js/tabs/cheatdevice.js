@@ -111,7 +111,7 @@ SharkGame.CheatsAndDebug = {
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
             switch (buttonData.type) {
                 case "up-down":
-                    if (!buttonData.up || !buttonData.down) {
+                    if (!buttonData.clickUp || !buttonData.clickDown) {
                         log.addError("Cheat button is up-down type, but has no functions for its buttons.");
                         return true;
                     }
