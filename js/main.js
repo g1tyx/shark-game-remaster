@@ -479,7 +479,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             // check resources
             if (tab.discoverReq.resource) {
-                reqsMet &&= res.checkResources(tab.discoverReq.resource, true);
+                reqsMet = reqsMet && res.checkResources(tab.discoverReq.resource, true);
             }
 
             const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
@@ -489,7 +489,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 _.each(tab.discoverReq.upgrade, (upgradeName) => {
                     if (upgradeTable[upgradeName]) {
                         anyUpgradeExists = true;
-                        reqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeName);
+                        reqsMet = reqsMet && SharkGame.Upgrades.purchased.includes(upgradeName);
                     }
                 });
                 if (!anyUpgradeExists) {
@@ -500,9 +500,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             if (tab.discoverReq.flag) {
                 $.each(tab.discoverReq.flag, (flagName, matchedValue) => {
                     if (SharkGame.flags[flagName]) {
-                        reqsMet &&= SharkGame.flags[flagName] === matchedValue;
+                        reqsMet = reqsMet && SharkGame.flags[flagName] === matchedValue;
                     } else if (SharkGame.persistentFlags[flagName]) {
-                        reqsMet &&= SharkGame.persistentFlags[flagName] === matchedValue;
+                        reqsMet = reqsMet && SharkGame.persistentFlags[flagName] === matchedValue;
                     } else {
                         reqsMet = false;
                         return false;
