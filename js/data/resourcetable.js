@@ -569,17 +569,6 @@ SharkGame.ResourceTable = {
         value: 50000,
     },
 
-    purifier: {
-        name: "purifiers",
-        singleName: "purifier",
-        color: "#C2D7D0",
-        income: {
-            tar: -1,
-        },
-        value: 50000,
-        forceIncome: true,
-    },
-
     heater: {
         name: "heaters",
         singleName: "heater",
@@ -721,25 +710,6 @@ SharkGame.ResourceTable = {
         value: 50000,
     },
 
-    seaScourer: {
-        name: "sea scourers",
-        singleName: "sea scourer",
-        color: "#8E8F91",
-        income: {
-            tar: -0.2,
-            junk: 400,
-        },
-        value: 50000,
-        forceIncome: true,
-    },
-
-    prostheticPolyp: {
-        name: "prosthetic polyps",
-        singleName: "prosthetic polyp",
-        color: "#A39497",
-        income: {
-            coral: 30,
-            tar: 0.01,
         },
         value: 50000,
     },
@@ -1244,7 +1214,6 @@ SharkGame.ResourceCategories = {
             "autoTransmuter",
             "fishMachine",
             "skimmer",
-            "purifier",
             "heater",
             "spongeFarmer",
             "berrySprayer",
@@ -1252,8 +1221,6 @@ SharkGame.ResourceCategories = {
             "tirelessCrafter",
             "clamCollector",
             "sprongeSmelter",
-            "seaScourer",
-            "prostheticPolyp",
             "eggBrooder",
             "crimsonCombine",
             "kelpCultivator",
