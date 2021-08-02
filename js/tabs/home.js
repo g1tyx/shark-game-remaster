@@ -485,19 +485,20 @@ SharkGame.Home = {
             // check if all requirements met
             if (_.has(extraMessage, "unlock")) {
                 let requirementsMet = true;
-                requirementsMet &&= _.every(
-                    extraMessage.unlock.resource,
-                    (requiredAmount, resourceId) => res.getResource(resourceId) >= requiredAmount
-                );
-                requirementsMet &&= _.every(
-                    extraMessage.unlock.totalResource,
-                    (requiredAmount, resourceId) => res.getTotalResource(resourceId) >= requiredAmount
-                );
-                requirementsMet &&= _.every(extraMessage.unlock.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
-                requirementsMet &&= _.every(extraMessage.unlock.homeAction, (actionName) => {
-                    const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
-                    return action.discovered && !action.newlyDiscovered;
-                });
+                requirementsMet =
+                    requirementsMet &&
+                    _.every(extraMessage.unlock.resource, (requiredAmount, resourceId) => res.getResource(resourceId) >= requiredAmount);
+                requirementsMet =
+                    requirementsMet &&
+                    _.every(extraMessage.unlock.totalResource, (requiredAmount, resourceId) => res.getTotalResource(resourceId) >= requiredAmount);
+                requirementsMet =
+                    requirementsMet && _.every(extraMessage.unlock.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
+                requirementsMet =
+                    requirementsMet &&
+                    _.every(extraMessage.unlock.homeAction, (actionName) => {
+                        const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+                        return action.discovered && !action.newlyDiscovered;
+                    });
                 return requirementsMet;
             }
             return true;
