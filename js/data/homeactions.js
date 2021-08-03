@@ -549,7 +549,7 @@ SharkGame.HomeActions = {
             max: "ray",
             prereq: {
                 resource: {
-                    fish: 15,
+                    shark: 4,
                 },
             },
             outcomes: [
@@ -620,7 +620,7 @@ SharkGame.HomeActions = {
             max: "crab",
             prereq: {
                 resource: {
-                    shark: 4,
+                    shark: 9,
                     ray: 4,
                 },
             },

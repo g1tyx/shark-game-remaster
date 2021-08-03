@@ -29,7 +29,7 @@ SharkGame.Home = {
             },
             {
                 name: "start-ray",
-                unlock: { resource: { fish: 15 } },
+                unlock: { resource: { shark: 4 } },
                 message: "Some rays drift over.",
             },
             {
@@ -39,7 +39,7 @@ SharkGame.Home = {
             },
             {
                 name: "start-crab",
-                unlock: { resource: { shark: 4, ray: 4 } },
+                unlock: { resource: { shark: 9, ray: 4 } },
                 message: "Some curious crabs come over.",
             },
             {
