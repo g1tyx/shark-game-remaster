@@ -242,7 +242,8 @@ SharkGame.TitleBar = {
                 // save people stranded on home world
                 if (confirm("Do you want to reset your game?")) {
                     // just reset
-                    main.init();
+                    main.init(true);
+                    SharkGame.Save.saveGame();
                 }
             } else if (confirm("Is this world causing you too much trouble? Want to go back to the gateway?")) {
                 SharkGame.wonGame = false;
