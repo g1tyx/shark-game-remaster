@@ -59,9 +59,19 @@ SharkGame.Upgrades = {
         }
 
         if (cad.upgradePriceModifier !== 1) {
-            if (data.cost) {
+            $.each(data.cost, (resource) => {
+                data.cost[resource] *= cad.upgradePriceModifier;
+            });
+        }
+
+        if (world.worldType !== "start") {
+            $.each(data.cost, (resource) => {
+                data.cost[resource] *= main.getProgressionConstant();
+            });
+        } else {
+            if (SharkGame.Settings.current.gameSpeed === "Idle") {
                 $.each(data.cost, (resource) => {
-                    data.cost[resource] *= cad.upgradePriceModifier;
+                    data.cost[resource] *= 2;
                 });
             }
         }

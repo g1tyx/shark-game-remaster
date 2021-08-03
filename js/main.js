@@ -939,7 +939,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         speedDiv.append(buttonContainer.addClass("paneContentDiv"));
         SharkGame.Button.makeButton(
             "slowSpeed",
-            "<h class='bigSpeedHeader'><strong>IDLE</strong></h><br><br><br><br>Evenly paced.<br><br><br>Good for <strong>multitasking</strong>.",
+            "<h class='bigSpeedHeader'><strong>IDLE</strong></h><br><br><br><br><br><br><br>Good for <strong>multitasking</strong> with other stuff.",
             buttonContainer,
             () => {
                 SharkGame.Settings.current.gameSpeed = "Idle";
@@ -950,7 +950,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
         SharkGame.Button.makeButton(
             "medSpeed",
-            "<h class='bigSpeedHeader'><strong>ACTIVE</strong></h><br><br><br><br><strong>Default speed.</strong><br><br><br>Good for <strong>active</strong> play.<br><br>",
+            "<h class='bigSpeedHeader'><strong>ACTIVE</strong></h><br><br><br><br><strong>Default speed.</strong> Evenly paced.<br><br><br>Good for <strong>active</strong> play.<br><br>",
             buttonContainer,
             () => {
                 SharkGame.Settings.current.gameSpeed = "Active";
@@ -961,7 +961,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
         SharkGame.Button.makeButton(
             "highSpeed",
-            "<h class='bigSpeedHeader'><strong><i>FAST</i></strong></h><br><br><br><br>May throw off pacing, if you care.<br><br>Good for <strong><i>really</i> active</strong> players.",
+            "<h class='bigSpeedHeader'><strong><i>FAST</i></strong></h><br><br><br><br>Cuts out most waiting.<br><br><br><br>Good for <strong><i>really</i> active</strong> players.",
             buttonContainer,
             () => {
                 SharkGame.Settings.current.gameSpeed = "Fast";
@@ -975,19 +975,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     applyProgressionSpeed() {
-        switch (SharkGame.Settings.current.gameSpeed) {
+        /*         switch (SharkGame.Settings.current.gameSpeed) {
             case "Idle":
                 cad.upgradePriceModifier = 4;
-                cad.speed = 1;
                 break;
             case "Active":
                 cad.upgradePriceModifier = 2;
-                cad.speed = 1;
                 break;
             default:
                 cad.upgradePriceModifier = 1;
-                cad.speed = 1;
-        }
+        } */
     },
 
     getProgressionConstant() {
