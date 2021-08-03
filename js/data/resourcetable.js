@@ -710,10 +710,6 @@ SharkGame.ResourceTable = {
         value: 50000,
     },
 
-        },
-        value: 50000,
-    },
-
     eggBrooder: {
         name: "egg brooders",
         singleName: "egg brooder",
