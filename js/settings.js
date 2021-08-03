@@ -224,11 +224,11 @@ SharkGame.Settings = {
     },
 
     gameSpeed: {
-        defaultSetting: "Medium",
+        defaultSetting: "Active",
         name: "Progression Speed",
         desc: "How fast you want to progress in the game.",
         category: "OTHER",
-        options: ["Slow", "Medium", "Fast", "Very Fast"],
+        options: ["Idle", "Active", "Fast"],
         onChange() {
             main.applyProgressionSpeed();
         },

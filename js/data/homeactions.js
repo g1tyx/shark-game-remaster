@@ -2827,9 +2827,9 @@ SharkGame.HomeActions = {
                         switch (SharkGame.Settings.current.gameSpeed) {
                             default:
                                 return 3000;
-                            case "Medium":
+                            case "Active":
                                 return 4500;
-                            case "Slow":
+                            case "Idle":
                                 return 6000;
                         }
                     },
@@ -2841,9 +2841,9 @@ SharkGame.HomeActions = {
                         switch (SharkGame.Settings.current.gameSpeed) {
                             default:
                                 return 100000;
-                            case "Medium":
+                            case "Active":
                                 return 200000;
-                            case "Slow":
+                            case "Idle":
                                 return 300000;
                         }
                     },

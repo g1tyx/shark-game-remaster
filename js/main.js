@@ -936,27 +936,27 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         speedDiv.append(buttonContainer.addClass("paneContentDiv"));
         SharkGame.Button.makeButton(
             "slowSpeed",
-            "<h class='bigSpeedHeader'><strong>SLOW</strong></h><br><br><br><br><br>Good for <strong>checking occasionally</strong>.",
+            "<h class='bigSpeedHeader'><strong>IDLE</strong></h><br><br><br><br>Evenly paced.<br><br><br>Good for <strong>multitasking</strong>.",
             buttonContainer,
             () => {
-                SharkGame.Settings.current.gameSpeed = "Slow";
+                SharkGame.Settings.current.gameSpeed = "Idle";
                 main.applyProgressionSpeed();
                 main.hidePane();
             }
         );
         SharkGame.Button.makeButton(
             "medSpeed",
-            "<h class='bigSpeedHeader'><strong>MEDIUM</strong></h><br><br><br><br><strong>Default speed.</strong><br>Good for <strong>multitaskers</strong>.",
+            "<h class='bigSpeedHeader'><strong>ACTIVE</strong></h><br><br><br><br><strong>Default speed.</strong><br><br><br>Good for <strong>active</strong> play.<br><br>",
             buttonContainer,
             () => {
-                SharkGame.Settings.current.gameSpeed = "Medium";
+                SharkGame.Settings.current.gameSpeed = "Active";
                 main.applyProgressionSpeed();
                 main.hidePane();
             }
         );
         SharkGame.Button.makeButton(
             "highSpeed",
-            "<h class='bigSpeedHeader'><strong>FAST</strong></h><br><br><br><br><br>Good for <strong>very active</strong> players.",
+            "<h class='bigSpeedHeader'><strong><i>FAST</i></strong></h><br><br><br><br>May throw off pacing, if you care.<br><br>Good for <strong><i>really</i> active</strong> players.",
             buttonContainer,
             () => {
                 SharkGame.Settings.current.gameSpeed = "Fast";
@@ -964,32 +964,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 main.hidePane();
             }
         );
-        SharkGame.Button.makeButton(
-            "veryHighSpeed",
-            "<h class='bigSpeedHeader'><i><strong>VERY FAST</strong></i></h><br><br>Good for <strong>speedrunners</strong>, and that one user in the reddit comments. You know who you are.",
-            buttonContainer,
-            () => {
-                SharkGame.Settings.current.gameSpeed = "Very Fast";
-                main.applyProgressionSpeed();
-                main.hidePane();
-            }
-        );
+        speedDiv.append($("<p>").html("You can change game speed at any time."));
         main.showPane("Choose Game Speed", speedDiv, true);
     },
 
     applyProgressionSpeed() {
         switch (SharkGame.Settings.current.gameSpeed) {
-            case "Slow":
+            case "Idle":
                 cad.upgradePriceModifier = 4;
                 cad.speed = 1;
                 break;
-            case "Medium":
+            case "Active":
                 cad.upgradePriceModifier = 2;
                 cad.speed = 1;
-                break;
-            case "Very Fast":
-                cad.upgradePriceModifier = 1;
-                cad.speed = 2;
                 break;
             default:
                 cad.upgradePriceModifier = 1;
@@ -999,9 +986,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     getProgressionConstant() {
         switch (SharkGame.Settings.current.gameSpeed) {
-            case "Slow":
+            case "Idle":
                 return 4;
-            case "Medium":
+            case "Active":
                 return 2;
             default:
                 return 1;
