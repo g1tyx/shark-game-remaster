@@ -57,7 +57,7 @@ SharkGame.Aspects = {
                 case 0:
                     return 1;
                 case 1:
-                    return 16;
+                    return 20;
                 case 2:
                     return 48;
             }
@@ -65,7 +65,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             switch (level) {
                 case 1:
-                    return "Unlock a moveable token that doubles production of whatever it is placed on.";
+                    return "Unlock a moveable token (called a marker) that doubles production of whatever it is placed on.";
                 case 2:
                     return "Unlock a second marker (markers cannot stack on the same resource).";
                 case 3:
@@ -157,7 +157,7 @@ SharkGame.Aspects = {
             }
         },
     },
-    /*     adjustedAquadynamics: {
+    coordinatedCooperation: {
         posX: 610,
         posY: 250,
         width: 40,
@@ -165,32 +165,23 @@ SharkGame.Aspects = {
 
         max: 4,
         level: 0,
-        name: "Adjusted Aquadynamics",
-        description: "A thin layer of essence greatly reduces drag, improving hunting profiency.",
+        name: "Coordinated Cooperation",
+        description: "Maybe the squid had a point. Maybe teamwork really is the key.",
         getCost(level) {
-            return 2 * level + 2;
+            return 16 * (level + 1);
         },
         getEffect(level) {
-            return (
-                sharktext.getResourceName("ray", false, 69) +
-                " hunt " +
-                sharktext.getResourceName("fish", false, 69) +
-                " " +
-                2 ** (level - 1) * 2.5 +
-                "x faster."
-            );
+            return "Markers increase production by " + (level + 2) + "x.";
         },
-        getUnlocked() {},
+        getUnlocked() {
+            return gateway.completedWorlds.includes("frigid") ? "" : "Complete the Frigid worldtype to unlock this aspect.";
+        },
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
-        apply(when) {
-            if (when === "init") {
-                res.applyModifier("adjustedAquadynamics", "ray", this.level);
-            }
-        },
     },
+    /*
     clawSharpening: {
         posX: 690,
         posY: 150,
@@ -366,19 +357,12 @@ SharkGame.Aspects = {
         name: "Destiny Gamble",
         description: "Where we end up is all luck, but sometimes, we can stack the deck.",
         getCost(level) {
-            switch (level) {
-                case 0:
-                    return 1;
-                default:
-                    return 2 * level;
-            }
+            return 2 * (level + 1);
         },
         getEffect(level) {
             return "Between worlds, have the opportunity to reroll your world selection up to " + level + " time" + (level > 0 ? "s" : "") + ".";
         },
-        getUnlocked() {
-            return "Not useful as of now, locked until next update.";
-        },
+        getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
@@ -466,10 +450,10 @@ SharkGame.Aspects = {
         description: "Time is relative.",
         getCost(level) {
             switch (level) {
-                case 1:
-                    return 5;
+                case 0:
+                    return 4;
                 default:
-                    return 2;
+                    return 3;
             }
         },
         getEffect(level) {
@@ -502,7 +486,7 @@ SharkGame.Aspects = {
         max: 2,
         level: 0,
         name: "Internal Calculator",
-        description: "Shark science gets started a lot faster when we don't need to use an abacus. Also, what's a calculator?",
+        description: "The octopuses could always manifest the rational from the confusing. Master their efficiency inside your own mind.",
         getCost(_level) {
             return 4;
         },
@@ -556,7 +540,7 @@ SharkGame.Aspects = {
     },
     // remember to add upgrade which adds manual crystal button, locked behind shrouded worldtype
 
-    //        name: "The Plan",
-    //description: "Professionals have standards. Have a plan to recruit everyone you meet.",
+    //name: "The Plan",
+    //description: "Professional management has standards. Be smart, be efficient, and have a plan to recruit everyone you meet.",
     //
 };
