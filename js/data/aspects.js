@@ -473,7 +473,19 @@ SharkGame.Aspects = {
             }
         },
         getEffect(level) {
-            return "Unlock a rechargeable " + (3 + level) + "x speed boost.";
+            let speedConstant;
+            switch (SharkGame.Settings.current.gameSpeed) {
+                case "Idle":
+                    speedConstant = 5;
+                    break;
+                case "Active":
+                    speedConstant = 3;
+                    break;
+                default:
+                    speedConstant = 1;
+                    break;
+            }
+            return "Unlock a rechargeable " + (speedConstant + level) + "x speed boost.";
         },
         getUnlocked() {},
         prerequisites: ["crystallineSkin"],

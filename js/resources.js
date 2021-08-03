@@ -785,12 +785,36 @@ SharkGame.Resources = {
         toggleMinuteHand() {
             if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 3000) {
                 res.minuteHand.active = true;
-                res.specialMultiplier *= 4;
+                let speedConstant = SharkGame.Aspects.theMinuteHand.level;
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        speedConstant += 5;
+                        break;
+                    case "Active":
+                        speedConstant += 3;
+                        break;
+                    default:
+                        speedConstant += 1;
+                        break;
+                }
+                res.specialMultiplier *= speedConstant;
                 $("#minute-hand-toggle").addClass("minuteOn");
                 log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
             } else if (res.minuteHand.active) {
                 res.minuteHand.active = false;
-                res.specialMultiplier *= 0.25;
+                let speedConstant = SharkGame.Aspects.theMinuteHand.level;
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        speedConstant += 5;
+                        break;
+                    case "Active":
+                        speedConstant += 3;
+                        break;
+                    default:
+                        speedConstant += 1;
+                        break;
+                }
+                res.specialMultiplier *= 1 / speedConstant;
                 $("#minute-hand-toggle").removeClass("minuteOn");
                 log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
             }
