@@ -666,7 +666,7 @@ SharkGame.ResourceTable = {
         desc: "Harvesters, cloaked in a red mist of coral.",
         color: "#E79E88",
         income: {
-            coral: 200,
+            coral: 250,
         },
         value: 50000,
     },
