@@ -64,12 +64,12 @@ SharkGame.Upgrades = {
             });
         }
 
-        if (world.worldType !== "start") {
-            $.each(data.cost, (resource) => {
-                data.cost[resource] *= main.getProgressionConstant();
-            });
-        } else {
-            if (SharkGame.Settings.current.gameSpeed === "Idle") {
+        if (!data.noPaceScaling) {
+            if (world.worldType !== "start") {
+                $.each(data.cost, (resource) => {
+                    data.cost[resource] *= main.getProgressionConstant();
+                });
+            } else if (SharkGame.Settings.current.gameSpeed === "Idle") {
                 $.each(data.cost, (resource) => {
                     data.cost[resource] *= 2;
                 });
@@ -550,17 +550,9 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "Understanding the fragile nature of sponges and their weird porous texture, we can now collect sponges by not biting so hard.",
             effectDesc: "Sponge can be collected in the same way fish can be.",
+            noPaceScaling: true,
             cost: {
-                get science() {
-                    switch (SharkGame.Settings.current.gameSpeed) {
-                        case "Idle":
-                            return 222;
-                        case "Active":
-                            return 444;
-                        default:
-                            return 888;
-                    }
-                },
+                science: 888,
             },
             required: {
                 upgrades: ["octopusMethodology"],
@@ -702,27 +694,10 @@ SharkGame.Upgrades = {
             desc: "The octopuses claim they know ways to improve their routines and machines.",
             researchedMessage: "We have no idea what thought processes guide these cephalopod allies of ours, but they know how to get results.",
             effectDesc: "Octopuses can specialise in investigation, and octopuses work twice as efficiently.",
+            noPaceScaling: true,
             cost: {
-                get science() {
-                    switch (SharkGame.Settings.current.gameSpeed) {
-                        case "Idle":
-                            return 222;
-                        case "Active":
-                            return 444;
-                        default:
-                            return 888;
-                    }
-                },
-                get clam() {
-                    switch (SharkGame.Settings.current.gameSpeed) {
-                        case "Idle":
-                            return 222;
-                        case "Active":
-                            return 444;
-                        default:
-                            return 888;
-                    }
-                },
+                science: 888,
+                clam: 888,
             },
             required: {
                 upgrades: ["clamScooping"],
@@ -741,27 +716,10 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "The instructions constructed and disseminated by the octopuses are complex and only understood to other octopuses. Head hurts. Something about the number eight.",
             effectDesc: "Octopuses, investigators, and their machines are twice as effective. Find unity in efficiency.",
+            noPaceScaling: true,
             cost: {
-                get science() {
-                    switch (SharkGame.Settings.current.gameSpeed) {
-                        case "Idle":
-                            return 2222;
-                        case "Active":
-                            return 4444;
-                        default:
-                            return 8888;
-                    }
-                },
-                get clam() {
-                    switch (SharkGame.Settings.current.gameSpeed) {
-                        case "Idle":
-                            return 22222;
-                        case "Active":
-                            return 44444;
-                        default:
-                            return 88888;
-                    }
-                },
+                science: 8888,
+                clam: 88888,
             },
             required: {
                 upgrades: ["sprongeBiomimicry"],
@@ -834,27 +792,10 @@ SharkGame.Upgrades = {
                 "As our octopus bretheren explain, it was hard because we kept telling them to go in circles. They used the word 'inept'.",
             effectDesc:
                 "The octopuses have taken control of both scavenging operations and are refusing to listen to our directions. Still, scavengers are 8 times faster and collectors are 4 times faster.",
+            noPaceScaling: true,
             cost: {
-                get science() {
-                    switch (SharkGame.Settings.current.gameSpeed) {
-                        case "Idle":
-                            return 22222;
-                        case "Active":
-                            return 44444;
-                        default:
-                            return 88888;
-                    }
-                },
-                get ancientPart() {
-                    switch (SharkGame.Settings.current.gameSpeed) {
-                        case "Idle":
-                            return 22;
-                        case "Active":
-                            return 44;
-                        default:
-                            return 88;
-                    }
-                },
+                science: 88888,
+                ancientPart: 88,
             },
             required: {
                 upgrades: ["farAbandonedExploration", "octalEfficiency"],
