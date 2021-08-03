@@ -207,11 +207,8 @@ SharkGame.Resources = {
             SharkGame.PlayerIncomeTable.set(resourceId, 0);
         });
 
-        const worldResources = world.worldResources;
-
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
-            const worldResourceInfo = worldResources.get(resourceId);
-            if (worldResourceInfo.exists) {
+            if (world.doesResourceExist(resourceId)) {
                 // for this resource, calculate the income it generates
                 if (resource.income) {
                     let costScaling = 1;
@@ -1071,7 +1068,7 @@ SharkGame.Resources = {
                     // recursively reconstruct the table with the keys in the inverse order
                     // eslint-disable-next-line id-length
                     $.each(nodes, (_k, affectedGenerator) => {
-                        if (world.worldResources.get(affectedGenerator).exists && world.worldResources.get(affectorResource).exists) {
+                        if (world.doesResourceExist(affectedGenerator) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
                     });
@@ -1093,7 +1090,7 @@ SharkGame.Resources = {
                     // recursively reconstruct the table with the keys in the inverse order
                     // eslint-disable-next-line id-length
                     $.each(nodes, (_k, affectedResource) => {
-                        if (world.worldResources.get(affectedResource).exists && world.worldResources.get(affectorResource).exists) {
+                        if (world.doesResourceExist(affectedResource) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }
                     });

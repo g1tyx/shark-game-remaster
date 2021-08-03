@@ -527,7 +527,7 @@ SharkGame.CheatsAndDebug = {
                 }
                 return "Rolled a thirteen, but fish don't exist, so nothing happened.";
             case 14:
-                if (world.worldResources.get("crab").exists) {
+                if (world.doesResourceExist("crab")) {
                     world.worldResources.get("crab").exists = false;
                     res.setResource("crab", 0);
                     res.setTotalResource("crab", 0);
