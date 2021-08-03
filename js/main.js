@@ -423,6 +423,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 event.currentTarget.classList.add("radical");
             }
         });
+
+        if (!SharkGame.persistentFlags.choseSpeed) {
+            main.showSpeedSelection();
+        }
     },
 
     tick() {
@@ -558,7 +562,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (main.isFirstTime()) {
             SharkGame.TitleBar.skipLink.name = "reset";
             main.setUpTitleBar();
-            main.showSpeedSelection();
             // main.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.notice);
         } else {
             // and then remember to actually set it back once it's not
@@ -942,6 +945,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 SharkGame.Settings.current.gameSpeed = "Idle";
                 main.applyProgressionSpeed();
                 main.hidePane();
+                SharkGame.persistentFlags.choseSpeed = true;
             }
         );
         SharkGame.Button.makeButton(
@@ -952,6 +956,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 SharkGame.Settings.current.gameSpeed = "Active";
                 main.applyProgressionSpeed();
                 main.hidePane();
+                SharkGame.persistentFlags.choseSpeed = true;
             }
         );
         SharkGame.Button.makeButton(
@@ -962,6 +967,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 SharkGame.Settings.current.gameSpeed = "Fast";
                 main.applyProgressionSpeed();
                 main.hidePane();
+                SharkGame.persistentFlags.choseSpeed = true;
             }
         );
         speedDiv.append($("<p>").html("You can change game pace at any time."));
@@ -1149,7 +1155,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     isFirstTime() {
-        return world.worldType === "start" && res.getTotalResource("essence") <= 0 && res.getResource("fish") === 0;
+        return world.worldType === "start" && res.getTotalResource("essence") <= 0;
     },
 
     resetTimers() {

@@ -363,6 +363,7 @@ SharkGame.Save = {
     },
 
     wipeSave() {
+        main.hidePane();
         localStorage.setItem(SharkGame.Save.saveFileName + "Backup", localStorage.getItem(SharkGame.Save.saveFileName));
         SharkGame.Save.deleteSave();
         SharkGame.Save.importData("{}");
