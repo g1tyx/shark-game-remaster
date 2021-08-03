@@ -225,8 +225,8 @@ SharkGame.Settings = {
 
     gameSpeed: {
         defaultSetting: "Active",
-        name: "Progression Speed",
-        desc: "How fast you want to progress in the game.",
+        name: "Playstyle",
+        desc: "How you prefer the game. It will adjust to fit your choice.",
         category: "OTHER",
         options: ["Idle", "Active", "Fast"],
         onChange() {

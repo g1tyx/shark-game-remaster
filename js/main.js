@@ -964,8 +964,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 main.hidePane();
             }
         );
-        speedDiv.append($("<p>").html("You can change game speed at any time."));
-        main.showPane("Choose Game Speed", speedDiv, true);
+        speedDiv.append($("<p>").html("You can change game pace at any time."));
+        main.showPane("Choose Pacing", speedDiv, true);
     },
 
     applyProgressionSpeed() {
