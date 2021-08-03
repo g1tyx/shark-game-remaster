@@ -25,15 +25,14 @@ SharkGame.Resources = {
     init() {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (resourceId, resource) => {
-            SharkGame.ResourceMap.set(resourceId, {});
-            Object.defineProperties(SharkGame.ResourceMap.get(resourceId), Object.getOwnPropertyDescriptors(resource));
+            SharkGame.ResourceMap.set(resourceId, _.cloneDeep(resource));
         });
 
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
             // create the baseIncome data
             if (resource.income) {
                 resource.baseIncome = {};
-                Object.defineProperties(resource.baseIncome, Object.getOwnPropertyDescriptors(resource.income));
+                Object.defineProperties(resource.baseIncome, Object.getOwnPropertyDescriptors(SharkGame.ResourceTable[resourceId].income));
             }
 
             // create the playerresources map
