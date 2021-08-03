@@ -787,7 +787,7 @@ SharkGame.Resources = {
                     case "Idle":
                         speedConstant += 5;
                         break;
-                    case "Active":
+                    case "Inactive":
                         speedConstant += 3;
                         break;
                     default:
@@ -804,7 +804,7 @@ SharkGame.Resources = {
                     case "Idle":
                         speedConstant += 5;
                         break;
-                    case "Active":
+                    case "Inactive":
                         speedConstant += 3;
                         break;
                     default:

@@ -69,7 +69,7 @@ SharkGame.Upgrades = {
                 $.each(data.cost, (resource) => {
                     data.cost[resource] *= main.getProgressionConstant();
                 });
-            } else if (SharkGame.Settings.current.gameSpeed === "Idle") {
+            } else if (SharkGame.Settings.current.gameSpeed === "Idle" || SharkGame.Settings.current.gameSpeed === "Inactive") {
                 $.each(data.cost, (resource) => {
                     data.cost[resource] *= 2;
                 });

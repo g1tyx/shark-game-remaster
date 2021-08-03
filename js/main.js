@@ -301,7 +301,7 @@ SharkGame.Main = {
     },
 
     // also functions as a reset
-    init(foregoLoad) {
+    init(foregoLoad, isLoop) {
         const now = _.now();
         SharkGame.before = now;
         SharkGame.timestampSimulated = now;
@@ -425,7 +425,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
-        if (!SharkGame.persistentFlags.choseSpeed) {
+        if (!SharkGame.persistentFlags.choseSpeed && !isLoop) {
             main.showSpeedSelection();
         }
     },
@@ -940,7 +940,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         speedDiv.append(buttonContainer.addClass("paneContentDiv"));
         SharkGame.Button.makeButton(
             "slowSpeed",
-            "<h class='bigSpeedHeader'><strong>IDLE</strong></h><br><br><br><br><br><br><br>Good for <strong>multitasking</strong> with other stuff.",
+            "<h class='bigSpeedHeader'><strong>IDLE</strong></h><br><br><br><br>Much slower.<br><br><br>Good to have on in the <strong>background</strong>.",
             buttonContainer,
             () => {
                 SharkGame.Settings.current.gameSpeed = "Idle";
@@ -951,7 +951,18 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
         SharkGame.Button.makeButton(
             "medSpeed",
-            "<h class='bigSpeedHeader'><strong>ACTIVE</strong></h><br><br><br><br><strong>Default speed.</strong> Evenly paced.<br><br><br>Good for <strong>active</strong> play.<br><br>",
+            "<h class='bigSpeedHeader'><strong>INACTIVE</strong></h><br><br><br><br>Evenly paced.<br><br><br>Good if you're <strong>multitasking</strong>.<br>",
+            buttonContainer,
+            () => {
+                SharkGame.Settings.current.gameSpeed = "Inactive";
+                main.applyProgressionSpeed();
+                main.hidePane();
+                SharkGame.persistentFlags.choseSpeed = true;
+            }
+        );
+        SharkGame.Button.makeButton(
+            "highSpeed",
+            "<h class='bigSpeedHeader'><strong>ACTIVE</strong></h><br><br><br><br><strong>Default speed.</strong> Moves fast.<br><br><br>Good for <strong>active</strong> play.",
             buttonContainer,
             () => {
                 SharkGame.Settings.current.gameSpeed = "Active";
@@ -960,19 +971,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 SharkGame.persistentFlags.choseSpeed = true;
             }
         );
-        SharkGame.Button.makeButton(
-            "highSpeed",
-            "<h class='bigSpeedHeader'><strong><i>FAST</i></strong></h><br><br><br><br>Cuts out most waiting.<br><br><br><br>Good for <strong><i>really</i> active</strong> players.",
-            buttonContainer,
-            () => {
-                SharkGame.Settings.current.gameSpeed = "Fast";
-                main.applyProgressionSpeed();
-                main.hidePane();
-                SharkGame.persistentFlags.choseSpeed = true;
-            }
-        );
-        speedDiv.append($("<p>").html("You can change game pace at any time."));
-        main.showPane("Choose Pacing", speedDiv, true);
+        speedDiv.append($("<p>").html("You can change playstyle at any time."));
+        main.showPane("Choose Playstyle", speedDiv, true);
     },
 
     applyProgressionSpeed() {
@@ -1040,7 +1040,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             backup.persistentFlags = SharkGame.persistentFlags;
 
             SharkGame.timestampRunStart = _.now();
-            main.init(true);
+            main.init(true, true);
             log.addMessage(world.getWorldEntryMessage());
 
             // restore special resources
