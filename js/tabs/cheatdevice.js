@@ -123,6 +123,7 @@ SharkGame.CheatsAndDebug = {
 
     init() {
         main.registerTab(this);
+        main.applyProgressionSpeed();
     },
 
     switchTo() {
