@@ -118,6 +118,9 @@ SharkGame.Save = {
             } else if (typeof saveData.saveVersion !== "number" || saveData.saveVersion <= 12) {
                 // After save version 12, packing support was removed; Backwards compatibility is not maintained because gameplay changed significantly after this point.
                 throw new Error("This is a save from before New Frontiers 0.2, after which the save system was changed.");
+            } else if (saveData.saveVersion === 15 || saveData.saveVersion === 16) {
+                // gonna reset aspects, need to inform player
+                SharkGame.persistentFlags.missingAspects = true;
             }
 
             if (saveData.saveVersion < currentVersion) {
@@ -189,12 +192,29 @@ SharkGame.Save = {
             _.each(SharkGame.Aspects, (aspectData) => {
                 aspectData.level = 0;
             });
+
             // load aspects (need to have the cost reducer loaded before world init)
-            $.each(saveData.aspects, (aspectId, level) => {
-                if (_.has(SharkGame.Aspects, aspectId)) {
-                    SharkGame.Aspects[aspectId].level = level;
-                }
-            });
+            if (
+                _.some(saveData.aspects, (aspectId) => {
+                    return !_.has(SharkGame.Aspects, aspectId);
+                })
+            ) {
+                // missing aspect detected! this is bad news.
+                // there's no good way to handle this while preserving the player's aspects,
+                // since we don't know how much the player spent to upgrade the missing aspects.
+                // an easy, foolproof fix is to simply reset all aspects and refund all essence.
+                SharkGame.persistentFlags.missingAspects = true;
+            }
+
+            if (!SharkGame.persistentFlags.missingAspects) {
+                $.each(saveData.aspects, (aspectId, level) => {
+                    if (_.has(SharkGame.Aspects, aspectId)) {
+                        SharkGame.Aspects[aspectId].level = level;
+                    }
+                });
+            } else {
+                res.setResource("essence", res.getTotalResource("essence"));
+            }
 
             res.minuteHand.init();
             res.markers.init();
@@ -273,6 +293,7 @@ SharkGame.Save = {
                 // process this
                 res.recalculateIncomeTable();
                 main.processSimTime(secondsElapsed, true);
+                res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
 
                 // acknowledge long time gaps
                 if (secondsElapsed > 3600) {
@@ -328,13 +349,13 @@ SharkGame.Save = {
             log.clearMessages(false);
             main.init();
             SharkGame.Save.loadGame(data);
-            main.correctTitleBar();
+            SharkGame.TitleBarHandler.correctTitleBar();
             home.discoverActions();
         } catch (err) {
             log.addError(err);
         }
         // refresh current tab
-        main.setUpTab();
+        SharkGame.TabHandler.setUpTab();
     },
 
     exportData() {
@@ -363,11 +384,11 @@ SharkGame.Save = {
     },
 
     wipeSave() {
+        SharkGame.PaneHandler.wipeStack();
         localStorage.setItem(SharkGame.Save.saveFileName + "Backup", localStorage.getItem(SharkGame.Save.saveFileName));
         SharkGame.Save.deleteSave();
         SharkGame.Save.importData("{}");
         log.clearMessages(false);
-        SharkGame.Main.init();
     },
 
     saveUpdaters: [
@@ -839,6 +860,12 @@ SharkGame.Save = {
             save.persistentFlags = {};
             save.planetPool = [];
 
+            return save;
+        },
+
+        // this is a dummy updater, used to simply mark the version number
+        // this version number difference is then used to catalyze a one-time aspect reset
+        function update17(save) {
             return save;
         },
     ],

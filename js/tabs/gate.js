@@ -30,7 +30,7 @@ SharkGame.Gate = {
     init() {
         const gate = SharkGame.Gate;
         // register tab
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
         gate.opened = false;
     },
 

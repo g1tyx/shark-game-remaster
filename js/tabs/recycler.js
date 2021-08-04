@@ -49,7 +49,7 @@ SharkGame.Recycler = {
     expectedJunkSpent: "NA",
 
     init() {
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
     },
 
     switchTo() {

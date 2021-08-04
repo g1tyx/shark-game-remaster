@@ -462,6 +462,7 @@ pre {
   word-break: break-all;
   word-wrap: break-word;
   background-repeat: no-repeat;
+  background-position: right;
 }
 #sidebar ul {
   list-style-type: none;
@@ -1509,4 +1510,19 @@ button.planetButton:active {
 }
 .minuteOff {
   color: #fff;
+}
+.bigSpeedHeader {
+  font-size: 2em;
+}
+.speedButtons {
+  display: flex;
+}
+.speedButtons button {
+  margin: 1em;
+  width: 6em;
+  height: 17em;
+}
+#aspectInnerWarning {
+  padding-top: 1em;
+  padding-bottom: 1em;
 }

@@ -29,7 +29,7 @@ SharkGame.Home = {
             },
             {
                 name: "start-ray",
-                unlock: { resource: { fish: 15 } },
+                unlock: { resource: { shark: 4 } },
                 message: "Some rays drift over.",
             },
             {
@@ -39,7 +39,7 @@ SharkGame.Home = {
             },
             {
                 name: "start-crab",
-                unlock: { resource: { shark: 4, ray: 4 } },
+                unlock: { resource: { shark: 9, ray: 4 } },
                 message: "Some curious crabs come over.",
             },
             {
@@ -349,7 +349,7 @@ SharkGame.Home = {
         const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
         home.tabName = tabName;
 
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
 
         // populate action discoveries (and reset removals)
         _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {

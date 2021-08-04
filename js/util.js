@@ -186,7 +186,7 @@ SharkGame.TextUtil = {
 
     beautifyIncome(number, also = "") {
         if (cad.noNumberBeautifying) {
-            return number.toString();
+            return number.toString() + also;
         }
 
         const abs = Math.abs(number);

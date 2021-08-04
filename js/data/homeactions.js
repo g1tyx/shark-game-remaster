@@ -549,7 +549,7 @@ SharkGame.HomeActions = {
             max: "ray",
             prereq: {
                 resource: {
-                    fish: 15,
+                    shark: 4,
                 },
             },
             outcomes: [
@@ -620,7 +620,7 @@ SharkGame.HomeActions = {
             max: "crab",
             prereq: {
                 resource: {
-                    shark: 4,
+                    shark: 9,
                     ray: 4,
                 },
             },
@@ -2820,8 +2820,34 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "whale", costFunction: "unique", priceIncrease: 3000 },
-                { resource: "dolphin", costFunction: "unique", priceIncrease: 100000 },
+                {
+                    resource: "whale",
+                    costFunction: "unique",
+                    get priceIncrease() {
+                        switch (SharkGame.Settings.current.gameSpeed) {
+                            default:
+                                return 3000;
+                            case "Inactive":
+                                return 4500;
+                            case "Idle":
+                                return 6000;
+                        }
+                    },
+                },
+                {
+                    resource: "dolphin",
+                    costFunction: "unique",
+                    get priceIncrease() {
+                        switch (SharkGame.Settings.current.gameSpeed) {
+                            default:
+                                return 100000;
+                            case "Inactive":
+                                return 200000;
+                            case "Idle":
+                                return 500000;
+                        }
+                    },
+                },
             ],
             max: "chorus",
             prereq: {
@@ -3318,8 +3344,6 @@ SharkGame.HomeActionCategories = {
             "getClamCollector",
             "getEggBrooder",
             "getSprongeSmelter",
-            "getSeaScourer",
-            "getProstheticPolyp",
             //"getCoalescer",
             "getCrimsonCombine",
             "getKelpCultivator",

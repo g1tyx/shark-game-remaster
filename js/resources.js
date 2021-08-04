@@ -31,7 +31,8 @@ SharkGame.Resources = {
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
             // create the baseIncome data
             if (resource.income) {
-                resource.baseIncome = _.cloneDeep(resource.income);
+                resource.baseIncome = {};
+                Object.defineProperties(resource.baseIncome, Object.getOwnPropertyDescriptors(SharkGame.ResourceTable[resourceId].income));
             }
 
             // create the playerresources map
@@ -205,11 +206,8 @@ SharkGame.Resources = {
             SharkGame.PlayerIncomeTable.set(resourceId, 0);
         });
 
-        const worldResources = world.worldResources;
-
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
-            const worldResourceInfo = worldResources.get(resourceId);
-            if (worldResourceInfo.exists) {
+            if (world.doesResourceExist(resourceId)) {
                 // for this resource, calculate the income it generates
                 if (resource.income) {
                     let costScaling = 1;
@@ -657,12 +655,13 @@ SharkGame.Resources = {
         },
 
         applyMarkerEffect(targetId, _id, reverseOrApply = "apply") {
+            const multiplier = SharkGame.Aspects.coordinatedCooperation.level + 2;
             if (targetId === "NA" || targetId.includes("marker")) {
                 return;
             } else if (targetId.includes("resource")) {
-                res.applyModifier("theMarkerForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? 2 : 0.5);
+                res.applyModifier("theMarkerForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else if (targetId.includes("income")) {
-                res.applyModifier("theMarkerForResources", targetId.split("-")[1], reverseOrApply === "apply" ? 2 : 0.5);
+                res.applyModifier("theMarkerForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else {
                 SharkGame.Log.addError("Tried to apply marker effect, but couldn't understand the location!");
                 SharkGame.Log.addError("Location was: " + targetId);
@@ -738,7 +737,7 @@ SharkGame.Resources = {
 
         init() {
             if (!SharkGame.flags.minuteHandTimer) {
-                SharkGame.flags.minuteHandTimer = 60000;
+                SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
             }
             if (SharkGame.Aspects.theMinuteHand.level) {
                 SharkGame.Button.makeHoverscriptButton(
@@ -750,6 +749,7 @@ SharkGame.Resources = {
                     null
                 );
             }
+            this.active = false;
         },
 
         updateMinuteHand(timeElapsed) {
@@ -763,7 +763,7 @@ SharkGame.Resources = {
             }
 
             if (!res.minuteHand.active) {
-                SharkGame.flags.minuteHandTimer += timeElapsed / 10;
+                SharkGame.flags.minuteHandTimer += (timeElapsed * (SharkGame.Aspects.theSecondHand.level + 1)) / 10;
                 if (SharkGame.flags.minuteHandTimer < 3000) {
                     $("#minute-hand-toggle").addClass("disabled");
                 } else {
@@ -783,12 +783,36 @@ SharkGame.Resources = {
         toggleMinuteHand() {
             if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 3000) {
                 res.minuteHand.active = true;
-                res.specialMultiplier *= 4;
+                let speedConstant = SharkGame.Aspects.theMinuteHand.level;
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        speedConstant += 5;
+                        break;
+                    case "Inactive":
+                        speedConstant += 3;
+                        break;
+                    default:
+                        speedConstant += 1;
+                        break;
+                }
+                res.specialMultiplier *= speedConstant;
                 $("#minute-hand-toggle").addClass("minuteOn");
                 log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
             } else if (res.minuteHand.active) {
                 res.minuteHand.active = false;
-                res.specialMultiplier *= 0.25;
+                /*                 let speedConstant = SharkGame.Aspects.theMinuteHand.level;
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        speedConstant += 5;
+                        break;
+                    case "Inactive":
+                        speedConstant += 3;
+                        break;
+                    default:
+                        speedConstant += 1;
+                        break;
+                } */
+                res.specialMultiplier = 1;
                 $("#minute-hand-toggle").removeClass("minuteOn");
                 log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
             }
@@ -875,7 +899,7 @@ SharkGame.Resources = {
         } else {
             statusDiv.show();
             _.each(res.markers.list, (marker) => {
-                if (marker.attr("location") !== "NA") {
+                if (SharkGame.flags.markers && SharkGame.flags.markers[marker.attr("id")] !== "NA") {
                     res.markers.reapplyMarker(marker);
                 }
             });
@@ -1045,7 +1069,7 @@ SharkGame.Resources = {
                     // recursively reconstruct the table with the keys in the inverse order
                     // eslint-disable-next-line id-length
                     $.each(nodes, (_k, affectedGenerator) => {
-                        if (world.worldResources.get(affectedGenerator).exists && world.worldResources.get(affectorResource).exists) {
+                        if (world.doesResourceExist(affectedGenerator) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
                     });
@@ -1067,7 +1091,7 @@ SharkGame.Resources = {
                     // recursively reconstruct the table with the keys in the inverse order
                     // eslint-disable-next-line id-length
                     $.each(nodes, (_k, affectedResource) => {
-                        if (world.worldResources.get(affectedResource).exists && world.worldResources.get(affectorResource).exists) {
+                        if (world.doesResourceExist(affectedResource) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }
                     });

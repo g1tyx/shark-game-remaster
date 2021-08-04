@@ -59,9 +59,19 @@ SharkGame.Upgrades = {
         }
 
         if (cad.upgradePriceModifier !== 1) {
-            if (data.cost) {
+            $.each(data.cost, (resource) => {
+                data.cost[resource] *= cad.upgradePriceModifier;
+            });
+        }
+
+        if (!data.noPaceScaling) {
+            if (world.worldType !== "start") {
                 $.each(data.cost, (resource) => {
-                    data.cost[resource] *= cad.upgradePriceModifier;
+                    data.cost[resource] *= main.getProgressionConstant();
+                });
+            } else if (SharkGame.Settings.current.gameSpeed === "Idle" || SharkGame.Settings.current.gameSpeed === "Inactive") {
+                $.each(data.cost, (resource) => {
+                    data.cost[resource] *= 2;
                 });
             }
         }
@@ -540,6 +550,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "Understanding the fragile nature of sponges and their weird porous texture, we can now collect sponges by not biting so hard.",
             effectDesc: "Sponge can be collected in the same way fish can be.",
+            noPaceScaling: true,
             cost: {
                 science: 888,
             },
@@ -683,6 +694,7 @@ SharkGame.Upgrades = {
             desc: "The octopuses claim they know ways to improve their routines and machines.",
             researchedMessage: "We have no idea what thought processes guide these cephalopod allies of ours, but they know how to get results.",
             effectDesc: "Octopuses can specialise in investigation, and octopuses work twice as efficiently.",
+            noPaceScaling: true,
             cost: {
                 science: 888,
                 clam: 888,
@@ -704,6 +716,7 @@ SharkGame.Upgrades = {
             researchedMessage:
                 "The instructions constructed and disseminated by the octopuses are complex and only understood to other octopuses. Head hurts. Something about the number eight.",
             effectDesc: "Octopuses, investigators, and their machines are twice as effective. Find unity in efficiency.",
+            noPaceScaling: true,
             cost: {
                 science: 8888,
                 clam: 88888,
@@ -779,6 +792,7 @@ SharkGame.Upgrades = {
                 "As our octopus bretheren explain, it was hard because we kept telling them to go in circles. They used the word 'inept'.",
             effectDesc:
                 "The octopuses have taken control of both scavenging operations and are refusing to listen to our directions. Still, scavengers are 8 times faster and collectors are 4 times faster.",
+            noPaceScaling: true,
             cost: {
                 science: 88888,
                 ancientPart: 88,
@@ -929,7 +943,7 @@ SharkGame.Upgrades = {
             cost: {
                 science: 500,
                 sand: 10000,
-                coral: 500,
+                coral: 100,
             },
             effect: {
                 incomeMultiplier: {
@@ -1066,6 +1080,19 @@ SharkGame.Upgrades = {
                 fish: 50000,
             },
         },
+        whaleCommunication: {
+            name: "Whale Communication",
+            desc: "We can hear faint cries in the distance. What is out there?",
+            researchedMessage:
+                "Okay, 'whales' are out there. They're similar to dolphins, except less rude, and really big. Oh, and, they collect tons of fish.",
+            effectDesc: "Whales can now be recruited.",
+            cost: {
+                fish: 2500000,
+            },
+            required: {
+                upgrades: ["exploration"],
+            },
+        },
         aquamarineFusion: {
             name: "Aquamarine Fusion",
             desc:
@@ -1075,8 +1102,8 @@ SharkGame.Upgrades = {
             effectDesc: "Enables transmutation of a bunch of junk into delphinium.",
             cost: {
                 science: 125000,
-                coral: 150000,
-                crystal: 125000,
+                coral: 200000,
+                crystal: 150000,
             },
             required: {
                 upgrades: ["delphineHistory"],
@@ -1090,11 +1117,72 @@ SharkGame.Upgrades = {
             effectDesc: "We've figured out some dolphin machinery. As expected, it's not the best - but it'll have to do.",
             cost: {
                 science: 50000,
-                delphinium: 7500,
+                delphinium: 15000,
             },
             required: {
                 upgrades: ["aquamarineFusion"],
                 seen: ["delphinium"],
+            },
+        },
+        /* Equivalent of farExploration.. named differently for unlocks or smth I think? */
+        farHavenExploration: {
+            name: "Far Exploration",
+            desc: "Explore the vast reaches beyond the home ocean, and look for that portal that keeps popping up in dolphin texts.",
+            researchedMessage: "Crystal-rich deposits were found, as well as what appears to be the portal of dolphin legend.",
+            effectDesc: "Crabs are 4 times as effective, planters 8 times. Did you know oceans are actually even bigger than big? Remarkable!",
+            cost: {
+                science: 375000,
+                fish: 10000000,
+            },
+            required: {
+                upgrades: ["whaleCommunication", "delphineHistory"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 4,
+                    planter: 4,
+                },
+            },
+        },
+        whaleSong: {
+            name: "The Whale Song",
+            desc:
+                "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
+            researchedMessage: "What we've put together is definitely a song...but something's missing. This can't be the whole thing.",
+            effectDesc:
+                "Whales are 4 times as effective. The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though.",
+            cost: {
+                fish: 500000000,
+            },
+            required: {
+                upgrades: ["whaleCommunication"],
+                seen: ["whale"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    whale: 4,
+                },
+            },
+        },
+        retroactiveRecordkeeping: {
+            name: "Retroactive Recordkeeping",
+            desc: "We've been sitting on a massive stockpile of these kelp papyrus...things. Maybe we should try organizing them.",
+            researchedMessage: "The dolphins were the first to volunteer with helping to organize this stuff. I GUESS we could give them a chance.",
+            effectDesc:
+                "Scientists are 16 times as effective. Can now assign dolphins as historians who will help catalogue all of the information we have on these kelp things.",
+            cost: {
+                science: 2000000,
+            },
+            required: {
+                totals: {
+                    science: 800000,
+                },
+                upgrades: ["dolphinTechnology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    scientist: 16,
+                },
             },
         },
         imperialDesigns: {
@@ -1123,99 +1211,27 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        /* Equivalent of farExploration.. named differently for unlocks or smth I think? */
-        farHavenExploration: {
-            name: "Far Exploration",
-            desc: "Explore the vast reaches beyond the home ocean, and look for that portal that keeps popping up in dolphin texts.",
-            researchedMessage: "Crystal-rich deposits were found, as well as what appears to be the portal of dolphin legend.",
-            effectDesc: "Crabs are 4 times as effective, planters 8 times. Did you know oceans are actually even bigger than big? Remarkable!",
-            cost: {
-                science: 375000,
-                fish: 1500000,
-            },
-            required: {
-                upgrades: ["whaleCommunication", "delphineHistory"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    crab: 4,
-                    planter: 4,
-                },
-            },
-        },
-        whaleCommunication: {
-            name: "Whale Communication",
-            desc: "We can hear faint cries in the distance. What is out there?",
+        ancientAgriculture: {
+            name: "Ancient Agriculture",
+            desc: "Now that we've got it all in one place, we're finding that a lot of these pages on farming methods are part of an entire book!",
             researchedMessage:
-                "Okay, 'whales' are out there. They're similar to dolphins, except less rude, and really big. Oh, and, they collect tons of fish.",
-            effectDesc: "Whales can now be recruited.",
-            cost: {
-                fish: 2500000,
-            },
-            required: {
-                upgrades: ["exploration"],
-            },
-        },
-        whaleSong: {
-            name: "The Whale Song",
-            desc:
-                "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
-            researchedMessage: "What we've put together is definitely a song...but something's missing. This can't be the whole thing.",
+                "We spent so long arguing with the dolphins about minute details that a small group of dolphins and sharks finished sorting it before we even decided on a plan. Oops.",
             effectDesc:
-                "Whales are 4 times as effective. The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though.",
+                "Planter crabs times 16, kelp cultivators times 2, all coral income times 4. Nobody has talked about the wasteful argument since it happened...we thought the dolphins would rub it in our faces by now, but they seem totally disinterested.",
             cost: {
-                fish: 500000000,
+                science: 50000000,
+                delphinium: 1000000,
             },
             required: {
-                upgrades: ["whaleCommunication"],
-                seen: ["whale"],
+                upgrades: ["retroactiveRecordkeeping"],
             },
             effect: {
                 incomeMultiplier: {
-                    whale: 4,
+                    planter: 16,
+                    kelpCultivator: 2,
                 },
-            },
-        },
-        retroactiveRecordkeeping: {
-            name: "Retroactive Recordkeeping",
-            desc: "We've been sitting on a massive stockpile of these kelp papyrus...things. Maybe we should try organizing them.",
-            researchedMessage: "The dolphins were the first to volunteer with helping to organize this stuff. I GUESS we could give them a chance.",
-            effectDesc:
-                "Scientists are 8 times as effective. Can now assign dolphins as historians who will help catalogue all of the information we have on these kelp things.",
-            cost: {
-                science: 2500000,
-            },
-            required: {
-                totals: {
-                    science: 1000000,
-                },
-                upgrades: ["dolphinTechnology"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    scientist: 8,
-                },
-            },
-        },
-        eternalSong: {
-            name: "The Eternal Song",
-            desc: "The song of the whales is mentioned in dolphin texts dating back as far as we can find. I think we're onto something.",
-            researchedMessage:
-                "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
-            effectDesc:
-                "Whales and dolphins and treasurers times 16, biologists times 4. A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
-            cost: {
-                science: 500000000,
-            },
-            required: {
-                upgrades: ["whaleSong", "retroactiveRecordkeeping", "farHavenExploration"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    whale: 16,
-                    dolphin: 16,
-                    treasurer: 16,
-                    biologist: 4,
+                resourceBoost: {
+                    coral: 4,
                 },
             },
         },
@@ -1227,7 +1243,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "All dolphin machines run eight times as fast, except tireless crafters, which are 8 times as efficient. Holy moley! Also, shark science is way more informative now that we have more perspective, so scientists are 16 times faster.",
             cost: {
-                science: 125000000,
+                science: 500000000,
                 delphinium: 1500000,
             },
             required: {
@@ -1244,27 +1260,25 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        ancientAgriculture: {
-            name: "Ancient Agriculture",
-            desc: "Now that we've got it all in one place, we're finding that a lot of these pages on farming methods are part of an entire book!",
+        eternalSong: {
+            name: "The Eternal Song",
+            desc: "The song of the whales is mentioned in dolphin texts dating back as far as we can find. I think we're onto something.",
             researchedMessage:
-                "We spent so long arguing with the dolphins about minute details that a small group of dolphins and sharks finished sorting it before we even decided on a plan. Oops.",
+                "The song of the whales was only ever half of the composition. The dolphins were the key to completing it. Now we have the pieces.",
             effectDesc:
-                "Planter crabs times 8, kelp cultivators times 2, all coral income times 4. Nobody has talked about the wasteful argument since it happened...we thought the dolphins would rub it in our faces by now, but they seem totally disinterested.",
+                "Whales and dolphins and treasurers times 16, biologists times 4. A chorus of whales and dolphins can be assembled to sing the eternal song, but we have no clue what it will do.",
             cost: {
-                science: 50000000,
-                delphinium: 500000,
+                science: 2000000000,
             },
             required: {
-                upgrades: ["retroactiveRecordkeeping"],
+                upgrades: ["whaleSong", "retroactiveRecordkeeping", "farHavenExploration"],
             },
             effect: {
                 incomeMultiplier: {
-                    planter: 8,
-                    kelpCultivator: 2,
-                },
-                resourceBoost: {
-                    coral: 4,
+                    whale: 16,
+                    dolphin: 16,
+                    treasurer: 16,
+                    biologist: 4,
                 },
             },
         },

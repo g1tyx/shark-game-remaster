@@ -19,7 +19,7 @@ SharkGame.Reflection = {
         "</br><span='medDesc'>Reflect upon the changes in yourself and reality you have made here.</span>",
 
     init() {
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
     },
 
     switchTo() {
