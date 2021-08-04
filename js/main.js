@@ -618,6 +618,18 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202108??a": [
+        "Replaced many aspects with new ones.",
+        "Significantly changed The Minute Hand. It is now a toggleable, constantly recharging speed boost.",
+        "Implemented 'The Marker' aspect, the new path of industry. Place the token on any income to double it, or any generator to double its efficiency.",
+        "Implemented a basic playstyle choice. The game will make simple adjustments to closer match your preference.",
+        "Implemented a 'missing aspect system', which will apply to everyone's save files, sorry! All essence refunded and all aspects reset.",
+        "Changed how popup windows work in the backend.",
+        "Due to these changes, you can now access the options menu in the gateway.",
+        "Fixed reset button bugs.",
+        "Fixed bugs with grotto.",
+        "Fixed bugs with tooltips in the aspect tree.",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210728a": [
         "The log can now be in one of 3 spots. Change which one in options. Default is now right side.",
         "Added Resource Affect tooltips; mouse over the multipliers in the R column in the advanced grotto table and you can see what is causing them.",
