@@ -976,16 +976,23 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     applyProgressionSpeed() {
-        /*         switch (SharkGame.Settings.current.gameSpeed) {
-            case "Idle":
-                cad.upgradePriceModifier = 4;
+        switch (world.worldType) {
+            case "frigid":
+                res.applyModifier("planetaryIncome", "ice", -world.worldResources.get("ice").income);
+                res.applyModifier("planetaryIncome", "ice", 1 / main.getProgressionConstant());
+                res.reapplyModifiers("heater", "ice");
                 break;
-            case "Active":
-                cad.upgradePriceModifier = 2;
+            case "abandoned":
+                res.reapplyModifiers("crystalMiner", "tar");
+                res.reapplyModifiers("sandDigger", "tar");
+                res.reapplyModifiers("fishMachine", "tar");
+                res.reapplyModifiers("skimmer", "tar");
+                res.reapplyModifiers("clamCollector", "tar");
+                res.reapplyModifiers("sprongeSmelter", "tar");
+                res.reapplyModifiers("eggBrooder", "tar");
+                res.reapplyModifiers("filter", "tar");
                 break;
-            default:
-                cad.upgradePriceModifier = 1;
-        } */
+        }
     },
 
     getProgressionConstant() {
