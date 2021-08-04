@@ -200,6 +200,7 @@ SharkGame.Gateway = {
         // add return to gateway button
         SharkGame.Button.makeButton("backToGateway", "return to gateway", aspectTreeContent, () => {
             gateway.switchViews(gateway.showGateway);
+            $("#tooltipbox").empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         });
 
         SharkGame.PaneHandler.swapCurrentPane("ASPECT TREE", aspectTreeContent, true, 500, true);
