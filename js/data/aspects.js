@@ -111,7 +111,13 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 3,
+        get max() {
+            if (SharkGame.persistentFlags.patience) {
+                return this.level;
+            } else {
+                return this.level + 1;
+            }
+        },
         level: 0,
         name: "Patience",
         description: "They say that good things come to those who wait.",
@@ -121,12 +127,15 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "Gain nothing now. After beating 3 more worlds, gain " + 2 * (level + 1) ** 2 + " essence.";
         },
-        getUnlocked() {
-            return "Not useful as of now, locked until next update.";
-        },
+        getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
+        },
+        apply(when) {
+            if (when === "levelUp") {
+                SharkGame.persistentFlags.patience = 3;
+            }
         },
     },
     pathOfTime: {
@@ -473,6 +482,50 @@ SharkGame.Aspects = {
         },
         getUnlocked() {},
         prerequisites: ["crystallineSkin"],
+        clicked(_event) {
+            tree.increaseLevel(this);
+        },
+    },
+    theSecondHand: {
+        posX: -80,
+        posY: 50,
+        width: 40,
+        height: 40,
+
+        max: 5,
+        level: 0,
+        name: "The Second Hand",
+        description: "Reality is a construct of the mind.",
+        getCost(level) {
+            return 6 * (level + 1);
+        },
+        getEffect(level) {
+            return "The Minute Hand recharges " + (level + 1) + "x faster.";
+        },
+        getUnlocked() {},
+        prerequisites: ["theMinuteHand"],
+        clicked(_event) {
+            tree.increaseLevel(this);
+        },
+    },
+    theHourHand: {
+        posX: 80,
+        posY: 50,
+        width: 40,
+        height: 40,
+
+        max: 5,
+        level: 0,
+        name: "The Hour Hand",
+        description: "Perception is an illusion.",
+        getCost(level) {
+            return 4 + level;
+        },
+        getEffect(level) {
+            return "The Minute Hand starts with " + sharktext.boldString(60 + 30 * level + "s") + " when entering a new world.";
+        },
+        getUnlocked() {},
+        prerequisites: ["theMinuteHand"],
         clicked(_event) {
             tree.increaseLevel(this);
         },

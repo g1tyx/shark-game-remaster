@@ -655,12 +655,13 @@ SharkGame.Resources = {
         },
 
         applyMarkerEffect(targetId, _id, reverseOrApply = "apply") {
+            const multiplier = SharkGame.Aspects.coordinatedCooperation.level + 2;
             if (targetId === "NA" || targetId.includes("marker")) {
                 return;
             } else if (targetId.includes("resource")) {
-                res.applyModifier("theMarkerForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? 2 : 0.5);
+                res.applyModifier("theMarkerForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else if (targetId.includes("income")) {
-                res.applyModifier("theMarkerForResources", targetId.split("-")[1], reverseOrApply === "apply" ? 2 : 0.5);
+                res.applyModifier("theMarkerForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else {
                 SharkGame.Log.addError("Tried to apply marker effect, but couldn't understand the location!");
                 SharkGame.Log.addError("Location was: " + targetId);
@@ -736,7 +737,7 @@ SharkGame.Resources = {
 
         init() {
             if (!SharkGame.flags.minuteHandTimer) {
-                SharkGame.flags.minuteHandTimer = 60000;
+                SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
             }
             if (SharkGame.Aspects.theMinuteHand.level) {
                 SharkGame.Button.makeHoverscriptButton(
@@ -762,7 +763,7 @@ SharkGame.Resources = {
             }
 
             if (!res.minuteHand.active) {
-                SharkGame.flags.minuteHandTimer += timeElapsed / 10;
+                SharkGame.flags.minuteHandTimer += (timeElapsed * (SharkGame.Aspects.theSecondHand.level + 1)) / 10;
                 if (SharkGame.flags.minuteHandTimer < 3000) {
                     $("#minute-hand-toggle").addClass("disabled");
                 } else {

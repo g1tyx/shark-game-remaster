@@ -19,16 +19,24 @@ SharkGame.Gateway = {
     enterGate(loadingFromSave) {
         // award essence (and mark world completion)
         let essenceReward = 0;
+        let patienceReward = 0;
         if (!loadingFromSave) {
             if (SharkGame.wonGame) {
                 essenceReward = 4;
                 gateway.markWorldCompleted(world.worldType);
                 SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
                 gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
+
+                if (SharkGame.persistentFlags.patience) {
+                    SharkGame.persistentFlags.patience -= 1;
+                    if (SharkGame.persistentFlags.patience === 0) {
+                        patienceReward += 2 * (SharkGame.Aspects.patience.level + 1) ** 2;
+                    }
+                }
             } else {
                 essenceReward = 0;
             }
-            res.changeResource("essence", essenceReward);
+            res.changeResource("essence", essenceReward + patienceReward);
         }
 
         if (this.planetPool.length === 0) {
@@ -71,13 +79,13 @@ SharkGame.Gateway = {
                     () => {
                         // put back to 4000
                         gateway.cleanUp();
-                        gateway.showGateway(essenceReward);
+                        gateway.showGateway(essenceReward, patienceReward);
                     }
                 );
         } else {
             overlay.show().css("opacity", 1.0);
             gateway.cleanUp();
-            gateway.showGateway(essenceReward);
+            gateway.showGateway(essenceReward, patienceReward);
         }
     },
 
@@ -86,7 +94,7 @@ SharkGame.Gateway = {
         main.purgeGame();
     },
 
-    showGateway(essenceRewarded) {
+    showGateway(essenceRewarded, patienceReward) {
         // get some useful numbers
         const essenceHeld = res.getResource("essence");
         const numenHeld = res.getResource("numen");
@@ -107,6 +115,24 @@ SharkGame.Gateway = {
                         "</span> essence."
                 )
             );
+        }
+        if (patienceReward > 0) {
+            gatewayContent.append(
+                $("<p>").html(
+                    "Your patience pays off, granting you <span class='essenceCount'>" + sharktext.beautify(patienceReward) + "</span> essence."
+                )
+            );
+        } else {
+            if (SharkGame.persistentFlags.patience) {
+                gatewayContent.append(
+                    $("<p>").html(
+                        SharkGame.persistentFlags.patience +
+                            " more world" +
+                            (SharkGame.persistentFlags.patience > 1 ? "s" : "") +
+                            " until your patience pays off."
+                    )
+                );
+            }
         }
         gatewayContent.append(
             $("<p>").html(
