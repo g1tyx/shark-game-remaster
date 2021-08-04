@@ -897,7 +897,7 @@ SharkGame.Resources = {
         } else {
             statusDiv.show();
             _.each(res.markers.list, (marker) => {
-                if (marker.attr("location") !== "NA") {
+                if (SharkGame.flags.markers && SharkGame.flags.markers[marker.attr("id")] !== "NA") {
                     res.markers.reapplyMarker(marker);
                 }
             });

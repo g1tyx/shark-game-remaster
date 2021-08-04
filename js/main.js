@@ -992,7 +992,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         switch (SharkGame.Settings.current.gameSpeed) {
             case "Idle":
                 return 4;
-            case "Active":
+            case "Inactive":
                 return 2;
             default:
                 return 1;
