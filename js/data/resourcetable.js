@@ -528,7 +528,7 @@ SharkGame.ResourceTable = {
         income: {
             sand: 200,
             get tar() {
-                return 0.01 / main.getProgressionConstant();
+                return 0.02 / main.getProgressionConstant();
             },
         },
         value: 120000, //500 sand 150 sharkonium (12000)
@@ -555,7 +555,7 @@ SharkGame.ResourceTable = {
         income: {
             fish: 400,
             get tar() {
-                return 0.01 / main.getProgressionConstant();
+                return 0.02 / main.getProgressionConstant();
             },
         },
         value: 70000, //100 sharkonium (7000)
@@ -571,7 +571,7 @@ SharkGame.ResourceTable = {
             sand: -50,
             fish: -300,
             get tar() {
-                return 0.01 / main.getProgressionConstant();
+                return 0.02 / main.getProgressionConstant();
             },
         },
         value: 50000,
