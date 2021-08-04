@@ -1522,3 +1522,7 @@ button.planetButton:active {
   width: 6em;
   height: 17em;
 }
+#aspectInnerWarning {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}

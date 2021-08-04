@@ -83,7 +83,7 @@ SharkGame.PaneHandler = {
             this.paneStack.push(_.cloneDeep(this.currentPane));
         }
         this.currentPane = stackObject;
-        this.showPane(title, contents, notCloseable, fadeInTime, customOpacity);
+        this.showPane(title, contents, notCloseable, fadeInTime, customOpacity, true);
     },
 
     swapCurrentPane(title, contents, notCloseable, fadeInTime = 600, customOpacity) {
@@ -114,7 +114,7 @@ SharkGame.PaneHandler = {
         }
     },
 
-    showPane(title, contents, notCloseable, fadeInTime, customOpacity) {
+    showPane(title, contents, notCloseable, fadeInTime, customOpacity, preserveElements) {
         let pane;
 
         // GENERATE PANE IF THIS IS THE FIRST TIME
@@ -161,10 +161,19 @@ SharkGame.PaneHandler = {
             closeButtonDiv.show();
         }
 
-        // adjust content
-        const paneContent = $("#paneContent");
-        paneContent.empty();
+        let paneContent;
+        if (!preserveElements) {
+            paneContent = $("#paneContent");
+            paneContent.empty();
+        } else {
+            const originalContent = $("#paneContent");
+            originalContent.detach();
 
+            pane.append($("<div>").attr("id", "paneContent"));
+            paneContent = $("#paneContent");
+        }
+
+        // adjust content
         paneContent.append(contents);
         if (SharkGame.Settings.current.showAnimations && customOpacity) {
             pane.show().css("opacity", 0).animate({ opacity: 1.0 }, fadeInTime);
@@ -390,5 +399,27 @@ SharkGame.PaneHandler = {
         );
         speedDiv.append($("<p>").html("You can change playstyle at any time."));
         this.addPaneToStack("Choose Playstyle", speedDiv, true);
+    },
+
+    showAspectWarning() {
+        const aspectWarnDiv = $("<div>");
+        aspectWarnDiv.append(
+            $("<div>")
+                .attr("id", "aspectInnerWarning")
+                .append(
+                    "Uh oh!<br>Your save has aspects that are no longer in the game!<br>To fix this,<br>all your <strong>essence</strong> has been <strong>refunded</strong>,<br>and all your <strong>aspects</strong> have been <strong>reset</strong>.<br>"
+                )
+                .addClass("paneContentDiv")
+        );
+        SharkGame.Button.makeButton(
+            "confirmUnderstood",
+            "I understand my <br><strong>ESSENCE</strong> is <strong>REFUNDED</strong><br>and<br><strong>ASPECTS</strong> are <strong>RESET</strong>",
+            aspectWarnDiv,
+            () => {
+                SharkGame.PaneHandler.nextPaneInStack();
+                SharkGame.persistentFlags.missingAspects = false;
+            }
+        );
+        this.addPaneToStack("ASPECTS RESET", aspectWarnDiv, true);
     },
 };

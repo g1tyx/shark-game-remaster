@@ -68,6 +68,7 @@ SharkGame.Gateway = {
 
         // make overlay opaque
         if (SharkGame.Settings.current.showAnimations) {
+            gateway.transitioning = true;
             overlay
                 .show()
                 .css("opacity", 0)
@@ -169,6 +170,9 @@ SharkGame.Gateway = {
 
         SharkGame.PaneHandler.swapCurrentPane("GATEWAY", gatewayContent, true, 500, true);
         gateway.transitioning = false;
+        if (SharkGame.persistentFlags.missingAspects) {
+            SharkGame.PaneHandler.showAspectWarning();
+        }
     },
 
     showRunEndInfo(containerDiv) {
