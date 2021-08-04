@@ -163,6 +163,7 @@ SharkGame.Gateway = {
         SharkGame.Button.makeButton("backToGateway", "aspects", navButtons, () => {
             gateway.switchViews(gateway.showAspects);
         });
+        SharkGame.Button.makeButton("backToGateway", "options", navButtons, SharkGame.PaneHandler.showOptions);
         SharkGame.Button.makeButton("backToGateway", "worlds", navButtons, () => {
             gateway.switchViews(gateway.showPlanets);
         });

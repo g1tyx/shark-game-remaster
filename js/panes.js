@@ -199,7 +199,7 @@ SharkGame.PaneHandler = {
 
     showOptions() {
         const optionsContent = SharkGame.PaneHandler.setUpOptions();
-        this.addPaneToStack("Options", optionsContent);
+        SharkGame.PaneHandler.addPaneToStack("Options", optionsContent);
     },
 
     setUpOptions() {
@@ -351,13 +351,13 @@ SharkGame.PaneHandler = {
             segment.append(changeList);
             changelogContent.append(segment);
         });
-        this.addPaneToStack("Changelog", changelogContent);
+        SharkGame.PaneHandler.addPaneToStack("Changelog", changelogContent);
     },
 
     showHelp() {
         const helpDiv = $("<div>");
         helpDiv.append($("<div>").append(SharkGame.Panes.help).addClass("paneContentDiv"));
-        this.addPaneToStack("Help", helpDiv);
+        SharkGame.PaneHandler.addPaneToStack("Help", helpDiv);
     },
 
     showSpeedSelection() {
