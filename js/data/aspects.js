@@ -366,7 +366,7 @@ SharkGame.Aspects = {
         name: "Destiny Gamble",
         description: "Where we end up is all luck, but sometimes, we can stack the deck.",
         getCost(level) {
-            return 2 * (level + 1);
+            return 2 + level;
         },
         getEffect(level) {
             return "Between worlds, have the opportunity to reroll your world selection up to " + level + " time" + (level > 0 ? "s" : "") + ".";
@@ -462,7 +462,7 @@ SharkGame.Aspects = {
                 case 0:
                     return 4;
                 default:
-                    return 3;
+                    return 3 + level;
             }
         },
         getEffect(level) {
@@ -545,9 +545,9 @@ SharkGame.Aspects = {
         },
         getEffect(level) {
             if (level === 1) {
-                return "If a research costs 150 science or less, then its science cost is halved.";
+                return "If a research costs " + 150 * main.getProgressionConstant() + " science or less, then its science cost is halved.";
             } else {
-                return "If a research costs 150 science or less, then all its costs are halved.";
+                return "If a research costs " + 150 * main.getProgressionConstant() + " science or less, then all its costs are halved.";
             }
         },
         getUnlocked() {
