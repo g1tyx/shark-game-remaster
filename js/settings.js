@@ -106,7 +106,7 @@ SharkGame.Settings = {
         category: "LAYOUT",
         options: ["list", "pile"],
         onChange() {
-            main.changeTab(SharkGame.Tabs.current);
+            SharkGame.TabHandler.changeTab(SharkGame.Tabs.current);
         },
     },
 
@@ -209,7 +209,7 @@ SharkGame.Settings = {
         category: "APPEARANCE",
         options: [true, false],
         onChange() {
-            main.changeTab(SharkGame.Tabs.current);
+            SharkGame.TabHandler.changeTab(SharkGame.Tabs.current);
         },
     },
 

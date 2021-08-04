@@ -329,13 +329,13 @@ SharkGame.Save = {
             log.clearMessages(false);
             main.init();
             SharkGame.Save.loadGame(data);
-            main.correctTitleBar();
+            SharkGame.TitleBarHandler.correctTitleBar();
             home.discoverActions();
         } catch (err) {
             log.addError(err);
         }
         // refresh current tab
-        main.setUpTab();
+        SharkGame.TabHandler.setUpTab();
     },
 
     exportData() {
@@ -364,7 +364,7 @@ SharkGame.Save = {
     },
 
     wipeSave() {
-        main.hidePane();
+        SharkGame.PaneHandler.hidePane();
         localStorage.setItem(SharkGame.Save.saveFileName + "Backup", localStorage.getItem(SharkGame.Save.saveFileName));
         SharkGame.Save.deleteSave();
         SharkGame.Save.importData("{}");

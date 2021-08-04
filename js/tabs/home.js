@@ -349,7 +349,7 @@ SharkGame.Home = {
         const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
         home.tabName = tabName;
 
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
 
         // populate action discoveries (and reset removals)
         _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {

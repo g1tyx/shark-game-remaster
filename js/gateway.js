@@ -56,7 +56,7 @@ SharkGame.Gateway = {
         // set up classes
         let pane;
         if (!SharkGame.paneGenerated) {
-            pane = main.buildPane();
+            pane = SharkGame.PaneHandler.buildPane();
         } else {
             pane = $("#pane");
         }
@@ -166,7 +166,7 @@ SharkGame.Gateway = {
         });
         gatewayContent.append(navButtons);
 
-        main.showPane("GATEWAY", gatewayContent, true, 500, true);
+        SharkGame.PaneHandler.showPane("GATEWAY", gatewayContent, true, 500, true);
         gateway.transitioning = false;
     },
 
@@ -196,7 +196,7 @@ SharkGame.Gateway = {
             gateway.switchViews(gateway.showGateway);
         });
 
-        main.showPane("ASPECT TREE", aspectTreeContent, true, 500, true);
+        SharkGame.PaneHandler.showPane("ASPECT TREE", aspectTreeContent, true, 500, true);
 
         gateway.transitioning = false;
     },
@@ -233,7 +233,7 @@ SharkGame.Gateway = {
         });
         planetSelectionContent.append(returnButtonDiv);
 
-        main.showPane("WORLDS", planetSelectionContent, true, foregoAnimation ? 0 : 500, true);
+        SharkGame.PaneHandler.showPane("WORLDS", planetSelectionContent, true, foregoAnimation ? 0 : 500, true);
         gateway.transitioning = false;
         gateway.updatePlanetButtons();
         gateway.formatDestinyGamble();
@@ -299,7 +299,7 @@ SharkGame.Gateway = {
         });
         gatewayContent.append(returnButtonDiv);
 
-        main.showPane("CONFIRM", gatewayContent, true, 500, true);
+        SharkGame.PaneHandler.showPane("CONFIRM", gatewayContent, true, 500, true);
         gateway.transitioning = false;
     },
 
