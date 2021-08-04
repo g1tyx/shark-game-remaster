@@ -724,10 +724,10 @@ SharkGame.Home = {
         $.each(action.removedBy, (kind, by) => {
             switch (kind) {
                 case "otherActions":
-                    disable ||= _.some(by, (otherAction) => home.areActionPrereqsMet(otherAction));
+                    disable = disable || _.some(by, (otherAction) => home.areActionPrereqsMet(otherAction));
                     break;
                 case "upgrades":
-                    disable ||= _.some(by, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
+                    disable = disable || _.some(by, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
                     break;
             }
         });
