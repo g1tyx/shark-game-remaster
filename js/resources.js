@@ -748,6 +748,7 @@ SharkGame.Resources = {
                     null
                 );
             }
+            this.active = false;
         },
 
         updateMinuteHand(timeElapsed) {
@@ -798,7 +799,7 @@ SharkGame.Resources = {
                 log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
             } else if (res.minuteHand.active) {
                 res.minuteHand.active = false;
-                let speedConstant = SharkGame.Aspects.theMinuteHand.level;
+                /*                 let speedConstant = SharkGame.Aspects.theMinuteHand.level;
                 switch (SharkGame.Settings.current.gameSpeed) {
                     case "Idle":
                         speedConstant += 5;
@@ -809,8 +810,8 @@ SharkGame.Resources = {
                     default:
                         speedConstant += 1;
                         break;
-                }
-                res.specialMultiplier *= 1 / speedConstant;
+                } */
+                res.specialMultiplier = 1;
                 $("#minute-hand-toggle").removeClass("minuteOn");
                 log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
             }

@@ -943,7 +943,7 @@ SharkGame.Upgrades = {
             cost: {
                 science: 500,
                 sand: 10000,
-                coral: 500,
+                coral: 100,
             },
             effect: {
                 incomeMultiplier: {
@@ -1175,7 +1175,7 @@ SharkGame.Upgrades = {
             },
             required: {
                 totals: {
-                    science: 900000,
+                    science: 800000,
                 },
                 upgrades: ["dolphinTechnology"],
             },
