@@ -104,8 +104,6 @@ $.extend(SharkGame, {
     flags: {},
     persistentFlags: {},
 
-    paneQueue: [],
-
     spriteIconPath: "img/sharksprites.png",
     spriteHomeEventPath: "img/sharkeventsprites.png",
 
@@ -528,7 +526,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.gameOver) {
             SharkGame.gameOver = false;
             SharkGame.wonGame = false;
-            SharkGame.PaneHandler.hidePane();
+            SharkGame.PaneHandler.wipeStack();
 
             // copy over all special category resources
             // aspects are preserved automatically within gateway file

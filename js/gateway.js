@@ -17,6 +17,7 @@ SharkGame.Gateway = {
     },
 
     enterGate(loadingFromSave) {
+        SharkGame.PaneHandler.wipeStack();
         // award essence (and mark world completion)
         let essenceReward = 0;
         let patienceReward = 0;
@@ -166,7 +167,7 @@ SharkGame.Gateway = {
         });
         gatewayContent.append(navButtons);
 
-        SharkGame.PaneHandler.showPane("GATEWAY", gatewayContent, true, 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("GATEWAY", gatewayContent, true, 500, true);
         gateway.transitioning = false;
     },
 
@@ -196,7 +197,7 @@ SharkGame.Gateway = {
             gateway.switchViews(gateway.showGateway);
         });
 
-        SharkGame.PaneHandler.showPane("ASPECT TREE", aspectTreeContent, true, 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("ASPECT TREE", aspectTreeContent, true, 500, true);
 
         gateway.transitioning = false;
     },
@@ -233,7 +234,7 @@ SharkGame.Gateway = {
         });
         planetSelectionContent.append(returnButtonDiv);
 
-        SharkGame.PaneHandler.showPane("WORLDS", planetSelectionContent, true, foregoAnimation ? 0 : 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("WORLDS", planetSelectionContent, true, foregoAnimation ? 0 : 500, true);
         gateway.transitioning = false;
         gateway.updatePlanetButtons();
         gateway.formatDestinyGamble();
@@ -299,7 +300,7 @@ SharkGame.Gateway = {
         });
         gatewayContent.append(returnButtonDiv);
 
-        SharkGame.PaneHandler.showPane("CONFIRM", gatewayContent, true, 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("CONFIRM", gatewayContent, true, 500, true);
         gateway.transitioning = false;
     },
 

@@ -58,7 +58,7 @@ SharkGame.TitleBar = {
         name: "credits",
         main: false,
         onClick() {
-            SharkGame.PaneHandler.showPane("Credits", SharkGame.Panes.credits);
+            SharkGame.PaneHandler.addPaneToStack("Credits", SharkGame.Panes.credits);
         },
     },
 
@@ -66,7 +66,7 @@ SharkGame.TitleBar = {
         name: "donate",
         main: false,
         onClick() {
-            SharkGame.PaneHandler.showPane("Donate", SharkGame.Panes.donate);
+            SharkGame.PaneHandler.addPaneToStack("Donate", SharkGame.Panes.donate);
         },
     },
 
@@ -80,7 +80,7 @@ SharkGame.TitleBar = {
         name: "notice",
         main: false,
         onClick() {
-            SharkGame.PaneHandler.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
+            SharkGame.PaneHandler.addPaneToStack("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
         },
     },
 };
@@ -89,7 +89,7 @@ SharkGame.TitleBarHandler = {
     correctTitleBar() {
         if (main.isFirstTime()) {
             SharkGame.TitleBar.skipLink.name = "reset";
-            // SharkGame.PaneHandler.showPane("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
+            SharkGame.PaneHandler.addPaneToStack("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
         } else {
             // and then remember to actually set it back once it's not
             SharkGame.TitleBar.skipLink.name = "skip";

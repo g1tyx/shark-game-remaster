@@ -47,6 +47,9 @@ SharkGame.Panes = {
 };
 
 SharkGame.PaneHandler = {
+    paneStack: [],
+    currentPane: undefined,
+
     buildPane() {
         const pane = $("<div>").attr("id", "pane");
         $("body").append(pane);
@@ -62,7 +65,7 @@ SharkGame.PaneHandler = {
                         .attr("id", "paneHeaderCloseButton")
                         .addClass("min close-button")
                         .html("✕")
-                        .on("click", SharkGame.PaneHandler.hidePane)
+                        .on("click", SharkGame.PaneHandler.nextPaneInStack)
                 )
         );
         pane.append(titleDiv);
@@ -74,7 +77,44 @@ SharkGame.PaneHandler = {
         return pane;
     },
 
-    showPane(title, contents, notCloseable, fadeInTime = 600, customOpacity) {
+    addPaneToStack(title, contents, notCloseable, fadeInTime = 600, customOpacity) {
+        const stackObject = [title, contents, notCloseable, fadeInTime, customOpacity];
+        if (this.currentPane) {
+            this.paneStack.push(_.cloneDeep(this.currentPane));
+        }
+        this.currentPane = stackObject;
+        this.showPane(title, contents, notCloseable, fadeInTime, customOpacity);
+    },
+
+    swapCurrentPane(title, contents, notCloseable, fadeInTime = 600, customOpacity) {
+        const stackObject = [title, contents, notCloseable, fadeInTime, customOpacity];
+        this.currentPane = stackObject;
+        this.showPane(title, contents, notCloseable, fadeInTime, customOpacity);
+    },
+
+    wipeStack() {
+        SharkGame.PaneHandler.paneStack = [];
+        SharkGame.PaneHandler.currentPane = undefined;
+        SharkGame.PaneHandler.hidePane();
+    },
+
+    nextPaneInStack() {
+        const panehandler = SharkGame.PaneHandler;
+        panehandler.currentPane = panehandler.paneStack.pop();
+        if (panehandler.currentPane) {
+            panehandler.showPane(
+                panehandler.currentPane[0],
+                panehandler.currentPane[1],
+                panehandler.currentPane[2],
+                panehandler.currentPane[3],
+                panehandler.currentPane[4]
+            );
+        } else {
+            panehandler.hidePane();
+        }
+    },
+
+    showPane(title, contents, notCloseable, fadeInTime, customOpacity) {
         let pane;
 
         // GENERATE PANE IF THIS IS THE FIRST TIME
@@ -133,13 +173,16 @@ SharkGame.PaneHandler = {
         }
 
         if (!notCloseable) {
-            document.getElementById("overlay").addEventListener("click", SharkGame.PaneHandler.hidePane);
+            document.getElementById("overlay").addEventListener("click", SharkGame.PaneHandler.nextPaneInStack);
             overlay.addClass("pointy");
+        } else {
+            document.getElementById("overlay").removeEventListener("click", SharkGame.PaneHandler.nextPaneInStack);
+            overlay.removeClass("pointy");
         }
     },
 
     hidePane() {
-        document.getElementById("overlay").removeEventListener("click", SharkGame.PaneHandler.hidePane);
+        document.getElementById("overlay").removeEventListener("click", SharkGame.PaneHandler.nextPaneInStack);
         $("#overlay").removeClass("pointy");
         $("#overlay").hide();
         $("#pane").hide();
@@ -147,7 +190,7 @@ SharkGame.PaneHandler = {
 
     showOptions() {
         const optionsContent = SharkGame.PaneHandler.setUpOptions();
-        this.showPane("Options", optionsContent);
+        this.addPaneToStack("Options", optionsContent);
     },
 
     setUpOptions() {
@@ -218,7 +261,7 @@ SharkGame.PaneHandler = {
                         if ($(this).hasClass("disabled")) return;
                         const importText = $("#importExportField").val();
                         if (importText === "") {
-                            SharkGame.PaneHandler.hidePane();
+                            SharkGame.PaneHandler.nextPaneInStack();
                             log.addError("You need to paste something in first!");
                         } else if (confirm("Are you absolutely sure? This will override your current save.")) {
                             SharkGame.Save.importData(importText);
@@ -299,13 +342,13 @@ SharkGame.PaneHandler = {
             segment.append(changeList);
             changelogContent.append(segment);
         });
-        this.showPane("Changelog", changelogContent);
+        this.addPaneToStack("Changelog", changelogContent);
     },
 
     showHelp() {
         const helpDiv = $("<div>");
         helpDiv.append($("<div>").append(SharkGame.Panes.help).addClass("paneContentDiv"));
-        this.showPane("Help", helpDiv);
+        this.addPaneToStack("Help", helpDiv);
     },
 
     showSpeedSelection() {
@@ -319,7 +362,7 @@ SharkGame.PaneHandler = {
             () => {
                 SharkGame.Settings.current.gameSpeed = "Idle";
                 main.applyProgressionSpeed();
-                SharkGame.PaneHandler.hidePane();
+                SharkGame.PaneHandler.nextPaneInStack();
                 SharkGame.persistentFlags.choseSpeed = true;
             }
         );
@@ -330,7 +373,7 @@ SharkGame.PaneHandler = {
             () => {
                 SharkGame.Settings.current.gameSpeed = "Inactive";
                 main.applyProgressionSpeed();
-                SharkGame.PaneHandler.hidePane();
+                SharkGame.PaneHandler.nextPaneInStack();
                 SharkGame.persistentFlags.choseSpeed = true;
             }
         );
@@ -341,11 +384,11 @@ SharkGame.PaneHandler = {
             () => {
                 SharkGame.Settings.current.gameSpeed = "Active";
                 main.applyProgressionSpeed();
-                SharkGame.PaneHandler.hidePane();
+                SharkGame.PaneHandler.nextPaneInStack();
                 SharkGame.persistentFlags.choseSpeed = true;
             }
         );
         speedDiv.append($("<p>").html("You can change playstyle at any time."));
-        this.showPane("Choose Playstyle", speedDiv, true);
+        this.addPaneToStack("Choose Playstyle", speedDiv, true);
     },
 };
