@@ -125,6 +125,17 @@ SharkGame.Aspects = {
             return (level + 2) ** 2;
         },
         getEffect(level) {
+            if (SharkGame.persistentFlags.patience) {
+                return (
+                    "Gain nothing now. After beating " +
+                    SharkGame.persistentFlags.patience +
+                    " more world" +
+                    (SharkGame.persistentFlags.patience > 1 ? "s" : "") +
+                    ", gain " +
+                    2 * (level + 1) ** 2 +
+                    " essence."
+                );
+            }
             return "Gain nothing now. After beating 3 more worlds, gain " + 2 * (level + 1) ** 2 + " essence.";
         },
         getUnlocked() {},
