@@ -195,7 +195,7 @@ SharkGame.Save = {
 
             // load aspects (need to have the cost reducer loaded before world init)
             if (
-                _.some(saveData.aspects, (aspectId) => {
+                _.some(saveData.aspects, (_aspectLevel, aspectId) => {
                     return !_.has(SharkGame.Aspects, aspectId);
                 })
             ) {
