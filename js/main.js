@@ -461,7 +461,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     showSidebarIfNeeded() {
         // if we have any non-zero resources, show sidebar
         // if we have any log entries, show sidebar
-        if (res.haveAnyResources() || log.haveAnyMessages()) {
+        if (res.haveAnyResources()) {
             // show sidebar
             if (SharkGame.Settings.current.showAnimations) {
                 $("#sidebar").show("500");

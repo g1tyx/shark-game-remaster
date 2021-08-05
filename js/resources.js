@@ -418,7 +418,8 @@ SharkGame.Resources = {
     },
 
     haveAnyResources() {
-        for (const [, resource] of SharkGame.PlayerResources) {
+        for (const [resourceName, resource] of SharkGame.PlayerResources) {
+            if (resourceName === "world") continue;
             if (resource.totalAmount > 0) return true;
         }
         return false;
