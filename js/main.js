@@ -288,6 +288,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
+        /*         if (main.isFirstTime()) {
+            SharkGame.PaneHandler.addPaneToStack("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
+        } */
+
         if (!SharkGame.persistentFlags.choseSpeed && !isLoop && !gateway.transitioning) {
             SharkGame.PaneHandler.showSpeedSelection();
         }

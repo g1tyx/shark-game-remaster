@@ -89,7 +89,6 @@ SharkGame.TitleBarHandler = {
     correctTitleBar() {
         if (main.isFirstTime()) {
             SharkGame.TitleBar.skipLink.name = "reset";
-            SharkGame.PaneHandler.addPaneToStack("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
         } else {
             // and then remember to actually set it back once it's not
             SharkGame.TitleBar.skipLink.name = "skip";
