@@ -1738,4 +1738,407 @@ SharkGame.Upgrades = {
             },
         },
     },
+    shrouded: {
+        crystalBite: {},
+        crystalSpade: {},
+        crystalContainer: {},
+        statsDiscovery: {},
+        underwaterChemistry: {},
+        seabedGeology: {
+            name: "Seabed Geology",
+            desc: "Study the bottom of the ocean to determine the rich, deep, juicy secrets it contains.",
+            researchedMessage: "Not only did we find a whole bunch of weird things, the rays found that there was more sand!",
+            effectDesc: "Rays are twice as effective with their understanding of the seabed and its varieties of sediment.",
+            cost: {
+                science: 250,
+                sand: 250,
+            },
+            required: {
+                upgrades: ["crystalContainer"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    ray: 2,
+                },
+            },
+        },
+        agriculture: {
+            name: "Agriculture",
+            desc: "The hunter-gatherer lifestyle will only work so well for us. Maybe we should gather these animals in one place and let them grow.",
+            researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
+            effectDesc: "Advances in agriculture will fuel future endeavors. Who knows what we'll do next!",
+            cost: {
+                science: 500,
+                sand: 1000,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+        },
+        biology: {
+            name: "Biology",
+            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
+            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
+            effectDesc:
+                "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?",
+            cost: {
+                science: 750,
+            },
+            required: {
+                upgrades: ["underwaterChemistry", "agriculture"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                },
+            },
+        },
+        rayBiology: {
+            name: "Ray Biology",
+            desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
+            researchedMessage:
+                "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
+            effectDesc:
+                "Rays and laser rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+            cost: {
+                science: 1500,
+            },
+            required: {
+                upgrades: ["biology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    ray: 2,
+                },
+            },
+        },
+        eelHabitats: {
+            name: "Eel Habitats",
+            desc: "So we keep seeing these things we thought were kelp on the seabed, but it turns out they're not kelp. What are they?",
+            researchedMessage:
+                "After some discussion with the eels on the nature of eel pits and safety and security in the form of seabed holes, we understand, maybe.",
+            effectDesc:
+                "Eels are twice as effective now we know how they prefer to live. Eels are also able to specialise in a variety of different ways with a place to store their things.",
+            cost: {
+                science: 1250,
+            },
+            required: {
+                upgrades: ["biology"],
+                resources: ["eel"],
+                seen: ["eel"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    eel: 2,
+                },
+            },
+        },
+        xenobiology: {
+            name: "Xenobiology",
+            desc: "Determine what is with these weird faceless creatures we keep finding.",
+            researchedMessage: "Results inconclusive! Further research required. It could be such a benefit for science!",
+            effectDesc:
+                "Kelp produces sea apples twice as fast. We can dissect sea apples and jellyfish for science. Also, sea apple isn't a fruit. Gross.",
+            cost: {
+                science: 2500,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    kelp: 2,
+                },
+            },
+        },
+        jellyfishHunting: {
+            name: "Jellyfish Hunting",
+            desc: "Jellyfish are plenty in the farther waters, but our attempts to catch them is met only with pain. We need better tactics.",
+            researchedMessage: "The trick to catching jellyfish is caution and avoiding the stinging tendrils. They burn. Oh, they burn.",
+            effectDesc: "Jellyfish can be caught like fish. Hey, a fish is a fish, right?",
+            cost: {
+                science: 3000,
+            },
+            required: {
+                upgrades: ["xenobiology"],
+            },
+        },
+        chimaeraMysticism: {
+            name: "Chimaera Mysticism",
+            desc: "We know the chimaeras, but we don't them very well. We need to adjust our thinking to understand their riddles.",
+            researchedMessage:
+                "After much thoughtful contemplation, the chimaeras have despaired at our inability to understand and shared their knowledge with us.",
+            effectDesc:
+                "Chimaeras can now become dedicated transmuters or explorers, using our knowledge to assist our industry or sharing their knowledge as they journey through the deeper seas.",
+            cost: {
+                science: 5000,
+                jellyfish: 700,
+            },
+            required: {
+                upgrades: ["jellyfishHunting"],
+                seen: ["chimaera"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    chimaera: 2,
+                },
+            },
+        },
+        transmutation: {
+            name: "Transmutation",
+            desc: "By heating things up and doing science things to them, maybe new things can be made!",
+            researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
+            effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
+            cost: {
+                science: 1000,
+                crystal: 2000,
+                sand: 4000,
+            },
+            required: {
+                upgrades: ["underwaterChemistry"],
+            },
+        },
+        automation: {
+            name: "Automation",
+            desc: "Using sharkonium, we can make things to do things so we don't have to do the things!",
+            researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
+            effectDesc: "Machines can be built to supplement population duties. This is efficient.",
+            cost: {
+                science: 1500,
+                sharkonium: 250,
+            },
+            required: {
+                upgrades: ["transmutation"],
+            },
+        },
+        engineering: {
+            name: "Engineering",
+            desc: "The machines sort of suck. Let's make them better by learning how!",
+            researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
+            effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
+            cost: {
+                science: 2500,
+                sharkonium: 1750,
+            },
+            required: {
+                upgrades: ["automation"],
+                seen: ["fishMachine", "crystalMiner", "sandDigger"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                },
+            },
+        },
+        recyclerDiscovery: {
+            name: "Recycler",
+            desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
+            researchedMessage:
+                "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
+            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
+            cost: {
+                science: 5000,
+                sharkonium: 5000,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+        },
+        iterativeDesign: {
+            name: "Iterative Design",
+            desc: "The machines are useful, but they could be better. Maybe it's time we started over?",
+            researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
+            effectDesc: "All shark machines run twice as fast. Again! Scientists are 4 times faster as well.",
+            cost: {
+                science: 15000,
+                sharkonium: 17500,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crystalMiner: 2,
+                    fishMachine: 2,
+                    sandDigger: 2,
+                    autoTransmuter: 2,
+                    skimmer: 2,
+                    heater: 2,
+                    scientist: 4,
+                },
+            },
+        },
+        superprocessing: {
+            name: "Superprocessing",
+            desc:
+                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
+            effectDesc:
+                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
+            cost: {
+                science: 1e6,
+                sharkonium: 1e6,
+                junk: 1e6,
+            },
+            required: {
+                upgrades: ["iterativeDesign", "recyclerDiscovery"],
+            },
+        },
+        exploration: {
+            name: "Exploration",
+            desc: "Swim beyond the home seas to see what can be found!",
+            researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
+            effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
+            cost: {
+                science: 5000,
+                fish: 5000,
+            },
+            required: {
+                upgrades: ["chimaeraMysticism"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                    ray: 2,
+                },
+            },
+        },
+        farExploration: {
+            name: "Far Exploration",
+            desc: "Explore the vast reaches beyond the home ocean.",
+            researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
+            effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
+            cost: {
+                science: 8000,
+                fish: 15000,
+            },
+            required: {
+                upgrades: ["exploration"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 4,
+                },
+            },
+        },
+        creviceCreches: {
+            name: "Crevice Creches",
+            desc: "We can probably figure out a way to make eel pits cosier for their inhabitants.",
+            researchedMessage:
+                "We've developed a design to improve the quality of eel pits involving a complicated system of chambers and subterranean warrens. Look, it... let's not worry about the specifics this time, okay?",
+            effectDesc: "Eels are twice as effective, and so are eel pits. Expect many baby eels in the future.",
+            cost: {
+                science: 800,
+                clam: 200,
+            },
+            required: {
+                upgrades: ["eelHabitats"],
+                resources: ["eel"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    eel: 2,
+                    pit: 2,
+                },
+            },
+        },
+        bioelectricity: {
+            name: "Bioelectricity",
+            desc: "There has to be a way to harness the powers of some of the eels. We all know they have powers. Painful ones.",
+            researchedMessage:
+                "The technically inclined electric eels practically jumped out of the water at the chance to work with the machines. Should we be concerned?",
+            effectDesc: "Eel technicians are twice as effective. So are our machines. Convenient!",
+            cost: {
+                science: 3200,
+                clam: 800,
+            },
+            required: {
+                upgrades: ["eelHabitats", "engineering"],
+                resources: ["eel"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    fishMachine: 2,
+                    sandDigger: 2,
+                    crystalMiner: 2,
+                },
+            },
+        },
+        abyssalEnigmas: {
+            name: "Abyssal Enigmas",
+            desc:
+                "The chimaeras have returned from the deeper oceans with artifacts they can't explain. We need to work together to understand them.",
+            researchedMessage: "Well, we still have no idea what these things are, but we've formed a stronger bond with our estranged kin.",
+            effectDesc:
+                "Chimaeras and their specialists are twice as effective thanks to stronger trust and friendship. Also we still don't know what these things they found do.",
+            cost: {
+                science: 40000,
+                jellyfish: 5000,
+            },
+            required: {
+                upgrades: ["chimaeraMysticism"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    chimaera: 2,
+                    explorer: 2,
+                },
+            },
+        },
+
+        // SUPERSCIENCE
+        /* 
+        ancestralRecall: {
+            name: "Ancestral Recall",
+            desc:
+                "The sharks and rays know we share some features among ourselves. Using the vague glimpses of dreams, let's piece together the puzzle.",
+            researchedMessage: "Our giant ancestors and the creatures of a long distant past have inspired us to become even greater!",
+            effectDesc:
+                "Sharks, rays and chimaeras, and their roles, are all four times as effective. We have had a glorious past. Now, on to a glorious future.",
+            cost: {
+                science: 1e7,
+            },
+            required: {
+                upgrades: ["gateDiscovery"],
+                resources: ["shark", "ray", "chimaera"],
+                notWorlds: ["start"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 4,
+                    diver: 4,
+                    scientist: 4,
+                    nurse: 4,
+                    ray: 4,
+                    maker: 4,
+                    chimaera: 4,
+                    explorer: 4,
+                },
+            },
+        },
+
+        leviathanHeart: {
+            name: "Leviathan Heart",
+            desc: "The eels are meek and unassuming, but deep within them lies a greater potential. Let's unleash it.",
+            researchedMessage:
+                "We have found the connection between the eels we know and the ancient giant serpents we knew only in legend. This has inspired every eel we know to do greater things.",
+            effectDesc: "Eels and their roles are all four times as effective. The power of determination can overcome many odds.",
+            cost: {
+                science: 5e6,
+            },
+            required: {
+                upgrades: ["gateDiscovery", "bioelectricity"],
+                resources: ["eel"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    eel: 4,
+                    pit: 4,
+                    sifter: 4,
+                },
+            },
+        }, */
+    },
 };

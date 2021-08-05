@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded"],
 
     completedWorlds: [],
 
@@ -584,7 +584,6 @@ SharkGame.Gateway.Messages = {
             "Do you bring life, or do you bring death, worldbuilder?",
             "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-            "You seem surprised. Did this not happen to your own home?",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
@@ -638,6 +637,7 @@ SharkGame.Gateway.Messages = {
         "You wish to get back here so quickly?",
         "You and everything you knew has died. Perhaps not you. Perhaps not.",
         "One more try, perhaps?",
+        "Excellence is pure habit. We are what we repeatedly do.",
     ],
     generic: [
         "There is no warmth or cold here. Only numbness.",
