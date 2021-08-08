@@ -1845,9 +1845,24 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["agriculture"],
             },
+        },
+        creviceCreches: {
+            name: "Crevice Creches",
+            desc: "We can probably figure out a way to make eel pits cosier for their inhabitants.",
+            researchedMessage:
+                "We've developed a design to improve the quality of eel pits involving a complicated system of chambers and subterranean warrens. Look, it... let's not worry about the specifics this time, okay?",
+            effectDesc: "Eels are twice as effective, and so are eel pits. Expect many baby eels in the future.",
+            cost: {
+                science: 2500,
+            },
+            required: {
+                upgrades: ["eelHabitats"],
+                seen: ["pit"],
+            },
             effect: {
                 incomeMultiplier: {
-                    kelp: 2,
+                    eel: 2,
+                    pit: 2,
                 },
             },
         },
@@ -1857,7 +1872,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The trick to catching jellyfish is caution and avoiding the stinging tendrils. They burn. Oh, they burn.",
             effectDesc: "Jellyfish can be caught like fish. Hey, a fish is a fish, right?",
             cost: {
-                science: 3000,
+                science: 4000,
             },
             required: {
                 upgrades: ["xenobiology"],
@@ -1890,12 +1905,12 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 1000,
-                crystal: 2000,
-                sand: 4000,
+                science: 7500,
+                crystal: 5000,
+                sand: 20000,
             },
             required: {
-                upgrades: ["underwaterChemistry"],
+                upgrades: ["chimaeraMysticism"],
             },
         },
         automation: {
@@ -1904,11 +1919,29 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 1500,
-                sharkonium: 250,
+                sharkonium: 1000,
             },
             required: {
                 upgrades: ["transmutation"],
+            },
+        },
+        exploration: {
+            name: "Exploration",
+            desc: "Swim beyond the home seas to see what can be found!",
+            researchedMessage: "Found lots of schools of fish, and so much sand! We also stumbled upon some gigantic chasms in the seafloor!",
+            effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
+            cost: {
+                science: 12000,
+                fish: 5000,
+            },
+            required: {
+                upgrades: ["chimaeraMysticism"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                    ray: 2,
+                },
             },
         },
         engineering: {
@@ -1917,7 +1950,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
             effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
             cost: {
-                science: 2500,
+                science: 15000,
                 sharkonium: 1750,
             },
             required: {
@@ -1929,6 +1962,24 @@ SharkGame.Upgrades = {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
+                },
+            },
+        },
+        shroudedChasmExploration: {
+            name: "Chasm Exploration",
+            desc: "The chimaeras say they can help us navigate the chasms. With their help, we could throw together an expedition and see what's down there.",
+            researchedMessage: "The dive team is back, and...we have no idea what we have here! Seriously!",
+            effectDesc: "Chimaeras find jellyfish twice as fast. We found some weird artifact thingies, but we don't know what's up with them.",
+            cost: {
+                science: 25000,
+                fish: 15000,
+            },
+            required: {
+                upgrades: ["exploration"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    chimaera: 2,
                 },
             },
         },
@@ -1965,7 +2016,6 @@ SharkGame.Upgrades = {
                     sandDigger: 2,
                     autoTransmuter: 2,
                     skimmer: 2,
-                    heater: 2,
                     scientist: 4,
                 },
             },
@@ -1986,77 +2036,82 @@ SharkGame.Upgrades = {
                 upgrades: ["iterativeDesign", "recyclerDiscovery"],
             },
         },
-        exploration: {
-            name: "Exploration",
-            desc: "Swim beyond the home seas to see what can be found!",
-            researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
-            effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
+        abyssalEnigmas: {
+            name: "Abyssal Enigmas",
+            desc:
+                "The chimaeras have returned from the deeper oceans with artifacts they can't explain. We need to work together to understand them.",
+            researchedMessage: "From what little we have, we can tell that these all go together somehow; they're all part of something larger... We need to find more of them!",
+            effectDesc:
+                "Chimaeras can now be assigned to explore the chasms for more of these...you know what, let's call them 'arcana'. If we get enough of them together, maybe we could learn their original purpose?",
             cost: {
-                science: 5000,
-                fish: 5000,
+                science: 40000,
+                jellyfish: 5000,
             },
             required: {
-                upgrades: ["chimaeraMysticism"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 2,
-                    ray: 2,
-                },
+                upgrades: ["shroudedChasmExploration"],
             },
         },
-        farExploration: {
-            name: "Far Exploration",
-            desc: "Explore the vast reaches beyond the home ocean.",
-            researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
-            effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
+        arcaneSifting: {
+            name: "Arcane Sifting",
+            desc:
+                "An eel just came back with a tiny piece of arcana-looking rubble, claiming they found it in the sand. Are we onto something here?",
+            researchedMessage: "",
+            effectDesc: "",
             cost: {
-                science: 8000,
-                fish: 15000,
+                sand: 5000000,
+                arcana: 10,
             },
             required: {
-                upgrades: ["exploration"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    crab: 4,
-                },
+                upgrades: ["shroudedChasmExploration"],
+                seen: ["arcana"],
             },
         },
-        creviceCreches: {
-            name: "Crevice Creches",
-            desc: "We can probably figure out a way to make eel pits cosier for their inhabitants.",
-            researchedMessage:
-                "We've developed a design to improve the quality of eel pits involving a complicated system of chambers and subterranean warrens. Look, it... let's not worry about the specifics this time, okay?",
-            effectDesc: "Eels are twice as effective, and so are eel pits. Expect many baby eels in the future.",
+        arcaneStudy: {
+            name: "Arcane Study",
+            desc:
+                "We see some rays staring curiously at our collection of arcana. Where have I see this before?",
+            researchedMessage: "",
+            effectDesc: "",
             cost: {
-                science: 800,
-                clam: 200,
+                science: 100000,
+                arcana: 25,
             },
             required: {
-                upgrades: ["eelHabitats"],
-                resources: ["eel"],
+                upgrades: ["shroudedChasmExploration"],
+                seen: ["arcana"],
+            },
+        },
+        arcaneCompass: {
+            name: "Arcane Compass",
+            desc:
+                "The thinnest, straightest shards of arcana have been observed to rotate toward a common direction when left undisturbed. What are they pointing to?",
+            researchedMessage: "We placed some shards in a clear box and let them point us around for a while. They led us straight to a dilapidated gate.",
+            effectDesc: "All arcana gains x2. We've since learned to use the arcana for other navigational tasks, which makes exploring for them more efficient.",
+            cost: {
+                arcana: 125,
+            },
+            required: {
+                upgrades: ["arcaneStudy"],
+                seen: ["scholar"],
             },
             effect: {
-                incomeMultiplier: {
-                    eel: 2,
-                    pit: 2,
+                resourceBoost: {
+                    arcana: 2,
                 },
             },
         },
         bioelectricity: {
             name: "Bioelectricity",
-            desc: "There has to be a way to harness the powers of some of the eels. We all know they have powers. Painful ones.",
+            desc: "Further study has revealed arcana to be incredibly electrically conductive. We can't really make circuits out of them, but...well, maybe there's something else.",
             researchedMessage:
-                "The technically inclined electric eels practically jumped out of the water at the chance to work with the machines. Should we be concerned?",
-            effectDesc: "Eel technicians are twice as effective. So are our machines. Convenient!",
+                "We've developed special tools that technically-inclined electric eels can use to pump bioelectricity directly into machines! Brilliant?",
+            effectDesc: "Machines are twice as effective.",
             cost: {
-                science: 3200,
-                clam: 800,
+                sharkonium: 200000,
+                arcana: 200,
             },
             required: {
-                upgrades: ["eelHabitats", "engineering"],
-                resources: ["eel"],
+                upgrades: ["arcaneCompass", "engineering"],
             },
             effect: {
                 incomeMultiplier: {
@@ -2066,25 +2121,16 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        abyssalEnigmas: {
-            name: "Abyssal Enigmas",
-            desc:
-                "The chimaeras have returned from the deeper oceans with artifacts they can't explain. We need to work together to understand them.",
-            researchedMessage: "Well, we still have no idea what these things are, but we've formed a stronger bond with our estranged kin.",
-            effectDesc:
-                "Chimaeras and their specialists are twice as effective thanks to stronger trust and friendship. Also we still don't know what these things they found do.",
+        arcaneSacrifice: {
+            name: "Arcane Sacrifice",
+            desc: "Further study has revealed arcana to be shards of a sort of huge, abstract battery for...something. If harnessed, this could change everything.",
+            researchedMessage: "It turns out that the innate energy contained within the arcana can be violently released when shattered. If we do it just right, then we reap all the benefits.",
+            effectDesc: "",
             cost: {
-                science: 40000,
-                jellyfish: 5000,
+                arcana: 1000,
             },
             required: {
-                upgrades: ["chimaeraMysticism"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    chimaera: 2,
-                    explorer: 2,
-                },
+                upgrades: ["arcaneCompass"],
             },
         },
 

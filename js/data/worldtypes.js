@@ -262,6 +262,7 @@ SharkGame.WorldTypes = {
             "arcana",
             "scholar",
             "jellyfish",
+            "sacrifice",
         ],
         absentResources: ["laser"],
         modifiers: [{ type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "scientist", amount: 3 }],

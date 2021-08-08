@@ -1078,9 +1078,9 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
     },
     sacrifice: {
         multiply: {
-            fish: 1.05,
-            sand: 1.05,
-            crystal: 1.05,
+            fish: 0.001,
+            sand: 0.001,
+            crystal: 0.001,
         },
     },
     // cool tooltip test shark

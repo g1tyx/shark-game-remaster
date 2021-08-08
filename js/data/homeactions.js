@@ -2946,6 +2946,23 @@ SharkGame.HomeActions = {
             helpText: "Examine the goop inside the stinging jellies! Discovery!",
         },
 
+        makeSacrifice: {
+            name: "Perform Arcane Sacrifice",
+            effect: {
+                resource: {
+                    sacrifice: 1,
+                },
+            },
+            cost: [{ resource: "arcana", costFunction: "constant", priceIncrease: 1 }],
+            max: "arcana",
+            prereq: {
+                upgrade: ["arcaneSacrifice"],
+            },
+            outcomes: [
+            ],
+            helpText: "",
+        },        
+
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
 
         transmuteSharkonium: {},
@@ -3350,10 +3367,12 @@ SharkGame.HomeActions = {
                 { resource: "crystal", costFunction: "linear", priceIncrease: 50 },
             ],
             max: "scholar",
-            prereq: {},
+            prereq: {
+                upgrade: ["arcaneStudy"],
+            },
             outcomes: [],
             multiOutcomes: [],
-            helpText: "Train a ray to study mystical artifacts.",
+            helpText: "Train a ray to study the mystical properties of arcana.",
         },
 
         // EEL JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3406,7 +3425,9 @@ SharkGame.HomeActions = {
                 { resource: "fish", costFunction: "linear", priceIncrease: 50 },
             ],
             max: "sifter",
-            prereq: {},
+            prereq: {
+                upgrade: ["arcaneSifting"],
+            },
             outcomes: [
                 "Eel sifter ready to find things!",
                 "Eel ready to sift through the sands!",
@@ -3437,7 +3458,9 @@ SharkGame.HomeActions = {
                 { resource: "jellyfish", costFunction: "linear", priceIncrease: 50 },
             ],
             max: "explorer",
-            prereq: {},
+            prereq: {
+                upgrade: ["abyssalEnigmas"],
+            },
             outcomes: [
                 "A seeker of mysteries is prepared.",
                 "The chimaera explorer is ready for their journey.",
@@ -3452,7 +3475,7 @@ SharkGame.HomeActions = {
                 "Find the truth beneath the waves!",
             ],
             helpText:
-                "Help prepare a chimaera for exploration to parts unknown. Their efforts will be good for science.",
+                "Help prepare a chimaera for exploration to parts unknown in search of the mysterious and elusive arcana.",
         },
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
@@ -3669,6 +3692,7 @@ SharkGame.HomeActionCategories = {
             "fuseDelphinium",
             "forgeSpronge",
             "fuseAncientPart",
+            "makeSacrifice",
         ],
     },
 

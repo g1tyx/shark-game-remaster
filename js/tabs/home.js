@@ -253,6 +253,11 @@ SharkGame.Home = {
                 message: "The crystals are easier to find, but the darkness makes it hard to find anything else.",
             },
             {
+                name: "shrouded-eel-onlookers",
+                unlock: { upgrade: ["crystalContainers"] },
+                message: "The eels chatter among their hiding places.<br>They like the sharks.",
+            },
+            {
                 name: "eel-one",
                 unlock: { resource: { eel: 10 }, homeAction: ["getEel"] },
                 message: "The eels chatter among their hiding places.<br>They like the sharks.",
