@@ -839,9 +839,9 @@ SharkGame.Resources = {
             statusDiv.prepend($("<div>").attr("id", "minute-hand-div"));
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
-            tableContainer.append($("<table>").attr("id", "resourceTable"));
+            resourceTable = $("<table>").attr("id", "resourceTable");
+            tableContainer.append(resourceTable);
             statusDiv.append(tableContainer);
-            resourceTable = $("#resourceTable");
         }
 
         // remove the table contents entirely
