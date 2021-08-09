@@ -2958,8 +2958,17 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["arcaneSacrifice"],
             },
-            outcomes: [],
-            helpText: "",
+            outcomes: [
+                "For the greater good.",
+                "For the good of us all.",
+                "The power within these shards is now ours.",
+                "The flash is dizzying, but the power is worth it.",
+                "The shards rupture into tiny pieces that disintegrate everywhere.",
+                "That familiar feeling.",
+                "Feel the power. Feel the flow of energy.",
+            ],
+            helpText:
+                "Smash large quantities of arcana to release the energy contained within, so that it might be used for the greater good.",
         },
 
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
@@ -3369,8 +3378,22 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["arcaneStudy"],
             },
-            outcomes: [],
-            multiOutcomes: [],
+            outcomes: [
+                "Study buddy!",
+                "Another scholar receives their doctorate in magical stuff.",
+                "The ray receives their degree.",
+                "The ray receives a certificate.",
+                "Ray, ready to learn!",
+                "Congratulations buddy, you've earned the right to speculate about weird fragment thingies!",
+            ],
+            multiOutcomes: [
+                "No, not ray scientists, scholars!",
+                "Curious minds begin to tinker and toy with the strange substance that composes arcana.",
+                "Just how much is there to learn about this stuff?",
+                "They don't do science. They do study.",
+                "The other side of the coin of research.",
+                "The scientists and the scholars rarely collaborate, so they form their own schools.",
+            ],
             helpText: "Train a ray to study the mystical properties of arcana.",
         },
 
@@ -3657,6 +3680,7 @@ SharkGame.HomeActionCategories = {
             "getScavenger",
             "getHistorian",
             "getExtractionTeam",
+            "getScholar",
         ],
     },
 

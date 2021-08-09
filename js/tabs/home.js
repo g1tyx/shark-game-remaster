@@ -288,13 +288,12 @@ SharkGame.Home = {
             {
                 name: "shrouded-essence",
                 unlock: { totalResource: { sacrifice: 1000000 } },
-                message:
-                    "The raw, tingling energy; it pulses through you like blood.<br>You no longer need light to see. You no longer need sound to hear.<br>You feel everything.",
+                message: "The raw, tingling energy of the shards pulses through you.",
             },
             {
                 name: "shrouded-end",
                 unlock: { upgrade: ["arcaneActivation"] },
-                message: "The gate opens. You feel it pulling, tugging at you.<br>It beckons.",
+                message: "The gate opens. It pulls, tugging at you.<br>The force is immense.",
             },
         ],
 

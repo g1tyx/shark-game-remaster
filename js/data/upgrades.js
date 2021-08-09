@@ -1995,7 +1995,7 @@ SharkGame.Upgrades = {
         chimaeraReunification: {
             name: "Chimaera Reunification",
             desc: "What are those things? Why do they look like sharks? Are they sharks? They're probably sharks. We should go say hi.",
-            researchedMessage: "Yeah, they're sharks alright. Sort of. Like, they're close enough!",
+            researchedMessage: "Yeah, they're sharks alright. Sort of. Like, they're close enough! Most say they're glad to see us.",
             effectDesc: "Chimaeras can be recruited. We sharks should stick together!",
             cost: {
                 science: 40000,
@@ -2058,8 +2058,6 @@ SharkGame.Upgrades = {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
-                    autoTransmuter: 2,
-                    skimmer: 2,
                     scientist: 4,
                 },
             },
@@ -2092,8 +2090,7 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["shroudedChasmExploration"],
                 seen: ["arcana"],
-            }, // add upgrade for divers again? or not?
-            // maybe not, given that the fish loop is now focused on sifters
+            },
         },
         arcaneStudy: {
             name: "Arcane Study",
@@ -2137,7 +2134,7 @@ SharkGame.Upgrades = {
                 "Further study has revealed arcana to be incredibly electrically conductive. We can't really make circuits out of them, but...well, there's this other idea...",
             researchedMessage:
                 "We've developed special tools that technically-inclined electric eels can use to pump bioelectricity directly into machines! Brilliant?",
-            effectDesc: "Machines are four times as effective.",
+            effectDesc: "Machines are four times as effective. Eel-harnessed energy is weird, but practical.",
             cost: {
                 sharkonium: 200000,
                 arcana: 2000,
@@ -2186,10 +2183,11 @@ SharkGame.Upgrades = {
         ancestralRecall: {
             name: "Ancestral Recall",
             desc:
-                "The sharks and rays know we share some features among ourselves. Using the vague glimpses of dreams, let's piece together the puzzle.",
-            researchedMessage: "",
+                "The sharks and rays, and even chimaeras, know we share some features among ourselves. Using the strange tales passed down by chimaeras, let's piece together the puzzle.",
+            researchedMessage:
+                "These tales speak plainly about a frenzy not unlike our own, it seems. It's said that what came of it was glorious, but all of the specifics have been lost to time, it seems.",
             effectDesc:
-                "Sharks, rays and chimaeras, and their roles, are all four times as effective. We have had a glorious past. Now, on to a glorious future.",
+                "Sharks, rays and chimaeras, and their roles, are all four times as effective. Except divers. They're 16 times as effective. We have had a glorious past. Now, on to a glorious future.",
             cost: {
                 science: 2e7,
             },
@@ -2199,7 +2197,7 @@ SharkGame.Upgrades = {
             effect: {
                 incomeMultiplier: {
                     shark: 4,
-                    diver: 4,
+                    diver: 16,
                     scientist: 4,
                     nurse: 4,
                     ray: 4,
@@ -2232,11 +2230,13 @@ SharkGame.Upgrades = {
         },
         arcaneActivation: {
             name: "Arcane Activation",
-            desc: "u win lol placeholder text here",
-            researchedMessage: "",
-            effectDesc: "",
+            desc: "The gate beckons.",
+            researchedMessage:
+                "The power of the arcana flashes away in a blinding light as it is smashed. When we open our eyes again, gate has been brought to life.",
+            effectDesc: "...",
             cost: {
                 science: 2e10,
+                arcana: 250000,
             },
             required: {
                 upgrades: ["arcaneSacrifice"],
