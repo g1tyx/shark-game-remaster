@@ -460,7 +460,7 @@ SharkGame.ResourceTable = {
         singleName: "chimaera explorer",
         color: "#979985",
         income: {
-            arcana: 0.01,
+            arcana: 0.004,
         },
         value: 3000,
     },
@@ -493,7 +493,7 @@ SharkGame.ResourceTable = {
         color: "#A3915A",
         income: {
             sand: 5,
-            arcana: 0.01,
+            arcana: 0.001,
         },
         value: 3000,
     },
@@ -791,7 +791,7 @@ SharkGame.ResourceTable = {
         name: "jellyfish",
         singleName: "jellyfish",
         color: "#E3B8FF",
-        value: 10,
+        value: 150,
     },
 
     clam: {
@@ -1081,6 +1081,7 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
             fish: 0.001,
             sand: 0.001,
             crystal: 0.001,
+            jellyfish: 0.001,
         },
     },
     // cool tooltip test shark

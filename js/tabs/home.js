@@ -255,18 +255,46 @@ SharkGame.Home = {
             {
                 name: "shrouded-eel-onlookers",
                 unlock: { upgrade: ["crystalContainers"] },
+                message: "Divers have reported sightings of 'dangerous' wiggly things on the ocean floor.<br>What on earth...?",
+            },
+            {
+                name: "shrouded-eels",
+                unlock: { totalResource: { eel: 1 } },
                 message: "The eels chatter among their hiding places.<br>They like the sharks.",
             },
             {
-                name: "eel-one",
-                unlock: { resource: { eel: 10 }, homeAction: ["getEel"] },
-                message: "The eels chatter among their hiding places.<br>They like the sharks.",
+                name: "shrouded-distant-chimaeras",
+                unlock: { upgrade: ["exploration"] },
+                message: "In the fog of darkness, the shapes of strange creatures can be made out.<br>They dart away when light approaches.",
             },
             {
-                name: "chimaera-one",
-                unlock: { resource: { chimaera: 5 }, homeAction: ["getChimaera"] },
+                name: "shrouded-chimaeras",
+                unlock: { totalResource: { chimaera: 1 } },
                 message:
                     "The chimaeras are ancient kin of the shark kind, reunited through wild coincidence.<br>What peerless wonders have they found in the dark?",
+            },
+            {
+                name: "shrouded-arcana",
+                unlock: { totalResource: { arcana: 5 } },
+                message:
+                    "These hadal artifacts glow faintly, only in pitch blackness.<br>That glow makes you feel something that you don't understand.",
+            },
+            {
+                name: "shrouded-power",
+                unlock: { totalResource: { sacrifice: 100 } },
+                message:
+                    "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice.<br>The sharp snap of broken arcana echoes in your mind.",
+            },
+            {
+                name: "shrouded-essence",
+                unlock: { totalResource: { sacrifice: 1000000 } },
+                message:
+                    "The raw, tingling energy; it pulses through you like blood.<br>You no longer need light to see. You no longer need sound to hear.<br>You feel everything.",
+            },
+            {
+                name: "shrouded-end",
+                unlock: { upgrade: ["arcaneActivation"] },
+                message: "The gate opens. You feel it pulling, tugging at you.<br>It beckons.",
             },
         ],
 

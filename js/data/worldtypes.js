@@ -265,16 +265,9 @@ SharkGame.WorldTypes = {
             "sacrifice",
         ],
         absentResources: ["laser"],
-        modifiers: [{ type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "scientist", amount: 3 }],
+        modifiers: [{ type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "scientist", amount: 1 }],
         gateRequirements: {
-            slots: {
-                jellyfish: 1e7,
-                clam: 1e6,
-                crystal: 1e8,
-                science: 1e7,
-                sharkonium: 1e7,
-                fish: 1e7,
-            },
+            upgrades: ["arcaneActivation"],
         },
     },
     frigid: {

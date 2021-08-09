@@ -2925,7 +2925,7 @@ SharkGame.HomeActions = {
             name: "Dismantle jellyfish",
             effect: {
                 resource: {
-                    science: 2,
+                    science: 4,
                 },
             },
             cost: [{ resource: "jellyfish", costFunction: "constant", priceIncrease: 1 }],
@@ -2958,10 +2958,9 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["arcaneSacrifice"],
             },
-            outcomes: [
-            ],
+            outcomes: [],
             helpText: "",
-        },        
+        },
 
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
 
@@ -3042,7 +3041,7 @@ SharkGame.HomeActions = {
             max: "ray",
             prereq: {
                 resource: {
-                    shark: 4,
+                    shark: 8,
                 },
             },
             outcomes: [
@@ -3162,7 +3161,7 @@ SharkGame.HomeActions = {
                 resource: {
                     jellyfish: 20,
                 },
-                upgrade: ["jellyfishHunting"],
+                upgrade: ["chimaeraReunification"],
             },
             outcomes: [
                 "A ploughnose chimaera joins you.",
@@ -3364,7 +3363,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "ray", costFunction: "constant", priceIncrease: 1 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 50 },
+                { resource: "crystal", costFunction: "linear", priceIncrease: 250 },
             ],
             max: "scholar",
             prereq: {
@@ -3422,7 +3421,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "eel", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 50 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 1000 },
             ],
             max: "sifter",
             prereq: {
