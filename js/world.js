@@ -30,8 +30,6 @@ SharkGame.World = {
         SharkGame.ResourceMap.forEach((_resourceData, resourceName) => {
             worldResources.set(resourceName, {});
             worldResources.get(resourceName).exists = true;
-            worldResources.get(resourceName).income = 0;
-            worldResources.get(resourceName).aspectMultiplier = 1;
         });
     },
 

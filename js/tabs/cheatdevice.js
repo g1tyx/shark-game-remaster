@@ -122,7 +122,8 @@ SharkGame.CheatsAndDebug = {
     },
 
     init() {
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
+        main.applyProgressionSpeed();
     },
 
     switchTo() {
@@ -246,7 +247,7 @@ SharkGame.CheatsAndDebug = {
     discoverAll() {
         $.each(SharkGame.Tabs, (tabName) => {
             if (tabName !== "current") {
-                main.discoverTab(tabName);
+                SharkGame.TabHandler.discoverTab(tabName);
             }
         });
     },
@@ -271,7 +272,7 @@ SharkGame.CheatsAndDebug = {
         if (SharkGame.Tabs.current === "cheats") {
             SharkGame.Tabs.current = "home";
         }
-        main.setUpTab();
+        SharkGame.TabHandler.setUpTab();
     },
 
     toggleDebugButton() {
@@ -526,7 +527,7 @@ SharkGame.CheatsAndDebug = {
                 }
                 return "Rolled a thirteen, but fish don't exist, so nothing happened.";
             case 14:
-                if (world.worldResources.get("crab").exists) {
+                if (world.doesResourceExist("crab")) {
                     world.worldResources.get("crab").exists = false;
                     res.setResource("crab", 0);
                     res.setTotalResource("crab", 0);
@@ -556,7 +557,7 @@ SharkGame.CheatsAndDebug = {
                         delete SharkGame.HomeActions.generated[world.worldType].getCollector;
                         delete SharkGame.HomeActions.generated[world.worldType].getExtractionTeam;
                     }
-                    main.setUpTab();
+                    SharkGame.TabHandler.setUpTab();
                     return "Rolled a fourteen. What are you talking about? Crabs aren't real. There were never crabs to begin with.";
                 }
                 return "Rolled a fourteen, but crabs don't exist, so nothing happened.";

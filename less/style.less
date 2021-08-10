@@ -643,6 +643,8 @@ pre {
         padding: 0.1em;
         word-break: break-all;
         word-wrap: break-word;
+        background-repeat: no-repeat;
+        background-position: right;
     }
 
     ul {
@@ -1629,4 +1631,46 @@ button.planetButton {
             max-width: 1.5em;
         }
     }
+}
+
+.marker {
+    margin: 0.5em 0 0.5em 0.5em;
+}
+
+#marker-div {
+    display: flex;
+}
+
+#minute-hand-toggle {
+    &.disabled {
+        text-shadow: none;
+    }
+}
+
+.minuteOn {
+    color: #fff;
+    text-shadow: 0 0 0.6em @color-numen;
+}
+
+.minuteOff {
+    color: #fff;
+}
+
+.bigSpeedHeader {
+    font-size: 2em;
+}
+
+.speedButtons {
+    display: flex;
+
+    button {
+        margin: 1em;
+        width: 6em;
+        height: 17em;
+    }
+}
+
+#aspectInnerWarning {
+    padding-top: 1em;
+    padding-bottom: 1em;
 }

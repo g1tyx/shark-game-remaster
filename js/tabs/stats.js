@@ -21,7 +21,7 @@ SharkGame.Stats = {
         "</br>Disposing specialists returns them to their normal, previous lives.",
 
     init() {
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
         stats.recreateIncomeTable = true;
     },
 
@@ -324,7 +324,7 @@ SharkGame.Stats = {
                 }
 
                 $.each(generatorData.income, (incomeKey, incomeValue) => {
-                    if (world.doesResourceExist(incomeKey) && res.getTotalResource(incomeKey) > 0 && incomeValue !== 0) {
+                    if (world.doesResourceExist(incomeKey) && SharkGame.FlippedBreakdownIncomeTable.get(incomeKey) && incomeValue !== 0) {
                         if (SharkGame.Settings.current.switchStats) {
                             // Switch it!
                             if (!drawnResourceMap.has(incomeKey)) {

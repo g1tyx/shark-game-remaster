@@ -29,7 +29,7 @@ SharkGame.Home = {
             },
             {
                 name: "start-ray",
-                unlock: { resource: { fish: 15 } },
+                unlock: { resource: { shark: 4 } },
                 message: "Some rays drift over.",
             },
             {
@@ -39,7 +39,7 @@ SharkGame.Home = {
             },
             {
                 name: "start-crab",
-                unlock: { resource: { shark: 4, ray: 4 } },
+                unlock: { resource: { shark: 9, ray: 4 } },
                 message: "Some curious crabs come over.",
             },
             {
@@ -115,7 +115,8 @@ SharkGame.Home = {
             {
                 name: "haven-dolphins",
                 unlock: { totalResource: { dolphin: 1 }, homeAction: ["getDolphin"] },
-                message: "A dolphin joins the frenzy.<br/>It already wants a raise. Wow.",
+                message:
+                    "A dolphin joins the frenzy. We told it to go get fish, but it came back with coral.<br>It insists that the coral is more valuable.",
             },
             {
                 name: "haven-dolphin-empire",
@@ -252,15 +253,47 @@ SharkGame.Home = {
                 message: "The crystals are easier to find, but the darkness makes it hard to find anything else.",
             },
             {
-                name: "eel-one",
-                unlock: { resource: { eel: 10 }, homeAction: ["getEel"] },
+                name: "shrouded-eel-onlookers",
+                unlock: { upgrade: ["crystalContainer"] },
+                message: "Divers have reported sightings of 'skittish', wiggly creatures on the ocean floor.<br>What on earth...?",
+            },
+            {
+                name: "shrouded-eels",
+                unlock: { totalResource: { eel: 1 } },
                 message: "The eels chatter among their hiding places.<br>They like the sharks.",
             },
             {
-                name: "chimaera-one",
-                unlock: { resource: { chimaera: 5 }, homeAction: ["getChimaera"] },
+                name: "shrouded-distant-chimaeras",
+                unlock: { upgrade: ["exploration"] },
+                message: "In the fog of darkness, the shapes of strange creatures can be made out.<br>They dart away when light approaches.",
+            },
+            {
+                name: "shrouded-chimaeras",
+                unlock: { totalResource: { chimaera: 1 } },
                 message:
-                    "The chimaeras are ancient kin of the shark kind, reunited through wild coincidence.<br>What peerless wonders have they found in the dark?",
+                    "The chimaeras imply they are ancient kin of the shark kind, reunited through wild coincidence.<br>We don't understand, but they seem to think we do.",
+            },
+            {
+                name: "shrouded-arcana",
+                unlock: { totalResource: { arcana: 5 } },
+                message:
+                    "These hadal artifacts glow faintly, only in pitch blackness.<br>That glow makes you feel something that you don't understand.",
+            },
+            {
+                name: "shrouded-power",
+                unlock: { totalResource: { sacrifice: 100 } },
+                message:
+                    "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice.<br>The sharp snap of broken arcana echoes in your mind.",
+            },
+            {
+                name: "shrouded-essence",
+                unlock: { totalResource: { sacrifice: 1000000 } },
+                message: "The raw, tingling energy of the shards pulses through you.",
+            },
+            {
+                name: "shrouded-end",
+                unlock: { upgrade: ["arcaneActivation"] },
+                message: "The gate opens. It pulls, tugging at you.<br>The force is immense.",
             },
         ],
 
@@ -348,7 +381,7 @@ SharkGame.Home = {
         const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
         home.tabName = tabName;
 
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
 
         // populate action discoveries (and reset removals)
         _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
@@ -830,10 +863,11 @@ SharkGame.Home = {
         button.addClass("disabled");
     },
 
-    onHomeHover(_mouseEnterEvent, actionName) {
-        if (!SharkGame.Settings.current.showTooltips) {
+    onHomeHover(mouseEnterEvent, actionName) {
+        if (!SharkGame.Settings.current.showTooltips || (!actionName && !mouseEnterEvent)) {
             return;
         }
+
         if (!actionName) {
             const button = $(this);
             actionName = button.attr("id");

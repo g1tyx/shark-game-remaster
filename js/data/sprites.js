@@ -211,7 +211,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "chimaera-one": {
+    "shrouded-chimaeras": {
         frame: {
             x: 810,
             y: 410,
@@ -291,7 +291,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "eel-one": {
+    "shrouded-eels": {
         frame: {
             x: 406,
             y: 614,
@@ -1506,6 +1506,22 @@ SharkGame.Sprites = {
     },
     "general/missing-technology": {
         frame: { x: 1336, y: 2, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "general/holeoverlay": {
+        frame: { x: 2396, y: 28, w: 28, h: 28 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "general/theMarker": {
+        frame: { x: 2396, y: 0, w: 28, h: 28 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },

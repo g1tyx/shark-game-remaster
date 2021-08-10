@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded"],
 
     completedWorlds: [],
 
@@ -17,18 +17,27 @@ SharkGame.Gateway = {
     },
 
     enterGate(loadingFromSave) {
+        SharkGame.PaneHandler.wipeStack();
         // award essence (and mark world completion)
         let essenceReward = 0;
+        let patienceReward = 0;
         if (!loadingFromSave) {
             if (SharkGame.wonGame) {
                 essenceReward = 4;
                 gateway.markWorldCompleted(world.worldType);
                 SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
                 gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
+
+                if (SharkGame.persistentFlags.patience) {
+                    SharkGame.persistentFlags.patience -= 1;
+                    if (SharkGame.persistentFlags.patience === 0) {
+                        patienceReward += 2 * (SharkGame.Aspects.patience.level + 1) ** 2;
+                    }
+                }
             } else {
                 essenceReward = 0;
             }
-            res.changeResource("essence", essenceReward);
+            res.changeResource("essence", essenceReward + patienceReward);
         }
 
         if (this.planetPool.length === 0) {
@@ -48,7 +57,7 @@ SharkGame.Gateway = {
         // set up classes
         let pane;
         if (!SharkGame.paneGenerated) {
-            pane = main.buildPane();
+            pane = SharkGame.PaneHandler.buildPane();
         } else {
             pane = $("#pane");
         }
@@ -59,6 +68,7 @@ SharkGame.Gateway = {
 
         // make overlay opaque
         if (SharkGame.Settings.current.showAnimations) {
+            gateway.transitioning = true;
             overlay
                 .show()
                 .css("opacity", 0)
@@ -71,13 +81,13 @@ SharkGame.Gateway = {
                     () => {
                         // put back to 4000
                         gateway.cleanUp();
-                        gateway.showGateway(essenceReward);
+                        gateway.showGateway(essenceReward, patienceReward);
                     }
                 );
         } else {
             overlay.show().css("opacity", 1.0);
             gateway.cleanUp();
-            gateway.showGateway(essenceReward);
+            gateway.showGateway(essenceReward, patienceReward);
         }
     },
 
@@ -86,7 +96,7 @@ SharkGame.Gateway = {
         main.purgeGame();
     },
 
-    showGateway(essenceRewarded) {
+    showGateway(essenceRewarded, patienceReward) {
         // get some useful numbers
         const essenceHeld = res.getResource("essence");
         const numenHeld = res.getResource("numen");
@@ -107,6 +117,24 @@ SharkGame.Gateway = {
                         "</span> essence."
                 )
             );
+        }
+        if (patienceReward > 0) {
+            gatewayContent.append(
+                $("<p>").html(
+                    "Your patience pays off, granting you <span class='essenceCount'>" + sharktext.beautify(patienceReward) + "</span> essence."
+                )
+            );
+        } else {
+            if (SharkGame.persistentFlags.patience) {
+                gatewayContent.append(
+                    $("<p>").html(
+                        SharkGame.persistentFlags.patience +
+                            " more world" +
+                            (SharkGame.persistentFlags.patience > 1 ? "s" : "") +
+                            " until your patience pays off."
+                    )
+                );
+            }
         }
         gatewayContent.append(
             $("<p>").html(
@@ -135,13 +163,17 @@ SharkGame.Gateway = {
         SharkGame.Button.makeButton("backToGateway", "aspects", navButtons, () => {
             gateway.switchViews(gateway.showAspects);
         });
+        SharkGame.Button.makeButton("backToGateway", "options", navButtons, SharkGame.PaneHandler.showOptions);
         SharkGame.Button.makeButton("backToGateway", "worlds", navButtons, () => {
             gateway.switchViews(gateway.showPlanets);
         });
         gatewayContent.append(navButtons);
 
-        main.showPane("GATEWAY", gatewayContent, true, 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("GATEWAY", gatewayContent, true, 500, true);
         gateway.transitioning = false;
+        if (SharkGame.persistentFlags.missingAspects) {
+            SharkGame.PaneHandler.showAspectWarning();
+        }
     },
 
     showRunEndInfo(containerDiv) {
@@ -168,9 +200,10 @@ SharkGame.Gateway = {
         // add return to gateway button
         SharkGame.Button.makeButton("backToGateway", "return to gateway", aspectTreeContent, () => {
             gateway.switchViews(gateway.showGateway);
+            $("#tooltipbox").empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         });
 
-        main.showPane("ASPECT TREE", aspectTreeContent, true, 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("ASPECT TREE", aspectTreeContent, true, 500, true);
 
         gateway.transitioning = false;
     },
@@ -207,7 +240,7 @@ SharkGame.Gateway = {
         });
         planetSelectionContent.append(returnButtonDiv);
 
-        main.showPane("WORLDS", planetSelectionContent, true, foregoAnimation ? 0 : 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("WORLDS", planetSelectionContent, true, foregoAnimation ? 0 : 500, true);
         gateway.transitioning = false;
         gateway.updatePlanetButtons();
         gateway.formatDestinyGamble();
@@ -273,7 +306,7 @@ SharkGame.Gateway = {
         });
         gatewayContent.append(returnButtonDiv);
 
-        main.showPane("CONFIRM", gatewayContent, true, 500, true);
+        SharkGame.PaneHandler.swapCurrentPane("CONFIRM", gatewayContent, true, 500, true);
         gateway.transitioning = false;
     },
 
@@ -538,7 +571,6 @@ SharkGame.Gateway.Messages = {
         },
     ],
     lastPlanetBased: {
-        // working on changing this section
         start: [
             "What brings you here, strange one?",
             "Hello, newcomer.",
@@ -551,7 +583,6 @@ SharkGame.Gateway.Messages = {
             "Do you bring life, or do you bring death, worldbuilder?",
             "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-            "You seem surprised. Did this not happen to your own home?",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
@@ -566,6 +597,8 @@ SharkGame.Gateway.Messages = {
             "Charge through the whirlpool. Give no quarter to the storm.",
             "The swordfish feared your presence, with good reason.",
             "The revolt was unavoidable. It was merely a matter of time.",
+            "Do you wonder why the swordfish obeyed out of fear?",
+            "Who is it that the swordfish are so afraid of?",
         ],
         violent: [
             "The boiling ocean only stirred you on.",
@@ -573,6 +606,7 @@ SharkGame.Gateway.Messages = {
             "The shrimp are no simpletons. They are merely focused.",
             "This environment is ideal for life. Just not for your kind.",
             "Do you wonder how the shrimp learned to become something more?",
+            "The shrimp are intolerant of the ways of industry. Remember: that is okay.",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",
@@ -583,7 +617,6 @@ SharkGame.Gateway.Messages = {
             "Did the chimaeras recognise who you were?",
             "What did you learn from the dark world?",
             "To fall into darkness is easy, but to escape it is another story.",
-            "Who brought darkness to this place? Or, was it always like this?",
             "Such strange forces guide the chimaeras, just as strange forces guide you.",
         ],
         frigid: [
@@ -605,6 +638,7 @@ SharkGame.Gateway.Messages = {
         "You wish to get back here so quickly?",
         "You and everything you knew has died. Perhaps not you. Perhaps not.",
         "One more try, perhaps?",
+        "Excellence is pure habit. We are what we repeatedly do.",
     ],
     generic: [
         "There is no warmth or cold here. Only numbness.",

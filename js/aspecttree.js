@@ -193,6 +193,11 @@ SharkGame.AspectTree = {
         const offset = tree.cameraOffset;
         const zoom = tree.cameraZoom;
 
+        // this fixes one piece of the sticky tooltip bug on the tree
+        if (gateway.transitioning) {
+            return;
+        }
+
         const staticButton = _.find(tree.staticButtons, ({ posX, posY, width, height }) => {
             return mousePos.posX - posX >= 0 && mousePos.posY - posY >= 0 && mousePos.posX - posX <= width && mousePos.posY - posY <= height;
         });

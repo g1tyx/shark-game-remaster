@@ -25,7 +25,7 @@ SharkGame.Lab = {
 
     init() {
         const lab = SharkGame.Lab;
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
         // add default purchased state to each upgrade
         lab.resetUpgrades();
     },

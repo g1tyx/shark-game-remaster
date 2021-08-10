@@ -201,6 +201,25 @@ SharkGame.ModifierTypes = {
                     return input;
                 },
             },
+            addJellyIncome: {
+                defaultValue: 0,
+                apply(current, degree, resource) {
+                    const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
+                    baseIncomes.jellyfish = (baseIncomes.jellyfish ? baseIncomes.jellyfish : 0) + degree;
+                    res.reapplyModifiers(resource, "jellyfish");
+                    return current + degree;
+                },
+                effectDescription(_degree, _resource) {
+                    return "";
+                },
+                getEffect(_genDegree, _outDegree, _gen, _out) {
+                    return 1;
+                },
+                applyToInput(input, _genDegree, _outDegree, _gen, _out) {
+                    // this applies to base income so it should never be reapplied
+                    return input;
+                },
+            },
         },
     },
 
@@ -353,7 +372,7 @@ SharkGame.ModifierTypes = {
 
     aspect: {
         multiplier: {
-            pathOfIndustry: {
+            /* pathOfIndustry: {
                 defaultValue: 0,
                 apply(_current, degree, resource) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
@@ -417,6 +436,47 @@ SharkGame.ModifierTypes = {
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, _out) {
                     return input * (genDegree + 1);
+                },
+            }, */
+            theMarkerForGenerators: {
+                defaultValue: 1,
+                apply(current, degree, resource) {
+                    const incomes = SharkGame.ResourceMap.get(resource).income;
+                    $.each(incomes, (resourceId, income) => {
+                        incomes[resourceId] = income * degree;
+                    });
+                    return current * degree;
+                },
+                effectDescription(degree, resource) {
+                    return sharktext.getResourceName(resource) + " speed x " + degree;
+                },
+                getEffect(genDegree, _outDegree, gen, out) {
+                    return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? genDegree : 1;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, _out) {
+                    return input * genDegree;
+                },
+            },
+            theMarkerForResources: {
+                defaultValue: 1,
+                apply(current, degree, boostedResource) {
+                    SharkGame.ResourceMap.forEach((generatingResource) => {
+                        $.each(generatingResource.income, (generatedResource, amount) => {
+                            if (generatedResource === boostedResource && amount > 0) {
+                                generatingResource.income[generatedResource] = amount * degree;
+                            }
+                        });
+                    });
+                    return current * degree;
+                },
+                effectDescription(degree, resource) {
+                    return "All " + sharktext.getResourceName(resource) + " production x " + degree;
+                },
+                getEffect(_genDegree, outDegree, gen, out) {
+                    return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? outDegree : 1;
+                },
+                applyToInput(input, _genDegree, outDegree, _gen, _out) {
+                    return input * outDegree;
                 },
             },
         },

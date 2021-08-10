@@ -31,7 +31,8 @@ SharkGame.Resources = {
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
             // create the baseIncome data
             if (resource.income) {
-                resource.baseIncome = _.cloneDeep(resource.income);
+                resource.baseIncome = {};
+                Object.defineProperties(resource.baseIncome, Object.getOwnPropertyDescriptors(SharkGame.ResourceTable[resourceId].income));
             }
 
             // create the playerresources map
@@ -205,11 +206,8 @@ SharkGame.Resources = {
             SharkGame.PlayerIncomeTable.set(resourceId, 0);
         });
 
-        const worldResources = world.worldResources;
-
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
-            const worldResourceInfo = worldResources.get(resourceId);
-            if (worldResourceInfo.exists) {
+            if (world.doesResourceExist(resourceId)) {
                 // for this resource, calculate the income it generates
                 if (resource.income) {
                     let costScaling = 1;
@@ -420,7 +418,8 @@ SharkGame.Resources = {
     },
 
     haveAnyResources() {
-        for (const [, resource] of SharkGame.PlayerResources) {
+        for (const [resourceName, resource] of SharkGame.PlayerResources) {
+            if (resourceName === "world") continue;
             if (resource.totalAmount > 0) return true;
         }
         return false;
@@ -472,7 +471,13 @@ SharkGame.Resources = {
                 if (Math.abs(income) > SharkGame.EPSILON) {
                     const changeChar = income > 0 ? "+" : "";
                     const newIncome =
-                        "⠀" + "<span style='color:" + res.INCOME_COLOR + "'>" + changeChar + sharktext.beautifyIncome(income) + "</span>";
+                        "⠀" +
+                        "<span class='click-passthrough' style='color:" +
+                        res.INCOME_COLOR +
+                        "'>" +
+                        changeChar +
+                        sharktext.beautifyIncome(income) +
+                        "</span>";
                     const oldIncome = $("#income-" + resourceName).html();
                     if (oldIncome !== newIncome.replace(/'/g, '"')) {
                         $("#income-" + resourceName).html(newIncome);
@@ -482,6 +487,337 @@ SharkGame.Resources = {
                 }
             });
         }
+    },
+
+    markers: {
+        list: [],
+        chromeForcesWorkarounds: "",
+
+        init() {
+            if (!SharkGame.flags.markers) {
+                SharkGame.flags.markers = {};
+            }
+
+            this.list = [];
+
+            if (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
+                while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
+                    this.makeMarker();
+                }
+            }
+
+            _.each(this.list, (marker) => {
+                if (!SharkGame.flags.markers[marker.attr("id")]) {
+                    SharkGame.flags.markers[marker.attr("id")] = "NA";
+                }
+                $("#marker-div").append(
+                    marker
+                        .on("dragstart", res.markers.handleMarkerDragStart)
+                        .on("dragover", (event) => {
+                            event.originalEvent.preventDefault();
+                        })
+                        .on("dragend", res.markers.handleDragEnd)
+                        .on("drop", res.markers.dropMarker)
+                        .on("click", res.markers.tryReturnMarker)
+                        .on("mouseenter", res.markers.tooltip)
+                        .on("mouseleave", res.tableTextLeave)
+                );
+                if (
+                    SharkGame.flags.markers[marker.attr("id")] !== "NA" &&
+                    world.doesResourceExist(SharkGame.flags.markers[marker.attr("id")].split("-")[1])
+                ) {
+                    res.markers.markLocation(marker.attr("id"), SharkGame.flags.markers[marker.attr("id")]);
+                    res.markers.unmarkLocation("NA", marker.attr("id"));
+                } else {
+                    res.markers.tryReturnMarker(null, true, marker);
+                }
+            });
+        },
+
+        makeMarker(type = "nobody cares", initialLocation = "NA") {
+            const identifier = "marker-" + this.list.length;
+            const marker = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", null, "general/missing-action")
+                .attr("id", identifier)
+                .attr("type", type)
+                .attr("draggable", true)
+                .addClass("marker");
+            this.list.push(marker);
+            if (!SharkGame.flags.markers[identifier]) {
+                SharkGame.flags.markers[identifier] = initialLocation;
+            }
+            return marker;
+        },
+
+        tooltip(_event) {
+            if (SharkGame.flags.markers[this.id] === "NA") {
+                $("#tooltipbox")
+                    .html(sharktext.boldString("Click and drag this marker onto resources or incomes to increase their production."))
+                    .addClass("forHomeButtonOrGrotto");
+            } else {
+                $("#tooltipbox").html(sharktext.boldString("Click this slot to return the marker to it.")).addClass("forHomeButtonOrGrotto");
+            }
+        },
+
+        tryReturnMarker(_event, duringLoad, marker = $("#" + this.id)) {
+            if (!marker.length) {
+                log.addError("Tried to return marker, but couldn't find it!");
+                log.addError("Tried to find this marker: " + marker.attr("id"));
+                return;
+            }
+            if (SharkGame.flags.markers[marker.attr("id")] !== "NA") {
+                if (!duringLoad) {
+                    res.markers.unmarkLocation(SharkGame.flags.markers[marker.attr("id")], marker.attr("id"));
+                }
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");
+                marker.attr("draggable", true);
+                SharkGame.flags.markers[marker.attr("id")] = "NA";
+                res.tableTextLeave();
+            }
+        },
+
+        handleMarkerDragStart(event) {
+            event.originalEvent.dataTransfer.setData("markerId", event.originalEvent.target.id);
+            //chrome forcing stinky workaround
+            res.markers.chromeForcesWorkarounds = event.originalEvent.target.id;
+            //event.originalEvent.dataTransfer.setData("markerType", event.originalEvent.target.type);
+            event.originalEvent.dataTransfer.setData("markerLocation", SharkGame.flags.markers[this.id]);
+            const image = document.createElement("img");
+            image.src = "img/raw/general/theMarker.png";
+            event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
+            res.tableTextLeave();
+        },
+
+        handleResourceDragStart(event) {
+            event.originalEvent.dataTransfer.setData("markerId", $("#" + this.id).attr("markerId"));
+            res.markers.chromeForcesWorkarounds = $("#" + this.id).attr("markerId");
+            event.originalEvent.dataTransfer.setData("markerLocation", event.originalEvent.target.id);
+            const image = document.createElement("img");
+            image.src = "img/raw/general/theMarker.png";
+            event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
+            res.tableTextLeave();
+        },
+
+        handleDragEnd(_event) {
+            res.markers.chromeForcesWorkarounds = "";
+        },
+
+        toggleColorfulDropZones() {},
+
+        reapplyMarker(marker) {
+            if (SharkGame.flags.markers) {
+                $("#" + SharkGame.flags.markers[marker.attr("id")])
+                    .css("background-image", "url(img/raw/general/theMarker.png)")
+                    .attr("draggable", true)
+                    .attr("markerId", marker.attr("id"));
+            }
+        },
+
+        dropMarker(event) {
+            res.tableTextLeave();
+            const originalMarkerId = event.originalEvent.dataTransfer.getData("markerId");
+            const previousLocation = event.originalEvent.dataTransfer.getData("markerLocation");
+
+            res.markers.unmarkLocation(previousLocation, originalMarkerId);
+
+            if (this.id.includes("marker") && this.id !== originalMarkerId) {
+                res.markers.markLocation(originalMarkerId, originalMarkerId);
+            } else {
+                res.markers.markLocation(originalMarkerId, this.id);
+            }
+            res.updateResourcesTable();
+        },
+
+        markLocation(originalId, newId) {
+            res.markers.applyMarkerEffect(newId, originalId, "apply");
+            if (newId.includes("marker")) {
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + newId), "general/missing-action");
+                $("#" + newId).attr("draggable", true);
+                SharkGame.flags.markers[newId] = "NA";
+            } else {
+                $("#" + newId)
+                    .css("background-image", "url(img/raw/general/theMarker.png)")
+                    .attr("draggable", true)
+                    .attr("markerId", originalId);
+                SharkGame.flags.markers[originalId] = newId;
+            }
+        },
+
+        unmarkLocation(locationPrevious, id) {
+            if (locationPrevious === "NA") {
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/holeoverlay", $("#" + id), "general/missing-action");
+                $("#" + id).attr("draggable", false);
+            } else {
+                $("#" + locationPrevious)
+                    .attr("draggable", false)
+                    .attr("markerId", "")
+                    .css("background-image", "");
+            }
+            res.markers.applyMarkerEffect(locationPrevious, id, "reverse");
+        },
+
+        applyMarkerEffect(targetId, _id, reverseOrApply = "apply") {
+            const multiplier = SharkGame.Aspects.coordinatedCooperation.level + 2;
+            if (targetId === "NA" || targetId.includes("marker")) {
+                return;
+            } else if (targetId.includes("resource")) {
+                res.applyModifier("theMarkerForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
+            } else if (targetId.includes("income")) {
+                res.applyModifier("theMarkerForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
+            } else {
+                SharkGame.Log.addError("Tried to apply marker effect, but couldn't understand the location!");
+                SharkGame.Log.addError("Location was: " + targetId);
+            }
+        },
+
+        canBePlacedOn(placedOnWhat) {
+            const resource = placedOnWhat.split("-")[1];
+            if (placedOnWhat.includes("resource")) {
+                return !$("#" + placedOnWhat).attr("markerId") && SharkGame.ResourceMap.get(resource).income;
+            } else if (placedOnWhat.includes("income")) {
+                return !$("#" + placedOnWhat).attr("markerId") && SharkGame.PlayerIncomeTable.get(resource);
+            }
+        },
+
+        tryClickToPlace(event) {
+            const textId = event.originalEvent.target.id;
+            if (res.markers.canBePlacedOn(textId)) {
+                $.each(SharkGame.flags.markers, (markerId, currentLocation) => {
+                    if (currentLocation === "NA") {
+                        res.markers.markLocation(markerId, textId);
+                        res.markers.unmarkLocation("NA", markerId);
+                        return false;
+                    }
+                });
+            } else if ($("#" + textId).attr("markerId")) {
+                res.markers.markLocation($("#" + textId).attr("markerId"), $("#" + textId).attr("markerId"));
+                res.markers.unmarkLocation(textId, $("#" + textId).attr("markerId"));
+            }
+        },
+    },
+
+    minuteHand: {
+        active: false,
+        onMessages: [
+            "Time warps around you.",
+            "Everything seems to get faster.",
+            "Your vision warps as time bends.",
+            "The hands of a nearby clock speed up.",
+            "Frenzy members acclerate around you.",
+            "You feel strange. Everything feels wrong. It's so fast.",
+            "A strange feeling washes over you, and everything around you speeds up.",
+            "You feel your mind twisting. Churning. Everything seems so fast.",
+            "Things start piling up around you. You can't even tell who's doing it.",
+            "You feel a crushing weight on your mind, and everything seems to get faster.",
+            "You feel groggy. Everything speeds up.",
+            "You can barely understand what's happening around you anymore. The speed is jarring.",
+            "You feel sluggish. Everything around you seems so much faster.",
+            "Your vision gets blurry. Everything is blurry. It's all a blur.",
+            "Time seems to stretch from your perspective. It feels so wrong.",
+            "An otherworldly sensation overcomes you.",
+            "Confusion and distress overtake you as the hands of time speed up.",
+            "You float in place, taking in the sights as beautiful colors buzz by and the light of day flashes against night.",
+            "You feel disconnected, like you've been unplugged from the world. Time whizzes by.",
+            "You approach what feels like an edge: like you could tip over at any moment, and fall deep into the abyss.",
+            "What is this? What's going on? Everything feels like it's spinning.",
+        ],
+        offMessages: [
+            "You feel a headache coming on as time slows down again.",
+            "You feel a weight lifting as time slows down.",
+            "You breathe a sigh of relief as the world returns to normal.",
+            "Compared to how fast it just was, everything seems to grind to a halt.",
+            "Clarity washes over you. You feel alert, aware, as everything goes back to normal.",
+            "The forcible time-warp stops.",
+            "You feel your senses return to you like the sudden snap of a rubber band.",
+            "You are now keenly aware of what's around you as it all slows down.",
+            "You shake your head furiously, clearing the sluggishness from your mind. You feel normal again.",
+            "Your field of view warps significantly. Just how much were you even able to see? You can't remember.",
+            "You simply float right where you are, still coming to your senses.",
+            "Your vision sharpens. Your senses are keen. You can feel everything again.",
+            "You come back from the brink, exhaustion replaced by energy and enthusiasm.",
+        ],
+
+        init() {
+            if (!SharkGame.flags.minuteHandTimer) {
+                SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
+            }
+            if (SharkGame.Aspects.theMinuteHand.level) {
+                SharkGame.Button.makeHoverscriptButton(
+                    "minute-hand-toggle",
+                    "my cool button",
+                    $("#minute-hand-div"),
+                    res.minuteHand.toggleMinuteHand,
+                    null,
+                    null
+                );
+            }
+            this.active = false;
+        },
+
+        updateMinuteHand(timeElapsed) {
+            if (!SharkGame.flags.minuteHandTimer) {
+                return;
+            }
+
+            if (SharkGame.flags.minuteHandTimer <= 0) {
+                SharkGame.flags.minuteHandTimer = 0;
+                res.minuteHand.toggleMinuteHand();
+            }
+
+            if (!res.minuteHand.active) {
+                SharkGame.flags.minuteHandTimer += (timeElapsed * (SharkGame.Aspects.theSecondHand.level + 1)) / 10;
+                if (SharkGame.flags.minuteHandTimer < 3000) {
+                    $("#minute-hand-toggle").addClass("disabled");
+                } else {
+                    $("#minute-hand-toggle").removeClass("disabled");
+                }
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>ENABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                );
+            } else {
+                SharkGame.flags.minuteHandTimer -= timeElapsed;
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>DISABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                );
+            }
+        },
+
+        toggleMinuteHand() {
+            if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 3000) {
+                res.minuteHand.active = true;
+                let speedConstant = SharkGame.Aspects.theMinuteHand.level;
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        speedConstant += 5;
+                        break;
+                    case "Inactive":
+                        speedConstant += 3;
+                        break;
+                    default:
+                        speedConstant += 1;
+                        break;
+                }
+                res.specialMultiplier *= speedConstant;
+                $("#minute-hand-toggle").addClass("minuteOn");
+                log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
+            } else if (res.minuteHand.active) {
+                res.minuteHand.active = false;
+                /*                 let speedConstant = SharkGame.Aspects.theMinuteHand.level;
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        speedConstant += 5;
+                        break;
+                    case "Inactive":
+                        speedConstant += 3;
+                        break;
+                    default:
+                        speedConstant += 1;
+                        break;
+                } */
+                res.specialMultiplier = 1;
+                $("#minute-hand-toggle").removeClass("minuteOn");
+                log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
+            }
+        },
     },
 
     // add rows to table (more expensive than updating existing DOM elements)
@@ -498,6 +834,9 @@ SharkGame.Resources = {
         }
         // if resource table does not exist, create
         if (resourceTable.length <= 0) {
+            // check for aspect level here later
+            statusDiv.prepend($("<div>").attr("id", "marker-div"));
+            statusDiv.prepend($("<div>").attr("id", "minute-hand-div"));
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
             resourceTable = $("<table>").attr("id", "resourceTable");
@@ -560,6 +899,11 @@ SharkGame.Resources = {
             statusDiv.hide();
         } else {
             statusDiv.show();
+            _.each(res.markers.list, (marker) => {
+                if (SharkGame.flags.markers && SharkGame.flags.markers[marker.attr("id")] !== "NA") {
+                    res.markers.reapplyMarker(marker);
+                }
+            });
         }
 
         res.setResourceTableMinWidth();
@@ -593,6 +937,22 @@ SharkGame.Resources = {
                 $("<td>")
                     .attr("id", "resource-" + resourceKey)
                     .html(sharktext.getResourceName(resourceKey))
+                    .on("dragstart", res.markers.handleResourceDragStart)
+                    .on("dragover", (event) => {
+                        if (res.markers.canBePlacedOn("resource-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
+                            $("#tooltipbox").html(
+                                sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                    " efficiency x2"
+                            );
+                            event.originalEvent.preventDefault();
+                        }
+                    })
+                    .on("dragend", res.markers.handleDragEnd)
+                    // .on("dragleave", () => {
+                    //     $("#tooltipbox").html("");
+                    // })
+                    .on("drop", res.markers.dropMarker)
+                    .on("click", res.markers.tryClickToPlace)
             );
 
             row.append(
@@ -607,7 +967,32 @@ SharkGame.Resources = {
 
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
-                incomeId.html("⠀<span style='color:" + res.INCOME_COLOR + "'>" + changeChar + sharktext.beautifyIncome(income) + "</span>");
+                incomeId
+                    .html(
+                        "⠀<span class='click-passthrough' style='color:" +
+                            res.INCOME_COLOR +
+                            "'>" +
+                            changeChar +
+                            sharktext.beautifyIncome(income) +
+                            "</span>"
+                    )
+                    .on("dragstart", res.markers.handleResourceDragStart)
+                    .on("dragover", (event) => {
+                        if (res.markers.canBePlacedOn("income-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
+                            $("#tooltipbox").html(
+                                "all " +
+                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                    " gains x2"
+                            );
+                            event.originalEvent.preventDefault();
+                        }
+                    })
+                    .on("dragend", res.markers.handleDragEnd)
+                    // .on("dragleave", () => {
+                    //     $("#tooltipbox").html("");
+                    // })
+                    .on("drop", res.markers.dropMarker)
+                    .on("click", res.markers.tryClickToPlace);
             }
         }
         return row;
@@ -702,7 +1087,7 @@ SharkGame.Resources = {
                     // recursively reconstruct the table with the keys in the inverse order
                     // eslint-disable-next-line id-length
                     $.each(nodes, (_k, affectedGenerator) => {
-                        if (world.worldResources.get(affectedGenerator).exists && world.worldResources.get(affectorResource).exists) {
+                        if (world.doesResourceExist(affectedGenerator) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
                     });
@@ -724,7 +1109,7 @@ SharkGame.Resources = {
                     // recursively reconstruct the table with the keys in the inverse order
                     // eslint-disable-next-line id-length
                     $.each(nodes, (_k, affectedResource) => {
-                        if (world.worldResources.get(affectedResource).exists && world.worldResources.get(affectorResource).exists) {
+                        if (world.doesResourceExist(affectedResource) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }
                     });

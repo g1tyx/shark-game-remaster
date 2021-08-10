@@ -41,7 +41,7 @@ SharkGame.Recycler = {
         animals: "constant",
     },
 
-    bannedResources: ["essence", "junk", "science", "seaApple", "coalescer", "ancientPart", "filter", "world"],
+    bannedResources: ["essence", "junk", "science", "seaApple", "coalescer", "ancientPart", "filter", "world", "sacrifice"],
 
     efficiency: "NA",
     hoveredResource: "NA",
@@ -49,7 +49,7 @@ SharkGame.Recycler = {
     expectedJunkSpent: "NA",
 
     init() {
-        main.registerTab(this);
+        SharkGame.TabHandler.registerTab(this);
     },
 
     switchTo() {
