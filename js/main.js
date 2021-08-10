@@ -497,14 +497,26 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
     },
 
-    getProgressionConstant() {
-        switch (SharkGame.Settings.current.gameSpeed) {
-            case "Idle":
-                return 4;
-            case "Inactive":
-                return 2;
+    getProgressionConstant(alternative) {
+        switch (alternative) {
+            case "2-scale":
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        return 2;
+                    case "Inactive":
+                        return 1.5;
+                    default:
+                        return 1;
+                }
             default:
-                return 1;
+                switch (SharkGame.Settings.current.gameSpeed) {
+                    case "Idle":
+                        return 4;
+                    case "Inactive":
+                        return 2;
+                    default:
+                        return 1;
+                }
         }
     },
 

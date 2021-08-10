@@ -163,7 +163,8 @@ SharkGame.Aspects = {
             return (level + 1) ** 2 + 1;
         },
         getEffect(level) {
-            return "Start with " + 20 * level ** 2 + " crabs. If they do not exist, start with an equivalent.";
+            const base = 20 * main.getProgressionConstant("2-scale");
+            return "Start with " + base * level ** 2 + " crabs. If they do not exist, start with an equivalent.";
         },
         getUnlocked() {},
         prerequisites: ["apotheosis"],
@@ -172,7 +173,14 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "init" && res.getResource("crab") === 0 && !SharkGame.flags.pathOfTimeApplied) {
-                res.changeResource("crab", 20 * this.level ** 2);
+                const base = 20 * main.getProgressionConstant("2-scale") * this.level ** 2;
+                switch (world.worldType) {
+                    case "shrouded":
+                        res.changeResource("diver", base * 0.5);
+                        break;
+                    default:
+                        res.changeResource("crab", base);
+                }
                 SharkGame.flags.pathOfTimeApplied = true;
             }
         },
