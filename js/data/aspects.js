@@ -419,7 +419,8 @@ SharkGame.Aspects = {
             return 2 * level + 4;
         },
         getEffect(level) {
-            return "Start with " + 20 * level ** 2 + " crystals. If they do not exist, start with an equivalent.";
+            const base = 20 * main.getProgressionConstant("2-scale");
+            return "Start with " + base * level ** 2 + " crystals. If they do not exist, start with an equivalent.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfTime"],
@@ -428,7 +429,8 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "init" && res.getResource("crystal") === 0 && !SharkGame.flags.crystallineSkinApplied) {
-                res.changeResource("crystal", 20 * this.level ** 2);
+                const base = 20 * main.getProgressionConstant("2-scale") * this.level ** 2;
+                res.changeResource("crystal", base);
                 SharkGame.flags.crystallineSkinApplied = true;
             }
         },
