@@ -174,18 +174,20 @@ SharkGame.Lab = {
     updateLabButton(upgradeName) {
         const button = $("#" + upgradeName);
         const upgradeData = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeName);
-        const upgradeCost = upgradeData.cost;
+        let upgradeCost = upgradeData.cost;
 
         let enableButton;
+        let deltas;
         if ($.isEmptyObject(upgradeCost)) {
             enableButton = true; // always enable free buttons
         } else {
             enableButton = res.checkResources(upgradeCost);
+            deltas = res.checkResourcesDelta(upgradeCost);
         }
 
         const effects = SharkGame.Lab.getResearchEffects(upgradeData, !enableButton);
         let label = upgradeData.name + "<br/>" + upgradeData.desc + "<br/>" + effects;
-        const costText = sharktext.resourceListToString(upgradeCost, !enableButton);
+        const costText = sharktext.resourceListToString(upgradeCost, !enableButton, null, deltas);
         if (costText !== "") {
             label += "<br/>Cost: " + costText;
         }
@@ -271,7 +273,7 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
-            console.debug(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)}`);
+            console.debug(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)} `);
         }
     },
 

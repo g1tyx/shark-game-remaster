@@ -188,7 +188,7 @@ SharkGame.Resources = {
                             2 * stepTwoIncomes.get(resource) +
                             2 * stepThreeIncomes.get(resource) +
                             SharkGame.PlayerIncomeTable.get(resource))) /
-                        6,
+                    6,
                     true
                 );
             });
@@ -435,6 +435,19 @@ SharkGame.Resources = {
         });
     },
 
+    checkResourcesDelta(resourceList, checkTotal) {
+        const deltas = {}
+        _.each(resourceList, (required, resource) => {
+            const currentAmount = checkTotal ? res.getTotalResource(resource) : res.getResource(resource);
+            if (currentAmount >= required) {
+                deltas[resource] = 0
+            } else {
+                deltas[resource] = required - currentAmount;
+            }
+        });
+        return deltas;
+    },
+
     changeManyResources(resourceList, subtract) {
         if (typeof subtract === "undefined") {
             subtract = false;
@@ -622,6 +635,16 @@ SharkGame.Resources = {
             if (!resourceName) return;
         }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
+        let isGeneratingText = "";
+        SharkGame.FlippedBreakdownIncomeTable.forEach((value, key) => {
+            if (resourceName in value) {
+                const amount = value[resourceName];
+                isGeneratingText += `<br> ${sharktext.getResourceName(key, false, false, sharkcolor.getElementColor("tooltipbox", "background-color"))}
+                <span class='littleTooltipText'>at</span> 
+                ${sharktext.beautifyIncome(amount).bold()}`
+            }
+        })
+        console.log(generators);
         let producertext = "";
         let consumertext = "";
         $.each(generators, (which, amount) => {
@@ -645,6 +668,9 @@ SharkGame.Resources = {
         });
 
         let text = sharktext.getResourceName(resourceName, false, 2, sharkcolor.getElementColor("tooltipbox", "background-color"));
+        if (isGeneratingText !== "") {
+            text += "<br><span class='littleTooltipText'>IS PRODUCING</span>" + isGeneratingText;
+        }
         if (producertext !== "") {
             text += "<br><span class='littleTooltipText'>PRODUCED BY</span>" + producertext;
         }

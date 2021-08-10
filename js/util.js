@@ -225,13 +225,14 @@ SharkGame.TextUtil = {
         return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds;
     },
 
-    getResourceName(resourceName, darken, arbitraryAmount, background) {
+    getResourceName(resourceName, darken, arbitraryAmount, background, delta) {
         if (res.isCategory(resourceName)) {
             return SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
         const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
         let name = amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name;
+        const rawName = name;
         let extraStyle = "";
 
         // easter egg logic
@@ -242,9 +243,9 @@ SharkGame.TextUtil = {
         if (SharkGame.Settings.current.boldCosts) {
             name = name.bold();
         }
-
+        let color;
         if (SharkGame.Settings.current.colorCosts !== "none") {
-            let color = SharkGame.Settings.current.colorCosts === "color" ? resource.color : sharkcolor.getBrightColor(resource.color);
+            color = SharkGame.Settings.current.colorCosts === "color" ? resource.color : sharkcolor.getBrightColor(resource.color);
             if (darken) {
                 color = sharkcolor.colorLum(resource.color, -0.5);
             } else if (background) {
@@ -265,7 +266,12 @@ SharkGame.TextUtil = {
             }
             extraStyle = " style='color:" + color + "'";
         }
-        return "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
+        if (delta) {
+            name += ` (${sharktext.beautify(delta)} needed)`.bold()
+        }
+        return `<span class='click-passthrough'${extraStyle}> 
+            <span class='label-bubble' style='background:${color}'>${rawName.substring(0, 2).toUpperCase().bold()}</span>
+            ${name}</span>`;
     },
 
     applyResourceColoration(resourceName, textToColor) {
@@ -289,7 +295,7 @@ SharkGame.TextUtil = {
     },
 
     // make a resource list object into a string describing its contents
-    resourceListToString(resourceList, darken, backgroundColor) {
+    resourceListToString(resourceList, darken, backgroundColor, deltas) {
         if ($.isEmptyObject(resourceList)) {
             return "";
         }
@@ -299,7 +305,11 @@ SharkGame.TextUtil = {
             // amend for unspecified resources (assume zero)
             if (listResource > 0 && world.doesResourceExist(resourceId)) {
                 formattedResourceList += sharktext.beautify(listResource);
-                formattedResourceList += " " + sharktext.getResourceName(resourceId, darken, listResource, backgroundColor) + ", ";
+                let delta;
+                if (deltas) {
+                    delta = deltas[resourceId]
+                }
+                formattedResourceList += " " + sharktext.getResourceName(resourceId, darken, listResource, backgroundColor, delta) + ", ";
             }
         });
         // snip off trailing suffix
