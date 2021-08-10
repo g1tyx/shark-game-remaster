@@ -76,6 +76,12 @@ SharkGame.Upgrades = {
             }
         }
 
+        if (data.scaleResourceReqs) {
+            $.each(data.required.totals, (resourceName) => {
+                data.required.totals[resourceName] *= main.getProgressionConstant();
+            });
+        }
+
         return data;
     },
 
@@ -1181,6 +1187,7 @@ SharkGame.Upgrades = {
                     scientist: 16,
                 },
             },
+            scaleResourceReqs: true,
         },
         imperialDesigns: {
             name: "Imperial Designs",
