@@ -626,11 +626,16 @@ SharkGame.Resources = {
         SharkGame.FlippedBreakdownIncomeTable.forEach((value, key) => {
             if (resourceName in value) {
                 const amount = value[resourceName];
-                isGeneratingText += `<br> ${sharktext.getResourceName(key, false, false, sharkcolor.getElementColor("tooltipbox", "background-color"))}
+                isGeneratingText += `<br> ${sharktext.getResourceName(
+                    key,
+                    false,
+                    false,
+                    sharkcolor.getElementColor("tooltipbox", "background-color")
+                )}
                 <span class='littleTooltipText'>at</span> 
-                ${sharktext.beautifyIncome(amount).bold()}`
+                ${sharktext.beautifyIncome(amount).bold()}`;
             }
-        })
+        });
         let producertext = "";
         let consumertext = "";
         $.each(generators, (which, amount) => {
