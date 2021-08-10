@@ -321,8 +321,7 @@ SharkGame.Upgrades = {
         },
         superprocessing: {
             name: "Superprocessing",
-            desc:
-                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            desc: "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
             researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
             effectDesc:
                 "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
@@ -1095,8 +1094,7 @@ SharkGame.Upgrades = {
         },
         aquamarineFusion: {
             name: "Aquamarine Fusion",
-            desc:
-                "The kelp papyrus things have instructions on how to make some gross thing called delphinium, so now we feel obligated to make it. Are we sure we want to do this?",
+            desc: "The kelp papyrus things have instructions on how to make some gross thing called delphinium, so now we feel obligated to make it. Are we sure we want to do this?",
             researchedMessage:
                 "Using the knowledge gained from the kelp slab things, we've figured out how to make delphinium and now we feel gross.",
             effectDesc: "Enables transmutation of a bunch of junk into delphinium.",
@@ -1146,8 +1144,7 @@ SharkGame.Upgrades = {
         },
         whaleSong: {
             name: "The Whale Song",
-            desc:
-                "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
+            desc: "The whales claim to know segments of some form of ancient ethereal music that connects worlds. We can collect what they know to piece it together ourselves.",
             researchedMessage: "What we've put together is definitely a song...but something's missing. This can't be the whole thing.",
             effectDesc:
                 "Whales are 4 times as effective. The whales have worked with us to put together pieces of an ancient song. We don't think it's everything, though.",
@@ -1187,8 +1184,7 @@ SharkGame.Upgrades = {
         },
         imperialDesigns: {
             name: "Imperial Designs",
-            desc:
-                "Finally, we've found them! After rummaging through the kelp papyrus for a bit, we came across the original designs for the dolphin machines.",
+            desc: "Finally, we've found them! After rummaging through the kelp papyrus for a bit, we came across the original designs for the dolphin machines.",
             researchedMessage:
                 "Upon further examination, these suck! These designs will never work! Look, let's show them-- oh. Oh, apparently they do. Huh.",
             effectDesc:
@@ -1647,8 +1643,7 @@ SharkGame.Upgrades = {
         },
         superprocessing: {
             name: "Superprocessing",
-            desc:
-                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            desc: "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
             researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
             effectDesc:
                 "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
@@ -1998,8 +1993,7 @@ SharkGame.Upgrades = {
         },
         shroudedChasmExploration: {
             name: "Chasm Exploration",
-            desc:
-                "The chimaeras say they can help us navigate the chasms. With their help, we could throw together an expedition and see what's down there.",
+            desc: "The chimaeras say they can help us navigate the chasms. With their help, we could throw together an expedition and see what's down there.",
             researchedMessage:
                 "The dive team is back, and...we have no idea what we have here! Seriously! Even the chimaeras don't know what these are.",
             effectDesc: "Chimaeras find jellyfish twice as fast. We found some weird artifact thingies, but we don't know what's up with them.",
@@ -2055,8 +2049,7 @@ SharkGame.Upgrades = {
         },
         abyssalEnigmas: {
             name: "Abyssal Enigmas",
-            desc:
-                "The chimaeras have returned from the deeper oceans with artifacts we can't explain. The chimaera don't seem bothered, but we need to work together to understand them.",
+            desc: "The chimaeras have returned from the deeper oceans with artifacts we can't explain. The chimaera don't seem bothered, but we need to work together to understand them.",
             researchedMessage:
                 "From what little we have, we can tell that these all go together somehow; they're all part of something bigger... We need to find more of them!",
             effectDesc:
@@ -2076,8 +2069,7 @@ SharkGame.Upgrades = {
         },
         arcaneSifting: {
             name: "Arcane Sifting",
-            desc:
-                "An eel just came back with a tiny piece of arcana-looking rubble, excitedly yelling about how they found it in the sand. Are we onto something here?",
+            desc: "An eel just came back with a tiny piece of arcana-looking rubble, excitedly yelling about how they found it in the sand. Are we onto something here?",
             researchedMessage: "Eels tasked with sifting through the sand have come back with even more arcana. We should keep this up!",
             effectDesc: "Can train eels to sift through sand in search of arcana.",
             cost: {
@@ -2106,8 +2098,7 @@ SharkGame.Upgrades = {
         },
         arcaneCompass: {
             name: "Arcane Compass",
-            desc:
-                "The thinnest, straightest shards of arcana have been observed to rotate toward a common direction when left undisturbed. What are they pointing to?",
+            desc: "The thinnest, straightest shards of arcana have been observed to rotate toward a common direction when left undisturbed. What are they pointing to?",
             researchedMessage:
                 "We placed some shards in a clear box and let them point us around for a while. They led us straight to a dilapidated gate.",
             effectDesc:
@@ -2148,8 +2139,7 @@ SharkGame.Upgrades = {
         },
         bioelectricity: {
             name: "Bioelectricity",
-            desc:
-                "Further study has revealed arcana to be incredibly electrically conductive. We can't really make circuits out of them, but...well, there's this other idea...",
+            desc: "Further study has revealed arcana to be incredibly electrically conductive. We can't really make circuits out of them, but...well, there's this other idea...",
             researchedMessage:
                 "We've developed special tools that technically-inclined electric eels can use to pump bioelectricity directly into machines! Brilliant?",
             effectDesc: "Machines are four times as effective. Eel-harnessed energy is weird, but practical.",
@@ -2170,8 +2160,7 @@ SharkGame.Upgrades = {
         },
         arcaneSacrifice: {
             name: "Arcane Sacrifice",
-            desc:
-                "Further study has revealed arcana to be shards of a sort of huge, abstract battery for...something. If harnessed, this could change everything.",
+            desc: "Further study has revealed arcana to be shards of a sort of huge, abstract battery for...something. If harnessed, this could change everything.",
             researchedMessage:
                 "It turns out that the innate energy contained within the arcana can be violently released when shattered. If we do it just right, then we reap all the benefits.",
             effectDesc: "Arcana can now be shattered, sacrificing them for the greater good.",
@@ -2184,8 +2173,7 @@ SharkGame.Upgrades = {
         },
         superprocessing: {
             name: "Superprocessing",
-            desc:
-                "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            desc: "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
             researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
             effectDesc:
                 "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
@@ -2200,8 +2188,7 @@ SharkGame.Upgrades = {
         },
         ancestralRecall: {
             name: "Ancestral Recall",
-            desc:
-                "The sharks and rays, and even chimaeras, know we share some features among ourselves. Using the strange tales passed down by chimaeras, let's piece together the puzzle.",
+            desc: "The sharks and rays, and even chimaeras, know we share some features among ourselves. Using the strange tales passed down by chimaeras, let's piece together the puzzle.",
             researchedMessage:
                 "These tales speak plainly about a frenzy not unlike our own. It's said that what came of it was glorious, but all of the specifics have been lost to time, it seems.",
             effectDesc:
@@ -2227,8 +2214,7 @@ SharkGame.Upgrades = {
         },
         arcaneHeart: {
             name: "Arcane Heart",
-            desc:
-                "The eels aren't really venturing outward like the rest of us. Something about safety in numbers... We need to figure out what role they played in all this. Maybe that'll show them their own potential.",
+            desc: "The eels aren't really venturing outward like the rest of us. Something about safety in numbers... We need to figure out what role they played in all this. Maybe that'll show them their own potential.",
             researchedMessage:
                 "An extensive canvasing of the ocean floor had lead to the discovery of an ancient system of subterranian eel burrows, containing tools and machinery, and bits of...well...they look like arcana, but they're not glowing.",
             effectDesc:

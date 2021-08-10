@@ -334,8 +334,7 @@ SharkGame.WorldTypes = {
         name: "Stone",
         desc: "A world unweathered by ocean currents. It has no natural sand.",
         shortDesc: "rock-bottom",
-        entry:
-            "As you enter, the usual shades of green and yellow are nowhere to be found. You look down, and there's no sand: just cold, hard slate.",
+        entry: "As you enter, the usual shades of green and yellow are nowhere to be found. You look down, and there's no sand: just cold, hard slate.",
         style: "default",
         absentResources: [
             "knowledge",

@@ -16,15 +16,16 @@
         "lint:eslint:strict": "yarn lint:eslint --max-warnings=0"
     },
     "devDependencies": {
-        "@types/jquery": "^3.5.5",
-        "@types/lodash": "^4.14.167",
-        "@types/pako": "^1.0.1",
-        "eslint": "^7.18.0",
-        "eslint-config-prettier": "^7.1.0",
+        "@types/jquery": "^3.5.6",
+        "@types/lodash": "^4.14.172",
+        "@types/pako": "^1.0.2",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-standard": "^5.0.0",
-        "less": "^4.1.0",
+        "less": "^4.1.1",
         "less-plugin-clean-css": "^1.5.1",
         "less-watch-cli": "^1.0.1",
-        "prettier": "^2.2.1"
+        "prettier": "^2.3.2"
     }
 }
