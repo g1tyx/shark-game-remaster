@@ -101,13 +101,24 @@ SharkGame.TextUtil = {
 
         //note to self: make the next line not suck
         // Possibly add an "uncountable" property to resources somehow? Manual works fine though
-        if (["algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science", "papyrus"].includes(name)) {
+        if (["sand", "algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science"].includes(name)) {
             return "";
         } else if ("aeiou".includes(firstLetter)) {
             return "an";
         } else {
             return "a";
         }
+    },
+
+    getIsOrAre(name, amount = res.getResource(name)) {
+        //should make a universal list for these somewhere in textutil, ya?
+        if (
+            ["sand", "algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science"].includes(name) ||
+            amount <= 1
+        ) {
+            return "is";
+        }
+        return "are";
     },
 
     /** @param {string} string */

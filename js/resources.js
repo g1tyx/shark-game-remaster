@@ -1008,17 +1008,24 @@ SharkGame.Resources = {
         }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
         let isGeneratingText = "";
-        SharkGame.FlippedBreakdownIncomeTable.forEach((value, key) => {
-            if (resourceName in value) {
-                const amount = value[resourceName];
-                isGeneratingText += `<br> ${sharktext.getResourceName(
-                    key,
-                    false,
-                    false,
-                    sharkcolor.getElementColor("tooltipbox", "background-color")
-                )}
-                <span class='littleTooltipText'>at</span> 
-                ${sharktext.beautifyIncome(amount).bold()}`;
+        let isConsumingText = "";
+        $.each(SharkGame.BreakdownIncomeTable.get(resourceName), (generatedResource, amount) => {
+            if (amount > 0) {
+                isGeneratingText += `<br>
+                ${sharktext
+                    .beautifyIncome(
+                        amount,
+                        " " + sharktext.getResourceName(generatedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color"))
+                    )
+                    .bold()}`;
+            } else if (amount < 0) {
+                isConsumingText += `<br>
+                ${sharktext
+                    .beautifyIncome(
+                        -amount,
+                        " " + sharktext.getResourceName(generatedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color"))
+                    )
+                    .bold()}`;
             }
         });
         let producertext = "";
@@ -1045,13 +1052,20 @@ SharkGame.Resources = {
 
         let text = sharktext.getResourceName(resourceName, false, 2, sharkcolor.getElementColor("tooltipbox", "background-color"));
         if (isGeneratingText !== "") {
-            text += "<br><span class='littleTooltipText'>IS PRODUCING</span>" + isGeneratingText;
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " PRODUCING</span>" + isGeneratingText;
+        }
+        if (isConsumingText !== "") {
+            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " CONSUMING</span>" + isConsumingText;
+        }
+        if ((isGeneratingText || isConsumingText) && (producertext || consumertext)) {
+            text += "<br><span class='littleTooltipText'>and</span>";
         }
         if (producertext !== "") {
-            text += "<br><span class='littleTooltipText'>PRODUCED BY</span>" + producertext;
+            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " PRODUCED BY</span>" + producertext;
         }
         if (consumertext !== "") {
-            text += "<br><span class='littleTooltipText'>CONSUMED BY</span>" + consumertext;
+            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " CONSUMED BY</span>" + consumertext;
         }
 
         if (SharkGame.ResourceMap.get(resourceName).desc) {
