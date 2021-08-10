@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded"],
 
     completedWorlds: [],
 
@@ -571,7 +571,6 @@ SharkGame.Gateway.Messages = {
         },
     ],
     lastPlanetBased: {
-        // working on changing this section
         start: [
             "What brings you here, strange one?",
             "Hello, newcomer.",
@@ -584,7 +583,6 @@ SharkGame.Gateway.Messages = {
             "Do you bring life, or do you bring death, worldbuilder?",
             "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-            "You seem surprised. Did this not happen to your own home?",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
@@ -599,6 +597,8 @@ SharkGame.Gateway.Messages = {
             "Charge through the whirlpool. Give no quarter to the storm.",
             "The swordfish feared your presence, with good reason.",
             "The revolt was unavoidable. It was merely a matter of time.",
+            "Do you wonder why the swordfish obeyed out of fear?",
+            "Who is it that the swordfish are so afraid of?",
         ],
         violent: [
             "The boiling ocean only stirred you on.",
@@ -606,6 +606,7 @@ SharkGame.Gateway.Messages = {
             "The shrimp are no simpletons. They are merely focused.",
             "This environment is ideal for life. Just not for your kind.",
             "Do you wonder how the shrimp learned to become something more?",
+            "The shrimp are intolerant of the ways of industry. Remember: that is okay.",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",
@@ -616,7 +617,6 @@ SharkGame.Gateway.Messages = {
             "Did the chimaeras recognise who you were?",
             "What did you learn from the dark world?",
             "To fall into darkness is easy, but to escape it is another story.",
-            "Who brought darkness to this place? Or, was it always like this?",
             "Such strange forces guide the chimaeras, just as strange forces guide you.",
         ],
         frigid: [
@@ -638,6 +638,7 @@ SharkGame.Gateway.Messages = {
         "You wish to get back here so quickly?",
         "You and everything you knew has died. Perhaps not you. Perhaps not.",
         "One more try, perhaps?",
+        "Excellence is pure habit. We are what we repeatedly do.",
     ],
     generic: [
         "There is no warmth or cold here. Only numbness.",

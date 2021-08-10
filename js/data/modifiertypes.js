@@ -201,6 +201,25 @@ SharkGame.ModifierTypes = {
                     return input;
                 },
             },
+            addJellyIncome: {
+                defaultValue: 0,
+                apply(current, degree, resource) {
+                    const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
+                    baseIncomes.jellyfish = (baseIncomes.jellyfish ? baseIncomes.jellyfish : 0) + degree;
+                    res.reapplyModifiers(resource, "jellyfish");
+                    return current + degree;
+                },
+                effectDescription(_degree, _resource) {
+                    return "";
+                },
+                getEffect(_genDegree, _outDegree, _gen, _out) {
+                    return 1;
+                },
+                applyToInput(input, _genDegree, _outDegree, _gen, _out) {
+                    // this applies to base income so it should never be reapplied
+                    return input;
+                },
+            },
         },
     },
 
