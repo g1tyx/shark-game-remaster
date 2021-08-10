@@ -3050,7 +3050,7 @@ SharkGame.HomeActions = {
             max: "ray",
             prereq: {
                 resource: {
-                    shark: 8,
+                    shark: 10,
                 },
             },
             outcomes: [
@@ -3477,7 +3477,7 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "chimaera", costFunction: "constant", priceIncrease: 1 },
-                { resource: "jellyfish", costFunction: "linear", priceIncrease: 50 },
+                { resource: "jellyfish", costFunction: "linear", priceIncrease: 150 },
             ],
             max: "explorer",
             prereq: {

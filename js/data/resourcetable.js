@@ -120,7 +120,7 @@ SharkGame.ResourceTable = {
         desc: "The artisans.",
         color: "#7D77A5",
         income: {
-            jellyfish: 2,
+            jellyfish: 2.5,
         },
         jobs: ["explorer"],
         value: 3000,
@@ -791,7 +791,7 @@ SharkGame.ResourceTable = {
         name: "jellyfish",
         singleName: "jellyfish",
         color: "#E3B8FF",
-        value: 150,
+        value: 125,
     },
 
     clam: {

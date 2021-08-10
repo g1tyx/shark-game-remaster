@@ -254,8 +254,8 @@ SharkGame.Home = {
             },
             {
                 name: "shrouded-eel-onlookers",
-                unlock: { upgrade: ["crystalContainers"] },
-                message: "Divers have reported sightings of 'dangerous' wiggly things on the ocean floor.<br>What on earth...?",
+                unlock: { upgrade: ["crystalContainer"] },
+                message: "Divers have reported sightings of 'skittish', wiggly creatures on the ocean floor.<br>What on earth...?",
             },
             {
                 name: "shrouded-eels",
@@ -271,7 +271,7 @@ SharkGame.Home = {
                 name: "shrouded-chimaeras",
                 unlock: { totalResource: { chimaera: 1 } },
                 message:
-                    "The chimaeras are ancient kin of the shark kind, reunited through wild coincidence.<br>What peerless wonders have they found in the dark?",
+                    "The chimaeras imply they are ancient kin of the shark kind, reunited through wild coincidence.<br>We don't understand, but they seem to think we do.",
             },
             {
                 name: "shrouded-arcana",

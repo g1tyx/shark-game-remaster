@@ -211,7 +211,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "chimaera-one": {
+    "shrouded-chimaeras": {
         frame: {
             x: 810,
             y: 410,
@@ -291,7 +291,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "eel-one": {
+    "shrouded-eels": {
         frame: {
             x: 406,
             y: 614,
