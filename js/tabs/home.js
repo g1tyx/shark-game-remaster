@@ -789,7 +789,7 @@ SharkGame.Home = {
             home.onHomeButton,
             home.onHomeHover,
             home.onHomeUnhover
-        );
+        ); // box-shadow: 0 0 6px 3px #f00, 0 0 3px 1px #ff1a1a inset;
         buttonSelector.html($("<span id='" + actionName + "Label' class='click-passthrough'></span>"));
         home.updateButton(actionName);
         if (SharkGame.Settings.current.showAnimations) {
@@ -798,6 +798,12 @@ SharkGame.Home = {
         if (actionData.newlyDiscovered) {
             buttonSelector.addClass("newlyDiscovered");
         }
+        $.each(actionData.effect.resource, (resourceName) => {
+            if (_.some(SharkGame.ResourceMap.get(resourceName).income, (incomeAmount) => incomeAmount < 0)) {
+                buttonSelector.addClass("gives-consumer");
+                return false;
+            }
+        });
     },
 
     getActionCategory(actionName) {
@@ -884,6 +890,9 @@ SharkGame.Home = {
             const button = $(this);
             actionName = button.attr("id");
         }
+
+        $("#tooltipbox").removeClass("gives-consumer");
+
         const effects = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName).effect;
         const validGenerators = {};
         $.each(effects.resource, (resource) => {
@@ -913,8 +922,8 @@ SharkGame.Home = {
         let text = "";
 
         if (_.some(validGenerators, (amount) => amount > 0)) {
-            addedAnyLabelsYet = true;
             text += "<span class='littleTooltipText'>PRODUCE" + (usePlural ? "" : "S") + "</span><br/>";
+            addedAnyLabelsYet = true;
         }
 
         $.each(validGenerators, (incomeResource, amount) => {
@@ -931,8 +940,11 @@ SharkGame.Home = {
         });
 
         if (_.some(validGenerators, (amount) => amount < 0)) {
-            addedAnyLabelsYet = true;
+            if (_.some(validGenerators, (amount, resourceName) => amount < 0 && !res.isInCategory(resourceName, "harmful"))) {
+                $("#tooltipbox").addClass("gives-consumer");
+            }
             text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "CONSUME" + (usePlural ? "" : "S") + "</span><br/>";
+            addedAnyLabelsYet = true;
         }
 
         $.each(validGenerators, (incomeResource, amount) => {
@@ -965,6 +977,9 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.resAffect.decrease)) {
+            if (_.some(condensedObject.resAffect.decrease, (_degree, resourceName) => !res.isInCategory(resourceName, "harmful"))) {
+                $("#tooltipbox").addClass("gives-consumer");
+            }
             text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "DECREASE" + (usePlural ? "" : "S") + "</span><br/>";
             addedAnyLabelsYet = true;
             $.each(condensedObject.resAffect.decrease, (affectedResource, degreePerPurchase) => {
@@ -999,6 +1014,9 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.resAffect.multdecrease)) {
+            if (_.some(condensedObject.resAffect.multdecrease, (_degree, resourceName) => !res.isInCategory(resourceName, "harmful"))) {
+                $("#tooltipbox").addClass("gives-consumer");
+            }
             text +=
                 "<span class='littleTooltipText'>" +
                 (addedAnyLabelsYet ? "and " : "") +
@@ -1122,7 +1140,7 @@ SharkGame.Home = {
 
     onHomeUnhover() {
         document.getElementById("tooltipbox").innerHTML = "";
-        $("#tooltipbox").removeClass("forHomeButtonOrGrotto").attr("current", "");
+        $("#tooltipbox").removeClass("forHomeButtonOrGrotto").attr("current", "").removeClass("gives-consumer");
     },
 
     getCost(action, amount) {

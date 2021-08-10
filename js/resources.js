@@ -1060,7 +1060,7 @@ SharkGame.Resources = {
         if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
             document.getElementById("tooltipbox").innerHTML = text;
         }
-        $("#tooltipbox").removeClass("forHomeButtonOrGrotto").attr("current", "");
+        $("#tooltipbox").removeClass("forHomeButtonOrGrotto").removeClass("gives-consumer").attr("current", "");
         $(".tooltip").addClass("forIncomeTable").attr("current", resourceName);
     },
 
