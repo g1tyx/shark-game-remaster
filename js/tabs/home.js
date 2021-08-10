@@ -799,7 +799,13 @@ SharkGame.Home = {
             buttonSelector.addClass("newlyDiscovered");
         }
         $.each(actionData.effect.resource, (resourceName) => {
-            if (_.some(SharkGame.ResourceMap.get(resourceName).income, (incomeAmount) => incomeAmount < 0)) {
+            // still need to add increases/decreases check here, but this is not relevant to the actual game yet so i dont care
+            if (
+                _.some(
+                    SharkGame.ResourceMap.get(resourceName).income,
+                    (incomeAmount, resource) => incomeAmount < 0 || (res.isInCategory(resource, "harmful") && incomeAmount > 0)
+                )
+            ) {
                 buttonSelector.addClass("gives-consumer");
                 return false;
             }
@@ -922,6 +928,9 @@ SharkGame.Home = {
         let text = "";
 
         if (_.some(validGenerators, (amount) => amount > 0)) {
+            if (_.some(validGenerators, (amount, resourceName) => amount > 0 && res.isInCategory(resourceName, "harmful"))) {
+                $("#tooltipbox").addClass("gives-consumer");
+            }
             text += "<span class='littleTooltipText'>PRODUCE" + (usePlural ? "" : "S") + "</span><br/>";
             addedAnyLabelsYet = true;
         }
@@ -963,6 +972,9 @@ SharkGame.Home = {
         const condensedObject = res.condenseNode(effects.resource);
 
         if (!$.isEmptyObject(condensedObject.resAffect.increase)) {
+            if (_.some(validGenerators, (_degree, resourceName) => res.isInCategory(resourceName, "harmful"))) {
+                $("#tooltipbox").addClass("gives-consumer");
+            }
             text += "<span class='littleTooltipText'>" + (addedAnyLabelsYet ? "and " : "") + "INCREASE" + (usePlural ? "" : "S") + "</span><br/>";
             addedAnyLabelsYet = true;
             $.each(condensedObject.resAffect.increase, (affectedResource, degreePerPurchase) => {
@@ -994,6 +1006,9 @@ SharkGame.Home = {
         }
 
         if (!$.isEmptyObject(condensedObject.resAffect.multincrease)) {
+            if (_.some(condensedObject.resAffect.multincrease, (_degree, resourceName) => res.isInCategory(resourceName, "harmful"))) {
+                $("#tooltipbox").addClass("gives-consumer");
+            }
             text +=
                 "<span class='littleTooltipText'>" +
                 (addedAnyLabelsYet ? "and " : "") +
