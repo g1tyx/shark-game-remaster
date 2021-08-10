@@ -22,7 +22,7 @@ SharkGame.TabHandler = {
                 _.each(tab.discoverReq.upgrade, (upgradeName) => {
                     if (upgradeTable[upgradeName]) {
                         anyUpgradeExists = true;
-                        reqsMet &&= SharkGame.Upgrades.purchased.includes(upgradeName);
+                        reqsMet = reqsMet && SharkGame.Upgrades.purchased.includes(upgradeName);
                     }
                 });
                 if (!anyUpgradeExists) {
@@ -33,9 +33,9 @@ SharkGame.TabHandler = {
             if (tab.discoverReq.flag) {
                 $.each(tab.discoverReq.flag, (flagName, matchedValue) => {
                     if (SharkGame.flags[flagName]) {
-                        reqsMet &&= SharkGame.flags[flagName] === matchedValue;
+                        reqsMet = reqsMet && SharkGame.flags[flagName] === matchedValue;
                     } else if (SharkGame.persistentFlags[flagName]) {
-                        reqsMet &&= SharkGame.persistentFlags[flagName] === matchedValue;
+                        reqsMet = reqsMet && SharkGame.persistentFlags[flagName] === matchedValue;
                     } else {
                         reqsMet = false;
                         return false;
