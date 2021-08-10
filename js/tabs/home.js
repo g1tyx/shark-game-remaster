@@ -803,7 +803,8 @@ SharkGame.Home = {
             if (
                 _.some(
                     SharkGame.ResourceMap.get(resourceName).income,
-                    (incomeAmount, resource) => incomeAmount < 0 || (res.isInCategory(resource, "harmful") && incomeAmount > 0)
+                    (incomeAmount, resource) =>
+                        world.doesResourceExist(resource) && (incomeAmount < 0 || (res.isInCategory(resource, "harmful") && incomeAmount > 0))
                 )
             ) {
                 buttonSelector.addClass("gives-consumer");
