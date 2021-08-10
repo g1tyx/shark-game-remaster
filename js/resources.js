@@ -672,7 +672,13 @@ SharkGame.Resources = {
         canBePlacedOn(placedOnWhat) {
             const resource = placedOnWhat.split("-")[1];
             if (placedOnWhat.includes("resource")) {
-                return !$("#" + placedOnWhat).attr("markerId") && SharkGame.ResourceMap.get(resource).income;
+                return (
+                    !$("#" + placedOnWhat).attr("markerId") &&
+                    _.some(
+                        SharkGame.ResourceMap.get(resource).income,
+                        (amount, generatedResource) => amount !== 0 && world.doesResourceExist(generatedResource)
+                    )
+                );
             } else if (placedOnWhat.includes("income")) {
                 return !$("#" + placedOnWhat).attr("markerId") && SharkGame.PlayerIncomeTable.get(resource);
             }
