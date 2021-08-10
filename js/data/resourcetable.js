@@ -1355,7 +1355,7 @@ SharkGame.InternalCategories = {
     },
     octopusmachines: {
         name: "Octopus Machines",
-        resources: ["spronge", "seaScourer", "prostheticPolyp", "clamCollector", "sprongeSmelter", "eggBrooder"],
+        resources: ["spronge", "clamCollector", "sprongeSmelter", "eggBrooder"],
     },
     basicmaterials: {
         resources: ["fish", "sand", "crystal", "science", "junk"],

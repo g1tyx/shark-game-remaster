@@ -1010,6 +1010,7 @@ SharkGame.Resources = {
         let isGeneratingText = "";
         let isConsumingText = "";
         $.each(SharkGame.BreakdownIncomeTable.get(resourceName), (generatedResource, amount) => {
+            if (!world.doesResourceExist(generatedResource)) return true;
             if (amount > 0) {
                 isGeneratingText += `<br>
                 ${sharktext
