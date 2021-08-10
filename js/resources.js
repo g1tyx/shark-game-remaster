@@ -622,6 +622,15 @@ SharkGame.Resources = {
             if (!resourceName) return;
         }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
+        let isGeneratingText = "";
+        SharkGame.FlippedBreakdownIncomeTable.forEach((value, key) => {
+            if (resourceName in value) {
+                const amount = value[resourceName];
+                isGeneratingText += `<br> ${sharktext.getResourceName(key, false, false, sharkcolor.getElementColor("tooltipbox", "background-color"))}
+                <span class='littleTooltipText'>at</span> 
+                ${sharktext.beautifyIncome(amount).bold()}`
+            }
+        })
         let producertext = "";
         let consumertext = "";
         $.each(generators, (which, amount) => {
@@ -645,6 +654,9 @@ SharkGame.Resources = {
         });
 
         let text = sharktext.getResourceName(resourceName, false, 2, sharkcolor.getElementColor("tooltipbox", "background-color"));
+        if (isGeneratingText !== "") {
+            text += "<br><span class='littleTooltipText'>IS PRODUCING</span>" + isGeneratingText;
+        }
         if (producertext !== "") {
             text += "<br><span class='littleTooltipText'>PRODUCED BY</span>" + producertext;
         }
