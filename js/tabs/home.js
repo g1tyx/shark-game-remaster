@@ -111,6 +111,7 @@ SharkGame.Home = {
                 name: "haven-dolphin-observes",
                 unlock: { totalResource: { coral: 75 } },
                 message: "A... thing observes us from afar. What the heck is that??",
+                scales: true,
             },
             {
                 name: "haven-dolphins",
@@ -123,6 +124,7 @@ SharkGame.Home = {
                 unlock: { totalResource: { dolphin: 20 } },
                 message:
                     "The dolphin pods that work with us speak of a star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
+                scales: true,
             },
             {
                 name: "haven-papyrus",
@@ -316,6 +318,7 @@ SharkGame.Home = {
                 name: "frigid-distant-village",
                 unlock: { totalResource: { science: 8 } },
                 message: "While scanning the horizon, you notice a gap in the ice.<br>You peer through it, and spot something else.",
+                scales: true,
             },
             {
                 name: "frigid-village",
@@ -339,11 +342,13 @@ SharkGame.Home = {
                 unlock: { totalResource: { squid: 125 } },
                 message:
                     "In the center of the settlement lies a vibrating...thing, and a strange gate.<br>The thing buzzes loudly, casting enormous energy across the water.",
+                scales: true,
             },
             {
                 name: "frigid-squid",
                 unlock: { totalResource: { squid: 250 } },
                 message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
+                scales: true,
             },
             {
                 name: "frigid-suspicion",
@@ -520,10 +525,16 @@ SharkGame.Home = {
                 let requirementsMet = true;
                 requirementsMet =
                     requirementsMet &&
-                    _.every(extraMessage.unlock.resource, (requiredAmount, resourceId) => res.getResource(resourceId) >= requiredAmount);
+                    _.every(extraMessage.unlock.resource, (requiredAmount, resourceId) => {
+                        requiredAmount *= extraMessage.scales ? main.getProgressionConstant() : 1;
+                        res.getResource(resourceId) >= requiredAmount;
+                    });
                 requirementsMet =
                     requirementsMet &&
-                    _.every(extraMessage.unlock.totalResource, (requiredAmount, resourceId) => res.getTotalResource(resourceId) >= requiredAmount);
+                    _.every(extraMessage.unlock.totalResource, (requiredAmount, resourceId) => {
+                        requiredAmount *= extraMessage.scales ? main.getProgressionConstant() : 1;
+                        res.getTotalResource(resourceId) >= requiredAmount;
+                    });
                 requirementsMet =
                     requirementsMet && _.every(extraMessage.unlock.upgrade, (upgradeId) => SharkGame.Upgrades.purchased.includes(upgradeId));
                 requirementsMet =
