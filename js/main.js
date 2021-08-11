@@ -472,6 +472,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             } else {
                 $("#sidebar").show();
             }
+            res.rebuildTable = true;
             // flag sidebar as shown
             SharkGame.sidebarHidden = false;
         }
