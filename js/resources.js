@@ -498,17 +498,18 @@ SharkGame.Resources = {
                 SharkGame.flags.markers = {};
             }
 
-            this.list = [];
+            if (this.list.length > SharkGame.Aspects.pathOfIndustry.level) {
+                this.list = [];
+                $("#marker-div").empty();
+            }
 
-            if (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
-                while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
-                    this.makeMarker();
-                }
+            while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
+                this.makeMarker();
             }
 
             _.each(this.list, (marker) => {
                 if (!SharkGame.flags.markers[marker.attr("id")]) {
-                    SharkGame.flags.markers[marker.attr("id")] = "NA";
+                    SharkGame.flags.markers[marker.attr("id")] = "RETURNME";
                 }
                 $("#marker-div").append(
                     marker
@@ -524,6 +525,7 @@ SharkGame.Resources = {
                 );
                 if (
                     SharkGame.flags.markers[marker.attr("id")] !== "NA" &&
+                    SharkGame.flags.markers[marker.attr("id")] !== "RETURNME" &&
                     world.doesResourceExist(SharkGame.flags.markers[marker.attr("id")].split("-")[1])
                 ) {
                     res.markers.markLocation(marker.attr("id"), SharkGame.flags.markers[marker.attr("id")]);
@@ -555,7 +557,7 @@ SharkGame.Resources = {
                     $("#tooltipbox")
                         .html(
                             sharktext.boldString(
-                                "Drag this marker onto stuff to increase production.<br>While a marker is still in its slot, you can also click where you want it to go."
+                                "Drag this marker onto stuff to increase production.<br><br>While a marker is still in its slot, you can also click where you want it to go."
                             )
                         )
                         .addClass("forHomeButtonOrGrotto");
@@ -574,7 +576,7 @@ SharkGame.Resources = {
                 return;
             }
             if (SharkGame.flags.markers[marker.attr("id")] !== "NA") {
-                if (!duringLoad) {
+                if (!duringLoad && SharkGame.flags.markers[marker.attr("id")] !== "RETURNME") {
                     res.markers.unmarkLocation(SharkGame.flags.markers[marker.attr("id")], marker.attr("id"));
                 }
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");

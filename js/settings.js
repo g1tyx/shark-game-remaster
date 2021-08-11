@@ -218,7 +218,7 @@ SharkGame.Settings = {
     verboseMarkerDescriptions: {
         defaultSetting: false,
         name: "Verbose Marker",
-        desc: "Whether the 'marker' mechanic should have text saying where it is, among other things.",
+        desc: "Whether the 'marker' mechanic should have text saying where it is.",
         category: "ACCESSIBILITY",
         options: [true, false],
         onChange() {
