@@ -69,14 +69,6 @@ SharkGame.Settings = {
         },
     },
 
-    doAspectTable: {
-        defaultSetting: "tree",
-        name: "Aspect Table or Tree",
-        desc: "Whether to draw the visual aspect tree or the more accessible aspect table.",
-        category: "LAYOUT",
-        options: ["tree", "table"],
-    },
-
     groupResources: {
         defaultSetting: true,
         name: "Group Resources",
@@ -210,6 +202,27 @@ SharkGame.Settings = {
         options: [true, false],
         onChange() {
             SharkGame.TabHandler.changeTab(SharkGame.Tabs.current);
+        },
+    },
+
+    // ACCESSIBILITY
+
+    doAspectTable: {
+        defaultSetting: "tree",
+        name: "Aspect Table or Tree",
+        desc: "Whether to draw the visual aspect tree or the more accessible aspect table.",
+        category: "ACCESSIBILITY",
+        options: ["tree", "table"],
+    },
+
+    verboseMarkerDescriptions: {
+        defaultSetting: false,
+        name: "Verbose Marker",
+        desc: "Whether the 'marker' mechanic should have text saying where it is, among other things.",
+        category: "ACCESSIBILITY",
+        options: [true, false],
+        onChange() {
+            res.markers.updateMarkerDescriptions();
         },
     },
 

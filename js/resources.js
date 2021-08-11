@@ -532,6 +532,7 @@ SharkGame.Resources = {
                     res.markers.tryReturnMarker(null, true, marker);
                 }
             });
+            res.markers.updateMarkerDescriptions();
         },
 
         makeMarker(type = "nobody cares", initialLocation = "NA") {
@@ -549,12 +550,20 @@ SharkGame.Resources = {
         },
 
         tooltip(_event) {
-            if (SharkGame.flags.markers[this.id] === "NA") {
-                $("#tooltipbox")
-                    .html(sharktext.boldString("Click and drag this marker onto resources or incomes to increase their production."))
-                    .addClass("forHomeButtonOrGrotto");
-            } else {
-                $("#tooltipbox").html(sharktext.boldString("Click this slot to return the marker to it.")).addClass("forHomeButtonOrGrotto");
+            if (SharkGame.Settings.current.showTooltips) {
+                if (SharkGame.flags.markers[this.id] === "NA") {
+                    $("#tooltipbox")
+                        .html(
+                            sharktext.boldString(
+                                "Drag this marker onto stuff to increase production.<br>While a marker is still in its slot, you can also click where you want it to go."
+                            )
+                        )
+                        .addClass("forHomeButtonOrGrotto");
+                } else {
+                    $("#tooltipbox")
+                        .html(sharktext.boldString("Click this slot or click the marker to recall it."))
+                        .addClass("forHomeButtonOrGrotto");
+                }
             }
         },
 
@@ -571,6 +580,7 @@ SharkGame.Resources = {
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");
                 marker.attr("draggable", true);
                 SharkGame.flags.markers[marker.attr("id")] = "NA";
+                res.markers.updateMarkerDescriptions();
                 res.tableTextLeave();
             }
         },
@@ -620,6 +630,34 @@ SharkGame.Resources = {
             });
         },
 
+        updateMarkerDescriptions() {
+            if (SharkGame.Settings.current.verboseMarkerDescriptions) {
+                let textToDisplay = "";
+                _.each(res.markers.list, (marker) => {
+                    if (textToDisplay) textToDisplay += "<br>";
+                    textToDisplay += "Marker #" + marker.attr("id").split("-")[1] + " is ";
+                    let markerLocation;
+                    if (SharkGame.flags.markers) {
+                        markerLocation = SharkGame.flags.markers[marker.attr("id")];
+                    }
+                    if (_.isUndefined(markerLocation)) {
+                        textToDisplay = "";
+                        return false;
+                    }
+                    if (markerLocation === "NA") {
+                        textToDisplay += "in its slot.";
+                    } else if (markerLocation.includes("income")) {
+                        textToDisplay += "boosting all " + markerLocation.split("-")[1] + " gains.";
+                    } else if (markerLocation.includes("resource")) {
+                        textToDisplay += "boosting " + markerLocation.split("-")[1] + " efficiency.";
+                    }
+                });
+                $("#marker-description").html(textToDisplay);
+            } else {
+                $("#marker-description").html("");
+            }
+        },
+
         reapplyMarker(marker) {
             if (SharkGame.flags.markers) {
                 $("#" + SharkGame.flags.markers[marker.attr("id")])
@@ -657,6 +695,7 @@ SharkGame.Resources = {
                     .attr("markerId", originalId);
                 SharkGame.flags.markers[originalId] = newId;
             }
+            res.markers.updateMarkerDescriptions();
         },
 
         unmarkLocation(locationPrevious, id) {
@@ -859,6 +898,7 @@ SharkGame.Resources = {
         if (resourceTable.length <= 0) {
             // check for aspect level here later
             statusDiv.prepend($("<div>").attr("id", "marker-div"));
+            statusDiv.prepend($("<div>").attr("id", "marker-description"));
             statusDiv.prepend($("<div>").attr("id", "minute-hand-div"));
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
@@ -963,11 +1003,13 @@ SharkGame.Resources = {
                     .on("dragstart", res.markers.handleResourceDragStart)
                     .on("dragover", (event) => {
                         if (res.markers.canBePlacedOn("resource-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
-                            $("#tooltipbox").html(
-                                sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                                    " efficiency x" +
-                                    (SharkGame.Aspects.pathOfIndustry.level + 1)
-                            );
+                            if (SharkGame.Settings.current.showTooltips) {
+                                $("#tooltipbox").html(
+                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                        " efficiency x" +
+                                        (SharkGame.Aspects.coordinatedCooperation.level + 1)
+                                );
+                            }
                             event.originalEvent.preventDefault();
                         }
                     })
@@ -1003,12 +1045,19 @@ SharkGame.Resources = {
                     .on("dragstart", res.markers.handleResourceDragStart)
                     .on("dragover", (event) => {
                         if (res.markers.canBePlacedOn("income-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
-                            $("#tooltipbox").html(
-                                "all " +
-                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                                    " gains x" +
-                                    (SharkGame.Aspects.pathOfIndustry.level + 1)
-                            );
+                            if (SharkGame.Settings.current.showTooltips) {
+                                $("#tooltipbox").html(
+                                    "all " +
+                                        sharktext.getResourceName(
+                                            resourceKey,
+                                            false,
+                                            69,
+                                            sharkcolor.getElementColor("tooltipbox", "background-color")
+                                        ) +
+                                        " gains x" +
+                                        (SharkGame.Aspects.coordinatedCooperation.level + 1)
+                                );
+                            }
                             event.originalEvent.preventDefault();
                         }
                     })
