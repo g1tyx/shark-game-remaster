@@ -110,6 +110,8 @@ SharkGame.AspectTree = {
                 aspect.clicked(event);
             }
 
+            tree.updateEssenceCounter();
+
             requestAnimationFrame(() => {
                 tree.drawTable(table);
             });
