@@ -313,6 +313,9 @@ SharkGame.AspectTree = {
         context.canvas.width = CANVAS_WIDTH;
         context.canvas.height = CANVAS_HEIGHT;
 
+        // setting font for later
+        context.font = "12px Verdana";
+
         // Only one call to getComputedStyle for two properties, otherwise we'd use sharkcolor.getElementColor
         // Also, beware that these values change if the button is pressed, but that should never happen in the same frame
         // as the aspect tree gets redrawn
@@ -457,6 +460,23 @@ SharkGame.AspectTree = {
                 width,
                 height
             );
+        }
+        const textToDisplay = tree.getLittleLevelText(name);
+        if (textToDisplay) {
+            context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).color;
+            context.fillText(textToDisplay, posX + width + 5, posY + height / 2);
+            // revert back to the previous fillStyle right afterward
+            context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).backgroundColor;
+        }
+    },
+    getLittleLevelText(aspectName) {
+        if (SharkGame.Aspects[aspectName] && !SharkGame.Aspects[aspectName].getUnlocked()) {
+            const currentLevel = SharkGame.Aspects[aspectName].level;
+            const maxLevel = SharkGame.Aspects[aspectName].max;
+            if (currentLevel < maxLevel) {
+                return currentLevel + " / " + maxLevel;
+            }
+            return "MAX";
         }
     },
     increaseLevel(aspect) {
