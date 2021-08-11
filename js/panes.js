@@ -312,6 +312,32 @@ SharkGame.PaneHandler = {
             )
         );
         optionsTable.append(row);
+
+        // SETTING WIPE
+        row = $("<tr>");
+        row.append($("<td>").html("Wipe Settings:<br/><span class='smallDesc'>(Change all settings to default.)</span>"));
+        row.append(
+            $("<td>").append(
+                $("<button>")
+                    .html("wipe")
+                    .addClass("option-button")
+                    .on("click", () => {
+                        if (confirm("Are you absolutely sure you want to wipe your settings to default?")) {
+                            $.each(SharkGame.Settings.current, (settingName) => {
+                                if (SharkGame.Settings[settingName]) {
+                                    SharkGame.Settings.current[settingName] = SharkGame.Settings[settingName].defaultSetting;
+                                }
+                                if (typeof SharkGame.Settings[settingName].onChange === "function") {
+                                    SharkGame.Settings[settingName].onChange();
+                                }
+                            });
+                            SharkGame.PaneHandler.nextPaneInStack();
+                            SharkGame.PaneHandler.showOptions();
+                        }
+                    })
+            )
+        );
+        optionsTable.append(row);
         return optionsTable;
     },
 

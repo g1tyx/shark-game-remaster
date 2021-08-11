@@ -66,7 +66,7 @@ SharkGame.Save = {
         return saveString;
     },
 
-    loadGame(importSaveData) {
+    loadGame(importSaveData, preserveSettings) {
         let saveData;
         let saveDataString = importSaveData || localStorage.getItem(SharkGame.Save.saveFileName);
 
@@ -257,15 +257,17 @@ SharkGame.Save = {
             // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
             res.recalculateIncomeTable();
 
-            $.each(saveData.settings, (settingId, currentvalue) => {
-                if (SharkGame.Settings.current[settingId] !== undefined) {
-                    SharkGame.Settings.current[settingId] = currentvalue;
-                    // update anything tied to this setting right off the bat
-                    if (typeof SharkGame.Settings[settingId].onChange === "function") {
-                        SharkGame.Settings[settingId].onChange();
+            if (!preserveSettings) {
+                $.each(saveData.settings, (settingId, currentvalue) => {
+                    if (SharkGame.Settings.current[settingId] !== undefined) {
+                        SharkGame.Settings.current[settingId] = currentvalue;
+                        // update anything tied to this setting right off the bat
+                        if (typeof SharkGame.Settings[settingId].onChange === "function") {
+                            SharkGame.Settings[settingId].onChange();
+                        }
                     }
-                }
-            });
+                });
+            }
 
             // load existence in in-between state,
             // else check for offline mode and process
@@ -348,7 +350,7 @@ SharkGame.Save = {
         try {
             log.clearMessages(false);
             main.init();
-            SharkGame.Save.loadGame(data);
+            SharkGame.Save.loadGame(data, data === "{}");
             SharkGame.TitleBarHandler.correctTitleBar();
             home.discoverActions();
         } catch (err) {
