@@ -439,6 +439,12 @@ pre {
   text-align: left;
   border-spacing: 0 0.1em;
 }
+#sidebar #resourceTableContainer table .highlightedIncome {
+  background-color: var(--color-light);
+}
+#sidebar #resourceTableContainer table .highlightedResource {
+  background-color: var(--color-light);
+}
 #sidebar #resourceTableContainer table h3 {
   padding: 0.2em;
   width: auto;

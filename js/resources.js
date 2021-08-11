@@ -584,6 +584,7 @@ SharkGame.Resources = {
             const image = document.createElement("img");
             image.src = "img/raw/general/theMarker.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
+            res.markers.updateColorfulDropZones();
             res.tableTextLeave();
         },
 
@@ -594,14 +595,30 @@ SharkGame.Resources = {
             const image = document.createElement("img");
             image.src = "img/raw/general/theMarker.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
+            res.markers.updateColorfulDropZones();
             res.tableTextLeave();
         },
 
         handleDragEnd(_event) {
             res.markers.chromeForcesWorkarounds = "";
+            res.markers.updateColorfulDropZones();
         },
 
-        toggleColorfulDropZones() {},
+        updateColorfulDropZones() {
+            SharkGame.ResourceMap.forEach((_resourceData, resourceName) => {
+                if (world.doesResourceExist(resourceName) && res.markers.chromeForcesWorkarounds) {
+                    if (!$.isEmptyObject($("#resource-" + resourceName)) && res.markers.canBePlacedOn("resource-" + resourceName)) {
+                        $("#resource-" + resourceName).addClass("highlightedResource");
+                    }
+                    if (!$.isEmptyObject($("#income-" + resourceName)) && res.markers.canBePlacedOn("income-" + resourceName)) {
+                        $("#income-" + resourceName).addClass("highlightedIncome");
+                    }
+                } else {
+                    $("#resource-" + resourceName).removeClass("highlightedResource");
+                    $("#income-" + resourceName).removeClass("highlightedIncome");
+                }
+            });
+        },
 
         reapplyMarker(marker) {
             if (SharkGame.flags.markers) {
@@ -948,7 +965,8 @@ SharkGame.Resources = {
                         if (res.markers.canBePlacedOn("resource-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
                             $("#tooltipbox").html(
                                 sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                                    " efficiency x2"
+                                    " efficiency x" +
+                                    (SharkGame.Aspects.pathOfIndustry.level + 1)
                             );
                             event.originalEvent.preventDefault();
                         }
@@ -988,7 +1006,8 @@ SharkGame.Resources = {
                             $("#tooltipbox").html(
                                 "all " +
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                                    " gains x2"
+                                    " gains x" +
+                                    (SharkGame.Aspects.pathOfIndustry.level + 1)
                             );
                             event.originalEvent.preventDefault();
                         }
