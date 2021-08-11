@@ -220,6 +220,7 @@ SharkGame.WorldTypes = {
             "sponge",
             "clam",
             "tar",
+            "filter",
             "ancientPart",
             "world",
         ],
