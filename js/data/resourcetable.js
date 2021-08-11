@@ -1323,7 +1323,7 @@ SharkGame.InternalCategories = {
     },
     octopuses: {
         name: "Octopuses",
-        resources: ["octopus", "scavenger", "collector"],
+        resources: ["octopus", "scavenger", "investigator"],
     },
     eels: {
         name: "Eels",

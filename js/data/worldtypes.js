@@ -219,6 +219,7 @@ SharkGame.WorldTypes = {
             "octopusmachines",
             "sponge",
             "clam",
+            "collector",
             "tar",
             "filter",
             "ancientPart",
