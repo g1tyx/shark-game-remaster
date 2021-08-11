@@ -187,7 +187,15 @@ SharkGame.TextUtil = {
 
             let suffix;
             if (suffixIndex >= suffixes.length) {
-                formatted = "lots";
+                if (number > 1e290) {
+                    formatted = "max";
+                } else if (number > 1e200) {
+                    formatted = "too much";
+                } else if (number > 1e100) {
+                    formatted = "tons";
+                } else {
+                    formatted = "lots";
+                }
             } else {
                 suffix = suffixes[suffixIndex];
                 // fix number to be compliant with suffix

@@ -341,6 +341,8 @@ SharkGame.Resources = {
         resourceTable.amount += amount;
         if (resourceTable.amount < 0) {
             resourceTable.amount = 0;
+        } else if (!(resourceTable.amount < SharkGame.MAX)) {
+            resourceTable.amount = SharkGame.MAX;
         }
 
         if (amount > 0) {
