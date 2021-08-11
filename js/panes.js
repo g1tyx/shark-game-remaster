@@ -293,26 +293,6 @@ SharkGame.PaneHandler = {
         row.append($("<td>").attr("colSpan", 4).append($("<input>").attr("type", "text").attr("id", "importExportField")));
         optionsTable.append(row);
 
-        // SAVE WIPE
-        // add save wipe
-        row = $("<tr>");
-        row.append(
-            $("<td>").html("Wipe Save:<br/><span class='smallDesc'>(Completely wipe your save and reset the game. COMPLETELY. FOREVER.)</span>")
-        );
-        row.append(
-            $("<td>").append(
-                $("<button>")
-                    .html("wipe")
-                    .addClass("option-button")
-                    .on("click", () => {
-                        if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
-                            SharkGame.Save.wipeSave();
-                        }
-                    })
-            )
-        );
-        optionsTable.append(row);
-
         // SETTING WIPE
         row = $("<tr>");
         row.append($("<td>").html("Wipe Settings:<br/><span class='smallDesc'>(Change all settings to default.)</span>"));
@@ -338,6 +318,27 @@ SharkGame.PaneHandler = {
             )
         );
         optionsTable.append(row);
+
+        // SAVE WIPE
+        // add save wipe
+        row = $("<tr>");
+        row.append(
+            $("<td>").html("Wipe Save:<br/><span class='smallDesc'>(Completely wipe your save and reset the game. COMPLETELY. FOREVER.)</span>")
+        );
+        row.append(
+            $("<td>").append(
+                $("<button>")
+                    .html("wipe")
+                    .addClass("option-button")
+                    .on("click", () => {
+                        if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
+                            SharkGame.Save.wipeSave();
+                        }
+                    })
+            )
+        );
+        optionsTable.append(row);
+
         return optionsTable;
     },
 
