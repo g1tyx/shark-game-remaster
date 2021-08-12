@@ -241,7 +241,7 @@ SharkGame.Settings = {
         name: "Playstyle",
         desc: "How you prefer the game. It will adjust to fit your choice.",
         category: "OTHER",
-        options: ["Idle", "Inactive", "Active"],
+        options: [/* "Idle",  */ "Inactive", "Active"],
         onChange() {
             main.applyProgressionSpeed();
         },

@@ -816,6 +816,10 @@ SharkGame.Resources = {
                     null
                 );
             }
+
+            if (!SharkGame.Aspects.theMinuteHand.level) {
+                $("#minute-hand-toggle").remove();
+            }
             this.active = false;
         },
 
