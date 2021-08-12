@@ -432,6 +432,9 @@ SharkGame.Resources = {
     checkResources(resourceList, checkTotal) {
         return _.every(resourceList, (required, resource) => {
             const currentAmount = checkTotal ? res.getTotalResource(resource) : res.getResource(resource);
+            if (currentAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
+                return currentAmount * SharkGame.BIG_EPSILON_RATIO + currentAmount >= required;
+            }
             return currentAmount >= required;
         });
     },

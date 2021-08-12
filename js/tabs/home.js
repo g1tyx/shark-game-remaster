@@ -288,14 +288,15 @@ SharkGame.Home = {
                     "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice.<br>The sharp snap of broken arcana echoes in your mind.",
             },
             {
-                name: "shrouded-essence",
-                unlock: { totalResource: { sacrifice: 1000000 } },
-                message: "The raw, tingling energy of the shards pulses through you.",
-            },
-            {
                 name: "shrouded-end",
                 unlock: { upgrade: ["arcaneActivation"] },
                 message: "The gate opens. It pulls, tugging at you.<br>The force is immense.",
+            },
+            {
+                name: "shrouded-essence",
+                unlock: { totalResource: { sacrifice: 1000000000000000 } },
+                message:
+                    "You see without light. You hear without sound. You feel without touching.<br>Everything pelts you from every direction. You can't make sense of it anymore. Any of it. It feels like it's all breaking down around you.<br>",
             },
         ],
 
@@ -641,23 +642,30 @@ SharkGame.Home = {
         }
         let amount = amountToBuy;
         let actionCost;
+        let enableButton = true;
         if (amountToBuy < 0) {
             const max = Math.floor(home.getMax(actionData));
             // convert divisor from a negative number to a positive fraction
             const divisor = 1 / (Math.floor(amountToBuy) * -1);
             amount = max * divisor;
             amount = Math.floor(amount);
-            if (amount < 1) amount = 1;
+            if (amount < 1) {
+                amount = 1;
+                enableButton = false;
+            }
             actionCost = home.getCost(actionData, amount);
         } else {
             actionCost = home.getCost(actionData, amountToBuy);
         }
-        // disable button if resources can't be met
-        let enableButton;
-        if ($.isEmptyObject(actionCost)) {
-            enableButton = true; // always enable free buttons
-        } else {
-            enableButton = res.checkResources(actionCost);
+
+        // keep button disabled if the max returned less than 1
+        if (enableButton) {
+            // disable button if resources can't be met
+            if ($.isEmptyObject(actionCost)) {
+                enableButton = true; // always enable free buttons
+            } else {
+                enableButton = res.checkResources(actionCost);
+            }
         }
 
         let label = actionData.name;
@@ -985,7 +993,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" gains ") +
                     " by " +
-                    sharktext.boldString(Math.round(buyingHowMuch * degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1002,7 +1010,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" gains ") +
                     " by " +
-                    sharktext.boldString(Math.round(buyingHowMuch * degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1025,7 +1033,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" gains ") +
                     " by " +
-                    sharktext.boldString(Math.round(degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharkmath.beautif(degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1048,7 +1056,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedResource, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" gains ") +
                     " by " +
-                    sharktext.boldString(Math.round(degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1061,7 +1069,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" income ") +
                     " by " +
-                    sharktext.boldString(Math.round(buyingHowMuch * degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1074,7 +1082,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" income ") +
                     " by " +
-                    sharktext.boldString(Math.round(buyingHowMuch * degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1093,7 +1101,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" income ") +
                     " by " +
-                    sharktext.boldString(Math.round(degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1112,7 +1120,7 @@ SharkGame.Home = {
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     sharktext.boldString(" income ") +
                     " by " +
-                    sharktext.boldString(Math.round(degreePerPurchase * 100) + "%") +
+                    sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
             });
         }
@@ -1166,9 +1174,18 @@ SharkGame.Home = {
 
         _.each(rawCost, (costObj) => {
             const resource = SharkGame.PlayerResources.get(action.max);
-            const currAmount = resource.amount;
-            const priceIncrease = costObj.priceIncrease;
-            let cost = 0;
+            let currAmount = resource.amount;
+            let priceIncrease = costObj.priceIncrease;
+            let cost;
+            if (amount > SharkGame.BIGGEST_SAFE_NUMBER || currAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
+                amount = BigInt(typeof amount === "bigint" ? amount : Math.round(amount));
+                currAmount = BigInt(typeof currAmount === "bigint" ? currAmount : Math.round(currAmount));
+                priceIncrease = BigInt(Math.round(priceIncrease));
+                cost = 0n;
+            } else {
+                cost = 0;
+            }
+
             switch (costObj.costFunction) {
                 case "constant":
                     cost = sharkmath.constantCost(currAmount, currAmount + amount, priceIncrease);
@@ -1180,10 +1197,10 @@ SharkGame.Home = {
                     cost = sharkmath.uniqueCost(currAmount, currAmount + amount, priceIncrease);
                     break;
             }
-            if (Math.abs(cost - Math.round(cost)) < SharkGame.EPSILON) {
+            if (typeof cost !== "bigint" && Math.abs(cost - Math.round(cost)) < SharkGame.EPSILON) {
                 cost = Math.round(cost);
             }
-            calcCost[costObj.resource] = cost;
+            calcCost[costObj.resource] = Number(cost);
         });
         return calcCost;
     },
@@ -1193,16 +1210,24 @@ SharkGame.Home = {
         if (action.max) {
             // max is used as the determining resource for linear cost functions
             const resource = SharkGame.PlayerResources.get(action.max);
-            const currAmount = resource.amount;
+            let currAmount = resource.amount;
             max = Number.MAX_VALUE;
             _.each(action.cost, (costObject) => {
-                const costResource = SharkGame.PlayerResources.get(costObject.resource).amount;
-                const priceIncrease = costObject.priceIncrease;
+                let costResource = SharkGame.PlayerResources.get(costObject.resource).amount;
+                let priceIncrease = costObject.priceIncrease;
+                let subMax;
+                if (costResource > SharkGame.BIGGEST_SAFE_NUMBER || currAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
+                    costResource = BigInt(Math.round(costResource));
+                    currAmount = BigInt(typeof currAmount === "bigint" ? currAmount : Math.round(currAmount));
+                    priceIncrease = BigInt(Math.round(priceIncrease));
+                    subMax = -1n;
+                } else {
+                    subMax = -1;
+                }
 
-                let subMax = -1;
                 switch (costObject.costFunction) {
                     case "constant":
-                        subMax = sharkmath.constantMax(0, costResource, priceIncrease);
+                        subMax = sharkmath.constantMax(typeof subMax === "bigint" ? 0n : 0, costResource, priceIncrease);
                         break;
                     case "linear":
                         subMax = sharkmath.linearMax(currAmount, costResource, priceIncrease) - currAmount;
@@ -1212,10 +1237,10 @@ SharkGame.Home = {
                         break;
                 }
                 // prevent flashing action costs
-                if (Math.abs(subMax - Math.round(subMax)) < SharkGame.EPSILON) {
+                if (typeof subMax !== "bigint" && Math.abs(subMax - Math.round(subMax)) < SharkGame.EPSILON) {
                     subMax = Math.round(subMax);
                 }
-                max = Math.min(max, subMax);
+                max = Math.min(max, Number(subMax));
             });
         }
         return Math.floor(max);

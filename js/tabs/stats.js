@@ -744,7 +744,7 @@ SharkGame.Stats = {
                 $.each(generatorCondensedObject.genAffect.increase, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round(degree * 100 * amount) + "%") +
+                        sharktext.boldString(sharktext.beautify(degree * 100 * amount) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +
@@ -758,7 +758,7 @@ SharkGame.Stats = {
                 $.each(generatorCondensedObject.genAffect.decrease, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round(-degree * 100 * amount) + "%") +
+                        sharktext.boldString(sharktext.beautify(-degree * 100 * amount) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +
@@ -772,7 +772,7 @@ SharkGame.Stats = {
                 $.each(generatorCondensedObject.genAffect.multincrease, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round((degree ** amount - 1) * 100) + "%") +
+                        sharktext.boldString(sharktext.beautify((degree ** amount - 1) * 100) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +
@@ -786,7 +786,7 @@ SharkGame.Stats = {
                 $.each(generatorCondensedObject.genAffect.multdecrease, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round((1 - degree ** amount) * 100) + "%") +
+                        sharktext.boldString(sharktext.beautify((1 - degree ** amount) * 100) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +
@@ -807,7 +807,7 @@ SharkGame.Stats = {
                 $.each(generatedCondensedObject.resAffect.increase, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round(degree * 100 * amount) + "%") +
+                        sharktext.boldString(sharktext.beautify(degree * 100 * amount) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +
@@ -821,7 +821,7 @@ SharkGame.Stats = {
                 $.each(generatedCondensedObject.resAffect.decrease, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round(-degree * 100 * amount) + "%") +
+                        sharktext.boldString(sharktext.beautify(-degree * 100 * amount) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +
@@ -835,7 +835,7 @@ SharkGame.Stats = {
                 $.each(generatedCondensedObject.resAffect.multincrease, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round((degree ** amount - 1) * 100) + "%") +
+                        sharktext.boldString(sharktext.beautify((degree ** amount - 1) * 100) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +
@@ -849,7 +849,7 @@ SharkGame.Stats = {
                 $.each(generatedCondensedObject.resAffect.multdecrease, (affector, degree) => {
                     const amount = SharkGame.Settings.current.alwaysSingularTooltip ? 1 : res.getResource(affector);
                     text +=
-                        sharktext.boldString(Math.round((1 - degree ** amount) * 100) + "%") +
+                        sharktext.boldString(sharktext.beautify((1 - degree ** amount) * 100) + "%") +
                         " from " +
                         sharktext.boldString(sharktext.beautify(amount)) +
                         " " +

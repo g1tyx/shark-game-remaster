@@ -76,6 +76,11 @@ SharkGame.HomeActions = {
         return finalTable;
     },
 
+    // something new to keep in mind:
+    // the new system for keeping home actions in check at huge numbers doesn't work if the price increase isn't a whole number
+    // so fractional costs are banned now
+    // that's not a big deal anyways though, just multiply some numbers around to make the equivalent balance work out in the end with a non-fractional cost
+
     default: {
         // FREEBIES ////////////////////////////////////////////////////////////////////////////////
 
