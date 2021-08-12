@@ -1467,6 +1467,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/makeSacrifice": {
+        frame: { x: 2582, y: 96, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/pearlConversion": {
         frame: { x: 1146, y: 106, w: 50, h: 50 },
         rotated: false,
@@ -1660,6 +1668,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "technologies/arcaneCompass": {
+        frame: { x: 2482, y: 96, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "technologies/artificialHeating": {
         frame: { x: 1818, y: 100, w: 50, h: 50 },
         rotated: false,
@@ -1694,6 +1710,14 @@ SharkGame.Sprites = {
     },
     "technologies/cetaceanAwareness": {
         frame: { x: 2018, y: 50, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/chimaeraMysticism": {
+        frame: { x: 2582, y: 46, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1941,6 +1965,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "technologies/superiorSearchAlgorithms": {
+        frame: { x: 2532, y: 96, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "technologies/superprocessing": {
         frame: { x: 1768, y: 0, w: 50, h: 50 },
         rotated: false,
@@ -1967,6 +1999,14 @@ SharkGame.Sprites = {
     },
     "technologies/underwaterChemistry": {
         frame: { x: 1666, y: 54, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/urchinAttraction": {
+        frame: { x: 2532, y: 46, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
