@@ -528,7 +528,12 @@ SharkGame.Upgrades = {
         statsDiscovery: { cost: { science: 75 } },
         underwaterChemistry: {},
         seabedGeology: {},
-        thermalVents: {},
+        thermalVents: {
+            cost: {
+                science: 500,
+                sand: 1000,
+            },
+        },
         clamScooping: {
             name: "Clam Scooping",
             desc: "We see these things all over the seabed but we can't tell which are clams and which are rocks.",
@@ -536,16 +541,22 @@ SharkGame.Upgrades = {
                 "Patient observation has shown that clams and rocks are in fact different and distinct things. Now we won't be scooping up any more rocks!",
             effectDesc: "Clams can be collected like fish.",
             cost: {
-                science: 150,
+                science: 250,
             },
             required: {
                 upgrades: ["seabedGeology"],
             },
         },
-        laserRays: {},
+        laserRays: {
+            cost: {
+                crystal: 100,
+                sand: 2000,
+                science: 500,
+            },
+        },
         transmutation: {
             cost: {
-                science: 1500,
+                science: 2500,
                 crystal: 1750,
             },
         },
@@ -570,7 +581,7 @@ SharkGame.Upgrades = {
                 "By infusing sponge with processed matter, we have devised spronge, a versatile super-material that kind of freaks us out!",
             effectDesc: "Enables creation of spronge, the backbone... uh... the core material in cephalopod technology.",
             cost: {
-                science: 1500,
+                science: 2500,
                 sponge: 800,
                 junk: 4000,
             },
@@ -607,7 +618,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future? Also, skimmers are now possible to create.",
             cost: {
-                science: 4000,
+                science: 6000,
                 sharkonium: 2000,
             },
             required: {
@@ -616,7 +627,7 @@ SharkGame.Upgrades = {
         },
         iterativeDesign: {
             cost: {
-                science: 75000,
+                science: 100000,
                 sharkonium: 17500,
             },
             effect: {
@@ -639,7 +650,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "We can mimic some of the life-mimicking biotechnology the octopuses use, but it gums up the oceans so quickly. So very dangerous.",
             cost: {
-                science: 4000,
+                science: 6000,
                 spronge: 200,
             },
             required: {
@@ -653,7 +664,7 @@ SharkGame.Upgrades = {
                 "While the tar makes it difficult to pull off, it is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
             effectDesc: "Crabs can now specialize in collecting sponge.",
             cost: {
-                science: 1500,
+                science: 2000,
                 sand: 500,
                 sponge: 10,
             },
@@ -664,12 +675,12 @@ SharkGame.Upgrades = {
         },
         biology: {
             cost: {
-                science: 1600,
+                science: 2250,
             },
         },
         rayBiology: {
             cost: {
-                science: 1800,
+                science: 2400,
                 sand: 1600,
             },
             required: {
@@ -679,7 +690,7 @@ SharkGame.Upgrades = {
         crabBiology: {
             desc: "Crabs are a mystery. They keep to themselves and dig up crystals or pick up sponge. What is even up with that? What ARE crabs??",
             cost: {
-                science: 2500,
+                science: 2700,
                 fish: 2500,
             },
             required: {
@@ -747,7 +758,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Octopus investigators, science sharks, and collector crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
-                science: 17500,
+                science: 22500,
             },
             effect: {
                 incomeMultiplier: {
@@ -762,7 +773,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Fish, sand, and crystals can be found! Even further out, though, there's something else.",
             effectDesc: "Crabs are 4 times more effective, and collectors are twice as effective...and something was spotted in the distance.",
             cost: {
-                science: 25000,
+                science: 30000,
                 fish: 30000,
             },
             required: {
@@ -783,7 +794,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Explored the city in the distance and discovered a gate and some weird machines. Octopuses can now specialize in scavenging around the city.",
             cost: {
-                science: 50000,
+                science: 75000,
                 fish: 75000,
             },
             required: {
@@ -819,8 +830,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Results inconclusive. Further analysis pending.",
             effectDesc: "Ancient parts can be sacrificed for science. Scientists are twice as effective, and investigators are 4 times as effective.",
             cost: {
-                science: 125000,
-                ancientPart: 250,
+                science: 150000,
+                ancientPart: 350,
             },
             required: {
                 upgrades: ["farAbandonedExploration", "engineering"],
@@ -840,8 +851,8 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Laser rays can fuse sand to crystal at an absurd rate: 128 times faster! We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
-                science: 2500000,
-                ancientPart: 1750,
+                science: 3500000,
+                ancientPart: 2250,
             },
             required: {
                 upgrades: ["reverseEngineering", "iterativeDesign", "laserRays"],
@@ -858,7 +869,7 @@ SharkGame.Upgrades = {
             researchedMessage: "It is done.",
             effectDesc: "The artifact is assembled. The gate can be opened.",
             cost: {
-                ancientPart: 250000,
+                ancientPart: 350000,
             },
             required: {
                 upgrades: ["highEnergyFusion"],
@@ -896,7 +907,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Shark machines are all four times as effective, filters are 4 times as effective. We work better with the machines, not against them.",
             cost: {
-                science: 4e7,
+                science: 6e7,
             },
             required: {
                 upgrades: ["reverseEngineering", "iterativeDesign"],
@@ -1303,7 +1314,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "We've managed to attract the attention of one of the sea urchins, and it's bringing stuff to us. I think it likes us?? Maybe???",
             cost: {
-                science: 25,
+                science: 50,
             },
             required: {
                 upgrades: ["civilContact"],
@@ -1312,7 +1323,7 @@ SharkGame.Upgrades = {
         },
         crystalContainer: {
             cost: {
-                science: 50,
+                science: 75,
                 crystal: 25,
             },
             required: {
@@ -1326,7 +1337,7 @@ SharkGame.Upgrades = {
         },
         underwaterChemistry: {
             cost: {
-                science: 100,
+                science: 125,
                 crystal: 25,
             },
         },
@@ -1335,7 +1346,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Urchins gather sand twice as fast. Not that they understand how to do it faster, but that we've shown them better techniques to mimic.",
             cost: {
-                science: 150,
+                science: 200,
                 sand: 100,
             },
             required: {
@@ -1363,7 +1374,7 @@ SharkGame.Upgrades = {
                 "The squid said something about being efficient and cooperative and blah blah blah. It's a little pretentious, but I GUESS they have a point.",
             effectDesc: "Sharks, crabs, urchins, extraction teams, scientists, and squid production times 2. Go team?",
             cost: {
-                science: 2500,
+                science: 3000,
             },
             required: {
                 upgrades: ["crabBiology", "squidBiology"],
@@ -1406,7 +1417,7 @@ SharkGame.Upgrades = {
                 "A crab can reach places a squid cannot, and a squid can help a crab get around faster. The squid were right, this is great!",
             effectDesc: "We may now organize crabs and squid into teams of 2 to expedite crystal extraction.",
             cost: {
-                science: 500,
+                science: 650,
                 kelp: 250,
             },
             required: {
@@ -1432,7 +1443,7 @@ SharkGame.Upgrades = {
             researchedMessage: "",
             effectDesc: "Squid are twice as effective. Squid can now be assigned to breed in a collective.",
             cost: {
-                science: 1250,
+                science: 1500,
             },
             required: {
                 upgrades: ["biology"],
@@ -1445,7 +1456,7 @@ SharkGame.Upgrades = {
         },
         crabBiology: {
             cost: {
-                science: 1750,
+                science: 2000,
                 kelp: 2500,
             },
             required: {
@@ -1463,7 +1474,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Indirectly, as it turns out. Ew.",
             effectDesc: "Urchins are twice as effective. Urchins can now be assigned to go make more urchins.",
             cost: {
-                science: 1250,
+                science: 1750,
                 kelp: 750,
             },
             required: {
@@ -1482,7 +1493,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Urchins collect kelp twice as fast. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
-                science: 1250,
+                science: 1750,
             },
             required: {
                 upgrades: ["agriculture"],
@@ -1499,7 +1510,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Found lots of fish, but also a giant wall of cracked ice. It's like a bubble around us as far as we can see!",
             effectDesc: "Sharks are twice as effective, squids are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 4500,
+                science: 6500,
                 fish: 25000,
             },
             required: {
@@ -1519,8 +1530,8 @@ SharkGame.Upgrades = {
                 "Exploring the icebergs yielded...more icebergs. It's a cold world out there, but there are untapped crystal reserves at the border.",
             effectDesc: "Extraction teams are four times as effective thanks to newly-discovered crystal deposits.",
             cost: {
-                science: 6000,
-                fish: 80000,
+                science: 8000,
+                fish: 90000,
             },
             required: {
                 upgrades: ["exploration"],
@@ -1537,7 +1548,7 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 2750,
+                science: 3500,
                 crystal: 1000,
                 sand: 10000,
             },
@@ -1551,7 +1562,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 7500,
+                science: 10000,
                 sharkonium: 4000,
             },
             required: {
@@ -1565,7 +1576,7 @@ SharkGame.Upgrades = {
                 "When we went to tamper with the machine, we found a secret hatch. It leads to a massive underground complex beneath the village!",
             effectDesc: "We accidentally discovered the underground complex. The squid do not seem to know we have stumbled upon it.",
             cost: {
-                science: 32500,
+                science: 35000,
             },
             required: {
                 upgrades: ["automation"],
@@ -1578,7 +1589,7 @@ SharkGame.Upgrades = {
             researchedMessage: "With machines, of course! And copious amounts of kelp for power. Don't ask.",
             effectDesc: "Developed artificial heating machines to battle the ice.",
             cost: {
-                science: 25000,
+                science: 20000,
                 kelp: 250000,
             },
             required: {
@@ -1592,7 +1603,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
             effectDesc: "Machines are twice as effective. Auto-transmuters are now possible to create.",
             cost: {
-                science: 40000,
+                science: 55000,
                 sharkonium: 10000,
             },
             required: {
@@ -1616,7 +1627,7 @@ SharkGame.Upgrades = {
                 "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
             effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
             cost: {
-                science: 150000,
+                science: 180000,
                 sharkonium: 40000,
             },
             required: {
@@ -1629,7 +1640,7 @@ SharkGame.Upgrades = {
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
             effectDesc: "Scientists are 4 times as effective, and all shark machines run twice as fast. Again!",
             cost: {
-                science: 250000,
+                science: 350000,
                 sharkonium: 75000,
             },
             required: {
@@ -1655,7 +1666,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
             cost: {
-                science: 3e6,
+                science: 4e6,
                 sharkonium: 250000,
                 junk: 1e6,
             },
@@ -1670,7 +1681,7 @@ SharkGame.Upgrades = {
                 "Had a sort of group huddle to decide our plan. The squid had some sort of motivational speech prepared or something, and it seems to have lifted the frenzy's spirits.",
             effectDesc: "Sharks and crabs x8. Urchins, squids, extraction teams and scientists x4. Go team!",
             cost: {
-                science: 1000000,
+                science: 1250000,
             },
             required: {
                 upgrades: ["internalInquiry"],
@@ -1693,7 +1704,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Scientists are twice as effective. Discovered little more than endless hallways of unrecognizable text and rooms filled with incomprehensible control schemes.",
             cost: {
-                science: 75000,
+                science: 100000,
             },
             effect: {
                 incomeMultiplier: {
@@ -1712,7 +1723,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Squid and collectives x2, extraction teams x4. Reconciled with the squids. They told us what they know about the machine's inner workings.",
             cost: {
-                science: 200000,
+                science: 250000,
             },
             effect: {
                 incomeMultiplier: {
@@ -1732,7 +1743,7 @@ SharkGame.Upgrades = {
                 "A wave of heat washes over you as the switch is flipped. The ice around the village quickly vaporizes, and like magic, a giant bubble is carved in the surrounding glaciers.",
             effectDesc: "Battery has been replaced. All the nearby ice has melted and we can now begin using the gate.",
             cost: {
-                science: 2500000,
+                science: 3250000,
                 sharkonium: 250000,
             },
             required: {

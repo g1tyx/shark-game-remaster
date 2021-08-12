@@ -806,7 +806,7 @@ SharkGame.Resources = {
             if (!SharkGame.flags.minuteHandTimer) {
                 SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
             }
-            if (SharkGame.Aspects.theMinuteHand.level && $.isEmptyObject($("#minute-hand-toggle"))) {
+            if (SharkGame.Aspects.theMinuteHand.level && $("#minute-hand-toggle").length === 0) {
                 SharkGame.Button.makeHoverscriptButton(
                     "minute-hand-toggle",
                     "my cool button",

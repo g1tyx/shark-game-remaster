@@ -41,7 +41,7 @@ SharkGame.Panes = {
 
     notice:
         "<p>Welcome to the open <b>alpha</b> of v0.2 for New Frontiers.</p>" +
-        "<p>v0.2 is a total rework.<br/>Right now only three worlds (besides starter) are playable.<br><b>Things will be missing.</b> New stuff will be added.</p>" +
+        "<p>v0.2 is a total rework.<br/>Right now only four worlds (besides the starter world) are playable.<br><b>Things will be missing.</b> New stuff will be added.</p>" +
         "<p>To give feedback or contribute, check out our <a href='https://discord.gg/eYqApFkFPY'>Discord</a>.</p>" +
         "<p>To play the stable (OUTDATED) version (with all planets), visit <a href='https://spencers145.github.io/SharkGame/'>this link</a>.</p>",
 };

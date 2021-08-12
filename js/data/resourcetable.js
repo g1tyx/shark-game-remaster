@@ -520,7 +520,7 @@ SharkGame.ResourceTable = {
             crystal: 100,
             //stone: 10,
             get tar() {
-                return 0.02 / main.getProgressionConstant();
+                return 0.04 / main.getProgressionConstant();
             },
         },
         value: 33500, //100 crystal 100 sand 25 sharkonium (3550)
@@ -706,7 +706,7 @@ SharkGame.ResourceTable = {
         desc: "Directive: amass resources.",
         color: "#727887",
         income: {
-            clam: 250,
+            clam: 300,
             get tar() {
                 return 0.2 / main.getProgressionConstant();
             },
@@ -791,7 +791,7 @@ SharkGame.ResourceTable = {
         name: "jellyfish",
         singleName: "jellyfish",
         color: "#E3B8FF",
-        value: 125,
+        value: 110,
     },
 
     clam: {
@@ -799,7 +799,7 @@ SharkGame.ResourceTable = {
         singleName: "clam",
         desc: "An acquired taste.",
         color: "#828FB5",
-        value: 3,
+        value: 10,
     },
 
     // MATERIALS
@@ -817,7 +817,7 @@ SharkGame.ResourceTable = {
         singleName: "crystal",
         desc: "Inscrutable secrets in solid form.",
         color: "#6FD9CC",
-        value: 15,
+        value: 10,
     },
 
     kelp: {

@@ -225,7 +225,7 @@ SharkGame.Gateway = {
 
         planetSelectionContent.append(
             $("<p>").html(
-                "NOTE: v0.2 alpha <b>ONLY</b> CONTAINS <b>3 WORLDS</b> at the moment.<br/>Once you beat them, maybe try v0.11 of the mod, a remaster of the original Shark Game?"
+                "NOTE: v0.2 alpha <b>ONLY</b> CONTAINS <b>4 WORLDS</b> at the moment.<br/>Once you beat them, you can keep going, but there's nothing else to see yet."
             )
         );
 
