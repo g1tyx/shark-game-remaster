@@ -113,6 +113,12 @@ SharkGame.CheatsAndDebug = {
                 cad.toggleBeautify();
             },
         },
+        beatWorld: {
+            name: "Beat this world immediately",
+            click() {
+                log.addMessage(cad.beatWorldPlease());
+            },
+        },
         rollDice: {
             name: "Roll the dice for wacky effects",
             click() {
