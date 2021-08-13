@@ -659,11 +659,11 @@ SharkGame.Home = {
         // keep button disabled if the max returned less than 1
         if (enableButton) {
             // disable button if resources can't be met
-            if ($.isEmptyObject(actionCost)) {
-                enableButton = true; // always enable free buttons
-            } else {
-                enableButton = res.checkResources(actionCost);
-            }
+            enableButton = res.checkResources(actionCost);
+        }
+
+        if ($.isEmptyObject(actionCost)) {
+            enableButton = true; // always enable free buttons
         }
 
         let label = actionData.name;
