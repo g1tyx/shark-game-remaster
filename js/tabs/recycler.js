@@ -112,34 +112,35 @@ SharkGame.Recycler = {
                     return true;
                 }
                 const outputButton = $("#output-" + resourceName);
-                const resourceAmount = res.getResource(resourceName);
+                const resourceAmount = Decimal(res.getResource(resourceName));
 
                 // determine amounts for input and what would be retrieved from output
-                const buy = sharkmath.getBuyAmount();
+                const buy = Decimal(sharkmath.getBuyAmount());
                 let inputAmount = buy;
                 let outputAmount = buy;
                 const maxOutputAmount = rec.getMaxToBuy(resourceName);
                 if (buy < 0) {
-                    const divisor = Math.floor(buy) * -1;
-                    inputAmount = Math.floor(resourceAmount / divisor);
-                    outputAmount = Math.floor(maxOutputAmount / divisor);
+                    Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+                    const divisor = buy.round().times(-1);
+                    inputAmount = resourceAmount.dividedBy(divisor).round();
+                    outputAmount = maxOutputAmount.dividedBy(divisor).round();
                 }
 
                 // update input button
-                let disableButton = resourceAmount < inputAmount || inputAmount <= 0;
+                let disableButton = resourceAmount.lessThan(inputAmount) || inputAmount.lessThanOrEqualTo(0);
                 let label = "Recycle ";
-                if (inputAmount > 0) {
+                if (inputAmount.greaterThan(0)) {
                     if (rec.expectedJunkSpent !== "NA" && rec.expectedJunkSpent !== 0 && !disableButton && resourceName === rec.hoveredResource) {
                         if (buy < 0) {
                             label +=
                                 "<span class='click-passthrough' style='color:#FFDE0A'>" +
-                                sharktext.beautify(inputAmount + outputAmount / -buy) +
+                                sharktext.beautify(Number(inputAmount.plus(outputAmount).dividedBy(buy.times(-1)))) +
                                 "</span> ";
                         } else {
-                            label += "<span class='click-passthrough' style='color:#FFDE0A'>" + sharktext.beautify(inputAmount) + "</span> ";
+                            label += "<span class='click-passthrough' style='color:#FFDE0A'>" + sharktext.beautify(Number(inputAmount)) + "</span> ";
                         }
                     } else {
-                        label += sharktext.beautify(inputAmount) + " ";
+                        label += sharktext.beautify(Number(inputAmount)) + " ";
                     }
                 }
 
@@ -160,13 +161,13 @@ SharkGame.Recycler = {
                 }
 
                 // update output button
-                disableButton = maxOutputAmount < outputAmount || outputAmount <= 0;
+                disableButton = maxOutputAmount.lessThan(outputAmount) || outputAmount.lessThanOrEqualTo(0);
                 label = "Convert to ";
                 if (outputAmount > 0) {
                     if (rec.expectedOutput !== "NA" && rec.expectedOutput !== 0 && !disableButton) {
-                        label += "<span class='click-passthrough' style='color:#FFDE0A'>" + sharktext.beautify(outputAmount) + "</span> ";
+                        label += "<span class='click-passthrough' style='color:#FFDE0A'>" + sharktext.beautify(Number(outputAmount)) + "</span> ";
                     } else {
-                        label += sharktext.beautify(outputAmount) + " ";
+                        label += sharktext.beautify(Number(outputAmount)) + " ";
                     }
                 }
 
@@ -226,7 +227,7 @@ SharkGame.Recycler = {
         const junkPerResource = SharkGame.ResourceMap.get(resourceName).value;
         const amount = sharkmath.getPurchaseAmount(resourceName);
 
-        if (resourceAmount >= amount) {
+        if (resourceAmount >= amount * (1 - SharkGame.EPSILON)) {
             res.changeResource("junk", amount * junkPerResource * rec.getEfficiency());
             res.changeResource(resourceName, -amount);
             res.changeResource("tar", Math.max(amount * junkPerResource * 0.0000002 + res.getProductAmountFromGeneratorResource("filter", "tar"), 0));
@@ -245,43 +246,34 @@ SharkGame.Recycler = {
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const resourceName = button.attr("id").split("-")[1];
-        let junkAmount = res.getResource("junk");
-        let junkPerResource = SharkGame.ResourceMap.get(resourceName).value;
+        const junkAmount = Decimal(res.getResource("junk"));
+        const junkPerResource = Decimal(SharkGame.ResourceMap.get(resourceName).value);
 
         if (rec.expectedOutput !== "NA") {
             return;
         }
 
-        const selectedAmount = sharkmath.getBuyAmount();
+        const selectedAmount = Decimal(sharkmath.getBuyAmount());
         let amount = selectedAmount;
         if (selectedAmount < 0) {
-            const divisor = Math.floor(selectedAmount) * -1;
-            amount = rec.getMaxToBuy(resourceName) / divisor;
+            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+            const divisor = selectedAmount.round().times(-1);
+            amount = rec.getMaxToBuy(resourceName).dividedBy(divisor);
         }
 
-        let currentResourceAmount = res.getResource(resourceName);
+        const currentResourceAmount = Decimal(res.getResource(resourceName));
         let junkNeeded;
 
         const costFunction = rec.allowedCategories[res.getCategoryOfResource(resourceName)];
-        if (amount > SharkGame.BIGGEST_SAFE_NUMBER || currentResourceAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
-            amount = BigInt(Math.round(amount));
-            currentResourceAmount = BigInt(Math.round(currentResourceAmount));
-            junkPerResource = BigInt(Math.round(junkPerResource));
-            junkAmount *= 1 + SharkGame.BIGGEST_SAFE_NUMBER;
-        }
-
         if (costFunction === "linear") {
             junkNeeded = sharkmath.linearCost(currentResourceAmount, amount, junkPerResource);
         } else if (costFunction === "constant") {
             junkNeeded = sharkmath.constantCost(currentResourceAmount, amount, junkPerResource);
         }
 
-        junkNeeded = Number(junkNeeded);
-        amount = Number(amount);
-
-        if (junkAmount >= junkNeeded) {
-            res.changeResource(resourceName, amount);
-            res.changeResource("junk", -junkNeeded);
+        if (junkAmount.greaterThanOrEqualTo(junkNeeded.times(1 - SharkGame.EPSILON))) {
+            res.changeResource(resourceName, Number(amount));
+            res.changeResource("junk", -Number(junkNeeded));
             log.addMessage(SharkGame.choose(rec.recyclerOutputMessages));
         } else {
             log.addMessage("You don't have enough for that!");
@@ -292,34 +284,28 @@ SharkGame.Recycler = {
     },
 
     getMaxToBuy(resource) {
-        let resourceAmount = res.getResource(resource);
-        let junkPricePerResource = SharkGame.ResourceMap.get(resource).value;
-        const category = res.getCategoryOfResource(resource);
-        let junkAmount = res.getResource("junk");
-
-        if (resourceAmount > SharkGame.BIGGEST_SAFE_NUMBER || junkAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
-            resourceAmount = BigInt(Math.round(resourceAmount));
-            junkAmount = BigInt(Math.round(junkAmount));
-            junkPricePerResource = BigInt(Math.round(junkPricePerResource));
-        }
+        const resourceAmount = Decimal(res.getResource(resource));
+        const junkPricePerResource = Decimal(SharkGame.ResourceMap.get(resource).value);
+        let junkAmount = Decimal(res.getResource("junk"));
 
         if (rec.expectedOutput !== "NA") {
-            junkAmount += typeof junkAmount === "bigint" ? BigInt(rec.expectedOutput) : rec.expectedOutput;
+            junkAmount = junkAmount.plus(rec.expectedOutput);
         }
 
-        let max = 0;
+        const category = res.getCategoryOfResource(resource);
+
+        let max = Decimal(0);
         if (rec.allowedCategories[category]) {
             const costFunction = rec.allowedCategories[category];
 
             if (costFunction === "linear") {
-                max = sharkmath.linearMax(resourceAmount, junkAmount, junkPricePerResource) - resourceAmount;
+                max = sharkmath.linearMax(resourceAmount, junkAmount, junkPricePerResource).minus(resourceAmount);
             } else if (costFunction === "constant") {
-                max = sharkmath.constantMax(resourceAmount, junkAmount, junkPricePerResource) - resourceAmount;
+                max = sharkmath.constantMax(resourceAmount, junkAmount, junkPricePerResource).minus(resourceAmount);
             }
-
-            max = Number(max);
         }
-        return Math.floor(max);
+        Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+        return max.round();
     },
 
     onInputHover() {
@@ -444,19 +430,12 @@ SharkGame.Recycler = {
             rec.expectedJunkSpent = "NA";
             return;
         }
-        let buy = sharkmath.getBuyAmount();
+        const buy = Decimal(sharkmath.getBuyAmount());
 
-        let max = rec.getMaxToBuy(resource);
+        const max = rec.getMaxToBuy(resource);
 
-        let resourceAmount = res.getResource(resource);
-        let value = SharkGame.ResourceMap.get(resource).value;
-
-        if (resourceAmount > SharkGame.BIGGEST_SAFE_NUMBER || buy > SharkGame.BIGGEST_SAFE_NUMBER || max > SharkGame.BIGGEST_SAFE_NUMBER) {
-            resourceAmount = BigInt(Math.round(resourceAmount));
-            buy = BigInt(Math.round(buy));
-            value = BigInt(Math.round(value));
-            max = BigInt(Math.round(max));
-        }
+        const resourceAmount = Decimal(res.getResource(resource));
+        const value = Decimal(SharkGame.ResourceMap.get(resource).value);
 
         if (buy > 0) {
             if (buy <= max) {
@@ -471,14 +450,15 @@ SharkGame.Recycler = {
                 rec.expectedJunkSpent = 0;
             }
         } else {
-            const realBuy = typeof max === "bigint" ? max / -buy : Math.floor(max / -buy);
-            if (realBuy === 0 || realBuy === 0n) {
+            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+            const realBuy = max.dividedBy(buy.times(-1)).round();
+            if (realBuy === 0) {
                 rec.expectedJunkSpent = 0;
                 return;
             }
             switch (rec.allowedCategories[res.getCategoryOfResource(resource)]) {
                 case "constant":
-                    rec.expectedJunkSpent = Number(realBuy * value);
+                    rec.expectedJunkSpent = Number(realBuy.times(value));
                     break;
                 case "linear":
                     rec.expectedJunkSpent = Number(sharkmath.linearCost(resourceAmount, realBuy, value));
