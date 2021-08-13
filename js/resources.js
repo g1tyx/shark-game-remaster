@@ -543,7 +543,7 @@ SharkGame.Resources = {
         },
 
         makeMarker(type = "nobody cares", initialLocation = "NA") {
-            const identifier = "marker-" + this.list.length;
+            const identifier = "marker-" + this.list.length + 1;
             const marker = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", null, "general/missing-action")
                 .attr("id", identifier)
                 .attr("type", type)
