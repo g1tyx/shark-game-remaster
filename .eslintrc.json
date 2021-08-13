@@ -12,6 +12,7 @@
         "ascii85": "readonly",
         "pako": "readonly",
         "SharkGame": "readonly",
+        "Decimal": "readonly",
 
         "res": "readonly",
         "main": "readonly",

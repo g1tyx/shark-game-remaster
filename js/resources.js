@@ -431,20 +431,19 @@ SharkGame.Resources = {
     // false if they are not
     checkResources(resourceList, checkTotal) {
         return _.every(resourceList, (required, resource) => {
-            const currentAmount = checkTotal ? res.getTotalResource(resource) : res.getResource(resource);
-            if (currentAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
-                return currentAmount * SharkGame.BIG_EPSILON_RATIO + currentAmount >= required;
+            if (typeof required === "object") {
+                required = required.toNumber();
             }
+            const currentAmount = checkTotal ? res.getTotalResource(resource) : res.getResource(resource);
             return currentAmount >= required;
         });
     },
 
-    changeManyResources(resourceList, subtract) {
-        if (typeof subtract === "undefined") {
-            subtract = false;
-        }
-
+    changeManyResources(resourceList, subtract = false) {
         $.each(resourceList, (resource, amount) => {
+            if (typeof amount === "object") {
+                amount = amount.toNumber();
+            }
             res.changeResource(resource, subtract ? -amount : amount);
         });
     },

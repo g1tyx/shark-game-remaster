@@ -82,7 +82,6 @@ $.extend(SharkGame, {
     ORIGINAL_VERSION: 0.71,
     VERSION_NAME: "New Perspectives",
     EPSILON: 1e-6, // floating point comparison is a joy
-    BIG_EPSILON_RATIO: 0.0000000000001,
     // agreed, already had to deal with it on recycler revisions
     // did you know that reducing a float like 1.2512351261 to 1.25 by literally removing the decimal and multiplying by 100 gives you something like 125.0000001?
     BIGGEST_SAFE_NUMBER: 1000000000000,
@@ -299,7 +298,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.PaneHandler.showSpeedSelection();
         }
 
-        if (SharkGame.persistentFlags.missingAspects && !gateway.transitioning) {
+        if (SharkGame.missingAspects && !gateway.transitioning) {
             SharkGame.PaneHandler.showAspectWarning();
         }
     },

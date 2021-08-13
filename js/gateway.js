@@ -171,7 +171,7 @@ SharkGame.Gateway = {
 
         SharkGame.PaneHandler.swapCurrentPane("GATEWAY", gatewayContent, true, 500, true);
         gateway.transitioning = false;
-        if (SharkGame.persistentFlags.missingAspects) {
+        if (SharkGame.missingAspects) {
             SharkGame.PaneHandler.showAspectWarning();
         }
     },

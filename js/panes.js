@@ -444,7 +444,7 @@ SharkGame.PaneHandler = {
             aspectWarnDiv,
             () => {
                 SharkGame.PaneHandler.nextPaneInStack();
-                SharkGame.persistentFlags.missingAspects = false;
+                SharkGame.missingAspects = false;
             }
         );
         this.addPaneToStack("ASPECTS RESET", aspectWarnDiv, true);

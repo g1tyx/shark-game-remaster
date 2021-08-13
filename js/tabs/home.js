@@ -627,7 +627,7 @@ SharkGame.Home = {
     },
 
     updateButton(actionName) {
-        const amountToBuy = sharkmath.getBuyAmount();
+        const amountToBuy = Decimal(sharkmath.getBuyAmount());
 
         const button = $("#" + actionName);
         const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
@@ -641,22 +641,20 @@ SharkGame.Home = {
             }
         }
         let amount = amountToBuy;
-        let actionCost;
         let enableButton = true;
-        if (amountToBuy < 0) {
-            const max = Math.floor(home.getMax(actionData));
-            // convert divisor from a negative number to a positive fraction
-            const divisor = 1 / (Math.floor(amountToBuy) * -1);
-            amount = max * divisor;
-            amount = Math.floor(amount);
-            if (amount < 1) {
-                amount = 1;
+        if (amountToBuy.lessThan(0)) {
+            // unlimited mode, calculate the highest we can go
+            const max = home.getMax(actionData);
+            const divisor = Decimal(1).dividedBy(amountToBuy.times(-1));
+            amount = max.times(divisor);
+            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+            amount = amount.round();
+            if (amount.lessThan(1)) {
+                amount = Decimal(1);
                 enableButton = false;
             }
-            actionCost = home.getCost(actionData, amount);
-        } else {
-            actionCost = home.getCost(actionData, amountToBuy);
         }
+        const actionCost = home.getCost(actionData, amount);
 
         // keep button disabled if the max returned less than 1
         if (enableButton) {
@@ -669,8 +667,8 @@ SharkGame.Home = {
         }
 
         let label = actionData.name;
-        if (!$.isEmptyObject(actionCost) && amount > 1) {
-            label += " (" + sharktext.beautify(amount) + ")";
+        if (!$.isEmptyObject(actionCost) && amount.greaterThan(1)) {
+            label += " (" + sharktext.beautify(amount.toNumber()) + ")";
         }
 
         if (enableButton) {
@@ -680,7 +678,7 @@ SharkGame.Home = {
         }
 
         // check for any infinite quantities
-        if (_.some(actionCost, (cost) => cost === Infinity)) {
+        if (_.some(actionCost, (cost) => !cost.isFinite())) {
             label += "<br>Maxed out";
         } else {
             const costText = sharktext.resourceListToString(actionCost, !enableButton, sharkcolor.getElementColor(actionName, "background-color"));
@@ -829,26 +827,27 @@ SharkGame.Home = {
     },
 
     onHomeButton() {
-        const amountToBuy = sharkmath.getBuyAmount();
+        const amountToBuy = Decimal(sharkmath.getBuyAmount());
         // get related entry in home button table
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const actionName = button.attr("id");
         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         let actionCost = {};
-        let amount = 0;
-        if (amountToBuy < 0) {
+        let amount = Decimal(0);
+        if (amountToBuy.lessThan(0)) {
             // unlimited mode, calculate the highest we can go
-            const max = Math.floor(home.getMax(action));
+            const max = home.getMax(action);
             // floor max
             if (max > 0) {
                 // convert divisor from a negative number to a positive fraction
-                const divisor = 1 / (Math.floor(amountToBuy) * -1);
-                amount = max * divisor;
+                const divisor = Decimal(1).dividedBy(amountToBuy.times(-1));
+                amount = max.times(divisor);
                 // floor amount
-                amount = Math.floor(amount);
+                Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+                amount = amount.round();
                 // make it worth entering this function
-                if (amount < 1) amount = 1;
+                if (amount.lessThan(1)) amount = Decimal(1);
                 actionCost = home.getCost(action, amount);
             }
         } else {
@@ -863,7 +862,7 @@ SharkGame.Home = {
                 res.changeManyResources(action.effect.resource);
             }
             log.addMessage(SharkGame.choose(action.outcomes));
-        } else if (amount > 0) {
+        } else if (amount.greaterThan(0)) {
             // cost action
             // check cost, only proceed if sufficient resources (prevention against lazy cheating, god, at least cheat in the right resources)
             if (res.checkResources(actionCost)) {
@@ -924,7 +923,7 @@ SharkGame.Home = {
         if (!SharkGame.Settings.current.alwaysSingularTooltip) {
             buyingHowMuch = sharkmath.getPurchaseAmount(
                 "doesntmatter",
-                home.getMax(SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName))
+                home.getMax(SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName)).toNumber()
             );
             if (buyingHowMuch < 1) {
                 buyingHowMuch = 1;
@@ -1174,75 +1173,62 @@ SharkGame.Home = {
 
         _.each(rawCost, (costObj) => {
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-            let priceIncrease = costObj.priceIncrease;
-            let cost;
-            if (amount > SharkGame.BIGGEST_SAFE_NUMBER || currAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
-                amount = BigInt(typeof amount === "bigint" ? amount : Math.round(amount));
-                currAmount = BigInt(typeof currAmount === "bigint" ? currAmount : Math.round(currAmount));
-                priceIncrease = BigInt(Math.round(priceIncrease));
-                cost = 0n;
-            } else {
-                cost = 0;
-            }
+            const currAmount = Decimal(resource.amount);
+            const priceIncrease = Decimal(costObj.priceIncrease);
+            let cost = Decimal(0);
 
             switch (costObj.costFunction) {
                 case "constant":
-                    cost = sharkmath.constantCost(currAmount, currAmount + amount, priceIncrease);
+                    cost = sharkmath.constantCost(currAmount, currAmount.plus(amount), priceIncrease);
                     break;
                 case "linear":
-                    cost = sharkmath.linearCost(currAmount, currAmount + amount, priceIncrease);
+                    cost = sharkmath.linearCost(currAmount, currAmount.plus(amount), priceIncrease);
                     break;
                 case "unique":
-                    cost = sharkmath.uniqueCost(currAmount, currAmount + amount, priceIncrease);
+                    cost = sharkmath.uniqueCost(currAmount, currAmount.plus(amount), priceIncrease);
                     break;
             }
-            if (typeof cost !== "bigint" && Math.abs(cost - Math.round(cost)) < SharkGame.EPSILON) {
-                cost = Math.round(cost);
+            Decimal.set({ rounding: Decimal.ROUND_HALF_FLOOR });
+            if (cost.abs().minus(cost.round()).lessThan(SharkGame.EPSILON)) {
+                cost = cost.round();
             }
-            calcCost[costObj.resource] = Number(cost);
+            calcCost[costObj.resource] = cost;
         });
         return calcCost;
     },
 
     getMax(action) {
-        let max = 1;
+        let max = Decimal(1);
         if (action.max) {
             // max is used as the determining resource for linear cost functions
             const resource = SharkGame.PlayerResources.get(action.max);
-            let currAmount = resource.amount;
-            max = Number.MAX_VALUE;
+            const currAmount = Decimal(resource.amount);
+            max = Decimal(1e308);
             _.each(action.cost, (costObject) => {
-                let costResource = SharkGame.PlayerResources.get(costObject.resource).amount;
-                let priceIncrease = costObject.priceIncrease;
-                let subMax;
-                if (costResource > SharkGame.BIGGEST_SAFE_NUMBER || currAmount > SharkGame.BIGGEST_SAFE_NUMBER) {
-                    costResource = BigInt(Math.round(costResource));
-                    currAmount = BigInt(typeof currAmount === "bigint" ? currAmount : Math.round(currAmount));
-                    priceIncrease = BigInt(Math.round(priceIncrease));
-                    subMax = -1n;
-                } else {
-                    subMax = -1;
-                }
+                const costResource = Decimal(SharkGame.PlayerResources.get(costObject.resource).amount);
+                const priceIncrease = Decimal(costObject.priceIncrease);
+                let subMax = Decimal(-1);
 
                 switch (costObject.costFunction) {
                     case "constant":
-                        subMax = sharkmath.constantMax(typeof subMax === "bigint" ? 0n : 0, costResource, priceIncrease);
+                        subMax = sharkmath.constantMax(typeof costResource === "object" ? Decimal(0) : 0, costResource, priceIncrease);
                         break;
                     case "linear":
-                        subMax = sharkmath.linearMax(currAmount, costResource, priceIncrease) - currAmount;
+                        subMax = sharkmath.linearMax(currAmount, costResource, priceIncrease).minus(currAmount);
                         break;
                     case "unique":
-                        subMax = sharkmath.uniqueMax(currAmount, costResource, priceIncrease) - currAmount;
+                        subMax = sharkmath.uniqueMax(currAmount, costResource, priceIncrease).minus(currAmount);
                         break;
                 }
                 // prevent flashing action costs
-                if (typeof subMax !== "bigint" && Math.abs(subMax - Math.round(subMax)) < SharkGame.EPSILON) {
-                    subMax = Math.round(subMax);
+                Decimal.set({ rounding: Decimal.ROUND_HALF_FLOOR });
+                if (subMax.minus(subMax.round()).abs().lessThan(SharkGame.EPSILON)) {
+                    subMax = subMax.round();
                 }
-                max = Math.min(max, Number(subMax));
+                max = Decimal.min(max, subMax);
             });
         }
-        return Math.floor(max);
+        Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+        return max.round();
     },
 };

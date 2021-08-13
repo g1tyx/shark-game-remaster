@@ -8,6 +8,9 @@ SharkGame.MathUtil = {
     // cost = constant price
     // returns: cost to get to b from a
     constantCost(current, desired, cost) {
+        if (typeof current === "object") {
+            return cost.times(desired.minus(current));
+        }
         return (desired - current) * cost;
     },
 
@@ -16,7 +19,11 @@ SharkGame.MathUtil = {
     // cost = constant price
     // returns: absolute max items that can be held with invested and current resources
     constantMax(current, available, cost) {
-        available = typeof available !== "bigint" ? Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1) : available; //safety margin
+        if (typeof current === "object") {
+            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+            return available.dividedBy(cost).plus(current);
+        }
+        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin
         return available / cost + current;
     },
 
@@ -25,8 +32,8 @@ SharkGame.MathUtil = {
     // cost = cost increase per item
     // returns: cost to get to b from a
     linearCost(current, desired, constant) {
-        if (typeof current === "bigint") {
-            return (constant / 2n) * (desired * desired + desired) - (constant / 2n) * (current * current + current);
+        if (typeof current === "object") {
+            return constant.dividedBy(2).times(desired.times(desired).plus(desired).minus(current.times(current).plus(current)));
         } else {
             return (constant / 2) * (desired * desired + desired) - (constant / 2) * (current * current + current);
         }
@@ -37,10 +44,10 @@ SharkGame.MathUtil = {
     // cost = cost increase per item
     // returns: absolute max items that can be held with invested and current resources
     linearMax(current, available, cost) {
-        if (typeof current === "bigint") {
-            return sharkmath.bigIntSqrt(current * current + current + (2n * available) / cost); // remove the 0.5 and 0.25 here since the numbers are too big for us to care
+        if (typeof current === "object") {
+            return current.times(current).plus(current).plus(available.times(2).dividedBy(cost)).plus(0.25).squareRoot().minus(0.5); // remove the 0.5 and 0.25 here since the numbers are too big for us to care
         } else {
-            available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin
+            available = Math.floor(Math.floor(available) * (1 - 1e-9)); //safety margin
             return Math.sqrt(current * current + current + (2 * available) / cost + 0.25) - 0.5;
         }
     },
@@ -57,6 +64,13 @@ SharkGame.MathUtil = {
 
     // artificial limit - whatever has these functions for cost/max can only have one of)
     uniqueCost(current, desired, cost) {
+        if (typeof current === "object") {
+            if (current.lessThan(1) && desired.lessThanOrEqualTo(2)) {
+                return cost;
+            } else {
+                return Decimal(Number.POSITIVE_INFINITY);
+            }
+        }
         if (current < 1 && desired <= 2) {
             return cost;
         } else {
@@ -64,29 +78,9 @@ SharkGame.MathUtil = {
         }
     },
 
-    uniqueMax() {
-        return 1;
-    },
-
-    // https://stackoverflow.com/questions/53683995/javascript-big-integer-square-root
-    bigIntSqrt(value) {
-        if (value < 0n) {
-            throw "square root of negative numbers is not supported";
-        }
-
-        if (value < 2n) {
-            return value;
-        }
-
-        function newtonIteration(number, thingzero) {
-            const thingone = (number / thingzero + thingzero) >> 1n;
-            if (thingzero === thingone || thingzero === thingone - 1n) {
-                return thingzero;
-            }
-            return newtonIteration(number, thingone);
-        }
-
-        return newtonIteration(value, 1n);
+    // this takes an argument to know whether or not to return a Decimal or a Number
+    uniqueMax(current) {
+        return typeof current === "object" ? Decimal(1) : 1;
     },
 
     getBuyAmount(noMaxBuy) {
@@ -175,7 +169,7 @@ SharkGame.TextUtil = {
 
     beautify(number, suppressDecimals, toPlaces) {
         if (cad.noNumberBeautifying) {
-            return number.toString();
+            return number.toExponential(5);
         }
 
         let formatted;
@@ -252,7 +246,7 @@ SharkGame.TextUtil = {
 
     beautifyIncome(number, also = "") {
         if (cad.noNumberBeautifying) {
-            return number.toString() + also;
+            return number.toExponential(3) + also;
         }
 
         const abs = Math.abs(number);
@@ -360,12 +354,13 @@ SharkGame.TextUtil = {
             return "";
         }
         let formattedResourceList = "";
-        SharkGame.ResourceMap.forEach((_resource, resourceId) => {
-            const listResource = resourceList[resourceId];
-            // amend for unspecified resources (assume zero)
-            if (listResource > 0 && world.doesResourceExist(resourceId)) {
-                formattedResourceList += sharktext.beautify(listResource);
-                formattedResourceList += " " + sharktext.getResourceName(resourceId, darken, listResource, backgroundColor) + ", ";
+        _.each(resourceList, (resourceAmount, resourceId) => {
+            if (typeof resourceAmount === "object") {
+                resourceAmount = resourceAmount.toNumber();
+            }
+            if (resourceAmount > 0 && world.doesResourceExist(resourceId)) {
+                formattedResourceList += sharktext.beautify(resourceAmount);
+                formattedResourceList += " " + sharktext.getResourceName(resourceId, darken, resourceAmount, backgroundColor) + ", ";
             }
         });
         // snip off trailing suffix

@@ -120,7 +120,7 @@ SharkGame.Save = {
                 throw new Error("This is a save from before New Frontiers 0.2, after which the save system was changed.");
             } else if (saveData.saveVersion === 15 || saveData.saveVersion === 16) {
                 // gonna reset aspects, need to inform player
-                SharkGame.persistentFlags.missingAspects = true;
+                SharkGame.missingAspects = true;
             }
 
             if (saveData.saveVersion < currentVersion) {
@@ -154,13 +154,8 @@ SharkGame.Save = {
             SharkGame.timestampRunEnd = saveData.timestampRunEnd;
             SharkGame.timestampSimulated = saveData.timestampLastSave;
 
-            if (saveData.flags) {
-                SharkGame.flags = saveData.flags;
-            }
-
-            if (saveData.persistentFlags) {
-                SharkGame.persistentFlags = saveData.persistentFlags;
-            }
+            SharkGame.flags = saveData.flags ? saveData.flags : {};
+            SharkGame.persistentFlags = saveData.persistentFlags ? saveData.persistentFlags : {};
 
             res.init();
 
@@ -203,10 +198,10 @@ SharkGame.Save = {
                 // there's no good way to handle this while preserving the player's aspects,
                 // since we don't know how much the player spent to upgrade the missing aspects.
                 // an easy, foolproof fix is to simply reset all aspects and refund all essence.
-                SharkGame.persistentFlags.missingAspects = true;
+                SharkGame.missingAspects = true;
             }
 
-            if (!SharkGame.persistentFlags.missingAspects) {
+            if (!SharkGame.missingAspects) {
                 $.each(saveData.aspects, (aspectId, level) => {
                     if (_.has(SharkGame.Aspects, aspectId)) {
                         SharkGame.Aspects[aspectId].level = level;
@@ -349,6 +344,7 @@ SharkGame.Save = {
         // load the game from this save data string
         try {
             log.clearMessages(false);
+            SharkGame.PaneHandler.wipeStack();
             main.init();
             SharkGame.Save.loadGame(data, data === "{}");
             SharkGame.TitleBarHandler.correctTitleBar();

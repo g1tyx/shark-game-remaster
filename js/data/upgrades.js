@@ -41,6 +41,10 @@ SharkGame.Upgrades = {
      * @param {string} upgradeName The name of the upgrade
      */
     getUpgradeData(table, upgradeName) {
+        if (!table[upgradeName]) {
+            return;
+        }
+
         // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
         const data = _.cloneDeep(table[upgradeName]);
 
