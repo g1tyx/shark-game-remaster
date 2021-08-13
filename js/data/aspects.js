@@ -609,12 +609,15 @@ SharkGame.Aspects = {
         apply(when) {
             if (when === "init") {
                 SharkGame.Lab.addUpgrade("statsDiscovery");
+                if (this.level > 1) {
+                    SharkGame.TabHandler.discoverTab("lab");
+                }
             }
         },
     },
     // remember to add upgrade which adds manual crystal button, locked behind shrouded worldtype
 
     //name: "The Plan",
-    //description: "Professional management has standards. Be smart, be efficient, and have a plan to recruit everyone you meet.",
+    //description: "Professionals have standards. Be polite, be efficient, and have a plan to recruit everyone you meet.",
     //
 };
