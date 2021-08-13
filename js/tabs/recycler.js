@@ -271,9 +271,9 @@ SharkGame.Recycler = {
         }
 
         if (costFunction === "linear") {
-            junkNeeded = sharkmath.linearCost(currentResourceAmount, currentResourceAmount + amount, junkPerResource);
+            junkNeeded = sharkmath.linearCost(currentResourceAmount, amount, junkPerResource);
         } else if (costFunction === "constant") {
-            junkNeeded = sharkmath.constantCost(currentResourceAmount, currentResourceAmount + amount, junkPerResource);
+            junkNeeded = sharkmath.constantCost(currentResourceAmount, amount, junkPerResource);
         }
 
         junkNeeded = Number(junkNeeded);
@@ -465,7 +465,7 @@ SharkGame.Recycler = {
                         rec.expectedJunkSpent = Number(buy * value);
                         break;
                     case "linear":
-                        rec.expectedJunkSpent = Number(sharkmath.linearCost(resourceAmount, resourceAmount + buy, value));
+                        rec.expectedJunkSpent = Number(sharkmath.linearCost(resourceAmount, buy, value));
                 }
             } else {
                 rec.expectedJunkSpent = 0;
@@ -481,7 +481,7 @@ SharkGame.Recycler = {
                     rec.expectedJunkSpent = Number(realBuy * value);
                     break;
                 case "linear":
-                    rec.expectedJunkSpent = Number(sharkmath.linearCost(resourceAmount, resourceAmount + realBuy, value));
+                    rec.expectedJunkSpent = Number(sharkmath.linearCost(resourceAmount, realBuy, value));
             }
         }
 
