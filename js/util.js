@@ -45,7 +45,7 @@ SharkGame.MathUtil = {
     // returns: absolute max items that can be held with invested and current resources
     linearMax(current, available, cost) {
         if (typeof current === "object") {
-            return current.times(current).plus(current).plus(available.times(2).dividedBy(cost)).plus(0.25).squareRoot().minus(0.5); // remove the 0.5 and 0.25 here since the numbers are too big for us to care
+            return current.times(current).plus(current).plus(available.times(2).dividedBy(cost)).plus(0.25).squareRoot().minus(0.5);
         } else {
             available = Math.floor(Math.floor(available) * (1 - 1e-9)); //safety margin
             return Math.sqrt(current * current + current + (2 * available) / cost + 0.25) - 0.5;

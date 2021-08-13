@@ -431,10 +431,10 @@ SharkGame.Resources = {
     // false if they are not
     checkResources(resourceList, checkTotal) {
         return _.every(resourceList, (required, resource) => {
-            if (typeof required === "object") {
-                required = required.toNumber();
-            }
             const currentAmount = checkTotal ? res.getTotalResource(resource) : res.getResource(resource);
+            if (typeof required === "object") {
+                return required.lessThanOrEqualTo(currentAmount * (1 + SharkGame.EPSILON));
+            }
             return currentAmount >= required;
         });
     },
