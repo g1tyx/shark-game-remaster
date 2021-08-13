@@ -7,11 +7,11 @@ SharkGame.MathUtil = {
     // desired = desired amount
     // cost = constant price
     // returns: cost to get to b from a
-    constantCost(current, desired, cost) {
+    constantCost(current, difference, cost) {
         if (typeof current === "object") {
-            return cost.times(desired.minus(current));
+            return cost.times(difference);
         }
-        return (desired - current) * cost;
+        return difference * cost;
     },
 
     // current = current amount
@@ -31,11 +31,11 @@ SharkGame.MathUtil = {
     // desired = desired amount
     // cost = cost increase per item
     // returns: cost to get to b from a
-    linearCost(current, desired, constant) {
+    linearCost(current, difference, constant) {
         if (typeof current === "object") {
-            return constant.dividedBy(2).times(desired.times(desired).plus(desired).minus(current.times(current).plus(current)));
+            return constant.dividedBy(2).times(difference.times(difference).plus(difference).plus(current.times(2).times(difference)));
         } else {
-            return (constant / 2) * (desired * desired + desired) - (constant / 2) * (current * current + current);
+            return (constant / 2) * (difference * difference + difference + 2 * difference * current);
         }
     },
 
@@ -63,15 +63,15 @@ SharkGame.MathUtil = {
     // }
 
     // artificial limit - whatever has these functions for cost/max can only have one of)
-    uniqueCost(current, desired, cost) {
+    uniqueCost(current, difference, cost) {
         if (typeof current === "object") {
-            if (current.lessThan(1) && desired.lessThanOrEqualTo(2)) {
+            if (current.lessThan(1) && current.plus(difference).lessThanOrEqualTo(2)) {
                 return cost;
             } else {
                 return Decimal(Number.POSITIVE_INFINITY);
             }
         }
-        if (current < 1 && desired <= 2) {
+        if (current < 1 && current + difference <= 2) {
             return cost;
         } else {
             return Number.POSITIVE_INFINITY; // be careful this doesn't fuck things up

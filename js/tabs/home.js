@@ -1179,13 +1179,13 @@ SharkGame.Home = {
 
             switch (costObj.costFunction) {
                 case "constant":
-                    cost = sharkmath.constantCost(currAmount, currAmount.plus(amount), priceIncrease);
+                    cost = sharkmath.constantCost(currAmount, amount, priceIncrease);
                     break;
                 case "linear":
-                    cost = sharkmath.linearCost(currAmount, currAmount.plus(amount), priceIncrease);
+                    cost = sharkmath.linearCost(currAmount, amount, priceIncrease);
                     break;
                 case "unique":
-                    cost = sharkmath.uniqueCost(currAmount, currAmount.plus(amount), priceIncrease);
+                    cost = sharkmath.uniqueCost(currAmount, amount, priceIncrease);
                     break;
             }
             Decimal.set({ rounding: Decimal.ROUND_HALF_FLOOR });
