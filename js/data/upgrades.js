@@ -1096,7 +1096,7 @@ SharkGame.Upgrades = {
         },
         exploration: {
             cost: {
-                science: 37500,
+                science: 32500,
                 fish: 50000,
             },
         },
@@ -1107,7 +1107,7 @@ SharkGame.Upgrades = {
                 "Okay, 'whales' are out there. They're similar to dolphins, except less rude, and really big. Oh, and, they collect tons of fish.",
             effectDesc: "Whales can now be recruited.",
             cost: {
-                fish: 2500000,
+                fish: 2000000,
             },
             required: {
                 upgrades: ["exploration"],
