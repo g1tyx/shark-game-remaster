@@ -1541,3 +1541,7 @@ button.planetButton:active {
 .reflectionText {
   color: white;
 }
+#marker-div {
+  background-color: var(--color-light);
+  box-shadow: 0 1px 3px #fff;
+}
