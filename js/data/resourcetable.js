@@ -458,7 +458,7 @@ SharkGame.ResourceTable = {
     explorer: {
         name: "chimaera explorers",
         singleName: "chimaera explorer",
-        color: "#979985",
+        color: "#FFF2D6",
         income: {
             arcana: 0.004,
         },
@@ -998,7 +998,7 @@ SharkGame.ResourceTable = {
         name: "sacrifices",
         singleName: "sacrifice",
         desc: "The cost of progress.",
-        color: "#FFFFF", //change later
+        color: "#FFD6FC",
         value: 1,
     },
 };
