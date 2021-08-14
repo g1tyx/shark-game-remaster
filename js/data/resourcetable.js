@@ -492,7 +492,7 @@ SharkGame.ResourceTable = {
         singleName: "eel sifter",
         color: "#A3915A",
         income: {
-            sand: 5,
+            sand: 100,
             arcana: 0.001,
         },
         value: 3000,
