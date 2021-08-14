@@ -212,7 +212,7 @@ SharkGame.Save = {
             }
 
             res.minuteHand.init();
-            res.markers.init();
+            res.tokens.init();
 
             gateway.init();
             _.each(saveData.completedWorlds, (worldType) => {

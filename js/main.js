@@ -257,7 +257,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.EventHandler.init();
             res.reconstructResourcesTable();
             res.minuteHand.init();
-            res.markers.init();
+            res.tokens.init();
         }
 
         // rename a game option if this is a first time run

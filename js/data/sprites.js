@@ -1584,7 +1584,7 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
-    "general/theMarker": {
+    "general/theToken": {
         frame: { x: 2396, y: 0, w: 28, h: 28 },
         rotated: false,
         trimmed: false,

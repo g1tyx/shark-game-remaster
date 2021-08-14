@@ -4982,7 +4982,7 @@
          sym increments through all symbols, and the loop terminates when
          all codes of length max, i.e. all codes, have been processed.  This
          routine permits incomplete codes, so another loop after this one fills
-         in the rest of the decoding tables with invalid code markers.
+         in the rest of the decoding tables with invalid code tokens.
          */
 
         /* set up for code type */

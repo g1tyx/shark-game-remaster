@@ -438,7 +438,7 @@ SharkGame.ModifierTypes = {
                     return input * (genDegree + 1);
                 },
             }, */
-            theMarkerForGenerators: {
+            theTokenForGenerators: {
                 defaultValue: 1,
                 apply(current, degree, resource) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
@@ -457,7 +457,7 @@ SharkGame.ModifierTypes = {
                     return input * genDegree;
                 },
             },
-            theMarkerForResources: {
+            theTokenForResources: {
                 defaultValue: 1,
                 apply(current, degree, boostedResource) {
                     SharkGame.ResourceMap.forEach((generatingResource) => {

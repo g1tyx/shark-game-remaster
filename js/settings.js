@@ -215,14 +215,14 @@ SharkGame.Settings = {
         options: ["tree", "table"],
     },
 
-    verboseMarkerDescriptions: {
+    verboseTokenDescriptions: {
         defaultSetting: false,
-        name: "Verbose Marker",
-        desc: "Whether the 'marker' mechanic should have text saying where it is.",
+        name: "Verbose Token",
+        desc: "Whether the 'token' mechanic should have text saying where it is.",
         category: "ACCESSIBILITY",
         options: [true, false],
         onChange() {
-            res.markers.updateMarkerDescriptions();
+            res.tokens.updateTokenDescriptions();
         },
     },
 

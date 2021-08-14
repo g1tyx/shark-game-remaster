@@ -65,11 +65,11 @@ SharkGame.Aspects = {
         getEffect(level) {
             switch (level) {
                 case 1:
-                    return "Unlock a moveable token (called a marker) that doubles production of whatever it is placed on.";
+                    return "Unlock a moveable token that doubles production of whatever it is placed on.";
                 case 2:
-                    return "Unlock a second marker (markers cannot stack on the same resource).";
+                    return "Unlock a second token (tokens cannot stack on the same resource).";
                 case 3:
-                    return "Unlock a third marker (markers cannot stack on the same resource).";
+                    return "Unlock a third token (tokens cannot stack on the same resource).";
             }
         },
         getUnlocked() {},
@@ -199,7 +199,7 @@ SharkGame.Aspects = {
             return 16 * (level + 1);
         },
         getEffect(level) {
-            return "Markers increase production by " + (level + 2) + "x.";
+            return "Tokens increase production by " + (level + 2) + "x.";
         },
         getUnlocked() {
             return gateway.completedWorlds.includes("frigid") ? "" : "Complete the Frigid worldtype to unlock this aspect.";

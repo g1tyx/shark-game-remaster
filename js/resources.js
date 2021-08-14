@@ -493,140 +493,138 @@ SharkGame.Resources = {
         }
     },
 
-    markers: {
+    tokens: {
         list: [],
         chromeForcesWorkarounds: "",
 
         init() {
-            if (!SharkGame.flags.markers) {
-                SharkGame.flags.markers = {};
+            if (!SharkGame.flags.tokens) {
+                SharkGame.flags.tokens = {};
             }
 
             if (this.list.length > SharkGame.Aspects.pathOfIndustry.level) {
                 this.list = [];
-                $("#marker-div").empty();
+                $("#token-div").empty();
             }
 
             while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
-                this.makeMarker();
+                this.makeToken();
             }
 
-            _.each(this.list, (marker) => {
-                if (!SharkGame.flags.markers[marker.attr("id")]) {
-                    SharkGame.flags.markers[marker.attr("id")] = "RETURNME";
+            _.each(this.list, (token) => {
+                if (!SharkGame.flags.tokens[token.attr("id")]) {
+                    SharkGame.flags.tokens[token.attr("id")] = "RETURNME";
                 }
-                $("#marker-div").append(
-                    marker
-                        .on("dragstart", res.markers.handleMarkerDragStart)
+                $("#token-div").append(
+                    token
+                        .on("dragstart", res.tokens.handleTokenDragStart)
                         .on("dragover", (event) => {
                             event.originalEvent.preventDefault();
                         })
-                        .on("dragend", res.markers.handleDragEnd)
-                        .on("drop", res.markers.dropMarker)
-                        .on("click", res.markers.tryReturnMarker)
-                        .on("mouseenter", res.markers.tooltip)
+                        .on("dragend", res.tokens.handleDragEnd)
+                        .on("drop", res.tokens.dropToken)
+                        .on("click", res.tokens.tryReturnToken)
+                        .on("mouseenter", res.tokens.tooltip)
                         .on("mouseleave", res.tableTextLeave)
                 );
                 if (
-                    SharkGame.flags.markers[marker.attr("id")] !== "NA" &&
-                    SharkGame.flags.markers[marker.attr("id")] !== "RETURNME" &&
-                    world.doesResourceExist(SharkGame.flags.markers[marker.attr("id")].split("-")[1])
+                    SharkGame.flags.tokens[token.attr("id")] !== "NA" &&
+                    SharkGame.flags.tokens[token.attr("id")] !== "RETURNME" &&
+                    world.doesResourceExist(SharkGame.flags.tokens[token.attr("id")].split("-")[1])
                 ) {
-                    res.markers.markLocation(marker.attr("id"), SharkGame.flags.markers[marker.attr("id")]);
-                    res.markers.unmarkLocation("NA", marker.attr("id"));
+                    res.tokens.markLocation(token.attr("id"), SharkGame.flags.tokens[token.attr("id")]);
+                    res.tokens.unmarkLocation("NA", token.attr("id"));
                 } else {
-                    res.markers.tryReturnMarker(null, true, marker);
+                    res.tokens.tryReturnToken(null, true, token);
                 }
             });
-            res.markers.updateMarkerDescriptions();
+            res.tokens.updateTokenDescriptions();
         },
 
-        makeMarker(type = "nobody cares", initialLocation = "NA") {
-            const identifier = "marker-" + (this.list.length + 1);
-            const marker = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", null, "general/missing-action")
+        makeToken(type = "nobody cares", initialLocation = "NA") {
+            const identifier = "token-" + (this.list.length + 1);
+            const token = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", null, "general/missing-action")
                 .attr("id", identifier)
                 .attr("type", type)
                 .attr("draggable", true)
-                .addClass("marker");
-            this.list.push(marker);
-            if (!SharkGame.flags.markers[identifier]) {
-                SharkGame.flags.markers[identifier] = initialLocation;
+                .addClass("token");
+            this.list.push(token);
+            if (!SharkGame.flags.tokens[identifier]) {
+                SharkGame.flags.tokens[identifier] = initialLocation;
             }
-            return marker;
+            return token;
         },
 
         tooltip(_event) {
             if (SharkGame.Settings.current.showTooltips) {
-                if (SharkGame.flags.markers[this.id] === "NA") {
+                if (SharkGame.flags.tokens[this.id] === "NA") {
                     $("#tooltipbox")
                         .html(
                             sharktext.boldString(
-                                "Drag this marker onto stuff to increase production.<br><br>While a marker is still in its slot, you can also click where you want it to go."
+                                "Drag this token onto stuff to increase production.<br><br>While a token is still in its slot, you can also click where you want it to go."
                             )
                         )
                         .addClass("forHomeButtonOrGrotto");
                 } else {
-                    $("#tooltipbox")
-                        .html(sharktext.boldString("Click this slot or click the marker to recall it."))
-                        .addClass("forHomeButtonOrGrotto");
+                    $("#tooltipbox").html(sharktext.boldString("Click this slot or click the token to recall it.")).addClass("forHomeButtonOrGrotto");
                 }
             }
         },
 
-        tryReturnMarker(_event, duringLoad, marker = $("#" + this.id)) {
-            if (!marker.length) {
-                log.addError("Tried to return marker, but couldn't find it!");
-                log.addError("Tried to find this marker: " + marker.attr("id"));
+        tryReturnToken(_event, duringLoad, token = $("#" + this.id)) {
+            if (!token.length) {
+                log.addError("Tried to return token, but couldn't find it!");
+                log.addError("Tried to find this token: " + token.attr("id"));
                 return;
             }
-            if (SharkGame.flags.markers[marker.attr("id")] !== "NA") {
-                if (!duringLoad && SharkGame.flags.markers[marker.attr("id")] !== "RETURNME") {
-                    res.markers.unmarkLocation(SharkGame.flags.markers[marker.attr("id")], marker.attr("id"));
+            if (SharkGame.flags.tokens[token.attr("id")] !== "NA") {
+                if (!duringLoad && SharkGame.flags.tokens[token.attr("id")] !== "RETURNME") {
+                    res.tokens.unmarkLocation(SharkGame.flags.tokens[token.attr("id")], token.attr("id"));
                 }
-                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", marker, "general/missing-action");
-                marker.attr("draggable", true);
-                SharkGame.flags.markers[marker.attr("id")] = "NA";
-                res.markers.updateMarkerDescriptions();
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", token, "general/missing-action");
+                token.attr("draggable", true);
+                SharkGame.flags.tokens[token.attr("id")] = "NA";
+                res.tokens.updateTokenDescriptions();
                 res.tableTextLeave();
             }
         },
 
-        handleMarkerDragStart(event) {
-            event.originalEvent.dataTransfer.setData("markerId", event.originalEvent.target.id);
+        handleTokenDragStart(event) {
+            event.originalEvent.dataTransfer.setData("tokenId", event.originalEvent.target.id);
             //chrome forcing stinky workaround
-            res.markers.chromeForcesWorkarounds = event.originalEvent.target.id;
-            //event.originalEvent.dataTransfer.setData("markerType", event.originalEvent.target.type);
-            event.originalEvent.dataTransfer.setData("markerLocation", SharkGame.flags.markers[this.id]);
+            res.tokens.chromeForcesWorkarounds = event.originalEvent.target.id;
+            //event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
+            event.originalEvent.dataTransfer.setData("tokenLocation", SharkGame.flags.tokens[this.id]);
             const image = document.createElement("img");
-            image.src = "img/raw/general/theMarker.png";
+            image.src = "img/raw/general/theToken.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
-            res.markers.updateColorfulDropZones();
+            res.tokens.updateColorfulDropZones();
             res.tableTextLeave();
         },
 
         handleResourceDragStart(event) {
-            event.originalEvent.dataTransfer.setData("markerId", $("#" + this.id).attr("markerId"));
-            res.markers.chromeForcesWorkarounds = $("#" + this.id).attr("markerId");
-            event.originalEvent.dataTransfer.setData("markerLocation", event.originalEvent.target.id);
+            event.originalEvent.dataTransfer.setData("tokenId", $("#" + this.id).attr("tokenId"));
+            res.tokens.chromeForcesWorkarounds = $("#" + this.id).attr("tokenId");
+            event.originalEvent.dataTransfer.setData("tokenLocation", event.originalEvent.target.id);
             const image = document.createElement("img");
-            image.src = "img/raw/general/theMarker.png";
+            image.src = "img/raw/general/theToken.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
-            res.markers.updateColorfulDropZones();
+            res.tokens.updateColorfulDropZones();
             res.tableTextLeave();
         },
 
         handleDragEnd(_event) {
-            res.markers.chromeForcesWorkarounds = "";
-            res.markers.updateColorfulDropZones();
+            res.tokens.chromeForcesWorkarounds = "";
+            res.tokens.updateColorfulDropZones();
         },
 
         updateColorfulDropZones() {
             SharkGame.ResourceMap.forEach((_resourceData, resourceName) => {
-                if (world.doesResourceExist(resourceName) && res.markers.chromeForcesWorkarounds) {
-                    if (!$.isEmptyObject($("#resource-" + resourceName)) && res.markers.canBePlacedOn("resource-" + resourceName)) {
+                if (world.doesResourceExist(resourceName) && res.tokens.chromeForcesWorkarounds) {
+                    if (!$.isEmptyObject($("#resource-" + resourceName)) && res.tokens.canBePlacedOn("resource-" + resourceName)) {
                         $("#resource-" + resourceName).addClass("highlightedResource");
                     }
-                    if (!$.isEmptyObject($("#income-" + resourceName)) && res.markers.canBePlacedOn("income-" + resourceName)) {
+                    if (!$.isEmptyObject($("#income-" + resourceName)) && res.tokens.canBePlacedOn("income-" + resourceName)) {
                         $("#income-" + resourceName).addClass("highlightedIncome");
                     }
                 } else {
@@ -636,72 +634,72 @@ SharkGame.Resources = {
             });
         },
 
-        updateMarkerDescriptions() {
-            if (SharkGame.Settings.current.verboseMarkerDescriptions) {
+        updateTokenDescriptions() {
+            if (SharkGame.Settings.current.verboseTokenDescriptions) {
                 let textToDisplay = "";
-                _.each(res.markers.list, (marker) => {
+                _.each(res.tokens.list, (token) => {
                     if (textToDisplay) textToDisplay += "<br>";
-                    textToDisplay += "Marker #" + marker.attr("id").split("-")[1] + " is ";
-                    let markerLocation;
-                    if (SharkGame.flags.markers) {
-                        markerLocation = SharkGame.flags.markers[marker.attr("id")];
+                    textToDisplay += "Token #" + token.attr("id").split("-")[1] + " is ";
+                    let tokenLocation;
+                    if (SharkGame.flags.tokens) {
+                        tokenLocation = SharkGame.flags.tokens[token.attr("id")];
                     }
-                    if (_.isUndefined(markerLocation)) {
+                    if (_.isUndefined(tokenLocation)) {
                         textToDisplay = "";
                         return false;
                     }
-                    if (markerLocation === "NA") {
+                    if (tokenLocation === "NA") {
                         textToDisplay += "in its slot.";
-                    } else if (markerLocation.includes("income")) {
-                        textToDisplay += "boosting all " + markerLocation.split("-")[1] + " gains.";
-                    } else if (markerLocation.includes("resource")) {
-                        textToDisplay += "boosting " + markerLocation.split("-")[1] + " efficiency.";
+                    } else if (tokenLocation.includes("income")) {
+                        textToDisplay += "boosting all " + tokenLocation.split("-")[1] + " gains.";
+                    } else if (tokenLocation.includes("resource")) {
+                        textToDisplay += "boosting " + tokenLocation.split("-")[1] + " efficiency.";
                     }
                 });
-                $("#marker-description").html(textToDisplay);
+                $("#token-description").html(textToDisplay);
             } else {
-                $("#marker-description").html("");
+                $("#token-description").html("");
             }
         },
 
-        reapplyMarker(marker) {
-            if (SharkGame.flags.markers) {
-                $("#" + SharkGame.flags.markers[marker.attr("id")])
-                    .css("background-image", "url(img/raw/general/theMarker.png)")
+        reapplyToken(token) {
+            if (SharkGame.flags.tokens) {
+                $("#" + SharkGame.flags.tokens[token.attr("id")])
+                    .css("background-image", "url(img/raw/general/theToken.png)")
                     .attr("draggable", true)
-                    .attr("markerId", marker.attr("id"));
+                    .attr("tokenId", token.attr("id"));
             }
         },
 
-        dropMarker(event) {
+        dropToken(event) {
             res.tableTextLeave();
-            const originalMarkerId = event.originalEvent.dataTransfer.getData("markerId");
-            const previousLocation = event.originalEvent.dataTransfer.getData("markerLocation");
+            const originalTokenId = event.originalEvent.dataTransfer.getData("tokenId");
+            const previousLocation = event.originalEvent.dataTransfer.getData("tokenLocation");
 
-            res.markers.unmarkLocation(previousLocation, originalMarkerId);
+            res.tokens.unmarkLocation(previousLocation, originalTokenId);
 
-            if (this.id.includes("marker") && this.id !== originalMarkerId) {
-                res.markers.markLocation(originalMarkerId, originalMarkerId);
+            if (this.id.includes("token") && this.id !== originalTokenId) {
+                res.tokens.markLocation(originalTokenId, originalTokenId);
             } else {
-                res.markers.markLocation(originalMarkerId, this.id);
+                res.tokens.markLocation(originalTokenId, this.id);
             }
             res.updateResourcesTable();
         },
 
         markLocation(originalId, newId) {
-            res.markers.applyMarkerEffect(newId, originalId, "apply");
-            if (newId.includes("marker")) {
-                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theMarker", $("#" + newId), "general/missing-action");
+            res.tokens.applyTokenEffect(newId, originalId, "apply");
+            if (newId.includes("token")) {
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", $("#" + newId), "general/missing-action");
                 $("#" + newId).attr("draggable", true);
-                SharkGame.flags.markers[newId] = "NA";
+                SharkGame.flags.tokens[newId] = "NA";
             } else {
                 $("#" + newId)
-                    .css("background-image", "url(img/raw/general/theMarker.png)")
+                    .css("background-image", "url(img/raw/general/theToken.png)")
                     .attr("draggable", true)
-                    .attr("markerId", originalId);
-                SharkGame.flags.markers[originalId] = newId;
+                    .attr("tokenId", originalId);
+                SharkGame.flags.tokens[originalId] = newId;
             }
-            res.markers.updateMarkerDescriptions();
+            res.tokens.updateTokenDescriptions();
         },
 
         unmarkLocation(locationPrevious, id) {
@@ -711,22 +709,22 @@ SharkGame.Resources = {
             } else {
                 $("#" + locationPrevious)
                     .attr("draggable", false)
-                    .attr("markerId", "")
+                    .attr("tokenId", "")
                     .css("background-image", "");
             }
-            res.markers.applyMarkerEffect(locationPrevious, id, "reverse");
+            res.tokens.applyTokenEffect(locationPrevious, id, "reverse");
         },
 
-        applyMarkerEffect(targetId, _id, reverseOrApply = "apply") {
+        applyTokenEffect(targetId, _id, reverseOrApply = "apply") {
             const multiplier = SharkGame.Aspects.coordinatedCooperation.level + 2;
-            if (targetId === "NA" || targetId.includes("marker")) {
+            if (targetId === "NA" || targetId.includes("token")) {
                 return;
             } else if (targetId.includes("resource")) {
-                res.applyModifier("theMarkerForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
+                res.applyModifier("theTokenForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else if (targetId.includes("income")) {
-                res.applyModifier("theMarkerForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
+                res.applyModifier("theTokenForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else {
-                SharkGame.Log.addError("Tried to apply marker effect, but couldn't understand the location!");
+                SharkGame.Log.addError("Tried to apply token effect, but couldn't understand the location!");
                 SharkGame.Log.addError("Location was: " + targetId);
             }
         },
@@ -735,30 +733,30 @@ SharkGame.Resources = {
             const resource = placedOnWhat.split("-")[1];
             if (placedOnWhat.includes("resource")) {
                 return (
-                    !$("#" + placedOnWhat).attr("markerId") &&
+                    !$("#" + placedOnWhat).attr("tokenId") &&
                     _.some(
                         SharkGame.ResourceMap.get(resource).income,
                         (amount, generatedResource) => amount !== 0 && world.doesResourceExist(generatedResource)
                     )
                 );
             } else if (placedOnWhat.includes("income")) {
-                return !$("#" + placedOnWhat).attr("markerId") && SharkGame.PlayerIncomeTable.get(resource);
+                return !$("#" + placedOnWhat).attr("tokenId") && SharkGame.PlayerIncomeTable.get(resource);
             }
         },
 
         tryClickToPlace(event) {
             const textId = event.originalEvent.target.id;
-            if (res.markers.canBePlacedOn(textId)) {
-                $.each(SharkGame.flags.markers, (markerId, currentLocation) => {
+            if (res.tokens.canBePlacedOn(textId)) {
+                $.each(SharkGame.flags.tokens, (tokenId, currentLocation) => {
                     if (currentLocation === "NA") {
-                        res.markers.markLocation(markerId, textId);
-                        res.markers.unmarkLocation("NA", markerId);
+                        res.tokens.markLocation(tokenId, textId);
+                        res.tokens.unmarkLocation("NA", tokenId);
                         return false;
                     }
                 });
-            } else if ($("#" + textId).attr("markerId")) {
-                res.markers.markLocation($("#" + textId).attr("markerId"), $("#" + textId).attr("markerId"));
-                res.markers.unmarkLocation(textId, $("#" + textId).attr("markerId"));
+            } else if ($("#" + textId).attr("tokenId")) {
+                res.tokens.markLocation($("#" + textId).attr("tokenId"), $("#" + textId).attr("tokenId"));
+                res.tokens.unmarkLocation(textId, $("#" + textId).attr("tokenId"));
             }
         },
     },
@@ -907,8 +905,8 @@ SharkGame.Resources = {
         // if resource table does not exist, create
         if (resourceTable.length <= 0) {
             // check for aspect level here later
-            statusDiv.prepend($("<div>").attr("id", "marker-div"));
-            statusDiv.prepend($("<div>").attr("id", "marker-description"));
+            statusDiv.prepend($("<div>").attr("id", "token-div"));
+            statusDiv.prepend($("<div>").attr("id", "token-description"));
             statusDiv.prepend($("<div>").attr("id", "minute-hand-div"));
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
@@ -972,9 +970,9 @@ SharkGame.Resources = {
             statusDiv.hide();
         } else {
             statusDiv.show();
-            _.each(res.markers.list, (marker) => {
-                if (SharkGame.flags.markers && SharkGame.flags.markers[marker.attr("id")] !== "NA") {
-                    res.markers.reapplyMarker(marker);
+            _.each(res.tokens.list, (token) => {
+                if (SharkGame.flags.tokens && SharkGame.flags.tokens[token.attr("id")] !== "NA") {
+                    res.tokens.reapplyToken(token);
                 }
             });
         }
@@ -1010,25 +1008,25 @@ SharkGame.Resources = {
                 $("<td>")
                     .attr("id", "resource-" + resourceKey)
                     .html(sharktext.getResourceName(resourceKey))
-                    .on("dragstart", res.markers.handleResourceDragStart)
+                    .on("dragstart", res.tokens.handleResourceDragStart)
                     .on("dragover", (event) => {
-                        if (res.markers.canBePlacedOn("resource-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
+                        if (res.tokens.canBePlacedOn("resource-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
                             if (SharkGame.Settings.current.showTooltips) {
                                 $("#tooltipbox").html(
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                         " efficiency x" +
-                                        (SharkGame.Aspects.coordinatedCooperation.level + 1)
+                                        (SharkGame.Aspects.coordinatedCooperation.level + 2)
                                 );
                             }
                             event.originalEvent.preventDefault();
                         }
                     })
-                    .on("dragend", res.markers.handleDragEnd)
+                    .on("dragend", res.tokens.handleDragEnd)
                     // .on("dragleave", () => {
                     //     $("#tooltipbox").html("");
                     // })
-                    .on("drop", res.markers.dropMarker)
-                    .on("click", res.markers.tryClickToPlace)
+                    .on("drop", res.tokens.dropToken)
+                    .on("click", res.tokens.tryClickToPlace)
             );
 
             row.append(
@@ -1052,9 +1050,9 @@ SharkGame.Resources = {
                             sharktext.beautifyIncome(income) +
                             "</span>"
                     )
-                    .on("dragstart", res.markers.handleResourceDragStart)
+                    .on("dragstart", res.tokens.handleResourceDragStart)
                     .on("dragover", (event) => {
-                        if (res.markers.canBePlacedOn("income-" + resourceKey) && res.markers.chromeForcesWorkarounds) {
+                        if (res.tokens.canBePlacedOn("income-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
                             if (SharkGame.Settings.current.showTooltips) {
                                 $("#tooltipbox").html(
                                     "all " +
@@ -1065,18 +1063,18 @@ SharkGame.Resources = {
                                             sharkcolor.getElementColor("tooltipbox", "background-color")
                                         ) +
                                         " gains x" +
-                                        (SharkGame.Aspects.coordinatedCooperation.level + 1)
+                                        (SharkGame.Aspects.coordinatedCooperation.level + 2)
                                 );
                             }
                             event.originalEvent.preventDefault();
                         }
                     })
-                    .on("dragend", res.markers.handleDragEnd)
+                    .on("dragend", res.tokens.handleDragEnd)
                     // .on("dragleave", () => {
                     //     $("#tooltipbox").html("");
                     // })
-                    .on("drop", res.markers.dropMarker)
-                    .on("click", res.markers.tryClickToPlace);
+                    .on("drop", res.tokens.dropToken)
+                    .on("click", res.tokens.tryClickToPlace);
             }
         }
         return row;

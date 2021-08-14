@@ -1508,10 +1508,10 @@ button.planetButton:active {
   float: right;
   max-width: 1.5em;
 }
-.marker {
+.token {
   margin: 0.5em 0 0.5em 0.5em;
 }
-#marker-div {
+#token-div {
   display: flex;
 }
 #minute-hand-toggle.disabled {
@@ -1542,7 +1542,7 @@ button.planetButton:active {
 .reflectionText {
   color: white;
 }
-#marker-div {
+#token-div {
   background-color: var(--color-light);
   box-shadow: 0 1px 3px #fff;
 }
