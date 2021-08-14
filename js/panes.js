@@ -434,7 +434,7 @@ SharkGame.PaneHandler = {
             $("<div>")
                 .attr("id", "aspectInnerWarning")
                 .append(
-                    "Uh oh!<br>Your save has aspects that are no longer in the game!<br>I'm sorry, but there's only one way we can fix this:<br>your <strong>aspects</strong> have been <strong>refunded</strong><br>so you can <strong>replace them</strong> with <strong>new ones</strong>.<br><br>Remember that you can use the <strong>skip</strong> button<br>in the top-left of the screen to go back to the gateway.<br>"
+                    "Uh oh!<br>Your save has aspects that are no longer in the game!<br>I'm sorry, but there's only one way we can fix this:<br>your <strong>aspects</strong> have been <strong>refunded</strong><br>so that you can <strong>replace them</strong> with <strong>new ones</strong>.<br><br>Remember that you can use the <strong>skip</strong> button<br>in the top-left of the screen to go back to the gateway.<br>"
                 )
                 .addClass("paneContentDiv")
         );

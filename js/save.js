@@ -249,6 +249,13 @@ SharkGame.Save = {
                 gateway.planetPool = saveData.planetPool;
             }
 
+            if (!SharkGame.persistentFlags.choseSpeed && !gateway.transitioning) {
+                SharkGame.PaneHandler.showSpeedSelection();
+            }
+            if (SharkGame.missingAspects && !gateway.transitioning) {
+                SharkGame.PaneHandler.showAspectWarning();
+            }
+
             // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
             res.recalculateIncomeTable();
 
@@ -349,12 +356,6 @@ SharkGame.Save = {
             SharkGame.Save.loadGame(data, data === "{}");
             SharkGame.TitleBarHandler.correctTitleBar();
             home.discoverActions();
-            if (data === "{}" && !SharkGame.persistentFlags.choseSpeed) {
-                SharkGame.PaneHandler.showSpeedSelection();
-            }
-            if (SharkGame.missingAspects && !gateway.transitioning) {
-                SharkGame.PaneHandler.showAspectWarning();
-            }
         } catch (err) {
             log.addError(err);
         }
