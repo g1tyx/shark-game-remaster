@@ -335,14 +335,39 @@ SharkGame.Gateway = {
         // create pool of qualified types
         const qualifiedPlanetTypes = gateway.allowedWorlds.slice(0);
 
+        // look for uncompleted planet types
+        const uncompletedPlanetTypes = gateway.allowedWorlds.slice(0);
+        _.each(gateway.completedWorlds, (worldtype) => {
+            const typeIndex = uncompletedPlanetTypes.indexOf(worldtype);
+            if (typeIndex > -1) {
+                uncompletedPlanetTypes.splice(typeIndex, 1);
+            }
+        });
+
+        // are there any? if so, set a random index out of the number of planets we're choosing
+        // the choice with this index is guaranteed to be an uncompleted planet
+        let guaranteeWhichWorld;
+        if (uncompletedPlanetTypes.length > 0) {
+            guaranteeWhichWorld = Math.floor(Math.random() * numPlanets);
+        }
+
         // pull random types from the pool
         // for each type pulled, generated a random level for the planet
         // then add to the planet pool
         for (let i = 0; i < numPlanets; i++) {
-            const choice = SharkGame.choose(qualifiedPlanetTypes);
+            let choice;
+            if (uncompletedPlanetTypes.length > 0 && guaranteeWhichWorld === i) {
+                choice = SharkGame.choose(uncompletedPlanetTypes);
+            } else {
+                choice = SharkGame.choose(qualifiedPlanetTypes);
+            }
             const index = qualifiedPlanetTypes.indexOf(choice);
             // take it out of the qualified pool (avoid duplicates)
             qualifiedPlanetTypes.splice(index, 1);
+
+            if (uncompletedPlanetTypes.indexOf(choice) > -1) {
+                uncompletedPlanetTypes.splice(uncompletedPlanetTypes.indexOf(choice), 1);
+            }
 
             // add choice to pool
             gateway.planetPool.push({
