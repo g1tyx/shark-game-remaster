@@ -440,7 +440,7 @@ SharkGame.PaneHandler = {
         );
         SharkGame.Button.makeButton(
             "confirmUnderstood",
-            "I understand my <br><strong>ESSENCE</strong> is <strong>REFUNDED</strong><br>and<br><strong>ASPECTS</strong> are <strong>RESET</strong>",
+            "I understand my <br><strong>ASPECTS</strong> ARE <strong>REFUNDED</strong>",
             aspectWarnDiv,
             () => {
                 SharkGame.PaneHandler.nextPaneInStack();

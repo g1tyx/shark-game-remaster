@@ -889,7 +889,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["reverseEngineering", "octalEfficiency"],
-                resources: ["octopus"],
             },
             effect: {
                 incomeMultiplier: {
@@ -915,7 +914,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["reverseEngineering", "iterativeDesign"],
-                resources: ["sharkonium"],
             },
             effect: {
                 incomeMultiplier: {
@@ -1304,7 +1302,7 @@ SharkGame.Upgrades = {
     frigid: {
         crystalBite: {
             cost: {
-                science: 25,
+                science: 40,
                 fish: 100,
             },
             required: {
@@ -1368,7 +1366,7 @@ SharkGame.Upgrades = {
             researchedMessage: "We visited the structures, and it turns out it's an entire civilization!",
             effectDesc: "Found the squids. They can be enlisted to help catch fish. Also moved to a less frozen place.",
             cost: {
-                science: 25,
+                science: 40,
             },
         },
         teamSpirit: {

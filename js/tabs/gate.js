@@ -15,7 +15,8 @@ SharkGame.Gate = {
     messageOpened: "A foreboding circular structure, wide open.<br/>The water glows and shimmers within it. A gentle tug pulls at you.",
     messagePaid: "The slot accepts your donation and ceases to be.",
     messageCantPay: "The slot spits everything back out. You get the sense it wants more at once.",
-    messagePaidNotOpen: "Every slot is filled, but the structure doesn't open.<br/>Perhaps it needs something else.",
+    messagePaidNotOpen:
+        "For some reason, every slot is already filled. The structure doesn't open, though.<br/><strong>Perhaps it needs something else.</strong>",
     messageAllPaid: "The last slot closes. The structure opens. The water glows and shimmers within it.<br/>A gentle tug pulls at you.",
     messageEnter: "You swim through the gate...",
 
