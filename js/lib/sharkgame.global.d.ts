@@ -42,20 +42,17 @@ declare global {
         getEffect(): string;
         clicked(event: MouseEvent): void;
     };
-
-    type SharkGameModule = {
-        init(): void;
-    };
     //// END REGION: Data structure types
 
     //// REGION: Modules
-    type AspectTreeModule = SharkGameModule & {
+    type AspectTreeModule = {
         dragStart: { posX: number; posY: number };
         cameraZoom: number;
         cameraOffset: { posX: number; posY: number };
         context?: CanvasRenderingContext2D;
         staticButtons: Record<string, StaticButton>;
         setUp(): void;
+        init(): void;
         drawTree(disableCanvas: boolean): HTMLTableElement | HTMLDivElement;
         drawTable(table?: HTMLTableElement): HTMLTableElement;
         drawCanvas(): HTMLCanvasElement;
