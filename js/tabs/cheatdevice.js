@@ -267,7 +267,6 @@ SharkGame.CheatsAndDebug = {
 
     debug() {
         SharkGame.persistentFlags.debug = true;
-        //
     },
 
     hideDebug() {

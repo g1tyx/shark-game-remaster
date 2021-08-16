@@ -6,6 +6,15 @@ declare global {
     //// REGION: Data structure types
     type AspectName = string;
     type ResourceName = string;
+    type CheatButtonType = undefined | "numeric" | "up-down";
+    type CheatButton = {
+        readonly name: string;
+        type: CheatButtonType;
+        updates: boolean;
+        click(): void;
+        clickUp(): void;
+        clickDown(): void;
+    };
     //// END REGION: Data structure types
 
     //// REGION: Data structure types
@@ -99,25 +108,94 @@ declare global {
     };
     //// END REGION: Modules
 
+    //// REGION: Tabs
+    type SharkGameTabBase = {
+        init(): void;
+        switchTo(): void;
+        update(): void;
+
+        tabId: string;
+        tabDiscovered: boolean;
+        tabSeen: boolean;
+        tabName: string;
+        discoverReq: Record<string, unknown>; // TODO: Find a better type
+    };
+
+    type CheatsAndDebugTab = SharkGameTabBase & {
+        pause: boolean;
+        stop: boolean;
+        speed: number;
+        upgradePriceModifier: number;
+        actionPriceModifier: number;
+        noNumberBeautifying: boolean;
+        cycling: boolean;
+
+        defaultParameters: {
+            pause: boolean;
+            stop: boolean;
+            speed: number;
+            upgradePriceModifier: number;
+            actionPriceModifier: number;
+            noNumberBeautifying: boolean;
+            cycling: boolean;
+        };
+
+        cheatButtons: Record<string, CheatButton>;
+
+        cycleStyles(time?: number): void;
+        discoverAll(): void;
+        giveEverything(amount?: number): void;
+        debug(): void;
+        hideDebug(): void;
+        toggleDebugButton(): void;
+        togglePausePlease(): void;
+        toggleStopPlease(): void;
+        freezeGamePlease(): string;
+        unfreezePlease(): string;
+        freeEssencePlease(howMuch?: number): string;
+        goFasterPlease(): string;
+        reallyFastPlease(): string;
+        goSlowerPlease(): string;
+        reallySlowPlease(): string;
+        resetSpeedPlease(): string;
+        giveMeMoreOfEverythingPlease(multiplier: number): string;
+        setAllResources(howMuch?: number): void;
+        doSomethingCoolPlease(): string;
+        beatWorldPlease(): string;
+        toggleBeautify(): void;
+        rollTheDicePlease(number: number): string;
+        expensiveUpgradesPlease(): string;
+        cheaperUpgradesPlease(): string;
+        expensiveStuffPlease(): string;
+        cheaperStuffPlease(): string;
+    };
+    //// END REGION: Tabs
+
+    type SharkGameTabs = {
+        CheatsAndDebug: CheatsAndDebugTab;
+        Gate;
+        Home;
+        Lab;
+        Recycler;
+        Reflection;
+        Stats;
+    };
+
     type SharkGameModules = {
         AspectTree: AspectTreeModule;
         Button: ButtonModule;
-        CheatsAndDebug;
         ColorUtil;
         EventHandler;
         Events;
         FlippedBreakdownIncomeTable;
         FunFacts;
-        Gate;
         Gateway;
         GeneratorIncomeAffected;
         GeneratorIncomeAffectors;
         GeneratorIncomeAffectorsOriginal;
-        Home;
         HomeActionCategories;
         HomeActions;
         InternalCategories;
-        Lab;
         Log;
         Main;
         MathUtil;
@@ -128,8 +206,6 @@ declare global {
         Panes;
         PlayerIncomeTable;
         PlayerResources;
-        Recycler;
-        Reflection;
         ResourceCategories;
         ResourceIncomeAffected;
         ResourceIncomeAffectors;
@@ -141,7 +217,6 @@ declare global {
         Save;
         Settings;
         Sprites;
-        Stats;
         TabHandler;
         Tabs;
         TextUtil;
@@ -193,5 +268,5 @@ declare global {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
     };
 
-    type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData & SharkGameRuntimeData;
+    type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData & SharkGameRuntimeData & SharkGameTabs;
 }
