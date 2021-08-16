@@ -34,7 +34,7 @@ SharkGame.Aspects = {
             return (level + 1) ** 2;
         },
         getEffect(level) {
-            return "Manual resource collection x" + (level > 0 ? level * 4 : 1) + ".";
+            return "Manual resource collection <strong>x" + (level > 0 ? level * 4 : 1) + "</strong>.";
         },
         getUnlocked() {},
         prerequisites: [],
@@ -65,7 +65,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             switch (level) {
                 case 1:
-                    return "Unlock a moveable token that doubles production of whatever it is placed on.";
+                    return "Unlock a <strong>moveable token</strong> that <strong>multiplies</strong> production of whatever it is placed on.";
                 case 2:
                     return "Unlock a second token (tokens cannot stack on the same resource).";
                 case 3:
@@ -131,12 +131,12 @@ SharkGame.Aspects = {
                     SharkGame.persistentFlags.patience +
                     " more world" +
                     (SharkGame.persistentFlags.patience > 1 ? "s" : "") +
-                    ", gain " +
+                    ", gain <strong>" +
                     2 * (level + 1) ** 2 +
-                    " essence."
+                    " essence</strong>."
                 );
             }
-            return "Gain nothing now. After beating 3 more worlds, gain " + 2 * (level + 1) ** 2 + " essence.";
+            return "Gain nothing now. After beating 3 more worlds, gain <strong>" + 2 * (level + 1) ** 2 + "</strong> essence.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
@@ -164,7 +164,13 @@ SharkGame.Aspects = {
         },
         getEffect(level) {
             const base = 20 * main.getProgressionConstant("2-scale");
-            return "Start with " + base * level ** 2 + " crabs. If they do not exist, start with an equivalent.";
+            return (
+                "Start with <strong>" +
+                base * level ** 2 +
+                "</strong> " +
+                sharktext.getResourceName("crab", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                ". If they do not exist, start with an equivalent."
+            );
         },
         getUnlocked() {},
         prerequisites: ["apotheosis"],
@@ -199,10 +205,10 @@ SharkGame.Aspects = {
             return 16 * (level + 1);
         },
         getEffect(level) {
-            return "Tokens increase production by " + (level + 2) + "x.";
+            return "Tokens increase production by <strong>" + (level + 2) + "x</strong>.";
         },
         getUnlocked() {
-            return gateway.completedWorlds.includes("frigid") ? "" : "Complete the Frigid worldtype to unlock this aspect.";
+            return gateway.completedWorlds.includes("frigid") ? "" : "Complete the <strong>Frigid</strong> worldtype to unlock this aspect.";
         },
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
@@ -337,7 +343,7 @@ SharkGame.Aspects = {
             return 2 * level + 4;
         },
         getEffect(level) {
-            return "Sharkonium is " + 20 * level + "% cheaper to produce.";
+            return "Sharkonium is <strong>" + 20 * level + "%</strong> cheaper to produce.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
@@ -360,12 +366,12 @@ SharkGame.Aspects = {
         },
         getEffect(_level) {
             return (
-                sharktext.getResourceName("crystalMiner", false, 2) +
+                sharktext.getResourceName("crystalMiner", false, 2, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 " and " +
-                sharktext.getResourceName("sandDigger") +
+                sharktext.getResourceName("sandDigger", false, 2, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 " have non-" +
-                sharktext.getResourceName("sharkonium") +
-                " costs reduced by half."
+                sharktext.getResourceName("sharkonium", false, 2, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                " costs reduced by <strong>half</strong>."
             );
         },
         getUnlocked() {},
@@ -388,7 +394,13 @@ SharkGame.Aspects = {
             return 2 + level;
         },
         getEffect(level) {
-            return "Between worlds, have the opportunity to reroll your world selection up to " + level + " time" + (level > 0 ? "s" : "") + ".";
+            return (
+                "Between worlds, have the opportunity to reroll your world selection up to <strong>" +
+                level +
+                " time" +
+                (level > 0 ? "s" : "") +
+                "</strong>."
+            );
         },
         getUnlocked() {},
         prerequisites: ["pathOfEnlightenment"],
@@ -420,7 +432,13 @@ SharkGame.Aspects = {
         },
         getEffect(level) {
             const base = 20 * main.getProgressionConstant("2-scale");
-            return "Start with " + base * level ** 2 + " crystals. If they do not exist, start with an equivalent.";
+            return (
+                "Start with <strong>" +
+                base * level ** 2 +
+                "</strong> " +
+                sharktext.getResourceName("crystal", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                ". If they do not exist, start with an equivalent."
+            );
         },
         getUnlocked() {},
         prerequisites: ["pathOfTime"],
@@ -499,7 +517,7 @@ SharkGame.Aspects = {
                     speedConstant = 1;
                     break;
             }
-            return "Unlock a rechargeable " + (speedConstant + level) + "x speed boost.";
+            return "Unlock a rechargeable <strong>" + (speedConstant + level) + "x</strong> speed boost.";
         },
         getUnlocked() {},
         prerequisites: ["crystallineSkin"],
@@ -521,7 +539,7 @@ SharkGame.Aspects = {
             return 6 * (level + 1);
         },
         getEffect(level) {
-            return "The Minute Hand recharges " + (level + 1) + "x faster.";
+            return "The Minute Hand recharges <strong>" + (level + 1) + "x</strong> faster.";
         },
         getUnlocked() {},
         prerequisites: ["theMinuteHand"],
@@ -566,13 +584,25 @@ SharkGame.Aspects = {
         },
         getEffect(level) {
             if (level === 1) {
-                return "If a research costs " + 150 * main.getProgressionConstant() + " science or less, then its science cost is halved.";
+                return (
+                    "If a research costs <strong>" +
+                    150 * main.getProgressionConstant() +
+                    "</strong> " +
+                    sharktext.getResourceName("science", false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    " or less, then its science cost is halved."
+                );
             } else {
-                return "If a research costs " + 150 * main.getProgressionConstant() + " science or less, then all its costs are halved.";
+                return (
+                    "If a research costs <strong>" +
+                    150 * main.getProgressionConstant() +
+                    "</strong> " +
+                    sharktext.getResourceName("science", false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    " or less, then all its costs are halved."
+                );
             }
         },
         getUnlocked() {
-            return gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
+            return gateway.completedWorlds.includes("abandoned") ? "" : "Complete the <strong>Abandoned</strong> worldtype to unlock this aspect.";
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {
