@@ -112,10 +112,10 @@ SharkGame.Recycler = {
                     return true;
                 }
                 const outputButton = $("#output-" + resourceName);
-                const resourceAmount = Decimal(res.getResource(resourceName));
+                const resourceAmount = new Decimal(res.getResource(resourceName));
 
                 // determine amounts for input and what would be retrieved from output
-                const buy = Decimal(sharkmath.getBuyAmount());
+                const buy = new Decimal(sharkmath.getBuyAmount());
                 let inputAmount = buy;
                 let outputAmount = buy;
                 const maxOutputAmount = rec.getMaxToBuy(resourceName);
@@ -246,14 +246,14 @@ SharkGame.Recycler = {
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const resourceName = button.attr("id").split("-")[1];
-        const junkAmount = Decimal(res.getResource("junk"));
-        const junkPerResource = Decimal(SharkGame.ResourceMap.get(resourceName).value);
+        const junkAmount = new Decimal(res.getResource("junk"));
+        const junkPerResource = new Decimal(SharkGame.ResourceMap.get(resourceName).value);
 
         if (rec.expectedOutput !== "NA") {
             return;
         }
 
-        const selectedAmount = Decimal(sharkmath.getBuyAmount());
+        const selectedAmount = new Decimal(sharkmath.getBuyAmount());
         let amount = selectedAmount;
         if (selectedAmount < 0) {
             Decimal.set({ rounding: Decimal.ROUND_FLOOR });
@@ -261,7 +261,7 @@ SharkGame.Recycler = {
             amount = rec.getMaxToBuy(resourceName).dividedBy(divisor);
         }
 
-        const currentResourceAmount = Decimal(res.getResource(resourceName));
+        const currentResourceAmount = new Decimal(res.getResource(resourceName));
         let junkNeeded;
 
         const costFunction = rec.allowedCategories[res.getCategoryOfResource(resourceName)];
@@ -284,9 +284,9 @@ SharkGame.Recycler = {
     },
 
     getMaxToBuy(resource) {
-        const resourceAmount = Decimal(res.getResource(resource));
-        const junkPricePerResource = Decimal(SharkGame.ResourceMap.get(resource).value);
-        let junkAmount = Decimal(res.getResource("junk"));
+        const resourceAmount = new Decimal(res.getResource(resource));
+        const junkPricePerResource = new Decimal(SharkGame.ResourceMap.get(resource).value);
+        let junkAmount = new Decimal(res.getResource("junk"));
 
         if (rec.expectedOutput !== "NA") {
             junkAmount = junkAmount.plus(rec.expectedOutput);
@@ -294,7 +294,7 @@ SharkGame.Recycler = {
 
         const category = res.getCategoryOfResource(resource);
 
-        let max = Decimal(0);
+        let max = new Decimal(0);
         if (rec.allowedCategories[category]) {
             const costFunction = rec.allowedCategories[category];
 
@@ -430,12 +430,12 @@ SharkGame.Recycler = {
             rec.expectedJunkSpent = "NA";
             return;
         }
-        const buy = Decimal(sharkmath.getBuyAmount());
+        const buy = new Decimal(sharkmath.getBuyAmount());
 
         const max = rec.getMaxToBuy(resource);
 
-        const resourceAmount = Decimal(res.getResource(resource));
-        const value = Decimal(SharkGame.ResourceMap.get(resource).value);
+        const resourceAmount = new Decimal(res.getResource(resource));
+        const value = new Decimal(SharkGame.ResourceMap.get(resource).value);
 
         if (buy > 0) {
             if (buy <= max) {

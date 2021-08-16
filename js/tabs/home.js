@@ -627,7 +627,7 @@ SharkGame.Home = {
     },
 
     updateButton(actionName) {
-        const amountToBuy = Decimal(sharkmath.getBuyAmount());
+        const amountToBuy = new Decimal(sharkmath.getBuyAmount());
 
         const button = $("#" + actionName);
         const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
@@ -645,12 +645,12 @@ SharkGame.Home = {
         if (amountToBuy.lessThan(0)) {
             // unlimited mode, calculate the highest we can go
             const max = home.getMax(actionData);
-            const divisor = Decimal(1).dividedBy(amountToBuy.times(-1));
+            const divisor = new Decimal(1).dividedBy(amountToBuy.times(-1));
             amount = max.times(divisor);
             Decimal.set({ rounding: Decimal.ROUND_FLOOR });
             amount = amount.round();
             if (amount.lessThan(1)) {
-                amount = Decimal(1);
+                amount = new Decimal(1);
                 enableButton = false;
             }
         }
@@ -827,27 +827,27 @@ SharkGame.Home = {
     },
 
     onHomeButton() {
-        const amountToBuy = Decimal(sharkmath.getBuyAmount());
+        const amountToBuy = new Decimal(sharkmath.getBuyAmount());
         // get related entry in home button table
         const button = $(this);
         if (button.hasClass("disabled")) return;
         const actionName = button.attr("id");
         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         let actionCost = {};
-        let amount = Decimal(0);
+        let amount = new Decimal(0);
         if (amountToBuy.lessThan(0)) {
             // unlimited mode, calculate the highest we can go
             const max = home.getMax(action);
             // floor max
             if (max > 0) {
                 // convert divisor from a negative number to a positive fraction
-                const divisor = Decimal(1).dividedBy(amountToBuy.times(-1));
+                const divisor = new Decimal(1).dividedBy(amountToBuy.times(-1));
                 amount = max.times(divisor);
                 // floor amount
                 Decimal.set({ rounding: Decimal.ROUND_FLOOR });
                 amount = amount.round();
                 // make it worth entering this function
-                if (amount.lessThan(1)) amount = Decimal(1);
+                if (amount.lessThan(1)) amount = new Decimal(1);
                 actionCost = home.getCost(action, amount);
             }
         } else {
@@ -1173,9 +1173,9 @@ SharkGame.Home = {
 
         _.each(rawCost, (costObj) => {
             const resource = SharkGame.PlayerResources.get(action.max);
-            const currAmount = Decimal(resource.amount);
-            const priceIncrease = Decimal(costObj.priceIncrease);
-            let cost = Decimal(0);
+            const currAmount = new Decimal(resource.amount);
+            const priceIncrease = new Decimal(costObj.priceIncrease);
+            let cost = new Decimal(0);
 
             switch (costObj.costFunction) {
                 case "constant":
@@ -1198,20 +1198,20 @@ SharkGame.Home = {
     },
 
     getMax(action) {
-        let max = Decimal(1);
+        let max = new Decimal(1);
         if (action.max) {
             // max is used as the determining resource for linear cost functions
             const resource = SharkGame.PlayerResources.get(action.max);
-            const currAmount = Decimal(resource.amount);
-            max = Decimal(1e308);
+            const currAmount = new Decimal(resource.amount);
+            max = new Decimal(1e308);
             _.each(action.cost, (costObject) => {
-                const costResource = Decimal(SharkGame.PlayerResources.get(costObject.resource).amount);
-                const priceIncrease = Decimal(costObject.priceIncrease);
-                let subMax = Decimal(-1);
+                const costResource = new Decimal(SharkGame.PlayerResources.get(costObject.resource).amount);
+                const priceIncrease = new Decimal(costObject.priceIncrease);
+                let subMax = new Decimal(-1);
 
                 switch (costObject.costFunction) {
                     case "constant":
-                        subMax = sharkmath.constantMax(typeof costResource === "object" ? Decimal(0) : 0, costResource, priceIncrease);
+                        subMax = sharkmath.constantMax(typeof costResource === "object" ? new Decimal(0) : 0, costResource, priceIncrease);
                         break;
                     case "linear":
                         subMax = sharkmath.linearMax(currAmount, costResource, priceIncrease).minus(currAmount);

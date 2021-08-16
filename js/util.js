@@ -68,7 +68,7 @@ SharkGame.MathUtil = {
             if (current.lessThan(1) && current.plus(difference).lessThanOrEqualTo(2)) {
                 return cost;
             } else {
-                return Decimal(Number.POSITIVE_INFINITY);
+                return new Decimal(Number.POSITIVE_INFINITY);
             }
         }
         if (current < 1 && current + difference <= 2) {
@@ -80,7 +80,7 @@ SharkGame.MathUtil = {
 
     // this takes an argument to know whether or not to return a Decimal or a Number
     uniqueMax(current) {
-        return typeof current === "object" ? Decimal(1) : 1;
+        return typeof current === "object" ? new Decimal(1) : 1;
     },
 
     getBuyAmount(noMaxBuy) {
