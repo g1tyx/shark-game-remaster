@@ -102,7 +102,6 @@ declare global {
     type SharkGameModules = {
         AspectTree: AspectTreeModule;
         Button: ButtonModule;
-        Changelog;
         CheatsAndDebug;
         ColorUtil;
         EventHandler;
@@ -164,6 +163,7 @@ declare global {
         ORIGINAL_VERSION: string;
         VERSION_NAME: string;
         VERSION: string;
+        Changelog: Record<string, string[]>;
     };
     type SharkGameUtils = {
         changeSprite(spritePath: string, imageName: string, imageDiv: JQuery<HTMLDivElement>, backupImageName: string): JQuery<HTMLDivElement>;
