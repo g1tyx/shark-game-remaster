@@ -23,7 +23,8 @@ declare global {
         getCost(level: number): number;
         getEffect(level: number): string;
         /**
-         * Tells you if miscellaneous requirements have been met. if they have, returns nothing.
+         * Tells you if miscellaneous requirements have been met.
+         * If they have, returns nothing.
          * If they have not, returns a message stating why not.
          */
         getUnlocked(): string;
