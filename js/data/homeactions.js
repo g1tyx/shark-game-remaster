@@ -3630,6 +3630,389 @@ SharkGame.HomeActions = {
             helpText: "Construct a machine to automatically gather fish efficiently.",
         },
     },
+    marine: {
+        catchFish: {},
+
+        debugbutton: {},
+
+        getClam: {
+            name: "Get clam",
+            effect: {
+                resource: {
+                    get clam() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
+                },
+            },
+            cost: {},
+            prereq: {
+                upgrade: ["clamScooping"],
+            },
+            outcomes: [
+                "Got a grooved carpet shell.",
+                "Got a hard clam.",
+                "Got a manila clam.",
+                "Got a soft clam.",
+                "Got an atlantic surf clam.",
+                "Got an ocean quahog.",
+                "Got a pacific razor clam.",
+                "Got a pismo clam.",
+                "Got a geoduck.",
+                "Got an atlantic jackknife clam.",
+                "Got a lyrate asiatic hard clam.",
+                "Got an ark clam.",
+                "Got a nut clam.",
+                "Got a duck clam.",
+                "Got a marsh clam.",
+                "Got a file clam.",
+                "Got a giant clam.",
+                "Got an asiatic clam.",
+                "Got a peppery furrow shell.",
+                "Got a pearl oyster.",
+            ],
+            helpText: "Fetch a clam. Why do we need clams now? Who knows.",
+        },
+
+        // CONVERSIONS ////////////////////////////////////////////////////////////////////////////////
+
+        seaApplesToScience: {
+            name: "Study sea apples",
+            effect: {
+                resource: {
+                    science: 4,
+                },
+            },
+            cost: [{ resource: "seaApple", costFunction: "constant", priceIncrease: 1 }],
+            max: "seaApple",
+            prereq: {
+                resource: {
+                    seaApple: 1,
+                },
+                upgrade: ["xenobiology"],
+            },
+            outcomes: [
+                "There's science inside these things, surely!",
+                "The cause of science is advanced!",
+                "This is perhaps maybe insightful!",
+                "Why are we even doing this? Who knows! Science!",
+                "What is even the point of these things? Why are they named for fruit? They're squirming!",
+            ],
+            helpText: "Dissect sea apples to gain additional science. Research!",
+        },
+
+        pearlConversion: {
+            name: "Convert clam pearls",
+            effect: {
+                resource: {
+                    crystal: 1,
+                },
+            },
+            cost: [
+                { resource: "clam", costFunction: "constant", priceIncrease: 1 },
+                { resource: "science", costFunction: "constant", priceIncrease: 5 },
+            ],
+            max: "clam",
+            prereq: {
+                resource: {
+                    clam: 1,
+                },
+                upgrade: ["pearlConversion"],
+            },
+            outcomes: [
+                "Pearls to crystals! One day. One day, we will get this right and only use the pearl.",
+                "Welp, we somehow turned rocks to crystals. Oh. Nope, those were clams. Not rocks. It's so hard to tell sometimes.",
+                "Okay, we managed to only use the pearls this time, but we, uh, had to break the clams open pretty roughly.",
+                "Pearls to... nope. Clams to crystals. Science is hard.",
+            ],
+            helpText: "Convert a pearl (and the clam around it) into crystal.",
+        },
+
+        // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
+
+        transmuteSharkonium: {
+            name: "Transmute stuff to sharkonium",
+            effect: {
+                resource: {
+                    sharkonium: 1,
+                },
+            },
+            cost: [
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "sand",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
+            ],
+            max: "sharkonium",
+            prereq: {
+                upgrade: ["transmutation"],
+            },
+            outcomes: [
+                "Transmutation destination!",
+                "Transmutation rejuvenation!",
+                "Transmogrification revelation!",
+                "Transformation libation!",
+                "Transfiguration nation! ...wait.",
+                "Sharkonium arise!",
+                "Arise, sharkonium!",
+                "More sharkonium!",
+                "The substance that knows no name! Except the name sharkonium!",
+                "The substance that knows no description! It's weird to look at.",
+                "The foundation of a modern shark frenzy!",
+            ],
+            helpText: "Convert ordinary resources into sharkonium, building material of the future!",
+        },
+
+        fuseCalcinium: {
+            name: "Fuse stuff to calcinium",
+            effect: {
+                resource: {
+                    calcinium: 1,
+                },
+            },
+            cost: [
+                { resource: "clam", costFunction: "constant", priceIncrease: 15 },
+                { resource: "crystal", costFunction: "constant", priceIncrease: 5 },
+            ],
+            max: "calcinium",
+            prereq: {
+                upgrade: [""],
+            },
+            outcomes: [],
+            helpText: "Smelt resources into calcinium for use in crustacean machines.",
+        },
+
+        // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
+
+        getShark: {},
+
+        getManta: {},
+
+        getCrab: {},
+
+        getLobster: {
+            name: "Gain lobster",
+            effect: {
+                resource: {
+                    lobster: 1,
+                },
+            },
+            cost: [{ resource: "clam", costFunction: "linear", priceIncrease: 10 }],
+            max: "lobster",
+            prereq: {
+                resource: {
+                    clam: 10,
+                },
+                upgrade: ["clamScooping"],
+            },
+            outcomes: [
+                "A scampi joins you.",
+                "A crayfish joins you.",
+                "A clawed lobster joins you.",
+                "A spiny lobster joins you.",
+                "A slipper lobster joins you.",
+                "A hummer lobster joins you.",
+                "A crawfish joins you.",
+                "A rock lobster joins you.",
+                "A langouste joins you.",
+                "A shovel-nose lobster joins you.",
+                "A crawdad joins you.",
+            ],
+            multiOutcomes: [
+                "Lobsters lobsters lobsters lobsters.",
+                "But they weren't rocks...",
+                "The clam forecast is looking good!",
+                "They're all about the clams!",
+                "More lobsters, because why not?",
+                "HEAVY LOBSTERS",
+                "More lobsters for the snipping and the cutting and the clam grab!",
+                "Clam patrol, here we go.",
+            ],
+            helpText: "",
+        },
+
+        // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getScientist: {},
+
+        getNurse: {},
+
+        // RAY JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getMaker: {},
+
+        getExtractor: {
+            name: "Assemble extractor ray",
+            effect: {
+                resource: {
+                    extractor: 1,
+                },
+            },
+            cost: [
+                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
+                { resource: "calcinium", costFunction: "linear", priceIncrease: 15 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 500 },
+            ],
+            max: "extractor",
+            prereq: {
+                resource: {
+                    calcinium: 1,
+                },
+                upgrade: ["calciniumBiosynergy"],
+            },
+            outcomes: [],
+            multiOutcomes: [],
+            helpText: "",
+        },
+
+        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getPlanter: {},
+
+        getBrood: {},
+
+        // LOBSTER JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getBerrier: {
+            name: "Form lobster berrier",
+            effect: {
+                resource: {
+                    berrier: 1,
+                },
+            },
+            cost: [
+                { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
+                { resource: "clam", costFunction: "linear", priceIncrease: 30 },
+            ],
+            max: "berrier",
+            prereq: {
+                resource: {
+                    lobster: 1,
+                },
+                upgrade: ["crustaceanBiology"],
+            },
+            outcomes: [
+                "We didn't need to see the process behind this.",
+                "One lobster brimming with eggs to go.",
+                "It's like some weird counterpart to the planter crab. But with eggs.",
+                "Lobster with rocks ready to make a move. Oh, okay, eggs, whatever, see, they look like shiny pebbles from a distance and... oh, forget it.",
+            ],
+            multiOutcomes: [
+                "Berrier isn't even a word!",
+                "Berries and eggs aren't even the same thing!",
+                "How do these things swim with this much weighing them down?",
+                "We aren't running out of volunteers any time soon.",
+                "Did you see them fight for this job? Claws everywhere, I tell you!",
+            ],
+            helpText: "Dedicate a lobster to egg production. We don't know how it works. Ask the lobsters.",
+        },
+
+        getHarvester: {
+            name: "Train lobster harvester",
+            effect: {
+                resource: {
+                    harvester: 1,
+                },
+            },
+            cost: [
+                { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
+                { resource: "clam", costFunction: "linear", priceIncrease: 25 },
+                { resource: "sponge", costFunction: "linear", priceIncrease: 5 },
+            ],
+            max: "harvester",
+            prereq: {
+                resource: {
+                    lobster: 1,
+                },
+                upgrade: ["crustaceanBiology"],
+            },
+            outcomes: [
+                "Yes, lobster, put these claws to better use.",
+                "It is time for this one to seek more interesting prey. Wait. Wait, no, it's just as stationary. Never mind. False alarm.",
+                "Lobster sticks to seabed!",
+            ],
+            multiOutcomes: [
+                "Cut down the kelp forests!",
+                "Rip the sponge and tear the kelp!",
+                "Harvest the seafloor!",
+                "The lobster tide shall claim the-- wait no you said harvesters. Okay. Adjusting that, then.",
+                "These guys are pretty unenthusiastic about everything they do, aren't they.",
+            ],
+            helpText: "Train a lobster to cut down kelp faster than anything can plant it. Sustainable!",
+        },
+
+        // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
+
+        getCrystalMiner: {},
+
+        getSandDigger: {},
+
+        getFishMachine: {},
+
+        getAutoTransmuter: {},
+
+        getSkimmer: {},
+        // CRUSTACEAN MACHINES /////////////////////////////////////////////////////////
+
+        getSeabedStripper: {
+            name: "Build seabed stripper",
+            effect: {
+                resource: {
+                    seabedStripper: 1,
+                },
+            },
+            cost: [{ resource: "calcinium", costFunction: "linear", priceIncrease: 150 }],
+            max: "seabedStripper",
+            prereq: {
+                resource: {
+                    calcinium: 1,
+                },
+                upgrade: ["crustaceanTransmutation"],
+            },
+            outcomes: [],
+            multiOutcomes: [],
+            helpText: "",
+        },
+
+        getCalciniumConverter: {
+            name: "Build seabed stripper",
+            effect: {
+                resource: {
+                    calciniumConverter: 1,
+                },
+            },
+            cost: [{ resource: "calcinium", costFunction: "linear", priceIncrease: 100 }],
+            max: "calciniumConverter",
+            prereq: {
+                resource: {
+                    calcinium: 1,
+                },
+                upgrade: ["crustaceanTransmutation"],
+            },
+            outcomes: [
+                /*                 "Berry sprayer is active.",
+                "Berry sprayer capable.",
+                "This egg spraying machine clatters to life.",
+                "This automated caretaker gets to work.", */
+            ],
+            multiOutcomes: [
+                /*                 "Automation of population? What a terrifying concept.",
+                "The machine rears lobster eggs. Wouldn't the shrimp want something like this too?",
+                "There is an uneasiness about these machines that fills the sharks with concern.",
+                "Why was this machine invented? Are we helping to prepare an army?", */
+            ],
+            helpText: "", // This crustacean machine distributes lobster eggs for optimal hatching conditions.
+        },
+    },
 };
 
 SharkGame.HomeActionCategories = {
@@ -3687,6 +4070,7 @@ SharkGame.HomeActionCategories = {
             "getHistorian",
             "getExtractionTeam",
             "getScholar",
+            "getExtractor",
         ],
     },
 
@@ -3752,6 +4136,8 @@ SharkGame.HomeActionCategories = {
             //"getCoalescer",
             "getCrimsonCombine",
             "getKelpCultivator",
+            "getSeabedStripper",
+            "getCalciniumConverter",
         ],
     },
 

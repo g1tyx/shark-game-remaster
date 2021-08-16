@@ -93,10 +93,15 @@ SharkGame.Home = {
         marine: [
             {
                 name: "marine-default",
-                message: "The fish never run dry here. This place feels so familiar.",
+                message: "Schools of fish fill the vast, blue expanse.<br>This place feels so familiar.",
             },
             {
-                name: "lobster-one",
+                name: "marine-clams",
+                unlock: { upgrade: ["crystalContainer"] },
+                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
+            },
+            {
+                name: "marine-lobsters",
                 unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
                 message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
             },
@@ -105,7 +110,7 @@ SharkGame.Home = {
         haven: [
             {
                 name: "haven-default",
-                message: "The oceans are rich with life. But it's still not home.",
+                message: "These oceans are rich with life. A thriving reef surrounds you.",
             },
             {
                 name: "haven-dolphin-observes",

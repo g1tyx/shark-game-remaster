@@ -340,6 +340,14 @@ SharkGame.ResourceTable = {
         value: 3500,
     },
 
+    extractor: {
+        name: "extractor rays",
+        singleName: "extractor ray",
+        desc: "",
+        color: "#C3C4DD",
+        value: 3500,
+    },
+
     /* shoveler: {
         name: "shoveler rays",
         singleName: "shoveler ray",
@@ -397,11 +405,8 @@ SharkGame.ResourceTable = {
     harvester: {
         name: "harvester lobsters",
         singleName: "harvester lobster",
+        desc: "",
         color: "#718493",
-        income: {
-            sponge: 0.3,
-            kelp: 1,
-        },
         value: 3000,
     },
 
@@ -443,18 +448,6 @@ SharkGame.ResourceTable = {
         color: "#85BBA9",
         value: 100000,
     },
-
-    /*     transmuter: {
-        name: "chimaera transmuters",
-        singleName: "chimaera transmuter",
-        color: "#6A4BA3",
-        income: {
-            sharkonium: 15,
-            sand: -90,
-            crystal: -10,
-        },
-        value: 3000,
-    }, */
 
     explorer: {
         name: "chimaera explorers",
@@ -745,6 +738,30 @@ SharkGame.ResourceTable = {
         value: 50000,
     },
 
+    seabedStripper: {
+        name: "seabed strippers",
+        singleName: "seabed stripper",
+        desc: "A reckless",
+        color: "#836E5F",
+        income: {
+            kelp: 100,
+        },
+        value: 20000, // remember to set this value
+    },
+
+    calciniumConverter: {
+        name: "calcinium converters",
+        singleName: "calcinium converter",
+        desc: "",
+        color: "#836E5F",
+        income: {
+            crystal: 100,
+            clam: -300,
+            calcinium: 30,
+        },
+        value: 20000, // remember to set this value
+    },
+
     // SCIENCE
 
     science: {
@@ -916,12 +933,13 @@ SharkGame.ResourceTable = {
         value: 70,
     },
 
-    /* calcinium: {
+    calcinium: {
         name: "calcinium",
         singleName: "calcinium",
+        desc: "",
         color: "#000000",
         value: 75,
-    }, */
+    },
 
     junk: {
         name: "residue",
@@ -1050,6 +1068,11 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
             fishMachine: 0.99,
             crystalMiner: 0.99,
             sandDigger: 0.99,
+        },
+    },
+    harvester: {
+        multiply: {
+            kelp: 0.01,
         },
     },
     // cool tooltip test crab
@@ -1204,7 +1227,7 @@ SharkGame.ResourceCategories = {
             "The foundation of a modern shark frenzy, perhaps, but also sort of taking up all the space.",
             "Let's hope we don't regret it.",
         ],
-        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "ancientPart", "junk", "filter"],
+        resources: ["sharkonium", "coralglass", "delphinium", "spronge", "calcinium", "ancientPart", "junk", "filter"],
     },
     breeders: {
         name: "Breeders",
@@ -1244,6 +1267,7 @@ SharkGame.ResourceCategories = {
             "sifter",
             "extractionTeam",
             "scholar",
+            "extractor",
             //"prospector",
             //"shoveler",
             //"miller",
@@ -1276,6 +1300,8 @@ SharkGame.ResourceCategories = {
             "eggBrooder",
             "crimsonCombine",
             "kelpCultivator",
+            "seabedStripper",
+            "calciniumConverter",
             //"coalescer",
             //"crusher",
             //"pulverizer",
@@ -1357,6 +1383,10 @@ SharkGame.InternalCategories = {
     octopusmachines: {
         name: "Octopus Machines",
         resources: ["spronge", "clamCollector", "sprongeSmelter", "eggBrooder"],
+    },
+    lobstermachines: {
+        name: "Lobster Machines",
+        resources: ["calcinium", "seabedStripper", "calciniumConverter"],
     },
     basicmaterials: {
         resources: ["fish", "sand", "crystal", "science", "junk"],

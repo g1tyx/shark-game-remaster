@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded", "marine"],
 
     completedWorlds: [],
 
@@ -614,9 +614,9 @@ SharkGame.Gateway.Messages = {
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
-            "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-            "Do you wonder where the lobsters came from?",
+            "Do you wonder where the lobsters' former machines are?",
+            "A tragedy: or, perhaps, merely the cost of progress.",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
