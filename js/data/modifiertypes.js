@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Can be indexed with the name of a modifier to return the associated data in SharkGame.ModifierTypes.
  */

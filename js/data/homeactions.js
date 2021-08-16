@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.HomeActions = {
     /**
      * @type Record<string, Record<string, any>>

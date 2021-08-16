@@ -1,3 +1,4 @@
+"use strict";
 /*
 replace the first with the second to fix newline nonsense
 

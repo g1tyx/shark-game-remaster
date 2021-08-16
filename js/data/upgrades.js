@@ -1,19 +1,4 @@
-// TODO: separate upgrades?
-// NAMES, EFFECTS, DESCRIPTIONS, IF THEY EXIST, COSTS, PREREQUISITES
-// names will remain constant
-// effects vary with what is or isn't in the world
-// this is hard
-// i cant tell if i'll need to just make separate, independent lists
-// i probably will
-// but that's for later
-
-// my end conclusion is that I will certainly be putting upgrades into individual lists,
-// separated by world type. therefore every world gets its own upgrade progression individually,
-// so I can closely monitor and control the progression in every world, have individual and unique
-// descriptions and names and effects, and have the progression of each species vary by world.
-
-// Wouldn't it make more sense to have effects just depend on world type then, instead of making
-// three or more near-if-not-comletely-identical entries?
+"use strict";
 SharkGame.Upgrades = {
     purchased: [],
     /**

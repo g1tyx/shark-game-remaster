@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.WorldTypes = {
     test: {
         name: "Test",

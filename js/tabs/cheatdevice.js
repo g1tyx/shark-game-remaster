@@ -1,3 +1,4 @@
+"use strict";
 SharkGame.CheatsAndDebug = {
     tabId: "cheats",
     tabDiscovered: false,
