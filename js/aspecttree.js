@@ -37,7 +37,6 @@ SharkGame.AspectTree = {
     dragStart: { posX: 0, posY: 0 },
     cameraZoom: 1,
     cameraOffset: { posX: 0, posY: 0 },
-    /** @type {CanvasRenderingContext2D} */
     context: undefined,
     staticButtons: {
         zoom: {
@@ -177,10 +176,6 @@ SharkGame.AspectTree = {
 
         return canvas;
     },
-    /**
-     * @param {HTMLCanvasElement} canvas
-     * @param {MouseEvent} event
-     */
     getCursorPositionInCanvas(canvas, event) {
         const rect = canvas.getBoundingClientRect();
         const posX = event.clientX - rect.left;
@@ -188,7 +183,6 @@ SharkGame.AspectTree = {
         const result = { posX, posY };
         return result;
     },
-    /** @param {MouseEvent} event */
     getButtonUnderMouse(event) {
         const context = tree.context;
         const mousePos = tree.getCursorPositionInCanvas(context.canvas, event);
@@ -220,7 +214,6 @@ SharkGame.AspectTree = {
         });
         return aspect;
     },
-    /** @param {MouseEvent} event */
     updateMouse(event) {
         const context = tree.context;
 
@@ -233,7 +226,6 @@ SharkGame.AspectTree = {
             context.canvas.style.cursor = "pointer";
             tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased");
 
-            // FIXME: Hard-coded color "#ace3d1"
             if (button.getUnlocked && button.getUnlocked()) {
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(sharktext.boldString(button.getUnlocked()));
             } else if (button.level === 0) {
@@ -273,7 +265,6 @@ SharkGame.AspectTree = {
             }
         }
     },
-    /** @param {MouseEvent} event */
     click(event) {
         const button = tree.getButtonUnderMouse(event);
         if (button === undefined) {
@@ -284,7 +275,6 @@ SharkGame.AspectTree = {
         }
         requestAnimationFrame(tree.render);
     },
-    /** @param {MouseEvent} event */
     startPan(event) {
         if (tree.getButtonUnderMouse(event) !== undefined) {
             return;
@@ -294,7 +284,6 @@ SharkGame.AspectTree = {
         $(tree.context.canvas).on("mousemove", tree.pan);
         $(tree.context.canvas).on("mouseup mouseleave", tree.endPan);
     },
-    /** @param {MouseEvent} event */
     pan(event) {
         const offsetX = clamp(event.clientX / tree.cameraZoom - tree.dragStart.posX, RIGHT_EDGE, LEFT_EDGE - CANVAS_WIDTH);
         const offsetY = clamp(event.clientY / tree.cameraZoom - tree.dragStart.posY, BOTTOM_EDGE, TOP_EDGE - CANVAS_HEIGHT);
@@ -418,16 +407,6 @@ SharkGame.AspectTree = {
         // update essence count
         tree.updateEssenceCounter();
     },
-    /**
-     * Draws a rounded rectangle using the current state of the canvas
-     * @param {CanvasRenderingContext2D} context
-     * @param {number} posX The top left x coordinate
-     * @param {number} posY The top left y coordinate
-     * @param {number} width The width of the rectangle
-     * @param {number} height The height of the rectangle
-     * @param {string} icon The icon to draw in the rectangle
-     * @param {string} name The name of the button
-     */
     renderButton(context, posX, posY, width, height, icon = "general/missing-action", eventIcon = false, name) {
         context.beginPath();
         context.moveTo(posX + BUTTON_BORDER_RADIUS, posY);

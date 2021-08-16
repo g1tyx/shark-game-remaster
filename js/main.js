@@ -1,6 +1,7 @@
 "use strict";
-/* eslint-disable-next-line no-var, no-use-before-define, no-shadow */
-var SharkGame = SharkGame || {};
+/** @type {SharkGame} */
+/* eslint-disable-next-line no-var, no-shadow */
+const SharkGame = Object.create(null);
 
 window.onmousemove = (event) => {
     const tooltip = document.getElementById("tooltipbox");
