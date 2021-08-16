@@ -862,6 +862,25 @@ SharkGame.Home = {
             log.addMessage(SharkGame.choose(action.outcomes));
         } else if (amount.greaterThan(0)) {
             // cost action
+
+            // did the player just purchase sharkonium?
+            if (actionName === "transmuteSharkonium") {
+                // did they only buy one for some reason?
+                if (amountToBuy.equals(1)) {
+                    // keep track of how many times they've done that
+                    if (!SharkGame.persistentFlags.individuallyBoughtSharkonium) {
+                        SharkGame.persistentFlags.individuallyBoughtSharkonium = 0;
+                    }
+                    if (SharkGame.persistentFlags.individuallyBoughtSharkonium !== -1) {
+                        SharkGame.persistentFlags.individuallyBoughtSharkonium += 1;
+                    }
+                } else {
+                    // otherwise they know what they're doing, stop keeping track
+                    SharkGame.persistentFlags.individuallyBoughtSharkonium = -1;
+                }
+                // see remindAboutBuyMax event
+            }
+
             // check cost, only proceed if sufficient resources (prevention against lazy cheating, god, at least cheat in the right resources)
             if (res.checkResources(actionCost)) {
                 // take cost
