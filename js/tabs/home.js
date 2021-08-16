@@ -647,7 +647,6 @@ SharkGame.Home = {
             const max = home.getMax(actionData);
             const divisor = new Decimal(1).dividedBy(amountToBuy.times(-1));
             amount = max.times(divisor);
-            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
             amount = amount.round();
             if (amount.lessThan(1)) {
                 amount = new Decimal(1);
@@ -844,7 +843,6 @@ SharkGame.Home = {
                 const divisor = new Decimal(1).dividedBy(amountToBuy.times(-1));
                 amount = max.times(divisor);
                 // floor amount
-                Decimal.set({ rounding: Decimal.ROUND_FLOOR });
                 amount = amount.round();
                 // make it worth entering this function
                 if (amount.lessThan(1)) amount = new Decimal(1);
@@ -1175,7 +1173,7 @@ SharkGame.Home = {
             const resource = SharkGame.PlayerResources.get(action.max);
             const currAmount = new Decimal(resource.amount);
             const priceIncrease = new Decimal(costObj.priceIncrease);
-            let cost = new Decimal(0);
+            let cost = new DecimalHalfRound(0);
 
             switch (costObj.costFunction) {
                 case "constant":
@@ -1188,7 +1186,6 @@ SharkGame.Home = {
                     cost = sharkmath.uniqueCost(currAmount, amount, priceIncrease);
                     break;
             }
-            Decimal.set({ rounding: Decimal.ROUND_HALF_FLOOR });
             if (cost.abs().minus(cost.round()).lessThan(SharkGame.EPSILON)) {
                 cost = cost.round();
             }
@@ -1207,7 +1204,7 @@ SharkGame.Home = {
             _.each(action.cost, (costObject) => {
                 const costResource = new Decimal(SharkGame.PlayerResources.get(costObject.resource).amount);
                 const priceIncrease = new Decimal(costObject.priceIncrease);
-                let subMax = new Decimal(-1);
+                let subMax = new DecimalHalfRound(-1);
 
                 switch (costObject.costFunction) {
                     case "constant":
@@ -1221,14 +1218,13 @@ SharkGame.Home = {
                         break;
                 }
                 // prevent flashing action costs
-                Decimal.set({ rounding: Decimal.ROUND_HALF_FLOOR });
                 if (subMax.minus(subMax.round()).abs().lessThan(SharkGame.EPSILON)) {
                     subMax = subMax.round();
                 }
+                subMax = new Decimal(subMax);
                 max = Decimal.min(max, subMax);
             });
         }
-        Decimal.set({ rounding: Decimal.ROUND_FLOOR });
         return max.round();
     },
 };

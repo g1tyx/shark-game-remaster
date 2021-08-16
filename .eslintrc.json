@@ -13,6 +13,7 @@
         "pako": "readonly",
         "SharkGame": "readonly",
         "Decimal": "readonly",
+        "DecimalHalfRound": "readonly",
 
         "res": "readonly",
         "main": "readonly",
