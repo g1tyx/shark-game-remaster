@@ -4,8 +4,12 @@ declare global {
     const SharkGame: SharkGame;
 
     //// REGION: Data structure types
+    type AspectName = string;
+    //// END REGION: Data structure types
+
+    //// REGION: Data structure types
     type Aspect = {
-        requiredBy: string[] | undefined;
+        requiredBy: AspectName[] | undefined;
         /** Whether to use the event spritesheet */
         eventSprite: boolean;
         icon: string;
@@ -14,7 +18,7 @@ declare global {
         width: number;
         height: number;
         level: number;
-        prerequisites: string[];
+        prerequisites: AspectName[];
         getCost(level: number): number;
         getEffect(level: number): string;
         /**
@@ -50,7 +54,7 @@ declare global {
         context?: CanvasRenderingContext2D;
         staticButtons: Record<string, StaticButton>;
         setUp(): void;
-        drawTree(disableCanvas: boolean = true): ReturnType<HTMLTableElement | HTMLDivElement>;
+        drawTree(disableCanvas: boolean): HTMLTableElement | HTMLDivElement;
         drawTable(table?: HTMLTableElement): HTMLTableElement;
         drawCanvas(): HTMLCanvasElement;
         getCursorPositionInCanvas(canvas: HTMLCanvasElement, event: MouseEvent): { posX: number; posY: number };
@@ -72,8 +76,8 @@ declare global {
          * @param name The name of the button
          */
         renderButton(context: CanvasRenderingContext2D, posX: number, posY: number, width: number, height: number, icon: string, name: string): void;
-        getLittleLevelText(aspectName: string): string | undefined;
-        increaseLevel(aspect: aspect): void;
+        getLittleLevelText(aspectName: AspectName): string | undefined;
+        increaseLevel(aspect: AspectName): void;
         updateEssenceCounter(): void;
         applyAspects(): void;
     };
@@ -168,7 +172,7 @@ declare global {
         wonGame: boolean;
     };
     type SharkGameData = {
-        Aspects: Record<string, Aspect>;
+        Aspects: Record<AspectName, Aspect>;
     };
 
     type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData;
