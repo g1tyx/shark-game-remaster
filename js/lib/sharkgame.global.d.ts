@@ -5,6 +5,7 @@ declare global {
 
     //// REGION: Data structure types
     type AspectName = string;
+    type ResourceName = string;
     //// END REGION: Data structure types
 
     //// REGION: Data structure types
@@ -85,7 +86,6 @@ declare global {
 
     type SharkGameModules = {
         AspectTree: AspectTreeModule;
-        BreakdownIncomeTable;
         Button;
         Changelog;
         CheatsAndDebug;
@@ -174,6 +174,9 @@ declare global {
     type SharkGameData = {
         Aspects: Record<AspectName, Aspect>;
     };
+    type SharkGameRuntimeData = {
+        BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
+    };
 
-    type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData;
+    type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData & SharkGameRuntimeData;
 }
