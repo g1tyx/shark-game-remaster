@@ -508,4 +508,29 @@ SharkGame.AspectTree = {
             }
         });
     },
+    respecTree(totalWipe) {
+        if (!totalWipe) {
+            _.each(SharkGame.Aspects, (aspect) => {
+                if (!aspect.noRefunds) {
+                    this.refundLevels(aspect);
+                }
+            });
+        } else {
+            _.each(SharkGame.Aspects, (aspect) => {
+                this.refundLevels(aspect);
+            });
+        }
+        if (SharkGame.Settings.current.doAspectTable === "table") {
+            this.drawTable(document.getElementById("aspectTable"));
+            this.updateEssenceCounter();
+        } else {
+            requestAnimationFrame(tree.render);
+        }
+    },
+    refundLevels(aspectData) {
+        while (aspectData.level) {
+            res.changeResource("essence", aspectData.getCost(aspectData.level - 1));
+            aspectData.level -= 1;
+        }
+    },
 };

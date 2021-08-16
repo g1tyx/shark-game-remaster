@@ -203,6 +203,14 @@ SharkGame.Gateway = {
             $("#tooltipbox").empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         });
 
+        if (SharkGame.Aspects.cleanSlate.level) {
+            SharkGame.Button.makeButton("respecButton", "respec industry and time branches", aspectTreeContent, () => {
+                if (confirm("Are you sure you want to refund all aspects on the Industry and Time branches?")) {
+                    tree.respecTree();
+                }
+            });
+        }
+
         SharkGame.PaneHandler.swapCurrentPane("ASPECT TREE", aspectTreeContent, true, 500, true);
 
         gateway.transitioning = false;

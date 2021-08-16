@@ -30,6 +30,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Apotheosis",
         description: "The path begins here.",
+        noRefunds: true,
         getCost(level) {
             return (level + 1) ** 2;
         },
@@ -88,6 +89,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Path of Enlightenment",
         description: "Unlock the potential of yourself.",
+        noRefunds: true,
         getCost(_level) {
             return 2;
         },
@@ -121,6 +123,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Patience",
         description: "They say that good things come to those who wait.",
+        noRefunds: true,
         getCost(level) {
             return (level + 2) ** 2;
         },
@@ -208,7 +211,7 @@ SharkGame.Aspects = {
             return "Tokens increase production by <strong>" + (level + 2) + "x</strong>.";
         },
         getUnlocked() {
-            return gateway.completedWorlds.includes("frigid") ? "" : "Complete the <strong>Frigid</strong> worldtype to unlock this aspect.";
+            return gateway.completedWorlds.includes("frigid") ? "" : "Complete the Frigid worldtype to unlock this aspect.";
         },
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
@@ -390,6 +393,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Destiny Gamble",
         description: "Where we end up is all luck, but sometimes, we can stack the deck.",
+        noRefunds: true,
         getCost(level) {
             return 2 + level;
         },
@@ -414,6 +418,38 @@ SharkGame.Aspects = {
                 } else {
                     SharkGame.persistentFlags.destinyRolls += 1;
                 }
+            }
+        },
+    },
+    cleanSlate: {
+        posX: 460,
+        posY: 150,
+        width: 40,
+        height: 40,
+
+        max: 1,
+        level: 0,
+        name: "Clean Slate",
+        description: "placeholder description for now",
+        noRefunds: true,
+        getCost(_level) {
+            return 4;
+        },
+        getEffect(_level) {
+            return "Unlock a button to refund all aspects on the Branch of Industry and Branch of Time.";
+        },
+        getUnlocked() {},
+        prerequisites: ["destinyGamble"],
+        clicked(_event) {
+            tree.increaseLevel(this);
+        },
+        apply(when) {
+            if (when === "levelUp") {
+                SharkGame.Button.makeButton("respecButton", "respec industry and time branches", $("#paneContent"), () => {
+                    if (confirm("Are you sure you want to refund all aspects on the Industry and Time branches?")) {
+                        tree.respecTree();
+                    }
+                });
             }
         },
     },
@@ -602,7 +638,7 @@ SharkGame.Aspects = {
             }
         },
         getUnlocked() {
-            return gateway.completedWorlds.includes("abandoned") ? "" : "Complete the <strong>Abandoned</strong> worldtype to unlock this aspect.";
+            return gateway.completedWorlds.includes("abandoned") ? "" : "Complete the Abandoned worldtype to unlock this aspect.";
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {
