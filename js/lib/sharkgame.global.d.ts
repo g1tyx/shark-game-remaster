@@ -16,6 +16,7 @@ declare global {
     type ResourceName = string;
     type UpgradeName = string;
     type WorldName = string;
+    type ProgressionType = "2-scale";
 
     type CheatButtonType = undefined | "numeric" | "up-down";
     type CheatButton = {
@@ -288,6 +289,27 @@ declare global {
         toggleExtendedLog(): void;
         haveAnyMessages(): boolean;
     };
+
+    type MainModule = {
+        tickHandler: number;
+        autosaveHandler: number;
+        applyFramerate(): void;
+        init(foregoLoad?: boolean): void;
+        tick(): void;
+        processSimTime(numberOfSeconds: number, load?: boolean): void;
+        autosave(): void;
+        checkForUpdate(): void;
+        createBuyButtons(customLabel?: string, addToWhere: JQuery, appendOrPrepend: "append" | "prepend", absoluteOnly?: boolean): void;
+        onCustomChange(): void;
+        showSidebarIfNeeded(): void;
+        applyProgressionSpeed(): void;
+        getProgressionConstant(alternative?: ProgressionType): 1.5 | 1 | 2 | 4;
+        endGame(loadingFromSave?: boolean): void;
+        purgeGame(): void;
+        loopGame(): void;
+        isFirstTime(): boolean;
+        resetTimers(): void;
+    };
     //// END REGION: Modules
 
     //// REGION: Tabs
@@ -463,7 +485,7 @@ declare global {
         Gateway: GatewayModule;
         HomeActions: HomeActionsModule;
         Log: LogModule;
-        Main;
+        Main: MainModule;
         MathUtil;
         ModifierMap;
         ModifierReference;
