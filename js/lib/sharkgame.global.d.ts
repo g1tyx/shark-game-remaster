@@ -273,6 +273,21 @@ declare global {
         getUpgradeData(table: UpgradeTable, upgradeName: UpgradeName): Upgrade;
         generateUpgradeTable(worldType: WorldName): UpgradeTable;
     };
+
+    type LogModule = {
+        initialised: boolean;
+        initialized: boolean;
+        messages: JQuery<HTMLLIElement>;
+        totalCount: number;
+        moveLog(): void;
+        addMessage(message: string | JQuery.Node): JQuery<HTMLLIElement>;
+        addError(message: string | JQuery.Node): ReturnType<LogModule["addMessage"]>;
+        addDiscovery(message: string | JQuery.Node): ReturnType<LogModule["addMessage"]>;
+        correctLogLength(): void;
+        clearMessages(logThing?: boolean): void;
+        toggleExtendedLog(): void;
+        haveAnyMessages(): boolean;
+    };
     //// END REGION: Modules
 
     //// REGION: Tabs
@@ -447,7 +462,7 @@ declare global {
         EventHandler: EventHandlerModule;
         Gateway: GatewayModule;
         HomeActions: HomeActionsModule;
-        Log;
+        Log: LogModule;
         Main;
         MathUtil;
         ModifierMap;
