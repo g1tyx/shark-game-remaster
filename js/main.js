@@ -593,19 +593,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 };
 
 SharkGame.Button = {
-    makeHoverscriptButton(id, name, div, handler, hhandler, huhandler) {
+    makeHoverscriptButton(id, content, parentDiv, onClick, onMouseEnter, onMouseLeave) {
         return $("<button>")
-            .html(name)
+            .html(content)
             .attr("id", id)
             .addClass("hoverbutton")
-            .appendTo(div)
-            .on("click", handler)
-            .on("mouseenter", hhandler)
-            .on("mouseleave", huhandler);
+            .appendTo(parentDiv)
+            .on("click", onClick)
+            .on("mouseenter", onMouseEnter)
+            .on("mouseleave", onMouseLeave);
     },
 
-    makeButton(id, name, div, handler) {
-        return $("<button>").html(name).attr("id", id).appendTo(div).on("click", handler);
+    makeButton(id, content, parentDiv, onClick) {
+        return $("<button>").html(content).attr("id", id).appendTo(parentDiv).on("click", onClick);
     },
 };
 

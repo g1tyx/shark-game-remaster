@@ -80,11 +80,28 @@ declare global {
         updateEssenceCounter(): void;
         applyAspects(): void;
     };
+
+    type ButtonModule = {
+        makeHoverscriptButton(
+            id: string,
+            content: string,
+            parentDiv: HTMLDivElement | JQuery<HTMLDivElement>,
+            onClick: (event: JQuery.MouseDownEvent) => void,
+            onMouseEnter: (event: JQuery.MouseEnterEvent) => void,
+            onMouseLeave: (event: JQuery.MouseLeaveEvent) => void
+        ): JQuery<HTMLButtonElement>;
+        makeButton(
+            id: string,
+            content: string,
+            parentDiv: HTMLDivElement | JQuery<HTMLDivElement>,
+            onClick: (event: JQuery.MouseDownEvent) => void
+        ): JQuery<HTMLButtonElement>;
+    };
     //// END REGION: Modules
 
     type SharkGameModules = {
         AspectTree: AspectTreeModule;
-        Button;
+        Button: ButtonModule;
         Changelog;
         CheatsAndDebug;
         ColorUtil;
