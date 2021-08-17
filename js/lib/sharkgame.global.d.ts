@@ -7,6 +7,7 @@ declare global {
     type AspectName = string;
     type ResourceName = string;
     type UpgradeName = string;
+    type WorldName = string;
 
     type CheatButtonType = undefined | "numeric" | "up-down";
     type CheatButton = {
@@ -32,6 +33,25 @@ declare global {
         slots: Record<ResourceName, number>;
         resources: Record<ResourceName, number>;
     }>;
+
+    // Not quite complete type
+    type WorldType = {
+        name: WorldName;
+        desc: string;
+        shortDesc: string;
+        entry: string;
+        style: string;
+        includedResources?: ResourceName[];
+        absentResources: ResourceName[];
+        modifiers: unknown[]; // TODO: Modifier type
+        gateRequirements: GateRequirements;
+        foresight?: {
+            longDesc: string;
+            missing: ResourceName[];
+            present: ResourceName[];
+            tip?: string;
+        };
+    };
     //// END REGION: Data structure types
 
     //// REGION: Data structure types
@@ -137,6 +157,39 @@ declare global {
         eventQueue: SharkEventHandler[][];
         init(): void;
         handleEventTick(handlingTime: EventName | "load"): void;
+    };
+
+    type GatewayModule = {
+        PresenceFeelings: Record<ResourceName, string>;
+        Messages: {
+            essenceBased: { min: number; max: number; messages: string[] }[];
+            lastPlanetBased: RecordType<WorldName, string[]>;
+            loss: string[];
+            generic: string[];
+        };
+        NUM_PLANETS_TO_SHOW: number;
+        transitioning: boolean;
+        selectedWorld: WorldName;
+        allowedWorlds: WorldName[];
+        completedWorlds: WorldName[];
+        planetPool: WorldName[];
+        init(): void;
+        enterGate(loadingFromSave?: boolean): void;
+        cleanUp(): void;
+        showGateway(essenceRewarded: number, patienceReward: number): void;
+        showRunEndInfo(containerDiv: JQuery<HTMLDivElement>): void;
+        showAspects(): void;
+        showPlanets(foregoAnimation?: boolean): void;
+        formatDestinyGamble(): void;
+        rerollWorlds(): void;
+        confirmWorld(): void;
+        switchViews(callback: () => void): void;
+        preparePlanetSelection(numPlanets: number): void;
+        updatePlanetButtons(): void;
+        getVoiceMessage(): string;
+        showPlanetAttributes(worldData: WorldType, contentDiv: JQuery<HTMLDivElement>): void;
+        playerHasSeenResource(resource: ResourceName): boolean;
+        markWorldCompleted(worldType: WorldName): void;
     };
     //// END REGION: Modules
 
@@ -259,7 +312,7 @@ declare global {
         Button: ButtonModule;
         ColorUtil: ColorUtilModule;
         EventHandler: EventHandlerModule;
-        Gateway;
+        Gateway: GatewayModule;
         GeneratorIncomeAffected;
         GeneratorIncomeAffectors;
         GeneratorIncomeAffectorsOriginal;
