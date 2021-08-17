@@ -977,7 +977,6 @@ SharkGame.HomeActions = {
             cost: [
                 { resource: "ray", costFunction: "constant", priceIncrease: 1 },
                 { resource: "fish", costFunction: "linear", priceIncrease: 300 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 15 },
             ],
             max: "maker",
             prereq: {
@@ -3707,10 +3706,7 @@ SharkGame.HomeActions = {
                     crystal: 1,
                 },
             },
-            cost: [
-                { resource: "clam", costFunction: "constant", priceIncrease: 1 },
-                { resource: "science", costFunction: "constant", priceIncrease: 5 },
-            ],
+            cost: [{ resource: "clam", costFunction: "constant", priceIncrease: 5 }],
             max: "clam",
             prereq: {
                 resource: {
@@ -3925,29 +3921,26 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
-                { resource: "clam", costFunction: "linear", priceIncrease: 25 },
-                { resource: "sponge", costFunction: "linear", priceIncrease: 5 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 50 },
             ],
             max: "harvester",
             prereq: {
-                resource: {
-                    lobster: 1,
-                },
-                upgrade: ["crustaceanBiology"],
+                upgrade: ["harvestingHelp"],
             },
             outcomes: [
-                "Yes, lobster, put these claws to better use.",
+                /*                 "Yes, lobster, put these claws to better use.",
                 "It is time for this one to seek more interesting prey. Wait. Wait, no, it's just as stationary. Never mind. False alarm.",
-                "Lobster sticks to seabed!",
+                "Lobster sticks to seabed!", */
             ],
             multiOutcomes: [
-                "Cut down the kelp forests!",
+                /*                 "Cut down the kelp forests!",
                 "Rip the sponge and tear the kelp!",
                 "Harvest the seafloor!",
                 "The lobster tide shall claim the-- wait no you said harvesters. Okay. Adjusting that, then.",
-                "These guys are pretty unenthusiastic about everything they do, aren't they.",
-            ],
-            helpText: "Train a lobster to cut down kelp faster than anything can plant it. Sustainable!",
+                "These guys are pretty unenthusiastic about everything they do, aren't they.", */
+            ], // mr harvester, tear down this forest
+            helpText: "", // Train a lobster to cut down kelp faster than anything can plant it. Sustainable!
+            // i love that previous help text so much that i've elected to store it here for future use
         },
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////

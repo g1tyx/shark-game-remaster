@@ -98,11 +98,12 @@ SharkGame.Home = {
             {
                 name: "marine-clams",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
+                message:
+                    "You start noticing a bunch creatures scurrying around on the ocean floor.<br>They look like crabs, but longer, and more red.",
             },
             {
                 name: "marine-lobsters",
-                unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
+                unlock: { totalResource: { lobster: 20 } },
                 message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
             },
         ],

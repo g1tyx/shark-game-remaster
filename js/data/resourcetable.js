@@ -362,8 +362,7 @@ SharkGame.ResourceTable = {
         singleName: "lobster",
         color: "#BF0F00",
         income: {
-            clam: 1,
-            sand: 0.5,
+            clam: 2,
         },
         jobs: ["berrier", "harvester"],
         value: 1000,
@@ -1074,11 +1073,6 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
             sandDigger: 0.99,
         },
     },
-    harvester: {
-        multiply: {
-            kelp: 0.01,
-        },
-    },
     // cool tooltip test crab
     /*     crab: {
         exponentiate: {
@@ -1110,6 +1104,11 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
             sand: 0.001,
             crystal: 0.001,
             jellyfish: 0.001,
+        },
+    },
+    harvester: {
+        multiply: {
+            seaApple: 0.05,
         },
     },
     // cool tooltip test shark

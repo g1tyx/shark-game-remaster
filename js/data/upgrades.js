@@ -407,7 +407,6 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["biology", "laserRays"],
-                seen: ["kelp"],
             },
             effect: {
                 incomeMultiplier: {
@@ -2309,7 +2308,7 @@ SharkGame.Upgrades = {
                 "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. We're organized! Sort of!",
             effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing...sort of.",
             cost: {
-                science: 150,
+                science: 125,
             },
             required: {
                 upgrades: ["crystalContainer"],
@@ -2321,7 +2320,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Well, nothing useful was determined, but if we keep on doing it we make tremendous leaps for science!",
             effectDesc: "Scientists are twice as effective with their new chemical insights.",
             cost: {
-                science: 200,
+                science: 450,
                 crystal: 50,
             },
             required: {
@@ -2339,7 +2338,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Not only did we find a whole bunch of weird things, the rays found that there was more sand!",
             effectDesc: "Rays are twice as effective with their understanding of the seabed and its varieties of sediment.",
             cost: {
-                science: 250,
+                science: 300,
                 sand: 250,
             },
             required: {
@@ -2358,7 +2357,7 @@ SharkGame.Upgrades = {
                 "Patient observation has shown that clams and rocks are in fact different and distinct things. Now we won't be scooping up any more rocks!",
             effectDesc: "Clams can be collected like fish.",
             cost: {
-                science: 300,
+                science: 750,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -2370,7 +2369,7 @@ SharkGame.Upgrades = {
             researchedMessage: "This is a wondrous, unending source of heat! Something good must come from this.",
             effectDesc: "A power source for future technologies has been discovered.",
             cost: {
-                science: 400,
+                science: 1500,
                 sand: 1000,
             },
             required: {
@@ -2384,7 +2383,9 @@ SharkGame.Upgrades = {
             effectDesc:
                 "We can turn clams into crystals using the pearls inside them as a focus. Maybe one day we won't need to use the entire clam.",
             cost: {
-                science: 500,
+                science: 2250,
+                clam: 500,
+                crystal: 100,
             },
             required: {
                 upgrades: ["thermalVents"],
@@ -2397,11 +2398,60 @@ SharkGame.Upgrades = {
             researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
             effectDesc: "Advances in agriculture will fuel future endeavors. Who knows what we'll do next!",
             cost: {
-                science: 1750,
-                sand: 2000,
+                science: 4000,
+                sand: 10000,
             },
             required: {
                 upgrades: ["seabedGeology"],
+            },
+        },
+        biology: {
+            name: "Biology",
+            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
+            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
+            effectDesc:
+                "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?",
+            cost: {
+                science: 2500,
+            },
+            required: {
+                upgrades: ["underwaterChemistry", "agriculture"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                },
+            },
+        },
+        crustaceanBiology: {
+            name: "Crustacean Biology",
+            desc: "These strange creatures related to crabs require further investigation. What is with exoskeletons?",
+            researchedMessage: "We've figured out how these shellfish function. There's far too many limbs involved.",
+            effectDesc:
+                "Shrimp and lobsters are twice as effective. Lobsters can now gather other things or cover themselves in shiny eggs, also called 'berries'. What's a berry?",
+            cost: {
+                science: 2500,
+                clam: 1000,
+            },
+            required: {
+                upgrades: ["biology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    lobster: 2,
+                },
+            },
+        },
+        sunObservation: {
+            name: "Sun Observation",
+            desc: "We must determine what is with the weird glare on the surface of the water.",
+            researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
+            effectDesc: "",
+            cost: {
+                science: 5000,
+            },
+            required: {
+                upgrades: ["agriculture"],
             },
         },
         kelpHorticulture: {
@@ -2410,12 +2460,11 @@ SharkGame.Upgrades = {
             researchedMessage: "Crab-specific gear has been invented to allow for kelp farming! This is possibly useful.",
             effectDesc: "Crabs can become kelp farmers and grow a living carpet across the bottom of the sea.",
             cost: {
-                science: 1500,
-                sand: 4000,
+                science: 1000,
+                sand: 5000,
             },
             required: {
-                upgrades: ["agriculture"],
-                resources: ["kelp"],
+                upgrades: ["sunObservation"],
             },
         },
         xenobiology: {
@@ -2437,24 +2486,6 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        biology: {
-            name: "Biology",
-            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
-            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
-            effectDesc:
-                "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?",
-            cost: {
-                science: 400,
-            },
-            required: {
-                upgrades: ["underwaterChemistry", "agriculture"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    shark: 2,
-                },
-            },
-        },
         rayBiology: {
             name: "Ray Biology",
             desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
@@ -2463,12 +2494,11 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Rays and laser rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
-                science: 700,
-                sand: 600,
+                science: 10000,
+                sand: 2500,
             },
             required: {
                 upgrades: ["biology"],
-                seen: ["kelp"],
             },
             effect: {
                 incomeMultiplier: {
@@ -2484,12 +2514,12 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Crabs and planter crabs are four and two times as effective, respectively, and crab brood are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
-                science: 500,
+                science: 12500,
                 kelp: 100,
             },
             required: {
                 upgrades: ["biology", "sunObservation"],
-                resources: ["crab"],
+                seen: ["seaApple"],
             },
             effect: {
                 incomeMultiplier: {
@@ -2498,44 +2528,16 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        crustaceanBiology: {
-            name: "Crustacean Biology",
-            desc: "These strange creatures related to crabs require further investigation. What is with exoskeletons?",
-            researchedMessage: "We've figured out how these shellfish function. There's far too many limbs involved.",
-            effectDesc:
-                "Shrimp and lobsters are twice as effective. Lobsters can now gather other things or cover themselves in shiny eggs, also called 'berries'. What's a berry?",
+        harvestingHelp: {
+            name: "Harvesting Help",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
             cost: {
-                science: 500,
-                clam: 100,
+                science: 20000,
             },
             required: {
-                upgrades: ["biology"],
-                resources: ["shrimp", "lobster"],
-                seen: ["shrimp", "lobster"],
-            },
-            effect: {
-                multiplier: {
-                    shrimp: 2,
-                    lobster: 2,
-                },
-            },
-        },
-        sunObservation: {
-            name: "Sun Observation",
-            desc: "We must determine what is with the weird glare on the surface of the water.",
-            researchedMessage: "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.",
-            effectDesc:
-                "Planter crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
-            cost: {
-                science: 5000,
-            },
-            required: {
-                upgrades: ["agriculture"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    planter: 2,
-                },
+                upgrades: ["xenobiology", "crustaceanBiology"],
             },
         },
         transmutation: {
@@ -2544,9 +2546,9 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 8000,
-                crystal: 5000,
-                sand: 4000,
+                science: 400000,
+                crystal: 200000,
+                sand: 50000,
             },
             required: {
                 upgrades: ["thermalVents", "underwaterChemistry"],
@@ -2645,11 +2647,11 @@ SharkGame.Upgrades = {
             researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
             effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 5000,
-                fish: 5000,
+                science: 750000,
+                fish: 50000,
             },
             required: {
-                upgrades: ["sunObservation"],
+                upgrades: ["harvestingHelp"],
             },
             effect: {
                 incomeMultiplier: {
