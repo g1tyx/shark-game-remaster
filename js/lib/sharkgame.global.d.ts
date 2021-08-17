@@ -393,7 +393,6 @@ declare global {
         EventHandler: EventHandlerModule;
         Gateway: GatewayModule;
         HomeActions: HomeActionsModule;
-        InternalCategories;
         Log;
         Main;
         MathUtil;
@@ -464,6 +463,7 @@ declare global {
         Aspects: Record<AspectName, Aspect>;
         Events: Record<string, SharkEventHandler>;
         HomeActionCategories: Record<HomeActionCategory, { name: string; actions: HomeActionName }>;
+        InternalCategories: Record<ResourceName, { name: string; resources: ResourceName[] }>;
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
