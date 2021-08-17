@@ -6,6 +6,7 @@ declare global {
     //// REGION: Data structure types
     type AspectName = string;
     type ResourceName = string;
+    type UpgradeName = string;
     type CheatButtonType = undefined | "numeric" | "up-down";
     type CheatButton = {
         readonly name: string;
@@ -15,6 +16,11 @@ declare global {
         clickUp(): void;
         clickDown(): void;
     };
+    type GateRequirements = Partial<{
+        upgrades: Record<UpgradeName, string>;
+        slots: Record<ResourceName, number>;
+        resources: Record<ResourceName, number>;
+    }>;
     //// END REGION: Data structure types
 
     //// REGION: Data structure types
@@ -118,6 +124,7 @@ declare global {
         tabDiscovered: boolean;
         tabSeen: boolean;
         tabName: string;
+        tabBg?: string;
         discoverReq: Record<string, unknown>; // TODO: Find a better type
     };
 
@@ -169,11 +176,51 @@ declare global {
         expensiveStuffPlease(): string;
         cheaperStuffPlease(): string;
     };
+
+    type GateTab = SharkGameTabBase & {
+        message: string;
+        messageOneSlot: string;
+        messageOpened: string;
+        messagePaid: string;
+        messageCantPay: string;
+        messagePaidNotOpen: string;
+        messageAllPaid: string;
+        messageEnter: string;
+        sceneClosedImage: string;
+        sceneAlmostOpenImage: string;
+        sceneOpenImage: string;
+        sceneClosedButFilledImage: string;
+
+        requirements: {
+            slots: Record<ResourceName, number>;
+            upgrades: Record<UpgradeName, string>;
+            resources: Record<ResourceName, number>;
+        };
+        completedRequirements: {
+            slots: Record<ResourceName, boolean>;
+            upgrades: Record<UpgradeName, boolean>;
+            resources: Record<ResourceName, boolean>;
+        };
+
+        createSlots(gateRequirements: GateRequirements, gateCostMultiplier: number): void;
+        getMessage(): string;
+        getSlotsLeft(): number | false;
+        getUpgradesLeft(): number | false;
+        getResourcesLeft(): unknown[] | false; // TODO: Find better type
+        onHover(): void;
+        onUnhover(): void;
+        onGateButton(): void;
+        onEnterButton(): void;
+        shouldBeOpen(): boolean;
+        checkUpgradeRequirements(upgradeName: UpgradeName): void;
+        checkResourceRequirements(resourceName: ResourceName): void;
+        getSceneImagePath(): string;
+    };
     //// END REGION: Tabs
 
     type SharkGameTabs = {
         CheatsAndDebug: CheatsAndDebugTab;
-        Gate;
+        Gate: GateTab;
         Home;
         Lab;
         Recycler;
