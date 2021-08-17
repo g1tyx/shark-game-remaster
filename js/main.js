@@ -93,7 +93,7 @@ $.extend(SharkGame, {
 
     INTERVAL: 1000 / 10, // 20 FPS // I'm pretty sure 1000 / 10 comes out to 10 FPS
     dt: 1 / 10,
-    before: new Date(),
+    before: _.now(),
 
     timestampLastSave: false,
     timestampGameStart: false,
