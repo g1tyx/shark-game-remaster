@@ -114,11 +114,6 @@ $.extend(SharkGame, {
     spriteIconPath: "img/sharksprites.png",
     spriteHomeEventPath: "img/sharkeventsprites.png",
 
-    /**
-     *
-     * @param {any[]} choices
-     * @returns {any} A random element of choices
-     */
     choose(choices) {
         return choices[Math.floor(Math.random() * choices.length)];
     },
