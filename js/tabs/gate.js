@@ -171,7 +171,7 @@ SharkGame.Gate = {
 
         // if there are any required upgrades in the first place, return the number of still required upgrades
         // if there are not any required upgrades, return false to identify this fact
-        return gate.requirements.upgrades.length === 0 ? incompleteUpgrades : false;
+        return !gate.requirements.upgrades || gate.requirements.upgrades.length === 0 ? incompleteUpgrades : false;
     },
 
     getResourcesLeft() {
