@@ -16,6 +16,7 @@ declare global {
     type ResourceName = string;
     type UpgradeName = string;
     type WorldName = string;
+    type ModifierName = string;
     type ProgressionType = "2-scale";
 
     type CheatButtonType = undefined | "numeric" | "up-down";
@@ -88,6 +89,16 @@ declare global {
         }>;
     };
     type UpgradeTable = Record<UpgradeName, Upgrade>;
+
+    // TODO: Find out how to replace `string[]|number` with a Type parameter, since it's only ever one or the other per Modifier
+    type Modifier = {
+        defaultValue: string[] | number;
+        name?: string;
+        apply(current: string[] | number, degree: number | string, generator: string): string[] | number;
+        effectDescription?(degree: number | string, generator: string): string;
+        getEffect?(genDegree: number, outDegree: number, gen: string, out: string): number;
+        applyToInput(input: number, genDegree: string[] | number, outDegree: string[] | number, gen: string, out: string): number;
+    };
 
     // TODO: Not quite complete type
     type WorldType = {
@@ -525,9 +536,6 @@ declare global {
         Log: LogModule;
         Main: MainModule;
         MathUtil: MathUtilModule;
-        ModifierMap;
-        ModifierReference;
-        ModifierTypes;
         PaneHandler;
         Panes;
         PlayerIncomeTable;
@@ -595,6 +603,7 @@ declare global {
         InternalCategories: Record<ResourceName, { name: string; resources: ResourceName[] }>;
         HomeActions: Record<WorldName, HomeActionTable>;
         Upgrades: Record<WorldName, UpgradeTable>;
+        ModifierTypes: Record<"upgrade" | "world" | "aspect", Record<"multiplier" | "other", Record<ModifierName, Modifier>>>;
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
@@ -602,6 +611,12 @@ declare global {
         GeneratorIncomeAffected: SharkGameRuntimeData["GeneratorIncomeAffectorsOriginal"];
         GeneratorIncomeAffectors: SharkGameRuntimeData["GeneratorIncomeAffectorsOriginal"];
         GeneratorIncomeAffectorsOriginal: Record<ResourceName, Record<"multiply" | "exponentiate", Record<ResourceName, number>>>; // TOOD: Might be a better type available later;
+        ModifierMap: Map<
+            ResourceName,
+            Record<"upgrade" | "world" | "aspect", Record<"multiplier" | "other", Record<ModifierName, number | string[]>>>
+        >;
+        /** Can be indexed with the name of a modifier to return the associated data in SharkGame.ModifierTypes. */
+        ModifierReference: Map<ModifierName, Modifier>;
     };
 
     type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData & SharkGameRuntimeData & SharkGameTabs;

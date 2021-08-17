@@ -1,15 +1,5 @@
 "use strict";
-/**
- * Can be indexed with the name of a modifier to return the associated data in SharkGame.ModifierTypes.
- */
 SharkGame.ModifierReference = new Map();
-
-/**
- * @typedef {Object} modifier
- * @property {string} name - The name of the modifier, if applicable
- * @property {number} defaultValue - The default value that the modifier takes in the modifier map
- */
-// I can't get the methods to be defined as a part of the type so
 
 // AN OVERVIEW OF THE MODIFIER SYSTEM
 
@@ -25,22 +15,12 @@ SharkGame.ModifierReference = new Map();
 //
 // Most modifiers behave this way. Their code is handled independently, specifically so that there are few restrictions on what they can achieve.
 
-/**
- * @type {Record<string, Record<string, Record<string, modifier>>>}
- */
 SharkGame.ModifierTypes = {
     upgrade: {
         multiplier: {
+            /** @type {Modifier} */
             incomeMultiplier: {
                 defaultValue: 1,
-                // documentation for just the first modifier since i cant seem to find a way to add it to the type definition
-                /**
-                 * Changes the incomes of various resources in accordance with the modifier's effects, and returns how its own value should change after application.
-                 * @param {any} current Usually a number, but may also be an array. Represents the current degree/state of the modifier with respect to the resource being modified.
-                 * @param {any} degree The change to the value of the modifier.
-                 * @param {string} resource The resource to apply the effect to.
-                 * @returns The new degree/state for the modifier. See res.applyModifier().
-                 */
                 apply(current, degree, resource) {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
                     $.each(incomes, (resourceId, income) => {
@@ -48,35 +28,12 @@ SharkGame.ModifierTypes = {
                     });
                     return current * degree;
                 },
-                /**
-                 * Generates a description of a modifier's effect at a specific degree on a specific resource. Used in world selection when viewing world properties using distant foresight, and for the descriptions of the effects of upgrades.
-                 * @param {*} degree The hypothetical value of the modifier.
-                 * @param {*} resource The resource that the effect would be applied to.
-                 * @returns A description of the hypothetical effect of the modifier.
-                 */
                 effectDescription(degree, resource) {
                     return sharktext.getResourceName(resource) + " speed x " + degree;
                 },
-                /**
-                 * Tells how much a specific generator-income pair with specific modifier degrees has its income multiplied. Only used for multiplier-like modifiers, otherwise returns 1. Used in the grotto in advanced view; see res.getMultiplierProduct().
-                 * @param {number} genDegree The degree of this modifier on the generator resource.
-                 * @param {number} _outDegree The degree of this modifier on the generated resource.
-                 * @param {string} _gen The generator resource.
-                 * @param {string} _out The generated resource.
-                 * @returns A number: how much the income is multiplied.
-                 */
                 getEffect(genDegree, _outDegree, _gen, _out) {
                     return genDegree;
                 },
-                /**
-                 * Takes an arbitrary amount of income and simulates the effect of applying the modifier. Used when reapplying modifiers; see res.reapplyModifiers().
-                 * @param {number} input The hypothetical number representing income.
-                 * @param {number} genDegree The hypothetical degree of this modifier on the generator resource.
-                 * @param {number} _outDegree The hypothetical degree of this modifier on the generated resource.
-                 * @param {string} _gen The hypothetical generator resource.
-                 * @param {string} _out The hypothetical generated resource.
-                 * @returns The income if the modifier was applied under these condition.
-                 */
                 applyToInput(input, genDegree, _outDegree, _gen, _out) {
                     return input * genDegree;
                 },
