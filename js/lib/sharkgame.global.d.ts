@@ -11,6 +11,7 @@ declare global {
 
     //// REGION: Data structure types
     type AspectName = string;
+    type HomeActionName = string;
     type ResourceName = string;
     type UpgradeName = string;
     type WorldName = string;
@@ -39,8 +40,9 @@ declare global {
         slots: Record<ResourceName, number>;
         resources: Record<ResourceName, number>;
     }>;
+    type HomeAction = {}; // TODO: Placeholder
 
-    // Not quite complete type
+    // TODO: Not quite complete type
     type WorldType = {
         name: WorldName;
         desc: string;
@@ -301,12 +303,45 @@ declare global {
         checkResourceRequirements(resourceName: ResourceName): void;
         getSceneImagePath(): string;
     };
+
+    type HomeTab = SharkGameTabBase & {
+        currentButtonTab: null | "all" | string;
+        currentExtraMessageIndex: number;
+        extraMessages: Record<
+            WorldName,
+            {
+                name: string;
+                message: string;
+                scales?: boolean;
+                unlock?: Partial<{
+                    resource: Record<ResourceName, number>;
+                    totalResource: Record<ResourceName, number>;
+                    homeAction: HomeActionName[];
+                    upgrade: UpgradeName[];
+                }>;
+            }[]
+        >;
+        discoverActions(): void;
+        createButtonTabs(): void;
+        updateTab(tabToUpdate: string): void;
+        changeButtonTab(tabToChangeTo: string): void;
+        updateMessage(suppressAnimation: boolean): void;
+        updateButton(actionName: HomeActionName): void;
+        areActionPrereqsMet(actionName: HomeActionName): boolean;
+        shouldRemoveHomeButton(action: HomeAction): boolean;
+        addButton(actionName: HomeActionName): void;
+        getActionCategory(actionName: HomeActionName): string;
+        onHomeButton(mouseEnterEvent: JQuery.MouseEnterEvent, actionName: HomeActionName): void;
+        onHomeUnhover(): void;
+        getCost(action: HomeAction, amount: number): Record<ResourceName, number>;
+        getMax(action: HomeAction): Decimal;
+    };
     //// END REGION: Tabs
 
     type SharkGameTabs = {
         CheatsAndDebug: CheatsAndDebugTab;
         Gate: GateTab;
-        Home;
+        Home: HomeTab;
         Lab;
         Recycler;
         Reflection;

@@ -1185,6 +1185,7 @@ SharkGame.Home = {
     },
 
     getCost(action, amount) {
+        /** @type {Record<Resource, number>} */
         const calcCost = {};
         const rawCost = action.cost;
 
