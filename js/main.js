@@ -1,38 +1,7 @@
 "use strict";
 /** @type {SharkGame} */
 /* eslint-disable-next-line no-var, no-shadow */
-const SharkGame = Object.create(null);
-
-window.onmousemove = (event) => {
-    const tooltip = document.getElementById("tooltipbox");
-    if (!tooltip) return;
-    const posX = event.clientX;
-    const posY = event.clientY;
-
-    const tooltipStyle = getComputedStyle(tooltip);
-
-    // get visual width in px, plus 15px offset from cursor
-    const tooltipWidth = [
-        tooltipStyle.width,
-        tooltipStyle.paddingLeft,
-        tooltipStyle.paddingRight,
-        tooltipStyle.borderLeft,
-        tooltipStyle.borderRight,
-        tooltipStyle.marginLeft,
-        tooltipStyle.marginRight,
-    ].reduce((prev, cur) => prev + parseInt(cur), 0);
-
-    tooltip.style.top = posY - 20 + "px";
-    // Would clip over right screen edge
-    if (tooltipWidth + posX + 35 > window.innerWidth) {
-        tooltip.style.left = posX - 10 - tooltipWidth + "px";
-    } else {
-        tooltip.style.left = posX + 15 + "px";
-    }
-};
-
-// CORE VARIABLES AND HELPER FUNCTIONS
-$.extend(SharkGame, {
+const SharkGame = {
     GAME_NAMES: [
         "Five Seconds A Shark",
         "Next Shark Game",
@@ -150,7 +119,37 @@ $.extend(SharkGame, {
         }
         return imageDiv;
     },
-});
+};
+
+window.onmousemove = (event) => {
+    const tooltip = document.getElementById("tooltipbox");
+    if (!tooltip) return;
+    const posX = event.clientX;
+    const posY = event.clientY;
+
+    const tooltipStyle = getComputedStyle(tooltip);
+
+    // get visual width in px, plus 15px offset from cursor
+    const tooltipWidth = [
+        tooltipStyle.width,
+        tooltipStyle.paddingLeft,
+        tooltipStyle.paddingRight,
+        tooltipStyle.borderLeft,
+        tooltipStyle.borderRight,
+        tooltipStyle.marginLeft,
+        tooltipStyle.marginRight,
+    ].reduce((prev, cur) => prev + parseInt(cur), 0);
+
+    tooltip.style.top = posY - 20 + "px";
+    // Would clip over right screen edge
+    if (tooltipWidth + posX + 35 > window.innerWidth) {
+        tooltip.style.left = posX - 10 - tooltipWidth + "px";
+    } else {
+        tooltip.style.left = posX + 15 + "px";
+    }
+};
+
+// CORE VARIABLES AND HELPER FUNCTIONS
 
 SharkGame.Main = {
     tickHandler: -1,
