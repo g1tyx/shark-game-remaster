@@ -510,13 +510,9 @@ SharkGame.Gateway = {
         if (res.isCategory(resource)) {
             return true;
         }
-        const seenResources = [];
-        _.each(gateway.completedWorlds, (completedWorld) => {
-            _.each(SharkGame.WorldTypes[completedWorld].foresight.present, (seenResource) => {
-                seenResources.push(seenResource);
-            });
-        });
-        return seenResources.indexOf(resource) > -1;
+        return _.some(gateway.completedWorlds, (completedWorld) =>
+            _.some(SharkGame.WorldTypes[completedWorld].foresight.present, (seenResource) => seenResource === resource)
+        );
     },
 
     markWorldCompleted(worldType) {
