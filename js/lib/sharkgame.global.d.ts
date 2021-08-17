@@ -1,6 +1,11 @@
 export namespace SharkGame {}
 
 declare global {
+    const DecimalHalfRound: { [K in keyof Decimal.Constructor]: Decimal.Constructor[K] } & { new (n: Decimal.Value): DecimalHalfRound };
+    type DecimalHalfRound = { [K in keyof Decimal.Instance]: Decimal.Instance[K] };
+}
+
+declare global {
     const SharkGame: SharkGame;
 
     //// REGION: Data structure types
