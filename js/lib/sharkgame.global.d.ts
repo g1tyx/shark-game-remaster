@@ -14,6 +14,19 @@ declare global {
     type HomeActionName = string;
     type HomeActionCategory = "all" | "basic" | "frenzy" | "professions" | "breeders" | "processing" | "machines" | "otherMachines" | "unique";
     type ResourceName = string;
+    type ResourceCategory =
+        | "harmful"
+        | "scientific"
+        | "magical"
+        | "frenzy"
+        | "animals"
+        | "stuff"
+        | "processed"
+        | "breeders"
+        | "specialists"
+        | "machines"
+        | "special"
+        | "hidden";
     type UpgradeName = string;
     type WorldName = string;
     type ModifierName = string;
@@ -557,7 +570,6 @@ declare global {
         Main: MainModule;
         MathUtil: MathUtilModule;
         PaneHandler: PaneHandlerModule;
-        ResourceCategories;
         ResourceIncomeAffected;
         ResourceIncomeAffectors;
         ResourceIncomeAffectorsOriginal;
@@ -622,6 +634,7 @@ declare global {
         Upgrades: Record<WorldName, UpgradeTable>;
         ModifierTypes: Record<"upgrade" | "world" | "aspect", Record<"multiplier" | "other", Record<ModifierName, Modifier>>>;
         Panes: Record<string, string[]>;
+        ResourceCategories: Record<ResourceCategory, { name: string; disposeMessage: string[]; resources: ResourceName[] }>;
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
