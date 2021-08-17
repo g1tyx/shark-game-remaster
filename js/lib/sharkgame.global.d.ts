@@ -12,6 +12,7 @@ declare global {
     //// REGION: Data structure types
     type AspectName = string;
     type HomeActionName = string;
+    type HomeActionCategory = "all" | "basic" | "frenzy" | "professions" | "breeders" | "processing" | "machines" | "otherMachines" | "unique";
     type ResourceName = string;
     type UpgradeName = string;
     type WorldName = string;
@@ -40,7 +41,29 @@ declare global {
         slots: Record<ResourceName, number>;
         resources: Record<ResourceName, number>;
     }>;
-    type HomeAction = {}; // TODO: Placeholder
+
+    type HomeAction = {
+        name: string;
+        effect: {
+            resource: Record<ResourceName, number>;
+        };
+        cost: {
+            resource: ResourceName;
+            costFunction: "constant" | "linear";
+            priceIncrease: number;
+        }[];
+        max?: ResourceName;
+        prereq: Partial<{
+            resource: Record<Resource, number>;
+            upgrade: UpgradeName[];
+            notWorlds: WorldName[];
+        }>;
+        outcomes: string[];
+        multiOutcomes: string[];
+        helpText: string;
+        unauthorized?: boolean;
+    };
+    type HomeActionTable = Record<HomeActionName, HomeAction>;
 
     // TODO: Not quite complete type
     type WorldType = {
@@ -199,6 +222,21 @@ declare global {
         playerHasSeenResource(resource: ResourceName): boolean;
         markWorldCompleted(worldType: WorldName): void;
     };
+
+    type HomeActionsModule = {
+        /** Generated cache on-demand */
+        generated: Record<WorldName, HomeActionTable>;
+        default: HomeActionTable;
+        getActionTable(worldType?: WorldName);
+        /**
+         * Retrieves, modifies, and returns the data for an action. Implemented to intercept retreival of action data to handle special logic where alternatives are inconvenient or impossible.
+         * @param table The table to retrieve the action data from
+         * @param actionName The name of the action
+         */
+        getActionData(table: HomeActionTable, actionName: HomeActionName): HomeAction;
+        generateActionTable(worldType?: WorldName): Record<HomeActionName, HomeAction>;
+        [worldName: WorldName]: HomeActionTable;
+    };
     //// END REGION: Modules
 
     //// REGION: Tabs
@@ -305,7 +343,7 @@ declare global {
     };
 
     type HomeTab = SharkGameTabBase & {
-        currentButtonTab: null | "all" | string;
+        currentButtonTab: null | HomeActionCategory;
         currentExtraMessageIndex: number;
         extraMessages: Record<
             WorldName,
@@ -324,7 +362,7 @@ declare global {
         discoverActions(): void;
         createButtonTabs(): void;
         updateTab(tabToUpdate: string): void;
-        changeButtonTab(tabToChangeTo: string): void;
+        changeButtonTab(tabToChangeTo: HomeActionCategory): void;
         updateMessage(suppressAnimation: boolean): void;
         updateButton(actionName: HomeActionName): void;
         areActionPrereqsMet(actionName: HomeActionName): boolean;
@@ -354,8 +392,7 @@ declare global {
         ColorUtil: ColorUtilModule;
         EventHandler: EventHandlerModule;
         Gateway: GatewayModule;
-        HomeActionCategories;
-        HomeActions;
+        HomeActions: HomeActionsModule;
         InternalCategories;
         Log;
         Main;
@@ -426,6 +463,7 @@ declare global {
     type SharkGameData = {
         Aspects: Record<AspectName, Aspect>;
         Events: Record<string, SharkEventHandler>;
+        HomeActionCategories: Record<HomeActionCategory, { name: string; actions: HomeActionName }>;
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
