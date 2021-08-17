@@ -557,7 +557,6 @@ declare global {
         Main: MainModule;
         MathUtil: MathUtilModule;
         PaneHandler: PaneHandlerModule;
-        Panes;
         PlayerIncomeTable;
         PlayerResources;
         ResourceCategories;
@@ -624,6 +623,7 @@ declare global {
         HomeActions: Record<WorldName, HomeActionTable>;
         Upgrades: Record<WorldName, UpgradeTable>;
         ModifierTypes: Record<"upgrade" | "world" | "aspect", Record<"multiplier" | "other", Record<ModifierName, Modifier>>>;
+        Panes: Record<string, string[]>;
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
