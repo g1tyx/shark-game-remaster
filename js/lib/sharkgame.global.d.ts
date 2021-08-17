@@ -313,9 +313,6 @@ declare global {
         ColorUtil: ColorUtilModule;
         EventHandler: EventHandlerModule;
         Gateway: GatewayModule;
-        GeneratorIncomeAffected;
-        GeneratorIncomeAffectors;
-        GeneratorIncomeAffectorsOriginal;
         HomeActionCategories;
         HomeActions;
         InternalCategories;
@@ -392,6 +389,9 @@ declare global {
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
         FlippedBreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
+        GeneratorIncomeAffected: SharkGameRuntimeData["GeneratorIncomeAffectorsOriginal"];
+        GeneratorIncomeAffectors: SharkGameRuntimeData["GeneratorIncomeAffectorsOriginal"];
+        GeneratorIncomeAffectorsOriginal: Record<ResourceName, Record<"multiply" | "exponentiate", Record<ResourceName, number>>>; // TOOD: Might be a better type available later;
     };
 
     type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData & SharkGameRuntimeData & SharkGameTabs;
