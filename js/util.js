@@ -1,12 +1,5 @@
 "use strict";
-/**
- * @type Record<string, (a: number, b: number, k: number) => number>
- */
 SharkGame.MathUtil = {
-    // current = current amount
-    // desired = desired amount
-    // cost = constant price
-    // returns: cost to get to b from a
     constantCost(current, difference, cost) {
         if (typeof current === "object") {
             return cost.times(difference);
@@ -14,10 +7,6 @@ SharkGame.MathUtil = {
         return difference * cost;
     },
 
-    // current = current amount
-    // available = available price amount
-    // cost = constant price
-    // returns: absolute max items that can be held with invested and current resources
     constantMax(current, available, cost) {
         if (typeof current === "object") {
             return available.dividedBy(cost).plus(current);
@@ -26,10 +15,6 @@ SharkGame.MathUtil = {
         return available / cost + current;
     },
 
-    // current = current amount
-    // desired = desired amount
-    // cost = cost increase per item
-    // returns: cost to get to b from a
     linearCost(current, difference, constant) {
         if (typeof current === "object") {
             return constant.dividedBy(2).times(difference.times(difference).plus(difference).plus(current.times(2).times(difference)));
@@ -38,10 +23,6 @@ SharkGame.MathUtil = {
         }
     },
 
-    // current = current amount
-    // available = available price amount
-    // cost = cost increase per item
-    // returns: absolute max items that can be held with invested and current resources
     linearMax(current, available, cost) {
         if (typeof current === "object") {
             return current.times(current).plus(current).plus(available.times(2).dividedBy(cost)).plus(0.25).squareRoot().minus(0.5);
@@ -51,17 +32,6 @@ SharkGame.MathUtil = {
         }
     },
 
-    // these need to be adapted probably?
-    // will anything ever use these
-    // exponentialCost(a, b, k) {
-    //     return (k * Math.pow()) - ();
-    // },
-    //
-    // exponentialMax(a, b, k) {
-    //     return Math.floor(Math.log(Math.pow(b,a) + (b-1) * b / k) / Math.log(a));
-    // }
-
-    // artificial limit - whatever has these functions for cost/max can only have one of)
     uniqueCost(current, difference, cost) {
         if (typeof current === "object") {
             if (current.lessThan(1) && current.plus(difference).lessThanOrEqualTo(2)) {
@@ -77,7 +47,6 @@ SharkGame.MathUtil = {
         }
     },
 
-    // this takes an argument to know whether or not to return a Decimal or a Number
     uniqueMax(current) {
         return typeof current === "object" ? new Decimal(1) : 1;
     },
@@ -96,7 +65,6 @@ SharkGame.MathUtil = {
         }
     },
 
-    // This is weird
     getPurchaseAmount(resource, owned = res.getResource(resource)) {
         const buy = sharkmath.getBuyAmount();
 

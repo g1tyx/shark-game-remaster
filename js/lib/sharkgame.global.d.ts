@@ -310,6 +310,44 @@ declare global {
         isFirstTime(): boolean;
         resetTimers(): void;
     };
+
+    type MathUtilModule = {
+        /**
+         * @param current current amount
+         * @param desired desired amount
+         * @param cost constant price
+         * @returns cost to get to b from a
+         */
+        constantCost(current: Decimal | number, difference: Decimal | number, cost: Decimal | number): Decimal | number;
+        /**
+         * @param current current amount
+         * @param available available price amount
+         * @param cost constant price
+         * @returns absolute max items that can be held with invested and current resources
+         */
+        constantMax(current: Decimal | number, available: Decimal | number, cost: Decimal | number): Decimal | number;
+        /**
+         * @param current current amount
+         * @param desired desired amount
+         * @param cost cost increase per item
+         * @returns: cost to get to b from a
+         */
+        linearCost(current: Decimal | number, difference: Decimal | number, constant: Decimal | number): Decimal | number;
+        /**
+         * @param current current amount
+         * @param available available price amount
+         * @param cost cost increase per item
+         * @returns absolute max items that can be held with invested and current resources
+         */
+        linearMax(current: Decimal | number, available: Decimal | number, cost: Decimal | number): Decimal | number;
+        /** artificial limit - whatever has these functions for cost/max can only have one of */
+        uniqueCost(current: Decimal | number, difference: Decimal | number, cost: Decimal | number): Decimal | number;
+        /** this takes an argument to know whether or not to return a Decimal or a Number */
+        uniqueMax(current: Decimal | number): Decimal | number;
+        getBuyAmount(nomaxBuy: boolean): Decimal | number;
+        /** This is weird */
+        getPurchaseAmount(resource: ResourceName, owned?: number): Decimal | number;
+    };
     //// END REGION: Modules
 
     //// REGION: Tabs
@@ -486,7 +524,7 @@ declare global {
         HomeActions: HomeActionsModule;
         Log: LogModule;
         Main: MainModule;
-        MathUtil;
+        MathUtil: MathUtilModule;
         ModifierMap;
         ModifierReference;
         ModifierTypes;
