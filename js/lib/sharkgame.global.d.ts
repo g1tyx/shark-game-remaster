@@ -557,7 +557,6 @@ declare global {
         Main: MainModule;
         MathUtil: MathUtilModule;
         PaneHandler: PaneHandlerModule;
-        PlayerResources;
         ResourceCategories;
         ResourceIncomeAffected;
         ResourceIncomeAffectors;
@@ -637,6 +636,7 @@ declare global {
         /** Can be indexed with the name of a modifier to return the associated data in SharkGame.ModifierTypes. */
         ModifierReference: Map<ModifierName, Modifier>;
         PlayerIncomeTable: Map<ResourceName, number>;
+        PlayerResources: Map<ResourceName, { amount: number; totalAmount: number }>;
     };
 
     type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData & SharkGameRuntimeData & SharkGameTabs;
