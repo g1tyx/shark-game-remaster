@@ -65,6 +65,29 @@ declare global {
     };
     type HomeActionTable = Record<HomeActionName, HomeAction>;
 
+    type Upgrade = {
+        name: string;
+        desc: string;
+        researchedMessage: string;
+        effectDesc: string;
+        cost: Record<ResourceName, number>;
+        effect?: Partial<{
+            incomeMultiplier: Record<ResourceName, number>;
+            sandMultiplier: Record<ResourceName, number>;
+            kelpMultiplier: Record<ResourceName, number>;
+            addJellyIncome: Record<ResourceName, number>;
+            resourceBoost: Record<ResourceName, number>;
+            incomeBoost: Record<ResourceName, number>;
+        }>;
+        required?: Partial<{
+            upgrades: UpgradeName[];
+            seen: ResourceName[];
+            resources: ResourceName[];
+            totals?: Record<ResourceName, number>;
+        }>;
+    };
+    type UpgradeTable = Record<UpgradeName, Upgrade>;
+
     // TODO: Not quite complete type
     type WorldType = {
         name: WorldName;
@@ -235,7 +258,20 @@ declare global {
          */
         getActionData(table: HomeActionTable, actionName: HomeActionName): HomeAction;
         generateActionTable(worldType?: WorldName): Record<HomeActionName, HomeAction>;
-        [worldName: WorldName]: HomeActionTable;
+    };
+
+    type UpgradesModule = {
+        purchased: UpgradeName;
+        /** Generated cache on-demand */
+        generated: Record<WorldName, UpgradeTable>;
+        getUpgradeTable(worldType?: WorldName): UpgradeTable;
+        /**
+         * Retrieves, modifies, and returns the data for an upgrade. Implemented to intercept retreival of upgrade data to handle special logic where alternatives are inconvenient or impossible.
+         * @param table The table to retrieve the upgrade data from
+         * @param upgradeName The name of the upgrade
+         */
+        getUpgradeData(table: UpgradeTable, upgradeName: UpgradeName): Upgrade;
+        generateUpgradeTable(worldType: WorldName): UpgradeTable;
     };
     //// END REGION: Modules
 
@@ -374,13 +410,31 @@ declare global {
         getCost(action: HomeAction, amount: number): Record<ResourceName, number>;
         getMax(action: HomeAction): Decimal;
     };
+
+    type LabTab = SharkGameTabBase & {
+        sceneImage: string;
+        sceneDoneImage: string;
+        listEmpty: boolean;
+        message: string;
+        messageDone: string;
+        resetUpgrades(): void;
+        setHint(upgradeTable: UpgradeTable): void;
+        updateLabButton(upgradeName: UpgradeName): void;
+        onLabButton(): void;
+        addUpgrade(upgradeId: UpgradeName): void;
+        allResearchDone(): boolean;
+        isUpgradePossible(upgradeName: UpgradeName): boolean;
+        isUpgradeVisible(upgradeId: UpgradeName): boolean;
+        getResearchEffects(upgrade: Upgrade): string;
+        updateUpgradeList(): void;
+    };
     //// END REGION: Tabs
 
     type SharkGameTabs = {
         CheatsAndDebug: CheatsAndDebugTab;
         Gate: GateTab;
         Home: HomeTab;
-        Lab;
+        Lab: LabTab;
         Recycler;
         Reflection;
         Stats;
@@ -419,7 +473,7 @@ declare global {
         TextUtil;
         TitleBar;
         TitleBarHandler;
-        Upgrades;
+        Upgrades: UpgradesModule;
         World;
         WorldTypes;
     };
@@ -464,6 +518,8 @@ declare global {
         Events: Record<string, SharkEventHandler>;
         HomeActionCategories: Record<HomeActionCategory, { name: string; actions: HomeActionName }>;
         InternalCategories: Record<ResourceName, { name: string; resources: ResourceName[] }>;
+        HomeActions: Record<WorldName, HomeActionTable>;
+        Upgrades: Record<WorldName, UpgradeTable>;
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
