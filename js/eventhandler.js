@@ -1,19 +1,6 @@
 "use strict";
 
-/**
- * !! Copied from ./data/events.js !!
- * @typedef {"beforeTick" | "afterTick"} eventName
- * @typedef {"trigger" | "remove" | "pass"} eventAction
- * @typedef {{
- *     handlingTime: eventName
- *     priority: number
- *     getAction(): eventAction
- *     trigger(): boolean
- * }} SharkEventHandler
- */
-
 SharkGame.EventHandler = {
-    /** @type {SharkEventHandler[][]>} */
     eventQueue: [],
     init() {
         const queue = SharkGame.EventHandler.eventQueue;
@@ -26,7 +13,6 @@ SharkGame.EventHandler = {
         });
         SharkGame.EventHandler.handleEventTick("load");
     },
-    /** @param {eventName | "load"} handlingTime */
     handleEventTick(handlingTime) {
         if (!handlingTime) {
             log.addError("tried to call handleEventTick without passing handlingTime");
@@ -36,6 +22,7 @@ SharkGame.EventHandler = {
         const queue = SharkGame.EventHandler.eventQueue;
 
         queue.forEach((handlers, priority) => {
+            /** @type {SharkEventHandler[]} */
             const cleanedEventHandlers = [];
             _.each(handlers, (eventHandler) => {
                 let keep = true;

@@ -7,6 +7,7 @@ declare global {
     type AspectName = string;
     type ResourceName = string;
     type UpgradeName = string;
+
     type CheatButtonType = undefined | "numeric" | "up-down";
     type CheatButton = {
         readonly name: string;
@@ -16,6 +17,16 @@ declare global {
         clickUp(): void;
         clickDown(): void;
     };
+
+    type EventName = "beforeTick" | "afterTick";
+    type EventAction = "trigger" | "remove" | "pass";
+    type SharkEventHandler = {
+        handlingTime: EventName;
+        priority: number;
+        getAction(): EventAction;
+        trigger(): boolean;
+    };
+
     type GateRequirements = Partial<{
         upgrades: Record<UpgradeName, string>;
         slots: Record<ResourceName, number>;
@@ -120,6 +131,12 @@ declare global {
         convertColorString(color: string): string;
         getBrightColor(color: string): string;
         getElementColor(id: string, propertyName: string): ReturnType<ColorUtilModule["convertColorString"]>;
+    };
+
+    type EventHandlerModule = {
+        eventQueue: SharkEventHandler[][];
+        init(): void;
+        handleEventTick(handlingTime: EventName | "load"): void;
     };
     //// END REGION: Modules
 
@@ -241,7 +258,7 @@ declare global {
         AspectTree: AspectTreeModule;
         Button: ButtonModule;
         ColorUtil: ColorUtilModule;
-        EventHandler;
+        EventHandler: EventHandlerModule;
         Events;
         FlippedBreakdownIncomeTable;
         FunFacts;
