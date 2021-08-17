@@ -259,7 +259,6 @@ declare global {
         Button: ButtonModule;
         ColorUtil: ColorUtilModule;
         EventHandler: EventHandlerModule;
-        FunFacts;
         Gateway;
         GeneratorIncomeAffected;
         GeneratorIncomeAffectors;
@@ -310,6 +309,7 @@ declare global {
         VERSION_NAME: string;
         VERSION: string;
         Changelog: Record<string, string[]>;
+        FunFacts: string[];
     };
     type SharkGameUtils = {
         changeSprite(spritePath: string, imageName: string, imageDiv: JQuery<HTMLDivElement>, backupImageName: string): JQuery<HTMLDivElement>;
