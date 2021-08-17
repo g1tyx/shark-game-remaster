@@ -259,7 +259,6 @@ declare global {
         Button: ButtonModule;
         ColorUtil: ColorUtilModule;
         EventHandler: EventHandlerModule;
-        FlippedBreakdownIncomeTable;
         FunFacts;
         Gateway;
         GeneratorIncomeAffected;
@@ -339,6 +338,7 @@ declare global {
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
+        FlippedBreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
     };
 
     type SharkGame = SharkGameConstants & SharkGameUtils & SharkGameModules & SharkGameData & SharkGameRuntimeData & SharkGameTabs;
