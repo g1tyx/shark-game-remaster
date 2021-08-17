@@ -2123,7 +2123,7 @@ SharkGame.Upgrades = {
         },
         chimaeraMysticism: {
             name: "Chimaera Mysticism",
-            desc: "We know the chimaeras, but we don't them very well. They keep speaking to us like we never have any questions. We do!",
+            desc: "We know the chimaeras, but we don't know them very well. They keep speaking to us like we never have any questions. We do!",
             researchedMessage:
                 "We finally confronted the chimaeras about our lack of understanding. Right after we said it, there was this awkward silence, and then they started talking pretty clearly. What was that all about?",
             effectDesc:

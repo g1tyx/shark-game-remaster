@@ -101,4 +101,26 @@ SharkGame.Events = {
             }
         },
     },
+    remindAboutBuyMax: {
+        handlingTime: "afterTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.persistentFlags.individuallyBoughtSharkonium === -1) {
+                return "remove";
+            }
+            if (SharkGame.persistentFlags.individuallyBoughtSharkonium >= 50) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            if (sharkmath.getBuyAmount() === 1 && SharkGame.Tabs.current === "home") {
+                $("#buy--1").addClass("reminderShadow");
+            } else {
+                $("#buy--1").removeClass("reminderShadow");
+                SharkGame.persistentFlags.individuallyBoughtSharkonium = 49;
+            }
+            return true;
+        },
+    },
 };

@@ -20,7 +20,6 @@ SharkGame.MathUtil = {
     // returns: absolute max items that can be held with invested and current resources
     constantMax(current, available, cost) {
         if (typeof current === "object") {
-            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
             return available.dividedBy(cost).plus(current);
         }
         available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin

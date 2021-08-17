@@ -96,6 +96,9 @@
             var sharkmath = SharkGame.MathUtil;
 
             var cad = SharkGame.CheatsAndDebug;
+
+            var DecimalHalfRound = Decimal.clone({ rounding: Decimal.ROUND_HALF_FLOOR });
+            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
         </script>
     </head>
     <body>

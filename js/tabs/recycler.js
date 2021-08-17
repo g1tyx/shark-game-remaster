@@ -120,7 +120,6 @@ SharkGame.Recycler = {
                 let outputAmount = buy;
                 const maxOutputAmount = rec.getMaxToBuy(resourceName);
                 if (buy < 0) {
-                    Decimal.set({ rounding: Decimal.ROUND_FLOOR });
                     const divisor = buy.round().times(-1);
                     inputAmount = resourceAmount.dividedBy(divisor).round();
                     outputAmount = maxOutputAmount.dividedBy(divisor).round();
@@ -256,7 +255,6 @@ SharkGame.Recycler = {
         const selectedAmount = new Decimal(sharkmath.getBuyAmount());
         let amount = selectedAmount;
         if (selectedAmount < 0) {
-            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
             const divisor = selectedAmount.round().times(-1);
             amount = rec.getMaxToBuy(resourceName).dividedBy(divisor);
         }
@@ -304,7 +302,6 @@ SharkGame.Recycler = {
                 max = sharkmath.constantMax(resourceAmount, junkAmount, junkPricePerResource).minus(resourceAmount);
             }
         }
-        Decimal.set({ rounding: Decimal.ROUND_FLOOR });
         return max.round();
     },
 
@@ -450,7 +447,6 @@ SharkGame.Recycler = {
                 rec.expectedJunkSpent = 0;
             }
         } else {
-            Decimal.set({ rounding: Decimal.ROUND_FLOOR });
             const realBuy = max.dividedBy(buy.times(-1)).round();
             if (realBuy === 0) {
                 rec.expectedJunkSpent = 0;
