@@ -112,6 +112,15 @@ declare global {
             onClick: (event: JQuery.MouseDownEvent) => void
         ): JQuery<HTMLButtonElement>;
     };
+
+    type ColorUtilModule = {
+        colorLum(hex: string, lum: number): string;
+        getRelativeLuminance(color: string): number;
+        correctLuminance(color: string, luminance: number): string;
+        convertColorString(color: string): string;
+        getBrightColor(color: string): string;
+        getElementColor(id: string, propertyName: string): ReturnType<ColorUtilModule["convertColorString"]>;
+    };
     //// END REGION: Modules
 
     //// REGION: Tabs
@@ -231,7 +240,7 @@ declare global {
     type SharkGameModules = {
         AspectTree: AspectTreeModule;
         Button: ButtonModule;
-        ColorUtil;
+        ColorUtil: ColorUtilModule;
         EventHandler;
         Events;
         FlippedBreakdownIncomeTable;
