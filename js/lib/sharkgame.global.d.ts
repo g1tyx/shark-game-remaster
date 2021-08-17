@@ -1,3 +1,4 @@
+/// <reference path="./decimal.global.d.ts"/>
 export namespace SharkGame {}
 
 declare global {
