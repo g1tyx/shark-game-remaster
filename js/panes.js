@@ -391,7 +391,8 @@ SharkGame.PaneHandler = {
         const speedDiv = $("<div>");
         const buttonContainer = $("<div class='speedButtons'>");
         speedDiv.append(buttonContainer.addClass("paneContentDiv"));
-        /*         SharkGame.Button.makeButton(
+        /*
+        SharkGame.Button.makeButton(
             "slowSpeed",
             "<h class='bigSpeedHeader'><strong>IDLE</strong></h><br><br><br><br>Much slower.<br><br><br>Good to have on in the <strong>background</strong>.",
             buttonContainer,
@@ -401,7 +402,8 @@ SharkGame.PaneHandler = {
                 SharkGame.PaneHandler.nextPaneInStack();
                 SharkGame.persistentFlags.choseSpeed = true;
             }
-        ); */
+        );
+        */
         SharkGame.Button.makeButton(
             "medSpeed",
             "<h class='bigSpeedHeader'><strong>INACTIVE</strong></h><br><br><br>Even-paced.<br><br><br>The better choice if you <strong>don't</strong> give the game your <strong>full attention</strong>.<br>",

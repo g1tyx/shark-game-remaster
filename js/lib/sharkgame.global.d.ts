@@ -100,6 +100,8 @@ declare global {
         applyToInput(input: number, genDegree: string[] | number, outDegree: string[] | number, gen: string, out: string): number;
     };
 
+    type Pane = [title: string, contents: JQuery<HTMLElement>, notCloseable: boolean | undefined, fadeInTime: number, customOpacity: number];
+
     // TODO: Not quite complete type
     type WorldType = {
         name: WorldName;
@@ -359,6 +361,24 @@ declare global {
         /** This is weird */
         getPurchaseAmount(resource: ResourceName, owned?: number): Decimal | number;
     };
+
+    type PaneHandlerModule = {
+        paneStack: Pane[];
+        currentPane?: Pane;
+        buildPane(): JQuery<HTMLDivElement>;
+        addPaneToStack(title: string, contents: JQuery<HTMLElement>, notCloseable: boolean, fadeInTime?: number, customOpacity: number): void;
+        swapCurrentPane(title: string, contents: JQuery<HTMLElement>, notCloseable: boolean, fadeInTime: number, customOpacity: number): void;
+        wipeStack(): void;
+        showPane(title: string, contents: JQuery<HTMLElement>, notCloseable: boolean, fadeInTime: number, customOpacity: number): void;
+        hidePane(): void;
+        showOptions(): void;
+        setUpOptions(): JQuery<HTMLTableElement>;
+        onOptionClick(): void;
+        showChangelog(): void;
+        showHelp(): void;
+        showSpeedSelection(): void;
+        showAspectWarning(): void;
+    };
     //// END REGION: Modules
 
     //// REGION: Tabs
@@ -536,7 +556,7 @@ declare global {
         Log: LogModule;
         Main: MainModule;
         MathUtil: MathUtilModule;
-        PaneHandler;
+        PaneHandler: PaneHandlerModule;
         Panes;
         PlayerIncomeTable;
         PlayerResources;
