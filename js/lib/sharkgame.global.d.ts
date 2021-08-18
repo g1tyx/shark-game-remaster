@@ -406,7 +406,8 @@ declare global {
         tabSeen: boolean;
         tabName: string;
         tabBg?: string;
-        discoverReq: Record<string, unknown>; // TODO: Find a better type
+        discoverReq: { resource: Record<ResourceName, number> }; // TODO: Find a better type
+        message?: string;
     };
 
     type CheatsAndDebugTab = SharkGameTabBase & {
@@ -459,7 +460,6 @@ declare global {
     };
 
     type GateTab = SharkGameTabBase & {
-        message: string;
         messageOneSlot: string;
         messageOpened: string;
         messagePaid: string;
@@ -535,7 +535,6 @@ declare global {
         sceneImage: string;
         sceneDoneImage: string;
         listEmpty: boolean;
-        message: string;
         messageDone: string;
         resetUpgrades(): void;
         setHint(upgradeTable: UpgradeTable): void;
@@ -551,7 +550,6 @@ declare global {
 
     type RecyclerTab = SharkGameTabBase & {
         sceneImage?: string;
-        message: string;
         recyclerInputMessages: string[];
         recyclerOutputMessages: string[];
         allowedCategories: Record<ResourceCategory, CostFunction | undefined>;
