@@ -134,7 +134,13 @@ declare global {
 
     type Pane = [title: string, contents: JQuery<HTMLElement>, notCloseable: boolean | undefined, fadeInTime: number, customOpacity: number];
 
-    // TODO: Not quite complete type
+    type WorldModifier = {
+        type: string;
+        modifier: ModifierName;
+        resource: ResourceName;
+        amount: number | ResourceName;
+    };
+
     type World = {
         name: WorldName;
         desc: string;
@@ -143,7 +149,7 @@ declare global {
         style: string;
         includedResources?: (ResourceName | ResourceCategory)[];
         absentResources: (ResourceName | ResourceCategory)[];
-        modifiers: unknown[]; // TODO: Modifier type
+        modifiers: WorldModifier[]; // TODO: Modifier type
         gateRequirements: GateRequirements;
         foresight?: {
             longDesc: string;
