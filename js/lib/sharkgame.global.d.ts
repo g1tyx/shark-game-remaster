@@ -69,7 +69,7 @@ declare global {
         }[];
         max?: ResourceName;
         prereq: Partial<{
-            resource: Record<Resource, number>;
+            resource: Record<ResourceName, number>;
             upgrade: UpgradeName[];
             notWorlds: WorldName[];
         }>;
@@ -244,7 +244,7 @@ declare global {
         PresenceFeelings: Record<ResourceName, string>;
         Messages: {
             essenceBased: { min: number; max: number; messages: string[] }[];
-            lastPlanetBased: RecordType<WorldName, string[]>;
+            lastPlanetBased: Record<WorldName, string[]>;
             loss: string[];
             generic: string[];
         };
@@ -325,7 +325,7 @@ declare global {
         processSimTime(numberOfSeconds: number, load?: boolean): void;
         autosave(): void;
         checkForUpdate(): void;
-        createBuyButtons(customLabel?: string, addToWhere: JQuery, appendOrPrepend: "append" | "prepend", absoluteOnly?: boolean): void;
+        createBuyButtons(customLabel: string | undefined, addToWhere: JQuery, appendOrPrepend: "append" | "prepend", absoluteOnly?: boolean): void;
         onCustomChange(): void;
         showSidebarIfNeeded(): void;
         applyProgressionSpeed(): void;
@@ -379,7 +379,7 @@ declare global {
         paneStack: Pane[];
         currentPane?: Pane;
         buildPane(): JQuery<HTMLDivElement>;
-        addPaneToStack(title: string, contents: JQuery<HTMLElement>, notCloseable: boolean, fadeInTime?: number, customOpacity: number): void;
+        addPaneToStack(title: string, contents: JQuery<HTMLElement>, notCloseable: boolean, fadeInTime: number, customOpacity: number): void;
         swapCurrentPane(title: string, contents: JQuery<HTMLElement>, notCloseable: boolean, fadeInTime: number, customOpacity: number): void;
         wipeStack(): void;
         showPane(title: string, contents: JQuery<HTMLElement>, notCloseable: boolean, fadeInTime: number, customOpacity: number): void;
