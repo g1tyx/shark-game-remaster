@@ -406,7 +406,7 @@ declare global {
         tabSeen: boolean;
         tabName: string;
         tabBg?: string;
-        discoverReq: { resource: Record<ResourceName, number> }; // TODO: Find a better type
+        discoverReq: Partial<{ resource: Record<ResourceName, number>; upgrade: UpgradeName[] }>;
         message?: string;
     };
 
@@ -579,6 +579,25 @@ declare global {
     type ReflectionTab = SharkGameTabBase & {
         updateAspectList(): void;
     };
+
+    type StatsTab = SharkGameTabBase & {
+        sceneImage: string;
+        recreateIncomeTable: null | boolean;
+        incomeTableEmpty: boolean;
+        bannedDisposeCategories: ResourceCategory[];
+        createDisposeButtons(): void;
+        updateDisposeButtons(): void;
+        onDispose(): void;
+        updateIncomeTable(): void;
+        updateTotalAmountTable(): void;
+        createIncomeTable(): JQuery<HTMLTableElement>;
+        createTotalAmountTable(): JQuery<HTMLTableElement>;
+        toggleSwitch(): void;
+        toggleMode(): void;
+        updateTableKey(): void;
+        networkTextEnter(_mouseEnterEvent: JQuery.MouseEnterEvent, networkResource: "nothing" | `#network-${ResourceName}-${string}`): void; // TODO: Fix this shitty function god
+        networkTextLeave(): void;
+    };
     //// END REGION: Tabs
 
     type SharkGameTabs = {
@@ -588,7 +607,7 @@ declare global {
         Lab: LabTab;
         Recycler: RecyclerTab;
         Reflection: ReflectionTab;
-        Stats;
+        Stats: StatsTab;
     };
 
     type SharkGameModules = {
