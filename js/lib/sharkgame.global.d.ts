@@ -135,14 +135,14 @@ declare global {
     type Pane = [title: string, contents: JQuery<HTMLElement>, notCloseable: boolean | undefined, fadeInTime: number, customOpacity: number];
 
     // TODO: Not quite complete type
-    type WorldType = {
+    type World = {
         name: WorldName;
         desc: string;
         shortDesc: string;
         entry: string;
         style: string;
-        includedResources?: ResourceName[];
-        absentResources: ResourceName[];
+        includedResources?: (ResourceName | ResourceCategory)[];
+        absentResources: (ResourceName | ResourceCategory)[];
         modifiers: unknown[]; // TODO: Modifier type
         gateRequirements: GateRequirements;
         foresight?: {
@@ -287,7 +287,7 @@ declare global {
         preparePlanetSelection(numPlanets: number): void;
         updatePlanetButtons(): void;
         getVoiceMessage(): string;
-        showPlanetAttributes(worldData: WorldType, contentDiv: JQuery<HTMLDivElement>): void;
+        showPlanetAttributes(worldData: World, contentDiv: JQuery<HTMLDivElement>): void;
         playerHasSeenResource(resource: ResourceName): boolean;
         markWorldCompleted(worldType: WorldName): void;
     };
@@ -657,7 +657,6 @@ declare global {
         TitleBarHandler;
         Upgrades: UpgradesModule;
         World;
-        WorldTypes;
     };
     type SharkGameConstants = {
         ACTUAL_GAME_NAME: string;
@@ -705,6 +704,7 @@ declare global {
         ModifierTypes: Record<"upgrade" | "world" | "aspect", Record<"multiplier" | "other", Record<ModifierName, Modifier>>>;
         Panes: Record<string, string[]>;
         ResourceCategories: Record<ResourceCategory, { name: string; disposeMessage: string[]; resources: ResourceName[] }>;
+        WorldTypes: Record<WorldName, World>;
     };
     type SharkGameRuntimeData = {
         BreakdownIncomeTable: Map<ResourceName, Record<ResourceName, number>>;
