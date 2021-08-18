@@ -307,6 +307,7 @@ declare global {
         initialized: boolean;
         messages: JQuery<HTMLLIElement>;
         totalCount: number;
+        init(): void;
         moveLog(): void;
         addMessage(message: string | JQuery.Node): JQuery<HTMLLIElement>;
         addError(message: string | JQuery.Node): ReturnType<LogModule["addMessage"]>;
