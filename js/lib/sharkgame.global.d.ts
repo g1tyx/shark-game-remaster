@@ -575,6 +575,10 @@ declare global {
         getEfficiency(): number;
         updateEfficiency(resource: ResourceName): void;
     };
+
+    type ReflectionTab = SharkGameTabBase & {
+        updateAspectList(): void;
+    };
     //// END REGION: Tabs
 
     type SharkGameTabs = {
@@ -583,7 +587,7 @@ declare global {
         Home: HomeTab;
         Lab: LabTab;
         Recycler: RecyclerTab;
-        Reflection;
+        Reflection: ReflectionTab;
         Stats;
     };
 
