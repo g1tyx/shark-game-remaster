@@ -7,6 +7,24 @@ declare global {
 }
 
 declare global {
+    const res: typeof SharkGame.Resources;
+    const main: typeof SharkGame.Main;
+    const rec: typeof SharkGame.Recycler;
+    const gateway: typeof SharkGame.Gateway;
+    const stats: typeof SharkGame.Stats;
+    const world: typeof SharkGame.World;
+    const home: typeof SharkGame.Home;
+    const tree: typeof SharkGame.AspectTree;
+    const log: typeof SharkGame.Log;
+
+    const sharktext: typeof SharkGame.TextUtil;
+    const sharkcolor: typeof SharkGame.ColorUtil;
+    const sharkmath: typeof SharkGame.MathUtil;
+
+    const cad: typeof SharkGame.CheatsAndDebug;
+}
+
+declare global {
     const SharkGame: SharkGame;
 
     //// REGION: Data structure types
