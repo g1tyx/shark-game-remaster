@@ -2308,28 +2308,10 @@ SharkGame.Upgrades = {
                 "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. We're organized! Sort of!",
             effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing...sort of.",
             cost: {
-                science: 125,
+                science: 150,
             },
             required: {
                 upgrades: ["crystalContainer"],
-            },
-        },
-        underwaterChemistry: {
-            name: "Underwater Chemistry",
-            desc: "With the weird bottles, we can now put things and other things into them and see what happens.",
-            researchedMessage: "Well, nothing useful was determined, but if we keep on doing it we make tremendous leaps for science!",
-            effectDesc: "Scientists are twice as effective with their new chemical insights.",
-            cost: {
-                science: 450,
-                crystal: 50,
-            },
-            required: {
-                upgrades: ["crystalContainer"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    scientist: 2,
-                },
             },
         },
         seabedGeology: {
@@ -2347,6 +2329,24 @@ SharkGame.Upgrades = {
             effect: {
                 incomeMultiplier: {
                     ray: 2,
+                },
+            },
+        },
+        underwaterChemistry: {
+            name: "Underwater Chemistry",
+            desc: "With the weird bottles, we can now put things and other things into them and see what happens.",
+            researchedMessage: "Well, nothing useful was determined, but if we keep on doing it we make tremendous leaps for science!",
+            effectDesc: "Scientists are twice as effective with their new chemical insights.",
+            cost: {
+                science: 450,
+                crystal: 50,
+            },
+            required: {
+                upgrades: ["crystalContainer"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    scientist: 2,
                 },
             },
         },
@@ -2383,7 +2383,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "We can turn clams into crystals using the pearls inside them as a focus. Maybe one day we won't need to use the entire clam.",
             cost: {
-                science: 2250,
+                science: 2000,
                 clam: 500,
                 crystal: 100,
             },
@@ -2398,7 +2398,7 @@ SharkGame.Upgrades = {
             researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
             effectDesc: "Advances in agriculture will fuel future endeavors. Who knows what we'll do next!",
             cost: {
-                science: 4000,
+                science: 4500,
                 sand: 10000,
             },
             required: {
@@ -2528,16 +2528,23 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        harvestingHelp: {
-            name: "Harvesting Help",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
+        exploration: {
+            name: "Exploration",
+            desc: "Swim beyond the home seas to see what can be found!",
+            researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
+            effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 20000,
+                science: 25000,
+                fish: 100000,
             },
             required: {
-                upgrades: ["xenobiology", "crustaceanBiology"],
+                upgrades: ["sunObservation"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                    ray: 2,
+                },
             },
         },
         transmutation: {
@@ -2546,8 +2553,8 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 400000,
-                crystal: 200000,
+                science: 250000,
+                crystal: 40000,
                 sand: 50000,
             },
             required: {
@@ -2560,11 +2567,29 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 1500,
-                sharkonium: 250,
+                sharkonium: 8000,
             },
             required: {
                 upgrades: ["transmutation"],
+            },
+        },
+        calciniumStudies: {
+            name: "Calcinium Studies",
+            desc: "The lobsters have seen our transmutation process, and they say it reminds them of some other transmutation process they used to do? Let's give it shot!",
+            researchedMessage: "And there we have it, calcinium, I guess! Surprisingly strong and smooth.",
+            effectDesc:
+                "Learned how to manufacture calcinium. I wonder what it's for? The lobsters are currently in the process of consolidating their information on it.",
+            cost: {
+                seaApple: 25,
+            },
+            required: {
+                upgrades: ["kelpHorticulture"],
+                seen: ["seaApple"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    kelp: 2,
+                },
             },
         },
         engineering: {
@@ -2573,8 +2598,8 @@ SharkGame.Upgrades = {
             researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
             effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
             cost: {
-                science: 2500,
-                sharkonium: 1750,
+                science: 250000,
+                sharkonium: 17500,
             },
             required: {
                 upgrades: ["automation"],
@@ -2585,6 +2610,39 @@ SharkGame.Upgrades = {
                     crystalMiner: 2,
                     fishMachine: 2,
                     sandDigger: 2,
+                },
+            },
+        },
+        calciniumBiosynergy: {
+            name: "Calcinium Biosynergy",
+            desc: "So the lobsters remembered what calcinium is for. They're telling us about all the weird tools and machines they used to make with it. Let's try to piece the designs back together!",
+            researchedMessage:
+                "With enough tinkering, we've managed to recreate a few of their designs! They're not machines on their own, it's more like frenzy members wielding machines.",
+            effectDesc:
+                "Clam extractors, seabed strippers, and calcinium converters can be trained. The designs are for lobsters, but a communication error may have caused us to make two of them for non-lobsters. Whoops!",
+            cost: {
+                calcinium: 2500,
+            },
+            required: {
+                upgrades: ["engineering"],
+                seen: ["calcinium"],
+            },
+        },
+        farExploration: {
+            name: "Far Exploration",
+            desc: "Explore the vast reaches beyond the home ocean.",
+            researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
+            effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
+            cost: {
+                science: 100000,
+                fish: 15000,
+            },
+            required: {
+                upgrades: ["exploration"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 4,
                 },
             },
         },
@@ -2626,55 +2684,40 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        superprocessing: {
-            name: "Superprocessing",
-            desc: "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
-            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
-            effectDesc:
-                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
+        highEnergyFusion: {
+            name: "High-Energy Fusion",
+            desc: "The lobsters are excited to show us their newest rediscovery: high-energy fusion! It involves",
+            researchedMessage:
+                "The lobsters showed us how fusing pearls and clams at a higher temperature can result in a waaay better clam to crystal ratio. We still have to use the whole clam, unfortunately.",
+            effectDesc: "Reduced clam to crystal conversion ratio from 5-1 to 1-1. Recycler reshmycler, we have FUSION!!",
             cost: {
-                science: 1e6,
-                sharkonium: 1e6,
-                junk: 1e6,
+                science: 250000,
             },
             required: {
-                upgrades: ["iterativeDesign", "recyclerDiscovery"],
-            },
-        },
-        exploration: {
-            name: "Exploration",
-            desc: "Swim beyond the home seas to see what can be found!",
-            researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
-            effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
-            cost: {
-                science: 750000,
-                fish: 50000,
-            },
-            required: {
-                upgrades: ["harvestingHelp"],
+                upgrades: ["iterativeDesign"],
             },
             effect: {
                 incomeMultiplier: {
-                    shark: 2,
-                    ray: 2,
+                    calciniumConverter: 2,
                 },
             },
         },
-        farExploration: {
-            name: "Far Exploration",
-            desc: "Explore the vast reaches beyond the home ocean.",
-            researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
-            effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
+        bioengineering: {
+            name: "",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
             cost: {
-                science: 8000,
-                fish: 15000,
+                science: 696969,
+                calcinium: 50000,
             },
             required: {
-                upgrades: ["exploration"],
+                upgrades: ["kelpHorticulture"],
+                seen: ["seaApple"],
             },
             effect: {
                 incomeMultiplier: {
-                    crab: 4,
+                    kelp: 2,
                 },
             },
         },
@@ -2690,6 +2733,57 @@ SharkGame.Upgrades = {
             },
             required: {
                 upgrades: ["farExploration"],
+            },
+        },
+        sentientCircuitBoards: {
+            name: "",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                seaApple: 25,
+            },
+            required: {
+                upgrades: ["kelpHorticulture"],
+                seen: ["seaApple"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    kelp: 2,
+                },
+            },
+        },
+        superprocessing: {
+            name: "Superprocessing",
+            desc: "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
+            effectDesc:
+                "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
+            cost: {
+                science: 1e6,
+                sharkonium: 1e6,
+                junk: 1e6,
+            },
+            required: {
+                upgrades: ["iterativeDesign", "recyclerDiscovery"],
+            },
+        },
+        mobiusShells: {
+            name: "",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                seaApple: 25,
+            },
+            required: {
+                upgrades: ["kelpHorticulture"],
+                seen: ["seaApple"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    kelp: 2,
+                },
             },
         },
     },

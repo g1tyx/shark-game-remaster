@@ -98,8 +98,7 @@ SharkGame.Home = {
             {
                 name: "marine-clams",
                 unlock: { upgrade: ["crystalContainer"] },
-                message:
-                    "You start noticing a bunch creatures scurrying around on the ocean floor.<br>They look like crabs, but longer, and more red.",
+                message: "You notice a bunch creatures scurrying around on the ocean floor.<br>They look like crabs, but longer, and...redder?",
             },
             {
                 name: "marine-lobsters",

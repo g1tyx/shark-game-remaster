@@ -361,10 +361,10 @@ SharkGame.ResourceTable = {
         name: "lobsters",
         singleName: "lobster",
         color: "#BF0F00",
+        desc: "",
         income: {
             clam: 2,
         },
-        jobs: ["berrier", "harvester"],
         value: 1000,
     },
 
@@ -387,17 +387,20 @@ SharkGame.ResourceTable = {
     },
 
     extractor: {
-        name: "extractor rays",
-        singleName: "extractor ray",
+        name: "clam extractors",
+        singleName: "clam extractor",
         desc: "",
         color: "#C3C4DD",
+        income: {
+            clam: 50,
+        },
         value: 3500,
     },
 
     seabedStripper: {
         name: "seabed strippers",
         singleName: "seabed stripper",
-        desc: "A reckless",
+        desc: "",
         color: "#836E5F",
         income: {
             kelp: 100,

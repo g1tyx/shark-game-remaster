@@ -3876,6 +3876,29 @@ SharkGame.HomeActions = {
 
         getBrood: {},
 
+        getSeabedStripper: {
+            name: "Build seabed stripper",
+            effect: {
+                resource: {
+                    seabedStripper: 1,
+                },
+            },
+            cost: [
+                { resource: "calcinium", costFunction: "linear", priceIncrease: 150 },
+                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+            ],
+            max: "seabedStripper",
+            prereq: {
+                resource: {
+                    calcinium: 1,
+                },
+                upgrade: ["crustaceanTransmutation"],
+            },
+            outcomes: [],
+            multiOutcomes: [],
+            helpText: "",
+        },
+
         // LOBSTER JOBS ////////////////////////////////////////////////////////////////////////////////
 
         getBerrier: {
@@ -3912,37 +3935,6 @@ SharkGame.HomeActions = {
             helpText: "Dedicate a lobster to egg production. We don't know how it works. Ask the lobsters.",
         },
 
-        getHarvester: {
-            name: "Train lobster harvester",
-            effect: {
-                resource: {
-                    harvester: 1,
-                },
-            },
-            cost: [
-                { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 50 },
-            ],
-            max: "harvester",
-            prereq: {
-                upgrade: ["harvestingHelp"],
-            },
-            outcomes: [
-                /*                 "Yes, lobster, put these claws to better use.",
-                "It is time for this one to seek more interesting prey. Wait. Wait, no, it's just as stationary. Never mind. False alarm.",
-                "Lobster sticks to seabed!", */
-            ],
-            multiOutcomes: [
-                /*                 "Cut down the kelp forests!",
-                "Rip the sponge and tear the kelp!",
-                "Harvest the seafloor!",
-                "The lobster tide shall claim the-- wait no you said harvesters. Okay. Adjusting that, then.",
-                "These guys are pretty unenthusiastic about everything they do, aren't they.", */
-            ], // mr harvester, tear down this forest
-            helpText: "", // Train a lobster to cut down kelp faster than anything can plant it. Sustainable!
-            // i love that previous help text so much that i've elected to store it here for future use
-        },
-
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
 
         getCrystalMiner: {},
@@ -3953,37 +3945,19 @@ SharkGame.HomeActions = {
 
         getAutoTransmuter: {},
 
-        getSkimmer: {},
         // CRUSTACEAN MACHINES /////////////////////////////////////////////////////////
 
-        getSeabedStripper: {
-            name: "Build seabed stripper",
-            effect: {
-                resource: {
-                    seabedStripper: 1,
-                },
-            },
-            cost: [{ resource: "calcinium", costFunction: "linear", priceIncrease: 150 }],
-            max: "seabedStripper",
-            prereq: {
-                resource: {
-                    calcinium: 1,
-                },
-                upgrade: ["crustaceanTransmutation"],
-            },
-            outcomes: [],
-            multiOutcomes: [],
-            helpText: "",
-        },
-
         getCalciniumConverter: {
-            name: "Build seabed stripper",
+            name: "Build calcinium converter",
             effect: {
                 resource: {
                     calciniumConverter: 1,
                 },
             },
-            cost: [{ resource: "calcinium", costFunction: "linear", priceIncrease: 100 }],
+            cost: [
+                { resource: "calcinium", costFunction: "linear", priceIncrease: 100 },
+                { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
+            ],
             max: "calciniumConverter",
             prereq: {
                 resource: {
