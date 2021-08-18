@@ -31,6 +31,7 @@ declare global {
     type WorldName = string;
     type ModifierName = string;
     type ProgressionType = "2-scale";
+    type CostFunction = "linear" | "constant";
 
     type CheatButtonType = undefined | "numeric" | "up-down";
     type CheatButton = {
@@ -64,7 +65,7 @@ declare global {
         };
         cost: {
             resource: ResourceName;
-            costFunction: "constant" | "linear";
+            costFunction: CostFunction;
             priceIncrease: number;
         }[];
         max?: ResourceName;
@@ -547,6 +548,35 @@ declare global {
         getResearchEffects(upgrade: Upgrade): string;
         updateUpgradeList(): void;
     };
+
+    type RecyclerTab = SharkGameTabBase & {
+        sceneImage?: string;
+        message: string;
+        recyclerInputMessages: string[];
+        recyclerOutputMessages: string[];
+        allowedCategories: Record<ResourceCategory, CostFunction | undefined>;
+        bannerResources: ResourceName[];
+        efficiency: "NA" | number;
+        hoveredResource: "NA" | number;
+        expectedOutput: "NA" | number;
+        expectedJunkSpent: "NA" | number;
+        updateJunkDisplay(): void;
+        updateButtons(): void;
+        createButtons(): void;
+        onInput(): void;
+        onOutput(): void;
+        getMaxToBuy(resource: ResourceName): Decimal;
+        onInputHover(): void;
+        onInputUnhover(): void;
+        onOutputHover(): void;
+        onOutputUnhover(): void;
+        getTarString(): string;
+        getRecyclerEfficiencyString(): string;
+        updateExpectedOutput(): void;
+        updateExpectedJunkSpent(): void;
+        getEfficiency(): number;
+        updateEfficiency(resource: ResourceName): void;
+    };
     //// END REGION: Tabs
 
     type SharkGameTabs = {
@@ -554,7 +584,7 @@ declare global {
         Gate: GateTab;
         Home: HomeTab;
         Lab: LabTab;
-        Recycler;
+        Recycler: RecyclerTab;
         Reflection;
         Stats;
     };
