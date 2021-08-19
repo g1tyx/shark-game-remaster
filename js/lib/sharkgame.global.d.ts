@@ -48,6 +48,8 @@ declare global {
     type UpgradeName = string;
     type WorldName = string;
     type ModifierName = string;
+    type TabName = string;
+
     type ProgressionType = "2-scale";
     type CostFunction = "linear" | "constant";
 
@@ -419,6 +421,20 @@ declare global {
         showAspectWarning(): void;
     };
 
+
+    type TabsModule = {
+        current: TabName;
+    } & Record<
+        TabName,
+        {
+            id: SharkGameTabBase["tabId"];
+            name: SharkGameTabBase["tabName"];
+            discovered: SharkGameTabBase["tabDiscovered"];
+            code: SharkGameTabBase;
+            discoverReq: SharkGameTabBase["discoverReq"];
+        }
+    >;
+
     type TextUtilModule = {
         plural(number: number): "" | "s";
         getDeterminer(name: ResourceName): "" | "a" | "an";
@@ -703,7 +719,7 @@ declare global {
         Settings;
         Sprites;
         TabHandler;
-        Tabs;
+        Tabs: TabsModule;
         TextUtil: TextUtilModule;
         TitleBar: TitleBarModule;
         TitleBarHandler: TitleBarHandlerModule;
