@@ -46,6 +46,7 @@ declare global {
         | "specialists"
         | "stuff";
     type ResourceName = string;
+    type SpriteName = string;
     type TabName = string;
     type UpgradeName = string;
     type WorldName = string;
@@ -421,6 +422,30 @@ declare global {
         showAspectWarning(): void;
     };
 
+    type SpritesModule = Record<
+        SpriteName,
+        {
+            frame: {
+                x: number;
+                y: number;
+                w: number;
+                h: number;
+            };
+            rotated: boolean;
+            trimmed: boolean;
+            spriteSourceSize: {
+                x: number;
+                y: number;
+                w: number;
+                h: number;
+            };
+            sourceSize: {
+                w: number;
+                h: number;
+            };
+        }
+    >;
+
     type TabHandlerModule = {
         checkTabUnlocks(): void;
         setUpTab(): void;
@@ -726,7 +751,6 @@ declare global {
         ResourceTable;
         Save;
         Settings;
-        Sprites;
         TabHandler: TabHandlerModule;
         Tabs: TabsModule;
         TextUtil: TextUtilModule;
@@ -780,6 +804,7 @@ declare global {
         ModifierTypes: Record<"upgrade" | "world" | "aspect", Record<"multiplier" | "other", Record<ModifierName, Modifier>>>;
         Panes: Record<string, string[]>;
         ResourceCategories: Record<ResourceCategory, { name: string; disposeMessage: string[]; resources: ResourceName[] }>;
+        Sprites: SpritesModule;
         Upgrades: Record<WorldName, UpgradeTable>;
         WorldTypes: Record<WorldName, World>;
     };
