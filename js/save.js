@@ -207,6 +207,12 @@ SharkGame.Save = {
                         SharkGame.Aspects[aspectId].level = level;
                     }
                 });
+                // now that we're done loading the levels, try to refund deprecated aspects
+                _.each(SharkGame.Aspects, (aspectData) => {
+                    if (aspectData.deprecated) {
+                        tree.refundLevels(aspectData);
+                    }
+                });
             } else {
                 res.setResource("essence", res.getTotalResource("essence"));
             }

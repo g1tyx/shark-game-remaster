@@ -89,6 +89,9 @@ SharkGame.Gateway = {
             gateway.cleanUp();
             gateway.showGateway(essenceReward, patienceReward);
         }
+
+        // one last thing: make sure the player is flagged as having idled so the minute hand shows up from now on
+        SharkGame.persistentFlags.everIdled = true;
     },
 
     cleanUp() {

@@ -1029,6 +1029,23 @@ button.disabled div {
   height: 100%;
   z-index: 10;
 }
+#idle-overlay {
+  -webkit-opacity: 0.75;
+  -moz-opacity: 0.75;
+  opacity: 0.75;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 .pointy {
   cursor: pointer;
 }
@@ -1548,4 +1565,14 @@ button.planetButton:active {
 }
 .reminderShadow {
   box-shadow: 0 0 3em white;
+}
+.minuteHandMultiplierSelector {
+  padding: 0 3.5px;
+  border-radius: 5px;
+  min-width: 0;
+  margin: 1% 1%;
+}
+#minute-hand-multipliers-div {
+  display: flex;
+  justify-content: center;
 }

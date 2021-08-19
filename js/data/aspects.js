@@ -522,89 +522,6 @@ SharkGame.Aspects = {
             tree.increaseLevel(this);
         },
     }, */
-    theMinuteHand: {
-        posX: 0,
-        posY: 150,
-        width: 40,
-        height: 40,
-
-        max: 5,
-        level: 0,
-        name: "The Minute Hand",
-        description: "Time is relative.",
-        getCost(level) {
-            switch (level) {
-                case 0:
-                    return 4;
-                default:
-                    return 3 + level;
-            }
-        },
-        getEffect(level) {
-            let speedConstant;
-            switch (SharkGame.Settings.current.gameSpeed) {
-                case "Idle":
-                    speedConstant = 5;
-                    break;
-                case "Inactive":
-                    speedConstant = 3;
-                    break;
-                default:
-                    speedConstant = 1;
-                    break;
-            }
-            return "Unlock a rechargeable <strong>" + (speedConstant + level) + "x</strong> speed boost.";
-        },
-        getUnlocked() {},
-        prerequisites: ["crystallineSkin"],
-        clicked(_event) {
-            tree.increaseLevel(this);
-        },
-    },
-    theSecondHand: {
-        posX: -80,
-        posY: 50,
-        width: 40,
-        height: 40,
-
-        max: 5,
-        level: 0,
-        name: "The Second Hand",
-        description: "Reality is a construct of the mind.",
-        getCost(level) {
-            return 6 * (level + 1);
-        },
-        getEffect(level) {
-            return "The Minute Hand recharges <strong>" + (level + 1) + "x</strong> faster.";
-        },
-        getUnlocked() {},
-        prerequisites: ["theMinuteHand"],
-        clicked(_event) {
-            tree.increaseLevel(this);
-        },
-    },
-    theHourHand: {
-        posX: 80,
-        posY: 50,
-        width: 40,
-        height: 40,
-
-        max: 5,
-        level: 0,
-        name: "The Hour Hand",
-        description: "Perception is an illusion.",
-        getCost(level) {
-            return 4 + level;
-        },
-        getEffect(level) {
-            return "The Minute Hand starts with " + sharktext.boldString(60 + 30 * level + "s") + " when entering a new world.";
-        },
-        getUnlocked() {},
-        prerequisites: ["theMinuteHand"],
-        clicked(_event) {
-            tree.increaseLevel(this);
-        },
-    },
     internalCalculator: {
         posX: 140,
         posY: 250,
@@ -680,6 +597,38 @@ SharkGame.Aspects = {
                 }
             }
         },
+    },
+
+    // deprecated
+
+    theMinuteHand: {
+        deprecated: true,
+        level: 0,
+        getCost(level) {
+            switch (level) {
+                case 0:
+                    return 4;
+                default:
+                    return 3 + level;
+            }
+        },
+        prerequisites: ["theSecondHand"],
+    },
+    theSecondHand: {
+        deprecated: true,
+        level: 0,
+        getCost(level) {
+            return 6 * (level + 1);
+        },
+        prerequisites: ["theMinuteHand"],
+    },
+    theHourHand: {
+        deprecated: true,
+        level: 0,
+        getCost(level) {
+            return 4 + level;
+        },
+        prerequisites: ["theMinuteHand"],
     },
     // remember to add upgrade which adds manual crystal button, locked behind shrouded worldtype
 

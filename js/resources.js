@@ -69,6 +69,7 @@ SharkGame.Resources = {
             SharkGame.ModifierMap.set(resourceId, _.cloneDeep(multiplierObject));
         });
 
+        res.idleMultiplier = 1;
         res.specialMultiplier = 1;
         SharkGame.ResourceIncomeAffectors = _.cloneDeep(SharkGame.ResourceIncomeAffectorsOriginal);
         SharkGame.GeneratorIncomeAffectors = _.cloneDeep(SharkGame.GeneratorIncomeAffectorsOriginal);
@@ -277,7 +278,8 @@ SharkGame.Resources = {
             res.getSpecialMultiplier() *
             res.getNetworkIncomeModifier("generator", generator) *
             res.getNetworkIncomeModifier("resource", product) *
-            cad.speed
+            cad.speed *
+            res.idleMultiplier
         );
     },
 
@@ -763,6 +765,8 @@ SharkGame.Resources = {
 
     minuteHand: {
         active: false,
+        disableNextTick: false,
+        realMultiplier: 1,
         onMessages: [
             "Time warps around you.",
             "Everything seems to get faster.",
@@ -806,7 +810,11 @@ SharkGame.Resources = {
             if (!SharkGame.flags.minuteHandTimer) {
                 SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
             }
-            if (SharkGame.Aspects.theMinuteHand.level && $("#minute-hand-toggle").length === 0) {
+            if (!SharkGame.persistentFlags.selectedMultiplier) {
+                SharkGame.persistentFlags.selectedMultiplier = 2;
+            }
+            if (SharkGame.persistentFlags.everIdled && $("#minute-hand-toggle").length === 0 && SharkGame.Settings.current.idleEnabled) {
+                const multDiv = $("<div>").attr("id", "minute-hand-multipliers-div");
                 SharkGame.Button.makeHoverscriptButton(
                     "minute-hand-toggle",
                     "my cool button",
@@ -815,77 +823,121 @@ SharkGame.Resources = {
                     null,
                     null
                 );
+                SharkGame.Button.makeHoverscriptButton("minute-hand-2", "x2", multDiv, res.minuteHand.changeSelectedMultiplier, null, null).addClass(
+                    "minuteHandMultiplierSelector"
+                );
+                SharkGame.Button.makeHoverscriptButton("minute-hand-4", "x4", multDiv, res.minuteHand.changeSelectedMultiplier, null, null).addClass(
+                    "minuteHandMultiplierSelector"
+                );
+                SharkGame.Button.makeHoverscriptButton(
+                    "minute-hand-16",
+                    "x16",
+                    multDiv,
+                    res.minuteHand.changeSelectedMultiplier,
+                    null,
+                    null
+                ).addClass("minuteHandMultiplierSelector");
+                SharkGame.Button.makeHoverscriptButton(
+                    "minute-hand-64",
+                    "x64",
+                    multDiv,
+                    res.minuteHand.changeSelectedMultiplier,
+                    null,
+                    null
+                ).addClass("minuteHandMultiplierSelector");
+                SharkGame.Button.makeHoverscriptButton(
+                    "minute-hand-512",
+                    "fast",
+                    multDiv,
+                    res.minuteHand.changeSelectedMultiplier,
+                    null,
+                    null
+                ).addClass("minuteHandMultiplierSelector");
+                $("#minute-hand-div").append(multDiv);
             }
 
-            if (!SharkGame.Aspects.theMinuteHand.level) {
-                $("#minute-hand-toggle").remove();
+            if (!SharkGame.persistentFlags.everIdled || !SharkGame.Settings.current.idleEnabled) {
+                $("#minute-hand-div").empty();
             }
+            this.changeRealMultiplier(1);
             this.active = false;
+            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
+            this.updateMinuteHandLabel(0);
         },
 
         updateMinuteHand(timeElapsed) {
-            if (!SharkGame.flags.minuteHandTimer) {
+            if (typeof SharkGame.flags.minuteHandTimer !== "number") {
                 return;
             }
 
-            if (SharkGame.flags.minuteHandTimer <= 0) {
-                SharkGame.flags.minuteHandTimer = 0;
-                res.minuteHand.toggleMinuteHand();
-            }
-
-            if (!res.minuteHand.active) {
-                SharkGame.flags.minuteHandTimer += (timeElapsed * (SharkGame.Aspects.theSecondHand.level + 1)) / 10;
-                if (SharkGame.flags.minuteHandTimer < 3000) {
-                    $("#minute-hand-toggle").addClass("disabled");
-                } else {
-                    $("#minute-hand-toggle").removeClass("disabled");
+            if (res.minuteHand.disableNextTick) {
+                res.minuteHand.disableNextTick = false;
+                if (res.minuteHand.active) {
+                    res.minuteHand.toggleMinuteHand();
                 }
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>ENABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
-                );
+            } else if (!res.minuteHand.active) {
+                SharkGame.flags.minuteHandTimer += timeElapsed;
             } else {
-                SharkGame.flags.minuteHandTimer -= timeElapsed;
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>DISABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
-                );
+                SharkGame.flags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
+                if (SharkGame.flags.minuteHandTimer < 0) {
+                    res.minuteHand.disableNextTick = true;
+                    res.minuteHand.changeRealMultiplier(SharkGame.flags.minuteHandTimer + res.minuteHand.realMultiplier - 1);
+                    SharkGame.flags.minuteHandTimer = 0;
+                    res.minuteHand.toggleMinuteHand();
+                }
             }
+            res.minuteHand.updateMinuteHandLabel();
         },
 
         toggleMinuteHand() {
-            if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 3000) {
+            if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 0) {
                 res.minuteHand.active = true;
-                let speedConstant = SharkGame.Aspects.theMinuteHand.level;
-                switch (SharkGame.Settings.current.gameSpeed) {
-                    case "Idle":
-                        speedConstant += 5;
-                        break;
-                    case "Inactive":
-                        speedConstant += 3;
-                        break;
-                    default:
-                        speedConstant += 1;
-                        break;
-                }
-                res.specialMultiplier *= speedConstant;
+                res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
                 $("#minute-hand-toggle").addClass("minuteOn");
                 log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
             } else if (res.minuteHand.active) {
                 res.minuteHand.active = false;
-                /*                 let speedConstant = SharkGame.Aspects.theMinuteHand.level;
-                switch (SharkGame.Settings.current.gameSpeed) {
-                    case "Idle":
-                        speedConstant += 5;
-                        break;
-                    case "Inactive":
-                        speedConstant += 3;
-                        break;
-                    default:
-                        speedConstant += 1;
-                        break;
-                } */
-                res.specialMultiplier = 1;
+                res.minuteHand.changeRealMultiplier(1);
                 $("#minute-hand-toggle").removeClass("minuteOn");
                 log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
+            }
+        },
+
+        changeSelectedMultiplier(_event, arbitrary) {
+            let multiplier = SharkGame.persistentFlags.selectedMultiplier;
+            $("#minute-hand-" + multiplier).removeClass("disabled");
+            if (arbitrary) {
+                multiplier = arbitrary;
+            } else {
+                multiplier = parseInt($(this).attr("id").split("-")[2]);
+            }
+            $("#minute-hand-" + multiplier).addClass("disabled");
+            SharkGame.persistentFlags.selectedMultiplier = multiplier;
+            if (res.minuteHand.active) {
+                res.minuteHand.changeRealMultiplier(multiplier);
+            }
+        },
+
+        changeRealMultiplier(someNumber) {
+            res.specialMultiplier /= res.minuteHand.realMultiplier;
+            res.minuteHand.realMultiplier = someNumber;
+            res.specialMultiplier *= res.minuteHand.realMultiplier;
+        },
+
+        updateMinuteHandLabel() {
+            if (!res.minuteHand.active) {
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>ENABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                );
+            } else {
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>DISABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                );
+            }
+            if (SharkGame.flags.minuteHandTimer === 0) {
+                $("#minute-hand-toggle").addClass("disabled");
+            } else {
+                $("#minute-hand-toggle").removeClass("disabled");
             }
         },
     },

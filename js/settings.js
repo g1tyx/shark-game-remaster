@@ -228,6 +228,17 @@ SharkGame.Settings = {
 
     // OTHER
 
+    idleEnabled: {
+        defaultSetting: true,
+        name: "Stored Offline Progress",
+        desc: "Does the game store idle progress for later use?",
+        category: "OTHER",
+        options: [true, false],
+        onChange() {
+            res.minuteHand.init();
+        },
+    },
+
     showTooltips: {
         defaultSetting: true,
         name: "Tooltips",
@@ -241,7 +252,7 @@ SharkGame.Settings = {
         name: "Playstyle",
         desc: "How you prefer the game. It will adjust to fit your choice.",
         category: "OTHER",
-        options: [/* "Idle",  */ "Inactive", "Active"],
+        options: ["Inactive", "Active"],
         onChange() {
             main.applyProgressionSpeed();
         },

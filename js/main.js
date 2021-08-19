@@ -3,6 +3,8 @@
 var SharkGame = SharkGame || {};
 
 window.onmousemove = (event) => {
+    SharkGame.lastMouseActivity = _.now();
+
     const tooltip = document.getElementById("tooltipbox");
     if (!tooltip) return;
     const posX = event.clientX;
@@ -94,6 +96,11 @@ $.extend(SharkGame, {
     INTERVAL: 1000 / 10, // 20 FPS // I'm pretty sure 1000 / 10 comes out to 10 FPS
     dt: 1 / 10,
     before: new Date(),
+    lastMoveMovement: new Date(),
+
+    idleThreshold: 120000,
+    idleFadeTime: 5000,
+    idleTransitioning: false,
 
     timestampLastSave: false,
     timestampGameStart: false,
@@ -174,6 +181,7 @@ SharkGame.Main = {
         const now = _.now();
         SharkGame.before = now;
         SharkGame.timestampSimulated = now;
+        SharkGame.lastMouseActivity = now;
         if (SharkGame.GAME_NAME === null) {
             SharkGame.GAME_NAME = SharkGame.choose(SharkGame.GAME_NAMES);
             document.title = SharkGame.ACTUAL_GAME_NAME + ": " + SharkGame.GAME_NAME;
@@ -181,6 +189,7 @@ SharkGame.Main = {
         $("#sidebar").hide();
         const overlay = $("#overlay");
         overlay.hide();
+        $("#idle-overlay").hide();
         $("#gameName").html("- " + SharkGame.GAME_NAME + " -");
         $("#versionNumber").html(
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
@@ -313,8 +322,39 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
+            if (now - SharkGame.lastMouseActivity > SharkGame.idleThreshold) {
+                if ($("#idle-overlay").is(":hidden")) {
+                    $("#idle-overlay").show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.idleFadeTime);
+                }
+                const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.idleThreshold) / SharkGame.idleFadeTime, 1);
+                res.idleMultiplier = 1 - speedRatio;
+                if (speedRatio > 0.1 && !SharkGame.persistentFlags.everIdled) {
+                    SharkGame.persistentFlags.everIdled = true;
+                    res.minuteHand.init();
+                    SharkGame.flags.minuteHandTimer = 0;
+                }
+                if (res.minuteHand.active) {
+                    res.minuteHand.toggleMinuteHand();
+                }
+                res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
+            } else {
+                if (!$("#idle-overlay").is(":hidden") && !SharkGame.idleTransitioning) {
+                    $("#idle-overlay")
+                        .stop(true)
+                        .animate({ opacity: 0 }, 500, () => {
+                            $("#idle-overlay").hide().stop(true);
+                        });
+                    SharkGame.idleTransitioning = true;
+                }
+                if ($("#idle-overlay").is(":hidden")) {
+                    SharkGame.idleTransitioning = false;
+                }
+                res.idleMultiplier = 1;
+            }
 
-            res.minuteHand.updateMinuteHand(elapsedTime);
+            if (res.minuteHand.active) {
+                res.minuteHand.updateMinuteHand(elapsedTime);
+            }
 
             // check if the sidebar needs to come back
             if (SharkGame.sidebarHidden) {
@@ -337,6 +377,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.before = now;
 
             SharkGame.EventHandler.handleEventTick("afterTick");
+        } else {
+            SharkGame.lastMouseActivity = _.now();
         }
 
         //see if resource table tooltip needs updating
@@ -570,6 +612,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             });
             SharkGame.Gateway.completedWorlds = backup.completedWorlds;
             SharkGame.persistentFlags = backup.persistentFlags;
+
+            res.minuteHand.init(); // hacky, temporary fix for an issue
+            // will need to rewrite a bunch of stuff this update to
+            // make the game's initialization & loop processes far less awful and clunky and needing workarounds constantly
+            // consolidate everything nicely into three routines that encompass everything
+            //
+            // one is real initialization where things get totally wiped
+            // the second one is where it's restored or loaded if necessary,
+            // then a third one where things dependent on a gamestate that isnt wiped (tokens, minute hand) are loaded in
+            // will tackle that later though
 
             try {
                 SharkGame.Save.saveGame();
