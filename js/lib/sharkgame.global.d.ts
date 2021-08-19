@@ -419,6 +419,20 @@ declare global {
         showAspectWarning(): void;
     };
 
+    type TitleBarModule = Record<
+        `${string}Link`,
+        {
+            name: string;
+            main: boolean;
+            onClick(): void;
+        }
+    >;
+
+    type TitleBarHandlerModule = {
+        correctTitleBar(): void;
+        setUpTitleBar(): void;
+    };
+
     type WorldModule = {
         worldType: string;
         worldResources: Map<ResourceName, { exists: boolean }>;
@@ -677,8 +691,8 @@ declare global {
         TabHandler;
         Tabs;
         TextUtil;
-        TitleBar;
-        TitleBarHandler;
+        TitleBar: TitleBarModule;
+        TitleBarHandler: TitleBarHandlerModule;
         Upgrades: UpgradesModule;
         World: WorldModule;
     };
