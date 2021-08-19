@@ -418,6 +418,24 @@ declare global {
         showSpeedSelection(): void;
         showAspectWarning(): void;
     };
+
+    type WorldModule = {
+        worldType: string;
+        worldResources: Map<ResourceName, { exists: boolean }>;
+        init(): void;
+        apply(): void;
+        resetWorldProperties(): void;
+        applyWorldProperties(): void;
+        applyGateCosts(): void;
+        getWorldEntryMessage(): string;
+        /**
+         * @param resourceName ID of resource to check
+         * @returns Whether or not the resource exists on the current planet
+         */
+        doesResourceExist(resourceName: ResourceName): boolean;
+        forceExistence(resourceName: ResourceName): void;
+        getGateCostMultiplier(): number;
+    };
     //// END REGION: Modules
 
     //// REGION: Tabs
@@ -662,7 +680,7 @@ declare global {
         TitleBar;
         TitleBarHandler;
         Upgrades: UpgradesModule;
-        World;
+        World: WorldModule;
     };
     type SharkGameConstants = {
         ACTUAL_GAME_NAME: string;
