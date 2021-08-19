@@ -421,6 +421,15 @@ declare global {
         showAspectWarning(): void;
     };
 
+    type TabHandlerModule = {
+        checkTabUnlocks(): void;
+        setUpTab(): void;
+        createTabMenu(): void;
+        registerTab(tab: SharkGameTabBase): void;
+        createTabNavigation(): void;
+        changeTab(tab: TabName): void;
+        discoverTab(tab: TabName): void;
+    };
 
     type TabsModule = {
         current: TabName;
@@ -718,7 +727,7 @@ declare global {
         Save;
         Settings;
         Sprites;
-        TabHandler;
+        TabHandler: TabHandlerModule;
         Tabs: TabsModule;
         TextUtil: TextUtilModule;
         TitleBar: TitleBarModule;
