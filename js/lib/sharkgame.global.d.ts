@@ -419,6 +419,20 @@ declare global {
         showAspectWarning(): void;
     };
 
+    type TextUtilModule = {
+        plural(number: number): "" | "s";
+        getDeterminer(name: ResourceName): "" | "a" | "an";
+        getIsOrAre(name: ResourceName, amount?: number): "is" | "are";
+        boldString(string: string): `<span class='bold'>${string}</span>`;
+        beautify(number: number, suppressDecimals?: boolean, toPlaces?: number): string;
+        beautifyIncome(number: number, also?: string): string;
+        formatTime(milliseconds: number): string;
+        getResourceName(resourceName: ResourceName, darken?: boolean, arbitraryAmount?: number, background: string): string;
+        applyResourceColoration(resourceName: ResourceName, textToColor: string): string;
+        /** make a resource list object into a string describing its contents */
+        resourceListToString(resourceList: Record<ResourceName, number>, darken: boolean, backgroundColor?: string): string;
+    };
+
     type TitleBarModule = Record<
         `${string}Link`,
         {
@@ -690,7 +704,7 @@ declare global {
         Sprites;
         TabHandler;
         Tabs;
-        TextUtil;
+        TextUtil: TextUtilModule;
         TitleBar: TitleBarModule;
         TitleBarHandler: TitleBarHandlerModule;
         Upgrades: UpgradesModule;

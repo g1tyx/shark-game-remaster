@@ -129,7 +129,6 @@ SharkGame.TextUtil = {
         return "are";
     },
 
-    /** @param {string} string */
     boldString(string) {
         return `<span class='bold'>${string}</span>`;
     },
@@ -315,7 +314,6 @@ SharkGame.TextUtil = {
         return "<span class='click-passthrough'" + extraStyle + ">" + textToColor + "</span>";
     },
 
-    // make a resource list object into a string describing its contents
     resourceListToString(resourceList, darken, backgroundColor) {
         if ($.isEmptyObject(resourceList)) {
             return "";
