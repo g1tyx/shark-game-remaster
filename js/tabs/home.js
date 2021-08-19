@@ -939,7 +939,7 @@ SharkGame.Home = {
         let buyingHowMuch = 1;
         if (!SharkGame.Settings.current.alwaysSingularTooltip) {
             buyingHowMuch = sharkmath.getPurchaseAmount(
-                "doesntmatter",
+                undefined,
                 home.getMax(SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName)).toNumber()
             );
             if (buyingHowMuch < 1) {

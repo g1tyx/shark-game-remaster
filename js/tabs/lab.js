@@ -9,7 +9,7 @@ SharkGame.Lab = {
     sceneImage: "img/events/misc/scene-lab.png",
     sceneDoneImage: "img/events/misc/scene-lab-done.png",
 
-    discoveryReq: { resource: { science: 10 } },
+    discoverReq: { resource: { science: 10 } },
 
     listEmpty: true,
 
