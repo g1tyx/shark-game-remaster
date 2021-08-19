@@ -266,7 +266,7 @@ SharkGame.ResourceTable = {
         desc: "Destructive forces of creation.",
         color: "#E85A5A",
         income: {
-            sand: -2,
+            sand: -50,
             crystal: 1,
         },
         value: 3500,

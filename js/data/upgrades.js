@@ -221,7 +221,7 @@ SharkGame.Upgrades = {
             effectDesc: "Laser rays can now be geared up to burn the very sand to glassy crystal.",
             cost: {
                 science: 100,
-                sand: 2000,
+                sand: 10000,
                 crystal: 100,
             },
             required: {
