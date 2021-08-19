@@ -775,12 +775,12 @@ declare global {
         Aspects: Record<AspectName, Aspect>;
         Events: Record<string, SharkEventHandler>;
         HomeActionCategories: Record<HomeActionCategory, { name: string; actions: HomeActionName }>;
-        InternalCategories: Record<ResourceName, { name: string; resources: ResourceName[] }>;
         HomeActions: Record<WorldName, HomeActionTable>;
-        Upgrades: Record<WorldName, UpgradeTable>;
+        InternalCategories: Record<ResourceName, { name: string; resources: ResourceName[] }>;
         ModifierTypes: Record<"upgrade" | "world" | "aspect", Record<"multiplier" | "other", Record<ModifierName, Modifier>>>;
         Panes: Record<string, string[]>;
         ResourceCategories: Record<ResourceCategory, { name: string; disposeMessage: string[]; resources: ResourceName[] }>;
+        Upgrades: Record<WorldName, UpgradeTable>;
         WorldTypes: Record<WorldName, World>;
     };
     type SharkGameRuntimeData = {
