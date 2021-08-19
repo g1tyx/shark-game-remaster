@@ -29,26 +29,26 @@ declare global {
 
     //// REGION: Data structure types
     type AspectName = string;
-    type HomeActionName = string;
     type HomeActionCategory = "all" | "basic" | "frenzy" | "professions" | "breeders" | "processing" | "machines" | "otherMachines" | "unique";
-    type ResourceName = string;
+    type HomeActionName = string;
+    type ModifierName = string;
     type ResourceCategory =
-        | "harmful"
-        | "scientific"
-        | "magical"
-        | "frenzy"
         | "animals"
-        | "stuff"
-        | "processed"
         | "breeders"
-        | "specialists"
+        | "frenzy"
+        | "harmful"
+        | "hidden"
         | "machines"
+        | "magical"
+        | "processed"
+        | "scientific"
         | "special"
-        | "hidden";
+        | "specialists"
+        | "stuff";
+    type ResourceName = string;
+    type TabName = string;
     type UpgradeName = string;
     type WorldName = string;
-    type ModifierName = string;
-    type TabName = string;
 
     type ProgressionType = "2-scale";
     type CostFunction = "linear" | "constant";
