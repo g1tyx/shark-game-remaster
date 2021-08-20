@@ -77,9 +77,52 @@ SharkGame.AspectTree = {
                 }
                 SharkGame.Aspects[prerequisite].requiredBy.push(aspectId);
             });
+            // wipe all levels
+            aspectData.level = 0;
+
+            // redundant removal of persistent flags
+            if (SharkGame.persistentFlags.destinyRolls) {
+                SharkGame.persistentFlags.destinyRolls = 0;
+            }
+            if (SharkGame.persistentFlags.patience) {
+                SharkGame.persistentFlags.patience = 0;
+            }
         });
     },
-    setUp() {
+
+    setup() {
+        if (SharkGame.missingAspects) {
+            res.setResource("essence", res.getTotalResource("essence"));
+            _.each(SharkGame.Aspects, (aspectData) => {
+                // wipe all levels
+                aspectData.level = 0;
+            });
+            SharkGame.PaneHandler.showAspectWarning();
+        } else {
+            // try to refund deprecated aspects
+            _.each(SharkGame.Aspects, (aspectData) => {
+                if (aspectData.deprecated) {
+                    tree.refundLevels(aspectData);
+                }
+            });
+        }
+        tree.applyAspects();
+    },
+
+    /* // now that we're done loading the levels, try to refund deprecated aspects
+                
+            
+                $.each(saveData.aspects, (aspectId, level) => {
+                    if (_.has(SharkGame.Aspects, aspectId)) {
+                        SharkGame.Aspects[aspectId].level = level;
+                    }
+                });
+            }
+                 else {
+                
+            }*/
+    resetTreeCamera() {
+        // remember to figure out this nonsense
         this.dragStart = { posX: 0, posY: 0 };
         this.cameraZoom = 1;
         this.cameraOffset = { posX: 0, posY: 0 };

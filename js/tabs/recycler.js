@@ -52,6 +52,10 @@ SharkGame.Recycler = {
         SharkGame.TabHandler.registerTab(this);
     },
 
+    setup() {
+        /* doesnt need to do anything */
+    },
+
     switchTo() {
         const content = $("#content");
         content.append($("<div>").attr("id", "tabMessage"));

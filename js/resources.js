@@ -76,6 +76,11 @@ SharkGame.Resources = {
         res.clearNetworks();
     },
 
+    setup() {
+        res.recalculateIncomeTable();
+        res.reconstructResourcesTable();
+    },
+
     processIncomes(timeDelta, debug, simulatingOffline) {
         res.recalculateIncomeTable(true);
         if (res.testGracePeriod()) {

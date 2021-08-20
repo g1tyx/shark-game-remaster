@@ -22,6 +22,9 @@ SharkGame.Stats = {
 
     init() {
         SharkGame.TabHandler.registerTab(this);
+    },
+
+    setup() {
         stats.recreateIncomeTable = true;
     },
 

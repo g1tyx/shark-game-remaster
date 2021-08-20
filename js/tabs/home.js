@@ -388,10 +388,6 @@ SharkGame.Home = {
     },
 
     init() {
-        // rename home tab
-        const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
-        home.tabName = tabName;
-
         SharkGame.TabHandler.registerTab(this);
 
         // populate action discoveries (and reset removals)
@@ -403,6 +399,16 @@ SharkGame.Home = {
 
         home.currentExtraMessageIndex = -1;
         home.currentButtonTab = "all";
+    },
+
+    setup() {
+        // rename home tab
+        const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
+        home.tabName = tabName;
+        if (SharkGame.Tabs["home"]) {
+            SharkGame.Tabs["home"].name = tabName;
+        }
+        home.discoverActions();
     },
 
     switchTo() {

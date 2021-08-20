@@ -15,6 +15,13 @@ SharkGame.World = {
 
     init() {
         world.resetWorldProperties();
+        world.worldType = "start";
+    },
+
+    setup() {
+        res.setResource("world", 1);
+        res.setTotalResource("world", 1);
+        world.apply();
     },
 
     apply() {

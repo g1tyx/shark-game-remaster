@@ -4,6 +4,10 @@ SharkGame.Tabs = {
 };
 
 SharkGame.TabHandler = {
+    init() {
+        SharkGame.Tabs.current = "home";
+    },
+
     checkTabUnlocks() {
         $.each(SharkGame.Tabs, (tabName, tab) => {
             if (tabName === "current" || tab.discovered) {

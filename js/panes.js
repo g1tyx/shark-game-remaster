@@ -50,6 +50,10 @@ SharkGame.PaneHandler = {
     paneStack: [],
     currentPane: undefined,
 
+    init() {
+        SharkGame.PaneHandler.wipeStack();
+    },
+
     buildPane() {
         const pane = $("<div>").attr("id", "pane");
         $("body").append(pane);
@@ -332,7 +336,7 @@ SharkGame.PaneHandler = {
                     .addClass("option-button")
                     .on("click", () => {
                         if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
-                            SharkGame.Save.wipeSave();
+                            main.resetGame();
                         }
                     })
             )

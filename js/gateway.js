@@ -14,6 +14,15 @@ SharkGame.Gateway = {
 
     init() {
         this.completedWorlds = [];
+        this.planetPool = [];
+        SharkGame.wonGame = false;
+        SharkGame.gameOver = false;
+    },
+
+    setup() {
+        if (SharkGame.gameOver) {
+            main.endGame(true);
+        }
     },
 
     enterGate(loadingFromSave) {
@@ -197,7 +206,7 @@ SharkGame.Gateway = {
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         aspectTreeContent.append(tree.drawTree(SharkGame.Settings.current.doAspectTable === "table"));
 
-        tree.setUp();
+        tree.resetTreeCamera();
         tree.render();
 
         // add return to gateway button

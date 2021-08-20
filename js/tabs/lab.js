@@ -25,6 +25,10 @@ SharkGame.Lab = {
         lab.resetUpgrades();
     },
 
+    setup() {
+        /* doesnt need to do anything */
+    },
+
     resetUpgrades() {
         SharkGame.Upgrades.purchased.splice(0);
 
