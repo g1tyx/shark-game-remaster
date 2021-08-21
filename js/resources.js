@@ -812,53 +812,31 @@ SharkGame.Resources = {
         ],
 
         init() {
-            if (!SharkGame.flags.minuteHandTimer) {
+            if (typeof SharkGame.flags.minuteHandTimer !== "number") {
                 SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
             }
             if (!SharkGame.persistentFlags.selectedMultiplier) {
                 SharkGame.persistentFlags.selectedMultiplier = 2;
             }
             if (SharkGame.persistentFlags.everIdled && $("#minute-hand-toggle").length === 0 && SharkGame.Settings.current.idleEnabled) {
-                const multDiv = $("<div>").attr("id", "minute-hand-multipliers-div");
                 SharkGame.Button.makeHoverscriptButton(
                     "minute-hand-toggle",
                     "my cool button",
                     $("#minute-hand-div"),
                     res.minuteHand.toggleMinuteHand,
-                    null,
-                    null
+                    res.minuteHand.showTooltip,
+                    res.tableTextLeave
                 );
-                SharkGame.Button.makeHoverscriptButton("minute-hand-2", "x2", multDiv, res.minuteHand.changeSelectedMultiplier, null, null).addClass(
-                    "minuteHandMultiplierSelector"
-                );
-                SharkGame.Button.makeHoverscriptButton("minute-hand-4", "x4", multDiv, res.minuteHand.changeSelectedMultiplier, null, null).addClass(
-                    "minuteHandMultiplierSelector"
-                );
-                SharkGame.Button.makeHoverscriptButton(
-                    "minute-hand-16",
-                    "x16",
-                    multDiv,
-                    res.minuteHand.changeSelectedMultiplier,
-                    null,
-                    null
-                ).addClass("minuteHandMultiplierSelector");
-                SharkGame.Button.makeHoverscriptButton(
-                    "minute-hand-64",
-                    "x64",
-                    multDiv,
-                    res.minuteHand.changeSelectedMultiplier,
-                    null,
-                    null
-                ).addClass("minuteHandMultiplierSelector");
-                SharkGame.Button.makeHoverscriptButton(
-                    "minute-hand-512",
-                    "fast",
-                    multDiv,
-                    res.minuteHand.changeSelectedMultiplier,
-                    null,
-                    null
-                ).addClass("minuteHandMultiplierSelector");
-                $("#minute-hand-div").append(multDiv);
+                $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+                const slider = $("<input>")
+                    .attr("id", "minute-slider")
+                    .attr("type", "range")
+                    .attr("min", 1)
+                    .attr("max", 9)
+                    .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
+                    .on("input", res.minuteHand.changeSelectedMultiplier);
+                $("#minute-hand-div").append(slider);
+                res.minuteHand.updateRotationNextTick = true;
             }
 
             if (!SharkGame.persistentFlags.everIdled || !SharkGame.Settings.current.idleEnabled) {
@@ -867,7 +845,7 @@ SharkGame.Resources = {
             this.changeRealMultiplier(1);
             this.active = false;
             this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
-            this.updateMinuteHandLabel(0);
+            this.updateMinuteHandLabel();
         },
 
         updateMinuteHand(timeElapsed) {
@@ -886,7 +864,9 @@ SharkGame.Resources = {
                 SharkGame.flags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
                 if (SharkGame.flags.minuteHandTimer < 0) {
                     res.minuteHand.disableNextTick = true;
-                    res.minuteHand.changeRealMultiplier(SharkGame.flags.minuteHandTimer + res.minuteHand.realMultiplier - 1);
+                    // the net effect of this next statement is making the processing which
+                    // happens later in this tick give exactly as much income as needed to exhaust the minute hand
+                    res.minuteHand.changeRealMultiplier(SharkGame.flags.minuteHandTimer / timeElapsed + res.minuteHand.realMultiplier - 1);
                     SharkGame.flags.minuteHandTimer = 0;
                     res.minuteHand.toggleMinuteHand();
                 }
@@ -906,21 +886,24 @@ SharkGame.Resources = {
                 $("#minute-hand-toggle").removeClass("minuteOn");
                 log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
             }
+            res.minuteHand.updateDisplay();
         },
 
         changeSelectedMultiplier(_event, arbitrary) {
             let multiplier = SharkGame.persistentFlags.selectedMultiplier;
-            $("#minute-hand-" + multiplier).removeClass("disabled");
             if (arbitrary) {
                 multiplier = arbitrary;
             } else {
-                multiplier = parseInt($(this).attr("id").split("-")[2]);
+                multiplier = 2 ** document.getElementById("minute-slider").value;
+                document
+                    .getElementById("minute-slider")
+                    .style.setProperty("--minuterotation", "rotate(" + (45 * document.getElementById("minute-slider").value - 90) + "deg)");
             }
-            $("#minute-hand-" + multiplier).addClass("disabled");
             SharkGame.persistentFlags.selectedMultiplier = multiplier;
             if (res.minuteHand.active) {
                 res.minuteHand.changeRealMultiplier(multiplier);
             }
+            res.minuteHand.updateDisplay();
         },
 
         changeRealMultiplier(someNumber) {
@@ -929,21 +912,61 @@ SharkGame.Resources = {
             res.specialMultiplier *= res.minuteHand.realMultiplier;
         },
 
+        updateDisplay() {
+            res.minuteHand.updateMinuteHandLabel();
+            if (SharkGame.Settings.current.minuteHandEffects) {
+                res.minuteHand.updatePowers();
+            }
+        },
+
         updateMinuteHandLabel() {
             if (!res.minuteHand.active) {
                 $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>ENABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                    "<span class='click-passthrough bold'>ACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
                 );
             } else {
                 $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>DISABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
+                    "<span class='click-passthrough bold'>DEACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
                 );
             }
+            $("#minute-time").html(sharktext.boldString("(" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)"));
             if (SharkGame.flags.minuteHandTimer === 0) {
                 $("#minute-hand-toggle").addClass("disabled");
+                $("#minute-time").addClass("noTime");
             } else {
                 $("#minute-hand-toggle").removeClass("disabled");
+                $("#minute-time").removeClass("noTime");
             }
+        },
+
+        updatePowers() {
+            $("#minute-slider").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
+            $("#minute-hand-toggle").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
+            if (res.minuteHand.active && SharkGame.Settings.current.minuteHandEffects) {
+                const multiplier = 2 ** document.getElementById("minute-slider").value;
+                if (multiplier === 2) {
+                    $("#minute-slider").addClass("power1");
+                    $("#minute-hand-toggle").addClass("power1");
+                } else if (multiplier > 2 && multiplier <= 16) {
+                    $("#minute-slider").addClass("power2");
+                    $("#minute-hand-toggle").addClass("power2");
+                } else if (multiplier > 16 && multiplier <= 64) {
+                    $("#minute-slider").addClass("power3");
+                    $("#minute-hand-toggle").addClass("power3");
+                } else if (multiplier > 64 && multiplier <= 256) {
+                    $("#minute-slider").addClass("power4");
+                    $("#minute-hand-toggle").addClass("power4");
+                } else if (multiplier === 512) {
+                    $("#minute-slider").addClass("power5");
+                    $("#minute-hand-toggle").addClass("power5");
+                }
+            }
+        },
+
+        showTooltip() {
+            $("#tooltipbox").html(
+                "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it.<br><br>(traditional offline progress available in options)"
+            );
         },
     },
 
@@ -964,6 +987,7 @@ SharkGame.Resources = {
             // check for aspect level here later
             statusDiv.prepend($("<div>").attr("id", "token-div"));
             statusDiv.prepend($("<div>").attr("id", "token-description"));
+            statusDiv.prepend($("<div>").attr("id", "fake-minute-hand-div"));
             statusDiv.prepend($("<div>").attr("id", "minute-hand-div"));
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");

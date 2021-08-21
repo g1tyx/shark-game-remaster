@@ -1678,6 +1678,49 @@ button.planetButton {
     &.disabled {
         text-shadow: none;
     }
+    color: #fff;
+    border-color: @color-discovery-dark3;
+    background: @color-discovery-dark4;
+
+    &.minuteOn {
+        box-shadow: 0 0 4px @color-discovery;
+        border-color: @color-discovery-dark2;
+        background: @color-discovery-dark3;
+
+        &.power1 {
+            box-shadow: 0 0 6px lighten(@color-discovery, 5%);
+            border-color: @color-discovery-dark2;
+            background: lighten(@color-discovery-dark3, 5%);
+        }
+
+        &.power2 {
+            box-shadow: 0 0 6px lighten(@color-discovery, 5%);
+            border-color: @color-discovery-dark2;
+            background: lighten(@color-discovery-dark3, 10%);
+        }
+
+        &.power3 {
+            box-shadow: 0 0 7px lighten(@color-discovery, 10%);
+            border-color: @color-discovery-dark;
+            background: @color-discovery-dark2;
+        }
+
+        &.power4 {
+            box-shadow: 0 0 8px lighten(@color-discovery, 15%);
+            border-color: @color-discovery;
+            background: lighten(@color-discovery-dark2, 5%);
+        }
+
+        &.power5 {
+            box-shadow: 0 0 9px lighten(@color-discovery, 20%);
+            border-color: lighten(@color-discovery, 15%);
+            background: @color-discovery-dark;
+        }
+    }
+
+    &.disabled {
+        border-color: @color-discovery-dark4;
+    }
 }
 
 .minuteOn {
@@ -1721,14 +1764,69 @@ button.planetButton {
     box-shadow: 0 0 3em white;
 }
 
-.minuteHandMultiplierSelector {
-    padding: 0 3.5px;
-    border-radius: 5px;
-    min-width: 0;
-    margin: 1% 1%;
+#minute-hand-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#minute-hand-multipliers-div {
-    display: flex;
-    justify-content: center;
+#minute-slider {
+    --minuterotation: rotate(-45deg);
+    background: @color-discovery-dark4;
+    margin-top: 10px;
+    border-style: dashed;
+    border-color: @color-discovery-dark3;
+    margin-bottom: 8px;
+
+    &.power1 {
+        background: lighten(@color-discovery-dark4, 5%);
+        border-color: lighten(@color-discovery-dark3, 5%);
+        box-shadow: 0 0 6px @color-discovery-dark2;
+    }
+
+    &.power2 {
+        background: @color-discovery-dark3;
+        border-color: @color-discovery-dark2;
+        box-shadow: 0 0 8px @color-discovery;
+    }
+
+    &.power3 {
+        background: @color-discovery-dark2;
+        border-color: @color-discovery-dark;
+        box-shadow: 0 0 10px @color-discovery;
+    }
+
+    &.power4 {
+        background: @color-discovery-dark;
+        border-color: @color-discovery;
+        box-shadow: 0 0 12px @color-discovery;
+    }
+
+    &.power5 {
+        background: @color-discovery;
+        border-color: lighten(@color-discovery, 15%);
+        box-shadow: 0 0 15px @color-discovery;
+    }
+}
+
+#minute-slider::-webkit-slider-thumb {
+    background: url(../img/raw/aspect/theMinuteHandCentered.png);
+    width: 32px;
+    height: 32px;
+    border: 0px;
+    transform: var(--minuterotation);
+}
+
+#minute-slider::-moz-range-thumb {
+    background: url(../img/raw/aspect/theMinuteHandCentered.png);
+    width: 32px;
+    height: 32px;
+    border: 0px;
+    transform: var(--minuterotation);
+}
+
+#minute-time {
+    &.noTime {
+        color: #555;
+    }
 }

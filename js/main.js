@@ -367,6 +367,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             if (SharkGame.Settings.current.idleEnabled) {
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
+                SharkGame.persistentFlags.everIdled = true;
             } else {
                 main.processSimTime(secondsElapsed, true);
             }
@@ -516,6 +517,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             if (res.minuteHand.active) {
                 res.minuteHand.updateMinuteHand(elapsedTime);
+            }
+
+            if (res.minuteHand.updateRotationNextTick) {
+                document
+                    .getElementById("minute-slider")
+                    .style.setProperty("--minuterotation", "rotate(" + (45 * document.getElementById("minute-slider").value - 90) + "deg)");
+                res.minuteHand.updateRotationNextTick = false;
+                // wish i could do something about this but i dont know what to do really
             }
 
             // check if the sidebar needs to come back
