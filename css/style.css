@@ -1608,6 +1608,7 @@ button.planetButton:active {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 #minute-slider {
   --minuterotation: rotate(-45deg);
@@ -1658,4 +1659,7 @@ button.planetButton:active {
 }
 #minute-time.noTime {
   color: #555;
+}
+.front {
+  z-index: 13;
 }

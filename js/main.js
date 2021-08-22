@@ -487,6 +487,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             const elapsedTime = now - SharkGame.before;
             if (now - SharkGame.lastMouseActivity > SharkGame.idleThreshold) {
                 if ($("#idle-overlay").is(":hidden")) {
+                    $("#minute-hand-div").addClass("front");
                     $("#idle-overlay").show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.idleFadeTime);
                 }
                 const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.idleThreshold) / SharkGame.idleFadeTime, 1);
@@ -504,13 +505,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 if (!$("#idle-overlay").is(":hidden") && !SharkGame.idleTransitioning) {
                     $("#idle-overlay")
                         .stop(true)
-                        .animate({ opacity: 0 }, 500, () => {
+                        .animate({ opacity: 0 }, 1000, () => {
                             $("#idle-overlay").hide().stop(true);
                         });
                     SharkGame.idleTransitioning = true;
                 }
                 if ($("#idle-overlay").is(":hidden")) {
                     SharkGame.idleTransitioning = false;
+                    $("#minute-hand-div").removeClass("front");
                 }
                 res.idleMultiplier = 1;
             }
@@ -532,12 +534,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 main.showSidebarIfNeeded();
             }
 
-            if (elapsedTime > SharkGame.INTERVAL) {
-                // Compensate for lost time.
-                main.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
-            } else {
-                main.processSimTime(SharkGame.dt);
+            if (res.idleMultiplier !== 0) {
+                // skip income processing if it's not necessary
+                if (elapsedTime > SharkGame.INTERVAL) {
+                    // Compensate for lost time.
+                    main.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
+                } else {
+                    main.processSimTime(SharkGame.dt);
+                }
             }
+
             res.updateResourcesTable();
 
             const tabCode = SharkGame.Tabs[SharkGame.Tabs.current].code;
