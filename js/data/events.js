@@ -101,6 +101,23 @@ SharkGame.Events = {
             }
         },
     },
+    revealBuyButtons: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (world.worldType !== "start") {
+                return "remove";
+            }
+            if (res.getTotalResource("crab") > 3) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            SharkGame.flags.revealedBuyButtons = true;
+            SharkGame.TabHandler.setUpTab();
+        },
+    },
     remindAboutBuyMax: {
         handlingTime: "afterTick",
         priority: 0,
