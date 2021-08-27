@@ -538,13 +538,11 @@ SharkGame.Home = {
                 requirementsMet =
                     requirementsMet &&
                     _.every(extraMessage.unlock.resource, (requiredAmount, resourceId) => {
-                        requiredAmount *= extraMessage.scales ? main.getProgressionConstant() : 1;
                         return res.getResource(resourceId) >= requiredAmount;
                     });
                 requirementsMet =
                     requirementsMet &&
                     _.every(extraMessage.unlock.totalResource, (requiredAmount, resourceId) => {
-                        requiredAmount *= extraMessage.scales ? main.getProgressionConstant() : 1;
                         return res.getTotalResource(resourceId) >= requiredAmount;
                     });
                 requirementsMet =

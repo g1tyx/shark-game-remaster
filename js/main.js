@@ -163,20 +163,6 @@ $.extend(SharkGame, {
     },
 });
 
-/*
-            if (!SharkGame.persistentFlags.choseSpeed && !gateway.transitioning) {
-                SharkGame.PaneHandler.showSpeedSelection();
-            }
-            if (SharkGame.missingAspects && !gateway.transitioning) {
-                SharkGame.PaneHandler.showAspectWarning();
-            }
-
-            // if offline mode is enabled
-            // load existence in in-between state,
-            // else check for offline mode and process
-            
-            */
-
 SharkGame.Main = {
     tickHandler: -1,
     autosaveHandler: -1,
@@ -336,7 +322,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         // apply tick settings
         main.applyFramerate();
-        main.applyProgressionSpeed();
 
         // apply settings
         $.each(SharkGame.Settings, (settingId, settingData) => {
@@ -692,49 +677,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             res.rebuildTable = true;
             // flag sidebar as shown
             SharkGame.sidebarHidden = false;
-        }
-    },
-
-    applyProgressionSpeed() {
-        switch (world.worldType) {
-            case "frigid":
-                res.applyModifier("planetaryIncome", "ice", -world.worldResources.get("ice").income);
-                res.applyModifier("planetaryIncome", "ice", 1 / main.getProgressionConstant());
-                res.reapplyModifiers("heater", "ice");
-                break;
-            case "abandoned":
-                res.reapplyModifiers("crystalMiner", "tar");
-                res.reapplyModifiers("sandDigger", "tar");
-                res.reapplyModifiers("fishMachine", "tar");
-                res.reapplyModifiers("skimmer", "tar");
-                res.reapplyModifiers("clamCollector", "tar");
-                res.reapplyModifiers("sprongeSmelter", "tar");
-                res.reapplyModifiers("eggBrooder", "tar");
-                res.reapplyModifiers("filter", "tar");
-                break;
-        }
-    },
-
-    getProgressionConstant(alternative) {
-        switch (alternative) {
-            case "2-scale":
-                switch (SharkGame.Settings.current.gameSpeed) {
-                    case "Idle":
-                        return 2;
-                    case "Inactive":
-                        return 1.5;
-                    default:
-                        return 1;
-                }
-            default:
-                switch (SharkGame.Settings.current.gameSpeed) {
-                    case "Idle":
-                        return 4;
-                    case "Inactive":
-                        return 2;
-                    default:
-                        return 1;
-                }
         }
     },
 

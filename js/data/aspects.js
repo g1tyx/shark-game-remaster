@@ -166,10 +166,9 @@ SharkGame.Aspects = {
             return (level + 1) ** 2 + 1;
         },
         getEffect(level) {
-            const base = 20 * main.getProgressionConstant("2-scale");
             return (
                 "Start with <strong>" +
-                base * level ** 2 +
+                20 * level ** 2 +
                 "</strong> " +
                 sharktext.getResourceName("crab", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 ". If they do not exist, start with an equivalent."
@@ -182,7 +181,7 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "init" && res.getResource("crab") === 0 && !SharkGame.flags.pathOfTimeApplied) {
-                const base = 20 * main.getProgressionConstant("2-scale") * this.level ** 2;
+                const base = 20 * this.level ** 2;
                 switch (world.worldType) {
                     case "shrouded":
                         res.changeResource("diver", base * 0.5);
@@ -467,10 +466,9 @@ SharkGame.Aspects = {
             return 2 * level + 4;
         },
         getEffect(level) {
-            const base = 20 * main.getProgressionConstant("2-scale");
             return (
                 "Start with <strong>" +
-                base * level ** 2 +
+                20 * level ** 2 +
                 "</strong> " +
                 sharktext.getResourceName("crystal", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 ". If they do not exist, start with an equivalent."
@@ -483,7 +481,7 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "init" && res.getResource("crystal") === 0 && !SharkGame.flags.crystallineSkinApplied) {
-                const base = 20 * main.getProgressionConstant("2-scale") * this.level ** 2;
+                const base = 20 * this.level ** 2;
                 res.changeResource("crystal", base);
                 SharkGame.flags.crystallineSkinApplied = true;
             }
@@ -539,7 +537,7 @@ SharkGame.Aspects = {
             if (level === 1) {
                 return (
                     "If a research costs <strong>" +
-                    150 * main.getProgressionConstant() +
+                    150 +
                     "</strong> " +
                     sharktext.getResourceName("science", false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     " or less, then its science cost is halved."
@@ -547,7 +545,7 @@ SharkGame.Aspects = {
             } else {
                 return (
                     "If a research costs <strong>" +
-                    150 * main.getProgressionConstant() +
+                    150 +
                     "</strong> " +
                     sharktext.getResourceName("science", false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     " or less, then all its costs are halved."

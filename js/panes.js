@@ -391,47 +391,6 @@ SharkGame.PaneHandler = {
         SharkGame.PaneHandler.addPaneToStack("Help", helpDiv);
     },
 
-    showSpeedSelection() {
-        const speedDiv = $("<div>");
-        const buttonContainer = $("<div class='speedButtons'>");
-        speedDiv.append(buttonContainer.addClass("paneContentDiv"));
-        /*         SharkGame.Button.makeButton(
-            "slowSpeed",
-            "<h class='bigSpeedHeader'><strong>IDLE</strong></h><br><br><br><br>Much slower.<br><br><br>Good to have on in the <strong>background</strong>.",
-            buttonContainer,
-            () => {
-                SharkGame.Settings.current.gameSpeed = "Idle";
-                main.applyProgressionSpeed();
-                SharkGame.PaneHandler.nextPaneInStack();
-                SharkGame.persistentFlags.choseSpeed = true;
-            }
-        ); */
-        SharkGame.Button.makeButton(
-            "medSpeed",
-            "<h class='bigSpeedHeader'><strong>INACTIVE</strong></h><br><br><br>Even-paced.<br><br><br>The better choice if you <strong>don't</strong> give the game your <strong>full attention</strong>.<br>",
-            buttonContainer,
-            () => {
-                SharkGame.Settings.current.gameSpeed = "Inactive";
-                main.applyProgressionSpeed();
-                SharkGame.PaneHandler.nextPaneInStack();
-                SharkGame.persistentFlags.choseSpeed = true;
-            }
-        );
-        SharkGame.Button.makeButton(
-            "highSpeed",
-            "<h class='bigSpeedHeader'><strong>ACTIVE</strong></h><br><br><br>Fast-paced.<br><br><br><br>Good if you give the game your <strong>full attention</strong>.",
-            buttonContainer,
-            () => {
-                SharkGame.Settings.current.gameSpeed = "Active";
-                main.applyProgressionSpeed();
-                SharkGame.PaneHandler.nextPaneInStack();
-                SharkGame.persistentFlags.choseSpeed = true;
-            }
-        );
-        speedDiv.append($("<p>").html("You can change playstyle at any time."));
-        this.addPaneToStack("Choose Playstyle", speedDiv, true);
-    },
-
     showAspectWarning() {
         const aspectWarnDiv = $("<div>");
         aspectWarnDiv.append(

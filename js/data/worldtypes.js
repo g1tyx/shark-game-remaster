@@ -303,9 +303,7 @@ SharkGame.WorldTypes = {
                 type: "multiplier",
                 modifier: "planetaryIncome",
                 resource: "ice",
-                get amount() {
-                    return 1 / main.getProgressionConstant();
-                },
+                amount: 1,
             },
         ],
         gateRequirements: {

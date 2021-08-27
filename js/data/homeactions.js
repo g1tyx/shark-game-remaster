@@ -2513,30 +2513,12 @@ SharkGame.HomeActions = {
                 {
                     resource: "whale",
                     costFunction: "unique",
-                    get priceIncrease() {
-                        switch (SharkGame.Settings.current.gameSpeed) {
-                            default:
-                                return 3000;
-                            case "Inactive":
-                                return 4500;
-                            case "Idle":
-                                return 6000;
-                        }
-                    },
+                    priceIncrease: 3000,
                 },
                 {
                     resource: "dolphin",
                     costFunction: "unique",
-                    get priceIncrease() {
-                        switch (SharkGame.Settings.current.gameSpeed) {
-                            default:
-                                return 100000;
-                            case "Inactive":
-                                return 200000;
-                            case "Idle":
-                                return 500000;
-                        }
-                    },
+                    priceIncrease: 100000,
                 },
             ],
             max: "chorus",

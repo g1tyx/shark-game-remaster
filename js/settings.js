@@ -258,17 +258,6 @@ SharkGame.Settings = {
         options: [true, false],
     },
 
-    gameSpeed: {
-        defaultSetting: "Active",
-        name: "Playstyle",
-        desc: "How you prefer the game. It will adjust to fit your choice.",
-        category: "OTHER",
-        options: ["Inactive", "Active"],
-        onChange() {
-            main.applyProgressionSpeed();
-        },
-    },
-
     updateCheck: {
         defaultSetting: true,
         name: "Check for updates",

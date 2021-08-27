@@ -291,9 +291,7 @@ SharkGame.ResourceTable = {
         income: {
             crystal: 100,
             //stone: 10,
-            get tar() {
-                return 0.04 / main.getProgressionConstant();
-            },
+            tar: 0.04,
         },
         value: 33500, //100 crystal 100 sand 25 sharkonium (3550)
     },
@@ -305,9 +303,7 @@ SharkGame.ResourceTable = {
         color: "#D6CF9F",
         income: {
             sand: 200,
-            get tar() {
-                return 0.02 / main.getProgressionConstant();
-            },
+            tar: 0.02,
         },
         value: 120000, //500 sand 150 sharkonium (12000)
     },
@@ -332,9 +328,7 @@ SharkGame.ResourceTable = {
         color: "#C9C7A7",
         income: {
             fish: 400,
-            get tar() {
-                return 0.02 / main.getProgressionConstant();
-            },
+            tar: 0.02,
         },
         value: 70000, //100 sharkonium (7000)
     },
@@ -348,9 +342,7 @@ SharkGame.ResourceTable = {
             junk: 750,
             sand: -50,
             fish: -300,
-            get tar() {
-                return 0.02 / main.getProgressionConstant();
-            },
+            tar: 0.02,
         },
         value: 50000,
     },
@@ -752,9 +744,7 @@ SharkGame.ResourceTable = {
         color: "#727887",
         income: {
             clam: 300,
-            get tar() {
-                return 0.2 / main.getProgressionConstant();
-            },
+            tar: 0.2,
         },
         value: 50000,
     },
@@ -768,9 +758,7 @@ SharkGame.ResourceTable = {
             spronge: 45,
             sponge: -75,
             junk: -225,
-            get tar() {
-                return 0.04 / main.getProgressionConstant();
-            },
+            tar: 0.04,
         },
         value: 50000,
     },
@@ -782,9 +770,7 @@ SharkGame.ResourceTable = {
         color: "#836E5F",
         income: {
             octopus: 1,
-            get tar() {
-                return 0.2 / main.getProgressionConstant();
-            },
+            tar: 0.2,
         },
         value: 50000,
     },
@@ -855,9 +841,7 @@ SharkGame.ResourceTable = {
         desc: "The solution to our mistakes.",
         color: "#FFC89C",
         income: {
-            get tar() {
-                return -0.01 / main.getProgressionConstant();
-            },
+            tar: -0.01,
         },
         value: 1000,
         forceIncome: true,
@@ -933,9 +917,7 @@ SharkGame.ResourceTable = {
         color: "#D13F32",
         income: {
             kelp: -500,
-            get ice() {
-                return -0.02 / main.getProgressionConstant();
-            },
+            ice: -0.02,
         },
         value: 50000,
     },
