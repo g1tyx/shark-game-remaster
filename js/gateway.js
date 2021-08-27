@@ -292,12 +292,15 @@ SharkGame.Gateway = {
 
     confirmWorld() {
         const selectedWorldData = SharkGame.WorldTypes[gateway.selectedWorld];
+        const seenWorldYet = gateway.completedWorlds.includes(gateway.selectedWorld);
 
         // construct the gateway content
-        const gatewayContent = $("<div>").append($("<p>").html("Travel to the " + selectedWorldData.name + " World?"));
+        const gatewayContent = $("<div>").append(
+            $("<p>").html((seenWorldYet ? "Travel to the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
+        );
 
         // add world image
-        const spritename = "planets/" + gateway.selectedWorld;
+        const spritename = seenWorldYet ? "planets/" + gateway.selectedWorld : "planets/missing";
         const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "planets/missing");
         if (iconDiv) {
             iconDiv.addClass("planetDisplay");
@@ -400,12 +403,13 @@ SharkGame.Gateway = {
         _.each(gateway.planetPool, (planetData) => {
             const buttonSel = $("#planet-" + planetData.type);
             if (buttonSel.length > 0) {
+                const seenWorldYet = gateway.completedWorlds.includes(planetData.type);
                 const deeperPlanetData = SharkGame.WorldTypes[planetData.type];
-                const label = sharktext.boldString(deeperPlanetData.name) + "<br>" + deeperPlanetData.desc;
+                const label = sharktext.boldString(seenWorldYet ? deeperPlanetData.name : "???") + "<br>" + deeperPlanetData.desc;
 
                 buttonSel.html(label);
 
-                const spritename = "planets/" + planetData.type;
+                const spritename = seenWorldYet ? "planets/" + planetData.type : "planets/missing";
                 if (SharkGame.Settings.current.showIcons) {
                     const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "planets/missing");
                     if (iconDiv) {
@@ -451,6 +455,7 @@ SharkGame.Gateway = {
 
     showPlanetAttributes(worldData, contentDiv) {
         /* eslint-disable no-fallthrough */
+        contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
         switch (SharkGame.Aspects.pathOfEnlightenment.level) {
             case 1:
                 if (worldData.foresight.missing.length > 0) {
@@ -513,7 +518,6 @@ SharkGame.Gateway = {
                 } else {
                     contentDiv.prepend($("<p>").html("NO KNOWN ATTRIBUTES"));
                 }
-                contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
         }
         /* eslint-enable no-fallthrough */
     },

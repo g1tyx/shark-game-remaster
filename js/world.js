@@ -100,4 +100,18 @@ SharkGame.World = {
     getGateCostMultiplier() {
         return 1;
     },
+
+    isScoutingMission() {
+        if (SharkGame.flags.scouting) {
+            return true;
+        }
+
+        // if this is NOT marked as a scouting mission, make sure that's accurate
+        // (but if it IS marked as a scouting mission, we don't care if that's accurate, just blindly accept)
+        if (!gateway.completedWorlds.includes(world.worldType)) {
+            // this should be a scouting mission
+            SharkGame.flags.scouting = true;
+        }
+        return SharkGame.flags.scouting;
+    },
 };
