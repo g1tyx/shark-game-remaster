@@ -813,7 +813,7 @@ SharkGame.Resources = {
 
         init() {
             if (typeof SharkGame.flags.minuteHandTimer !== "number") {
-                SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
+                SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
             }
             if (!SharkGame.persistentFlags.selectedMultiplier) {
                 SharkGame.persistentFlags.selectedMultiplier = 2;
