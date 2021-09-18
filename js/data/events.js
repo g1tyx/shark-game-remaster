@@ -140,4 +140,15 @@ SharkGame.Events = {
             return true;
         },
     },
+    aspectRefresh: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "trigger";
+        },
+        trigger() {
+            res.reapplyModifiers("aspectAffect", "crystal");
+            return true;
+        },
+    },
 };

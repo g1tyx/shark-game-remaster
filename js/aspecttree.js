@@ -107,6 +107,9 @@ SharkGame.AspectTree = {
             });
         }
         tree.applyAspects();
+
+        res.setResource("aspectAffect", 1);
+        res.setTotalResource("aspectAffect", 1);
     },
 
     /* // now that we're done loading the levels, try to refund deprecated aspects

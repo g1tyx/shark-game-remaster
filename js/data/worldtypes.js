@@ -31,7 +31,7 @@ SharkGame.WorldTypes = {
         },
         entry: "You enter a familiar blue sea, all your previous knowledge a dim memory.",
         style: "default",
-        includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence", "world"],
+        includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence", "world", "aspectAffect"],
         modifiers: [],
         // initial gate cost, scaled by planetary level
         gateRequirements: {
@@ -68,6 +68,7 @@ SharkGame.WorldTypes = {
             "sharkmachines",
             "clam",
             "lobstermachines",
+            "aspectAffect",
         ],
         absentResources: ["laser"],
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 2 }],
@@ -109,6 +110,7 @@ SharkGame.WorldTypes = {
             "chorus",
             "essence",
             "world",
+            "aspectAffect",
         ],
         absentResources: ["laser"],
         modifiers: [
@@ -231,6 +233,7 @@ SharkGame.WorldTypes = {
             "filter",
             "ancientPart",
             "world",
+            "aspectAffect",
         ],
         absentResources: ["kelp", "seaApple", "planter"],
         modifiers: [
@@ -270,6 +273,7 @@ SharkGame.WorldTypes = {
             "scholar",
             "jellyfish",
             "sacrifice",
+            "aspectAffect",
         ],
         absentResources: ["laser"],
         modifiers: [{ type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "scientist", amount: 1 }],
@@ -297,7 +301,20 @@ SharkGame.WorldTypes = {
         },
         entry: "The arctic water freezes away whatever thoughts you may have had. So cold.",
         style: "frigid",
-        includedResources: ["sharks", "crabs", "squids", "urchins", "basicmaterials", "kelp", "sharkmachines", "ice", "heater", "essence", "world"],
+        includedResources: [
+            "sharks",
+            "crabs",
+            "squids",
+            "urchins",
+            "basicmaterials",
+            "kelp",
+            "sharkmachines",
+            "ice",
+            "heater",
+            "essence",
+            "world",
+            "aspectAffect",
+        ],
         modifiers: [
             {
                 type: "multiplier",

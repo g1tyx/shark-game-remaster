@@ -428,7 +428,7 @@ SharkGame.Resources = {
 
     haveAnyResources() {
         for (const [resourceName, resource] of SharkGame.PlayerResources) {
-            if (resourceName === "world") continue;
+            if (resourceName === "world" || resourceName === "aspectAffect") continue;
             if (resource.totalAmount > 0) return true;
         }
         return false;
@@ -1199,14 +1199,18 @@ SharkGame.Resources = {
                 if (amount > 0) {
                     producertext += "<br>";
                     producertext +=
-                        (which === "world" ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (which === "world" || which === "aspectAffect"
+                            ? ""
+                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(amount).bold();
                 } else if (amount < 0) {
                     consumertext += "<br>";
                     consumertext +=
-                        (which === "world" ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (which === "world" || which === "aspectAffect"
+                            ? ""
+                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(-amount).bold();

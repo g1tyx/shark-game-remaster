@@ -506,13 +506,6 @@ SharkGame.Aspects = {
         clicked(_event) {
             tree.increaseLevel(this);
         },
-        apply(when) {
-            if (when === "init" && res.getResource("crystal") === 0 && !SharkGame.flags.crystallineSkinApplied) {
-                const base = 20 * this.level ** 2;
-                res.changeResource("crystal", base);
-                SharkGame.flags.crystallineSkinApplied = true;
-            }
-        },
     },
     /*     keenEyesight: {
         posX: 0,

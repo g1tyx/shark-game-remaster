@@ -27,6 +27,23 @@ SharkGame.ResourceTable = {
         forceIncome: true,
     },
 
+    aspectAffect: {
+        name: "aspects",
+        singleName: "aspects",
+        desc: "what",
+        income: {
+            get crystal() {
+                if (SharkGame.Aspects.crystallineSkin.level) {
+                    const crystalAmount = res.getResource("crystal");
+                    if (crystalAmount < 25 * SharkGame.Aspects.crystallineSkin.level ** 2) {
+                        return (25 * SharkGame.Aspects.crystallineSkin.level ** 2 - crystalAmount) / 2;
+                    }
+                }
+                return 0;
+            },
+        },
+    },
+
     // MAGICAL
 
     sacrifice: {
@@ -1323,7 +1340,7 @@ SharkGame.ResourceCategories = {
     hidden: {
         name: "Hidden",
         disposeMessage: ["Bad player! Stop it!"],
-        resources: ["world", "sacrifice"],
+        resources: ["world", "sacrifice", "aspectAffect"],
     },
 };
 
