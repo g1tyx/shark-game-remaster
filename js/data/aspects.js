@@ -401,6 +401,13 @@ SharkGame.Aspects = {
         clicked(_event) {
             tree.increaseLevel(this);
         },
+        apply(when) {
+            if (when === "init") {
+                _.each(SharkGame.ResourceCategories.breeders.resources, (breeder) => {
+                    res.applyModifier("constructedConception", breeder, this.level + 1);
+                });
+            }
+        },
     },
     destinyGamble: {
         posX: 300,
