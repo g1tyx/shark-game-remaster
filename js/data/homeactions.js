@@ -1473,7 +1473,13 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
+                {
+                    resource: "crystal",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
             ],
             max: "autoTransmuter",
@@ -1508,7 +1514,13 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "junk", costFunction: "linear", priceIncrease: 400 },
+                {
+                    resource: "junk",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 400 - 200 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 200 },
             ],
             max: "skimmer",
@@ -1841,8 +1853,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "sponge", costFunction: "constant", get priceIncrease() { return 5 - SharkGame.syntheticTransmutation.level } },
-                { resource: "junk", costFunction: "constant", get priceIncrease() { return 15 - 3 * SharkGame.syntheticTransmutation.level } },
+                {
+                    resource: "sponge",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "junk",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 15 - 3 * SharkGame.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "spronge",
             prereq: {
@@ -1867,8 +1891,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "constant", get priceIncrease() { return 100 - 20 * SharkGame.syntheticTransmutation.level } },
-                { resource: "clam", costFunction: "constant", get priceIncrease() { return 300 - 60 * SharkGame.syntheticTransmutation.level } },
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 100 - 20 * SharkGame.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "clam",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 300 - 60 * SharkGame.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "ancientPart",
             prereq: {
@@ -2236,8 +2272,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "coral", costFunction: "constant", get priceIncrease() { return 15 - 3 * SharkGame.syntheticTransmutation.level } },
-                { resource: "crystal", costFunction: "constant", get priceIncrease() { return 5 - SharkGame.syntheticTransmutation.level } },
+                {
+                    resource: "coral",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 15 - 3 * SharkGame.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "delphinium",
             prereq: {
@@ -2562,7 +2610,13 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "delphinium", costFunction: "linear", priceIncrease: 75 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 300 },
+                {
+                    resource: "coral",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 300 - 150 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "crimsonCombine",
             prereq: {
@@ -2594,7 +2648,13 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "delphinium", costFunction: "linear", priceIncrease: 100 },
-                { resource: "seaApple", costFunction: "linear", priceIncrease: 25 },
+                {
+                    resource: "seaApple",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 25 - 12.5 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "kelpCultivator",
             prereq: {
@@ -2625,8 +2685,20 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "delphinium", costFunction: "linear", priceIncrease: 100 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 100 },
+                {
+                    resource: "crystal",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
+                {
+                    resource: "coral",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "tirelessCrafter",
             prereq: {
@@ -2871,7 +2943,13 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 750 },
+                {
+                    resource: "kelp",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 750 - 375 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "heater",
             prereq: {
@@ -3489,127 +3567,11 @@ SharkGame.HomeActions = {
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
 
-        getCrystalMiner: {
-            name: "Build crystal miner",
-            effect: {
-                resource: {
-                    crystalMiner: 1,
-                },
-            },
-            cost: [
-                {
-                    resource: "crystal",
-                    costFunction: "linear",
-                    get priceIncrease() {
-                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
-                    },
-                },
-                {
-                    resource: "sand",
-                    costFunction: "linear",
-                    get priceIncrease() {
-                        return 200 - 100 * SharkGame.Aspects.amorphousAssembly.level;
-                    },
-                },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 25 },
-            ],
-            max: "crystalMiner",
-            prereq: {
-                resource: {
-                    sharkonium: 25,
-                },
-                upgrade: ["automation"],
-            },
-            outcomes: [
-                "Crystal miner activated.",
-                "Crystal miner constructed.",
-                "Mining machine online.",
-                "Construction complete.",
-                "Carve rock. Remove sand. Retrieve target.",
-            ],
-            multiOutcomes: [
-                "The machines rise.",
-                "The miners dig.",
-                "The crystal shall be harvested.",
-                "Crystal miners are complete.",
-            ],
-            helpText: "Construct a machine to automatically harvest crystals efficiently.",
-        },
+        getCrystalMiner: {},
 
-        getSandDigger: {
-            name: "Build sand digger",
-            effect: {
-                resource: {
-                    sandDigger: 1,
-                },
-            },
-            cost: [
-                {
-                    resource: "sand",
-                    costFunction: "linear",
-                    get priceIncrease() {
-                        return 500 - 250 * SharkGame.Aspects.amorphousAssembly.level;
-                    },
-                },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 150 },
-            ],
-            max: "sandDigger",
-            prereq: {
-                resource: {
-                    sharkonium: 150,
-                },
-                upgrade: ["automation"],
-            },
-            outcomes: [
-                "Sand digger constructed.",
-                "Sand digger reaches into the seabed.",
-                "The digger begins to shuffle sand into its machine maw. Rays dart away.",
-                "The machine is online.",
-                "The machine acts immediately, shovelling sand.",
-            ],
-            multiOutcomes: [
-                "The machines increase in number.",
-                "The diggers devour.",
-                "All sand must be gathered.",
-                "The rays are concerned.",
-                "Devour the sands. Consume.",
-                "Giant machines blot out our sun.",
-            ],
-            helpText: "Construct a machine to automatically dig up sand efficiently.",
-        },
+        getSandDigger: {},
 
-        getFishMachine: {
-            name: "Build fish machine",
-            effect: {
-                resource: {
-                    fishMachine: 1,
-                },
-            },
-            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 100 }],
-            max: "fishMachine",
-            prereq: {
-                resource: {
-                    sharkonium: 100,
-                },
-                upgrade: ["automation"],
-            },
-            outcomes: [
-                "Fish machine activated.",
-                "Fish machine constructed.",
-                "Fishing machine online.",
-                "Construction complete.",
-                "The quarry moves. But the machine is faster.",
-            ],
-            multiOutcomes: [
-                "One day there will be no fish left. Only the machines.",
-                "Today the shark is flesh. Tomorrow, machine.",
-                "Your metal servants can sate the hunger. The hunger for fish.",
-                "The fishing machines are more efficient than the sharks. But they aren't very smart.",
-                "Automated fishing.",
-                "The power of many, many sharks, in many, many devices.",
-            ],
-            helpText: "Construct a machine to automatically gather fish efficiently.",
-        },
+        getFishMachine: {},
     },
     marine: {
         catchFish: {},
@@ -3758,8 +3720,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "clam", costFunction: "constant", get priceIncrease() { return 15 - 3 * SharkGame.syntheticTransmutation.level } },
-                { resource: "crystal", costFunction: "constant", get priceIncrease() { return 5 - SharkGame.syntheticTransmutation.level } },
+                {
+                    resource: "clam",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 15 - 3 * SharkGame.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "calcinium",
             prereq: {

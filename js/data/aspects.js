@@ -82,7 +82,7 @@ SharkGame.Aspects = {
                 res.applyModifier("pathOfIndustry", "skimmer", this.level + 1);
                 res.applyModifier("pathOfIndustry", "autoTransmuter", this.level + 1);
             }
-        }
+        },
     },
     tokenOfIndustry: {
         posX: 200,
@@ -187,7 +187,17 @@ SharkGame.Aspects = {
             return (level + 2) ** 2;
         },
         getEffect(level) {
-            return "Gain nothing now. Every time a world is completed, gain " + level + " " + sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color") + " in addition to usual rewards.");
+            return (
+                "Gain nothing now. Every time a world is completed, gain " +
+                level +
+                " " +
+                sharktext.getResourceName(
+                    "essence",
+                    false,
+                    69,
+                    sharkcolor.getElementColor("tooltipbox", "background-color") + " in addition to usual rewards."
+                )
+            );
         },
         getUnlocked() {},
         prerequisites: ["meditation"],
@@ -296,7 +306,7 @@ SharkGame.Aspects = {
             return 4 + 5 * level;
         },
         getEffect(level) {
-            return "All machines have non-artificial-material costs reduced by <strong>" + (50 * level) + "%</strong>.";
+            return "All machines have non-artificial-material costs reduced by <strong>" + 50 * level + "%</strong>.";
         },
         getUnlocked() {},
         prerequisites: ["syntheticTransmutation"],
@@ -318,7 +328,7 @@ SharkGame.Aspects = {
             return 2 + 5 * level;
         },
         getEffect(level) {
-            return "Reduce how much machines making artificial materials consume by <strong>" + (50 * level) + "%</strong>."
+            return "Reduce how much machines making artificial materials consume by <strong>" + 50 * level + "%</strong>.";
         },
         getUnlocked() {},
         prerequisites: ["syntheticTransmutation"],
@@ -384,7 +394,7 @@ SharkGame.Aspects = {
             return 2 * level + 4;
         },
         getEffect(level) {
-            return "All breeders are <strong>" + (2 ** level) + "x</strong> faster.";
+            return "All breeders are <strong>" + 2 ** level + "x</strong> faster.";
         },
         getUnlocked() {},
         prerequisites: ["thePlan"],

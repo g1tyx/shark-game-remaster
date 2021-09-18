@@ -125,7 +125,9 @@ SharkGame.Gateway = {
         if (patienceReward > 0) {
             gatewayContent.append(
                 $("<p>").html(
-                    "Your patience pays off, granting you <span class='essenceCount'>" + sharktext.beautify(patienceReward) + "</span> additional essence."
+                    "Your patience pays off, granting you <span class='essenceCount'>" +
+                        sharktext.beautify(patienceReward) +
+                        "</span> additional essence."
                 )
             );
         }
