@@ -723,7 +723,7 @@ SharkGame.Resources = {
         },
 
         applyTokenEffect(targetId, _id, reverseOrApply = "apply") {
-            const multiplier = SharkGame.Aspects.coordinatedCooperation.level + 2;
+            const multiplier = (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1);
             if (targetId === "NA" || targetId.includes("token")) {
                 return;
             } else if (targetId.includes("resource")) {
