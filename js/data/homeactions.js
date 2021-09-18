@@ -1863,14 +1863,14 @@ SharkGame.HomeActions = {
                     resource: "sponge",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 5 - SharkGame.syntheticTransmutation.level;
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
                 {
                     resource: "junk",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 15 - 3 * SharkGame.syntheticTransmutation.level;
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
             ],
@@ -1901,14 +1901,14 @@ SharkGame.HomeActions = {
                     resource: "crystal",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 100 - 20 * SharkGame.syntheticTransmutation.level;
+                        return 100 - 20 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
                 {
                     resource: "clam",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 300 - 60 * SharkGame.syntheticTransmutation.level;
+                        return 300 - 60 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
             ],
@@ -2282,14 +2282,14 @@ SharkGame.HomeActions = {
                     resource: "coral",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 15 - 3 * SharkGame.syntheticTransmutation.level;
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
                 {
                     resource: "crystal",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 5 - SharkGame.syntheticTransmutation.level;
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
             ],
@@ -3730,14 +3730,14 @@ SharkGame.HomeActions = {
                     resource: "clam",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 15 - 3 * SharkGame.syntheticTransmutation.level;
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
                 {
                     resource: "crystal",
                     costFunction: "constant",
                     get priceIncrease() {
-                        return 5 - SharkGame.syntheticTransmutation.level;
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
             ],

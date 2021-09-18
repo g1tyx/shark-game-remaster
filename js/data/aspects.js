@@ -546,7 +546,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 2,
+        max: 5,
         level: 0,
         name: "Internal Calculator",
         description: "The octopuses could always manifest the rational from the confusing. Master their efficiency inside your own mind.",
@@ -565,7 +565,7 @@ SharkGame.Aspects = {
             } else {
                 return (
                     "If a research costs <strong>" +
-                    150 +
+                    150 * (level - 1) ** 2 +
                     "</strong> " +
                     sharktext.getResourceName("science", false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     " or less, then all its costs are halved."

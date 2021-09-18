@@ -35,12 +35,20 @@ SharkGame.Upgrades = {
 
         // apply effect of internal calculator aspect if indeed applicable
         // would use getters but there would be too many getters to be reasonable
-        if (data.cost && data.cost.science && data.cost.science <= 150) {
+        let theThing = 150;
+        if (SharkGame.Aspects.internalCalculator.level > 1) {
+            theThing = 150 * (SharkGame.Aspects.internalCalculator.level - 1) ** 2;
+        }
+
+        if (data.cost && data.cost.science && data.cost.science <= theThing) {
             switch (SharkGame.Aspects.internalCalculator.level) {
+                case 0:
+                    // haha nothing
+                    break;
                 case 1:
                     data.cost.science *= 0.5;
                     break;
-                case 2:
+                default:
                     $.each(data.cost, (resource) => {
                         data.cost[resource] *= 0.5;
                     });
