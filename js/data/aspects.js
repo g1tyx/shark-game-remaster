@@ -342,7 +342,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 3,
+        max: 4,
         level: 0,
         name: "The Plan",
         description: "Professionals have standards. Be polite, be efficient, and have a plan to recruit everyone you meet.",

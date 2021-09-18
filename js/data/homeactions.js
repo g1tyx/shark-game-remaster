@@ -34,6 +34,12 @@ SharkGame.HomeActions = {
             });
         }
 
+        if (home.getActionCategory(actionName) === "frenzy") {
+            _.each(data.cost, (costData) => {
+                costData.priceIncrease *= 0.5 ** SharkGame.Aspects.thePlan.level;
+            });
+        }
+
         return data;
     },
 
