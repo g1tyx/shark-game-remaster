@@ -314,8 +314,12 @@ SharkGame.ResourceTable = {
         desc: "Mystic processes automated.",
         color: "#B5A7D1",
         income: {
-            crystal: -90,
-            sand: -250,
+            get crystal() {
+                return -90 + 45 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
+            get sand() {
+                return -250 + 125 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
             sharkonium: 20,
         },
         value: 155000, //100 crystal 200 sharkonium (15500)
@@ -340,8 +344,12 @@ SharkGame.ResourceTable = {
         color: "#8D4863",
         income: {
             junk: 750,
-            sand: -50,
-            fish: -300,
+            get sand() {
+                return -50 + 25 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
+            get fish() {
+                return -300 + 150 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
             tar: 0.02,
         },
         value: 50000,
@@ -406,8 +414,12 @@ SharkGame.ResourceTable = {
         desc: "",
         color: "#836E5F",
         income: {
-            crystal: 100,
-            clam: -300,
+            get crystal() {
+                return -100 + 50 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
+            get clam() {
+                return -300 + 150 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
             calcinium: 30,
         },
         value: 20000, // remember to set this value
@@ -593,8 +605,12 @@ SharkGame.ResourceTable = {
         color: "#9AEBCF",
         income: {
             delphinium: 15,
-            coral: -150,
-            crystal: -50,
+            get coral() {
+                return -150 + 75 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
+            get crystal() {
+                return -50 + 25 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
         },
         value: 50000,
     },
@@ -756,8 +772,12 @@ SharkGame.ResourceTable = {
         color: "#76614C",
         income: {
             spronge: 45,
-            sponge: -75,
-            junk: -225,
+            get sponge() {
+                return -75 + 32.5 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
+            get junk() {
+                return -225 + 112.5 * SharkGame.Aspects.mechanicalManifestation.level;
+            },
             tar: 0.04,
         },
         value: 50000,
