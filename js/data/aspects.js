@@ -58,9 +58,9 @@ SharkGame.Aspects = {
         },
         getEffect(level) {
             return (
-                "Multiply the income of " +
+                "Multiply the efficiency of " +
                 sharktext.getResourceName("shark", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                ", their jobs, and their machines by <strong>" +
+                ", their jobs, and their fundamental machines by <strong>" +
                 (level + 1) +
                 "x</strong>."
             );
@@ -70,6 +70,19 @@ SharkGame.Aspects = {
         clicked(_event) {
             tree.increaseLevel(this);
         },
+        apply(when) {
+            if (when === "init") {
+                res.applyModifier("pathOfIndustry", "shark", this.level + 1);
+                res.applyModifier("pathOfIndustry", "diver", this.level + 1);
+                res.applyModifier("pathOfIndustry", "scientist", this.level + 1);
+                res.applyModifier("pathOfIndustry", "fishMachine", this.level + 1);
+                res.applyModifier("pathOfIndustry", "crystalMiner", this.level + 1);
+                res.applyModifier("pathOfIndustry", "sandDigger", this.level + 1);
+                res.applyModifier("pathOfIndustry", "nurse", this.level + 1);
+                res.applyModifier("pathOfIndustry", "skimmer", this.level + 1);
+                res.applyModifier("pathOfIndustry", "autoTransmuter", this.level + 1);
+            }
+        }
     },
     tokenOfIndustry: {
         posX: 200,
@@ -164,13 +177,8 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        get max() {
-            if (SharkGame.persistentFlags.patience) {
-                return this.level;
-            } else {
-                return this.level + 1;
-            }
-        },
+        // need to give out patience rewards to those who had pending patience
+        max: 5,
         level: 0,
         name: "Patience",
         description: "They say that good things come to those who wait.",
@@ -179,28 +187,12 @@ SharkGame.Aspects = {
             return (level + 2) ** 2;
         },
         getEffect(level) {
-            if (SharkGame.persistentFlags.patience) {
-                return (
-                    "Gain nothing now. After beating " +
-                    SharkGame.persistentFlags.patience +
-                    " more world" +
-                    (SharkGame.persistentFlags.patience > 1 ? "s" : "") +
-                    ", gain <strong>" +
-                    2 * (level + 1) ** 2 +
-                    " essence</strong>."
-                );
-            }
-            return "Gain nothing now. After beating 3 more worlds, gain <strong>" + 2 * (level + 1) ** 2 + "</strong> essence.";
+            return "Gain nothing now. Every time a world is completed, gain " + level + " " + sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color") + " in addition to usual rewards.");
         },
         getUnlocked() {},
         prerequisites: ["meditation"],
         clicked(_event) {
             tree.increaseLevel(this);
-        },
-        apply(when) {
-            if (when === "levelUp") {
-                SharkGame.persistentFlags.patience = 3;
-            }
         },
     },
     pathOfTime: {
@@ -277,12 +269,12 @@ SharkGame.Aspects = {
         max: 3,
         level: 0,
         name: "Synthetic Transmutation",
-        description: "Sharkonium is naturally unaffected by small impurities. Perhaps we can cheat a little.",
+        description: "Surely, our materials don't need to be 100% pure. Surely.",
         getCost(level) {
-            return 2 * level + 4;
+            return 2 * level + 3;
         },
         getEffect(level) {
-            return "Sharkonium is <strong>" + 20 * level + "%</strong> cheaper to produce.";
+            return "Artificial materials are <strong>" + 20 * level + "%</strong> cheaper to produce manually.";
         },
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
@@ -296,22 +288,37 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 1,
+        max: 2,
         level: 0,
         name: "Amorphous Assembly",
         description: "Machines that make use of similar components are better machines.",
-        getCost(_level) {
-            return 7;
+        getCost(level) {
+            return 4 + 5 * level;
         },
-        getEffect(_level) {
-            return (
-                sharktext.getResourceName("crystalMiner", false, 2, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                " and " +
-                sharktext.getResourceName("sandDigger", false, 2, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                " have non-" +
-                sharktext.getResourceName("sharkonium", false, 2, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                " costs reduced by <strong>half</strong>."
-            );
+        getEffect(level) {
+            return "All machines have non-artificial-material costs reduced by <strong>" + (50 * level) + "%</strong>.";
+        },
+        getUnlocked() {},
+        prerequisites: ["syntheticTransmutation"],
+        clicked(_event) {
+            tree.increaseLevel(this);
+        },
+    },
+    mechanicalManifestation: {
+        posX: 630,
+        posY: 510,
+        width: 40,
+        height: 40,
+
+        max: 2,
+        level: 0,
+        name: "Mechanical Manifestation",
+        description: ".",
+        getCost(level) {
+            return 2 + 5 * level;
+        },
+        getEffect(level) {
+            return "Reduce how much machines making artificial materials consume by <strong>" + (50 * level) + "%</strong>."
         },
         getUnlocked() {},
         prerequisites: ["syntheticTransmutation"],
@@ -342,17 +349,17 @@ SharkGame.Aspects = {
         },
     },
     collectiveCooperation: {
-        posX: 625,
-        posY: 475,
+        posX: 675,
+        posY: 425,
         width: 40,
         height: 40,
 
         max: 5,
         level: 0,
         name: "Collective Cooperation",
-        description: "",
+        description: "Direct your frenzy. Learn to control them.",
         getCost(level) {
-            return 2 * level + 4;
+            return 3 * level + 5;
         },
         getEffect(level) {
             return "The effect from tokens of industry is <strong>" + (level + 1) + "x</strong> stronger.";
@@ -369,15 +376,15 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 3,
+        max: 7,
         level: 0,
         name: "Constructed Conception",
-        description: ".",
+        description: "Reproduction is inefficient. Reinvent biology as a means to an end.",
         getCost(level) {
             return 2 * level + 4;
         },
         getEffect(level) {
-            return "All breeders are <strong>" + (level + 1) + "x</strong> faster.";
+            return "All breeders are <strong>" + (2 ** level) + "x</strong> faster.";
         },
         getUnlocked() {},
         prerequisites: ["thePlan"],

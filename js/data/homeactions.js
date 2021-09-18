@@ -1841,8 +1841,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "sponge", costFunction: "constant", priceIncrease: 5 },
-                { resource: "junk", costFunction: "constant", priceIncrease: 15 },
+                { resource: "sponge", costFunction: "constant", get priceIncrease() { return 5 - SharkGame.syntheticTransmutation.level } },
+                { resource: "junk", costFunction: "constant", get priceIncrease() { return 15 - 3 * SharkGame.syntheticTransmutation.level } },
             ],
             max: "spronge",
             prereq: {
@@ -1867,8 +1867,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "constant", priceIncrease: 100 },
-                { resource: "clam", costFunction: "constant", priceIncrease: 300 },
+                { resource: "crystal", costFunction: "constant", get priceIncrease() { return 100 - 20 * SharkGame.syntheticTransmutation.level } },
+                { resource: "clam", costFunction: "constant", get priceIncrease() { return 300 - 60 * SharkGame.syntheticTransmutation.level } },
             ],
             max: "ancientPart",
             prereq: {
@@ -2236,8 +2236,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "coral", costFunction: "constant", priceIncrease: 15 },
-                { resource: "crystal", costFunction: "constant", priceIncrease: 5 },
+                { resource: "coral", costFunction: "constant", get priceIncrease() { return 15 - 3 * SharkGame.syntheticTransmutation.level } },
+                { resource: "crystal", costFunction: "constant", get priceIncrease() { return 5 - SharkGame.syntheticTransmutation.level } },
             ],
             max: "delphinium",
             prereq: {
@@ -3758,8 +3758,8 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "clam", costFunction: "constant", priceIncrease: 15 },
-                { resource: "crystal", costFunction: "constant", priceIncrease: 5 },
+                { resource: "clam", costFunction: "constant", get priceIncrease() { return 15 - 3 * SharkGame.syntheticTransmutation.level } },
+                { resource: "crystal", costFunction: "constant", get priceIncrease() { return 5 - SharkGame.syntheticTransmutation.level } },
             ],
             max: "calcinium",
             prereq: {

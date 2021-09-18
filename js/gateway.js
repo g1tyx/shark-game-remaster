@@ -36,15 +36,7 @@ SharkGame.Gateway = {
                 gateway.markWorldCompleted(world.worldType);
                 SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
                 gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
-
-                if (SharkGame.persistentFlags.patience) {
-                    SharkGame.persistentFlags.patience -= 1;
-                    if (SharkGame.persistentFlags.patience === 0) {
-                        patienceReward += 2 * (SharkGame.Aspects.patience.level + 1) ** 2;
-                    }
-                }
-            } else {
-                essenceReward = 0;
+                patienceReward = SharkGame.Aspects.patience.level;
             }
             res.changeResource("essence", essenceReward + patienceReward);
         }
@@ -133,20 +125,9 @@ SharkGame.Gateway = {
         if (patienceReward > 0) {
             gatewayContent.append(
                 $("<p>").html(
-                    "Your patience pays off, granting you <span class='essenceCount'>" + sharktext.beautify(patienceReward) + "</span> essence."
+                    "Your patience pays off, granting you <span class='essenceCount'>" + sharktext.beautify(patienceReward) + "</span> additional essence."
                 )
             );
-        } else {
-            if (SharkGame.persistentFlags.patience) {
-                gatewayContent.append(
-                    $("<p>").html(
-                        SharkGame.persistentFlags.patience +
-                            " more world" +
-                            (SharkGame.persistentFlags.patience > 1 ? "s" : "") +
-                            " until your patience pays off."
-                    )
-                );
-            }
         }
         gatewayContent.append(
             $("<p>").html(
@@ -456,7 +437,7 @@ SharkGame.Gateway = {
     showPlanetAttributes(worldData, contentDiv) {
         /* eslint-disable no-fallthrough */
         contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
-        switch (SharkGame.Aspects.pathOfEnlightenment.level) {
+        switch (SharkGame.Aspects.distantForesight.level) {
             case 1:
                 if (worldData.foresight.missing.length > 0) {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
