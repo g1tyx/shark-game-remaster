@@ -101,7 +101,7 @@ SharkGame.Events = {
             }
         },
     },
-    revealBuyButtons: {
+    /*     revealBuyButtons: {
         handlingTime: "beforeTick",
         priority: 0,
         getAction() {
@@ -117,7 +117,7 @@ SharkGame.Events = {
             SharkGame.flags.revealedBuyButtons = true;
             SharkGame.TabHandler.setUpTab();
         },
-    },
+    }, */
     remindAboutBuyMax: {
         handlingTime: "afterTick",
         priority: 0,
