@@ -355,6 +355,7 @@ pre {
 }
 #contentMenu {
   overflow: hidden;
+  height: 1.8em;
 }
 #contentMenu ul {
   padding: 0;
@@ -369,6 +370,10 @@ pre {
 #contentMenu #tabList {
   float: left;
   margin-bottom: 0.4em;
+  margin-left: 1em;
+  position: fixed;
+  box-shadow: 0 0 10px 10px var(--color-dark);
+  background-color: var(--color-dark);
 }
 #contentMenu #tabList li {
   font-weight: bold;
@@ -849,9 +854,6 @@ button.newlyDiscovered.disabled div {
 }
 #recyclerContainer #buyButtons {
   padding-left: 0px;
-}
-#tabBorder {
-  border-bottom: 0.5em double var(--color-light);
 }
 #updateGameBox {
   bottom: 15px;

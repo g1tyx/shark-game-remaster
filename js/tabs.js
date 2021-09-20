@@ -62,7 +62,8 @@ SharkGame.TabHandler = {
         const content = $("#content");
 
         content.empty();
-        content.append('<div id="contentMenu"><ul id="tabList"></ul></div><div id="tabBorder" class="clear-fix"></div>');
+        $("#contentMenu").empty();
+        $("#contentMenu").append('<ul id="tabList"></ul></div><div id="tabBorder" class="clear-fix">');
 
         this.createTabNavigation();
 
