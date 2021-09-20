@@ -172,11 +172,7 @@ SharkGame.Gateway = {
     },
 
     showRunEndInfo(containerDiv) {
-        containerDiv.append(
-            $("<p>")
-                .html("<em>Time spent within last ocean:</em><br/>")
-                .append(sharktext.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart))
-        );
+        containerDiv.append($("<p>").html("<em>Time spent within last ocean:</em><br/>").append(gateway.getTimeInLastWorld()));
     },
 
     showAspects() {
@@ -522,6 +518,10 @@ SharkGame.Gateway = {
         if (!gateway.completedWorlds.includes(worldType)) {
             gateway.completedWorlds.push(worldType);
         }
+    },
+
+    getTimeInLastWorld() {
+        return sharktext.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime);
     },
 };
 

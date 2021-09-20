@@ -718,7 +718,7 @@ SharkGame.Aspects = {
             return 10;
         },
         getEffect(_level) {
-            return "Reveals all aspects which are not locked or behind other locked aspects.";
+            return "Reveals all aspects which are not locked or behind locked aspects.";
         },
         getUnlocked() {},
         prerequisites: ["distantForesight"],

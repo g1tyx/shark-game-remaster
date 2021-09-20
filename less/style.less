@@ -1771,6 +1771,19 @@ button.planetButton {
     position: relative;
 }
 
+#pause-toggle {
+    margin-left: 1em;
+    color: #fff;
+    border-color: @color-discovery-dark3;
+    background: @color-discovery-dark4;
+
+    &.on {
+        box-shadow: 0 0 6px lighten(@color-discovery, 5%);
+        border-color: @color-discovery-dark2;
+        background: lighten(@color-discovery-dark3, 10%);
+    }
+}
+
 #minute-slider {
     --minuterotation: rotate(-45deg);
     background: @color-discovery-dark4;
@@ -1830,6 +1843,10 @@ button.planetButton {
     &.noTime {
         color: #555;
     }
+}
+
+#minute-row-two {
+    display: flex;
 }
 
 .front {

@@ -827,7 +827,22 @@ SharkGame.Resources = {
                     res.minuteHand.showTooltip,
                     res.tableTextLeave
                 );
-                $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+                $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
+                $("#minute-row-two").append($("<div>").attr("id", "minute-time"));
+                $("#minute-row-two").append($("<div>").attr("id", "minute-pause"));
+
+                if (SharkGame.Aspects.meditation.level) {
+                    SharkGame.Button.makeHoverscriptButton(
+                        "pause-toggle",
+                        "||",
+                        $("#minute-pause"),
+                        res.pause.togglePause,
+                        res.pause.showTooltip,
+                        res.tableTextLeave
+                    );
+                }
+                $("#pause-toggle").addClass("close-button min");
+
                 const slider = $("<input>")
                     .attr("id", "minute-slider")
                     .attr("type", "range")
@@ -967,6 +982,26 @@ SharkGame.Resources = {
             $("#tooltipbox").html(
                 "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it.<br><br>(traditional offline progress available in options)"
             );
+        },
+    },
+
+    pause: {
+        togglePause() {
+            if (cad.pause) {
+                $("#pause-toggle").removeClass("on");
+                cad.pause = false;
+            } else {
+                $("#pause-toggle").addClass("on");
+                cad.pause = true;
+            }
+        },
+
+        showTooltip() {
+            if (cad.pause) {
+                $("#tooltipbox").html("Click to <strong>unpause</strong>.");
+            } else {
+                $("#tooltipbox").html("Click to <strong>pause</strong>.");
+            }
         },
     },
 
