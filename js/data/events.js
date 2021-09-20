@@ -117,7 +117,25 @@ SharkGame.Events = {
             SharkGame.flags.revealedBuyButtons = true;
             SharkGame.TabHandler.setUpTab();
         },
-    }, */
+    }, getAllAffordableUpgrades*/
+    updateLabNotifier: {
+        handlingTime: "afterTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.TabHandler.isTabUnlocked("lab")) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            if (SharkGame.Lab.findAllAffordableUpgrades().length) {
+                $("#tab-lab").html("(<strong>!</strong>) Laboratory");
+            } else {
+                $("#tab-lab").html("Laboratory");
+            }
+            return true;
+        },
+    },
     remindAboutBuyMax: {
         handlingTime: "afterTick",
         priority: 0,

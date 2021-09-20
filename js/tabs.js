@@ -56,6 +56,10 @@ SharkGame.TabHandler = {
         });
     },
 
+    isTabUnlocked(tabName) {
+        return SharkGame.Tabs[tabName].discovered;
+    },
+
     setUpTab() {
         const tabs = SharkGame.Tabs;
         // empty out content div
