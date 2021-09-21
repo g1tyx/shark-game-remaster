@@ -448,7 +448,7 @@ SharkGame.Upgrades = {
                 science: 5000,
             },
             required: {
-                upgrades: ["agriculture"],
+                upgrades: ["agriculture", "kelpHorticulture"],
             },
             effect: {
                 incomeMultiplier: {
