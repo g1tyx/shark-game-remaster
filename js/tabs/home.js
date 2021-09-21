@@ -897,7 +897,7 @@ SharkGame.Home = {
                 // execute effects
                 if (action.effect.resource) {
                     let resourceChange;
-                    if (amount !== 1) {
+                    if (!amount.equals(1)) {
                         resourceChange = res.scaleResourceList(action.effect.resource, amount);
                     } else {
                         resourceChange = action.effect.resource;
@@ -905,7 +905,7 @@ SharkGame.Home = {
                     res.changeManyResources(resourceChange);
                 }
                 // print outcome to log
-                if (!action.multiOutcomes || amount === 1) {
+                if (!action.multiOutcomes || amount.equals(1)) {
                     log.addMessage(SharkGame.choose(action.outcomes));
                 } else {
                     log.addMessage(SharkGame.choose(action.multiOutcomes));
