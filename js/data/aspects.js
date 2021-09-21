@@ -31,6 +31,7 @@ SharkGame.Aspects = {
         name: "Apotheosis",
         description: "The path begins here.",
         noRefunds: true,
+        core: true,
         getCost(level) {
             return (level + 1) ** 2;
         },
@@ -94,6 +95,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Token of Industry",
         description: ".",
+        core: true,
         getCost(level) {
             switch (level) {
                 case 0:
@@ -131,6 +133,7 @@ SharkGame.Aspects = {
         name: "Path of Enlightenment",
         description: "Unlock the potential of yourself.",
         noRefunds: true,
+        core: true,
         getCost(_level) {
             return 2;
         },
@@ -154,6 +157,7 @@ SharkGame.Aspects = {
         name: "Distant Foresight",
         description: "See the unseen.",
         noRefunds: true,
+        core: true,
         getCost(_level) {
             return 2;
         },
@@ -182,7 +186,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Patience",
         description: "They say that good things come to those who wait.",
-        noRefunds: true,
+        core: true,
         getCost(level) {
             return (level + 2) ** 2;
         },
@@ -420,6 +424,7 @@ SharkGame.Aspects = {
         name: "Destiny Gamble",
         description: "Where we end up is all luck, but sometimes, we can stack the deck.",
         noRefunds: true,
+        core: true,
         getCost(level) {
             return 2 + level;
         },
@@ -458,6 +463,7 @@ SharkGame.Aspects = {
         name: "Clean Slate",
         description: "To build anew, you must first destroy what is already there.",
         noRefunds: true,
+        core: true,
         getCost(_level) {
             return 4;
         },
@@ -625,12 +631,12 @@ SharkGame.Aspects = {
         max: 1,
         level: 0,
         name: "Anything and Everything",
-        description: "Could I interest you in little bit of everything?",
+        description: "Could I interest you in a little bit of everything?",
         getCost(_level) {
             return 5;
         },
         getEffect(_level) {
-            return "Unlock a button which presses all buy buttons on the screen (pressed in order from left-to-right, top-to-bottom).";
+            return "Unlock a button which presses all the buy buttons (pressed in order from left-to-right, top-to-bottom).";
         },
         getUnlocked() {},
         prerequisites: ["extensiveOrganization"],
@@ -648,6 +654,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "The Hour Hand",
         description: "Time is a construct of the mind.",
+        core: true,
         getCost(level) {
             return 3 + 2 * level;
         },
@@ -670,6 +677,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Gumption",
         description: "Resourcefulness leads to prosperity.",
+        core: true,
         getCost(level) {
             return 3 + level * 2;
         },
@@ -692,6 +700,8 @@ SharkGame.Aspects = {
         level: 0,
         name: "Meditation",
         description: "Breathe. Focus. Exert your influence.",
+        noRefunds: true,
+        core: true,
         getCost(_level) {
             return 2;
         },
@@ -714,6 +724,8 @@ SharkGame.Aspects = {
         level: 0,
         name: "Infinity Vision",
         description: "Nothing can remain hidden to astute observers.",
+        noRefunds: true,
+        core: true,
         getCost(_level) {
             return 10;
         },

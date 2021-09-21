@@ -110,6 +110,9 @@ SharkGame.AspectTree = {
 
         res.setResource("aspectAffect", 1);
         res.setTotalResource("aspectAffect", 1);
+
+        tree.resetScoutingRestrictions();
+        tree.applyScoutingRestrictionsIfNeeded();
     },
 
     /* // now that we're done loading the levels, try to refund deprecated aspects
@@ -578,5 +581,30 @@ SharkGame.AspectTree = {
             res.changeResource("essence", aspectData.getCost(aspectData.level - 1));
             aspectData.level -= 1;
         }
+    },
+    applyScoutingRestrictionsIfNeeded() {
+        if (gateway.currentlyOnScoutingMission()) {
+            if (!SharkGame.persistentFlags.aspectStorage) {
+                SharkGame.persistentFlags.aspectStorage = {};
+            }
+            $.each(SharkGame.Aspects, (aspectName, aspectData) => {
+                if (aspectData.core) {
+                    return true;
+                }
+                SharkGame.persistentFlags.aspectStorage[aspectName] = aspectData.level;
+                SharkGame.Aspects[aspectName].level = 0;
+            });
+        }
+    },
+    resetScoutingRestrictions() {
+        if (!SharkGame.persistentFlags.aspectStorage) {
+            SharkGame.persistentFlags.aspectStorage = {};
+        }
+        $.each(SharkGame.Aspects, (aspectName, aspectData) => {
+            if (!_.isUndefined(SharkGame.persistentFlags.aspectStorage[aspectName])) {
+                SharkGame.Aspects[aspectName].level = SharkGame.persistentFlags.aspectStorage[aspectName];
+                SharkGame.persistentFlags.aspectStorage[aspectName] = undefined;
+            }
+        });
     },
 };

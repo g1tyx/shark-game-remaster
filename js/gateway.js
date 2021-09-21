@@ -27,18 +27,19 @@ SharkGame.Gateway = {
 
     enterGate(loadingFromSave) {
         SharkGame.PaneHandler.wipeStack();
+        gateway.updateScoutingStatus();
         // award essence (and mark world completion)
         let essenceReward = 0;
         let patienceReward = 0;
         if (!loadingFromSave) {
             if (SharkGame.wonGame) {
-                essenceReward = 4;
+                essenceReward = gateway.wasOnScoutingMission() ? 4 : 2;
                 gateway.markWorldCompleted(world.worldType);
                 SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
                 gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
                 patienceReward = SharkGame.Aspects.patience.level;
             }
-            res.changeResource("essence", essenceReward + patienceReward);
+            res.changeResource("essence", (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward));
         }
 
         if (this.planetPool.length === 0) {
@@ -522,6 +523,28 @@ SharkGame.Gateway = {
 
     getTimeInLastWorld() {
         return sharktext.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime);
+    },
+
+    updateScoutingStatus() {
+        if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
+            SharkGame.persistentFlags.wasScouting = SharkGame.persistentFlags.scouting;
+            SharkGame.persistentFlags.scouting = undefined;
+        }
+    },
+
+    wasOnScoutingMission() {
+        if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
+            return SharkGame.persistentFlags.scouting;
+        }
+        return SharkGame.persistentFlags.wasOnScoutingMission;
+    },
+
+    currentlyOnScoutingMission() {
+        if (_.isUndefined(SharkGame.persistentFlags.scouting)) {
+            SharkGame.persistentFlags.scouting = !gateway.completedWorlds.includes(world.worldType);
+        }
+
+        return SharkGame.persistentFlags.scouting;
     },
 };
 
