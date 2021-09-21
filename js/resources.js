@@ -509,12 +509,12 @@ SharkGame.Resources = {
                 SharkGame.flags.tokens = {};
             }
 
-            if (this.list.length > SharkGame.Aspects.pathOfIndustry.level) {
+            if (this.list.length > SharkGame.Aspects.tokenOfIndustry.level) {
                 this.list = [];
                 $("#token-div").empty();
             }
 
-            while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
+            while (this.list.length < SharkGame.Aspects.tokenOfIndustry.level) {
                 this.makeToken();
             }
 
