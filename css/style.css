@@ -374,6 +374,7 @@ pre {
   position: fixed;
   box-shadow: 0 0 10px 10px var(--color-dark);
   background-color: var(--color-dark);
+  z-index: 9;
 }
 #contentMenu #tabList li {
   font-weight: bold;
@@ -881,7 +882,7 @@ button {
   -ms-user-select: none;
   user-select: none;
   text-shadow: 0px 0px 2px #000000;
-  font-size: 90%;
+  font-size: 100%;
 }
 button.min {
   padding: 0.1em;
@@ -1450,6 +1451,7 @@ button.planetButton:active {
   opacity: 1;
   transition: opacity 0.3s;
   text-shadow: 0px 0px 3px #000000;
+  font-size: 1.2rem;
 }
 .tooltip:empty {
   opacity: 0;
@@ -1498,12 +1500,15 @@ button.planetButton:active {
   display: inline-block;
   margin: 0.4em;
   max-width: 12em;
+  min-width: 9em;
 }
 .disposeArrangement button.newlyDiscovered {
   max-width: 12em;
+  min-width: 9em;
 }
 .disposeArrangement #buyButtons button {
   margin: 0 2px 3px;
+  min-width: 0;
 }
 #cheatsDisplay {
   margin-top: 1em;
