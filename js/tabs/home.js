@@ -934,7 +934,8 @@ SharkGame.Home = {
 
         $("#tooltipbox").removeClass("gives-consumer");
 
-        const effects = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName).effect;
+        const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+        const effects = actionData.effect;
         const validGenerators = {};
         $.each(effects.resource, (resource) => {
             $.each(SharkGame.ResourceMap.get(resource).income, (incomeResource) => {
@@ -946,11 +947,8 @@ SharkGame.Home = {
         });
 
         let buyingHowMuch = 1;
-        if (!SharkGame.Settings.current.alwaysSingularTooltip) {
-            buyingHowMuch = sharkmath.getPurchaseAmount(
-                "doesntmatter",
-                home.getMax(SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName)).toNumber()
-            );
+        if (!SharkGame.Settings.current.alwaysSingularTooltip && actionData.cost.length > 0) {
+            buyingHowMuch = sharkmath.getPurchaseAmount("doesntmatter", home.getMax(actionData).toNumber());
             if (buyingHowMuch < 1) {
                 buyingHowMuch = 1;
             }
