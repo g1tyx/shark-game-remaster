@@ -36,7 +36,7 @@ SharkGame.Settings = {
         name: "Show Animations",
         desc: "Whether to show animated transitions.",
         category: "PERFORMANCE",
-        options: [true, false],
+        options: [true, false], // might remove this option? could be a pain to continue supporting it
     },
 
     // LAYOUT
@@ -146,7 +146,7 @@ SharkGame.Settings = {
     boldCosts: {
         defaultSetting: true,
         name: "Bold Resource Names",
-        desc: "Whether to embolden names of resources.",
+        desc: "Should resource names be bolded?",
         options: [true, false],
         category: "APPEARANCE",
         onChange() {
@@ -158,7 +158,7 @@ SharkGame.Settings = {
     alwaysSingularTooltip: {
         defaultSetting: false,
         name: "Tooltip Always Singular",
-        desc: "Whether to make the tooltip only show what one of each thing produces.",
+        desc: "Should the tooltip only show what one of each thing produces?",
         category: "APPEARANCE",
         options: [true, false],
     },
@@ -174,7 +174,7 @@ SharkGame.Settings = {
     enableThemes: {
         defaultSetting: true,
         name: "Enable Planet-dependent Styles",
-        desc: "Whether to change page colors for different planets.",
+        desc: "Should page colors change for different planets?",
         options: [true, false],
         category: "APPEARANCE",
         onChange() {
@@ -189,7 +189,7 @@ SharkGame.Settings = {
     showIcons: {
         defaultSetting: true,
         name: "Show Action Button icons",
-        desc: "Whether to show icons.",
+        desc: "Show button icons?",
         category: "APPEARANCE",
         options: [true, false],
     },
@@ -197,7 +197,7 @@ SharkGame.Settings = {
     showTabImages: {
         defaultSetting: true,
         name: "Show Tab Header Images",
-        desc: "Whether to show art.",
+        desc: "Show art?",
         category: "APPEARANCE",
         options: [true, false],
         onChange() {
@@ -210,7 +210,7 @@ SharkGame.Settings = {
     doAspectTable: {
         defaultSetting: "tree",
         name: "Aspect Table or Tree",
-        desc: "Whether to draw the visual aspect tree or the more accessible aspect table.",
+        desc: "Draw a visual aspect tree or a more accessible aspect table?",
         category: "ACCESSIBILITY",
         options: ["tree", "table"],
     },
@@ -218,7 +218,7 @@ SharkGame.Settings = {
     verboseTokenDescriptions: {
         defaultSetting: false,
         name: "Verbose Token",
-        desc: "Whether the 'token' mechanic should have text saying where it is.",
+        desc: "Should tokens display text saying where they are?",
         category: "ACCESSIBILITY",
         options: [true, false],
         onChange() {
@@ -226,7 +226,29 @@ SharkGame.Settings = {
         },
     },
 
+    minuteHandEffects: {
+        defaultSetting: true,
+        name: "Minute Hand Special Effects",
+        desc: "Should the minute hand glow a ton?",
+        category: "ACCESSIBILITY",
+        options: [true, false],
+        onChange() {
+            res.minuteHand.updatePowers();
+        },
+    },
+
     // OTHER
+
+    idleEnabled: {
+        defaultSetting: true,
+        name: "Stored Offline Progress",
+        desc: "Should the game store idle progress for later use? (otherwise, it will not go idle and will have real offline progress)",
+        category: "OTHER",
+        options: [true, false],
+        onChange() {
+            res.minuteHand.init();
+        },
+    },
 
     showTooltips: {
         defaultSetting: true,
@@ -234,17 +256,6 @@ SharkGame.Settings = {
         desc: "Whether to show informational tooltips when hovering over certain stuff.",
         category: "OTHER",
         options: [true, false],
-    },
-
-    gameSpeed: {
-        defaultSetting: "Active",
-        name: "Playstyle",
-        desc: "How you prefer the game. It will adjust to fit your choice.",
-        category: "OTHER",
-        options: [/* "Idle",  */ "Inactive", "Active"],
-        onChange() {
-            main.applyProgressionSpeed();
-        },
     },
 
     updateCheck: {
@@ -264,7 +275,7 @@ SharkGame.Settings = {
     offlineModeActive: {
         defaultSetting: true,
         name: "Offline Progress",
-        desc: "Whether to calculate offline progress.",
+        desc: "Should there be ANY offline progress?",
         category: "OTHER",
         options: [true, false],
     },

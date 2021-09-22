@@ -66,7 +66,7 @@ SharkGame.Save = {
         return saveString;
     },
 
-    loadGame(importSaveData, preserveSettings) {
+    loadGame(importSaveData) {
         let saveData;
         let saveDataString = importSaveData || localStorage.getItem(SharkGame.Save.saveFileName);
 
@@ -133,6 +133,8 @@ SharkGame.Save = {
                 log.addMessage("Updated save data from v " + saveData.version + " to " + SharkGame.VERSION + ".");
             }
 
+            // we're going to assume that everything has already been reset; we assume that we're just loading values into a blank slate
+
             const currTimestamp = _.now();
             // create surrogate timestamps if necessary
             if (typeof saveData.timestampLastSave !== "number") {
@@ -157,8 +159,6 @@ SharkGame.Save = {
             SharkGame.flags = saveData.flags ? saveData.flags : {};
             SharkGame.persistentFlags = saveData.persistentFlags ? saveData.persistentFlags : {};
 
-            res.init();
-
             $.each(saveData.resources, (resourceId, resource) => {
                 // check that this isn't an old resource that's been removed from the game for whatever reason
                 if (SharkGame.PlayerResources.has(resourceId)) {
@@ -167,25 +167,13 @@ SharkGame.Save = {
                 }
             });
 
-            // load world type and level and apply world properties
+            // load world type
             if (saveData.world) {
-                world.init();
                 world.worldType = saveData.world.type;
-                world.apply();
-                home.init();
             }
-
-            // hacky kludge: force table creation
-            res.reconstructResourcesTable();
-
-            SharkGame.Lab.resetUpgrades();
 
             _.each(saveData.upgrades, (upgradeId) => {
                 SharkGame.Lab.addUpgrade(upgradeId, "load");
-            });
-
-            _.each(SharkGame.Aspects, (aspectData) => {
-                aspectData.level = 0;
             });
 
             // load aspects (need to have the cost reducer loaded before world init)
@@ -201,20 +189,12 @@ SharkGame.Save = {
                 SharkGame.missingAspects = true;
             }
 
-            if (!SharkGame.missingAspects) {
-                $.each(saveData.aspects, (aspectId, level) => {
-                    if (_.has(SharkGame.Aspects, aspectId)) {
-                        SharkGame.Aspects[aspectId].level = level;
-                    }
-                });
-            } else {
-                res.setResource("essence", res.getTotalResource("essence"));
-            }
+            $.each(saveData.aspects, (aspectId, level) => {
+                if (_.has(SharkGame.Aspects, aspectId)) {
+                    SharkGame.Aspects[aspectId].level = level;
+                }
+            });
 
-            res.minuteHand.init();
-            res.tokens.init();
-
-            gateway.init();
             _.each(saveData.completedWorlds, (worldType) => {
                 gateway.markWorldCompleted(worldType);
             });
@@ -237,7 +217,7 @@ SharkGame.Save = {
                 }
             }
 
-            if (saveData.tabs.current) {
+            if (saveData.tabs && saveData.tabs.current) {
                 SharkGame.Tabs.current = saveData.tabs.current;
             }
 
@@ -249,95 +229,31 @@ SharkGame.Save = {
                 gateway.planetPool = saveData.planetPool;
             }
 
-            if (!SharkGame.persistentFlags.choseSpeed && !gateway.transitioning) {
-                SharkGame.PaneHandler.showSpeedSelection();
-            }
-            if (SharkGame.missingAspects && !gateway.transitioning) {
-                SharkGame.PaneHandler.showAspectWarning();
-            }
+            $.each(saveData.settings, (settingId, currentvalue) => {
+                SharkGame.Settings.current[settingId] = currentvalue;
+                // update anything tied to this setting right off the bat
+                if (SharkGame.Settings[settingId] && typeof SharkGame.Settings[settingId].onChange === "function") {
+                    SharkGame.Settings[settingId].onChange();
+                }
+            });
 
-            // recalculate income table to make sure that the grotto doesnt freak out if its the first tab that loads
-            res.recalculateIncomeTable();
-
-            if (!preserveSettings) {
-                $.each(saveData.settings, (settingId, currentvalue) => {
-                    if (SharkGame.Settings.current[settingId] !== undefined) {
-                        SharkGame.Settings.current[settingId] = currentvalue;
-                        // update anything tied to this setting right off the bat
-                        if (SharkGame.Settings[settingId] && typeof SharkGame.Settings[settingId].onChange === "function") {
-                            SharkGame.Settings[settingId].onChange();
-                        }
-                    }
-                });
-            }
-
-            // load existence in in-between state,
-            // else check for offline mode and process
-            let simulateOffline = SharkGame.Settings.current.offlineModeActive;
             if (saveData.gateway) {
-                if (saveData.gateway.betweenRuns) {
-                    simulateOffline = false;
+                if (typeof saveData.gateway.wonGame === "boolean") {
                     SharkGame.wonGame = saveData.gateway.wonGame;
-                    main.endGame(true);
+                }
+                if (typeof saveData.gateway.betweenRuns === "boolean") {
+                    SharkGame.gameOver = saveData.gateway.betweenRuns;
                 }
             }
 
-            SharkGame.AspectTree.applyAspects();
-            SharkGame.EventHandler.init();
-            // if offline mode is enabled
-            if (simulateOffline) {
+            if (SharkGame.Settings.current.offlineModeActive && !SharkGame.gameOver) {
                 // get times elapsed since last save game
-                const now = _.now();
-                let secondsElapsed = (now - saveData.timestampLastSave) / 1000;
+                let secondsElapsed = (_.now() - saveData.timestampLastSave) / 1000;
                 if (secondsElapsed < 0) {
                     // something went hideously wrong or someone abused a system clock somewhere
                     secondsElapsed = 0;
-                }
-
-                // process this
-                res.recalculateIncomeTable();
-                main.processSimTime(secondsElapsed, true);
-                res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
-
-                // acknowledge long time gaps
-                if (secondsElapsed > 3600) {
-                    let notification = "Welcome back! It's been ";
-                    const numHours = Math.floor(secondsElapsed / 3600);
-                    if (numHours > 24) {
-                        const numDays = Math.floor(numHours / 24);
-                        if (numDays > 7) {
-                            const numWeeks = Math.floor(numDays / 7);
-                            if (numWeeks > 4) {
-                                const numMonths = Math.floor(numWeeks / 4);
-                                if (numMonths > 12) {
-                                    const numYears = Math.floor(numMonths / 12);
-                                    notification +=
-                                        "almost " +
-                                        (numYears === 1 ? "a" : numYears) +
-                                        " year" +
-                                        sharktext.plural(numYears) +
-                                        ", thanks for remembering this exists!";
-                                } else {
-                                    notification +=
-                                        "like " +
-                                        (numMonths === 1 ? "a" : numMonths) +
-                                        " month" +
-                                        sharktext.plural(numMonths) +
-                                        ", it's getting kinda crowded.";
-                                }
-                            } else {
-                                notification +=
-                                    "about " + (numWeeks === 1 ? "a" : numWeeks) + " week" + sharktext.plural(numWeeks) + ", you were gone a while!";
-                            }
-                        } else {
-                            notification +=
-                                (numDays === 1 ? "a" : numDays) + " day" + sharktext.plural(numDays) + ", and look at all the stuff you have now!";
-                        }
-                    } else {
-                        notification +=
-                            (numHours === 1 ? "an" : numHours) + " hour" + sharktext.plural(numHours) + " since you were seen around here!";
-                    }
-                    log.addMessage(notification);
+                } else {
+                    SharkGame.flags.needOfflineProgress = secondsElapsed;
                 }
             }
         } else {
@@ -350,12 +266,9 @@ SharkGame.Save = {
     importData(data) {
         // load the game from this save data string
         try {
-            log.clearMessages(false);
-            SharkGame.PaneHandler.wipeStack();
-            main.init();
+            main.wipeGame();
             SharkGame.Save.loadGame(data, data === "{}");
-            SharkGame.TitleBarHandler.correctTitleBar();
-            home.discoverActions();
+            main.setUpGame();
         } catch (err) {
             log.addError(err);
         }
@@ -389,11 +302,8 @@ SharkGame.Save = {
     },
 
     wipeSave() {
-        SharkGame.PaneHandler.wipeStack();
         localStorage.setItem(SharkGame.Save.saveFileName + "Backup", localStorage.getItem(SharkGame.Save.saveFileName));
         SharkGame.Save.deleteSave();
-        SharkGame.Save.importData("{}");
-        log.clearMessages(false);
     },
 
     saveUpdaters: [

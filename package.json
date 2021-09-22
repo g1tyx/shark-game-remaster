@@ -14,7 +14,6 @@
         "scss:big": "sass ./styles/style.scss:./css/style.css",
         "scss:w": "yarn scss --watch",
         "scss:w:big": "yarn scss:big --watch",
-        "minify-css": "css-minify -f ./css/style.css -o ./css/",
         "lint:prettier": "prettier . --check",
         "lint:eslint": "eslint . --format visualstudio",
         "lint:eslint:strict": "yarn lint:eslint --max-warnings=0"
