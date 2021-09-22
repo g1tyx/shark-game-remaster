@@ -24,6 +24,12 @@ SharkGame.HomeActions = {
             });
         }
 
+        if (home.getActionCategory(actionName) === "frenzy") {
+            _.each(data.cost, (costData) => {
+                costData.priceIncrease *= 0.5 ** SharkGame.Aspects.thePlan.level;
+            });
+        }
+
         return data;
     },
 
@@ -964,7 +970,6 @@ SharkGame.HomeActions = {
             cost: [
                 { resource: "ray", costFunction: "constant", priceIncrease: 1 },
                 { resource: "fish", costFunction: "linear", priceIncrease: 300 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 15 },
             ],
             max: "maker",
             prereq: {
@@ -1461,7 +1466,13 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
+                {
+                    resource: "crystal",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
             ],
             max: "autoTransmuter",
@@ -1496,7 +1507,13 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "junk", costFunction: "linear", priceIncrease: 400 },
+                {
+                    resource: "junk",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 400 - 200 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 200 },
             ],
             max: "skimmer",
@@ -1829,8 +1846,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "sponge", costFunction: "constant", priceIncrease: 5 },
-                { resource: "junk", costFunction: "constant", priceIncrease: 15 },
+                {
+                    resource: "sponge",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "junk",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "spronge",
             prereq: {
@@ -1855,8 +1884,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crystal", costFunction: "constant", priceIncrease: 100 },
-                { resource: "clam", costFunction: "constant", priceIncrease: 300 },
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 100 - 20 * SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "clam",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 300 - 60 * SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "ancientPart",
             prereq: {
@@ -2224,8 +2265,20 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "coral", costFunction: "constant", priceIncrease: 15 },
-                { resource: "crystal", costFunction: "constant", priceIncrease: 5 },
+                {
+                    resource: "coral",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
             ],
             max: "delphinium",
             prereq: {
@@ -2501,30 +2554,12 @@ SharkGame.HomeActions = {
                 {
                     resource: "whale",
                     costFunction: "unique",
-                    get priceIncrease() {
-                        switch (SharkGame.Settings.current.gameSpeed) {
-                            default:
-                                return 3000;
-                            case "Inactive":
-                                return 4500;
-                            case "Idle":
-                                return 6000;
-                        }
-                    },
+                    priceIncrease: 3000,
                 },
                 {
                     resource: "dolphin",
                     costFunction: "unique",
-                    get priceIncrease() {
-                        switch (SharkGame.Settings.current.gameSpeed) {
-                            default:
-                                return 100000;
-                            case "Inactive":
-                                return 200000;
-                            case "Idle":
-                                return 500000;
-                        }
-                    },
+                    priceIncrease: 100000,
                 },
             ],
             max: "chorus",
@@ -2568,7 +2603,13 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "delphinium", costFunction: "linear", priceIncrease: 75 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 300 },
+                {
+                    resource: "coral",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 300 - 150 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "crimsonCombine",
             prereq: {
@@ -2600,7 +2641,13 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "delphinium", costFunction: "linear", priceIncrease: 100 },
-                { resource: "seaApple", costFunction: "linear", priceIncrease: 25 },
+                {
+                    resource: "seaApple",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 25 - 12.5 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "kelpCultivator",
             prereq: {
@@ -2631,8 +2678,20 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "delphinium", costFunction: "linear", priceIncrease: 100 },
-                { resource: "crystal", costFunction: "linear", priceIncrease: 100 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 100 },
+                {
+                    resource: "crystal",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
+                {
+                    resource: "coral",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "tirelessCrafter",
             prereq: {
@@ -2877,7 +2936,13 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "sharkonium", costFunction: "linear", priceIncrease: 100 },
-                { resource: "kelp", costFunction: "linear", priceIncrease: 750 },
+                {
+                    resource: "kelp",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 750 - 375 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
             ],
             max: "heater",
             prereq: {
@@ -3495,126 +3560,373 @@ SharkGame.HomeActions = {
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
 
-        getCrystalMiner: {
-            name: "Build crystal miner",
+        getCrystalMiner: {},
+
+        getSandDigger: {},
+
+        getFishMachine: {},
+    },
+    marine: {
+        catchFish: {},
+
+        debugbutton: {},
+
+        getClam: {
+            name: "Get clam",
             effect: {
                 resource: {
-                    crystalMiner: 1,
+                    get clam() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
+                },
+            },
+            cost: {},
+            prereq: {
+                upgrade: ["clamScooping"],
+            },
+            outcomes: [
+                "Got a grooved carpet shell.",
+                "Got a hard clam.",
+                "Got a manila clam.",
+                "Got a soft clam.",
+                "Got an atlantic surf clam.",
+                "Got an ocean quahog.",
+                "Got a pacific razor clam.",
+                "Got a pismo clam.",
+                "Got a geoduck.",
+                "Got an atlantic jackknife clam.",
+                "Got a lyrate asiatic hard clam.",
+                "Got an ark clam.",
+                "Got a nut clam.",
+                "Got a duck clam.",
+                "Got a marsh clam.",
+                "Got a file clam.",
+                "Got a giant clam.",
+                "Got an asiatic clam.",
+                "Got a peppery furrow shell.",
+                "Got a pearl oyster.",
+            ],
+            helpText: "Fetch a clam. Why do we need clams now? Who knows.",
+        },
+
+        // CONVERSIONS ////////////////////////////////////////////////////////////////////////////////
+
+        seaApplesToScience: {
+            name: "Study sea apples",
+            effect: {
+                resource: {
+                    science: 4,
+                },
+            },
+            cost: [{ resource: "seaApple", costFunction: "constant", priceIncrease: 1 }],
+            max: "seaApple",
+            prereq: {
+                resource: {
+                    seaApple: 1,
+                },
+                upgrade: ["xenobiology"],
+            },
+            outcomes: [
+                "There's science inside these things, surely!",
+                "The cause of science is advanced!",
+                "This is perhaps maybe insightful!",
+                "Why are we even doing this? Who knows! Science!",
+                "What is even the point of these things? Why are they named for fruit? They're squirming!",
+            ],
+            helpText: "Dissect sea apples to gain additional science. Research!",
+        },
+
+        pearlConversion: {
+            name: "Convert clam pearls",
+            effect: {
+                resource: {
+                    crystal: 1,
+                },
+            },
+            cost: [{ resource: "clam", costFunction: "constant", priceIncrease: 5 }],
+            max: "clam",
+            prereq: {
+                resource: {
+                    clam: 1,
+                },
+                upgrade: ["pearlConversion"],
+            },
+            outcomes: [
+                "Pearls to crystals! One day. One day, we will get this right and only use the pearl.",
+                "Welp, we somehow turned rocks to crystals. Oh. Nope, those were clams. Not rocks. It's so hard to tell sometimes.",
+                "Okay, we managed to only use the pearls this time, but we, uh, had to break the clams open pretty roughly.",
+                "Pearls to... nope. Clams to crystals. Science is hard.",
+            ],
+            helpText: "Convert a pearl (and the clam around it) into crystal.",
+        },
+
+        // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
+
+        transmuteSharkonium: {
+            name: "Transmute stuff to sharkonium",
+            effect: {
+                resource: {
+                    sharkonium: 1,
                 },
             },
             cost: [
                 {
                     resource: "crystal",
-                    costFunction: "linear",
+                    costFunction: "constant",
                     get priceIncrease() {
-                        return 100 - 50 * SharkGame.Aspects.amorphousAssembly.level;
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
                 {
                     resource: "sand",
-                    costFunction: "linear",
+                    costFunction: "constant",
                     get priceIncrease() {
-                        return 200 - 100 * SharkGame.Aspects.amorphousAssembly.level;
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 25 },
             ],
-            max: "crystalMiner",
+            max: "sharkonium",
             prereq: {
-                resource: {
-                    sharkonium: 25,
-                },
-                upgrade: ["automation"],
+                upgrade: ["transmutation"],
             },
             outcomes: [
-                "Crystal miner activated.",
-                "Crystal miner constructed.",
-                "Mining machine online.",
-                "Construction complete.",
-                "Carve rock. Remove sand. Retrieve target.",
+                "Transmutation destination!",
+                "Transmutation rejuvenation!",
+                "Transmogrification revelation!",
+                "Transformation libation!",
+                "Transfiguration nation! ...wait.",
+                "Sharkonium arise!",
+                "Arise, sharkonium!",
+                "More sharkonium!",
+                "The substance that knows no name! Except the name sharkonium!",
+                "The substance that knows no description! It's weird to look at.",
+                "The foundation of a modern shark frenzy!",
             ],
-            multiOutcomes: [
-                "The machines rise.",
-                "The miners dig.",
-                "The crystal shall be harvested.",
-                "Crystal miners are complete.",
-            ],
-            helpText: "Construct a machine to automatically harvest crystals efficiently.",
+            helpText: "Convert ordinary resources into sharkonium, building material of the future!",
         },
 
-        getSandDigger: {
-            name: "Build sand digger",
+        fuseCalcinium: {
+            name: "Fuse stuff to calcinium",
             effect: {
                 resource: {
-                    sandDigger: 1,
+                    calcinium: 1,
                 },
             },
             cost: [
                 {
-                    resource: "sand",
-                    costFunction: "linear",
+                    resource: "clam",
+                    costFunction: "constant",
                     get priceIncrease() {
-                        return 500 - 250 * SharkGame.Aspects.amorphousAssembly.level;
+                        return 15 - 3 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
-                { resource: "sharkonium", costFunction: "linear", priceIncrease: 150 },
-            ],
-            max: "sandDigger",
-            prereq: {
-                resource: {
-                    sharkonium: 150,
+                {
+                    resource: "crystal",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - SharkGame.Aspects.syntheticTransmutation.level;
+                    },
                 },
-                upgrade: ["automation"],
+            ],
+            max: "calcinium",
+            prereq: {
+                upgrade: [""],
             },
-            outcomes: [
-                "Sand digger constructed.",
-                "Sand digger reaches into the seabed.",
-                "The digger begins to shuffle sand into its machine maw. Rays dart away.",
-                "The machine is online.",
-                "The machine acts immediately, shovelling sand.",
-            ],
-            multiOutcomes: [
-                "The machines increase in number.",
-                "The diggers devour.",
-                "All sand must be gathered.",
-                "The rays are concerned.",
-                "Devour the sands. Consume.",
-                "Giant machines blot out our sun.",
-            ],
-            helpText: "Construct a machine to automatically dig up sand efficiently.",
+            outcomes: [],
+            helpText: "Smelt resources into calcinium for use in crustacean machines.",
         },
 
-        getFishMachine: {
-            name: "Build fish machine",
+        // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
+
+        getShark: {},
+
+        getManta: {},
+
+        getCrab: {},
+
+        getLobster: {
+            name: "Gain lobster",
             effect: {
                 resource: {
-                    fishMachine: 1,
+                    lobster: 1,
                 },
             },
-            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 100 }],
-            max: "fishMachine",
+            cost: [{ resource: "clam", costFunction: "linear", priceIncrease: 10 }],
+            max: "lobster",
             prereq: {
                 resource: {
-                    sharkonium: 100,
+                    clam: 10,
                 },
-                upgrade: ["automation"],
+                upgrade: ["clamScooping"],
             },
             outcomes: [
-                "Fish machine activated.",
-                "Fish machine constructed.",
-                "Fishing machine online.",
-                "Construction complete.",
-                "The quarry moves. But the machine is faster.",
+                "A scampi joins you.",
+                "A crayfish joins you.",
+                "A clawed lobster joins you.",
+                "A spiny lobster joins you.",
+                "A slipper lobster joins you.",
+                "A hummer lobster joins you.",
+                "A crawfish joins you.",
+                "A rock lobster joins you.",
+                "A langouste joins you.",
+                "A shovel-nose lobster joins you.",
+                "A crawdad joins you.",
             ],
             multiOutcomes: [
-                "One day there will be no fish left. Only the machines.",
-                "Today the shark is flesh. Tomorrow, machine.",
-                "Your metal servants can sate the hunger. The hunger for fish.",
-                "The fishing machines are more efficient than the sharks. But they aren't very smart.",
-                "Automated fishing.",
-                "The power of many, many sharks, in many, many devices.",
+                "Lobsters lobsters lobsters lobsters.",
+                "But they weren't rocks...",
+                "The clam forecast is looking good!",
+                "They're all about the clams!",
+                "More lobsters, because why not?",
+                "HEAVY LOBSTERS",
+                "More lobsters for the snipping and the cutting and the clam grab!",
+                "Clam patrol, here we go.",
             ],
-            helpText: "Construct a machine to automatically gather fish efficiently.",
+            helpText: "",
+        },
+
+        // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getScientist: {},
+
+        getNurse: {},
+
+        // RAY JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getMaker: {},
+
+        getExtractor: {
+            name: "Assemble extractor ray",
+            effect: {
+                resource: {
+                    extractor: 1,
+                },
+            },
+            cost: [
+                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
+                { resource: "calcinium", costFunction: "linear", priceIncrease: 15 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 500 },
+            ],
+            max: "extractor",
+            prereq: {
+                resource: {
+                    calcinium: 1,
+                },
+                upgrade: ["calciniumBiosynergy"],
+            },
+            outcomes: [],
+            multiOutcomes: [],
+            helpText: "",
+        },
+
+        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getPlanter: {},
+
+        getBrood: {},
+
+        getSeabedStripper: {
+            name: "Build seabed stripper",
+            effect: {
+                resource: {
+                    seabedStripper: 1,
+                },
+            },
+            cost: [
+                { resource: "calcinium", costFunction: "linear", priceIncrease: 150 },
+                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+            ],
+            max: "seabedStripper",
+            prereq: {
+                resource: {
+                    calcinium: 1,
+                },
+                upgrade: ["crustaceanTransmutation"],
+            },
+            outcomes: [],
+            multiOutcomes: [],
+            helpText: "",
+        },
+
+        // LOBSTER JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getBerrier: {
+            name: "Form lobster berrier",
+            effect: {
+                resource: {
+                    berrier: 1,
+                },
+            },
+            cost: [
+                { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
+                { resource: "clam", costFunction: "linear", priceIncrease: 30 },
+            ],
+            max: "berrier",
+            prereq: {
+                resource: {
+                    lobster: 1,
+                },
+                upgrade: ["crustaceanBiology"],
+            },
+            outcomes: [
+                "We didn't need to see the process behind this.",
+                "One lobster brimming with eggs to go.",
+                "It's like some weird counterpart to the planter crab. But with eggs.",
+                "Lobster with rocks ready to make a move. Oh, okay, eggs, whatever, see, they look like shiny pebbles from a distance and... oh, forget it.",
+            ],
+            multiOutcomes: [
+                "Berrier isn't even a word!",
+                "Berries and eggs aren't even the same thing!",
+                "How do these things swim with this much weighing them down?",
+                "We aren't running out of volunteers any time soon.",
+                "Did you see them fight for this job? Claws everywhere, I tell you!",
+            ],
+            helpText: "Dedicate a lobster to egg production. We don't know how it works. Ask the lobsters.",
+        },
+
+        // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
+
+        getCrystalMiner: {},
+
+        getSandDigger: {},
+
+        getFishMachine: {},
+
+        getAutoTransmuter: {},
+
+        // CRUSTACEAN MACHINES /////////////////////////////////////////////////////////
+
+        getCalciniumConverter: {
+            name: "Build calcinium converter",
+            effect: {
+                resource: {
+                    calciniumConverter: 1,
+                },
+            },
+            cost: [
+                { resource: "calcinium", costFunction: "linear", priceIncrease: 100 },
+                { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
+            ],
+            max: "calciniumConverter",
+            prereq: {
+                resource: {
+                    calcinium: 1,
+                },
+                upgrade: ["crustaceanTransmutation"],
+            },
+            outcomes: [
+                /*                 "Berry sprayer is active.",
+                "Berry sprayer capable.",
+                "This egg spraying machine clatters to life.",
+                "This automated caretaker gets to work.", */
+            ],
+            multiOutcomes: [
+                /*                 "Automation of population? What a terrifying concept.",
+                "The machine rears lobster eggs. Wouldn't the shrimp want something like this too?",
+                "There is an uneasiness about these machines that fills the sharks with concern.",
+                "Why was this machine invented? Are we helping to prepare an army?", */
+            ],
+            helpText: "", // This crustacean machine distributes lobster eggs for optimal hatching conditions.
         },
     },
 };
@@ -3674,6 +3986,7 @@ SharkGame.HomeActionCategories = {
             "getHistorian",
             "getExtractionTeam",
             "getScholar",
+            "getExtractor",
         ],
     },
 
@@ -3739,6 +4052,8 @@ SharkGame.HomeActionCategories = {
             //"getCoalescer",
             "getCrimsonCombine",
             "getKelpCultivator",
+            "getSeabedStripper",
+            "getCalciniumConverter",
         ],
     },
 

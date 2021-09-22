@@ -89,6 +89,41 @@ SharkGame.Events = {
             }
         },
     },
+    /*     revealBuyButtons: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (world.worldType !== "start") {
+                return "remove";
+            }
+            if (res.getTotalResource("crab") > 3) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            SharkGame.flags.revealedBuyButtons = true;
+            SharkGame.TabHandler.setUpTab();
+        },
+    }, getAllAffordableUpgrades*/
+    updateLabNotifier: {
+        handlingTime: "afterTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.TabHandler.isTabUnlocked("lab")) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            if (SharkGame.Lab.findAllAffordableUpgrades().length) {
+                $("#tab-lab").html("(<strong>!</strong>) Laboratory");
+            } else {
+                $("#tab-lab").html("Laboratory");
+            }
+            return true;
+        },
+    },
     remindAboutBuyMax: {
         handlingTime: "afterTick",
         priority: 0,
@@ -108,6 +143,17 @@ SharkGame.Events = {
                 $("#buy--1").removeClass("reminderShadow");
                 SharkGame.persistentFlags.individuallyBoughtSharkonium = 49;
             }
+            return true;
+        },
+    },
+    aspectRefresh: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "trigger";
+        },
+        trigger() {
+            res.reapplyModifiers("aspectAffect", "crystal");
             return true;
         },
     },

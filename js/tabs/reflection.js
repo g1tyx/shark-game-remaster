@@ -22,6 +22,10 @@ SharkGame.Reflection = {
         SharkGame.TabHandler.registerTab(this);
     },
 
+    setup() {
+        /* doesnt need to do anything */
+    },
+
     switchTo() {
         const ref = SharkGame.Reflection;
         const content = $("#content");

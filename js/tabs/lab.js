@@ -25,6 +25,10 @@ SharkGame.Lab = {
         lab.resetUpgrades();
     },
 
+    setup() {
+        /* doesnt need to do anything */
+    },
+
     resetUpgrades() {
         SharkGame.Upgrades.purchased.splice(0);
 
@@ -129,9 +133,7 @@ SharkGame.Lab = {
                 if (upgrade.required) {
                     // check previous upgrades
                     if (upgrade.required.upgrades) {
-                        prereqsMet =
-                            prereqsMet &&
-                            _.every(upgrade.required.upgrades, (requiredUpgradeId) => SharkGame.Upgrades.purchased.includes(requiredUpgradeId));
+                        prereqsMet = prereqsMet && this.areRequiredUpgradePrereqsPurchased(upgradeId);
                     }
                     // validate if upgrade is possible
                     prereqsMet = prereqsMet && lab.isUpgradePossible(upgradeId) && lab.isUpgradeVisible(upgradeId);
@@ -164,6 +166,15 @@ SharkGame.Lab = {
                 }
             }
         });
+    },
+
+    areRequiredUpgradePrereqsPurchased(upgradeId) {
+        const upgradeData = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeId);
+
+        if (upgradeData.required) {
+            return _.every(upgradeData.required.upgrades, (requiredUpgradeId) => SharkGame.Upgrades.purchased.includes(requiredUpgradeId));
+        }
+        return true;
     },
 
     updateLabButton(upgradeName) {
@@ -281,6 +292,24 @@ SharkGame.Lab = {
             }
         });
         return allDone;
+    },
+
+    findAllAffordableUpgrades() {
+        const which = [];
+        const table = SharkGame.Upgrades.getUpgradeTable();
+        $.each(table, (upgradeName) => {
+            if (!this.isUpgradePossible(upgradeName) || !this.isUpgradeVisible(upgradeName) || SharkGame.Upgrades.purchased.includes(upgradeName)) {
+                return true;
+            }
+
+            if (
+                res.checkResources(SharkGame.Upgrades.getUpgradeData(table, upgradeName).cost) &&
+                this.areRequiredUpgradePrereqsPurchased(upgradeName)
+            ) {
+                which.push(upgradeName);
+            }
+        });
+        return which;
     },
 
     isUpgradePossible(upgradeName) {

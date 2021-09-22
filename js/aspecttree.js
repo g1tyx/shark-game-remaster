@@ -76,9 +76,58 @@ SharkGame.AspectTree = {
                 }
                 SharkGame.Aspects[prerequisite].requiredBy.push(aspectId);
             });
+            // wipe all levels
+            aspectData.level = 0;
+
+            // redundant removal of persistent flags
+            if (SharkGame.persistentFlags.destinyRolls) {
+                SharkGame.persistentFlags.destinyRolls = 0;
+            }
+            if (SharkGame.persistentFlags.patience) {
+                SharkGame.persistentFlags.patience = 0;
+            }
         });
     },
-    setUp() {
+
+    setup() {
+        if (SharkGame.missingAspects) {
+            res.setResource("essence", res.getTotalResource("essence"));
+            _.each(SharkGame.Aspects, (aspectData) => {
+                // wipe all levels
+                aspectData.level = 0;
+            });
+            SharkGame.PaneHandler.showAspectWarning();
+        } else {
+            // try to refund deprecated aspects
+            _.each(SharkGame.Aspects, (aspectData) => {
+                if (aspectData.deprecated) {
+                    tree.refundLevels(aspectData);
+                }
+            });
+        }
+        tree.applyAspects();
+
+        res.setResource("aspectAffect", 1);
+        res.setTotalResource("aspectAffect", 1);
+
+        tree.resetScoutingRestrictions();
+        tree.applyScoutingRestrictionsIfNeeded();
+    },
+
+    /* // now that we're done loading the levels, try to refund deprecated aspects
+                
+            
+                $.each(saveData.aspects, (aspectId, level) => {
+                    if (_.has(SharkGame.Aspects, aspectId)) {
+                        SharkGame.Aspects[aspectId].level = level;
+                    }
+                });
+            }
+                 else {
+                
+            }*/
+    resetTreeCamera() {
+        // remember to figure out this nonsense
         this.dragStart = { posX: 0, posY: 0 };
         this.cameraZoom = 1;
         this.cameraOffset = { posX: 0, posY: 0 };
@@ -511,5 +560,30 @@ SharkGame.AspectTree = {
             res.changeResource("essence", aspectData.getCost(aspectData.level - 1));
             aspectData.level -= 1;
         }
+    },
+    applyScoutingRestrictionsIfNeeded() {
+        if (gateway.currentlyOnScoutingMission()) {
+            if (!SharkGame.persistentFlags.aspectStorage) {
+                SharkGame.persistentFlags.aspectStorage = {};
+            }
+            $.each(SharkGame.Aspects, (aspectName, aspectData) => {
+                if (aspectData.core) {
+                    return true;
+                }
+                SharkGame.persistentFlags.aspectStorage[aspectName] = aspectData.level;
+                SharkGame.Aspects[aspectName].level = 0;
+            });
+        }
+    },
+    resetScoutingRestrictions() {
+        if (!SharkGame.persistentFlags.aspectStorage) {
+            SharkGame.persistentFlags.aspectStorage = {};
+        }
+        $.each(SharkGame.Aspects, (aspectName) => {
+            if (!_.isUndefined(SharkGame.persistentFlags.aspectStorage[aspectName])) {
+                SharkGame.Aspects[aspectName].level = SharkGame.persistentFlags.aspectStorage[aspectName];
+                SharkGame.persistentFlags.aspectStorage[aspectName] = undefined;
+            }
+        });
     },
 };

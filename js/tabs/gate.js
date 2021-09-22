@@ -29,10 +29,16 @@ SharkGame.Gate = {
     completedRequirements: {},
 
     init() {
-        const gate = SharkGame.Gate;
         // register tab
         SharkGame.TabHandler.registerTab(this);
-        gate.opened = false;
+        SharkGame.Gate.opened = false;
+        // redundant reset of gate requirements
+        SharkGame.Gate.requirements = {};
+        SharkGame.Gate.completedRequirements = {};
+    },
+
+    setup() {
+        /* doesnt need to do anything */
     },
 
     createSlots(gateRequirements, gateCostMultiplier) {
@@ -171,7 +177,11 @@ SharkGame.Gate = {
 
         // if there are any required upgrades in the first place, return the number of still required upgrades
         // if there are not any required upgrades, return false to identify this fact
-        return !gate.requirements.upgrades || gate.requirements.upgrades.length === 0 ? incompleteUpgrades : false;
+        if (gate.requirements.upgrades) {
+            return gate.requirements.upgrades.length === 0 ? incompleteUpgrades : false;
+        } else {
+            return false;
+        }
     },
 
     getResourcesLeft() {

@@ -93,11 +93,16 @@ SharkGame.Home = {
         marine: [
             {
                 name: "marine-default",
-                message: "The fish never run dry here. This place feels so familiar.",
+                message: "Schools of fish fill the vast, blue expanse.<br>This place feels so familiar.",
             },
             {
-                name: "lobster-one",
-                unlock: { resource: { lobster: 20 }, homeAction: ["getLobster"] },
+                name: "marine-clams",
+                unlock: { upgrade: ["crystalContainer"] },
+                message: "You notice a bunch creatures scurrying around on the ocean floor.<br>They look like crabs, but longer, and...redder?",
+            },
+            {
+                name: "marine-lobsters",
+                unlock: { totalResource: { lobster: 20 } },
                 message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
             },
         ],
@@ -105,7 +110,7 @@ SharkGame.Home = {
         haven: [
             {
                 name: "haven-default",
-                message: "The oceans are rich with life. But it's still not home.",
+                message: "These oceans are rich with life. A thriving reef surrounds you.",
             },
             {
                 name: "haven-dolphin-observes",
@@ -383,10 +388,6 @@ SharkGame.Home = {
     },
 
     init() {
-        // rename home tab
-        const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
-        home.tabName = tabName;
-
         SharkGame.TabHandler.registerTab(this);
 
         // populate action discoveries (and reset removals)
@@ -398,6 +399,16 @@ SharkGame.Home = {
 
         home.currentExtraMessageIndex = -1;
         home.currentButtonTab = "all";
+    },
+
+    setup() {
+        // rename home tab
+        const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
+        home.tabName = tabName;
+        if (SharkGame.Tabs["home"]) {
+            SharkGame.Tabs["home"].name = tabName;
+        }
+        home.discoverActions();
     },
 
     switchTo() {
@@ -527,13 +538,11 @@ SharkGame.Home = {
                 requirementsMet =
                     requirementsMet &&
                     _.every(extraMessage.unlock.resource, (requiredAmount, resourceId) => {
-                        requiredAmount *= extraMessage.scales ? main.getProgressionConstant() : 1;
                         return res.getResource(resourceId) >= requiredAmount;
                     });
                 requirementsMet =
                     requirementsMet &&
                     _.every(extraMessage.unlock.totalResource, (requiredAmount, resourceId) => {
-                        requiredAmount *= extraMessage.scales ? main.getProgressionConstant() : 1;
                         return res.getTotalResource(resourceId) >= requiredAmount;
                     });
                 requirementsMet =
@@ -888,7 +897,7 @@ SharkGame.Home = {
                 // execute effects
                 if (action.effect.resource) {
                     let resourceChange;
-                    if (amount !== 1) {
+                    if (!amount.equals(1)) {
                         resourceChange = res.scaleResourceList(action.effect.resource, amount);
                     } else {
                         resourceChange = action.effect.resource;
@@ -896,7 +905,7 @@ SharkGame.Home = {
                     res.changeManyResources(resourceChange);
                 }
                 // print outcome to log
-                if (!action.multiOutcomes || amount === 1) {
+                if (!action.multiOutcomes || amount.equals(1)) {
                     log.addMessage(SharkGame.choose(action.outcomes));
                 } else {
                     log.addMessage(SharkGame.choose(action.multiOutcomes));
@@ -925,7 +934,8 @@ SharkGame.Home = {
 
         $("#tooltipbox").removeClass("gives-consumer");
 
-        const effects = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName).effect;
+        const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+        const effects = actionData.effect;
         const validGenerators = {};
         $.each(effects.resource, (resource) => {
             $.each(SharkGame.ResourceMap.get(resource).income, (incomeResource) => {
@@ -937,11 +947,8 @@ SharkGame.Home = {
         });
 
         let buyingHowMuch = 1;
-        if (!SharkGame.Settings.current.alwaysSingularTooltip) {
-            buyingHowMuch = sharkmath.getPurchaseAmount(
-                undefined,
-                home.getMax(SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName)).toNumber()
-            );
+        if (!SharkGame.Settings.current.alwaysSingularTooltip && actionData.cost.length > 0) {
+            buyingHowMuch = sharkmath.getPurchaseAmount(undefined, home.getMax(actionData).toNumber());
             if (buyingHowMuch < 1) {
                 buyingHowMuch = 1;
             }

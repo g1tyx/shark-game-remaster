@@ -3,6 +3,7 @@
 SharkGame.EventHandler = {
     eventQueue: [],
     init() {
+        SharkGame.EventHandler.eventQueue = [];
         const queue = SharkGame.EventHandler.eventQueue;
         _.each(SharkGame.Events, (eventHandler) => {
             if (!queue[eventHandler.priority]) {
@@ -11,6 +12,8 @@ SharkGame.EventHandler = {
                 queue[eventHandler.priority].push(eventHandler);
             }
         });
+    },
+    setup() {
         SharkGame.EventHandler.handleEventTick("load");
     },
     handleEventTick(handlingTime) {

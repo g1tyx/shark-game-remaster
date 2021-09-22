@@ -1,32 +1,37 @@
 {
     "name": "shark_game",
-    "version": "0.8.1",
+    "version": "0.9.0",
     "repository": "https://github.com/spencers145/SharkGame",
     "author": "spencers145 <smartypantsspencer@gmail.com>",
     "license": "MIT",
     "types": "index.d.ts",
     "scripts": {
+        "postinstall": "yarn simple-git-hooks",
         "fix": "eslint . --fix && prettier . --write",
         "lint": "yarn lint:eslint && yarn lint:prettier",
         "test": "yarn lint:eslint:strict && yarn lint:prettier",
-        "less": "lessc ./less/style.less ./css/style.css && lessc -clean-css ./less/style.less ./css/style.min.css",
-        "less:w": "less-watch -cm ./less/style.less ./css/style.min.css",
-        "less:w:big": "less-watch -c ./less/style.less ./css/style.css",
+        "css": "yarn scss && yarn scss:big",
+        "scss": "sass ./styles/style.scss:./css/style.min.css --style=compressed",
+        "scss:big": "sass ./styles/style.scss:./css/style.css",
+        "scss:w": "yarn scss --watch",
+        "scss:w:big": "yarn scss:big --watch",
         "lint:prettier": "prettier . --check",
         "lint:eslint": "eslint . --format visualstudio",
         "lint:eslint:strict": "yarn lint:eslint --max-warnings=0"
     },
     "devDependencies": {
         "@types/jquery": "^3.5.6",
-        "@types/lodash": "^4.14.172",
+        "@types/lodash": "^4.14.173",
         "@types/pako": "^1.0.2",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier": "^3.4.0",
+        "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-standard": "^5.0.0",
-        "less": "^4.1.1",
-        "less-plugin-clean-css": "^1.5.1",
-        "less-watch-cli": "^1.0.1",
-        "prettier": "^2.3.2"
+        "prettier": "^2.4.1",
+        "sass": "^1.42.0",
+        "simple-git-hooks": "^2.6.1"
+    },
+    "simple-git-hooks": {
+        "pre-commit": "yarn test"
     }
 }

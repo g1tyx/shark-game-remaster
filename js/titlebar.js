@@ -45,8 +45,7 @@ SharkGame.TitleBar = {
                 // save people stranded on home world
                 if (confirm("Do you want to reset your game?")) {
                     // just reset
-                    main.init(true);
-                    SharkGame.Save.saveGame();
+                    main.resetGame();
                 }
             } else if (confirm("Is this world causing you too much trouble? Want to go back to the gateway?")) {
                 SharkGame.wonGame = false;
@@ -87,6 +86,10 @@ SharkGame.TitleBar = {
 };
 
 SharkGame.TitleBarHandler = {
+    init() {
+        SharkGame.TitleBarHandler.wipeTitleBar();
+    },
+
     correctTitleBar() {
         if (main.isFirstTime()) {
             SharkGame.TitleBar.skipLink.name = "reset";
@@ -97,11 +100,15 @@ SharkGame.TitleBarHandler = {
         this.setUpTitleBar();
     },
 
+    wipeTitleBar() {
+        $("#titlemenu").empty();
+        $("#subtitlemenu").empty();
+    },
+
     setUpTitleBar() {
         const titleMenu = $("#titlemenu");
         const subTitleMenu = $("#subtitlemenu");
-        titleMenu.empty();
-        subTitleMenu.empty();
+        SharkGame.TitleBarHandler.wipeTitleBar();
         $.each(SharkGame.TitleBar, (linkId, linkData) => {
             let option;
             if (linkData.link) {
