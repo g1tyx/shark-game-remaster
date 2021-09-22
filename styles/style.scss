@@ -2,133 +2,133 @@
   MIXINS
 -------------------------------------------------------*/
 //abandoned theme
-@color-lighter-abandoned: #7e798f;
-@color-light-abandoned: #454152;
-@color-med-abandoned: #1f1b2c;
-@color-dark-abandoned: #171226;
-@color-darker-abandoned: #0a0514;
+$color-lighter-abandoned: #7e798f;
+$color-light-abandoned: #454152;
+$color-med-abandoned: #1f1b2c;
+$color-dark-abandoned: #171226;
+$color-darker-abandoned: #0a0514;
 
 //chaotic theme
-@color-lighter-chaotic: #a2b3ae;
-@color-light-chaotic: #69877d;
-@color-med-chaotic: #45695d;
-@color-dark-chaotic: #26453b;
-@color-darker-chaotic: #113a2d;
+$color-lighter-chaotic: #a2b3ae;
+$color-light-chaotic: #69877d;
+$color-med-chaotic: #45695d;
+$color-dark-chaotic: #26453b;
+$color-darker-chaotic: #113a2d;
 
 //frigid theme
-@color-lighter-frigid: #c0cdd4;
-@color-light-frigid: #5d829b;
-@color-med-frigid: #2f5d7c;
-@color-dark-frigid: #14415f;
-@color-darker-frigid: #05283f;
+$color-lighter-frigid: #c0cdd4;
+$color-light-frigid: #5d829b;
+$color-med-frigid: #2f5d7c;
+$color-dark-frigid: #14415f;
+$color-darker-frigid: #05283f;
 
 //haven theme
-@color-lighter-haven: #75aab6;
-@color-light-haven: #2f7591;
-@color-med-haven: #1d5372;
-@color-dark-haven: #053247;
-@color-darker-haven: #001d2b;
+$color-lighter-haven: #75aab6;
+$color-light-haven: #2f7591;
+$color-med-haven: #1d5372;
+$color-dark-haven: #053247;
+$color-darker-haven: #001d2b;
 
 // marine theme (default)
-@color-lighter: #7788aa;
-@color-light: #4e638e;
-@color-med: #2e4372;
-@color-dark: #152a55;
-@color-darker: #061639;
+$color-lighter: #7788aa;
+$color-light: #4e638e;
+$color-med: #2e4372;
+$color-dark: #152a55;
+$color-darker: #061639;
 
 //shrouded theme
-@color-lighter-shrouded: #22bec3;
-@color-light-shrouded: #302d39;
-@color-med-shrouded: #121019;
-@color-dark-shrouded: #0f0b18;
-@color-darker-shrouded: #0a0613;
+$color-lighter-shrouded: #22bec3;
+$color-light-shrouded: #302d39;
+$color-med-shrouded: #121019;
+$color-dark-shrouded: #0f0b18;
+$color-darker-shrouded: #0a0613;
 
 //tempestuous theme
-@color-lighter-tempestuous: #858d9e;
-@color-light-tempestuous: #5e687e;
-@color-med-tempestuous: #3e4960;
-@color-dark-tempestuous: #253046;
-@color-darker-tempestuous: #121a2b;
+$color-lighter-tempestuous: #858d9e;
+$color-light-tempestuous: #5e687e;
+$color-med-tempestuous: #3e4960;
+$color-dark-tempestuous: #253046;
+$color-darker-tempestuous: #121a2b;
 
 //violent theme
-@color-lighter-violent: #975f5f;
-@color-light-violent: #714141;
-@color-med-violent: #6b2b2b;
-@color-dark-violent: #5c1919;
-@color-darker-violent: #450808;
+$color-lighter-violent: #975f5f;
+$color-light-violent: #714141;
+$color-med-violent: #6b2b2b;
+$color-dark-violent: #5c1919;
+$color-darker-violent: #450808;
 
 // -- END OF THEMES --
 
-@color-danger-lighter: #975f5f;
-@color-danger-light: #714141;
-@color-danger-med: #6b2b2b;
-@color-danger-dark: #5c1919;
-@color-danger-darker: #450808;
+$color-danger-lighter: #975f5f;
+$color-danger-light: #714141;
+$color-danger-med: #6b2b2b;
+$color-danger-dark: #5c1919;
+$color-danger-darker: #450808;
 
-@color-essence: #ace3d1;
-@color-numen: #ffffff;
+$color-essence: #ace3d1;
+$color-numen: #ffffff;
 
-@color-error: #e03030;
-@color-error-bg: #800000;
+$color-error: #e03030;
+$color-error-bg: #800000;
 
-@color-discovery: #ace3d1;
-@color-discovery-dark: darken(#ace3d1, 20%);
-@color-discovery-dark2: darken(#ace3d1, 35%);
-@color-discovery-dark3: darken(#ace3d1, 50%);
-@color-discovery-dark4: darken(#ace3d1, 65%);
+$color-discovery: #ace3d1;
+$color-discovery-dark: darken(#ace3d1, 20%);
+$color-discovery-dark2: darken(#ace3d1, 35%);
+$color-discovery-dark3: darken(#ace3d1, 50%);
+$color-discovery-dark4: darken(#ace3d1, 65%);
 
-@color-text: white;
+$color-text: white;
 
-@sidebar-width: 25%;
+$sidebar-width: 25%;
 
 // I love less for this alone
-.border-radius(@radius) {
-    -webkit-border-radius: @radius;
-    -moz-border-radius: @radius;
-    border-radius: @radius;
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
 }
 
-.box-shadow(@x: 0; @y: 0; @blur: 1px; @spread: 1px; @color: #000;) {
-    -webkit-box-shadow: @arguments;
-    -moz-box-shadow: @arguments;
-    box-shadow: @arguments;
+@mixin box-shadow($x: 0, $y: 0, $blur: 1px, $spread: 1px, $color: #000) {
+    -webkit-box-shadow: $x $y $blur $spread $color;
+    -moz-box-shadow: $x $y $blur $spread $color;
+    box-shadow: $x $y $blur $spread $color;
 }
 
-.clear-box-shadow() {
+@mixin clear-box-shadow() {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
 
-.box-shadow-inset(@x: 0; @y: 0; @blur: 1px; @spread: 1px; @color: #000;) {
-    -webkit-box-shadow: @arguments inset;
-    -moz-box-shadow: @arguments inset;
-    box-shadow: @arguments inset;
+@mixin box-shadow-inset($x: 0, $y: 0, $blur: 1px, $spread: 1px, $color: #000) {
+    -webkit-box-shadow: $x $y $blur $spread $color inset;
+    -moz-box-shadow: $x $y $blur $spread $color inset;
+    box-shadow: $x $y $blur $spread $color inset;
 }
 
-.translate(@x, @y) {
-    -webkit-transform: translateX(@x) translateY(@y);
-    -moz-transform: translateX(@x) translateY(@y);
-    -ms-transform: translateX(@x) translateY(@y);
-    -o-transform: translateX(@x) translateY(@y);
-    transform: translateX(@x) translateY(@y);
+@mixin translate($x, $y) {
+    -webkit-transform: translateX($x) translateY($y);
+    -moz-transform: translateX($x) translateY($y);
+    -ms-transform: translateX($x) translateY($y);
+    -o-transform: translateX($x) translateY($y);
+    transform: translateX($x) translateY($y);
 }
 
-.opacity (@opacity: 0.5) {
-    -webkit-opacity: @opacity;
-    -moz-opacity: @opacity;
-    opacity: @opacity;
+@mixin opacity($opacity: 0.5) {
+    -webkit-opacity: $opacity;
+    -moz-opacity: $opacity;
+    opacity: $opacity;
 }
 
-.transition(...) {
-    -webkit-transition: @arguments;
-    -moz-transition: @arguments;
-    -o-transition: @arguments;
-    -ms-transition: @arguments;
-    transition: @arguments;
+@mixin transition($arguments...) {
+    -webkit-transition: $arguments;
+    -moz-transition: $arguments;
+    -o-transition: $arguments;
+    -ms-transition: $arguments;
+    transition: $arguments;
 }
 
-.no-select() {
+@mixin no-select() {
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -143,16 +143,16 @@
     width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
 }
 
-.multi-column-list(@count: 2, @separation: 5px) {
-    -moz-column-count: @count;
-    -moz-column-gap: @separation;
-    -webkit-column-count: @count;
-    -webkit-column-gap: @separation;
-    column-count: @count;
-    column-gap: @separation;
+@mixin multi-column-list($count: 2, $separation: 5px) {
+    -moz-column-count: $count;
+    -moz-column-gap: $separation;
+    -webkit-column-count: $count;
+    -webkit-column-gap: $separation;
+    column-count: $count;
+    column-gap: $separation;
 }
 
-.pipe-separators() {
+@mixin pipe-separators() {
     list-style-type: none;
     display: inline;
 
@@ -188,69 +188,69 @@
 -------------------------------------------------------*/
 
 :root {
-    --color-lighter: @color-lighter;
-    --color-light: @color-light;
-    --color-med: @color-med;
-    --color-dark: @color-dark;
-    --color-darker: @color-darker;
-    --color-title: rgba(red(@color-med), green(@color-med), blue(@color-med), 0.2);
+    --color-lighter: #{$color-lighter};
+    --color-light: #{$color-light};
+    --color-med: #{$color-med};
+    --color-dark: #{$color-dark};
+    --color-darker: #{$color-darker};
+    --color-title: #{rgba(red($color-med), green($color-med), blue($color-med), 0.2)};
 
     :not(.no-theme) {
         &.abandoned {
-            --color-lighter: @color-lighter-abandoned;
-            --color-light: @color-light-abandoned;
-            --color-med: @color-med-abandoned;
-            --color-dark: @color-dark-abandoned;
-            --color-darker: @color-darker-abandoned;
-            --color-title: rgba(red(@color-med-abandoned), green(@color-med-abandoned), blue(@color-med-abandoned), 0.2);
+            --color-lighter: #{$color-lighter-abandoned};
+            --color-light: #{$color-light-abandoned};
+            --color-med: #{$color-med-abandoned};
+            --color-dark: #{$color-dark-abandoned};
+            --color-darker: #{$color-darker-abandoned};
+            --color-title: #{rgba(red($color-med-abandoned), green($color-med-abandoned), blue($color-med-abandoned), 0.2)};
         }
         &.chaotic {
-            --color-lighter: @color-lighter-chaotic;
-            --color-light: @color-light-chaotic;
-            --color-med: @color-med-chaotic;
-            --color-dark: @color-dark-chaotic;
-            --color-darker: @color-darker-chaotic;
-            --color-title: rgba(red(@color-med-chaotic), green(@color-med-chaotic), blue(@color-med-chaotic), 0.2);
+            --color-lighter: #{$color-lighter-chaotic};
+            --color-light: #{$color-light-chaotic};
+            --color-med: #{$color-med-chaotic};
+            --color-dark: #{$color-dark-chaotic};
+            --color-darker: #{$color-darker-chaotic};
+            --color-title: #{rgba(red($color-med-chaotic), green($color-med-chaotic), blue($color-med-chaotic), 0.2)};
         }
         &.frigid {
-            --color-lighter: @color-lighter-frigid;
-            --color-light: @color-light-frigid;
-            --color-med: @color-med-frigid;
-            --color-dark: @color-dark-frigid;
-            --color-darker: @color-darker-frigid;
-            --color-title: rgba(red(@color-med-frigid), green(@color-med-frigid), blue(@color-med-frigid), 0.2);
+            --color-lighter: #{$color-lighter-frigid};
+            --color-light: #{$color-light-frigid};
+            --color-med: #{$color-med-frigid};
+            --color-dark: #{$color-dark-frigid};
+            --color-darker: #{$color-darker-frigid};
+            --color-title: #{rgba(red($color-med-frigid), green($color-med-frigid), blue($color-med-frigid), 0.2)};
         }
         &.haven {
-            --color-lighter: @color-lighter-haven;
-            --color-light: @color-light-haven;
-            --color-med: @color-med-haven;
-            --color-dark: @color-dark-haven;
-            --color-darker: @color-darker-haven;
-            --color-title: rgba(red(@color-med-haven), green(@color-med-haven), blue(@color-med-haven), 0.2);
+            --color-lighter: #{$color-lighter-haven};
+            --color-light: #{$color-light-haven};
+            --color-med: #{$color-med-haven};
+            --color-dark: #{$color-dark-haven};
+            --color-darker: #{$color-darker-haven};
+            --color-title: #{rgba(red($color-med-haven), green($color-med-haven), blue($color-med-haven), 0.2)};
         }
         &.shrouded {
-            --color-lighter: @color-lighter-shrouded;
-            --color-light: @color-light-shrouded;
-            --color-med: @color-med-shrouded;
-            --color-dark: @color-dark-shrouded;
-            --color-darker: @color-darker-shrouded;
-            --color-title: rgba(red(@color-med-shrouded), green(@color-med-shrouded), blue(@color-med-shrouded), 0.2);
+            --color-lighter: #{$color-lighter-shrouded};
+            --color-light: #{$color-light-shrouded};
+            --color-med: #{$color-med-shrouded};
+            --color-dark: #{$color-dark-shrouded};
+            --color-darker: #{$color-darker-shrouded};
+            --color-title: #{rgba(red($color-med-shrouded), green($color-med-shrouded), blue($color-med-shrouded), 0.2)};
         }
         &.tempestuous {
-            --color-lighter: @color-lighter-tempestuous;
-            --color-light: @color-light-tempestuous;
-            --color-med: @color-med-tempestuous;
-            --color-dark: @color-dark-tempestuous;
-            --color-darker: @color-darker-tempestuous;
-            --color-title: rgba(red(@color-med-tempestuous), green(@color-med-tempestuous), blue(@color-med-tempestuous), 0.2);
+            --color-lighter: #{$color-lighter-tempestuous};
+            --color-light: #{$color-light-tempestuous};
+            --color-med: #{$color-med-tempestuous};
+            --color-dark: #{$color-dark-tempestuous};
+            --color-darker: #{$color-darker-tempestuous};
+            --color-title: #{rgba(red($color-med-tempestuous), green($color-med-tempestuous), blue($color-med-tempestuous), 0.2)};
         }
         &.violent {
-            --color-lighter: @color-lighter-violent;
-            --color-light: @color-light-violent;
-            --color-med: @color-med-violent;
-            --color-dark: @color-dark-violent;
-            --color-darker: @color-darker-violent;
-            --color-title: rgba(red(@color-med-violent), green(@color-med-violent), blue(@color-med-violent), 0.2);
+            --color-lighter: #{$color-lighter-violent};
+            --color-light: #{$color-light-violent};
+            --color-med: #{$color-med-violent};
+            --color-dark: #{$color-dark-violent};
+            --color-darker: #{$color-darker-violent};
+            --color-title: #{rgba(red($color-med-violent), green($color-med-violent), blue($color-med-violent), 0.2)};
         }
     }
 }
@@ -264,7 +264,7 @@ html {
 }
 
 body {
-    color: @color-text;
+    color: $color-text;
     background-color: var(--color-darker);
     font-family: Verdana, Geneva, sans-serif;
     font-size: 13pt;
@@ -331,8 +331,8 @@ h4 {
     margin-bottom: 0.2em;
     background: var(--color-med);
 
-    .border-radius(3px);
-    .box-shadow(0, 0, 2px, 2px, var(--color-med));
+    @include border-radius(3px);
+    @include box-shadow(0, 0, 2px, 2px, var(--color-med));
 }
 
 #wrapper {
@@ -341,7 +341,7 @@ h4 {
     margin-right: auto;
     margin-top: 2.5em;
     padding: 10px;
-    .border-radius(10px);
+    @include border-radius(10px);
     height: 100%;
 
     &.topLogActive {
@@ -362,7 +362,7 @@ pre {
 }
 
 .section {
-    .border-radius(10px);
+    @include border-radius(10px);
     padding: 5px;
     overflow: hidden;
 }
@@ -379,7 +379,7 @@ pre {
 
 #title {
     clear: both;
-    .section;
+    @extend .section;
     text-shadow: 2px 2px 3px var(--color-darker);
     margin-bottom: 1em;
     box-shadow: 0 4px 4px 4px var(--color-darker);
@@ -421,8 +421,8 @@ pre {
         box-shadow: none;
         margin-bottom: 0;
         z-index: 2;
-        .border-radius(0);
-        .click-passthrough;
+        @include border-radius(0);
+        @extend .click-passthrough;
 
         &.biggerTitleDiv {
             height: 13em;
@@ -430,7 +430,7 @@ pre {
 
         #titlebar {
             width: 100%;
-            .click-passthrough;
+            @extend .click-passthrough;
         }
 
         #gameName,
@@ -522,7 +522,7 @@ pre {
     li {
         padding: 0;
         margin: 0;
-        .pipe-separators;
+        @include pipe-separators;
     }
 }
 
@@ -532,7 +532,7 @@ pre {
     li {
         padding: 0;
         margin: 0;
-        .pipe-separators;
+        @include pipe-separators;
     }
 }
 
@@ -558,26 +558,26 @@ pre {
 
         li {
             font-weight: bold;
-            .pipe-separators;
+            @include pipe-separators;
         }
 
         .newTab {
             a {
                 &:link {
-                    color: @color-discovery;
-                    text-shadow: 0 0 0.8em @color-discovery-dark;
+                    color: $color-discovery;
+                    text-shadow: 0 0 0.8em $color-discovery-dark;
                 }
                 &:visited {
-                    color: @color-discovery;
-                    text-shadow: 0 0 0.8em @color-discovery-dark;
+                    color: $color-discovery;
+                    text-shadow: 0 0 0.8em $color-discovery-dark;
                 }
                 &:hover {
-                    color: lighten(@color-discovery, 10%);
-                    text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
+                    color: lighten($color-discovery, 10%);
+                    text-shadow: 0 0 0.8em lighten($color-discovery-dark, 10%);
                 }
                 &:active {
-                    color: lighten(@color-discovery, 10%);
-                    text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
+                    color: lighten($color-discovery, 10%);
+                    text-shadow: 0 0 0.8em lighten($color-discovery-dark, 10%);
                 }
             }
         }
@@ -597,11 +597,11 @@ pre {
 #sidebar {
     float: left;
     text-align: left;
-    width: @sidebar-width;
+    width: $sidebar-width;
     background-color: var(--color-med);
-    .section;
+    @extend .section;
     text-shadow: 0px 0px 2px #000000;
-    .box-shadow-inset(0, 0, 5px, 5px, var(--color-dark));
+    @include box-shadow-inset(0, 0, 5px, 5px, var(--color-dark));
 
     #resourceTableContainer {
         //max-width: 23em;
@@ -609,7 +609,7 @@ pre {
         //overflow: auto;
 
         table {
-            .fill-available-width;
+            @extend .fill-available-width;
             margin: 0;
             background-color: var(--color-darker);
             border: 1px solid var(--color-lighter);
@@ -641,7 +641,7 @@ pre {
                 // background: #135;
                 background: var(--color-dark);
                 cursor: pointer;
-                .no-select();
+                @include no-select();
             }
         }
     }
@@ -691,13 +691,13 @@ pre {
     }
 
     .error {
-        color: @color-error;
-        text-shadow: 0 0 0.8em @color-error-bg;
+        color: $color-error;
+        text-shadow: 0 0 0.8em $color-error-bg;
     }
 
     .discovery {
-        color: @color-discovery;
-        text-shadow: 0 0 0.8em @color-discovery-dark;
+        color: $color-discovery;
+        text-shadow: 0 0 0.8em $color-discovery-dark;
     }
 
     #messageList {
@@ -711,7 +711,7 @@ pre {
         border-style: solid;
         border-width: 2px;
         background-color: var(--color-med);
-        .box-shadow-inset(0, 0, 2px, 2px, var(--color-dark));
+        @include box-shadow-inset(0, 0, 2px, 2px, var(--color-dark));
 
         &.scrollable {
             overflow-y: scroll;
@@ -755,18 +755,18 @@ pre {
 
 #resource-numen {
     // fancier schmancier special rule
-    text-shadow: 0 0 0.3em @color-numen, 0 0 0.6em @color-numen, 0 0 0.8em @color-numen;
+    text-shadow: 0 0 0.3em $color-numen, 0 0 0.6em $color-numen, 0 0 0.8em $color-numen;
 }
 
 #resource-essence {
     // fancy schmancy special rule
-    text-shadow: 0 0 0.6em @color-essence;
+    text-shadow: 0 0 0.6em $color-essence;
 }
 
 #content {
-    .section;
+    @extend .section;
     background-color: var(--color-med);
-    .box-shadow-inset(0, 0, 5px, 5px, var(--color-dark));
+    @include box-shadow-inset(0, 0, 5px, 5px, var(--color-dark));
     padding: 0.5em;
 
     #helpButton {
@@ -775,11 +775,11 @@ pre {
 }
 
 #tabMessage {
-    .inner-section;
+    @extend .inner-section;
     padding: 1.4em;
     background: repeat-x center;
-    .border-radius(0.5em);
-    .box-shadow-inset(0, 0, 30px, 30px, var(--color-med));
+    @include border-radius(0.5em);
+    @include box-shadow-inset(0, 0, 30px, 30px, var(--color-med));
     text-shadow: 0 0 0.3em var(--color-dark);
 }
 
@@ -790,7 +790,7 @@ pre {
 }
 
 #buttonList {
-    .inner-section;
+    @extend .inner-section;
     padding: 1em;
 }
 
@@ -821,7 +821,7 @@ pre {
 }
 
 button.newlyDiscovered {
-    .gatewayButton();
+    @extend .gatewayButton;
     max-width: none;
 }
 
@@ -835,26 +835,26 @@ button.newlyDiscovered {
 
     li {
         font-weight: bold;
-        .pipe-separators;
+        @include pipe-separators;
     }
 
     .newItemAdded {
         a {
             &:link {
-                color: @color-discovery;
-                text-shadow: 0 0 0.8em @color-discovery-dark;
+                color: $color-discovery;
+                text-shadow: 0 0 0.8em $color-discovery-dark;
             }
             &:visited {
-                color: @color-discovery;
-                text-shadow: 0 0 0.8em @color-discovery-dark;
+                color: $color-discovery;
+                text-shadow: 0 0 0.8em $color-discovery-dark;
             }
             &:hover {
-                color: lighten(@color-discovery, 10%);
-                text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
+                color: lighten($color-discovery, 10%);
+                text-shadow: 0 0 0.8em lighten($color-discovery-dark, 10%);
             }
             &:active {
-                color: lighten(@color-discovery, 10%);
-                text-shadow: 0 0 0.8em lighten(@color-discovery-dark, 10%);
+                color: lighten($color-discovery, 10%);
+                text-shadow: 0 0 0.8em lighten($color-discovery-dark, 10%);
             }
         }
     }
@@ -870,7 +870,7 @@ button.newlyDiscovered {
 //////////////////////////////////////////////////////////////
 
 #statsContainer {
-    .inner-section;
+    @extend .inner-section;
     padding: 1em;
 }
 
@@ -895,19 +895,19 @@ button.newlyDiscovered {
 
 #statsUpperContainer {
     width: 100%;
-    .statsInnerContainer;
+    @extend .statsInnerContainer;
 }
 
 #statsLeftContainer {
     float: left;
     width: 50%;
-    .statsInnerContainer;
+    @extend .statsInnerContainer;
 }
 
 #statsRightContainer {
     float: right;
     width: 45%;
-    .statsInnerContainer;
+    @extend .statsInnerContainer;
 }
 
 #incomeData {
@@ -922,7 +922,7 @@ button.newlyDiscovered {
         background: var(--color-dark);
     }
     .essenceGlow {
-        text-shadow: 0 0 1em @color-essence;
+        text-shadow: 0 0 1em $color-essence;
         background: var(--color-dark);
     }
 }
@@ -983,10 +983,10 @@ button.newlyDiscovered {
         float: left;
         margin: auto;
         width: 25%;
-        background: @color-danger-darker url("../img/recyclerbg.png") center;
-        color: lighten(@color-danger-lighter, 30%);
-        border: 0.2em solid @color-danger-lighter;
-        .box-shadow-inset(0, 0, 15px, 15px, @color-danger-darker);
+        background: $color-danger-darker url("../img/recyclerbg.png") center;
+        color: lighten($color-danger-lighter, 30%);
+        border: 0.2em solid $color-danger-lighter;
+        @include box-shadow-inset(0, 0, 15px, 15px, $color-danger-darker);
         padding: 0.5em;
         z-index: 5;
         text-shadow: 0px 0px 2px #000000;
@@ -1023,9 +1023,9 @@ button.newlyDiscovered {
 
 button {
     background-color: var(--color-light);
-    color: @color-text;
+    color: $color-text;
 
-    .border-radius(10px);
+    @include border-radius(10px);
     border: 2px solid var(--color-lighter);
 
     padding: 10px;
@@ -1033,7 +1033,7 @@ button {
     cursor: pointer;
     display: block;
     min-width: 12em;
-    .no-select();
+    @include no-select();
     text-shadow: 0px 0px 2px #000000;
 
     font-size: 90%;
@@ -1061,15 +1061,15 @@ button {
     }
 
     &:hover {
-        //background-color: @highlight-color;
-        //color: @super-highlight;
-        .box-shadow(0px, 0px, 2px, 2px, var(--color-lighter));
+        //background-color: $highlight-color;
+        //color: $super-highlight;
+        @include box-shadow(0px, 0px, 2px, 2px, var(--color-lighter));
     }
 
     &:active {
         background-color: var(--color-dark);
         color: var(--color-light);
-        .box-shadow-inset(0px, 3px, 7px, 7px, var(--color-darker));
+        @include box-shadow-inset(0px, 3px, 7px, 7px, var(--color-darker));
 
         .medDesc {
             font-size: 80%;
@@ -1078,7 +1078,7 @@ button {
         }
 
         div {
-            .clear-box-shadow();
+            @include clear-box-shadow();
             background-color: var(--color-dark);
         }
     }
@@ -1109,7 +1109,7 @@ button {
         }
 
         div {
-            .clear-box-shadow();
+            @include clear-box-shadow();
             background-color: var(--color-darker);
         }
     }
@@ -1121,7 +1121,7 @@ button {
     width: 6em;
     background-color: var(--color-light);
     border-color: var(--color-lighter);
-    color: @color-text;
+    color: $color-text;
     font-size: 90%;
 
     &[disabled] {
@@ -1142,9 +1142,9 @@ button {
     display: block;
     margin: 0 auto 0.4em auto;
 
-    .box-shadow(0, 0, 3px, 3px, var(--color-lighter));
-    .border-radius(5px);
-    .click-passthrough;
+    @include box-shadow(0, 0, 3px, 3px, var(--color-lighter));
+    @include border-radius(5px);
+    @extend .click-passthrough;
 }
 
 .gives-consumer {
@@ -1154,22 +1154,22 @@ button {
 #tabSceneImage {
     display: block;
     margin: 0.1em auto 0.4em auto;
-    .border-radius(5px);
-    .box-shadow(0, 0, 5px, 5px, var(--color-dark));
+    @include border-radius(5px);
+    @include box-shadow(0, 0, 5px, 5px, var(--color-dark));
 }
 
 #tabSceneImageRed {
-    #tabSceneImage;
-    .box-shadow(0, 0, 5px, 5px, @color-danger-dark);
+    @extend #tabSceneImage;
+    @include box-shadow(0, 0, 5px, 5px, $color-danger-dark);
 }
 
 #tabSceneImageEssence {
-    #tabSceneImage;
-    .box-shadow(0, 0, 5px, 5px, darken(@color-essence, 30%));
+    @extend #tabSceneImage;
+    @include box-shadow(0, 0, 5px, 5px, darken($color-essence, 30%));
 }
 
 #overlay {
-    .opacity(0.5);
+    @include opacity(0.5);
     position: fixed;
     top: 0;
     left: 0;
@@ -1190,11 +1190,11 @@ button {
 .smallDesc {
     font-size: 80%;
     color: var(--color-lighter);
-    .click-passthrough;
+    @extend .click-passthrough;
 }
 
 .smallDescAllowClicks {
-    .smallDesc;
+    @extend .smallDesc;
     pointer-events: auto;
 }
 
@@ -1202,21 +1202,21 @@ button {
     font-size: 80%;
     color: var(--color-lighter);
     filter: brightness(130%);
-    .click-passthrough;
+    @extend .click-passthrough;
 }
 
 .largeDesc {
     font-size: 125%;
     color: var(--color-lighter);
     filter: brightness(130%);
-    .click-passthrough;
+    @extend .click-passthrough;
 }
 
 .copyrightNotice {
-    .no-select;
+    @include no-select;
     // In Chrome, rendering error makes copyright notice be in front
     // of the resource table sometimes, preventing tooltips and clicking
-    .click-passthrough;
+    @extend .click-passthrough;
     font-size: 80%;
     color: var(--color-lighter);
     filter: brightness(130%);
@@ -1227,16 +1227,16 @@ button {
 
 #pane {
     background-color: var(--color-dark);
-    .box-shadow-inset(0, 0, 5px, 5px, var(--color-darker));
+    @include box-shadow-inset(0, 0, 5px, 5px, var(--color-darker));
     filter: brightness(98%);
-    .border-radius(10px);
+    @include border-radius(10px);
     padding: 1em 2em;
     margin: auto;
     overflow: auto;
     position: fixed;
     top: 50%;
     left: 50%;
-    .translate(-50%, -50%);
+    @include translate(-50%, -50%);
     border: double var(--color-med);
     max-height: 90%;
     max-width: 90%;
@@ -1303,102 +1303,102 @@ button {
 
 .gateway {
     text-align: center;
-    text-shadow: 0 0 0.7em lighten(@color-discovery, 5%);
+    text-shadow: 0 0 0.7em lighten($color-discovery, 5%);
 
     h1 {
         text-align: center;
-        color: lighten(@color-discovery, 10%);
-        text-shadow: 0 0 0.3em lighten(@color-discovery, 20%), 0 0 2em lighten(@color-discovery, 20%);
+        color: lighten($color-discovery, 10%);
+        text-shadow: 0 0 0.3em lighten($color-discovery, 20%), 0 0 2em lighten($color-discovery, 20%);
     }
 
     h2 {
         text-align: center;
-        color: @color-discovery;
-        text-shadow: 0 0 0.3em lighten(@color-discovery, 10%), 0 0 2em lighten(@color-discovery, 10%);
+        color: $color-discovery;
+        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     h3 {
         text-align: center;
-        color: @color-discovery;
-        text-shadow: 0 0 0.3em lighten(@color-discovery, 10%), 0 0 2em lighten(@color-discovery, 10%);
+        color: $color-discovery;
+        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     h4 {
         text-align: center;
-        color: @color-discovery;
-        text-shadow: 0 0 0.3em lighten(@color-discovery, 10%), 0 0 2em lighten(@color-discovery, 10%);
+        color: $color-discovery;
+        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     .medDesc {
-        color: lighten(@color-discovery-dark2, 30%);
+        color: lighten($color-discovery-dark2, 30%);
     }
 
     .largeDesc {
-        color: lighten(@color-discovery-dark2, 30%);
+        color: lighten($color-discovery-dark2, 30%);
     }
 
     .smallDesc {
-        color: @color-discovery;
+        color: $color-discovery;
     }
 }
 
 .gatewayButton {
-    background-color: @color-discovery-dark2;
-    border-color: @color-discovery;
-    text-shadow: 0 0 0.5em lighten(@color-discovery, 5%);
+    background-color: $color-discovery-dark2;
+    border-color: $color-discovery;
+    text-shadow: 0 0 0.5em lighten($color-discovery, 5%);
     max-width: 16em;
 
     div {
-        background-color: @color-discovery-dark;
-        .box-shadow(0, 0, 3px, 3px, @color-discovery-dark);
+        background-color: $color-discovery-dark;
+        @include box-shadow(0, 0, 3px, 3px, $color-discovery-dark);
     }
 
     &:hover {
-        //background-color: @highlight-color;
-        //color: @super-highlight;
-        .box-shadow(0px, 0px, 2px, 2px, @color-discovery);
+        //background-color: $highlight-color;
+        //color: $super-highlight;
+        @include box-shadow(0px, 0px, 2px, 2px, $color-discovery);
     }
 
     &:active {
-        background-color: @color-discovery-dark3;
-        color: @color-discovery-dark;
-        .box-shadow-inset(0px, 3px, 7px, 7px, @color-discovery-dark3);
+        background-color: $color-discovery-dark3;
+        color: $color-discovery-dark;
+        @include box-shadow-inset(0px, 3px, 7px, 7px, $color-discovery-dark3);
 
         .medDesc {
-            color: darken(@color-discovery, 10%);
+            color: darken($color-discovery, 10%);
         }
 
         div {
-            background-color: @color-discovery-dark3;
-            .clear-box-shadow();
+            background-color: $color-discovery-dark3;
+            @include clear-box-shadow();
         }
     }
 
     &.disabled {
-        background-color: @color-discovery-dark4;
-        color: lighten(@color-discovery-dark3, 10%);
-        border-color: lighten(@color-discovery-dark3, 10%);
+        background-color: $color-discovery-dark4;
+        color: lighten($color-discovery-dark3, 10%);
+        border-color: lighten($color-discovery-dark3, 10%);
 
         .medDesc {
-            color: darken(@color-discovery-dark, 15%);
+            color: darken($color-discovery-dark, 15%);
         }
 
         div {
-            background-color: @color-discovery-dark4;
-            .clear-box-shadow();
+            background-color: $color-discovery-dark4;
+            @include clear-box-shadow();
         }
     }
 }
 
 .gateway button,
 button.gateway {
-    .gatewayButton();
+    @extend .gatewayButton;
 }
 
 #pane.gateway {
-    .border-radius(3em);
-    background-color: @color-discovery-dark3;
-    .box-shadow(0, 0, 2em, 2em, @color-discovery-dark3);
+    @include border-radius(3em);
+    background-color: $color-discovery-dark3;
+    @include box-shadow(0, 0, 2em, 2em, $color-discovery-dark3);
     border: none;
 
     #paneHeaderEnd,
@@ -1407,31 +1407,31 @@ button.gateway {
     }
 
     #treeCanvas {
-        .border-radius(10px);
-        .box-shadow(0, 0, 5px, 5px, @color-discovery);
+        @include border-radius(10px);
+        @include box-shadow(0, 0, 5px, 5px, $color-discovery);
         width: 800px;
         height: 600px;
     }
 }
 
 #overlay.gateway {
-    .opacity(1);
-    background-color: @color-discovery-dark4;
+    @include opacity(1);
+    background-color: $color-discovery-dark4;
 }
 
 .gateway .essenceCount {
-    color: darken(@color-essence, 20%);
-    text-shadow: 0 0 0.6em darken(@color-essence, 20%);
+    color: darken($color-essence, 20%);
+    text-shadow: 0 0 0.6em darken($color-essence, 20%);
 }
 
 .gateway .essenceCountBrighter {
-    color: lighten(@color-essence, 5%);
-    text-shadow: 0 0 0.6em lighten(@color-essence, 5%);
+    color: lighten($color-essence, 5%);
+    text-shadow: 0 0 0.6em lighten($color-essence, 5%);
 }
 
 .gateway .numenCount {
-    color: @color-numen;
-    text-shadow: 0 0 0.3em @color-numen, 0 0 0.6em @color-numen, 0 0 0.8em @color-numen;
+    color: $color-numen;
+    text-shadow: 0 0 0.3em $color-numen, 0 0 0.6em $color-numen, 0 0 0.8em $color-numen;
 }
 
 .gatewayButtonList {
@@ -1460,11 +1460,11 @@ button.gateway {
 }
 
 .gateway ::selection {
-    background-color: @color-discovery-dark4;
+    background-color: $color-discovery-dark4;
 }
 
 .gateway ::-moz-selection {
-    background-color: @color-discovery-dark4;
+    background-color: $color-discovery-dark4;
 }
 
 #aspectList {
@@ -1476,7 +1476,7 @@ button.gateway {
     tr:nth-child(4n),
     tr:nth-child(4n + 1) {
         td {
-            background-color: @color-discovery-dark2;
+            background-color: $color-discovery-dark2;
         }
     }
 }
@@ -1485,48 +1485,48 @@ button.gateway {
     display: inline-block;
     vertical-align: middle;
 
-    .border-radius(0.5em);
-    background-color: @color-discovery-dark3;
-    .box-shadow(0, 0, 0.5em, 0.5em, @color-discovery-dark3);
+    @include border-radius(0.5em);
+    background-color: $color-discovery-dark3;
+    @include box-shadow(0, 0, 0.5em, 0.5em, $color-discovery-dark3);
     padding: 0.2em;
     margin: 1.5em;
     max-width: 14em;
 
     .gatewayButton {
-        .box-shadow(0, 0, 3px, 3px, @color-discovery-dark);
+        @include box-shadow(0, 0, 3px, 3px, $color-discovery-dark);
     }
 }
 
 .planetDisplay {
-    .border-radius(50px);
-    background-color: @color-discovery-dark;
-    .box-shadow(0, 0, 3px, 3px, @color-discovery-dark);
+    @include border-radius(50px);
+    background-color: $color-discovery-dark;
+    @include box-shadow(0, 0, 3px, 3px, $color-discovery-dark);
     margin: 0 auto;
 }
 
 button.planetButton {
     background-color: transparent;
     border: none;
-    text-shadow: 0 0 0.5em lighten(@color-discovery, 5%);
+    text-shadow: 0 0 0.5em lighten($color-discovery, 5%);
     padding: 20px;
     max-width: 14em;
     margin: 0.8em;
 
     div {
-        .border-radius(50px);
+        @include border-radius(50px);
     }
 
     &:hover {
-        text-shadow: 0 0 0.3em lighten(@color-discovery, 5%), 0 0 0.6em lighten(@color-discovery, 10%), 0 0 0.9em lighten(@color-discovery, 15%);
-        .clear-box-shadow();
+        text-shadow: 0 0 0.3em lighten($color-discovery, 5%), 0 0 0.6em lighten($color-discovery, 10%), 0 0 0.9em lighten($color-discovery, 15%);
+        @include clear-box-shadow();
 
         div {
-            .box-shadow(0, 0, 0.4em, 0.4em, @color-discovery);
+            @include box-shadow(0, 0, 0.4em, 0.4em, $color-discovery);
         }
     }
 
     &:active {
-        .clear-box-shadow();
+        @include clear-box-shadow();
     }
 }
 
@@ -1574,11 +1574,11 @@ button.planetButton {
 
 .forAspectTree {
     width: 300px;
-    background-color: @color-discovery-dark3;
-    border-color: @color-discovery-dark2;
+    background-color: $color-discovery-dark3;
+    border-color: $color-discovery-dark2;
     &Unpurchased {
-        background-color: @color-discovery-dark4;
-        border-color: @color-discovery-dark3;
+        background-color: $color-discovery-dark4;
+        border-color: $color-discovery-dark3;
     }
 }
 
@@ -1666,7 +1666,7 @@ button.planetButton {
 
 .minuteOn {
     color: #fff;
-    text-shadow: 0 0 0.6em @color-numen;
+    text-shadow: 0 0 0.6em $color-numen;
 }
 
 .minuteOff {

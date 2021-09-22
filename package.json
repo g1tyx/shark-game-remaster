@@ -8,8 +8,11 @@
         "fix": "eslint . --fix && prettier . --write",
         "lint": "yarn lint:eslint && yarn lint:prettier",
         "test": "yarn lint:eslint:strict && yarn lint:prettier",
-        "css": "yarn less && yarn minify-css",
-        "less": "lessc ./less/style.less ./css/style.css",
+        "css": "yarn scss && yarn scss:big",
+        "scss": "sass ./styles/style.scss:./css/style.min.css --style=compressed",
+        "scss:big": "sass ./styles/style.scss:./css/style.css",
+        "scss:w": "yarn scss --watch",
+        "scss:w:big": "yarn scss:big --watch",
         "minify-css": "css-minify -f ./css/style.css -o ./css/",
         "lint:prettier": "prettier . --check",
         "lint:eslint": "eslint . --format visualstudio",
@@ -19,12 +22,11 @@
         "@types/jquery": "^3.5.6",
         "@types/lodash": "^4.14.173",
         "@types/pako": "^1.0.2",
-        "css-minify": "^2.0.0",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-standard": "^5.0.0",
-        "less": "^4.1.1",
-        "prettier": "^2.4.1"
+        "prettier": "^2.4.1",
+        "sass": "^1.42.0"
     }
 }
