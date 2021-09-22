@@ -600,7 +600,7 @@ SharkGame.AspectTree = {
         if (!SharkGame.persistentFlags.aspectStorage) {
             SharkGame.persistentFlags.aspectStorage = {};
         }
-        $.each(SharkGame.Aspects, (aspectName, aspectData) => {
+        $.each(SharkGame.Aspects, (aspectName) => {
             if (!_.isUndefined(SharkGame.persistentFlags.aspectStorage[aspectName])) {
                 SharkGame.Aspects[aspectName].level = SharkGame.persistentFlags.aspectStorage[aspectName];
                 SharkGame.persistentFlags.aspectStorage[aspectName] = undefined;

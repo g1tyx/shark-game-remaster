@@ -39,7 +39,10 @@ SharkGame.Gateway = {
                 gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
                 patienceReward = SharkGame.Aspects.patience.level;
             }
-            res.changeResource("essence", (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward));
+            res.changeResource(
+                "essence",
+                (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward)
+            );
         }
 
         if (this.planetPool.length === 0) {
