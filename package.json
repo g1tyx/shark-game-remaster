@@ -8,24 +8,23 @@
         "fix": "eslint . --fix && prettier . --write",
         "lint": "yarn lint:eslint && yarn lint:prettier",
         "test": "yarn lint:eslint:strict && yarn lint:prettier",
-        "less": "lessc ./less/style.less ./css/style.css && lessc -clean-css ./less/style.less ./css/style.min.css",
-        "less:w": "less-watch -cm ./less/style.less ./css/style.min.css",
-        "less:w:big": "less-watch -c ./less/style.less ./css/style.css",
+        "css": "yarn less && yarn minify-css",
+        "less": "lessc ./less/style.less ./css/style.css",
+        "minify-css": "css-minify -f ./css/style.css -o ./css/",
         "lint:prettier": "prettier . --check",
         "lint:eslint": "eslint . --format visualstudio",
         "lint:eslint:strict": "yarn lint:eslint --max-warnings=0"
     },
     "devDependencies": {
         "@types/jquery": "^3.5.6",
-        "@types/lodash": "^4.14.172",
+        "@types/lodash": "^4.14.173",
         "@types/pako": "^1.0.2",
+        "css-minify": "^2.0.0",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier": "^3.4.0",
+        "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-standard": "^5.0.0",
         "less": "^4.1.1",
-        "less-plugin-clean-css": "^1.5.1",
-        "less-watch-cli": "^1.0.1",
-        "prettier": "^2.3.2"
+        "prettier": "^2.4.1"
     }
 }
