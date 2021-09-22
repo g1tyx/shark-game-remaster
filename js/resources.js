@@ -69,10 +69,16 @@ SharkGame.Resources = {
             SharkGame.ModifierMap.set(resourceId, _.cloneDeep(multiplierObject));
         });
 
+        res.idleMultiplier = 1;
         res.specialMultiplier = 1;
         SharkGame.ResourceIncomeAffectors = _.cloneDeep(SharkGame.ResourceIncomeAffectorsOriginal);
         SharkGame.GeneratorIncomeAffectors = _.cloneDeep(SharkGame.GeneratorIncomeAffectorsOriginal);
         res.clearNetworks();
+    },
+
+    setup() {
+        res.recalculateIncomeTable();
+        res.reconstructResourcesTable();
     },
 
     processIncomes(timeDelta, debug, simulatingOffline) {
@@ -277,7 +283,8 @@ SharkGame.Resources = {
             res.getSpecialMultiplier() *
             res.getNetworkIncomeModifier("generator", generator) *
             res.getNetworkIncomeModifier("resource", product) *
-            cad.speed
+            cad.speed *
+            res.idleMultiplier
         );
     },
 
@@ -421,7 +428,7 @@ SharkGame.Resources = {
 
     haveAnyResources() {
         for (const [resourceName, resource] of SharkGame.PlayerResources) {
-            if (resourceName === "world") continue;
+            if (resourceName === "world" || resourceName === "aspectAffect") continue;
             if (resource.totalAmount > 0) return true;
         }
         return false;
@@ -502,12 +509,12 @@ SharkGame.Resources = {
                 SharkGame.flags.tokens = {};
             }
 
-            if (this.list.length > SharkGame.Aspects.pathOfIndustry.level) {
+            if (this.list.length > SharkGame.Aspects.tokenOfIndustry.level) {
                 this.list = [];
                 $("#token-div").empty();
             }
 
-            while (this.list.length < SharkGame.Aspects.pathOfIndustry.level) {
+            while (this.list.length < SharkGame.Aspects.tokenOfIndustry.level) {
                 this.makeToken();
             }
 
@@ -716,7 +723,7 @@ SharkGame.Resources = {
         },
 
         applyTokenEffect(targetId, _id, reverseOrApply = "apply") {
-            const multiplier = SharkGame.Aspects.coordinatedCooperation.level + 2;
+            const multiplier = (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1);
             if (targetId === "NA" || targetId.includes("token")) {
                 return;
             } else if (targetId.includes("resource")) {
@@ -763,6 +770,8 @@ SharkGame.Resources = {
 
     minuteHand: {
         active: false,
+        disableNextTick: false,
+        realMultiplier: 1,
         onMessages: [
             "Time warps around you.",
             "Everything seems to get faster.",
@@ -803,89 +812,195 @@ SharkGame.Resources = {
         ],
 
         init() {
-            if (!SharkGame.flags.minuteHandTimer) {
-                SharkGame.flags.minuteHandTimer = 60000 + 30000 * SharkGame.Aspects.theHourHand.level;
+            if (typeof SharkGame.flags.minuteHandTimer !== "number") {
+                SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
             }
-            if (SharkGame.Aspects.theMinuteHand.level && $("#minute-hand-toggle").length === 0) {
+            if (!SharkGame.persistentFlags.selectedMultiplier) {
+                SharkGame.persistentFlags.selectedMultiplier = 2;
+            }
+            if (SharkGame.persistentFlags.everIdled && $("#minute-hand-toggle").length === 0 && SharkGame.Settings.current.idleEnabled) {
                 SharkGame.Button.makeHoverscriptButton(
                     "minute-hand-toggle",
                     "my cool button",
                     $("#minute-hand-div"),
                     res.minuteHand.toggleMinuteHand,
-                    null,
-                    null
+                    res.minuteHand.showTooltip,
+                    res.tableTextLeave
                 );
+                $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
+                $("#minute-row-two").append($("<div>").attr("id", "minute-time"));
+                $("#minute-row-two").append($("<div>").attr("id", "minute-pause"));
+
+                if (SharkGame.Aspects.meditation.level) {
+                    SharkGame.Button.makeHoverscriptButton(
+                        "pause-toggle",
+                        "||",
+                        $("#minute-pause"),
+                        res.pause.togglePause,
+                        res.pause.showTooltip,
+                        res.tableTextLeave
+                    );
+                }
+                $("#pause-toggle").addClass("close-button min");
+
+                const slider = $("<input>")
+                    .attr("id", "minute-slider")
+                    .attr("type", "range")
+                    .attr("min", 1)
+                    .attr("max", 9)
+                    .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
+                    .on("input", res.minuteHand.changeSelectedMultiplier);
+                $("#minute-hand-div").append(slider);
+                res.minuteHand.updateRotationNextTick = true;
             }
 
-            if (!SharkGame.Aspects.theMinuteHand.level) {
-                $("#minute-hand-toggle").remove();
+            if (!SharkGame.persistentFlags.everIdled || !SharkGame.Settings.current.idleEnabled) {
+                $("#minute-hand-div").empty();
             }
+            this.changeRealMultiplier(1);
             this.active = false;
+            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
+            this.updateMinuteHandLabel();
         },
 
         updateMinuteHand(timeElapsed) {
-            if (!SharkGame.flags.minuteHandTimer) {
+            if (typeof SharkGame.flags.minuteHandTimer !== "number") {
                 return;
             }
 
-            if (SharkGame.flags.minuteHandTimer <= 0) {
-                SharkGame.flags.minuteHandTimer = 0;
-                res.minuteHand.toggleMinuteHand();
-            }
-
-            if (!res.minuteHand.active) {
-                SharkGame.flags.minuteHandTimer += (timeElapsed * (SharkGame.Aspects.theSecondHand.level + 1)) / 10;
-                if (SharkGame.flags.minuteHandTimer < 3000) {
-                    $("#minute-hand-toggle").addClass("disabled");
-                } else {
-                    $("#minute-hand-toggle").removeClass("disabled");
+            if (res.minuteHand.disableNextTick) {
+                res.minuteHand.disableNextTick = false;
+                if (res.minuteHand.active) {
+                    res.minuteHand.toggleMinuteHand();
                 }
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>ENABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
-                );
+            } else if (!res.minuteHand.active) {
+                SharkGame.flags.minuteHandTimer += timeElapsed;
             } else {
-                SharkGame.flags.minuteHandTimer -= timeElapsed;
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>DISABLE MINUTE HAND (" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)</span>"
-                );
+                SharkGame.flags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
+                if (SharkGame.flags.minuteHandTimer < 0) {
+                    res.minuteHand.disableNextTick = true;
+                    // the net effect of this next statement is making the processing which
+                    // happens later in this tick give exactly as much income as needed to exhaust the minute hand
+                    res.minuteHand.changeRealMultiplier(SharkGame.flags.minuteHandTimer / timeElapsed + res.minuteHand.realMultiplier - 1);
+                    SharkGame.flags.minuteHandTimer = 0;
+                    res.minuteHand.toggleMinuteHand();
+                }
             }
+            res.minuteHand.updateMinuteHandLabel();
         },
 
         toggleMinuteHand() {
-            if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 3000) {
+            if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 0) {
                 res.minuteHand.active = true;
-                let speedConstant = SharkGame.Aspects.theMinuteHand.level;
-                switch (SharkGame.Settings.current.gameSpeed) {
-                    case "Idle":
-                        speedConstant += 5;
-                        break;
-                    case "Inactive":
-                        speedConstant += 3;
-                        break;
-                    default:
-                        speedConstant += 1;
-                        break;
-                }
-                res.specialMultiplier *= speedConstant;
+                res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
                 $("#minute-hand-toggle").addClass("minuteOn");
                 log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
             } else if (res.minuteHand.active) {
                 res.minuteHand.active = false;
-                /*                 let speedConstant = SharkGame.Aspects.theMinuteHand.level;
-                switch (SharkGame.Settings.current.gameSpeed) {
-                    case "Idle":
-                        speedConstant += 5;
-                        break;
-                    case "Inactive":
-                        speedConstant += 3;
-                        break;
-                    default:
-                        speedConstant += 1;
-                        break;
-                } */
-                res.specialMultiplier = 1;
+                res.minuteHand.changeRealMultiplier(1);
                 $("#minute-hand-toggle").removeClass("minuteOn");
                 log.addMessage("<span class='minuteOff'>" + SharkGame.choose(res.minuteHand.offMessages) + "</span>");
+            }
+            res.minuteHand.updateDisplay();
+        },
+
+        changeSelectedMultiplier(_event, arbitrary) {
+            let multiplier = SharkGame.persistentFlags.selectedMultiplier;
+            if (arbitrary) {
+                multiplier = arbitrary;
+            } else {
+                multiplier = 2 ** document.getElementById("minute-slider").value;
+                document
+                    .getElementById("minute-slider")
+                    .style.setProperty("--minuterotation", "rotate(" + (45 * document.getElementById("minute-slider").value - 90) + "deg)");
+            }
+            SharkGame.persistentFlags.selectedMultiplier = multiplier;
+            if (res.minuteHand.active) {
+                res.minuteHand.changeRealMultiplier(multiplier);
+            }
+            res.minuteHand.updateDisplay();
+        },
+
+        changeRealMultiplier(someNumber) {
+            res.specialMultiplier /= res.minuteHand.realMultiplier;
+            res.minuteHand.realMultiplier = someNumber;
+            res.specialMultiplier *= res.minuteHand.realMultiplier;
+        },
+
+        updateDisplay() {
+            res.minuteHand.updateMinuteHandLabel();
+            if (SharkGame.Settings.current.minuteHandEffects) {
+                res.minuteHand.updatePowers();
+            }
+        },
+
+        updateMinuteHandLabel() {
+            if (!res.minuteHand.active) {
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>ACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
+                );
+            } else {
+                $("#minute-hand-toggle").html(
+                    "<span class='click-passthrough bold'>DEACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
+                );
+            }
+            $("#minute-time").html(sharktext.boldString("(" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)"));
+            if (SharkGame.flags.minuteHandTimer === 0) {
+                $("#minute-hand-toggle").addClass("disabled");
+                $("#minute-time").addClass("noTime");
+            } else {
+                $("#minute-hand-toggle").removeClass("disabled");
+                $("#minute-time").removeClass("noTime");
+            }
+        },
+
+        updatePowers() {
+            $("#minute-slider").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
+            $("#minute-hand-toggle").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
+            if (res.minuteHand.active && SharkGame.Settings.current.minuteHandEffects) {
+                const multiplier = 2 ** document.getElementById("minute-slider").value;
+                if (multiplier === 2) {
+                    $("#minute-slider").addClass("power1");
+                    $("#minute-hand-toggle").addClass("power1");
+                } else if (multiplier > 2 && multiplier <= 16) {
+                    $("#minute-slider").addClass("power2");
+                    $("#minute-hand-toggle").addClass("power2");
+                } else if (multiplier > 16 && multiplier <= 64) {
+                    $("#minute-slider").addClass("power3");
+                    $("#minute-hand-toggle").addClass("power3");
+                } else if (multiplier > 64 && multiplier <= 256) {
+                    $("#minute-slider").addClass("power4");
+                    $("#minute-hand-toggle").addClass("power4");
+                } else if (multiplier === 512) {
+                    $("#minute-slider").addClass("power5");
+                    $("#minute-hand-toggle").addClass("power5");
+                }
+            }
+        },
+
+        showTooltip() {
+            $("#tooltipbox").html(
+                "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it.<br><br>(traditional offline progress available in options)"
+            );
+        },
+    },
+
+    pause: {
+        togglePause() {
+            if (cad.pause) {
+                $("#pause-toggle").removeClass("on");
+                cad.pause = false;
+            } else {
+                $("#pause-toggle").addClass("on");
+                cad.pause = true;
+            }
+        },
+
+        showTooltip() {
+            if (cad.pause) {
+                $("#tooltipbox").html("Click to <strong>unpause</strong>.");
+            } else {
+                $("#tooltipbox").html("Click to <strong>pause</strong>.");
             }
         },
     },
@@ -907,6 +1022,7 @@ SharkGame.Resources = {
             // check for aspect level here later
             statusDiv.prepend($("<div>").attr("id", "token-div"));
             statusDiv.prepend($("<div>").attr("id", "token-description"));
+            statusDiv.prepend($("<div>").attr("id", "fake-minute-hand-div"));
             statusDiv.prepend($("<div>").attr("id", "minute-hand-div"));
             statusDiv.prepend("<h3>Stuff</h3>");
             const tableContainer = $("<div>").attr("id", "resourceTableContainer");
@@ -1118,14 +1234,18 @@ SharkGame.Resources = {
                 if (amount > 0) {
                     producertext += "<br>";
                     producertext +=
-                        (which === "world" ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (which === "world" || which === "aspectAffect"
+                            ? ""
+                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(amount).bold();
                 } else if (amount < 0) {
                     consumertext += "<br>";
                     consumertext +=
-                        (which === "world" ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (which === "world" || which === "aspectAffect"
+                            ? ""
+                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(-amount).bold();

@@ -4,6 +4,10 @@ SharkGame.Tabs = {
 };
 
 SharkGame.TabHandler = {
+    init() {
+        SharkGame.Tabs.current = "home";
+    },
+
     checkTabUnlocks() {
         $.each(SharkGame.Tabs, (tabName, tab) => {
             if (tabName === "current" || tab.discovered) {
@@ -52,13 +56,18 @@ SharkGame.TabHandler = {
         });
     },
 
+    isTabUnlocked(tabName) {
+        return SharkGame.Tabs[tabName].discovered;
+    },
+
     setUpTab() {
         const tabs = SharkGame.Tabs;
         // empty out content div
         const content = $("#content");
 
         content.empty();
-        content.append('<div id="contentMenu"><ul id="tabList"></ul></div><div id="tabBorder" class="clear-fix"></div>');
+        $("#contentMenu").empty();
+        $("#contentMenu").append('<ul id="tabList"></ul></div><div id="tabBorder" class="clear-fix">');
 
         this.createTabNavigation();
 

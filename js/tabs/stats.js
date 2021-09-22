@@ -22,6 +22,9 @@ SharkGame.Stats = {
 
     init() {
         SharkGame.TabHandler.registerTab(this);
+    },
+
+    setup() {
         stats.recreateIncomeTable = true;
     },
 
@@ -236,7 +239,7 @@ SharkGame.Stats = {
                         }
 
                         newValue =
-                            resourceId !== "world"
+                            resourceId !== "world" && resourceId !== "aspectAffect"
                                 ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(resourceId)).bold() + "</div>"
                                 : "";
                         if (cell.html() !== newValue.replace(/'/g, '"')) {
@@ -361,7 +364,7 @@ SharkGame.Stats = {
                     $("<td>")
                         .attr("rowspan", subheadings)
                         .html(
-                            headingName !== "world"
+                            headingName !== "world" && headingName !== "aspectAffect"
                                 ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(headingName)).bold() + "</div>"
                                 : ""
                         )
@@ -442,7 +445,7 @@ SharkGame.Stats = {
                     resourceMapRow.append(
                         $("<td>")
                             .html(
-                                generatorName !== "world"
+                                generatorName !== "world" && generatorName !== "aspectAffect"
                                     ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(subheadingKey)).bold() + "</div>"
                                     : ""
                             )

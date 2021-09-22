@@ -31,8 +31,8 @@
   CSS VARIABLES FOR THEMES
 -------------------------------------------------------*/
 :root {
-  --color-lighter: #7788aa;
-  --color-light: #4e638e;
+  --color-lighter: #8e9fc0;
+  --color-light: #536892;
   --color-med: #2e4372;
   --color-dark: #152a55;
   --color-darker: #061639;
@@ -209,7 +209,7 @@ pre {
   margin: 5px;
 }
 
-.click-passthrough, .copyrightNotice, .largeDesc, .medDesc, .smallDesc, .smallDescAllowClicks, .button-icon, .top-bar #title #titlebar, .top-bar #title {
+.click-passthrough, .copyrightNotice, .largeDesc, .medDesc, .smallDesc, .smallDescAllowClicks, #idle-overlay, .button-icon, .top-bar #title #titlebar, .top-bar #title {
   pointer-events: none;
 }
 
@@ -370,6 +370,7 @@ pre {
 
 #contentMenu {
   overflow: hidden;
+  height: 1.8em;
 }
 #contentMenu ul {
   padding: 0;
@@ -384,6 +385,11 @@ pre {
 #contentMenu #tabList {
   float: left;
   margin-bottom: 0.4em;
+  margin-left: 1em;
+  position: fixed;
+  box-shadow: 0 0 10px 10px var(--color-dark);
+  background-color: var(--color-dark);
+  z-index: 9;
 }
 #contentMenu #tabList li {
   font-weight: bold;
@@ -782,10 +788,6 @@ button.newlyDiscovered {
   padding-left: 0px;
 }
 
-#tabBorder {
-  border-bottom: 0.5em double var(--color-light);
-}
-
 #updateGameBox {
   bottom: 15px;
   right: 15px;
@@ -813,7 +815,7 @@ button {
   -ms-user-select: none;
   user-select: none;
   text-shadow: 0px 0px 2px #000000;
-  font-size: 90%;
+  font-size: 100%;
 }
 button.min {
   padding: 0.1em;
@@ -952,6 +954,23 @@ button.disabled div {
   width: 100%;
   height: 100%;
   z-index: 10;
+}
+
+#idle-overlay {
+  -webkit-opacity: 0.8;
+  -moz-opacity: 0.8;
+  opacity: 0.8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .pointy {
@@ -1328,6 +1347,7 @@ button.planetButton:active {
   opacity: 1;
   transition: opacity 0.3s;
   text-shadow: 0px 0px 3px #000000;
+  font-size: 1.2rem;
 }
 .tooltip:empty {
   opacity: 0;
@@ -1383,12 +1403,15 @@ button.planetButton:active {
   display: inline-block;
   margin: 0.4em;
   max-width: 12em;
+  min-width: 9em;
 }
 .disposeArrangement button.newlyDiscovered {
   max-width: 12em;
+  min-width: 9em;
 }
 .disposeArrangement #buyButtons button {
   margin: 0 2px 3px;
+  min-width: 0;
 }
 
 #cheatsDisplay {
@@ -1423,8 +1446,46 @@ button.planetButton:active {
   display: flex;
 }
 
+#minute-hand-toggle {
+  color: #fff;
+  border-color: #246c54;
+  background: #113228;
+}
 #minute-hand-toggle.disabled {
   text-shadow: none;
+}
+#minute-hand-toggle.minuteOn {
+  box-shadow: 0 0 4px #ace3d1;
+  border-color: #38a581;
+  background: #246c54;
+}
+#minute-hand-toggle.minuteOn.power1 {
+  box-shadow: 0 0 6px #bfe9dc;
+  border-color: #38a581;
+  background: #2b7f63;
+}
+#minute-hand-toggle.minuteOn.power2 {
+  box-shadow: 0 0 6px #bfe9dc;
+  border-color: #38a581;
+  background: #319272;
+}
+#minute-hand-toggle.minuteOn.power3 {
+  box-shadow: 0 0 7px #d2f0e6;
+  border-color: #60c9a7;
+  background: #38a581;
+}
+#minute-hand-toggle.minuteOn.power4 {
+  box-shadow: 0 0 8px #e5f6f1;
+  border-color: #ace3d1;
+  background: #3eb890;
+}
+#minute-hand-toggle.minuteOn.power5 {
+  box-shadow: 0 0 9px #f8fdfb;
+  border-color: #e5f6f1;
+  background: #60c9a7;
+}
+#minute-hand-toggle.disabled {
+  border-color: #113228;
 }
 
 .minuteOn {
@@ -1465,6 +1526,87 @@ button.planetButton:active {
 
 .reminderShadow {
   box-shadow: 0 0 3em white;
+}
+
+#minute-hand-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+#pause-toggle {
+  margin-left: 1em;
+  color: #fff;
+  border-color: #246c54;
+  background: #113228;
+}
+#pause-toggle.on {
+  box-shadow: 0 0 6px #bfe9dc;
+  border-color: #38a581;
+  background: #319272;
+}
+
+#minute-slider {
+  --minuterotation: rotate(-45deg);
+  background: #113228;
+  margin-top: 10px;
+  border-style: dashed;
+  border-color: #246c54;
+  margin-bottom: 8px;
+}
+#minute-slider.power1 {
+  background: #174636;
+  border-color: #2b7f63;
+  box-shadow: 0 0 6px #38a581;
+}
+#minute-slider.power2 {
+  background: #246c54;
+  border-color: #38a581;
+  box-shadow: 0 0 8px #ace3d1;
+}
+#minute-slider.power3 {
+  background: #38a581;
+  border-color: #60c9a7;
+  box-shadow: 0 0 10px #ace3d1;
+}
+#minute-slider.power4 {
+  background: #60c9a7;
+  border-color: #ace3d1;
+  box-shadow: 0 0 12px #ace3d1;
+}
+#minute-slider.power5 {
+  background: #ace3d1;
+  border-color: #e5f6f1;
+  box-shadow: 0 0 15px #ace3d1;
+}
+
+#minute-slider::-webkit-slider-thumb {
+  background: url(../img/raw/aspect/theMinuteHandCentered.png);
+  width: 32px;
+  height: 32px;
+  border: 0px;
+  transform: var(--minuterotation);
+}
+
+#minute-slider::-moz-range-thumb {
+  background: url(../img/raw/aspect/theMinuteHandCentered.png);
+  width: 32px;
+  height: 32px;
+  border: 0px;
+  transform: var(--minuterotation);
+}
+
+#minute-time.noTime {
+  color: #555;
+}
+
+#minute-row-two {
+  display: flex;
+}
+
+.front {
+  z-index: 13;
 }
 
 /*# sourceMappingURL=style.css.map */

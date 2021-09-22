@@ -30,8 +30,8 @@ $color-dark-haven: #053247;
 $color-darker-haven: #001d2b;
 
 // marine theme (default)
-$color-lighter: #7788aa;
-$color-light: #4e638e;
+$color-lighter: #8e9fc0;
+$color-light: #536892;
 $color-med: #2e4372;
 $color-dark: #152a55;
 $color-darker: #061639;
@@ -538,6 +538,7 @@ pre {
 
 #contentMenu {
     overflow: hidden;
+    height: 1.8em;
 
     ul {
         padding: 0;
@@ -555,6 +556,11 @@ pre {
     #tabList {
         float: left;
         margin-bottom: 0.4em;
+        margin-left: 1em;
+        position: fixed;
+        box-shadow: 0 0 10px 10px var(--color-dark);
+        background-color: var(--color-dark);
+        z-index: 9;
 
         li {
             font-weight: bold;
@@ -1008,10 +1014,6 @@ button.newlyDiscovered {
 // MAIN I THINK
 //////////////////////////////////////////////////////////////
 
-#tabBorder {
-    border-bottom: 0.5em double var(--color-light);
-}
-
 #updateGameBox {
     bottom: 15px;
     right: 15px;
@@ -1036,7 +1038,7 @@ button {
     @include no-select();
     text-shadow: 0px 0px 2px #000000;
 
-    font-size: 90%;
+    font-size: 100%;
 
     &.min {
         padding: 0.1em;
@@ -1177,6 +1179,22 @@ button {
     width: 100%;
     height: 100%;
     z-index: 10;
+}
+
+#idle-overlay {
+    @include opacity(0.8);
+    @extend .click-passthrough;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    z-index: 12;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .pointy {
@@ -1549,6 +1567,7 @@ button.planetButton {
     opacity: 1;
     transition: opacity 0.3s;
     text-shadow: 0px 0px 3px #000000;
+    font-size: 1.2rem;
 
     &:empty {
         opacity: 0;
@@ -1610,15 +1629,18 @@ button.planetButton {
         display: inline-block;
         margin: 0.4em;
         max-width: 12em;
+        min-width: 9em;
 
         &.newlyDiscovered {
             max-width: 12em;
+            min-width: 9em;
         }
     }
 
     #buyButtons {
         button {
             margin: 0 2px 3px;
+            min-width: 0;
         }
     }
 }
@@ -1662,6 +1684,49 @@ button.planetButton {
     &.disabled {
         text-shadow: none;
     }
+    color: #fff;
+    border-color: $color-discovery-dark3;
+    background: $color-discovery-dark4;
+
+    &.minuteOn {
+        box-shadow: 0 0 4px $color-discovery;
+        border-color: $color-discovery-dark2;
+        background: $color-discovery-dark3;
+
+        &.power1 {
+            box-shadow: 0 0 6px lighten($color-discovery, 5%);
+            border-color: $color-discovery-dark2;
+            background: lighten($color-discovery-dark3, 5%);
+        }
+
+        &.power2 {
+            box-shadow: 0 0 6px lighten($color-discovery, 5%);
+            border-color: $color-discovery-dark2;
+            background: lighten($color-discovery-dark3, 10%);
+        }
+
+        &.power3 {
+            box-shadow: 0 0 7px lighten($color-discovery, 10%);
+            border-color: $color-discovery-dark;
+            background: $color-discovery-dark2;
+        }
+
+        &.power4 {
+            box-shadow: 0 0 8px lighten($color-discovery, 15%);
+            border-color: $color-discovery;
+            background: lighten($color-discovery-dark2, 5%);
+        }
+
+        &.power5 {
+            box-shadow: 0 0 9px lighten($color-discovery, 20%);
+            border-color: lighten($color-discovery, 15%);
+            background: $color-discovery-dark;
+        }
+    }
+
+    &.disabled {
+        border-color: $color-discovery-dark4;
+    }
 }
 
 .minuteOn {
@@ -1703,4 +1768,93 @@ button.planetButton {
 
 .reminderShadow {
     box-shadow: 0 0 3em white;
+}
+
+#minute-hand-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+#pause-toggle {
+    margin-left: 1em;
+    color: #fff;
+    border-color: $color-discovery-dark3;
+    background: $color-discovery-dark4;
+
+    &.on {
+        box-shadow: 0 0 6px lighten($color-discovery, 5%);
+        border-color: $color-discovery-dark2;
+        background: lighten($color-discovery-dark3, 10%);
+    }
+}
+
+#minute-slider {
+    --minuterotation: rotate(-45deg);
+    background: $color-discovery-dark4;
+    margin-top: 10px;
+    border-style: dashed;
+    border-color: $color-discovery-dark3;
+    margin-bottom: 8px;
+
+    &.power1 {
+        background: lighten($color-discovery-dark4, 5%);
+        border-color: lighten($color-discovery-dark3, 5%);
+        box-shadow: 0 0 6px $color-discovery-dark2;
+    }
+
+    &.power2 {
+        background: $color-discovery-dark3;
+        border-color: $color-discovery-dark2;
+        box-shadow: 0 0 8px $color-discovery;
+    }
+
+    &.power3 {
+        background: $color-discovery-dark2;
+        border-color: $color-discovery-dark;
+        box-shadow: 0 0 10px $color-discovery;
+    }
+
+    &.power4 {
+        background: $color-discovery-dark;
+        border-color: $color-discovery;
+        box-shadow: 0 0 12px $color-discovery;
+    }
+
+    &.power5 {
+        background: $color-discovery;
+        border-color: lighten($color-discovery, 15%);
+        box-shadow: 0 0 15px $color-discovery;
+    }
+}
+
+#minute-slider::-webkit-slider-thumb {
+    background: url(../img/raw/aspect/theMinuteHandCentered.png);
+    width: 32px;
+    height: 32px;
+    border: 0px;
+    transform: var(--minuterotation);
+}
+
+#minute-slider::-moz-range-thumb {
+    background: url(../img/raw/aspect/theMinuteHandCentered.png);
+    width: 32px;
+    height: 32px;
+    border: 0px;
+    transform: var(--minuterotation);
+}
+
+#minute-time {
+    &.noTime {
+        color: #555;
+    }
+}
+
+#minute-row-two {
+    display: flex;
+}
+
+.front {
+    z-index: 13;
 }

@@ -14,30 +14,35 @@ SharkGame.Gateway = {
 
     init() {
         this.completedWorlds = [];
+        this.planetPool = [];
+        SharkGame.wonGame = false;
+        SharkGame.gameOver = false;
+    },
+
+    setup() {
+        if (SharkGame.gameOver) {
+            main.endGame(true);
+        }
     },
 
     enterGate(loadingFromSave) {
         SharkGame.PaneHandler.wipeStack();
+        gateway.updateScoutingStatus();
         // award essence (and mark world completion)
         let essenceReward = 0;
         let patienceReward = 0;
         if (!loadingFromSave) {
             if (SharkGame.wonGame) {
-                essenceReward = 4;
+                essenceReward = gateway.wasOnScoutingMission() ? 4 : 2;
                 gateway.markWorldCompleted(world.worldType);
                 SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
                 gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
-
-                if (SharkGame.persistentFlags.patience) {
-                    SharkGame.persistentFlags.patience -= 1;
-                    if (SharkGame.persistentFlags.patience === 0) {
-                        patienceReward += 2 * (SharkGame.Aspects.patience.level + 1) ** 2;
-                    }
-                }
-            } else {
-                essenceReward = 0;
+                patienceReward = SharkGame.Aspects.patience.level;
             }
-            res.changeResource("essence", essenceReward + patienceReward);
+            res.changeResource(
+                "essence",
+                (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward)
+            );
         }
 
         if (this.planetPool.length === 0) {
@@ -89,6 +94,9 @@ SharkGame.Gateway = {
             gateway.cleanUp();
             gateway.showGateway(essenceReward, patienceReward);
         }
+
+        // one last thing: make sure the player is flagged as having idled so the minute hand shows up from now on
+        SharkGame.persistentFlags.everIdled = true;
     },
 
     cleanUp() {
@@ -121,20 +129,11 @@ SharkGame.Gateway = {
         if (patienceReward > 0) {
             gatewayContent.append(
                 $("<p>").html(
-                    "Your patience pays off, granting you <span class='essenceCount'>" + sharktext.beautify(patienceReward) + "</span> essence."
+                    "Your patience pays off, granting you <span class='essenceCount'>" +
+                        sharktext.beautify(patienceReward) +
+                        "</span> additional essence."
                 )
             );
-        } else {
-            if (SharkGame.persistentFlags.patience) {
-                gatewayContent.append(
-                    $("<p>").html(
-                        SharkGame.persistentFlags.patience +
-                            " more world" +
-                            (SharkGame.persistentFlags.patience > 1 ? "s" : "") +
-                            " until your patience pays off."
-                    )
-                );
-            }
         }
         gatewayContent.append(
             $("<p>").html(
@@ -177,11 +176,7 @@ SharkGame.Gateway = {
     },
 
     showRunEndInfo(containerDiv) {
-        containerDiv.append(
-            $("<p>")
-                .html("<em>Time spent within last ocean:</em><br/>")
-                .append(sharktext.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart))
-        );
+        containerDiv.append($("<p>").html("<em>Time spent within last ocean:</em><br/>").append(gateway.getTimeInLastWorld()));
     },
 
     showAspects() {
@@ -194,7 +189,7 @@ SharkGame.Gateway = {
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         aspectTreeContent.append(tree.drawTree(SharkGame.Settings.current.doAspectTable === "table"));
 
-        tree.setUp();
+        tree.resetTreeCamera();
         tree.render();
 
         // add return to gateway button
@@ -280,12 +275,15 @@ SharkGame.Gateway = {
 
     confirmWorld() {
         const selectedWorldData = SharkGame.WorldTypes[gateway.selectedWorld];
+        const seenWorldYet = gateway.completedWorlds.includes(gateway.selectedWorld);
 
         // construct the gateway content
-        const gatewayContent = $("<div>").append($("<p>").html("Travel to the " + selectedWorldData.name + " World?"));
+        const gatewayContent = $("<div>").append(
+            $("<p>").html((seenWorldYet ? "Travel to the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
+        );
 
         // add world image
-        const spritename = "planets/" + gateway.selectedWorld;
+        const spritename = seenWorldYet ? "planets/" + gateway.selectedWorld : "planets/missing";
         const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "planets/missing");
         if (iconDiv) {
             iconDiv.addClass("planetDisplay");
@@ -388,12 +386,13 @@ SharkGame.Gateway = {
         _.each(gateway.planetPool, (planetData) => {
             const buttonSel = $("#planet-" + planetData.type);
             if (buttonSel.length > 0) {
+                const seenWorldYet = gateway.completedWorlds.includes(planetData.type);
                 const deeperPlanetData = SharkGame.WorldTypes[planetData.type];
-                const label = sharktext.boldString(deeperPlanetData.name) + "<br>" + deeperPlanetData.desc;
+                const label = sharktext.boldString(seenWorldYet ? deeperPlanetData.name : "???") + "<br>" + deeperPlanetData.desc;
 
                 buttonSel.html(label);
 
-                const spritename = "planets/" + planetData.type;
+                const spritename = seenWorldYet ? "planets/" + planetData.type : "planets/missing";
                 if (SharkGame.Settings.current.showIcons) {
                     const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "planets/missing");
                     if (iconDiv) {
@@ -439,7 +438,8 @@ SharkGame.Gateway = {
 
     showPlanetAttributes(worldData, contentDiv) {
         /* eslint-disable no-fallthrough */
-        switch (SharkGame.Aspects.pathOfEnlightenment.level) {
+        contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
+        switch (SharkGame.Aspects.distantForesight.level) {
             case 1:
                 if (worldData.foresight.missing.length > 0) {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
@@ -501,7 +501,6 @@ SharkGame.Gateway = {
                 } else {
                     contentDiv.prepend($("<p>").html("NO KNOWN ATTRIBUTES"));
                 }
-                contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
         }
         /* eslint-enable no-fallthrough */
     },
@@ -519,6 +518,32 @@ SharkGame.Gateway = {
         if (!gateway.completedWorlds.includes(worldType)) {
             gateway.completedWorlds.push(worldType);
         }
+    },
+
+    getTimeInLastWorld() {
+        return sharktext.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime);
+    },
+
+    updateScoutingStatus() {
+        if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
+            SharkGame.persistentFlags.wasScouting = SharkGame.persistentFlags.scouting;
+            SharkGame.persistentFlags.scouting = undefined;
+        }
+    },
+
+    wasOnScoutingMission() {
+        if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
+            return SharkGame.persistentFlags.scouting;
+        }
+        return SharkGame.persistentFlags.wasOnScoutingMission;
+    },
+
+    currentlyOnScoutingMission() {
+        if (_.isUndefined(SharkGame.persistentFlags.scouting)) {
+            SharkGame.persistentFlags.scouting = !gateway.completedWorlds.includes(world.worldType);
+        }
+
+        return SharkGame.persistentFlags.scouting;
     },
 };
 
@@ -610,9 +635,9 @@ SharkGame.Gateway.Messages = {
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
-            "Was that world not your home?",
             "A blue world. A dream of a former life, perhaps.",
-            "Do you wonder where the lobsters came from?",
+            "Do you wonder where the lobsters' former machines are?",
+            "A tragedy: or, perhaps, merely the cost of progress.",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
