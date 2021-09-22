@@ -8,23 +8,10 @@ window.onmousemove = (event) => {
     const posX = event.clientX;
     const posY = event.clientY;
 
-    const tooltipStyle = getComputedStyle(tooltip);
-
-    // get visual width in px, plus 15px offset from cursor
-    const tooltipWidth = [
-        tooltipStyle.width,
-        tooltipStyle.paddingLeft,
-        tooltipStyle.paddingRight,
-        tooltipStyle.borderLeft,
-        tooltipStyle.borderRight,
-        tooltipStyle.marginLeft,
-        tooltipStyle.marginRight,
-    ].reduce((prev, cur) => prev + parseInt(cur), 0);
-
-    tooltip.style.top = posY - 20 + "px";
+    tooltip.style.top = Math.max(Math.min(posY - 20, window.innerHeight - tooltip.offsetHeight - 10), 20) + "px";
     // Would clip over right screen edge
-    if (tooltipWidth + posX + 35 > window.innerWidth) {
-        tooltip.style.left = posX - 10 - tooltipWidth + "px";
+    if (tooltip.offsetWidth + posX + 35 > window.innerWidth) {
+        tooltip.style.left = posX - 10 - tooltip.offsetWidth + "px";
     } else {
         tooltip.style.left = posX + 15 + "px";
     }
