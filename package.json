@@ -1,10 +1,11 @@
 {
     "name": "shark_game",
-    "version": "0.8.1",
+    "version": "0.9.0",
     "repository": "https://github.com/spencers145/SharkGame",
     "author": "spencers145 <smartypantsspencer@gmail.com>",
     "license": "MIT",
     "scripts": {
+        "postinstall": "yarn simple-git-hooks",
         "fix": "eslint . --fix && prettier . --write",
         "lint": "yarn lint:eslint && yarn lint:prettier",
         "test": "yarn lint:eslint:strict && yarn lint:prettier",
@@ -27,6 +28,10 @@
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-standard": "^5.0.0",
         "prettier": "^2.4.1",
-        "sass": "^1.42.0"
+        "sass": "^1.42.0",
+        "simple-git-hooks": "^2.6.1"
+    },
+    "simple-git-hooks": {
+        "pre-commit": "yarn test"
     }
 }
