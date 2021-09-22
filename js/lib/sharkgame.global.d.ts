@@ -32,6 +32,8 @@ declare global {
     type HomeActionCategory = "all" | "basic" | "frenzy" | "professions" | "breeders" | "processing" | "machines" | "otherMachines" | "unique";
     type HomeActionName = string;
     type ModifierName = string;
+    type OptionCategory = "PERFORMANCE" | "LAYOUT" | "APPEARANCE" | "ACCESSIBILITY" | "OTHER" | "SAVES";
+    type OptionName = string;
     type ResourceCategory =
         | "animals"
         | "breeders"
@@ -422,6 +424,27 @@ declare global {
         showAspectWarning(): void;
     };
 
+    type InternalOption<T> = {
+        defaultSetting: T;
+        options: T[];
+    };
+    type Option<T> = InternalOption<T> & {
+        category: OptionCategory;
+        desc: string;
+        name: string;
+        onChange?(): void;
+    };
+    type CurrentSettings<T> = {
+        current: Record<Option<T>, T>;
+    };
+
+    type SettingsModule = Record<OptionName, Option<unknown>> &
+        CurrentSettings<unknown> & {
+            buyAmount: InternalOption<number | "custom">;
+            grottoMode: InternalOption<"simple" | "advanced">;
+            showPercentages: InternalOption<"absolute" | "percentage">;
+        };
+
     type SpritesModule = Record<
         SpriteName,
         {
@@ -477,7 +500,7 @@ declare global {
         beautify(number: number, suppressDecimals?: boolean, toPlaces?: number): string;
         beautifyIncome(number: number, also?: string): string;
         formatTime(milliseconds: number): string;
-        getResourceName(resourceName: ResourceName, darken?: boolean, arbitraryAmount?: number, background: string): string;
+        getResourceName(resourceName: ResourceName, darken?: boolean, arbitraryAmount?: number, background?: string): string;
         applyResourceColoration(resourceName: ResourceName, textToColor: string): string;
         /** make a resource list object into a string describing its contents */
         resourceListToString(resourceList: Record<ResourceName, number>, darken: boolean, backgroundColor?: string): string;
@@ -750,7 +773,7 @@ declare global {
         ResourceSpecialProperties;
         ResourceTable;
         Save;
-        Settings;
+        Settings: SettingsModule;
         TabHandler: TabHandlerModule;
         Tabs: TabsModule;
         TextUtil: TextUtilModule;
