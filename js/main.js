@@ -471,12 +471,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
-            if (now - SharkGame.lastMouseActivity > SharkGame.idleThreshold) {
+            if (now - SharkGame.lastMouseActivity > SharkGame.IDLE_THRESHOLD) {
                 if ($("#idle-overlay").is(":hidden")) {
                     $("#minute-hand-div").addClass("front");
-                    $("#idle-overlay").show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.idleFadeTime);
+                    $("#idle-overlay").show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.IDLE_FADE_TIME);
                 }
-                const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.idleThreshold) / SharkGame.idleFadeTime, 1);
+                const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
                 res.idleMultiplier = 1 - speedRatio;
                 if (speedRatio > 0.1 && !SharkGame.persistentFlags.everIdled) {
                     SharkGame.persistentFlags.everIdled = true;
