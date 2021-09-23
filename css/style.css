@@ -389,6 +389,7 @@ pre {
   position: fixed;
   box-shadow: 0 0 10px 10px var(--color-dark);
   background-color: var(--color-dark);
+  z-index: 1;
 }
 #contentMenu #tabList li {
   font-weight: bold;
@@ -965,7 +966,7 @@ button.disabled div {
   background-color: black;
   width: 100%;
   height: 100%;
-  z-index: 12;
+  z-index: 20;
   display: flex;
   justify-content: center;
   align-items: center;
