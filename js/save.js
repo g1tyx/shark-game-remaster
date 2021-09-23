@@ -68,6 +68,7 @@ SharkGame.Save = {
 
     loadGame(importSaveData) {
         let saveData;
+        /** @type {SaveString } */
         let saveDataString = importSaveData || localStorage.getItem(SharkGame.Save.saveFileName);
 
         if (!saveDataString) {
@@ -278,7 +279,7 @@ SharkGame.Save = {
 
     exportData() {
         // get save
-        /** @type string */
+        /** @type {SaveString} */
         let saveData;
         try {
             saveData = SharkGame.Save.saveGame();
@@ -600,7 +601,7 @@ SharkGame.Save = {
             return save;
         },
 
-        // MODDED, v0.1
+        // v0.8, MODDED v0.1
         function update8(save) {
             save = $.extend(true, save, {
                 completedWorlds: {},
@@ -628,7 +629,7 @@ SharkGame.Save = {
             return save;
         },
 
-        // MODDED v0.2
+        // v0.9, MODDED v0.2
         function update11(save) {
             _.each(["investigator", "filter", "ancientPart"], (resourceId) => {
                 save.resources[resourceId] = { amount: 0, totalAmount: 0 };

@@ -46,6 +46,7 @@ declare global {
         | "specialists"
         | "stuff";
     type ResourceName = string;
+    type SaveString = `<~${string}~>` | `x${string}` | `{${string}}`;
     type SpriteName = string;
     type TabName = string;
     type UpgradeName = string;
@@ -446,6 +447,20 @@ declare global {
         }
     >;
 
+    type Save = Record<string, unknown>;
+    type MigrationFunction = (save: Save) => Save;
+    type SaveModule = {
+        saveFileName: "sharkGameSave";
+        saveGame(): SaveString;
+        loadGame(importSaveData?: SaveString): void;
+        importData(data: SaveString): void;
+        exportData(): SaveString;
+        savedGameExists(): boolean;
+        deleteSave(): void;
+        wipeSave(): void;
+        saveUpdaters: MigrationFunction[];
+    };
+
     type TabHandlerModule = {
         checkTabUnlocks(): void;
         setUpTab(): void;
@@ -477,7 +492,7 @@ declare global {
         beautify(number: number, suppressDecimals?: boolean, toPlaces?: number): string;
         beautifyIncome(number: number, also?: string): string;
         formatTime(milliseconds: number): string;
-        getResourceName(resourceName: ResourceName, darken?: boolean, arbitraryAmount?: number, background: string): string;
+        getResourceName(resourceName: ResourceName, darken?: boolean, arbitraryAmount?: number, background?: string): string;
         applyResourceColoration(resourceName: ResourceName, textToColor: string): string;
         /** make a resource list object into a string describing its contents */
         resourceListToString(resourceList: Record<ResourceName, number>, darken: boolean, backgroundColor?: string): string;
@@ -749,7 +764,7 @@ declare global {
         Resources;
         ResourceSpecialProperties;
         ResourceTable;
-        Save;
+        Save: SaveModule;
         Settings;
         TabHandler: TabHandlerModule;
         Tabs: TabsModule;
