@@ -389,7 +389,6 @@ pre {
   position: fixed;
   box-shadow: 0 0 10px 10px var(--color-dark);
   background-color: var(--color-dark);
-  z-index: 9;
 }
 #contentMenu #tabList li {
   font-weight: bold;

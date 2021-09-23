@@ -560,7 +560,7 @@ pre {
         position: fixed;
         box-shadow: 0 0 10px 10px var(--color-dark);
         background-color: var(--color-dark);
-        z-index: 9;
+        // z-index: 9; // Was there a reason for this? added randomly in e939c35c10dae2fb12ffda8e01de0e498e439c33
 
         li {
             font-weight: bold;
