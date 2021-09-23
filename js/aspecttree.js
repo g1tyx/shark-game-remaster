@@ -167,7 +167,12 @@ SharkGame.AspectTree = {
         }
 
         $.each(SharkGame.Aspects, (aspectId, aspectData) => {
-            if (aspectData.getUnlocked() || !_.every(aspectData.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level > 0)) {
+            if (
+                !aspectData.getUnlocked ||
+                aspectData.getUnlocked() ||
+                (!_.every(aspectData.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level > 0) &&
+                    !SharkGame.Aspects.infinityVision.level)
+            ) {
                 return true;
             }
             const aspectTableRowCurrent = document.createElement("tr");
@@ -257,7 +262,7 @@ SharkGame.AspectTree = {
         }
 
         const aspect = _.find(SharkGame.Aspects, ({ posX, posY, width, height, prerequisites }) => {
-            if (_.some(prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0)) {
+            if (_.some(prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0) && !SharkGame.Aspects.infinityVision) {
                 return;
             }
             return (
@@ -279,7 +284,11 @@ SharkGame.AspectTree = {
             context.canvas.style.cursor = "grab";
             tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         } else {
-            context.canvas.style.cursor = "pointer";
+            if (_.some(button.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0)) {
+                context.canvas.style.cursor = "grab";
+            } else {
+                context.canvas.style.cursor = "pointer";
+            }
             tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased");
 
             // FIXME: Hard-coded color "#ace3d1"
@@ -387,8 +396,13 @@ SharkGame.AspectTree = {
         // Lines between aspects
         context.save();
         context.lineWidth = 5;
-        _.each(SharkGame.Aspects, ({ posX, posY, requiredBy, width, height, level }) => {
-            if (level > 0) {
+        _.each(SharkGame.Aspects, ({ posX, posY, requiredBy, width, height, level, getUnlocked }) => {
+            if (getUnlocked) {
+                getUnlocked = getUnlocked();
+            } else {
+                return true;
+            }
+            if (level > 0 || SharkGame.Aspects.infinityVision) {
                 // requiredBy: array of aspectId that depend on this aspect
                 _.each(requiredBy, (requiringId) => {
                     context.save();
@@ -431,18 +445,22 @@ SharkGame.AspectTree = {
         context.strokeStyle = borderColor;
         _.each(SharkGame.Aspects, ({ posX, posY, width, height, icon, eventSprite, prerequisites, level, getUnlocked }, name) => {
             context.save();
-            if (_.some(prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0)) {
+            const canBuy = !_.some(prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0);
+            if ((!canBuy && !SharkGame.Aspects.infinityVision.level) || !getUnlocked) {
                 // if any prerequisite is unmet, don't render
                 return;
             } else if (level === 0) {
                 if (getUnlocked()) {
                     // if not unlocked, render even darker and more saturated
-                    context.filter = "brightness(40%) saturate(150%)";
-                } else {
+                    context.filter = "brightness(25%) saturate(160%)";
+                } else if (canBuy) {
                     // if not bought, render darker and more saturated
                     context.filter = "brightness(65%) saturate(150%)";
+                } else {
+                    context.filter = "brightness(40%) saturate(150%)";
                 }
             }
+
             tree.renderButton(context, posX, posY, width, height, icon, eventSprite, name);
 
             context.restore();
@@ -531,7 +549,7 @@ SharkGame.AspectTree = {
         }
     },
     increaseLevel(aspect) {
-        if (aspect.level >= aspect.max || aspect.getUnlocked()) {
+        if (aspect.level >= aspect.max || aspect.getUnlocked() || _.some(aspect.prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0)) {
             return;
         }
 
