@@ -48,6 +48,7 @@ declare global {
         | "specialists"
         | "stuff";
     type ResourceName = string;
+    type SaveString = `<~${string}~>` | `x${string}` | `{${string}}`;
     type SpriteName = string;
     type TabName = string;
     type UpgradeName = string;
@@ -469,6 +470,20 @@ declare global {
         }
     >;
 
+    type Save = Record<string, unknown>;
+    type MigrationFunction = (save: Save) => Save;
+    type SaveModule = {
+        saveFileName: "sharkGameSave";
+        saveGame(): SaveString;
+        loadGame(importSaveData?: SaveString): void;
+        importData(data: SaveString): void;
+        exportData(): SaveString;
+        savedGameExists(): boolean;
+        deleteSave(): void;
+        wipeSave(): void;
+        saveUpdaters: MigrationFunction[];
+    };
+
     type TabHandlerModule = {
         checkTabUnlocks(): void;
         setUpTab(): void;
@@ -772,7 +787,7 @@ declare global {
         Resources;
         ResourceSpecialProperties;
         ResourceTable;
-        Save;
+        Save: SaveModule;
         Settings: SettingsModule;
         TabHandler: TabHandlerModule;
         Tabs: TabsModule;
