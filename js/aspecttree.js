@@ -397,12 +397,7 @@ SharkGame.AspectTree = {
         context.save();
         context.lineWidth = 5;
         _.each(SharkGame.Aspects, ({ posX, posY, requiredBy, width, height, level, getUnlocked }) => {
-            if (getUnlocked) {
-                getUnlocked = getUnlocked();
-            } else {
-                return true;
-            }
-            if (level > 0 || SharkGame.Aspects.infinityVision) {
+            if ((level > 0 || SharkGame.Aspects.infinityVision.level) && getUnlocked) {
                 // requiredBy: array of aspectId that depend on this aspect
                 _.each(requiredBy, (requiringId) => {
                     context.save();
@@ -446,8 +441,8 @@ SharkGame.AspectTree = {
         _.each(SharkGame.Aspects, ({ posX, posY, width, height, icon, eventSprite, prerequisites, level, getUnlocked }, name) => {
             context.save();
             const canBuy = !_.some(prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0);
-            if ((!canBuy && !SharkGame.Aspects.infinityVision.level) || !getUnlocked) {
-                // if any prerequisite is unmet, don't render
+            if ((!SharkGame.Aspects.infinityVision.level && !canBuy) || !getUnlocked) {
+                // if any prerequisite is unmet and we dont have infinity vision, don't render
                 return;
             } else if (level === 0) {
                 if (getUnlocked()) {
