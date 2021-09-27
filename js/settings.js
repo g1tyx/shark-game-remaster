@@ -91,17 +91,6 @@ SharkGame.Settings = {
         },
     },
 
-    buttonDisplayType: {
-        defaultSetting: "pile",
-        name: "Home Sea Button Display",
-        desc: "How to arrange buttons.",
-        category: "LAYOUT",
-        options: ["list", "pile"],
-        onChange() {
-            SharkGame.TabHandler.changeTab(SharkGame.Tabs.current);
-        },
-    },
-
     logMessageMax: {
         defaultSetting: 30,
         name: "Max Log Messages",
