@@ -28,21 +28,16 @@ SharkGame.Gateway = {
     enterGate(loadingFromSave) {
         SharkGame.PaneHandler.wipeStack();
         gateway.updateScoutingStatus();
-        // award essence (and mark world completion)
-        let essenceReward = 0;
-        let patienceReward = 0;
-        if (!loadingFromSave) {
-            if (SharkGame.wonGame) {
-                essenceReward = gateway.wasOnScoutingMission() ? 4 : 2;
-                gateway.markWorldCompleted(world.worldType);
-                SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
-                gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
-                patienceReward = SharkGame.Aspects.patience.level;
-            }
-            res.changeResource(
-                "essence",
-                (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward)
-            );
+
+        const essenceReward = gateway.getEssenceReward(loadingFromSave);
+        const patienceReward = gateway.getPatienceReward(loadingFromSave);
+
+        gateway.grantEssenceReward(essenceReward, patienceReward);
+
+        if (!loadingFromSave && SharkGame.wonGame) {
+            gateway.markWorldCompleted(world.worldType);
+            SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
+            gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
         }
 
         if (this.planetPool.length === 0) {
@@ -51,52 +46,14 @@ SharkGame.Gateway = {
 
         // RESET COMPLETED GATE REQUIREMENTS
         SharkGame.Gate.completedRequirements = {};
-
-        // clear non-persistent flags
+        // clear non-persistent flags just in case
         SharkGame.flags = {};
-
         // SAVE
         SharkGame.Save.saveGame();
-
-        // PREPARE GATEWAY PANE
-        // set up classes
-        let pane;
-        if (!SharkGame.paneGenerated) {
-            pane = SharkGame.PaneHandler.buildPane();
-        } else {
-            pane = $("#pane");
-        }
-        pane.addClass("gateway");
-
-        const overlay = $("#overlay");
-        overlay.addClass("gateway");
-
-        // make overlay opaque
-        if (SharkGame.Settings.current.showAnimations) {
-            gateway.transitioning = true;
-            overlay
-                .show()
-                .css("opacity", 0)
-                .animate(
-                    {
-                        opacity: 1.0,
-                    },
-                    1000,
-                    "swing",
-                    () => {
-                        // put back to 4000
-                        gateway.cleanUp();
-                        gateway.showGateway(essenceReward, patienceReward);
-                    }
-                );
-        } else {
-            overlay.show().css("opacity", 1.0);
-            gateway.cleanUp();
-            gateway.showGateway(essenceReward, patienceReward);
-        }
-
         // one last thing: make sure the player is flagged as having idled so the minute hand shows up from now on
         SharkGame.persistentFlags.everIdled = true;
+
+        gateway.prepareBasePane(essenceReward, patienceReward);
     },
 
     cleanUp() {
@@ -544,6 +501,63 @@ SharkGame.Gateway = {
         }
 
         return SharkGame.persistentFlags.scouting;
+    },
+
+    getEssenceReward(loadingFromSave) {
+        if (!loadingFromSave && SharkGame.wonGame) {
+            return gateway.wasOnScoutingMission() ? 4 : 2;
+        }
+        return 0;
+    },
+
+    getPatienceReward(loadingFromSave) {
+        if (!loadingFromSave && SharkGame.wonGame) {
+            return SharkGame.Aspects.patience.level;
+        }
+        return 0;
+    },
+
+    grantEssenceReward(essenceReward, patienceReward) {
+        res.changeResource("essence", (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward));
+    },
+
+    prepareBasePane(essenceReward, patienceReward) {
+        // PREPARE GATEWAY PANE
+        // set up classes
+        let pane;
+        if (!SharkGame.paneGenerated) {
+            pane = SharkGame.PaneHandler.buildPane();
+        } else {
+            pane = $("#pane");
+        }
+        pane.addClass("gateway");
+
+        const overlay = $("#overlay");
+        overlay.addClass("gateway");
+
+        // make overlay opaque
+        if (SharkGame.Settings.current.showAnimations) {
+            gateway.transitioning = true;
+            overlay
+                .show()
+                .css("opacity", 0)
+                .animate(
+                    {
+                        opacity: 1.0,
+                    },
+                    1000,
+                    "swing",
+                    () => {
+                        // put back to 4000
+                        gateway.cleanUp();
+                        gateway.showGateway(essenceReward, patienceReward);
+                    }
+                );
+        } else {
+            overlay.show().css("opacity", 1.0);
+            gateway.cleanUp();
+            gateway.showGateway(essenceReward, patienceReward);
+        }
     },
 };
 
