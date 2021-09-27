@@ -758,6 +758,8 @@ pre {
     float: right;
     width: 18%;
     max-height: 40em;
+    background-color: var(--color-med);
+    box-shadow: 0 0 5px 5px var(--color-dark) inset;
 }
 
 #resource-numen {
