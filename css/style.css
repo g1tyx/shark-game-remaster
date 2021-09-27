@@ -615,6 +615,7 @@ pre {
 #buttonList.homeScreen {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 #buttonList.homeScreen ul {
   display: inline-block;
@@ -624,12 +625,9 @@ pre {
 }
 #buttonList.homeScreen button {
   display: inline-block;
-  margin: 0.8em;
+  margin: 0.4em;
   height: 10em;
   width: 12em;
-}
-#buttonList.homeScreen.smallerMargin button {
-  margin: 0.4em;
 }
 
 button.newlyDiscovered {

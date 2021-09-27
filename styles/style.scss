@@ -806,6 +806,7 @@ pre {
     &.homeScreen {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
 
         ul {
             display: inline-block;
@@ -817,15 +818,9 @@ pre {
 
         button {
             display: inline-block;
-            margin: 0.8em;
+            margin: 0.4em;
             height: 10em;
             width: 12em;
-        }
-
-        &.smallerMargin {
-            button {
-                margin: 0.4em;
-            }
         }
     }
 }
