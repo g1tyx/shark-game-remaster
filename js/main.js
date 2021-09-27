@@ -507,14 +507,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.minuteHand.updateMinuteHand(elapsedTime);
             }
 
-            if (res.minuteHand.updateRotationNextTick) {
-                document
-                    .getElementById("minute-slider")
-                    .style.setProperty("--minuterotation", "rotate(" + (45 * document.getElementById("minute-slider").value - 90) + "deg)");
-                res.minuteHand.updateRotationNextTick = false;
-                // wish i could do something about this but i dont know what to do really
-            }
-
             // check if the sidebar needs to come back
             if (SharkGame.sidebarHidden) {
                 main.showSidebarIfNeeded();

@@ -851,7 +851,6 @@ SharkGame.Resources = {
                     .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
                     .on("input", res.minuteHand.changeSelectedMultiplier);
                 $("#minute-hand-div").append(slider);
-                res.minuteHand.updateRotationNextTick = true;
             }
 
             if (!SharkGame.persistentFlags.everIdled || !SharkGame.Settings.current.idleEnabled) {
@@ -910,9 +909,6 @@ SharkGame.Resources = {
                 multiplier = arbitrary;
             } else {
                 multiplier = 2 ** document.getElementById("minute-slider").value;
-                document
-                    .getElementById("minute-slider")
-                    .style.setProperty("--minuterotation", "rotate(" + (45 * document.getElementById("minute-slider").value - 90) + "deg)");
             }
             SharkGame.persistentFlags.selectedMultiplier = multiplier;
             if (res.minuteHand.active) {

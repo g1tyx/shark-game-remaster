@@ -1581,22 +1581,6 @@ button.planetButton:active {
   box-shadow: 0 0 15px #ace3d1;
 }
 
-#minute-slider::-webkit-slider-thumb {
-  background: url(../img/raw/aspect/theMinuteHandCentered.png);
-  width: 32px;
-  height: 32px;
-  border: 0px;
-  transform: var(--minuterotation);
-}
-
-#minute-slider::-moz-range-thumb {
-  background: url(../img/raw/aspect/theMinuteHandCentered.png);
-  width: 32px;
-  height: 32px;
-  border: 0px;
-  transform: var(--minuterotation);
-}
-
 #minute-time.noTime {
   color: #555;
 }
