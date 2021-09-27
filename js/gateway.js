@@ -485,6 +485,8 @@ SharkGame.Gateway = {
         if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
             SharkGame.persistentFlags.wasScouting = SharkGame.persistentFlags.scouting;
             SharkGame.persistentFlags.scouting = undefined;
+        } else {
+            SharkGame.persistentFlags.scouting = !gateway.completedWorlds.includes(world.worldType);
         }
     },
 
@@ -492,12 +494,12 @@ SharkGame.Gateway = {
         if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
             return SharkGame.persistentFlags.scouting;
         }
-        return SharkGame.persistentFlags.wasOnScoutingMission;
+        return SharkGame.persistentFlags.wasScouting;
     },
 
     currentlyOnScoutingMission() {
         if (_.isUndefined(SharkGame.persistentFlags.scouting)) {
-            SharkGame.persistentFlags.scouting = !gateway.completedWorlds.includes(world.worldType);
+            gateway.updateScoutingStatus();
         }
 
         return SharkGame.persistentFlags.scouting;
