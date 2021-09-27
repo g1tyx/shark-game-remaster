@@ -802,30 +802,30 @@ pre {
 #buttonList {
     @extend .inner-section;
     padding: 1em;
-}
 
-.pileArrangement {
-    ul {
-        display: inline-block;
-    }
+    &.homeScreen {
+        display: flex;
+        flex-wrap: wrap;
 
-    li {
-        display: inline-block;
-    }
-
-    button {
-        display: inline-block;
-        margin: 0.8em;
-        max-width: 12em;
-
-        &.newlyDiscovered {
-            max-width: 12em;
+        ul {
+            display: inline-block;
         }
-    }
 
-    &.smallerMargin {
+        li {
+            display: inline-block;
+        }
+
         button {
-            margin: 0.4em;
+            display: inline-block;
+            margin: 0.8em;
+            height: 10em;
+            width: 12em;
+        }
+
+        &.smallerMargin {
+            button {
+                margin: 0.4em;
+            }
         }
     }
 }

@@ -424,13 +424,9 @@ SharkGame.Home = {
         // buy amount buttons
         main.createBuyButtons("buy", content, "append");
         // button list
-        const buttonList = $("<div>").attr("id", "buttonList");
+        const buttonList = $("<div>").attr("id", "buttonList").addClass("homeScreen");
         content.append(buttonList);
-        if (SharkGame.Settings.current.buttonDisplayType === "pile") {
-            buttonList.addClass("pileArrangement");
-        } else {
-            buttonList.removeClass("pileArrangement");
-        }
+        buttonList.addClass("pileArrangement");
         // background art!
         if (SharkGame.Settings.current.showTabImages) {
             tabMessage.css("background-image", "url('" + home.tabBg + "')");
