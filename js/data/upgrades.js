@@ -338,7 +338,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Crab-specific gear has been invented to allow for kelp farming! This is possibly useful.",
             effectDesc: "Crabs can become kelp farmers and grow a living carpet across the bottom of the sea.",
             cost: {
-                science: 1000,
+                science: 1500,
                 sand: 2000,
             },
             required: {
@@ -353,7 +353,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
-                science: 400,
+                science: 600,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -371,7 +371,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Kelp produces sea apples twice as fast. We can dissect sea apples and jellyfish for science. Also, sea apple isn't a fruit. Gross.",
             cost: {
-                science: 600,
+                science: 2000,
             },
             required: {
                 upgrades: ["agriculture"],
@@ -392,8 +392,8 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Rays and laser rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
-                science: 700,
-                sand: 600,
+                science: 1500,
+                sand: 10000,
             },
             required: {
                 upgrades: ["biology", "laserRays"],
@@ -413,8 +413,8 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Crabs and planter crabs are four and two times as effective, respectively, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
-                science: 500,
-                kelp: 100,
+                science: 7500,
+                kelp: 1000,
             },
             required: {
                 upgrades: ["biology", "sunObservation"],
