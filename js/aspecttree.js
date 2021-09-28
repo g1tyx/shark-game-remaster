@@ -262,7 +262,7 @@ SharkGame.AspectTree = {
         }
 
         const aspect = _.find(SharkGame.Aspects, ({ posX, posY, width, height, prerequisites }) => {
-            if (_.some(prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0) && !SharkGame.Aspects.infinityVision) {
+            if (_.some(prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0) && !SharkGame.Aspects.infinityVision.level) {
                 return;
             }
             return (
