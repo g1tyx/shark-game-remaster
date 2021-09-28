@@ -1327,30 +1327,25 @@ button {
 
 .gateway {
     text-align: center;
-    text-shadow: 0 0 0.7em lighten($color-discovery, 5%);
 
     h1 {
         text-align: center;
         color: lighten($color-discovery, 10%);
-        text-shadow: 0 0 0.3em lighten($color-discovery, 20%), 0 0 2em lighten($color-discovery, 20%);
     }
 
     h2 {
         text-align: center;
         color: $color-discovery;
-        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     h3 {
         text-align: center;
         color: $color-discovery;
-        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     h4 {
         text-align: center;
         color: $color-discovery;
-        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     .medDesc {
@@ -1367,9 +1362,8 @@ button {
 }
 
 .gatewayButton {
-    background-color: $color-discovery-dark2;
+    background-color: $color-discovery-dark3;
     border-color: $color-discovery;
-    text-shadow: 0 0 0.5em lighten($color-discovery, 5%);
     max-width: 16em;
 
     div {
@@ -1384,7 +1378,7 @@ button {
     }
 
     &:active {
-        background-color: $color-discovery-dark3;
+        background-color: $color-discovery-dark4;
         color: $color-discovery-dark;
         @include box-shadow-inset(0px, 3px, 7px, 7px, $color-discovery-dark3);
 

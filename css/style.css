@@ -1094,27 +1094,22 @@ button.disabled div {
 
 .gateway {
   text-align: center;
-  text-shadow: 0 0 0.7em #bfe9dc;
 }
 .gateway h1 {
   text-align: center;
   color: #d2f0e6;
-  text-shadow: 0 0 0.3em #f8fdfb, 0 0 2em #f8fdfb;
 }
 .gateway h2 {
   text-align: center;
   color: #ace3d1;
-  text-shadow: 0 0 0.3em #d2f0e6, 0 0 2em #d2f0e6;
 }
 .gateway h3 {
   text-align: center;
   color: #ace3d1;
-  text-shadow: 0 0 0.3em #d2f0e6, 0 0 2em #d2f0e6;
 }
 .gateway h4 {
   text-align: center;
   color: #ace3d1;
-  text-shadow: 0 0 0.3em #d2f0e6, 0 0 2em #d2f0e6;
 }
 .gateway .medDesc {
   color: #99ddc6;
@@ -1128,9 +1123,8 @@ button.disabled div {
 
 .gatewayButton, .gateway button,
 button.gateway, button.newlyDiscovered {
-  background-color: #38a581;
+  background-color: #246c54;
   border-color: #ace3d1;
-  text-shadow: 0 0 0.5em #bfe9dc;
   max-width: 16em;
 }
 .gatewayButton div, .gateway button div,
@@ -1148,7 +1142,7 @@ button.gateway:hover, button.newlyDiscovered:hover {
 }
 .gatewayButton:active, .gateway button:active,
 button.gateway:active, button.newlyDiscovered:active {
-  background-color: #246c54;
+  background-color: #113228;
   color: #60c9a7;
   -webkit-box-shadow: 0px 3px 7px 7px #246c54 inset;
   -moz-box-shadow: 0px 3px 7px 7px #246c54 inset;
