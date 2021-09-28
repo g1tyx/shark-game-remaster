@@ -568,6 +568,10 @@ pre {
             @include pipe-separators;
         }
 
+        &:empty {
+            box-shadow: none;
+        }
+
         .newTab {
             a {
                 &:link {

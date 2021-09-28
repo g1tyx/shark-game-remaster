@@ -402,6 +402,9 @@ pre {
 #contentMenu #tabList li:first-child:before {
   content: none;
 }
+#contentMenu #tabList:empty {
+  box-shadow: none;
+}
 #contentMenu #tabList .newTab a:link {
   color: #ace3d1;
   text-shadow: 0 0 0.8em #60c9a7;
