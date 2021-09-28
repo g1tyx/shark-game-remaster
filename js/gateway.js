@@ -156,8 +156,8 @@ SharkGame.Gateway = {
         });
 
         if (SharkGame.Aspects.cleanSlate.level) {
-            SharkGame.Button.makeButton("respecButton", "respec industry and time branches", aspectTreeContent, () => {
-                if (confirm("Are you sure you want to refund all aspects on the Industry and Time branches?")) {
+            SharkGame.Button.makeButton("respecButton", "respec", aspectTreeContent, () => {
+                if (confirm("Are you sure you want to respec all refundable aspects?")) {
                     tree.respecTree();
                 }
             });
