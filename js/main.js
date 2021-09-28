@@ -340,7 +340,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (SharkGame.flags.needOfflineProgress) {
             const secondsElapsed = SharkGame.flags.needOfflineProgress;
 
-            if (SharkGame.Settings.current.idleEnabled) {
+            if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
                 SharkGame.persistentFlags.everIdled = true;
             } else {
@@ -451,7 +451,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     tick() {
         if (cad.pause) {
-            SharkGame.persistentFlags.currentPausedTime = _.now() - SharkGame.before;
+            SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
             SharkGame.before = _.now();
             SharkGame.lastMouseActivity = _.now();
             return;
@@ -483,9 +483,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     res.minuteHand.init();
                     SharkGame.flags.minuteHandTimer = 0;
                 }
-                if (res.minuteHand.active) {
-                    res.minuteHand.toggleMinuteHand();
-                }
+                res.minuteHand.toggleOff();
                 res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
             } else {
                 if (!$("#idle-overlay").is(":hidden") && !SharkGame.idleTransitioning) {
