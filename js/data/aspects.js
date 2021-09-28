@@ -203,15 +203,11 @@ SharkGame.Aspects = {
         },
         getEffect(level) {
             return (
-                "Gain nothing now. Every time a world is completed, gain " +
+                "Gain nothing now. Every time a world is completed, gain <strong>" +
                 level +
-                " " +
-                sharktext.getResourceName(
-                    "essence",
-                    false,
-                    69,
-                    sharkcolor.getElementColor("tooltipbox", "background-color") + " in addition to usual rewards."
-                )
+                "</strong> " +
+                sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                " in addition to usual rewards."
             );
         },
         getUnlocked() {},
@@ -486,7 +482,7 @@ SharkGame.Aspects = {
             return 4;
         },
         getEffect(_level) {
-            return "Unlock the ability to refund non-core aspects.";
+            return "Unlock the ability to refund most aspects.";
         },
         getUnlocked() {},
         prerequisites: ["distantForesight"],
@@ -704,7 +700,7 @@ SharkGame.Aspects = {
             return 3 + level * 2;
         },
         getEffect(level) {
-            return "For each unspent essence you have, increase all essence gains by " + 2 * level + "%.";
+            return "For each unspent essence you have, increase all essence gains by <strong>" + 2 * level + "%</strong>.";
         },
         getUnlocked() {},
         prerequisites: ["meditation"],
@@ -728,7 +724,7 @@ SharkGame.Aspects = {
             return 2;
         },
         getEffect(_level) {
-            return "Unlocks a pause button that freezes everything, and no idle or offline progress is accrued while paused.";
+            return "Unlock a pause button that completely freezes everything.";
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
@@ -756,7 +752,7 @@ SharkGame.Aspects = {
             return 10;
         },
         getEffect(_level) {
-            return "Reveals all aspects which are not locked.";
+            return "Reveal all aspects which are not locked.";
         },
         getUnlocked() {},
         prerequisites: ["distantForesight"],
