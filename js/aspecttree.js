@@ -297,7 +297,8 @@ SharkGame.AspectTree = {
             } else if (button.level === 0) {
                 const tooltipText =
                     sharktext.boldString(button.name) +
-                    `<br/>${button.getEffect(button.level + 1)}<br/>` +
+                    (button.core ? `<br /><span class='littleTooltipText' class='bold'>core aspect</span>` : "") +
+                    `<br/>${button.getEffect(1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
                     `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
@@ -306,7 +307,9 @@ SharkGame.AspectTree = {
             } else if (button.level < button.max) {
                 const tooltipText =
                     sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText' class='bold'> level ${button.level}</span><br />` +
+                    `<br /><span class='littleTooltipText' class='bold'> level ${button.level}${
+                        button.core ? " core aspect" : "aspect"
+                    }</span><br />` +
                     button.getEffect(button.level) +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
                     "<hr class='hrForTooltipSeparationInGateway'>" +
@@ -326,7 +329,7 @@ SharkGame.AspectTree = {
             } else {
                 const tooltipText =
                     sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText bold'> level ${button.level}</span>` +
+                    `<br /><span class='littleTooltipText bold'> level ${button.level}${button.core ? " core aspect" : ""}</span>` +
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
