@@ -581,10 +581,6 @@ pre {
   text-shadow: 0 0 0.3em #ffffff, 0 0 0.6em #ffffff, 0 0 0.8em #ffffff;
 }
 
-#resource-essence {
-  text-shadow: 0 0 0.6em #ace3d1;
-}
-
 #content {
   background-color: var(--color-med);
   -webkit-box-shadow: 0 0 5px 5px var(--color-dark) inset;

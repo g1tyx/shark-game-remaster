@@ -772,11 +772,6 @@ pre {
     text-shadow: 0 0 0.3em $color-numen, 0 0 0.6em $color-numen, 0 0 0.8em $color-numen;
 }
 
-#resource-essence {
-    // fancy schmancy special rule
-    text-shadow: 0 0 0.6em $color-essence;
-}
-
 #content {
     @extend .section;
     background-color: var(--color-med);
