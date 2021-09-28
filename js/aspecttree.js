@@ -299,6 +299,7 @@ SharkGame.AspectTree = {
                     sharktext.boldString(button.name) +
                     `<br/>${button.getEffect(button.level + 1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
+                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
                     `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
                     `${button.getCost(button.level)}</span></span>`;
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
@@ -308,9 +309,11 @@ SharkGame.AspectTree = {
                     `<br /><span class='littleTooltipText' class='bold'> level ${button.level}</span><br />` +
                     button.getEffect(button.level) +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
-                    "<br /><span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
+                    "<hr class='hrForTooltipSeparationInGateway'>" +
+                    "<span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
                     button.getEffect(button.level + 1) +
-                    "<br /><span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
+                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    "<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
                     button.getCost(button.level) +
                     "</span>";
                 tooltipBox.html(tooltipText);
@@ -326,7 +329,8 @@ SharkGame.AspectTree = {
                     `<br /><span class='littleTooltipText bold'> level ${button.level}</span>` +
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
-                    "<br /><b>MAXIMUM LEVEL.</b></span>";
+                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    "<b>MAXIMUM LEVEL.</b></span>";
                 tooltipBox.html(tooltipText);
             }
         }

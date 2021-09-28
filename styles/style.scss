@@ -1611,6 +1611,16 @@ button.planetButton {
     border-top: 2px dashed var(--color-lighter);
 }
 
+.hrForTooltipSeparationInGateway {
+    border: 0;
+    border-top: 2px dashed white;
+}
+
+.hrForTooltipJuxtapositionInGateway {
+    border: 0;
+    border-top: 2px solid white;
+}
+
 .collapser {
     padding-right: 1em;
     padding-left: 0.7em;
