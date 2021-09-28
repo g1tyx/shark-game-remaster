@@ -119,14 +119,32 @@ SharkGame.Gateway = {
         SharkGame.Button.makeButton("backToGateway", "aspects", navButtons, () => {
             gateway.switchViews(gateway.showAspects);
         });
-        SharkGame.Button.makeButton("backToGateway", "options", navButtons, SharkGame.PaneHandler.showOptions);
-        SharkGame.Button.makeButton("backToGateway", "worlds", navButtons, () => {
-            gateway.switchViews(gateway.showPlanets);
-        });
+        SharkGame.Button.makeButton("toOptions", "options", navButtons, SharkGame.PaneHandler.showOptions);
+        SharkGame.Button.makeHoverscriptButton(
+            "toWorlds",
+            "worlds",
+            navButtons,
+            () => {
+                if (SharkGame.Aspects.pathOfEnlightenment.level) {
+                    gateway.switchViews(gateway.showPlanets);
+                }
+            },
+            () => {
+                if (!SharkGame.Aspects.pathOfEnlightenment.level) {
+                    $("#tooltipbox").addClass("forAspectTreeUnpurchased").html("You're not yet sure what this means.");
+                }
+            },
+            () => {
+                $("#tooltipbox").removeClass("forAspectTreeUnpurchased").html("");
+            }
+        );
         gatewayContent.append(navButtons);
 
         SharkGame.PaneHandler.swapCurrentPane("GATEWAY", gatewayContent, true, 500, true);
         gateway.transitioning = false;
+        if (!SharkGame.Aspects.pathOfEnlightenment.level) {
+            $("#toWorlds").addClass("disabled");
+        }
         if (SharkGame.missingAspects) {
             SharkGame.PaneHandler.showAspectWarning();
         }
