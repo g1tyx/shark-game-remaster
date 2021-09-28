@@ -9,6 +9,8 @@ SharkGame.Home = {
     currentButtonTab: null,
     currentExtraMessageIndex: null,
 
+    buttonNamesList: [],
+
     // Priority: later messages display if available, otherwise earlier ones.
     extraMessages: {
         // FIRST RUN
@@ -412,6 +414,7 @@ SharkGame.Home = {
     },
 
     switchTo() {
+        this.buttonNamesList = [];
         const content = $("#content");
         const tabMessage = $("<div>").attr("id", "tabMessage");
         content.append(tabMessage);
@@ -426,11 +429,15 @@ SharkGame.Home = {
         // button list
         const buttonList = $("<div>").attr("id", "buttonList").addClass("homeScreen");
         content.append(buttonList);
-        buttonList.addClass("pileArrangement");
         // background art!
         if (SharkGame.Settings.current.showTabImages) {
             tabMessage.css("background-image", "url('" + home.tabBg + "')");
         }
+
+        if (SharkGame.Aspects.anythingAndEverything.level) {
+            this.everything.addEverythingButton();
+        }
+        this.update();
     },
 
     discoverActions() {
@@ -786,6 +793,8 @@ SharkGame.Home = {
     },
 
     addButton(actionName) {
+        this.buttonNamesList.push(actionName);
+
         const buttonListSel = $("#buttonList");
         const actionData = SharkGame.HomeActions.getActionTable()[actionName];
 
@@ -827,12 +836,17 @@ SharkGame.Home = {
         });
     },
 
-    onHomeButton() {
+    onHomeButton(_placeholder, actionName) {
         const amountToBuy = new Decimal(sharkmath.getBuyAmount());
-        // get related entry in home button table
-        const button = $(this);
+        let button;
+        if (!actionName) {
+            // get related entry in home button table
+            button = $(this);
+            actionName = button.attr("id");
+        } else {
+            button = $("#" + actionName);
+        }
         if (button.hasClass("disabled")) return;
-        const actionName = button.attr("id");
         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         let actionCost = {};
         let amount = new Decimal(0);
@@ -849,13 +863,15 @@ SharkGame.Home = {
                 // make it worth entering this function
                 if (amount.lessThan(1)) amount = new Decimal(1);
                 actionCost = home.getCost(action, amount);
+            } else {
+                return;
             }
         } else {
             actionCost = home.getCost(action, amountToBuy);
             amount = amountToBuy;
         }
 
-        if ($.isEmptyObject(actionCost)) {
+        if ($.isEmptyObject(actionCost) && !amount.equals(0)) {
             // free action
             // do not repeat or check for costs
             if (action.effect.resource) {
@@ -913,6 +929,37 @@ SharkGame.Home = {
         }
         // disable button until next frame
         button.addClass("disabled");
+    },
+
+    everything: {
+        addEverythingButton() {
+            const buttonListSel = $("#buttonList");
+
+            const buttonSelector = SharkGame.Button.makeHoverscriptButton(
+                "anythingAndEverything",
+                "Anything and Everything",
+                buttonListSel,
+                home.everything.onEverythingButton,
+                home.everything.onEverythingHover,
+                home.onHomeUnhover
+            ); // box-shadow: 0 0 6px 3px #f00, 0 0 3px 1px #ff1a1a inset;
+            buttonSelector.html($("<span id='" + "anythingAndEverything" + "Label' class='click-passthrough'>Press anything and everything</span>"));
+        },
+
+        onEverythingButton() {
+            _.each(home.buttonNamesList, (actionName) => {
+                home.onHomeButton("blah", actionName);
+            });
+        },
+
+        onEverythingHover() {
+            if (!SharkGame.Settings.current.showTooltips) {
+                return;
+            }
+
+            $("#tooltipbox").removeClass("forIncomeTable").attr("current", "").addClass("forHomeButtonOrGrotto");
+            $("#tooltipbox").html("Clicks every other button in this list, in order, from left to right and top to bottom.");
+        },
     },
 
     onHomeHover(mouseEnterEvent, actionName) {
