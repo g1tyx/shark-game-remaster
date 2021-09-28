@@ -827,8 +827,22 @@ SharkGame.Resources = {
                     res.minuteHand.showTooltip,
                     res.tableTextLeave
                 );
+                $("#minute-hand-toggle").html("<strong>TOGGLE</strong>");
                 $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
-                $("#minute-row-two").append($("<div>").attr("id", "minute-time"));
+                $("#minute-row-two").append($("<span>").attr("id", "minute-multiplier"));
+                $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+
+                $("#minute-row-two").append($("<span>").html("("));
+                const slider = $("<input>")
+                    .attr("id", "minute-slider")
+                    .attr("type", "range")
+                    .attr("min", 1)
+                    .attr("max", 9)
+                    .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
+                    .on("input", res.minuteHand.changeSelectedMultiplier);
+                $("#minute-row-two").append(slider);
+                $("#minute-row-two").append($("<span>").html(") <strong>SPEED</strong>"));
+
                 $("#minute-row-two").append($("<div>").attr("id", "minute-pause"));
 
                 if (SharkGame.Aspects.meditation.level) {
@@ -842,15 +856,6 @@ SharkGame.Resources = {
                     );
                 }
                 $("#pause-toggle").addClass("close-button min");
-
-                const slider = $("<input>")
-                    .attr("id", "minute-slider")
-                    .attr("type", "range")
-                    .attr("min", 1)
-                    .attr("max", 9)
-                    .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
-                    .on("input", res.minuteHand.changeSelectedMultiplier);
-                $("#minute-hand-div").append(slider);
             }
 
             if (!SharkGame.persistentFlags.everIdled || !SharkGame.Settings.current.idleEnabled) {
@@ -932,13 +937,9 @@ SharkGame.Resources = {
 
         updateMinuteHandLabel() {
             if (!res.minuteHand.active) {
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>ACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
-                );
+                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
             } else {
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>DEACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
-                );
+                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
             }
             $("#minute-time").html(sharktext.boldString("(" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)"));
             if (SharkGame.flags.minuteHandTimer === 0) {

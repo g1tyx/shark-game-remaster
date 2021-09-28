@@ -823,6 +823,10 @@ pre {
             width: 12em;
         }
     }
+
+    &.lab {
+        width: 100%;
+    }
 }
 
 button.newlyDiscovered {
@@ -1790,12 +1794,9 @@ button.planetButton {
 }
 
 #minute-slider {
-    --minuterotation: rotate(-45deg);
     background: $color-discovery-dark4;
-    margin-top: 10px;
     border-style: dashed;
     border-color: $color-discovery-dark3;
-    margin-bottom: 8px;
 
     &.power1 {
         background: lighten($color-discovery-dark4, 5%);
@@ -1829,6 +1830,8 @@ button.planetButton {
 }
 
 #minute-time {
+    margin-bottom: 1rem;
+
     &.noTime {
         color: #555;
     }
