@@ -282,9 +282,23 @@ SharkGame.Gateway = {
         // add confirm button
         const confirmButtonDiv = $("<div>");
         SharkGame.Button.makeButton("progress", "proceed", confirmButtonDiv, () => {
-            // kick back to main to start up the game again
-            world.worldType = gateway.selectedWorld;
-            main.loopGame();
+            function checkAspects() {
+                let doProceed = true;
+                $.each(SharkGame.Aspects, (_aspectName, aspectData) => {
+                    if (aspectData.level && !aspectData.core) {
+                        doProceed = confirm(
+                            "Woah, hold on! Only CORE ASPECTS work when scouting, but you have some that aren't! If you continue, these non-core aspects will stop working until you leave. Are you sure that you want to proceed?"
+                        );
+                        return false;
+                    }
+                });
+                return doProceed;
+            }
+            if (gateway.completedWorlds.includes(gateway.selectedWorld) || checkAspects()) {
+                // kick back to main to start up the game again
+                world.worldType = gateway.selectedWorld;
+                main.loopGame();
+            }
         });
         gatewayContent.append(confirmButtonDiv);
 
