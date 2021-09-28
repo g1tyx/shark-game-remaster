@@ -295,9 +295,11 @@ SharkGame.AspectTree = {
             if (button.getUnlocked && button.getUnlocked()) {
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(sharktext.boldString(button.getUnlocked()));
             } else if (button.level === 0) {
+                const levelText =
+                    (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
                 const tooltipText =
                     sharktext.boldString(button.name) +
-                    (button.core ? `<br /><span class='littleTooltipText'>core aspect</span>` : "") +
+                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
                     `<br/>${button.getEffect(1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
@@ -305,9 +307,15 @@ SharkGame.AspectTree = {
                     `${button.getCost(button.level)}</span></span>`;
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
             } else if (button.level < button.max) {
+                const levelText =
+                    "<strong>level " +
+                    button.level +
+                    "</strong> " +
+                    (button.core ? " core aspect" : " aspect") +
+                    (button.noRefunds ? ", no refunds" : "");
                 const tooltipText =
                     sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText'> level ${button.level}${button.core ? " core aspect" : " aspect"}</span><br />` +
+                    `<br /><span class='littleTooltipText'>${levelText}</span><br />` +
                     button.getEffect(button.level) +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
                     "<hr class='hrForTooltipSeparationInGateway'>" +
@@ -319,15 +327,24 @@ SharkGame.AspectTree = {
                     "</span>";
                 tooltipBox.html(tooltipText);
             } else if (button.level === undefined) {
+                const levelText =
+                    (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
                 const tooltipText =
                     sharktext.boldString(button.name) +
+                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>`;
                 tooltipBox.html(tooltipText);
             } else {
+                const levelText =
+                    "<strong>level " +
+                    button.level +
+                    "</strong> " +
+                    (button.core ? " core aspect" : " aspect") +
+                    (button.noRefunds ? ", no refunds" : "");
                 const tooltipText =
                     sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText'> level ${button.level}${button.core ? " core aspect" : ""}</span>` +
+                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
