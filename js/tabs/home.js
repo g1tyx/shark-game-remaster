@@ -425,7 +425,9 @@ SharkGame.Home = {
         content.append(buttonTabDiv);
         home.createButtonTabs();
         // buy amount buttons
-        main.createBuyButtons("buy", content, "append");
+        if (SharkGame.persistentFlags.revealedBuyButtons) {
+            main.createBuyButtons("buy", content, "append");
+        }
         // button list
         const buttonList = $("<div>").attr("id", "buttonList").addClass("homeScreen");
         content.append(buttonList);

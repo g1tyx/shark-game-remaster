@@ -101,11 +101,11 @@ SharkGame.Events = {
             }
         },
     },
-    /*     revealBuyButtons: {
+    revealBuyButtons: {
         handlingTime: "beforeTick",
         priority: 0,
         getAction() {
-            if (world.worldType !== "start") {
+            if (SharkGame.persistentFlags.revealedBuyButtons) {
                 return "remove";
             }
             if (res.getTotalResource("crab") > 3) {
@@ -114,10 +114,11 @@ SharkGame.Events = {
             return "pass";
         },
         trigger() {
-            SharkGame.flags.revealedBuyButtons = true;
+            SharkGame.persistentFlags.revealedBuyButtons = true;
             SharkGame.TabHandler.setUpTab();
         },
-    }, getAllAffordableUpgrades*/
+    },
+    /*getAllAffordableUpgrades*/
     updateLabNotifier: {
         handlingTime: "afterTick",
         priority: 0,
