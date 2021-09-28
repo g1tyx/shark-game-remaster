@@ -30,6 +30,10 @@ SharkGame.Gateway = {
 
         //be sure minute hand is off
         res.minuteHand.toggleOff();
+        //be sure we're not paused
+        if (cad.pause) {
+            res.pause.togglePause();
+        }
 
         gateway.updateScoutingStatus();
 
