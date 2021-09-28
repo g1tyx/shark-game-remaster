@@ -36,7 +36,7 @@ SharkGame.Aspects = {
             return (level + 1) ** 2;
         },
         getEffect(level) {
-            return "Manual resource collection <strong>x" + (level > 0 ? level * 4 : 1) + "</strong>.";
+            return "Manual resource collection <strong>×" + (level > 0 ? level * 4 : 1) + "</strong>.";
         },
         getUnlocked() {},
         prerequisites: [],
@@ -63,7 +63,7 @@ SharkGame.Aspects = {
                 sharktext.getResourceName("shark", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 ", their jobs, and their fundamental machines by <strong>" +
                 (level + 1) +
-                "x</strong>."
+                "×</strong>."
             );
         },
         getUnlocked() {},
@@ -264,7 +264,7 @@ SharkGame.Aspects = {
             return 16 * (level + 1);
         },
         getEffect(level) {
-            return "Tokens increase production by <strong>" + (level + 2) + "x</strong>.";
+            return "Tokens increase production by <strong>" + (level + 2) + "×</strong>.";
         },
         getUnlocked() {
             return gateway.completedWorlds.includes("frigid") ? "" : "Complete the Frigid worldtype to unlock this aspect.";
@@ -376,7 +376,7 @@ SharkGame.Aspects = {
             return 3 * level + 5;
         },
         getEffect(level) {
-            return "The effect from tokens of industry is <strong>" + (level + 1) + "x</strong> stronger.";
+            return "The effect from tokens of industry is <strong>" + (level + 1) + "×</strong> stronger.";
         },
         getUnlocked() {},
         prerequisites: ["thePlan"],
@@ -398,7 +398,7 @@ SharkGame.Aspects = {
             return 2 * level + 4;
         },
         getEffect(level) {
-            return "All breeders are <strong>" + 2 ** level + "x</strong> faster.";
+            return "All breeders are <strong>" + 2 ** level + "×</strong> faster.";
         },
         getUnlocked() {},
         prerequisites: ["thePlan"],
