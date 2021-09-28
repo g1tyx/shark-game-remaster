@@ -699,6 +699,13 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.timestampGameStart = _.now();
         SharkGame.timestampRunStart = _.now();
     },
+
+    shouldShowTooltips() {
+        if (!(main.isFirstTime() && res.getResource("fish") < 15 && res.getResource("shark") < 1)) {
+            SharkGame.persistentFlags.tooltipUnlocked = true;
+        }
+        return SharkGame.persistentFlags.tooltipUnlocked;
+    },
 };
 
 SharkGame.Button = {

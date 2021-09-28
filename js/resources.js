@@ -1194,7 +1194,7 @@ SharkGame.Resources = {
     },
 
     tableTextEnter(_mouseEnterEvent, resourceName) {
-        if (!SharkGame.Settings.current.showTooltips) {
+        if (!SharkGame.Settings.current.showTooltips || !main.shouldShowTooltips()) {
             return;
         }
         if (!resourceName) {

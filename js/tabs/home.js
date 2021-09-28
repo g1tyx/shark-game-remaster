@@ -966,7 +966,7 @@ SharkGame.Home = {
     },
 
     onHomeHover(mouseEnterEvent, actionName) {
-        if (!SharkGame.Settings.current.showTooltips || (!actionName && !mouseEnterEvent)) {
+        if (!SharkGame.Settings.current.showTooltips || (!actionName && !mouseEnterEvent) || !main.shouldShowTooltips()) {
             return;
         }
 
