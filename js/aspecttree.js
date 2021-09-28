@@ -456,7 +456,7 @@ SharkGame.AspectTree = {
                 }
             }
 
-            tree.renderButton(context, posX, posY, width, height, icon, eventSprite, name);
+            tree.renderButton(context, posX, posY, width, height, icon, eventSprite, name, canBuy);
 
             context.restore();
         });
@@ -490,7 +490,7 @@ SharkGame.AspectTree = {
      * @param {string} icon The icon to draw in the rectangle
      * @param {string} name The name of the button
      */
-    renderButton(context, posX, posY, width, height, icon = "general/missing-action", eventIcon = false, name) {
+    renderButton(context, posX, posY, width, height, icon = "general/missing-action", eventIcon = false, name, canBuy = false) {
         context.beginPath();
         context.moveTo(posX + BUTTON_BORDER_RADIUS, posY);
         context.lineTo(posX + width - BUTTON_BORDER_RADIUS, posY);
@@ -525,7 +525,7 @@ SharkGame.AspectTree = {
                 height
             );
         }
-        const textToDisplay = tree.getLittleLevelText(name);
+        const textToDisplay = tree.getLittleLevelText(name, canBuy);
         if (textToDisplay) {
             context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).color;
             context.fillText(textToDisplay, posX + width + 5, posY + height / 2);
@@ -533,8 +533,8 @@ SharkGame.AspectTree = {
             context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).backgroundColor;
         }
     },
-    getLittleLevelText(aspectName) {
-        if (SharkGame.Aspects[aspectName] && !SharkGame.Aspects[aspectName].getUnlocked()) {
+    getLittleLevelText(aspectName, canBuy = true) {
+        if (canBuy && SharkGame.Aspects[aspectName] && !SharkGame.Aspects[aspectName].getUnlocked()) {
             const currentLevel = SharkGame.Aspects[aspectName].level;
             const maxLevel = SharkGame.Aspects[aspectName].max;
             if (currentLevel < maxLevel) {
