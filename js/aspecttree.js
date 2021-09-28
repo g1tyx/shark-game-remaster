@@ -415,6 +415,30 @@ SharkGame.AspectTree = {
         context.scale(tree.cameraZoom, tree.cameraZoom);
         context.translate(-context.canvas.width / 2 + tree.cameraOffset.posX, -context.canvas.height / 2 + tree.cameraOffset.posY);
 
+        if (gateway.completedWorlds.length >= 3) {
+            context.save();
+            context.lineWidth = 5;
+            context.strokeStyle = buttonColor;
+            context.setLineDash([15, 15]);
+            context.beginPath();
+            context.moveTo(420, -1000);
+            context.lineTo(420, 2000);
+            context.stroke();
+            context.restore();
+
+            context.save();
+            context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).color;
+            context.fillText("you can only bring core aspects", 440, 60);
+            context.fillText("on scouting missions", 440, 75);
+            context.fillText("non-core aspects ->", 440, 110);
+            context.fillText("<- core aspects", 300, 110);
+            context.fillText("you can only bring core aspects", 440, 710);
+            context.fillText("on scouting missions", 440, 725);
+            context.fillText("non-core aspects ->", 440, 680);
+            context.fillText("<- core aspects", 300, 680);
+            context.restore();
+        }
+
         // Lines between aspects
         context.save();
         context.lineWidth = 5;
