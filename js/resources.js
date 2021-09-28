@@ -980,6 +980,12 @@ SharkGame.Resources = {
                 "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it.<br><br>(traditional offline progress available in options)"
             );
         },
+
+        toggleOff() {
+            if (res.minuteHand.active) {
+                res.minuteHand.toggleMinuteHand();
+            }
+        },
     },
 
     pause: {

@@ -27,6 +27,10 @@ SharkGame.Gateway = {
 
     enterGate(loadingFromSave) {
         SharkGame.PaneHandler.wipeStack();
+
+        //be sure minute hand is off
+        res.minuteHand.toggleOff();
+
         gateway.updateScoutingStatus();
 
         const essenceReward = gateway.getEssenceReward(loadingFromSave);
