@@ -1351,10 +1351,6 @@ button {
         color: lighten($color-discovery-dark2, 30%);
     }
 
-    .largeDesc {
-        color: lighten($color-discovery-dark2, 30%);
-    }
-
     .smallDesc {
         color: $color-discovery;
     }
@@ -1524,7 +1520,6 @@ button.gateway {
 button.planetButton {
     background-color: transparent;
     border: none;
-    text-shadow: 0 0 0.5em lighten($color-discovery, 5%);
     padding: 20px;
     max-width: 14em;
     margin: 0.8em;

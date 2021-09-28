@@ -1113,9 +1113,6 @@ button.disabled div {
 .gateway .medDesc {
   color: #99ddc6;
 }
-.gateway .largeDesc {
-  color: #99ddc6;
-}
 .gateway .smallDesc, .gateway .smallDescAllowClicks {
   color: #ace3d1;
 }
@@ -1302,7 +1299,6 @@ button.disabled.gateway div, button.disabled.newlyDiscovered div {
 button.planetButton {
   background-color: transparent;
   border: none;
-  text-shadow: 0 0 0.5em #bfe9dc;
   padding: 20px;
   max-width: 14em;
   margin: 0.8em;

@@ -311,7 +311,7 @@ SharkGame.Aspects = {
         },
     },
     amorphousAssembly: {
-        posX: 570,
+        posX: 575,
         posY: 650,
         width: 40,
         height: 40,

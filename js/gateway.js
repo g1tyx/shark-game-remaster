@@ -442,9 +442,7 @@ SharkGame.Gateway = {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.foresight.missing, (missingResource) => {
                         missingList.append(
-                            $("<li>")
-                                .html("<strong>This world has no " + sharktext.getResourceName(missingResource, false, 2) + ".</strong>")
-                                .addClass("largeDesc")
+                            $("<li>").html("<strong>This world has no " + sharktext.getResourceName(missingResource, false, 2) + ".</strong>")
                         );
                     });
                     contentDiv.prepend(missingList);
@@ -453,15 +451,13 @@ SharkGame.Gateway = {
                     const presentList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.foresight.present, (presentResource) => {
                         presentList.append(
-                            $("<li>")
-                                .html(
-                                    "<strong>You feel the presence of " +
-                                        (gateway.playerHasSeenResource(presentResource)
-                                            ? sharktext.getResourceName(presentResource, false, 2)
-                                            : sharktext.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
-                                        ".</strong>"
-                                )
-                                .addClass("largeDesc")
+                            $("<li>").html(
+                                "<strong>You feel the presence of " +
+                                    (gateway.playerHasSeenResource(presentResource)
+                                        ? sharktext.getResourceName(presentResource, false, 2)
+                                        : sharktext.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
+                                    ".</strong>"
+                            )
                         );
                     });
                     contentDiv.prepend(presentList);
@@ -471,30 +467,26 @@ SharkGame.Gateway = {
                     _.each(worldData.modifiers, (modifier) => {
                         if (gateway.playerHasSeenResource(modifier.resource) || !(worldData.foresight.present.indexOf(modifier.resource) > -1)) {
                             modifierList.append(
-                                $("<li>")
-                                    .html(
-                                        "<strong>" +
-                                            SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource) +
-                                            "</strong>"
-                                    )
-                                    .addClass("largeDesc")
+                                $("<li>").html(
+                                    "<strong>" +
+                                        SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource) +
+                                        "</strong>"
+                                )
                             );
                         } else {
                             modifierList.append(
-                                $("<li>")
-                                    .html(
-                                        "<strong>" +
-                                            SharkGame.ModifierReference.get(modifier.modifier)
-                                                .effectDescription(modifier.amount, modifier.resource)
-                                                .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource]) +
-                                            "</strong>"
-                                    )
-                                    .addClass("largeDesc")
+                                $("<li>").html(
+                                    "<strong>" +
+                                        SharkGame.ModifierReference.get(modifier.modifier)
+                                            .effectDescription(modifier.amount, modifier.resource)
+                                            .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource]) +
+                                        "</strong>"
+                                )
                             );
                         }
                     });
                     contentDiv.prepend(modifierList);
-                    contentDiv.prepend($("<p>").html("ATTRIBUTES:").addClass("largeDesc"));
+                    contentDiv.prepend($("<p>").html("ATTRIBUTES:"));
                 } else {
                     contentDiv.prepend($("<p>").html("NO KNOWN ATTRIBUTES"));
                 }
