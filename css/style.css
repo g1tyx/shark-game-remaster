@@ -632,6 +632,9 @@ pre {
 #buttonList.lab {
   width: 100%;
 }
+#buttonList.lab button {
+  width: 100%;
+}
 
 button.newlyDiscovered {
   max-width: none;
