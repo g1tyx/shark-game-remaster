@@ -66,7 +66,14 @@ SharkGame.Aspects = {
                 "×</strong>."
             );
         },
-        getUnlocked() {},
+        getUnlocked() {
+            if (!SharkGame.Aspects.pathOfEnlightenment.level) {
+                return "???";
+            }
+            if (gateway.completedWorlds.length < 3) {
+                return "Scout at least two worlds to unlock this aspect.";
+            }
+        },
         prerequisites: ["apotheosis"],
         clicked(_event) {
             tree.increaseLevel(this);
@@ -169,7 +176,11 @@ SharkGame.Aspects = {
                 //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
             }
         },
-        getUnlocked() {},
+        getUnlocked() {
+            if (gateway.completedWorlds.length < 2) {
+                return "Scout at least one world to unlock this aspect.";
+            }
+        },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
@@ -231,7 +242,14 @@ SharkGame.Aspects = {
                 ". If they do not exist, start with an equivalent."
             );
         },
-        getUnlocked() {},
+        getUnlocked() {
+            if (!SharkGame.Aspects.pathOfEnlightenment.level) {
+                return "???";
+            }
+            if (gateway.completedWorlds.length < 3) {
+                return "Scout at least two worlds to unlock this aspect.";
+            }
+        },
         prerequisites: ["apotheosis"],
         clicked(_event) {
             tree.increaseLevel(this);
@@ -661,7 +679,11 @@ SharkGame.Aspects = {
         getEffect(level) {
             return "The Minute Hand starts with " + sharktext.boldString(60 * level + "s") + " when entering a new world.";
         },
-        getUnlocked() {},
+        getUnlocked() {
+            if (gateway.completedWorlds.length < 2) {
+                return "Scout at least one world to unlock this aspect.";
+            }
+        },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
@@ -708,7 +730,11 @@ SharkGame.Aspects = {
         getEffect(_level) {
             return "Unlocks a pause button that freezes everything, and no idle or offline progress is accrued while paused.";
         },
-        getUnlocked() {},
+        getUnlocked() {
+            if (gateway.completedWorlds.length < 2) {
+                return "Scout at least one world to unlock this aspect.";
+            }
+        },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
@@ -730,7 +756,7 @@ SharkGame.Aspects = {
             return 10;
         },
         getEffect(_level) {
-            return "Reveals all aspects which are not locked or behind locked aspects.";
+            return "Reveals all aspects which are not locked.";
         },
         getUnlocked() {},
         prerequisites: ["distantForesight"],
