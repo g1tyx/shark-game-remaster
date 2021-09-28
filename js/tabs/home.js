@@ -636,6 +636,9 @@ SharkGame.Home = {
     },
 
     updateButton(actionName) {
+        if (!sharkmath.getBuyAmount()) {
+            return;
+        }
         const amountToBuy = new Decimal(sharkmath.getBuyAmount());
 
         const button = $("#" + actionName);
