@@ -64,7 +64,7 @@ SharkGame.Lab = {
         tabMessageSel.html(message);
         content.append(tabMessageSel);
         const buttonListContainer = $("<div>").attr("id", "buttonLeftContainer");
-        buttonListContainer.append($("<div>").attr("id", "buttonList").append($("<h3>").html("Available Upgrades")));
+        buttonListContainer.append($("<div>").attr("id", "buttonList").addClass("lab").append($("<h3>").html("Available Upgrades")));
         content.append(buttonListContainer);
         content.append($("<div>").attr("id", "upgradeList"));
         content.append($("<div>").addClass("clear-fix"));
