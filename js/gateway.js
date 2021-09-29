@@ -265,6 +265,21 @@ SharkGame.Gateway = {
             $("<p>").html((seenWorldYet ? "Redo the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
         );
 
+        gatewayContent.append(
+            $("<p>").html(
+                "This would grant you <strong>" +
+                    sharktext.beautify(
+                        (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) *
+                            ((seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level),
+                        false,
+                        2
+                    ) +
+                    "</strong> " +
+                    sharktext.getResourceName("essence") +
+                    "."
+            )
+        );
+
         // add world image
         const spritename = seenWorldYet ? "planets/" + gateway.selectedWorld : "planets/missing";
         const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, spritename, null, "planets/missing");
