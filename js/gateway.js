@@ -262,7 +262,7 @@ SharkGame.Gateway = {
 
         // construct the gateway content
         const gatewayContent = $("<div>").append(
-            $("<p>").html((seenWorldYet ? "Travel to the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
+            $("<p>").html((seenWorldYet ? "Redo the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
         );
 
         // add world image
