@@ -999,7 +999,10 @@ SharkGame.Home = {
             }
         }
 
-        const usePlural = buyingHowMuch > 1 || _.keys(effects.resource).length > 1 || _.some(effects.resource, (amount) => amount > 1);
+        const usePlural =
+            (_.some(effects.resource, (_amount, name) => sharktext.getDeterminer(name)) &&
+                (buyingHowMuch > 1 || _.some(effects.resource, (amount) => amount > 1))) ||
+            _.keys(effects.resource).length > 1;
         let addedAnyLabelsYet = false; // this keeps track of whether or not little tooltip text has already been appended
 
         // append valid stuff for generators like production
