@@ -124,9 +124,21 @@ SharkGame.TextUtil = {
         //note to self: make the next line not suck
         // Possibly add an "uncountable" property to resources somehow? Manual works fine though
         if (
-            ["sand", "algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science", "arcana"].includes(
-                name
-            )
+            [
+                "kelp",
+                "sand",
+                "algae",
+                "coral",
+                "spronge",
+                "delphinium",
+                "coralglass",
+                "sharkonium",
+                "residue",
+                "tar",
+                "ice",
+                "science",
+                "arcana",
+            ].includes(name)
         ) {
             return "";
         } else if ("aeiou".includes(firstLetter)) {
@@ -153,6 +165,7 @@ SharkGame.TextUtil = {
                 "ice",
                 "science",
                 "arcana",
+                "kelp",
             ].includes(name) ||
             amount === 1
         ) {
