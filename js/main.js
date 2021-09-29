@@ -337,6 +337,17 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
+        if (SharkGame.persistentFlags.pause) {
+            if (!cad.pause) {
+                res.pause.togglePause();
+            }
+            main.showSidebarIfNeeded();
+            if (SharkGame.flags.needOfflineProgress) {
+                SharkGame.persistentFlags.currentPausedTime = SharkGame.flags.needOfflineProgress * 1000;
+            }
+            return;
+        }
+
         if (SharkGame.flags.needOfflineProgress) {
             const secondsElapsed = SharkGame.flags.needOfflineProgress;
 

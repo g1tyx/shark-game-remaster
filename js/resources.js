@@ -993,9 +993,11 @@ SharkGame.Resources = {
             if (cad.pause) {
                 $("#pause-toggle").removeClass("on");
                 cad.pause = false;
+                SharkGame.persistentFlags.pause = false;
             } else {
                 $("#pause-toggle").addClass("on");
                 cad.pause = true;
+                SharkGame.persistentFlags.pause = true;
             }
         },
 
