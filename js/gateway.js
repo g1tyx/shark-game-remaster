@@ -22,6 +22,9 @@ SharkGame.Gateway = {
     setup() {
         if (SharkGame.gameOver) {
             main.endGame(true);
+        } else {
+            gateway.updateScoutingStatus();
+            SharkGame.persistentFlags.wasOnScoutingMission = undefined;
         }
     },
 
@@ -35,7 +38,7 @@ SharkGame.Gateway = {
             res.pause.togglePause();
         }
 
-        gateway.updateScoutingStatus();
+        gateway.updateWasScoutingStatus();
 
         const baseReward = gateway.getBaseReward(loadingFromSave);
         const patienceReward = gateway.getPatienceReward(loadingFromSave);
@@ -575,27 +578,31 @@ SharkGame.Gateway = {
         return formatLess ? time : sharktext.formatTime(time);
     },
 
-    updateScoutingStatus() {
+    updateWasScoutingStatus() {
         if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
             SharkGame.persistentFlags.wasScouting = SharkGame.persistentFlags.scouting;
             SharkGame.persistentFlags.scouting = undefined;
-        } else {
-            SharkGame.persistentFlags.scouting = !gateway.completedWorlds.includes(world.worldType);
+        } else if (_.isUndefined(SharkGame.persistentFlags.wasScouting)) {
+            // failsafe, assume we were indeed scouting
+            SharkGame.persistentFlags.wasScouting = true;
         }
+    },
+
+    updateScoutingStatus() {
+        SharkGame.persistentFlags.scouting = !gateway.completedWorlds.includes(world.worldType);
     },
 
     wasOnScoutingMission() {
         if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
-            return SharkGame.persistentFlags.scouting;
+            gateway.updateWasScoutingStatus();
         }
         return SharkGame.persistentFlags.wasScouting;
     },
 
     currentlyOnScoutingMission() {
-        if (_.isUndefined(SharkGame.persistentFlags.scouting)) {
+        if (!SharkGame.gameOver && _.isUndefined(SharkGame.persistentFlags.scouting)) {
             gateway.updateScoutingStatus();
         }
-
         return SharkGame.persistentFlags.scouting;
     },
 
