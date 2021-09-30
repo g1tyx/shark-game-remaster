@@ -941,7 +941,7 @@ SharkGame.Resources = {
             } else {
                 $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
             }
-            $("#minute-time").html(sharktext.boldString("(" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)"));
+            $("#minute-time").html(sharktext.boldString("(" + res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer) + ")"));
             if (SharkGame.flags.minuteHandTimer === 0) {
                 $("#minute-hand-toggle").addClass("disabled");
                 $("#minute-time").addClass("noTime");
@@ -949,6 +949,26 @@ SharkGame.Resources = {
                 $("#minute-hand-toggle").removeClass("disabled");
                 $("#minute-time").removeClass("noTime");
             }
+        },
+
+        formatMinuteTime(milliseconds) {
+            const numSeconds = Math.floor(milliseconds / 100) / 10;
+            const numMinutes = Math.floor(numSeconds / 60);
+            const numHours = Math.floor(numMinutes / 60);
+            const numDays = Math.floor(numHours / 24);
+            const numWeeks = Math.floor(numDays / 7);
+            const numMonths = Math.floor(numWeeks / 4);
+            const numYears = Math.floor(numMonths / 12);
+
+            const formatSeconds = (numSeconds >= 60 ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
+            const formatMinutes = numMinutes > 0 ? (numMinutes % 60) + "m " : "";
+            const formatHours = numHours > 0 ? (numHours % 24) + " h " : "";
+            const formatDays = numDays > 0 ? (numDays % 7) + "D, " : "";
+            const formatWeeks = numWeeks > 0 ? (numWeeks % 4) + "W, " : "";
+            const formatMonths = numMonths > 0 ? (numMonths % 12) + "M, " : "";
+            const formatYears = numYears > 0 ? numYears + "Y, " : "";
+
+            return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds;
         },
 
         updatePowers() {
