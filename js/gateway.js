@@ -295,7 +295,7 @@ SharkGame.Gateway = {
 
         // construct the gateway content
         const gatewayContent = $("<div>").append(
-            $("<p>").html((seenWorldYet ? "Redo the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
+            $("<p>").html((seenWorldYet ? "Replay the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
         );
 
         gatewayContent.append(
@@ -326,6 +326,12 @@ SharkGame.Gateway = {
         const attributeDiv = $("<div>");
         gateway.showPlanetAttributes(selectedWorldData, attributeDiv);
         gatewayContent.append(attributeDiv);
+
+        if (seenWorldYet && selectedWorldData.par) {
+            gatewayContent.append(
+                $("<p>").html("Par: <strong>" + selectedWorldData.par + " minutes</strong><br>Beat the world faster for extra essence.")
+            );
+        }
 
         // add confirm button
         const confirmButtonDiv = $("<div>");
@@ -433,7 +439,11 @@ SharkGame.Gateway = {
             if (buttonSel.length > 0) {
                 const seenWorldYet = gateway.completedWorlds.includes(planetData.type);
                 const deeperPlanetData = SharkGame.WorldTypes[planetData.type];
-                const label = sharktext.boldString(seenWorldYet ? deeperPlanetData.name : "???") + "<br>" + deeperPlanetData.desc;
+                const label =
+                    sharktext.boldString(seenWorldYet ? deeperPlanetData.name : "???") +
+                    "<br>" +
+                    deeperPlanetData.desc +
+                    (seenWorldYet && deeperPlanetData.par ? "<br>Par: <strong>" + deeperPlanetData.par + " minutes</strong>" : "");
 
                 buttonSel.html(label);
 
