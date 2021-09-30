@@ -996,7 +996,13 @@ SharkGame.Home = {
         });
 
         let buyingHowMuch = 1;
-        if (!SharkGame.Settings.current.alwaysSingularTooltip && actionData.cost.length > 0) {
+        if (
+            !SharkGame.Settings.current.alwaysSingularTooltip &&
+            actionData.cost.length > 0 &&
+            !_.some(actionData.cost, (costData) => {
+                return costData.costFunction === "unique";
+            })
+        ) {
             buyingHowMuch = sharkmath.getPurchaseAmount(undefined, home.getMax(actionData).toNumber());
             if (buyingHowMuch < 1) {
                 buyingHowMuch = 1;
