@@ -735,6 +735,9 @@ SharkGame.Upgrades = {
             cost: {
                 science: 22500,
             },
+            required: {
+                upgrades: ["agriculture"],
+            },
             effect: {
                 incomeMultiplier: {
                     scientist: 2,
