@@ -500,7 +500,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 if (!$("#idle-overlay").is(":hidden") && !SharkGame.idleTransitioning) {
                     $("#idle-overlay")
                         .stop(true)
-                        .animate({ opacity: 0 }, 1000, () => {
+                        .animate({ opacity: 0 }, 2000, () => {
                             $("#idle-overlay").hide().stop(true);
                         });
                     SharkGame.idleTransitioning = true;
