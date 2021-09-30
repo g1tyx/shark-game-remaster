@@ -37,10 +37,11 @@ SharkGame.Gateway = {
 
         gateway.updateScoutingStatus();
 
-        const essenceReward = gateway.getEssenceReward(loadingFromSave);
+        const baseReward = gateway.getBaseReward(loadingFromSave);
         const patienceReward = gateway.getPatienceReward(loadingFromSave);
+        const speedReward = gateway.getSpeedReward(loadingFromSave);
 
-        gateway.grantEssenceReward(essenceReward, patienceReward);
+        gateway.grantEssenceReward(baseReward, patienceReward, speedReward);
 
         if (!loadingFromSave && SharkGame.wonGame) {
             gateway.markWorldCompleted(world.worldType);
@@ -61,7 +62,7 @@ SharkGame.Gateway = {
         // one last thing: make sure the player is flagged as having idled so the minute hand shows up from now on
         SharkGame.persistentFlags.everIdled = true;
 
-        gateway.prepareBasePane(essenceReward, patienceReward);
+        gateway.prepareBasePane(baseReward, patienceReward, speedReward);
     },
 
     cleanUp() {
@@ -69,7 +70,7 @@ SharkGame.Gateway = {
         main.purgeGame();
     },
 
-    showGateway(essenceRewarded, patienceReward) {
+    showGateway(baseReward, patienceReward, speedReward) {
         // get some useful numbers
         const essenceHeld = res.getResource("essence");
         const numenHeld = res.getResource("numen");
@@ -82,11 +83,11 @@ SharkGame.Gateway = {
         }
         gatewayContent.append($("<p>").html(sharktext.boldString("Something unseen says,")).addClass("medDesc"));
         gatewayContent.append($("<em>").attr("id", "gatewayVoiceMessage").html(gateway.getVoiceMessage()));
-        if (essenceRewarded > 0) {
+        if (baseReward > 0) {
             gatewayContent.append(
                 $("<p>").html(
                     "Entering this place has changed you, granting you <span class='essenceCount'>" +
-                        sharktext.beautify(essenceRewarded) +
+                        sharktext.beautify(baseReward) +
                         "</span> essence."
                 )
             );
@@ -100,10 +101,42 @@ SharkGame.Gateway = {
                 )
             );
         }
+        if (speedReward > 0) {
+            gatewayContent.append(
+                $("<p>").html(
+                    "You completed this world " +
+                        sharktext.beautify(gateway.getMinutesBelowPar()) +
+                        " minutes faster than par, granting you <span class='essenceCount'>" +
+                        sharktext.beautify(speedReward) +
+                        "</span> additional essence."
+                )
+            );
+        } else if (!gateway.wasOnScoutingMission() && !gateway.getMinutesBelowPar()) {
+            gatewayContent.append($("<p>").html("You didn't beat this world fast enough to get below par. If you did, you would get more essence."));
+        }
+        const gumptionBonus = (baseReward + patienceReward + speedReward) * res.getResource("essence") * 0.02 * SharkGame.Aspects.gumption.level;
+        if (gumptionBonus) {
+            gatewayContent.append(
+                $("<p>").html(
+                    "Your gumption lets you scrounge up <span class='essenceCount'>" +
+                        sharktext.beautify(gumptionBonus, false, 2) +
+                        "</span> extra essence."
+                )
+            );
+        }
+        if (speedReward || gumptionBonus || patienceReward) {
+            gatewayContent.append(
+                $("<p>").html(
+                    "You gained <span class='essenceCount'>" +
+                        sharktext.beautify(speedReward + patienceReward + baseReward + gumptionBonus, false, 2) +
+                        "</span> essence overall."
+                )
+            );
+        }
         gatewayContent.append(
             $("<p>").html(
                 sharktext.boldString(
-                    "You have <span id='essenceHeldDisplay' class='essenceCount'>" + sharktext.beautify(essenceHeld) + "</span> essence."
+                    "You have <span id='essenceHeldDisplay' class='essenceCount'>" + sharktext.beautify(essenceHeld, false, 2) + "</span> essence."
                 )
             )
         );
@@ -524,8 +557,9 @@ SharkGame.Gateway = {
         }
     },
 
-    getTimeInLastWorld() {
-        return sharktext.formatTime(SharkGame.timestampRunEnd - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime);
+    getTimeInLastWorld(formatLess) {
+        const time = SharkGame.timestampRunEnd - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime;
+        return formatLess ? time : sharktext.formatTime(time);
     },
 
     updateScoutingStatus() {
@@ -552,11 +586,34 @@ SharkGame.Gateway = {
         return SharkGame.persistentFlags.scouting;
     },
 
-    getEssenceReward(loadingFromSave) {
-        if (!loadingFromSave && SharkGame.wonGame) {
-            return gateway.wasOnScoutingMission() ? 4 : 2;
+    getMinutesBelowPar() {
+        const time = SharkGame.WorldTypes[world.worldType].par - gateway.getTimeInLastWorld(true) / 60000;
+        if (time < 0) {
+            return 0;
         }
-        return 0;
+        return time;
+    },
+
+    getSpeedReward(loadingFromSave) {
+        let reward = 0;
+        if (SharkGame.WorldTypes[world.worldType].par && !loadingFromSave && SharkGame.wonGame) {
+            let time = gateway.getMinutesBelowPar();
+            if (time > 0) {
+                while (time > 0) {
+                    time -= 5;
+                    reward += 1;
+                }
+            }
+        }
+        return reward;
+    },
+
+    getBaseReward(loadingFromSave) {
+        let reward = 0;
+        if (!loadingFromSave && SharkGame.wonGame) {
+            reward = gateway.wasOnScoutingMission() ? 4 : 2;
+        }
+        return reward;
     },
 
     getPatienceReward(loadingFromSave) {
@@ -566,11 +623,14 @@ SharkGame.Gateway = {
         return 0;
     },
 
-    grantEssenceReward(essenceReward, patienceReward) {
-        res.changeResource("essence", (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward));
+    grantEssenceReward(essenceReward, patienceReward, speedReward) {
+        res.changeResource(
+            "essence",
+            (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward + speedReward)
+        );
     },
 
-    prepareBasePane(essenceReward, patienceReward) {
+    prepareBasePane(baseReward, patienceReward, speedReward) {
         // PREPARE GATEWAY PANE
         // set up classes
         let pane;
@@ -599,13 +659,13 @@ SharkGame.Gateway = {
                     () => {
                         // put back to 4000
                         gateway.cleanUp();
-                        gateway.showGateway(essenceReward, patienceReward);
+                        gateway.showGateway(baseReward, patienceReward, speedReward);
                     }
                 );
         } else {
             overlay.show().css("opacity", 1.0);
             gateway.cleanUp();
-            gateway.showGateway(essenceReward, patienceReward);
+            gateway.showGateway(baseReward, patienceReward, speedReward);
         }
     },
 };

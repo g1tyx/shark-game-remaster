@@ -101,7 +101,7 @@ SharkGame.Aspects = {
         max: 3,
         level: 0,
         name: "Token of Industry",
-        description: ".",
+        description: "You're the one calling the shots, boss.",
         core: true,
         getCost(level) {
             switch (level) {
@@ -321,7 +321,7 @@ SharkGame.Aspects = {
         name: "Amorphous Assembly",
         description: "Machines that make use of similar components are better machines.",
         getCost(level) {
-            return 4 + 5 * level;
+            return 3 + 4 * level;
         },
         getEffect(level) {
             return "All machines have non-artificial-material costs reduced by <strong>" + 50 * level + "%</strong>.";
@@ -343,7 +343,7 @@ SharkGame.Aspects = {
         name: "Mechanical Manifestation",
         description: ".",
         getCost(level) {
-            return 2 + 5 * level;
+            return 2 + 2 * level;
         },
         getEffect(level) {
             return "Reduce how much machines making artificial materials consume by <strong>" + 50 * level + "%</strong>.";
@@ -407,9 +407,9 @@ SharkGame.Aspects = {
         max: 7,
         level: 0,
         name: "Constructed Conception",
-        description: "Reproduction is inefficient. Reinvent biology as a means to an end.",
+        description: "Reproduction is inefficient. Control biology as a means to an end.",
         getCost(level) {
-            return 2 * level + 4;
+            return 2 * level + 3;
         },
         getEffect(level) {
             return "All breeders are <strong>" + 2 ** level + "×</strong> faster.";
@@ -479,7 +479,7 @@ SharkGame.Aspects = {
         noRefunds: true,
         core: true,
         getCost(_level) {
-            return 4;
+            return 3;
         },
         getEffect(_level) {
             return "Unlock the ability to refund most aspects.";
@@ -510,7 +510,7 @@ SharkGame.Aspects = {
         name: "Crystalline Skin",
         description: "Become one with the lattice.",
         getCost(level) {
-            return level + 4;
+            return level + 3;
         },
         getEffect(level) {
             return (
@@ -571,7 +571,7 @@ SharkGame.Aspects = {
         name: "Internal Calculator",
         description: "The octopuses could always manifest the rational from the confusing. Master their efficiency inside your own mind.",
         getCost(_level) {
-            return 4;
+            return 3;
         },
         getEffect(level) {
             if (level === 1) {
@@ -670,7 +670,7 @@ SharkGame.Aspects = {
         description: "Time is a construct of the mind.",
         core: true,
         getCost(level) {
-            return 3 + 2 * level;
+            return 3 + level;
         },
         getEffect(level) {
             return "The Minute Hand starts with " + sharktext.boldString(60 * level + "s") + " when entering a new world.";
@@ -725,7 +725,7 @@ SharkGame.Aspects = {
         max: 1,
         level: 0,
         name: "Meditation",
-        description: "Breathe. Focus. Exert your influence.",
+        description: "Breathe. Focus. Feel the current. Control it.",
         noRefunds: true,
         core: true,
         getCost(_level) {

@@ -118,6 +118,7 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1 },
         ],
         gateRequirements: { resources: { chorus: 1 } },
+        par: 35,
     },
     tempestuous: {
         name: "Tempestuous",
@@ -246,6 +247,7 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncome", resource: "tar", amount: -0.02 },
         ],
         gateRequirements: { upgrades: ["artifactAssembly"] },
+        par: 45,
     },
     shrouded: {
         name: "Shrouded",
@@ -280,6 +282,7 @@ SharkGame.WorldTypes = {
         gateRequirements: {
             upgrades: ["arcaneActivation"],
         },
+        par: 50,
     },
     frigid: {
         name: "Frigid",
@@ -333,6 +336,7 @@ SharkGame.WorldTypes = {
                 fish: 2e8,
             },
         },
+        par: 45,
     },
     template: {
         name: "",
