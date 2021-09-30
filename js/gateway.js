@@ -568,6 +568,9 @@ SharkGame.Gateway = {
     },
 
     getTimeInLastWorld(formatLess) {
+        if (!SharkGame.persistentFlags.totalPausedTime) {
+            SharkGame.persistentFlags.totalPausedTime = 0;
+        }
         const time = SharkGame.timestampRunEnd - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime;
         return formatLess ? time : sharktext.formatTime(time);
     },
