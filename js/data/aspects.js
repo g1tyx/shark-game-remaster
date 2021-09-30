@@ -510,7 +510,7 @@ SharkGame.Aspects = {
         name: "Crystalline Skin",
         description: "Become one with the lattice.",
         getCost(level) {
-            return 2 * level + 4;
+            return level + 4;
         },
         getEffect(level) {
             return (
