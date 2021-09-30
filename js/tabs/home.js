@@ -661,11 +661,15 @@ SharkGame.Home = {
             const max = home.getMax(actionData);
             const divisor = new Decimal(1).dividedBy(amountToBuy.times(-1));
             amount = max.times(divisor);
-            amount = amount.round();
             if (amount.lessThan(1)) {
+                if (amount.times(amountToBuy.times(-1)).greaterThanOrEqualTo(1 - SharkGame.EPSILON)) {
+                    enableButton = true;
+                } else {
+                    enableButton = false;
+                }
                 amount = new Decimal(1);
-                enableButton = false;
             }
+            amount = amount.round();
         }
         const actionCost = home.getCost(actionData, amount);
 
