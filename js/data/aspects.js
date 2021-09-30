@@ -700,7 +700,15 @@ SharkGame.Aspects = {
             return 3 + level * 2;
         },
         getEffect(level) {
-            return "For each unspent essence you have, increase all essence gains by <strong>" + 2 * level + "%</strong>.";
+            return (
+                "For each unspent " +
+                sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                " you have, increase all " +
+                sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                " gains by <strong>" +
+                2 * level +
+                "%</strong>."
+            );
         },
         getUnlocked() {},
         prerequisites: ["meditation"],
