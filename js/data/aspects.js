@@ -110,7 +110,7 @@ SharkGame.Aspects = {
                 case 1:
                     return 20;
                 case 2:
-                    return 48;
+                    return 100;
             }
         },
         getEffect(level) {
@@ -154,8 +154,8 @@ SharkGame.Aspects = {
         },
     },
     distantForesight: {
-        posX: 200,
-        posY: 475,
+        posX: 100,
+        posY: 550,
         width: 40,
         height: 40,
 
@@ -181,7 +181,7 @@ SharkGame.Aspects = {
                 return "Scout at least one world to unlock this aspect.";
             }
         },
-        prerequisites: ["pathOfEnlightenment"],
+        prerequisites: ["cleanSlate"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
@@ -274,6 +274,7 @@ SharkGame.Aspects = {
         level: 0,
         name: "Coordinated Cooperation",
         description: "Maybe the squid had a point. Maybe teamwork really is the key.",
+        core: true,
         getCost(level) {
             return 16 * (level + 1);
         },
@@ -452,7 +453,7 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {},
-        prerequisites: ["distantForesight"],
+        prerequisites: ["cleanSlate"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
@@ -467,8 +468,8 @@ SharkGame.Aspects = {
         },
     },
     cleanSlate: {
-        posX: 100,
-        posY: 550,
+        posX: 200,
+        posY: 475,
         width: 40,
         height: 40,
 
@@ -485,7 +486,7 @@ SharkGame.Aspects = {
             return "Unlock the ability to refund most aspects.";
         },
         getUnlocked() {},
-        prerequisites: ["distantForesight"],
+        prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
@@ -763,7 +764,7 @@ SharkGame.Aspects = {
             return "Reveal all aspects which are not locked.";
         },
         getUnlocked() {},
-        prerequisites: ["distantForesight"],
+        prerequisites: ["cleanSlate"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
