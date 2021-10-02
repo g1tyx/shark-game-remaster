@@ -176,11 +176,7 @@ SharkGame.Aspects = {
                 //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
             }
         },
-        getUnlocked() {
-            if (gateway.completedWorlds.length < 2) {
-                return "Scout at least one world to unlock this aspect.";
-            }
-        },
+        getUnlocked() {},
         prerequisites: ["cleanSlate"],
         clicked(_event) {
             tree.increaseLevel(this);
@@ -483,9 +479,13 @@ SharkGame.Aspects = {
             return 3;
         },
         getEffect(_level) {
-            return "Unlock the ability to refund most aspects.";
+            return "Unlock the ability to refund some aspects.";
         },
-        getUnlocked() {},
+        getUnlocked() {
+            if (gateway.completedWorlds.length < 2) {
+                return "Scout at least one world to unlock this aspect.";
+            }
+        },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.increaseLevel(this);
