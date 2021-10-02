@@ -516,7 +516,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return (
                 "If you have less than <strong>" +
-                25 * level ** 2 +
+                25 * level ** 3 +
                 "</strong> " +
                 sharktext.getResourceName("crystal", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 ", they will rapidly increase back to that amount. If they do not exist, this applies to an equivalent resource."
