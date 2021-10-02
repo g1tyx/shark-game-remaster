@@ -261,8 +261,12 @@ SharkGame.AspectTree = {
             return staticButton;
         }
 
-        const aspect = _.find(SharkGame.Aspects, ({ posX, posY, width, height, prerequisites }) => {
-            if (_.some(prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0) && !SharkGame.Aspects.infinityVision.level) {
+        const aspect = _.find(SharkGame.Aspects, ({ posX, posY, width, height, prerequisites, level }) => {
+            if (
+                _.some(prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0) &&
+                !SharkGame.Aspects.infinityVision.level &&
+                !level
+            ) {
                 return;
             }
             return (
@@ -284,8 +288,13 @@ SharkGame.AspectTree = {
             context.canvas.style.cursor = "grab";
             tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         } else {
-            if (_.some(button.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0)) {
-                context.canvas.style.cursor = "grab";
+            const prereqsMet = !_.some(button.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0);
+            if (!prereqsMet) {
+                if (button.level) {
+                    context.canvas.style.cursor = "not-allowed";
+                } else {
+                    context.canvas.style.cursor = "grab";
+                }
             } else {
                 context.canvas.style.cursor = "pointer";
             }
@@ -487,7 +496,7 @@ SharkGame.AspectTree = {
         _.each(SharkGame.Aspects, ({ posX, posY, width, height, icon, eventSprite, prerequisites, level, getUnlocked }, name) => {
             context.save();
             const canBuy = !_.some(prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0);
-            if ((!SharkGame.Aspects.infinityVision.level && !canBuy) || !getUnlocked) {
+            if ((!level && !SharkGame.Aspects.infinityVision.level && !canBuy) || !getUnlocked) {
                 // if any prerequisite is unmet and we dont have infinity vision, don't render
                 return;
             } else if (level === 0) {
