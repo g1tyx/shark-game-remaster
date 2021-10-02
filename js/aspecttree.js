@@ -108,6 +108,13 @@ SharkGame.AspectTree = {
         }
         tree.applyAspects();
 
+        if (SharkGame.persistentFlags.patience) {
+            if (SharkGame.Aspects.patience.level) {
+                res.changeResource("essence", 2 * (SharkGame.Aspects.patience.level + 1) ** 2);
+            }
+            SharkGame.persistentFlags.patience = undefined;
+        }
+
         res.setResource("aspectAffect", 1);
         res.setTotalResource("aspectAffect", 1);
 
