@@ -26,14 +26,14 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 4,
+        max: 8,
         level: 0,
         name: "Apotheosis",
         description: "The path begins here.",
         noRefunds: true,
         core: true,
         getCost(level) {
-            return (level + 1) ** 2;
+            return level + 1;
         },
         getEffect(level) {
             return "Manual resource collection <strong>×" + (level > 0 ? level * 4 : 1) + "</strong>.";
@@ -50,7 +50,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 5,
+        max: 20,
         level: 0,
         name: "Path of Industry",
         description: "Unlock the potential of those around you.",
@@ -193,7 +193,7 @@ SharkGame.Aspects = {
         height: 40,
 
         // need to give out patience rewards to those who had pending patience
-        max: 5,
+        max: 6,
         level: 0,
         name: "Patience",
         description: "They say that good things come to those who wait.",
@@ -222,7 +222,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 5,
+        max: 10,
         level: 0,
         name: "Path of Time",
         description: "Patience is the choice of those who prefer inaction.",
@@ -270,7 +270,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 4,
+        max: 3,
         level: 0,
         name: "Coordinated Cooperation",
         description: "Maybe the squid had a point. Maybe teamwork really is the key.",
@@ -295,7 +295,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 3,
+        max: 4,
         level: 0,
         name: "Synthetic Transmutation",
         description: "Surely, our materials don't need to be 100% pure. Surely.",
@@ -361,7 +361,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 4,
+        max: 8,
         level: 0,
         name: "The Plan",
         description: "Professionals have standards. Be polite, be efficient, and have a plan to recruit everyone you meet.",
@@ -383,12 +383,12 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 5,
+        max: 8,
         level: 0,
         name: "Collective Cooperation",
         description: "Direct your frenzy. Learn to control them.",
         getCost(level) {
-            return 3 * level + 5;
+            return 5 * level + 5;
         },
         getEffect(level) {
             return "The effect from tokens of industry is <strong>" + (level + 1) + "×</strong> stronger.";
@@ -405,7 +405,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 7,
+        max: 8,
         level: 0,
         name: "Constructed Conception",
         description: "Reproduction is inefficient. Control biology as a means to an end.",
@@ -506,7 +506,7 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 6,
+        max: 8,
         level: 0,
         name: "Crystalline Skin",
         description: "Become one with the lattice.",
