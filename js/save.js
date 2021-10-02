@@ -783,5 +783,21 @@ SharkGame.Save = {
         function update17(save) {
             return save;
         },
+        // <~Gas1^gMYb8&H.lE5i:'V(YcO6abeF_YT$YARtmXI/+/3uGe)#c74oPShg8s,;2bkSKbB0YSMOp()1Kn,jLhcF>@ljhds#/j2o!(25<aR'B;<\5\'a<uZdnf/]I/mVrtUfY-=j0hantmU17q6PoD)j@F0c]p_$6Ubh=JbZjso>,PeC7ujm\MVoijs"^8=#oO%3IT58VF-*"p+N3_(178m;nsVk;MKi$+0Uo&hFMidf*IBMTid[784B&c?du;;UB&gi^7@Jc;-ceA.JCCl<EHnrh_%01!CuD,k?Y,e*DI</rG9B)G#66;nQl+\lRRSr_BtW,3s)HK>e\[0Yl\j+EKA#M3Le))LnOAf0j_2FaaA$tLjQfL1e;lu_M"[hVI<3`7Ij#B'991gKc?iK_K#UI!kg&E'!a"B1iS5^KL>-RA$>)\Yjf-rVD@LY/,0p+ttJcA#`!XQ2!f4:*E/@Ud'YYKm?nR32i#-c9c&Ne,5rF=?8aeEOKf>oQci\36]]+f,)\\[V5t\8td,imHmoB:36FZ32E'gPa5/>[If>pYqjlSW*UkE6Uo7CFu!'4.KJg7YR%ui!mJM&q>O`7]%H)p/`P-M8\*BVi8[!XnuKh:U.T!n6iZj@VotU6+>a&[]"o7>H<CVHPiHis"+Qk<+r^nDC,4-I[^b@hNuU=V&ReRO:N2f!4mNU>)(e)[-K!BY3dc"io[Hb%bB+#(%m]:mSr#Ih&uh"%-OrNEg+`$+/l!49nFU>.,9!mVo;hKTH?eK?d9gA4DJG``Nb/u:=O=uKCs3%-O8[>(I=@r6U-!1pTXADdOlfaW'[bl_uU.G8K)A="aqH"-p$D=]ECBV&O(?Rc>pO)*I)>*4L*4(5"4m*.p`b8IO`)OD=a)e]?ieoHE.=dbACcSo\@82\8SfVCK,t)#]r;P!Foiq4cAMIB>m>-;RbbjU(6W!]QkTgqkVcc+H08I,pP8&gtN+nmn2PFXAQ6;bujR7(DB0qL;Ga8!gW^6ng1pm!UXaRa"FG'K&+]R^B*7HM5l"=53rC_EcO+.9kMT=mJ(k9*+\OWfqkB^b&kI,NP!/S4@m<J\RaW[`H"/3/Z1gFClB>r^KE2YS0ddIq'.h$]_r3`&8E]~>
+
+        function update18(save) {
+            if (save.resources.essence && save.resources.essence.totalAmount > 0) {
+                if (save.aspects.pathOfIndustry) {
+                    save.aspects.tokenOfIndustry = save.aspects.pathOfIndustry;
+                    save.aspects.pathOfIndustry = 0;
+                }
+                if (save.aspects.pathOfEnlightenment) {
+                    save.aspects.pathOfEnlightenment = 0;
+                    save.aspects.distantForesight = 1;
+                }
+                save.aspects.pathOfEnlightenment = 1;
+            }
+            return save;
+        },
     ],
 };
