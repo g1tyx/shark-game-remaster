@@ -400,7 +400,7 @@ SharkGame.ModifierTypes = {
                     const incomes = SharkGame.ResourceMap.get(resource).income;
                     $.each(incomes, (resouceId, income) => {
                         if (income > 0 && resouceId !== "tar") {
-                            incomes[resouceId] = income * degree;
+                            incomes[resouceId] = income * 2 ** degree;
                         }
                     });
                     return current * degree;
@@ -409,10 +409,10 @@ SharkGame.ModifierTypes = {
                     return sharktext.getResourceName(resource) + " efficiency × " + degree;
                 },
                 getEffect(genDegree, _outDegree, gen, out) {
-                    return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? genDegree : 1;
+                    return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? 2 ** genDegree : 1;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
-                    return input * (input > 0 && out !== "tar" ? genDegree : 1);
+                    return input * (input > 0 && out !== "tar" ? 2 ** genDegree : 1);
                 },
             },
             theTokenForGenerators: {
