@@ -38,6 +38,7 @@ SharkGame.Gateway = {
             res.pause.togglePause();
         }
 
+        tree.resetScoutingRestrictions();
         gateway.updateWasScoutingStatus();
 
         const baseReward = gateway.getBaseReward(loadingFromSave);
