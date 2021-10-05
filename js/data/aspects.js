@@ -33,7 +33,12 @@ SharkGame.Aspects = {
         noRefunds: true,
         core: true,
         getCost(level) {
-            return level + 1;
+            switch (level) {
+                case 0:
+                    return 1;
+                default:
+                    return 4;
+            }
         },
         getEffect(level) {
             return "Manual resource collection <strong>×" + (level > 0 ? level * 4 : 1) + "</strong>.";
