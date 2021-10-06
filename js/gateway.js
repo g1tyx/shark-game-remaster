@@ -31,6 +31,9 @@ SharkGame.Gateway = {
     enterGate(loadingFromSave) {
         SharkGame.PaneHandler.wipeStack();
 
+        //ensure buy buttons will be revealed
+        SharkGame.persistentFlags.revealedBuyButtons = true;
+
         //be sure minute hand is off
         res.minuteHand.toggleOff();
         //be sure we're not paused
