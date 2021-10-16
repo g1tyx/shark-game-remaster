@@ -248,6 +248,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.TitleBarHandler.init();
         SharkGame.TabHandler.init();
         SharkGame.PaneHandler.init();
+
+        SharkGame.Resources.minuteHand.init();
     },
 
     // load stored game data, if there is anything to load
@@ -298,7 +300,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         SharkGame.EventHandler.setup();
 
-        res.minuteHand.init();
+        res.minuteHand.setup();
         res.tokens.init();
 
         // end game if necessary
@@ -353,7 +355,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
-                SharkGame.persistentFlags.everIdled = true;
             } else {
                 main.processSimTime(secondsElapsed, true);
             }
@@ -451,6 +452,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             SharkGame.Save.importData(saveString);
 
+            res.minuteHand.applyHourHand();
+
             try {
                 SharkGame.Save.saveGame();
                 log.addMessage("Game saved.");
@@ -490,9 +493,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
                 res.idleMultiplier = 1 - speedRatio;
                 if (speedRatio > 0.1 && !SharkGame.persistentFlags.everIdled) {
-                    SharkGame.persistentFlags.everIdled = true;
-                    res.minuteHand.init();
-                    SharkGame.flags.minuteHandTimer = 0;
+                    res.minuteHand.allowMinuteHand();
                 }
                 res.minuteHand.toggleOff();
                 res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);

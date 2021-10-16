@@ -811,60 +811,75 @@ SharkGame.Resources = {
             "You come back from the brink, exhaustion replaced by energy and enthusiasm.",
         ],
 
+        allowMinuteHand() {
+            SharkGame.persistentFlags.everIdled = true;
+            if ($("#minute-hand-toggle").length === 0) {
+                this.setup();
+            }
+        },
+
         init() {
-            if (typeof SharkGame.flags.minuteHandTimer !== "number") {
-                SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
+            this.changeRealMultiplier(1);
+            SharkGame.persistentFlags.everIdled = false;
+            SharkGame.flags.minuteHandTimer = 0;
+            SharkGame.persistentFlags.selectedMultiplier = 2;
+            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
+            this.active = false;
+            $("#minute-hand-div").empty();
+        },
+
+        setup() {
+            if (_.isUndefined(SharkGame.flags.minuteHandTimer)) {
+                SharkGame.flags.minuteHandTimer = 0;
             }
-            if (!SharkGame.persistentFlags.selectedMultiplier) {
-                SharkGame.persistentFlags.selectedMultiplier = 2;
+
+            if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
+                $("#minute-hand-div").empty();
+            } else if ($("#minute-hand-toggle").length === 0) {
+                this.buildUI();
+                this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
+                this.updateMinuteHandLabel();
             }
-            if (SharkGame.persistentFlags.everIdled && $("#minute-hand-toggle").length === 0 && SharkGame.Settings.current.idleEnabled) {
+        },
+
+        buildUI() {
+            SharkGame.Button.makeHoverscriptButton(
+                "minute-hand-toggle",
+                "my cool button",
+                $("#minute-hand-div"),
+                res.minuteHand.toggleMinuteHand,
+                res.minuteHand.showTooltip,
+                res.tableTextLeave
+            );
+            $("#minute-hand-toggle").html("<strong>TOGGLE</strong>");
+            $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
+            $("#minute-row-two").append($("<span>").attr("id", "minute-multiplier"));
+            $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+
+            $("#minute-row-two").append($("<span>").html("("));
+            const slider = $("<input>")
+                .attr("id", "minute-slider")
+                .attr("type", "range")
+                .attr("min", 1)
+                .attr("max", 9)
+                .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
+                .on("input", res.minuteHand.changeSelectedMultiplier);
+            $("#minute-row-two").append(slider);
+            $("#minute-row-two").append($("<span>").html(") <strong>SPEED</strong>"));
+
+            $("#minute-row-two").append($("<div>").attr("id", "minute-pause"));
+
+            if (SharkGame.Aspects.meditation.level) {
                 SharkGame.Button.makeHoverscriptButton(
-                    "minute-hand-toggle",
-                    "my cool button",
-                    $("#minute-hand-div"),
-                    res.minuteHand.toggleMinuteHand,
-                    res.minuteHand.showTooltip,
+                    "pause-toggle",
+                    "||",
+                    $("#minute-pause"),
+                    res.pause.togglePause,
+                    res.pause.showTooltip,
                     res.tableTextLeave
                 );
-                $("#minute-hand-toggle").html("<strong>TOGGLE</strong>");
-                $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
-                $("#minute-row-two").append($("<span>").attr("id", "minute-multiplier"));
-                $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
-
-                $("#minute-row-two").append($("<span>").html("("));
-                const slider = $("<input>")
-                    .attr("id", "minute-slider")
-                    .attr("type", "range")
-                    .attr("min", 1)
-                    .attr("max", 9)
-                    .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
-                    .on("input", res.minuteHand.changeSelectedMultiplier);
-                $("#minute-row-two").append(slider);
-                $("#minute-row-two").append($("<span>").html(") <strong>SPEED</strong>"));
-
-                $("#minute-row-two").append($("<div>").attr("id", "minute-pause"));
-
-                if (SharkGame.Aspects.meditation.level) {
-                    SharkGame.Button.makeHoverscriptButton(
-                        "pause-toggle",
-                        "||",
-                        $("#minute-pause"),
-                        res.pause.togglePause,
-                        res.pause.showTooltip,
-                        res.tableTextLeave
-                    );
-                }
-                $("#pause-toggle").addClass("close-button min");
             }
-
-            if (!SharkGame.persistentFlags.everIdled || !SharkGame.Settings.current.idleEnabled) {
-                $("#minute-hand-div").empty();
-            }
-            this.changeRealMultiplier(1);
-            this.active = false;
-            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
-            this.updateMinuteHandLabel();
+            $("#pause-toggle").addClass("close-button min");
         },
 
         updateMinuteHand(timeElapsed) {
@@ -949,6 +964,10 @@ SharkGame.Resources = {
                 $("#minute-hand-toggle").removeClass("disabled");
                 $("#minute-time").removeClass("noTime");
             }
+        },
+
+        applyHourHand() {
+            SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
         },
 
         formatMinuteTime(milliseconds) {

@@ -235,7 +235,7 @@ SharkGame.Settings = {
         category: "OTHER",
         options: [true, false],
         onChange() {
-            res.minuteHand.init();
+            res.minuteHand.setup();
         },
     },
 

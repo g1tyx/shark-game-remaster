@@ -67,7 +67,7 @@ SharkGame.Gateway = {
         // SAVE
         SharkGame.Save.saveGame();
         // one last thing: make sure the player is flagged as having idled so the minute hand shows up from now on
-        SharkGame.persistentFlags.everIdled = true;
+        res.minuteHand.allowMinuteHand();
 
         gateway.prepareBasePane(baseReward, patienceReward, speedReward);
     },
