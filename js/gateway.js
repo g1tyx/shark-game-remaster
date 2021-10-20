@@ -70,6 +70,7 @@ SharkGame.Gateway = {
         res.minuteHand.allowMinuteHand();
 
         gateway.prepareBasePane(baseReward, patienceReward, speedReward);
+        $("#game").addClass("inGateway");
     },
 
     cleanUp() {

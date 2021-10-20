@@ -1600,4 +1600,11 @@ button.planetButton:active {
   z-index: 30;
 }
 
+.inGateway {
+  visibility: hidden;
+}
+.inGateway #overlay {
+  visibility: visible;
+}
+
 /*# sourceMappingURL=style.css.map */

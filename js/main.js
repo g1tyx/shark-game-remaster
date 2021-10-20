@@ -196,6 +196,7 @@ SharkGame.Main = {
         SharkGame.timestampGameStart = now;
         SharkGame.timestampRunStart = now;
 
+        $("#game").removeClass("inGateway");
         $("#sidebar").hide();
         $("#overlay").hide();
         $("#idle-overlay").hide();
