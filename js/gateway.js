@@ -303,7 +303,7 @@ SharkGame.Gateway = {
 
         // construct the gateway content
         const gatewayContent = $("<div>").append(
-            $("<p>").html((seenWorldYet ? "Replay the " + selectedWorldData.name + " W" : "Scout out this w") + "orld?")
+            $("<p>").html((seenWorldYet ? "Replay the " + selectedWorldData.name + " W" : "Scout this w") + "orld?")
         );
 
         gatewayContent.append(
