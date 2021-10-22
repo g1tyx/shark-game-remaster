@@ -1232,7 +1232,6 @@ button.disabled.gateway div, button.disabled.newlyDiscovered div {
 .gatewayPropertyList {
   list-style-type: none;
   padding-left: 0;
-  text-shadow: 0 0 0.6em black;
 }
 .gatewayPropertyList li {
   padding-left: 0;

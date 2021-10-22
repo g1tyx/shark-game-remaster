@@ -251,9 +251,7 @@ SharkGame.Gateway = {
         planetSelectionContent.append(planetPool);
 
         planetSelectionContent.append(
-            $("<p>").html(
-                "NOTE: v0.2 alpha <b>ONLY</b> CONTAINS <b>4 WORLDS</b> at the moment.<br/>Once you beat them, you can keep going, but there's nothing else to see yet."
-            )
+            $("<p>").html("NOTE: When you first visit a world, you are SCOUTING it. If you choose to replay it, you are NOT SCOUTING it.")
         );
 
         if (SharkGame.Aspects.destinyGamble.level > 0) {
@@ -507,9 +505,7 @@ SharkGame.Gateway = {
                 if (worldData.foresight.missing.length > 0) {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.foresight.missing, (missingResource) => {
-                        missingList.append(
-                            $("<li>").html("<strong>This world has no " + sharktext.getResourceName(missingResource, false, 2) + ".</strong>")
-                        );
+                        missingList.append($("<li>").html("This world has no " + sharktext.getResourceName(missingResource, false, 2) + "."));
                     });
                     contentDiv.prepend(missingList);
                 }
@@ -518,11 +514,11 @@ SharkGame.Gateway = {
                     _.each(worldData.foresight.present, (presentResource) => {
                         presentList.append(
                             $("<li>").html(
-                                "<strong>You feel the presence of " +
+                                "You feel the presence of " +
                                     (gateway.playerHasSeenResource(presentResource)
                                         ? sharktext.getResourceName(presentResource, false, 2)
                                         : sharktext.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
-                                    ".</strong>"
+                                    "."
                             )
                         );
                     });
@@ -534,19 +530,15 @@ SharkGame.Gateway = {
                         if (gateway.playerHasSeenResource(modifier.resource) || !(worldData.foresight.present.indexOf(modifier.resource) > -1)) {
                             modifierList.append(
                                 $("<li>").html(
-                                    "<strong>" +
-                                        SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource) +
-                                        "</strong>"
+                                    SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource)
                                 )
                             );
                         } else {
                             modifierList.append(
                                 $("<li>").html(
-                                    "<strong>" +
-                                        SharkGame.ModifierReference.get(modifier.modifier)
-                                            .effectDescription(modifier.amount, modifier.resource)
-                                            .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource]) +
-                                        "</strong>"
+                                    SharkGame.ModifierReference.get(modifier.modifier)
+                                        .effectDescription(modifier.amount, modifier.resource)
+                                        .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource])
                                 )
                             );
                         }
