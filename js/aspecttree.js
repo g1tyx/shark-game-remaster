@@ -611,6 +611,9 @@ SharkGame.AspectTree = {
             context.canvas.style.cursor = "grab";
             tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         } else {
+            const cost = button.getCost(button.level);
+            const affordable = cost <= res.getResource("essence");
+
             const prereqsMet = !_.some(button.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0);
             if (!prereqsMet) {
                 if (button.level) {
@@ -621,30 +624,43 @@ SharkGame.AspectTree = {
             } else {
                 context.canvas.style.cursor = "pointer";
             }
-            tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased");
+            tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased").removeClass("forAspectTreeAffordable");
 
             // FIXME: Hard-coded color "#ace3d1"
             if (button.getUnlocked && button.getUnlocked()) {
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(sharktext.boldString(button.getUnlocked()));
-            } else if (button.level === 0) {
+                return;
+            }
+
+            if (affordable && button.level < button.max) {
+                tooltipBox.addClass("forAspectTreeAffordable");
+            }
+
+            if (button.level === 0) {
+                const costText = `<span class='${affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+
                 const levelText =
                     (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
+
                 const tooltipText =
                     sharktext.boldString(button.name) +
                     `<br /><span class='littleTooltipText'>${levelText}</span>` +
                     `<br/>${button.getEffect(1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
-                    `${button.getCost(button.level)}</span></span>`;
+                    `<span class='bold'>COST: ` +
+                    `${costText}</span>`;
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
             } else if (button.level < button.max) {
+                const costText = `<span class='${affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+
                 const levelText =
                     "<strong>level " +
                     button.level +
                     "</strong> " +
                     (button.core ? " core aspect" : " aspect") +
                     (button.noRefunds ? ", no refunds" : "");
+
                 const tooltipText =
                     sharktext.boldString(button.name) +
                     `<br /><span class='littleTooltipText'>${levelText}</span><br />` +
@@ -654,9 +670,9 @@ SharkGame.AspectTree = {
                     "<span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
                     button.getEffect(button.level + 1) +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    "<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
-                    button.getCost(button.level) +
-                    "</span>";
+                    "<span class='bold'>COST: " +
+                    costText +
+                    `</span>`;
                 tooltipBox.html(tooltipText);
             } else if (button.level === undefined) {
                 const levelText =

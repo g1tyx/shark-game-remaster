@@ -1586,11 +1586,15 @@ button.planetButton {
 
 .forAspectTree {
     width: 300px;
-    background-color: $color-discovery-dark3;
-    border-color: $color-discovery-dark2;
+    background-color: darken($color-discovery-dark3, 10%);
+    border-color: $color-discovery-dark4;
     &Unpurchased {
         background-color: $color-discovery-dark4;
-        border-color: $color-discovery-dark3;
+        border-color: darken($color-discovery-dark4, 5%);
+    }
+    &Affordable {
+        background-color: $color-discovery-dark3;
+        border-color: $color-discovery-dark2;
     }
 }
 
@@ -1851,4 +1855,8 @@ button.planetButton {
     #overlay {
         visibility: visible;
     }
+}
+
+.can-afford-aspect {
+    text-shadow: 0 0 0.6em #ace3d1;
 }
