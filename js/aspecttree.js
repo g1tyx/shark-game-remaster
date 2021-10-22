@@ -287,87 +287,9 @@ SharkGame.AspectTree = {
     },
     /** @param {MouseEvent} event */
     updateMouse(event) {
-        const context = tree.context;
-
         const button = tree.getButtonUnderMouse(event);
-        const tooltipBox = $("#tooltipbox");
-        if (button === undefined) {
-            context.canvas.style.cursor = "grab";
-            tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
-        } else {
-            const prereqsMet = !_.some(button.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0);
-            if (!prereqsMet) {
-                if (button.level) {
-                    context.canvas.style.cursor = "not-allowed";
-                } else {
-                    context.canvas.style.cursor = "grab";
-                }
-            } else {
-                context.canvas.style.cursor = "pointer";
-            }
-            tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased");
 
-            // FIXME: Hard-coded color "#ace3d1"
-            if (button.getUnlocked && button.getUnlocked()) {
-                tooltipBox.addClass("forAspectTreeUnpurchased").html(sharktext.boldString(button.getUnlocked()));
-            } else if (button.level === 0) {
-                const levelText =
-                    (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
-                const tooltipText =
-                    sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
-                    `<br/>${button.getEffect(1)}<br/>` +
-                    `<span class='littleTooltipText'>${button.description}</span><br/>` +
-                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
-                    `${button.getCost(button.level)}</span></span>`;
-                tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
-            } else if (button.level < button.max) {
-                const levelText =
-                    "<strong>level " +
-                    button.level +
-                    "</strong> " +
-                    (button.core ? " core aspect" : " aspect") +
-                    (button.noRefunds ? ", no refunds" : "");
-                const tooltipText =
-                    sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText'>${levelText}</span><br />` +
-                    button.getEffect(button.level) +
-                    `<br /><span class='littleTooltipText'>${button.description}</span>` +
-                    "<hr class='hrForTooltipSeparationInGateway'>" +
-                    "<span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
-                    button.getEffect(button.level + 1) +
-                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    "<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
-                    button.getCost(button.level) +
-                    "</span>";
-                tooltipBox.html(tooltipText);
-            } else if (button.level === undefined) {
-                const levelText =
-                    (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
-                const tooltipText =
-                    sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
-                    `<br />${button.getEffect(button.level)}` +
-                    `<br /><span class='littleTooltipText'>${button.description}</span>`;
-                tooltipBox.html(tooltipText);
-            } else {
-                const levelText =
-                    "<strong>level " +
-                    button.level +
-                    "</strong> " +
-                    (button.core ? " core aspect" : " aspect") +
-                    (button.noRefunds ? ", no refunds" : "");
-                const tooltipText =
-                    sharktext.boldString(button.name) +
-                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
-                    `<br />${button.getEffect(button.level)}` +
-                    `<br /><span class='littleTooltipText'>${button.description}</span>` +
-                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    "<b>MAXIMUM LEVEL.</b></span>";
-                tooltipBox.html(tooltipText);
-            }
-        }
+        tree.updateTooltip(button);
     },
     /** @param {MouseEvent} event */
     click(event) {
@@ -681,5 +603,86 @@ SharkGame.AspectTree = {
                 SharkGame.persistentFlags.aspectStorage[aspectName] = undefined;
             }
         });
+    },
+    updateTooltip(button) {
+        const tooltipBox = $("#tooltipbox");
+        const context = tree.context;
+        if (button === undefined) {
+            context.canvas.style.cursor = "grab";
+            tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
+        } else {
+            const prereqsMet = !_.some(button.prerequisites, (prerequisite) => SharkGame.Aspects[prerequisite].level === 0);
+            if (!prereqsMet) {
+                if (button.level) {
+                    context.canvas.style.cursor = "not-allowed";
+                } else {
+                    context.canvas.style.cursor = "grab";
+                }
+            } else {
+                context.canvas.style.cursor = "pointer";
+            }
+            tooltipBox.addClass("forAspectTree").removeClass("forAspectTreeUnpurchased");
+
+            // FIXME: Hard-coded color "#ace3d1"
+            if (button.getUnlocked && button.getUnlocked()) {
+                tooltipBox.addClass("forAspectTreeUnpurchased").html(sharktext.boldString(button.getUnlocked()));
+            } else if (button.level === 0) {
+                const levelText =
+                    (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
+                const tooltipText =
+                    sharktext.boldString(button.name) +
+                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
+                    `<br/>${button.getEffect(1)}<br/>` +
+                    `<span class='littleTooltipText'>${button.description}</span><br/>` +
+                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    `<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>` +
+                    `${button.getCost(button.level)}</span></span>`;
+                tooltipBox.addClass("forAspectTreeUnpurchased").html(tooltipText);
+            } else if (button.level < button.max) {
+                const levelText =
+                    "<strong>level " +
+                    button.level +
+                    "</strong> " +
+                    (button.core ? " core aspect" : " aspect") +
+                    (button.noRefunds ? ", no refunds" : "");
+                const tooltipText =
+                    sharktext.boldString(button.name) +
+                    `<br /><span class='littleTooltipText'>${levelText}</span><br />` +
+                    button.getEffect(button.level) +
+                    `<br /><span class='littleTooltipText'>${button.description}</span>` +
+                    "<hr class='hrForTooltipSeparationInGateway'>" +
+                    "<span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
+                    button.getEffect(button.level + 1) +
+                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    "<span class='bold'>COST: <span style='text-shadow: 0 0 .6em #ace3d1'>" +
+                    button.getCost(button.level) +
+                    "</span>";
+                tooltipBox.html(tooltipText);
+            } else if (button.level === undefined) {
+                const levelText =
+                    (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
+                const tooltipText =
+                    sharktext.boldString(button.name) +
+                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
+                    `<br />${button.getEffect(button.level)}` +
+                    `<br /><span class='littleTooltipText'>${button.description}</span>`;
+                tooltipBox.html(tooltipText);
+            } else {
+                const levelText =
+                    "<strong>level " +
+                    button.level +
+                    "</strong> " +
+                    (button.core ? " core aspect" : " aspect") +
+                    (button.noRefunds ? ", no refunds" : "");
+                const tooltipText =
+                    sharktext.boldString(button.name) +
+                    `<br /><span class='littleTooltipText'>${levelText}</span>` +
+                    `<br />${button.getEffect(button.level)}` +
+                    `<br /><span class='littleTooltipText'>${button.description}</span>` +
+                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    "<b>MAXIMUM LEVEL.</b></span>";
+                tooltipBox.html(tooltipText);
+            }
+        }
     },
 };
