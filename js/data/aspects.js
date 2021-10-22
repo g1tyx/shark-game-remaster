@@ -98,7 +98,7 @@ SharkGame.Aspects = {
         },
     },
     tokenOfIndustry: {
-        posX: 200,
+        posX: 300,
         posY: 225,
         width: 40,
         height: 40,
@@ -129,7 +129,7 @@ SharkGame.Aspects = {
             }
         },
         getUnlocked() {},
-        prerequisites: ["pathOfEnlightenment"],
+        prerequisites: ["apotheosis"],
         clicked(_event) {
             tree.increaseLevel(this);
         },
@@ -266,7 +266,7 @@ SharkGame.Aspects = {
         },
     },
     coordinatedCooperation: {
-        posX: 200,
+        posX: 250,
         posY: 100,
         width: 40,
         height: 40,
