@@ -776,7 +776,18 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202108??a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202111??a": [
+        "Final revamp of the aspect tree.",
+        "Added an alternative to offline progress. The minute hand stores offline progress, unleash it at whatever speed you want.",
+        "Removed the playstyle choice because the new idle system does its job better.",
+        "The game now stops and begins accumulating idle time after 2 minutes of inactivity.",
+        "Implemented scouting. You get more essence when you first play a world, but some aspects can't be used.",
+        "Implemented par times. If you beat a world faster than par, you get extra essence.",
+        "Added a lot of new aspects and made old ones more powerful.",
+        "Added sprites.",
+        "Updated UI.",
+    ],
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210814a": [
         "Added Shrouded worldtype.",
         "Changed the aspect tree and its aspects significantly. All essence must be refunded and all aspects must be reset because of this. Sorry!",
         "Implemented a basic 'playstyle' choice. The game will adjust pacing to suit your choice.",
