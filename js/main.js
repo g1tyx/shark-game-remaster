@@ -784,7 +784,7 @@ SharkGame.Changelog = {
         "Implemented scouting. You get more essence when you first play a world, but some aspects can't be used.",
         "Implemented par times. If you beat a world faster than par, you get extra essence.",
         "Added a lot of new aspects and made old ones more powerful.",
-        "Added sprites.",
+        "Added and changed sprites.",
         "Updated UI.",
     ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210814a": [
