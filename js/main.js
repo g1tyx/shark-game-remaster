@@ -486,32 +486,13 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
-            if (now - SharkGame.lastMouseActivity > SharkGame.IDLE_THRESHOLD) {
-                if ($("#idle-overlay").is(":hidden")) {
-                    $("#minute-hand-div").addClass("front");
-                    $("#idle-overlay").show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.IDLE_FADE_TIME);
-                }
-                const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
-                res.idleMultiplier = 1 - speedRatio;
-                if (speedRatio > 0.1 && !SharkGame.persistentFlags.everIdled) {
-                    res.minuteHand.allowMinuteHand();
-                }
-                res.minuteHand.toggleOff();
-                res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
-            } else {
-                if (!$("#idle-overlay").is(":hidden") && !SharkGame.idleTransitioning) {
-                    $("#idle-overlay")
-                        .stop(true)
-                        .animate({ opacity: 0 }, 2000, () => {
-                            $("#idle-overlay").hide().stop(true);
-                        });
-                    SharkGame.idleTransitioning = true;
-                }
-                if ($("#idle-overlay").is(":hidden")) {
-                    SharkGame.idleTransitioning = false;
-                    $("#minute-hand-div").removeClass("front");
-                }
-                res.idleMultiplier = 1;
+
+            if (now - SharkGame.lastMouseActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1) {
+                main.startIdle(now, elapsedTime);
+            }
+
+            if (res.idleMultiplier < 1) {
+                main.continueIdle(now, elapsedTime);
             }
 
             if (res.minuteHand.active) {
@@ -553,6 +534,40 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.tableTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
             }
         }
+    },
+
+    startIdle(now, elapsedTime) {
+        const idleOverlay = $("#idle-overlay");
+        idleOverlay.addClass("pointy").removeClass("click-passthrough");
+        idleOverlay.on("click", main.endIdle);
+        if (idleOverlay.is(":hidden")) {
+            $("#minute-hand-div").addClass("front");
+            idleOverlay.show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.IDLE_FADE_TIME);
+        }
+        res.minuteHand.toggleOff();
+        main.continueIdle(now, elapsedTime);
+    },
+
+    continueIdle(now, elapsedTime) {
+        const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
+        res.idleMultiplier = 1 - speedRatio;
+        if (speedRatio > 0.1 && !SharkGame.persistentFlags.everIdled) {
+            res.minuteHand.allowMinuteHand();
+        }
+        res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
+    },
+
+    endIdle() {
+        const idleOverlay = $("#idle-overlay");
+        if (!idleOverlay.is(":hidden")) {
+            idleOverlay.stop(true).animate({ opacity: 0 }, 800, () => {
+                $("#minute-hand-div").removeClass("front");
+                idleOverlay.hide().stop(true);
+            });
+        }
+        idleOverlay.removeClass("pointy").addClass("click-passthrough");
+        SharkGame.lastMouseActivity = _.now();
+        res.idleMultiplier = 1;
     },
 
     processSimTime(numberOfSeconds, load = false) {

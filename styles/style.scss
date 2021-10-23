@@ -1188,7 +1188,6 @@ button {
 
 #idle-overlay {
     @include opacity(0.8);
-    @extend .click-passthrough;
     position: fixed;
     top: 0;
     left: 0;
