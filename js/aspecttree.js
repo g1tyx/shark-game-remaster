@@ -140,14 +140,15 @@ SharkGame.AspectTree = {
         }
     },
 
-    drawTable(table = document.createElement("table")) {
-        table.innerHTML = "";
-        table.id = "aspectTable";
+    drawTable(table = $("<table>")) {
+        table.html("").attr("id", "aspectTable");
 
-        const headerRow = document.createElement("tr");
-        headerRow.innerHTML = "<th>Name</th><th>Description</th><th>Level</th><th>Essence Cost</th>";
+        const headerRow = $("<thead>").append($("<th>").html(`Name`).attr("scope", "col"));
+        headerRow.append($("<th>").html(`Description`).attr("scope", "col"));
+        headerRow.append($("<th>").html(`Level`).attr("scope", "col"));
+        headerRow.append($("<th>").html(`Cost`).attr("scope", "col"));
 
-        table.appendChild(headerRow);
+        table.append(headerRow);
 
         function clickCallback(event) {
             const aspectId = event.currentTarget.getAttribute("data-aspectId");
@@ -163,48 +164,71 @@ SharkGame.AspectTree = {
             });
         }
 
+        const tableBody = $("<tbody>");
+
         $.each(SharkGame.Aspects, (aspectId, aspectData) => {
             if (aspectData.deprecated) return;
             const reqref = tree.requirementReference[aspectId];
-
             if (!reqref.revealed) return;
-            const aspectTableRowCurrent = document.createElement("tr");
+
+            let basicText = "";
+            let cantBuyText = "";
+            if (!reqref.prereqsMet && aspectData.level === 0) {
+                cantBuyText = "With your infinite vision, you can see this aspect, but cannot buy it.";
+            } else if (reqref.locked) {
+                cantBuyText = "This aspect is locked. " + reqref.locked;
+            }
+            basicText =
+                " A" +
+                (aspectData.level ? " level " + aspectData.level : "") +
+                (aspectData.core ? " core aspect" : aspectData.level ? " aspect" : "n aspect") +
+                (aspectData.core && aspectData.noRefunds ? "," : "") +
+                (aspectData.noRefunds ? " with no refunds" : "") +
+                ". ";
+
+            const aspectNameTableData = $("<th>").html(aspectData.name).addClass("aspectTableName").attr("rowspan", "3").attr("scope", "rowgroup");
+            const specialData = $("<td>").append(basicText + cantBuyText);
+            const aspectTableDescriptionRow = $("<tr>").append(aspectNameTableData).append(specialData);
+            aspectTableDescriptionRow.append($(`<td>`));
+            aspectTableDescriptionRow.append(
+                $(`<td>`)
+                    .html(!reqref.max ? aspectData.getCost(aspectData.level) : "n/A")
+                    .attr("rowspan", "3")
+            );
+
+            const aspectTableRowCurrent = $("<tr>");
+
+            if (aspectData.level > 0) {
+                aspectTableRowCurrent.append($(`<td>`).html(`CURRENT: ${aspectData.getEffect(aspectData.level)}`));
+            } else {
+                aspectTableRowCurrent.append($(`<td>`).html(`CURRENT: Not bought, no effect.`));
+            }
+            aspectTableRowCurrent.append($(`<td>`).html(aspectData.level));
 
             //aspectTableRowCurrent.classList.add("aspect-table-row");
             //aspectTableRowCurrent.id = "aspect-table-row-" + aspectId;
 
-            const aspectNameTableData = document.createElement("td");
-            aspectNameTableData.innerText = aspectData.name;
-            aspectNameTableData.classList.add("aspectTableName");
-            aspectNameTableData.setAttribute("rowspan", "2");
-
-            if (aspectData.level > 0) {
-                aspectTableRowCurrent.innerHTML = `<td>CURRENT: ${aspectData.getEffect(aspectData.level)}</td><td>${
-                    aspectData.level
-                }</td><td rowspan="2">${!reqref.max ? aspectData.getCost(aspectData.level) : "n/A"}</td>`;
-            } else {
-                aspectTableRowCurrent.innerHTML = `<td>CURRENT: Not bought, no effect.</td><td>${
-                    aspectData.level
-                }</td><td rowspan="2">${aspectData.getCost(aspectData.level)}</td>`;
-            }
-            aspectTableRowCurrent.prepend(aspectNameTableData);
-
-            const aspectTableRowNext = document.createElement("tr");
+            const aspectTableRowNext = $("<tr>");
             if (!reqref.max) {
-                aspectTableRowNext.innerHTML = `<td>NEXT: ${aspectData.getEffect(aspectData.level + 1)}</td><td>${aspectData.level + 1}</td>`;
+                //${aspectData.level + 1}`
+                aspectTableRowNext.append($(`<td>`).html(`NEXT: ${aspectData.getEffect(aspectData.level + 1)}`));
+                aspectTableRowNext.append($(`<td>`).html(`${aspectData.level + 1}`));
             } else {
-                aspectTableRowNext.innerHTML = `<td>NEXT: Already at maximum level</td><td>n/A</td>`;
+                aspectTableRowNext.append($(`<td>`).html(`NEXT: Already at maximum level.`));
+                aspectTableRowNext.append($(`<td>`).html(`n/A`));
             }
 
-            $([aspectTableRowNext, aspectTableRowCurrent])
+            $([aspectTableDescriptionRow, aspectTableRowNext, aspectTableRowCurrent])
                 .attr("data-aspectId", aspectId)
                 .on("click", clickCallback)
                 .attr("aria-role", "button")
                 .attr("disabled", reqref.prereqsMet.toString());
 
-            table.appendChild(aspectTableRowCurrent);
-            table.appendChild(aspectTableRowNext);
+            tableBody.append(aspectTableDescriptionRow);
+            tableBody.append(aspectTableRowCurrent);
+            tableBody.append(aspectTableRowNext);
         });
+        table.append(tableBody);
         return table;
     },
 

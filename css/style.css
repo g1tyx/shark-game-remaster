@@ -1258,8 +1258,9 @@ button.disabled.gateway div, button.disabled.newlyDiscovered div {
 #aspectTable {
   border-spacing: 0;
 }
-#aspectTable tr:nth-child(4n) td,
-#aspectTable tr:nth-child(4n+1) td {
+#aspectTable tr:nth-child(6n+1) td,
+#aspectTable tr:nth-child(6n+2) td,
+#aspectTable tr:nth-child(6n+3) td {
   background-color: #38a581;
 }
 

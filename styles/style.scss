@@ -1484,8 +1484,9 @@ button.gateway {
 
 #aspectTable {
     border-spacing: 0;
-    tr:nth-child(4n),
-    tr:nth-child(4n + 1) {
+    tr:nth-child(6n + 1),
+    tr:nth-child(6n + 2),
+    tr:nth-child(6n + 3) {
         td {
             background-color: $color-discovery-dark2;
         }
