@@ -41,6 +41,7 @@ SharkGame.Gateway = {
             res.pause.togglePause();
         }
 
+        tree.updateRequirementReference();
         tree.resetScoutingRestrictions();
         gateway.updateWasScoutingStatus();
 
