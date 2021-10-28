@@ -551,7 +551,7 @@ SharkGame.AspectTree = {
         if (!reqref) return;
 
         if (!reqref.locked && reqref.prereqsMet) {
-            if (reqref.max) {
+            if (!reqref.max) {
                 return SharkGame.Aspects[aspectName].level + " / " + SharkGame.Aspects[aspectName].max;
             }
             return "MAX";
