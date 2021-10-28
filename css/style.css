@@ -604,8 +604,9 @@ pre {
   text-shadow: 0 0 0.3em var(--color-dark);
 }
 
-#extraMessage.smallDesc, #extraMessage.smallDescAllowClicks {
-  font-size: 90%;
+#extraMessage {
+  display: inline-block;
+  width: 400px;
 }
 
 #buttonList {

@@ -95,17 +95,17 @@ SharkGame.Home = {
         marine: [
             {
                 name: "marine-default",
-                message: "Schools of fish fill the vast, blue expanse.<br>This place feels so familiar.",
+                message: "Schools of fish fill the vast, blue expanse. This place feels so familiar.",
             },
             {
                 name: "marine-clams",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "You notice a bunch creatures scurrying around on the ocean floor.<br>They look like crabs, but longer, and...redder?",
+                message: "You notice a bunch creatures scurrying around on the ocean floor. They look like crabs, but longer, and...redder?",
             },
             {
                 name: "marine-lobsters",
                 unlock: { totalResource: { lobster: 20 } },
-                message: "The lobsters work, but seem carefree.<br>They worry about nothing.",
+                message: "The lobsters work, but seem carefree. They worry about nothing.",
             },
         ],
 
@@ -124,13 +124,13 @@ SharkGame.Home = {
                 name: "haven-dolphins",
                 unlock: { totalResource: { dolphin: 1 }, homeAction: ["getDolphin"] },
                 message:
-                    "A dolphin joins the frenzy. We told it to go get fish, but it came back with coral.<br>It insists that the coral is more valuable.",
+                    "A dolphin joins the frenzy. We told it to go get fish, but it came back with coral. It insists that the coral is more valuable.",
             },
             {
                 name: "haven-dolphin-empire",
                 unlock: { totalResource: { dolphin: 20 } },
                 message:
-                    "The dolphin pods that work with us speak of a star-spanning empire of their kind.<br>They ask where our empire is. And they smile.",
+                    "The dolphin pods that work with us speak of a star-spanning empire of their kind. They ask where our empire is. And they smile.",
                 scales: true,
             },
             {
@@ -142,12 +142,12 @@ SharkGame.Home = {
                 name: "haven-stories",
                 unlock: { upgrade: ["delphineHistory"] },
                 message:
-                    "The dolphin's self-indulgent tales make frequent references to a mystical gate.<br>And, they don't know where it is. Of course they don't.",
+                    "The dolphin's self-indulgent tales make frequent references to a mystical gate. And, they don't know where it is. Of course they don't.",
             },
             {
                 name: "haven-whales",
                 unlock: { totalResource: { whale: 1 }, homeAction: ["getWhale"] },
-                message: "The whales speak rarely to us, working in silence as they sing to the ocean.<br>What do they sing for?",
+                message: "The whales speak rarely to us, working in silence as they sing to the ocean. What do they sing for?",
             },
             {
                 name: "haven-history",
@@ -177,24 +177,24 @@ SharkGame.Home = {
         violent: [
             {
                 name: "violent-default",
-                message: "Bursts of plenty from the scorching vents, but so hot.<br>No place for the young.",
+                message: "Bursts of plenty from the scorching vents, but so hot. No place for the young.",
             },
             {
                 name: "shrimp-one",
                 unlock: { resource: { shrimp: 50 }, homeAction: ["getShrimp"] },
-                message: "The shrimps are tiny, but hard-working.<br>They live for their sponge hives.",
+                message: "The shrimps are tiny, but hard-working. They live for their sponge hives.",
             },
         ],
 
         abandoned: [
             {
                 name: "abandoned-default",
-                message: "The tar clogs the gills of everyone here.<br>This dying world drags everyone down with it.",
+                message: "The tar clogs the gills of everyone here. This dying world drags everyone down with it.",
             },
             {
                 name: "abandoned-octopus-scrutinizes",
                 unlock: { upgrade: ["statsDiscovery"] },
-                message: "An octopus wanders over.<br>It scrutinizes your attempt at organization.",
+                message: "An octopus wanders over. It scrutinizes your attempt at organization.",
             },
             {
                 name: "abandoned-octopus",
@@ -210,34 +210,34 @@ SharkGame.Home = {
                 name: "abandoned-production",
                 unlock: { upgrade: ["octopusMethodology"] },
                 message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency.<br>They regard us with cold, neutral eyes.",
+                    "The octopuses speak of production and correct action. They speak of unity through efficiency. They regard us with cold, neutral eyes.",
             },
             {
                 name: "abandoned-spronge",
                 unlock: { resource: { spronge: 1 } },
-                message: "Residue pumps through spronge like blood.<br>It pulses and throbs.",
+                message: "Residue pumps through spronge like blood. It pulses and throbs.",
             },
             {
                 name: "abandoned-exploration",
                 unlock: { upgrade: ["exploration"] },
-                message: "Great spires loom in the distance.<br>Loose cables are strung together on the horizon.",
+                message: "Great spires loom in the distance. Loose cables are strung together on the horizon.",
             },
             {
                 name: "abandoned-gate",
                 unlock: { upgrade: ["farAbandonedExploration"] },
                 message:
-                    "This gate stands inert and lifeless like the city around it.<br>The slots are already filled, but it looks like it's turned off.",
+                    "This gate stands inert and lifeless like the city around it. The slots are already filled, but it looks like it's turned off.",
             },
             {
                 name: "abandoned-reverse-engineering",
                 unlock: { upgrade: ["reverseEngineering"] },
                 message:
-                    "The components spin and whirr and click together, but their purpose eludes us.<br>What secrets are you hiding in your mechanisms?",
+                    "The components spin and whirr and click together, but their purpose eludes us. What secrets are you hiding in your mechanisms?",
             },
             {
                 name: "abandoned-high-energy-fusion",
                 unlock: { upgrade: ["highEnergyFusion"] },
-                message: "The light is blinding, but the output is worth it.<br>The pieces of a broken past unite to create a brighter future.",
+                message: "The light is blinding, but the output is worth it. The pieces of a broken past unite to create a brighter future.",
             },
             {
                 name: "abandoned-done",
@@ -247,12 +247,12 @@ SharkGame.Home = {
             {
                 name: "abandoned-tar-one",
                 unlock: { resource: { tar: 5 } },
-                message: "The tar is killing everything!<br>Maybe a filter could save us?",
+                message: "The tar is killing everything! Maybe a filter could save us?",
             },
             {
                 name: "abandoned-tar-two",
                 unlock: { resource: { tar: 200 } },
-                message: "Only machines will remain. All is lost.<br><span class='smallDesc'>All is lost.</span>",
+                message: "Only machines will remain. All is lost. <span class='smallDesc'>All is lost.</span>",
             },
         ],
 
@@ -264,46 +264,45 @@ SharkGame.Home = {
             {
                 name: "shrouded-eel-onlookers",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "Divers have reported sightings of 'skittish', wiggly creatures on the ocean floor.<br>What on earth...?",
+                message: "Divers have reported sightings of 'skittish', wiggly creatures on the ocean floor. What on earth...?",
             },
             {
                 name: "shrouded-eels",
                 unlock: { totalResource: { eel: 1 } },
-                message: "The eels chatter among their hiding places.<br>They like the sharks.",
+                message: "The eels chatter among their hiding places. They like the sharks.",
             },
             {
                 name: "shrouded-distant-chimaeras",
                 unlock: { upgrade: ["exploration"] },
-                message: "In the fog of darkness, the shapes of strange creatures can be made out.<br>They dart away when light approaches.",
+                message: "In the fog of darkness, the shapes of strange creatures can be made out. They dart away when light approaches.",
             },
             {
                 name: "shrouded-chimaeras",
                 unlock: { totalResource: { chimaera: 1 } },
                 message:
-                    "The chimaeras imply they are ancient kin of the shark kind, reunited through wild coincidence.<br>We don't understand, but they seem to think we do.",
+                    "The chimaeras imply they are ancient kin of the shark kind, reunited through wild coincidence. We don't understand, but they seem to think we do.",
             },
             {
                 name: "shrouded-arcana",
                 unlock: { totalResource: { arcana: 5 } },
-                message:
-                    "These hadal artifacts glow faintly, only in pitch blackness.<br>That glow makes you feel something that you don't understand.",
+                message: "These hadal artifacts glow faintly, only in pitch blackness. That glow makes you feel something that you don't understand.",
             },
             {
                 name: "shrouded-power",
                 unlock: { totalResource: { sacrifice: 100 } },
                 message:
-                    "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice.<br>The sharp snap of broken arcana echoes in your mind.",
+                    "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice. The sharp snap of broken arcana echoes in your mind.",
             },
             {
                 name: "shrouded-end",
                 unlock: { upgrade: ["arcaneActivation"] },
-                message: "The gate opens. It pulls, tugging at you.<br>The force is immense.",
+                message: "The gate opens. It pulls, tugging at you. The force is immense.",
             },
             {
                 name: "shrouded-essence",
                 unlock: { totalResource: { sacrifice: 1000000000000000 } },
                 message:
-                    "You see without light. You hear without sound. You feel without touching.<br>Everything pelts you from every direction. You can't make sense of it anymore. Any of it. It feels like it's all breaking down around you.<br>",
+                    "You see without light. You hear without sound. You feel without touching. Everything pelts you from every direction. You can't make sense of it anymore. Any of it. It feels like it's all breaking down around you.",
             },
         ],
 
@@ -320,64 +319,64 @@ SharkGame.Home = {
             {
                 name: "frigid-icy-doom",
                 unlock: { resource: { ice: 500 } },
-                message: "So cold. So hungry.<br><span class='smallDesc'>So hopeless.</span>",
+                message: "So cold. So hungry. <span class='smallDesc'>So hopeless.</span>",
             },
             {
                 name: "frigid-distant-village",
                 unlock: { totalResource: { science: 8 } },
-                message: "While scanning the horizon, you notice a gap in the ice.<br>You peer through it, and spot something else.",
+                message: "While scanning the horizon, you notice a gap in the ice. You peer through it, and spot something else.",
                 scales: true,
             },
             {
                 name: "frigid-village",
                 unlock: { upgrade: ["civilContact"] },
                 message:
-                    "A small village of squid greets you respectfully.<br>The water in this place is a little warmer, and you hear a quiet, ambient hum.",
+                    "A small village of squid greets you respectfully. The water in this place is a little warmer, and you hear a quiet, ambient hum.",
             },
             {
                 name: "frigid-urchins",
                 unlock: { totalResource: { urchin: 2 } },
                 message:
-                    "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile.<br>They know nothing but the kelp.",
+                    "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile. They know nothing but the kelp.",
             },
             {
                 name: "frigid-teamwork",
                 unlock: { totalResource: { extractionTeam: 1 } },
-                message: "The squid champion the value of teamwork and the necessity of cooperation.<br>They say they follow by example.",
+                message: "The squid champion the value of teamwork and the necessity of cooperation. They say they follow by example.",
             },
             {
                 name: "frigid-machine",
                 unlock: { totalResource: { squid: 125 } },
                 message:
-                    "In the center of the settlement lies a vibrating...thing, and a strange gate.<br>The thing buzzes loudly, casting enormous energy across the water.",
+                    "In the center of the settlement lies a vibrating...thing, and a strange gate. The thing buzzes loudly, casting enormous energy across the water.",
                 scales: true,
             },
             {
                 name: "frigid-squid",
                 unlock: { totalResource: { squid: 250 } },
-                message: "The squid speak of an ancient visitor who saved their world.<br>They ask if you too, have seen this visitor.",
+                message: "The squid speak of an ancient visitor who saved their world. They ask if you too, have seen this visitor.",
                 scales: true,
             },
             {
                 name: "frigid-suspicion",
                 unlock: { upgrade: ["automation"] },
-                message: "The squid describe the machine with fascination. They ask if we feel the same.<br>They see something we do not.",
+                message: "The squid describe the machine with fascination. They ask if we feel the same. They see something we do not.",
             },
             {
                 name: "frigid-battery",
                 unlock: { upgrade: ["internalInquiry"] },
                 message:
-                    "Buried deep within the complex lies a massive, dimly glowing battery.<br>The squid say replacing it will get the machine running at full power.",
+                    "Buried deep within the complex lies a massive, dimly glowing battery. The squid say replacing it will get the machine running at full power.",
             },
             {
                 name: "frigid-heat-returns",
                 unlock: { upgrade: ["rapidRecharging"] },
-                message: "A wave of heat washes over you, and the dingy complex comes back to life.<br>The gate turns on.",
+                message: "A wave of heat washes over you, and the dingy complex comes back to life. The gate turns on.",
             },
             /*{
                 name: "frigid-end",
                 unlock: { upgrade: ["rapidRepairs"] },
-                message: "The gate opens.<br>The squid bid you farewell.",
+                message: "The gate opens. The squid bid you farewell.",
             },*/
             //another one: "the maw of the gate opens"
         ],
@@ -572,8 +571,8 @@ SharkGame.Home = {
                     sceneDiv = $("<div>").attr("id", "tabSceneImage");
                 }
             }
-            let message = "You are a shark in a " + worldType.shortDesc + " sea.";
-            message += "<br><span id='extraMessage' class='medDesc'><br></span>";
+            let message = "<strong class='medDesc'>You are a shark in a " + worldType.shortDesc + " sea.</strong>";
+            message += "<br><strong id='extraMessage'><br></strong>";
             tabMessage.html(message).prepend(sceneDiv);
 
             const extraMessageSel = $("#extraMessage");

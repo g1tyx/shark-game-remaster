@@ -793,9 +793,8 @@ pre {
 }
 
 #extraMessage {
-    &.smallDesc {
-        font-size: 90%;
-    }
+    display: inline-block;
+    width: 400px;
 }
 
 #buttonList {
