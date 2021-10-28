@@ -399,10 +399,10 @@ SharkGame.AspectTree = {
         // Lines between aspects
         context.save();
         context.lineWidth = 5;
-        _.each(SharkGame.Aspects, ({ posX, posY, width, height, requiredBy, deprecated }, aspectName) => {
+        _.each(SharkGame.Aspects, ({ level, posX, posY, width, height, requiredBy, deprecated }) => {
             if (deprecated) return;
 
-            if (tree.requirementReference[aspectName].revealed) {
+            if (level) {
                 // requiredBy: array of aspectId that depend on this aspect
                 _.each(requiredBy, (requiringId) => {
                     const requiring = SharkGame.Aspects[requiringId];
