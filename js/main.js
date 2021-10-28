@@ -80,14 +80,14 @@ $.extend(SharkGame, {
     BIGGEST_SAFE_NUMBER: 1000000000000,
     MAX: 1e300,
 
-    IDLE_THRESHOLD: 120000,
+    IDLE_THRESHOLD: 1200,
     IDLE_FADE_TIME: 5000,
 
     INTERVAL: 1000 / 10, // 20 FPS // I'm pretty sure 1000 / 10 comes out to 10 FPS
     dt: 1 / 10,
     before: _.now(),
     lastMouseActivity: _.now(),
-    idleTransitioning: false,
+    savedMouseActivity: _.now(),
 
     timestampLastSave: false,
     timestampGameStart: false,
@@ -504,14 +504,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 main.showSidebarIfNeeded();
             }
 
-            if (res.idleMultiplier !== 0) {
-                // skip income processing if it's not necessary
-                if (elapsedTime > SharkGame.INTERVAL) {
-                    // Compensate for lost time.
-                    main.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
-                } else {
-                    main.processSimTime(SharkGame.dt);
-                }
+            if (elapsedTime > SharkGame.INTERVAL) {
+                // Compensate for lost time.
+                main.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
+            } else {
+                main.processSimTime(SharkGame.dt);
             }
 
             res.updateResourcesTable();
@@ -545,13 +542,15 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             idleOverlay.show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.IDLE_FADE_TIME);
         }
         res.minuteHand.toggleOff();
+        SharkGame.savedMouseActivity = SharkGame.lastMouseActivity;
         main.continueIdle(now, elapsedTime);
     },
 
     continueIdle(now, elapsedTime) {
-        const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
+        const speedRatio = Math.min((now - SharkGame.savedMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
         res.idleMultiplier = 1 - speedRatio;
-        if (speedRatio > 0.1 && !SharkGame.persistentFlags.everIdled) {
+
+        if (speedRatio > 0.8 && !SharkGame.persistentFlags.everIdled) {
             res.minuteHand.allowMinuteHand();
         }
         res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
