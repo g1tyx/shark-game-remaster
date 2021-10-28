@@ -80,7 +80,7 @@ $.extend(SharkGame, {
     BIGGEST_SAFE_NUMBER: 1000000000000,
     MAX: 1e300,
 
-    IDLE_THRESHOLD: 1200,
+    IDLE_THRESHOLD: 120000,
     IDLE_FADE_TIME: 5000,
 
     INTERVAL: 1000 / 10, // 20 FPS // I'm pretty sure 1000 / 10 comes out to 10 FPS
