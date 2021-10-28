@@ -12,8 +12,7 @@ SharkGame.Recycler = {
         upgrade: ["recyclerDiscovery"],
     },
 
-    message:
-        "The recycler allows for the repurposing of any and all of your unwanted materials.<br/><span class='medDesc'>Feed the machines. Feed them.</span>",
+    message: "Convert things into residue, and residue into things!<br/><span class='medDesc'>Feed the machines. Feed them.</span>",
 
     recyclerInputMessages: [
         "The machines grind and churn.",
