@@ -108,7 +108,7 @@ SharkGame.Events = {
             if (SharkGame.persistentFlags.revealedBuyButtons) {
                 return "remove";
             }
-            if (res.getTotalResource("crab") > 3) {
+            if (res.getTotalResource("crab") > 12 || res.getTotalResource("crystal") > 12) {
                 return "trigger";
             }
             return "pass";
