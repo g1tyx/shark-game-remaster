@@ -266,8 +266,8 @@ SharkGame.Aspects = {
         },
     },
     coordinatedCooperation: {
-        posX: 250,
-        posY: 100,
+        posX: 220,
+        posY: 90,
         width: 40,
         height: 40,
 
