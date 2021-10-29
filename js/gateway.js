@@ -41,7 +41,6 @@ SharkGame.Gateway = {
             res.pause.togglePause();
         }
 
-        tree.updateRequirementReference();
         tree.resetScoutingRestrictions();
         gateway.updateWasScoutingStatus();
 
@@ -205,6 +204,7 @@ SharkGame.Gateway = {
     },
 
     showAspects() {
+        tree.updateRequirementReference();
         const aspectTreeContent = $("<div>");
         aspectTreeContent.append(
             $("<strong>")
