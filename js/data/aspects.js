@@ -60,7 +60,7 @@ SharkGame.Aspects = {
         name: "Path of Industry",
         description: "Unlock the potential of those around you.",
         getCost(level) {
-            return 2 ** (level + 2);
+            return 2 * level + 2;
         },
         getEffect(level) {
             return (
