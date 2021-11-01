@@ -177,6 +177,8 @@ SharkGame.AspectTree = {
                 cantBuyText = "With your infinite vision, you can see this aspect, but cannot buy it.";
             } else if (reqref.locked) {
                 cantBuyText = "This aspect is locked. " + reqref.locked;
+            } else if (reqref.isolated) {
+                cantBuyText = "This aspect's prerequisites aren't met, even though you have levels in it.";
             }
             basicText =
                 " A" +
