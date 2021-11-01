@@ -525,6 +525,9 @@ SharkGame.Home = {
         }
         home.currentButtonTab = tabToChangeTo;
         $("#buttonList").empty();
+        if (SharkGame.Aspects.anythingAndEverything.level) {
+            this.everything.addEverythingButton();
+        }
         home.createButtonTabs();
     },
 
