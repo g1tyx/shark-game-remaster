@@ -449,7 +449,7 @@ SharkGame.Aspects = {
                 "Between worlds, have the opportunity to reroll your world selection up to <strong>" +
                 level +
                 " time" +
-                (level > 0 ? "s" : "") +
+                (level > 1 ? "s" : "") +
                 "</strong>."
             );
         },
