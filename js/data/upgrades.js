@@ -118,7 +118,7 @@ SharkGame.Upgrades = {
             effectDesc: "Rays are twice as effective with their specially adapted digging tools.",
             cost: {
                 science: 50,
-                sand: 20,
+                sand: 500,
                 crystal: 5,
             },
             effect: {
@@ -180,7 +180,7 @@ SharkGame.Upgrades = {
             effectDesc: "Rays are twice as effective with their understanding of the seabed and its varieties of sediment.",
             cost: {
                 science: 250,
-                sand: 250,
+                sand: 750,
             },
             required: {
                 upgrades: ["crystalContainer"],
@@ -198,7 +198,7 @@ SharkGame.Upgrades = {
             effectDesc: "A power source for future technologies has been discovered.",
             cost: {
                 science: 300,
-                sand: 500,
+                sand: 1000,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -224,9 +224,9 @@ SharkGame.Upgrades = {
             researchedMessage: "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.",
             effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
             cost: {
-                science: 1000,
-                crystal: 2000,
-                sand: 4000,
+                science: 3500,
+                crystal: 1500,
+                sand: 15000,
             },
             required: {
                 upgrades: ["thermalVents", "underwaterChemistry"],
@@ -238,7 +238,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Now we don't have to do all the work, machines can do it for us! Future!!",
             effectDesc: "Machines can be built to supplement population duties. This is efficient.",
             cost: {
-                science: 1500,
+                science: 3500,
                 sharkonium: 250,
             },
             required: {
@@ -251,7 +251,7 @@ SharkGame.Upgrades = {
             researchedMessage: "The machines are twice as good now! We've figured out new designs in the process, too!",
             effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
             cost: {
-                science: 2500,
+                science: 5000,
                 sharkonium: 1750,
             },
             required: {
@@ -273,8 +273,8 @@ SharkGame.Upgrades = {
                 "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
             effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
             cost: {
-                science: 5000,
-                sharkonium: 5000,
+                science: 75000,
+                sharkonium: 25000,
             },
             required: {
                 upgrades: ["engineering"],
@@ -312,7 +312,7 @@ SharkGame.Upgrades = {
                 "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
             cost: {
                 science: 1e6,
-                sharkonium: 1e6,
+                sharkonium: 5e5,
                 junk: 1e6,
             },
             required: {
@@ -326,7 +326,7 @@ SharkGame.Upgrades = {
             effectDesc: "Advances in agriculture will fuel future endeavors. Who knows what we'll do next!",
             cost: {
                 science: 500,
-                sand: 1000,
+                sand: 1500,
             },
             required: {
                 upgrades: ["seabedGeology"],
@@ -413,7 +413,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Crabs and planter crabs are four and two times as effective, respectively, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
-                science: 7500,
+                science: 8500,
                 kelp: 1000,
             },
             required: {
@@ -434,7 +434,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Planter crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
             cost: {
-                science: 5000,
+                science: 7500,
             },
             required: {
                 upgrades: ["agriculture", "kelpHorticulture"],
@@ -451,8 +451,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Found lots of schools of fish! So many different schools! And such untapped sand reserves!",
             effectDesc: "Sharks and rays are twice as effective. Did you know oceans are big? Fascinating!",
             cost: {
-                science: 5000,
-                fish: 5000,
+                science: 10000,
+                fish: 50000,
             },
             required: {
                 upgrades: ["sunObservation"],
@@ -470,8 +470,8 @@ SharkGame.Upgrades = {
             researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
             effectDesc: "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
             cost: {
-                science: 8000,
-                fish: 15000,
+                science: 12000,
+                fish: 125000,
             },
             required: {
                 upgrades: ["exploration"],
@@ -490,7 +490,7 @@ SharkGame.Upgrades = {
             cost: {
                 science: 1e6,
                 shark: 1000,
-                fish: 50000,
+                fish: 2500000,
             },
             required: {
                 upgrades: ["farExploration"],
