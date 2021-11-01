@@ -206,7 +206,13 @@ SharkGame.Main = {
         $("#overlay").removeClass("gateway");
 
         // clear any html and remove errant classes from tooltip
-        $("#tooltip").removeClass("forHomeButtonOrGrotto").removeClass("forIncomeTable").removeClass("forAspectTree").html("");
+        $("#tooltipbox")
+            .removeClass("forHomeButtonOrGrotto")
+            .removeClass("forIncomeTable")
+            .removeClass("forAspectTree")
+            .removeClass("forAspectTreeUnpurchased")
+            .removeClass("forAspectTreeAffordable")
+            .html("");
 
         $("#gameName").html("- " + SharkGame.GAME_NAME + " -");
         $("#versionNumber").html(
