@@ -828,6 +828,14 @@ SharkGame.Home = {
         if (home.shouldBeNewlyDiscovered(actionName, actionData)) {
             buttonSelector.addClass("newlyDiscovered");
         }
+        // still need to add increases/decreases check here, but this is not relevant to the actual game yet so i dont care
+        if (home.doesButtonGiveNegativeThing(actionData)) {
+            buttonSelector.addClass("gives-consumer");
+        }
+    },
+
+    doesButtonGiveNegativeThing(actionData) {
+        let givesBadThing = false;
         $.each(actionData.effect.resource, (resourceName) => {
             // still need to add increases/decreases check here, but this is not relevant to the actual game yet so i dont care
             if (
@@ -838,10 +846,11 @@ SharkGame.Home = {
                         ((incomeAmount < 0 && !res.isInCategory(resource, "harmful")) || (res.isInCategory(resource, "harmful") && incomeAmount > 0))
                 )
             ) {
-                buttonSelector.addClass("gives-consumer");
+                givesBadThing = true;
                 return false;
             }
         });
+        return givesBadThing;
     },
 
     shouldBeNewlyDiscovered(actionName, actionData) {
@@ -970,7 +979,10 @@ SharkGame.Home = {
 
         onEverythingButton() {
             _.each(home.buttonNamesList, (actionName) => {
-                home.onHomeButton("blah", actionName);
+                const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+                if (!home.doesButtonGiveNegativeThing(actionData)) {
+                    home.onHomeButton("blah", actionName);
+                }
             });
         },
 
@@ -980,7 +992,7 @@ SharkGame.Home = {
             }
 
             $("#tooltipbox").removeClass("forIncomeTable").attr("current", "").addClass("forHomeButtonOrGrotto");
-            $("#tooltipbox").html("Clicks every other button in this list, in order, from left to right and top to bottom.");
+            $("#tooltipbox").html("Clicks every other button in the list without a red border, in order, from left to right and top to bottom.");
         },
     },
 
