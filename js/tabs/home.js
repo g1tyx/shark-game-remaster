@@ -21,32 +21,32 @@ SharkGame.Home = {
             },
             {
                 name: "start-shark",
-                unlock: { resource: { fish: 5 } },
+                unlock: { totalResource: { fish: 5 } },
                 message: "You attract the attention of a shark. Maybe they can help you catch fish!",
             },
             {
                 name: "start-sharks",
-                unlock: { resource: { shark: 1 } },
+                unlock: { resource: { shark: 2 } },
                 message: "More sharks swim over, curious and watchful.",
             },
             {
                 name: "start-ray",
-                unlock: { resource: { shark: 4 } },
+                unlock: { resource: { shark: 5 } },
                 message: "Some rays drift over.",
             },
             {
                 name: "start-quite-the-group",
-                unlock: { resource: { shark: 1, ray: 1 } },
+                unlock: { resource: { shark: 6, ray: 2 } },
                 message: "You have quite the group going now.",
             },
             {
                 name: "start-crab",
-                unlock: { resource: { shark: 9, ray: 4 } },
+                unlock: { resource: { shark: 10, ray: 4 } },
                 message: "Some curious crabs come over.",
             },
             {
                 name: "start-tribe",
-                unlock: { resource: { shark: 1, ray: 1, crab: 1 } },
+                unlock: { resource: { shark: 12, ray: 4, crab: 5 } },
                 message: "Your new tribe is at your command!",
             },
             {
