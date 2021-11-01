@@ -726,7 +726,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     shouldShowTooltips() {
-        if (!(main.isFirstTime() && res.getResource("fish") < 25 && res.getResource("shark") < 2)) {
+        if (!(main.isFirstTime() && res.getResource("fish") < 35 && res.getResource("shark") < 3)) {
             SharkGame.persistentFlags.tooltipUnlocked = true;
         }
         return SharkGame.persistentFlags.tooltipUnlocked;
