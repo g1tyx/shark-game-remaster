@@ -1156,7 +1156,6 @@ SharkGame.HomeActions = {
                 "Snip snap clack clack burble burble crabs crabs crabs crabs.",
                 "More crabs are always a good idea. Crystals aren't cheap.",
                 "The broods swell in number. The sharks are uneasy, but the concern soon passes.",
-                "Yes. Feed the kelp. Feed it. Feeeeeed it.",
             ],
             helpText: "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.",
         },
