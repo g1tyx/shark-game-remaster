@@ -825,7 +825,7 @@ SharkGame.Home = {
         if (SharkGame.Settings.current.showAnimations) {
             buttonSelector.hide().css("opacity", 0).slideDown(50).animate({ opacity: 1.0 }, 50);
         }
-        if (actionData.newlyDiscovered) {
+        if (home.shouldBeNewlyDiscovered(actionName, actionData)) {
             buttonSelector.addClass("newlyDiscovered");
         }
         $.each(actionData.effect.resource, (resourceName) => {
@@ -842,6 +842,14 @@ SharkGame.Home = {
                 return false;
             }
         });
+    },
+
+    shouldBeNewlyDiscovered(actionName, actionData) {
+        if (SharkGame.Aspects.pathOfTime.level) {
+            if (actionName === "getCrab" && world.doesResourceExist("crab")) return false;
+            if (actionName === "getDiver" && world.doesResourceExist("diver")) return false;
+        }
+        return actionData.newlyDiscovered;
     },
 
     getActionCategory(actionName) {
