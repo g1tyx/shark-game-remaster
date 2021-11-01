@@ -280,7 +280,7 @@ SharkGame.ModifierTypes = {
                     return current * (1 + degree);
                 },
                 effectDescription(degree, resource) {
-                    return "All " + sharktext.getResourceName(resource, false, 2) + " ×" + (1 + degree).toFixed(2);
+                    return "All " + sharktext.getResourceName(resource, false, 2) + " production ×" + (1 + degree).toFixed(2);
                 },
                 getEffect(_genDegree, outDegree, _gen, _out) {
                     return outDegree;
@@ -303,7 +303,7 @@ SharkGame.ModifierTypes = {
                     return current * (1 / (1 + degree));
                 },
                 effectDescription(degree, resource) {
-                    return "All " + sharktext.getResourceName(resource, false, 2) + " ×" + (1 / (1 + degree)).toFixed(2);
+                    return "All " + sharktext.getResourceName(resource, false, 2) + " production ×" + (1 / (1 + degree)).toFixed(2);
                 },
                 getEffect(_genDegree, outDegree, _gen, _out) {
                     return outDegree;
