@@ -205,6 +205,9 @@ SharkGame.Main = {
         $("#pane").removeClass("gateway");
         $("#overlay").removeClass("gateway");
 
+        // clear any html and remove errant classes from tooltip
+        $("#tooltip").removeClass("forHomeButtonOrGrotto").removeClass("forIncomeTable").removeClass("forAspectTree").html("");
+
         $("#gameName").html("- " + SharkGame.GAME_NAME + " -");
         $("#versionNumber").html(
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
