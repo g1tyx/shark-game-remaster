@@ -172,7 +172,7 @@ SharkGame.ModifierTypes = {
                     return current * degree;
                 },
                 effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " melts " + sharktext.getResourceName("ice") + " " + degree + "× faster.";
+                    return sharktext.getResourceName(resource, false, 2) + " melt " + sharktext.getResourceName("ice") + " " + degree + "× faster.";
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
