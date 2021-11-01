@@ -343,7 +343,7 @@ SharkGame.Aspects = {
         max: 2,
         level: 0,
         name: "Mechanical Manifestation",
-        description: ".",
+        description: "Given raw, etherial energy, machines can make more with less.",
         getCost(level) {
             return 2 + 2 * level;
         },
