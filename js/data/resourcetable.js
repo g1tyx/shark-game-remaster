@@ -35,8 +35,8 @@ SharkGame.ResourceTable = {
             get crystal() {
                 if (SharkGame.Aspects.crystallineSkin.level) {
                     const crystalAmount = res.getResource("crystal");
-                    if (crystalAmount < 25 * SharkGame.Aspects.crystallineSkin.level ** 3) {
-                        return (25 * SharkGame.Aspects.crystallineSkin.level ** 3 - crystalAmount) / 2;
+                    if (crystalAmount < 25 * 2 ** SharkGame.Aspects.crystallineSkin.level) {
+                        return (25 * 2 ** SharkGame.Aspects.crystallineSkin.level - crystalAmount) / 2;
                     }
                 }
                 return 0;

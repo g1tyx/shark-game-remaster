@@ -233,7 +233,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return (
                 "Start with <strong>" +
-                50 * level ** 2 +
+                25 * 2 ** level +
                 "</strong> " +
                 sharktext.getResourceName("crab", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 ". If they do not exist, start with an equivalent."
@@ -253,7 +253,7 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "init" && res.getResource("crab") === 0 && !SharkGame.flags.pathOfTimeApplied) {
-                const base = 50 * this.level ** 2;
+                const base = 25 * 2 ** this.level;
                 switch (world.worldType) {
                     case "shrouded":
                         res.changeResource("diver", base * 0.5);
@@ -521,7 +521,7 @@ SharkGame.Aspects = {
         getEffect(level) {
             return (
                 "If you have less than <strong>" +
-                25 * level ** 3 +
+                25 * 2 ** level +
                 "</strong> " +
                 sharktext.getResourceName("crystal", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 ", they will rapidly increase back to that amount. If they do not exist, this applies to an equivalent resource."
