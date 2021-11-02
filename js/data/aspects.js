@@ -277,7 +277,7 @@ SharkGame.Aspects = {
         description: "Maybe the squid had a point. Maybe teamwork really is the key.",
         core: true,
         getCost(level) {
-            return 16 * (level + 1);
+            return 16 * (level + 1) ** 2;
         },
         getEffect(level) {
             return "Tokens increase production by <strong>" + (level + 2) + "×</strong>.";
@@ -367,7 +367,7 @@ SharkGame.Aspects = {
         name: "The Plan",
         description: "Professionals have standards. Be polite, be efficient, and have a plan to recruit everyone you meet.",
         getCost(level) {
-            return 2 * level + 4;
+            return 2 * level ** 2 + 4;
         },
         getEffect(level) {
             return "Core frenzy members are <strong>" + 100 * (1 - 0.5 ** level) + "%</strong> cheaper to hire.";
@@ -389,7 +389,7 @@ SharkGame.Aspects = {
         name: "Collective Cooperation",
         description: "Direct your frenzy. Learn to control them.",
         getCost(level) {
-            return 5 * level + 5;
+            return 10 * level + 5;
         },
         getEffect(level) {
             return "The effect from tokens of industry is <strong>" + (level + 1) + "×</strong> stronger.";
@@ -511,12 +511,12 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        max: 8,
+        max: 16,
         level: 0,
         name: "Crystalline Skin",
         description: "Become one with the lattice.",
         getCost(level) {
-            return level + 3;
+            return 3 + level ** 2;
         },
         getEffect(level) {
             return (
@@ -703,7 +703,7 @@ SharkGame.Aspects = {
         description: "Resourcefulness leads to prosperity.",
         core: true,
         getCost(level) {
-            return 3 + level * 2;
+            return 3 + (2 * level) ** 2;
         },
         getEffect(level) {
             return (
