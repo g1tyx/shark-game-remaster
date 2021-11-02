@@ -44,12 +44,6 @@ SharkGame.Gateway = {
         tree.resetScoutingRestrictions();
         gateway.updateWasScoutingStatus();
 
-        const baseReward = gateway.getBaseReward(loadingFromSave);
-        const patienceReward = gateway.getPatienceReward(loadingFromSave);
-        const speedReward = gateway.getSpeedReward(loadingFromSave);
-
-        gateway.grantEssenceReward(baseReward, patienceReward, speedReward);
-
         if (!loadingFromSave && SharkGame.wonGame) {
             gateway.markWorldCompleted(world.worldType);
             SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
@@ -69,7 +63,12 @@ SharkGame.Gateway = {
         // one last thing: make sure the player is flagged as having idled so the minute hand shows up from now on
         res.minuteHand.allowMinuteHand();
 
+        const baseReward = gateway.getBaseReward(loadingFromSave);
+        const patienceReward = gateway.getPatienceReward(loadingFromSave);
+        const speedReward = gateway.getSpeedReward(loadingFromSave);
+
         gateway.prepareBasePane(baseReward, patienceReward, speedReward);
+        gateway.grantEssenceReward(baseReward, patienceReward, speedReward);
         $("#game").addClass("inGateway");
     },
 
@@ -100,15 +99,6 @@ SharkGame.Gateway = {
                 )
             );
         }
-        if (patienceReward > 0) {
-            gatewayContent.append(
-                $("<p>").html(
-                    "Your patience pays off, granting you <span class='essenceCount'>" +
-                        sharktext.beautify(patienceReward) +
-                        "</span> additional essence."
-                )
-            );
-        }
         if (speedReward > 0) {
             gatewayContent.append(
                 $("<p>").html(
@@ -122,13 +112,22 @@ SharkGame.Gateway = {
         } else if (!gateway.wasOnScoutingMission() && !gateway.getMinutesBelowPar()) {
             gatewayContent.append($("<p>").html("You didn't beat this world fast enough to get below par. If you did, you would get more essence."));
         }
-        const gumptionBonus = (baseReward + patienceReward + speedReward) * res.getResource("essence") * 0.02 * SharkGame.Aspects.gumption.level;
+        const gumptionBonus = (baseReward + speedReward) * res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02;
         if (gumptionBonus) {
             gatewayContent.append(
                 $("<p>").html(
                     "Your gumption lets you scrounge up <span class='essenceCount'>" +
                         sharktext.beautify(gumptionBonus, false, 2) +
                         "</span> extra essence."
+                )
+            );
+        }
+        if (patienceReward > 0) {
+            gatewayContent.append(
+                $("<p>").html(
+                    "Your patience pays off, granting you <span class='essenceCount'>" +
+                        sharktext.beautify(patienceReward) +
+                        "</span> additional essence."
                 )
             );
         }
@@ -644,7 +643,7 @@ SharkGame.Gateway = {
     grantEssenceReward(essenceReward, patienceReward, speedReward) {
         res.changeResource(
             "essence",
-            (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + patienceReward + speedReward)
+            (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + speedReward) + patienceReward
         );
     },
 

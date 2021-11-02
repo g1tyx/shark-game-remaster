@@ -208,7 +208,7 @@ SharkGame.Aspects = {
                 level +
                 "</strong> " +
                 sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                " in addition to usual rewards."
+                " additional essence (this bonus is <strong>not</strong> increased by gumption)."
             );
         },
         getUnlocked() {},
@@ -709,7 +709,7 @@ SharkGame.Aspects = {
             return (
                 "For each unspent " +
                 sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                " you have, increase all " +
+                " you have, increase " +
                 sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 " gains by <strong>" +
                 2 * level +
