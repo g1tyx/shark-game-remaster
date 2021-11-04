@@ -628,7 +628,6 @@ SharkGame.Gateway = {
                 let timeBelowFive = 5 - gateway.getTimeInLastWorld() / 60000;
                 for (let halfPower = 1; timeBelowFive > 0; halfPower++) {
                     timeBelowFive -= 5 / 2 ** halfPower;
-                    alert(timeBelowFive);
                     reward += 1;
                 }
 
