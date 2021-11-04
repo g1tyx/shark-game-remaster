@@ -81,7 +81,7 @@ SharkGame.Gateway = {
     },
 
     showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus()) {
-        const gumptionBonus = gumptionRatio * (baseReward + speedReward);
+        const gumptionBonus = Math.ceil(gumptionRatio * (baseReward + speedReward));
 
         // get some useful numbers
         const essenceHeld = res.getResource("essence");
@@ -312,8 +312,7 @@ SharkGame.Gateway = {
             $("<p>").html(
                 "This would grant you <strong>" +
                     sharktext.beautify(
-                        (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) *
-                            ((seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level),
+                        Math.ceil((1 + gateway.getGumptionBonus()) * ((seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level)),
                         false,
                         2
                     ) +
@@ -626,9 +625,10 @@ SharkGame.Gateway = {
         if (gateway.getPar() && !loadingFromSave && SharkGame.wonGame) {
             let timeBelowPar = gateway.getMinutesBelowPar();
             if (timeBelowPar > 0) {
-                let timeSpent = gateway.getTimeInLastWorld() / 60000;
-                for (let halfPower = 1; timeSpent > 0; halfPower++) {
-                    timeSpent -= 5 / 2 ** halfPower;
+                let timeBelowFive = 5 - gateway.getTimeInLastWorld() / 60000;
+                for (let halfPower = 1; timeBelowFive > 0; halfPower++) {
+                    timeBelowFive -= 5 / 2 ** halfPower;
+                    alert(timeBelowFive);
                     reward += 1;
                 }
 
@@ -666,7 +666,7 @@ SharkGame.Gateway = {
 
     grantEssenceReward(essenceReward, patienceReward, speedReward) {
         const gumptionBonus = gateway.getGumptionBonus();
-        res.changeResource("essence", (1 + gumptionBonus) * (essenceReward + speedReward) + patienceReward);
+        res.changeResource("essence", Math.ceil((1 + gumptionBonus) * (essenceReward + speedReward) + patienceReward));
     },
 
     prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus) {
