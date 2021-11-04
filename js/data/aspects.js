@@ -703,17 +703,17 @@ SharkGame.Aspects = {
         description: "Resourcefulness leads to prosperity.",
         core: true,
         getCost(level) {
-            return 3 + (2 * level) ** 2;
+            return 5 + level;
         },
         getEffect(level) {
             return (
                 "For each unspent " +
                 sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                " you have, increase " +
+                " you have, increase non-patience " +
                 sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                 " gains by <strong>" +
-                2 * level +
-                "%</strong>."
+                level +
+                "%</strong>. Effect caps at <strong>100%</strong>."
             );
         },
         getUnlocked() {},

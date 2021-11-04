@@ -112,7 +112,7 @@ SharkGame.Gateway = {
         } else if (!gateway.wasOnScoutingMission() && !gateway.getMinutesBelowPar()) {
             gatewayContent.append($("<p>").html("You didn't beat this world fast enough to get below par. If you did, you would get more essence."));
         }
-        const gumptionBonus = (baseReward + speedReward) * res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02;
+        const gumptionBonus = (speedReward + baseReward) * gateway.getGumptionBonus();
         if (gumptionBonus) {
             gatewayContent.append(
                 $("<p>").html(
@@ -640,11 +640,18 @@ SharkGame.Gateway = {
         return 0;
     },
 
+    getGumptionBonus(loadingFromSave) {
+        if (!loadingFromSave && SharkGame.wonGame) {
+            const bonus = SharkGame.Aspects.gumption.level * 0.01 * res.getResource("essence");
+            alert(bonus);
+            alert(res.getResource("essence"));
+            return Math.min(1, bonus);
+        }
+        return 0;
+    },
+
     grantEssenceReward(essenceReward, patienceReward, speedReward) {
-        res.changeResource(
-            "essence",
-            (1 + res.getResource("essence") * SharkGame.Aspects.gumption.level * 0.02) * (essenceReward + speedReward) + patienceReward
-        );
+        res.changeResource("essence", (1 + gateway.getGumptionBonus()) * (essenceReward + speedReward) + patienceReward);
     },
 
     prepareBasePane(baseReward, patienceReward, speedReward) {
