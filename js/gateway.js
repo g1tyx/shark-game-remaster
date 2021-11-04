@@ -54,21 +54,24 @@ SharkGame.Gateway = {
             gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
         }
 
+        // make sure the player is flagged as having idled so the minute hand shows up from now on
+        res.minuteHand.allowMinuteHand();
+
+        const baseReward = gateway.getBaseReward(loadingFromSave);
+        const patienceReward = gateway.getPatienceReward(loadingFromSave);
+        const speedReward = gateway.getSpeedReward(loadingFromSave);
+        const gumptionBonus = gateway.getGumptionBonus(loadingFromSave);
+
+        gateway.prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus);
+        gateway.grantEssenceReward(baseReward, patienceReward, speedReward);
+
         // RESET COMPLETED GATE REQUIREMENTS
         SharkGame.Gate.completedRequirements = {};
         // clear non-persistent flags just in case
         SharkGame.flags = {};
         // SAVE
         SharkGame.Save.saveGame();
-        // one last thing: make sure the player is flagged as having idled so the minute hand shows up from now on
-        res.minuteHand.allowMinuteHand();
 
-        const baseReward = gateway.getBaseReward(loadingFromSave);
-        const patienceReward = gateway.getPatienceReward(loadingFromSave);
-        const speedReward = gateway.getSpeedReward(loadingFromSave);
-
-        gateway.prepareBasePane(baseReward, patienceReward, speedReward);
-        gateway.grantEssenceReward(baseReward, patienceReward, speedReward);
         $("#game").addClass("inGateway");
     },
 
@@ -77,7 +80,9 @@ SharkGame.Gateway = {
         main.purgeGame();
     },
 
-    showGateway(baseReward, patienceReward, speedReward) {
+    showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus()) {
+        const gumptionBonus = gumptionRatio * (baseReward + speedReward);
+
         // get some useful numbers
         const essenceHeld = res.getResource("essence");
         const numenHeld = res.getResource("numen");
@@ -112,7 +117,6 @@ SharkGame.Gateway = {
         } else if (!gateway.wasOnScoutingMission() && !gateway.getMinutesBelowPar()) {
             gatewayContent.append($("<p>").html("You didn't beat this world fast enough to get below par. If you did, you would get more essence."));
         }
-        const gumptionBonus = (speedReward + baseReward) * gateway.getGumptionBonus();
         if (gumptionBonus) {
             gatewayContent.append(
                 $("<p>").html(
@@ -449,7 +453,9 @@ SharkGame.Gateway = {
                     sharktext.boldString(seenWorldYet ? deeperPlanetData.name : "???") +
                     "<br>" +
                     deeperPlanetData.desc +
-                    (seenWorldYet && deeperPlanetData.par ? "<br>Par: <strong>" + deeperPlanetData.par + " minutes</strong>" : "");
+                    (seenWorldYet && gateway.getPar(planetData.type)
+                        ? "<br>Par: <strong>" + gateway.getPar(planetData.type) + " minutes</strong>"
+                        : "");
 
                 buttonSel.html(label);
 
@@ -604,20 +610,30 @@ SharkGame.Gateway = {
     },
 
     getMinutesBelowPar() {
-        const time = SharkGame.WorldTypes[world.worldType].par - gateway.getTimeInLastWorld(true) / 60000;
+        const time = gateway.getPar() - gateway.getTimeInLastWorld(true) / 60000;
         if (time < 0) {
             return 0;
         }
         return time;
     },
 
+    getPar(type = world.worldType) {
+        return SharkGame.WorldTypes[type].par;
+    },
+
     getSpeedReward(loadingFromSave) {
         let reward = 0;
-        if (SharkGame.WorldTypes[world.worldType].par && !loadingFromSave && SharkGame.wonGame) {
-            let time = gateway.getMinutesBelowPar();
-            if (time > 0) {
-                while (time > 0) {
-                    time -= 5;
+        if (gateway.getPar() && !loadingFromSave && SharkGame.wonGame) {
+            let timeBelowPar = gateway.getMinutesBelowPar();
+            if (timeBelowPar > 0) {
+                let timeSpent = gateway.getTimeInLastWorld() / 60000;
+                for (let halfPower = 1; timeSpent > 0; halfPower++) {
+                    timeSpent -= 5 / 2 ** halfPower;
+                    reward += 1;
+                }
+
+                while (timeBelowPar > 0) {
+                    timeBelowPar -= 5;
                     reward += 1;
                 }
             }
@@ -643,18 +659,17 @@ SharkGame.Gateway = {
     getGumptionBonus(loadingFromSave) {
         if (!loadingFromSave && SharkGame.wonGame) {
             const bonus = SharkGame.Aspects.gumption.level * 0.01 * res.getResource("essence");
-            alert(bonus);
-            alert(res.getResource("essence"));
             return Math.min(1, bonus);
         }
         return 0;
     },
 
     grantEssenceReward(essenceReward, patienceReward, speedReward) {
-        res.changeResource("essence", (1 + gateway.getGumptionBonus()) * (essenceReward + speedReward) + patienceReward);
+        const gumptionBonus = gateway.getGumptionBonus();
+        res.changeResource("essence", (1 + gumptionBonus) * (essenceReward + speedReward) + patienceReward);
     },
 
-    prepareBasePane(baseReward, patienceReward, speedReward) {
+    prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus) {
         // PREPARE GATEWAY PANE
         // set up classes
         let pane;
@@ -683,13 +698,13 @@ SharkGame.Gateway = {
                     () => {
                         // put back to 4000
                         gateway.cleanUp();
-                        gateway.showGateway(baseReward, patienceReward, speedReward);
+                        gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
                     }
                 );
         } else {
             overlay.show().css("opacity", 1.0);
             gateway.cleanUp();
-            gateway.showGateway(baseReward, patienceReward, speedReward);
+            gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
         }
     },
 };
