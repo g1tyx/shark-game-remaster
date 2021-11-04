@@ -114,7 +114,7 @@ SharkGame.Gateway = {
                         "</span> additional essence."
                 )
             );
-        } else if (!gateway.wasOnScoutingMission() && !gateway.getMinutesBelowPar()) {
+        } else if (SharkGame.wonGame && !gateway.wasOnScoutingMission() && !gateway.getMinutesBelowPar()) {
             gatewayContent.append($("<p>").html("You didn't beat this world fast enough to get below par. If you did, you would get more essence."));
         }
         if (gumptionBonus) {
