@@ -278,6 +278,7 @@ SharkGame.Lab = {
             }
 
             console.debug(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)}`);
+            res.updateResourcesTable();
         }
     },
 
