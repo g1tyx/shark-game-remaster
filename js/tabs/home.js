@@ -531,6 +531,7 @@ SharkGame.Home = {
             this.everything.addEverythingButton();
         }
         home.createButtonTabs();
+        home.update();
     },
 
     updateMessage(suppressAnimation) {
