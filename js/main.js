@@ -784,7 +784,7 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202111??a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211109a": [
         "Final revamp of the aspect tree. Not the final addition to it, though.",
         "Added idle mode. The game will pause and accumulate idle time after 2 minutes of inactivity.",
         "The minute hand now stores offline progress and idle time. You can use your stored time in the form of a multiplier.",
