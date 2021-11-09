@@ -26,8 +26,10 @@ SharkGame.Panes = {
         "<p>If you are still stuck, or if you think it's a bug, you can always ask for help on the <a href='https://discord.gg/nN7BQDJR2G' target='blank_'>discord server</a>.</p>",
 
     donate:
-        "<p>You can <a href='https://www.sharktrust.org/Listing/Category/donate' target='_blank'>donate to help save sharks and mantas</a>!</p>" +
-        "<p>Seems only fitting, given this game was made for a charity stream!</p>" +
+        "<h2>You can donate to various projects and organizations below to help support sea life:</h2>" +
+        "<span class='smallDescAllowClicks'>(seems only fitting, given the original game was made for a charity stream)</span>" +
+        "<p><strong>#TeamSeas</strong> is a project with the goal of taking 30 million pounds of trash out of the ocean by January 2022. You can <a href='https://teamseas.org/'>donate to #TeamSeas here</a>.</p>" +
+        "<p><strong>The Shark Trust</strong> is an organization that exists solely to advocate for research into, education about, and fair treatment of sharks. You can <a href='https://www.sharktrust.org/Listing/Category/donate' target='_blank'>donate to the Shark Trust here</a>.</p>" +
         "<p><span class='smallDescAllowClicks'>(But if you'd rather, you can also " +
         "<a href='https://www.paypal.com/cgi-bin/" +
         "webscr?cmd=_donations&business=G3WPPAYAWTJCJ&lc=GB&" +
