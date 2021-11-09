@@ -957,7 +957,7 @@ SharkGame.Resources = {
                 $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
             }
             $("#minute-time").html(sharktext.boldString("(" + res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer) + ")"));
-            if (SharkGame.flags.minuteHandTimer === 0) {
+            if (SharkGame.flags.minuteHandTimer < 100) {
                 $("#minute-hand-toggle").addClass("disabled");
                 $("#minute-time").addClass("noTime");
             } else {
