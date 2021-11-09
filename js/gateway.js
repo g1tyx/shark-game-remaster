@@ -220,19 +220,25 @@ SharkGame.Gateway = {
         tree.resetTreeCamera();
         tree.render();
 
+        const buttonDiv = $("<div>").attr("id", "aspectTreeNavButtons").addClass("gatewayButtonList");
+
         // add return to gateway button
-        SharkGame.Button.makeButton("backToGateway", "return to gateway", aspectTreeContent, () => {
+        SharkGame.Button.makeButton("backToGateway", "return to gateway", buttonDiv, () => {
             gateway.switchViews(gateway.showGateway);
             $("#tooltipbox").empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         });
 
         if (SharkGame.Aspects.cleanSlate.level) {
-            SharkGame.Button.makeButton("respecButton", "respec", aspectTreeContent, () => {
+            SharkGame.Button.makeButton("respecModeButton", "respec mode", buttonDiv, tree.toggleRefundMode);
+            SharkGame.Button.makeButton("respecButton", "respec all", buttonDiv, () => {
                 if (confirm("Are you sure you want to respec all refundable aspects?")) {
                     tree.respecTree();
                 }
             });
         }
+        tree.refundMode = false;
+
+        aspectTreeContent.append(buttonDiv);
 
         SharkGame.PaneHandler.swapCurrentPane("ASPECT TREE", aspectTreeContent, true, 500, true);
 

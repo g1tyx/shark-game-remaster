@@ -1398,6 +1398,11 @@ button {
             @include clear-box-shadow();
         }
     }
+
+    &.respecMode {
+        box-shadow: 0 0 6px lighten($color-discovery, 15%) inset;
+        background-color: $color-discovery-dark2;
+    }
 }
 
 .gateway button,

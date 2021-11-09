@@ -89,6 +89,9 @@ SharkGame.AspectTree = {
                 SharkGame.persistentFlags.patience = 0;
             }
         });
+
+        // turn off refund mode
+        tree.refundMode = false;
     },
 
     setup() {
@@ -683,13 +686,26 @@ SharkGame.AspectTree = {
                 tooltipBox.addClass("forAspectTreeUnpurchased").html(sharktext.boldString(button.getUnlocked()));
                 return;
             }
-            if (reqref.affordable && !reqref.max && reqref.prereqsMet) {
+
+            const refundValue = tree.getTheoreticalRefundValue(button);
+            if (tree.refundMode) {
+                if (refundValue && !button.noRefunds) {
+                    tooltipBox.addClass("forAspectTreeAffordable");
+                }
+            } else if (reqref.affordable && !reqref.max && reqref.prereqsMet) {
                 tooltipBox.addClass("forAspectTreeAffordable");
             }
 
             let tooltipText = "";
             if (button.level === 0) {
-                const costText = `<span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                let costText = ``;
+                if (tree.refundMode) {
+                    if (button.noRefunds) {
+                        costText = `NO REFUNDS`;
+                    }
+                } else {
+                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                }
 
                 const levelText =
                     (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
@@ -700,11 +716,19 @@ SharkGame.AspectTree = {
                     `<br/>${button.getEffect(1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    `<span class='bold'>COST: ` +
-                    `${costText}</span>`;
+                    `<span class='bold'>${costText}</span>`;
                 tooltipBox.addClass("forAspectTreeUnpurchased");
             } else if (button.level < button.max) {
-                const costText = `<span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                let costText = ``;
+                if (tree.refundMode) {
+                    if (button.noRefunds) {
+                        costText = `NO REFUNDS`;
+                    } else {
+                        costText = `REFUND VALUE: <span class="can-afford-aspect">${refundValue}</span>`;
+                    }
+                } else {
+                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                }
 
                 const levelText =
                     "<strong>level " +
@@ -722,9 +746,7 @@ SharkGame.AspectTree = {
                     "<span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
                     button.getEffect(button.level + 1) +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    "<span class='bold'>COST: " +
-                    costText +
-                    `</span>`;
+                    `<span class='bold'>${costText}</span>`;
             } else if (button.level === undefined) {
                 const levelText =
                     (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
@@ -734,6 +756,17 @@ SharkGame.AspectTree = {
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>`;
             } else {
+                let costText = ``;
+                if (tree.refundMode) {
+                    if (button.noRefunds) {
+                        costText = `NO REFUNDS`;
+                    } else {
+                        costText = `REFUND VALUE: <span class="can-afford-aspect">${refundValue}</span>`;
+                    }
+                } else {
+                    costText = `MAXIMUM LEVEL.`;
+                }
+
                 const levelText =
                     "<strong>level " +
                     button.level +
@@ -746,7 +779,7 @@ SharkGame.AspectTree = {
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
                     "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    "<b>MAXIMUM LEVEL.</b></span>";
+                    `<strong>${costText}</strong></span>`;
             }
             tooltipBox.html(tooltipText);
         }
@@ -773,5 +806,27 @@ SharkGame.AspectTree = {
             reqref[aspectName].revealed = reqref[aspectName].prereqsMet || SharkGame.Aspects.infinityVision.level || aspectData.level;
             reqref[aspectName].max = aspectData.level >= aspectData.max;
         });
+    },
+
+    toggleRefundMode() {
+        if (tree.refundMode) {
+            tree.refundMode = false;
+            $("#respecModeButton").removeClass("respecMode");
+        } else {
+            tree.refundMode = true;
+            $("#respecModeButton").addClass("respecMode");
+        }
+    },
+
+    getTheoreticalRefundValue(aspect) {
+        if (!aspect.level || aspect.noRefunds) return 0;
+
+        let value = 0;
+        let level = aspect.level - 1;
+        while (level >= 0) {
+            value += aspect.getCost(level);
+            level -= 1;
+        }
+        return value;
     },
 };

@@ -1172,6 +1172,11 @@ button.disabled.gateway div, button.disabled.newlyDiscovered div {
   -moz-box-shadow: none;
   box-shadow: none;
 }
+.gatewayButton.respecMode, .gateway button.respecMode,
+button.respecMode.gateway, button.respecMode.newlyDiscovered {
+  box-shadow: 0 0 6px #e5f6f1 inset;
+  background-color: #38a581;
+}
 
 #pane.gateway {
   -webkit-border-radius: 3em;
