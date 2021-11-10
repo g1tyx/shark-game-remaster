@@ -327,7 +327,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         // apply settings
         $.each(SharkGame.Settings, (settingId, settingData) => {
-            if (!SharkGame.Settings.current[settingId]) {
+            if (_.isUndefined(SharkGame.Settings.current[settingId])) {
                 SharkGame.Settings.current[settingId] = settingData.defaultSetting;
                 if (typeof settingData.onChange === "function") {
                     settingData.onChange();
