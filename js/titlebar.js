@@ -100,6 +100,18 @@ SharkGame.TitleBarHandler = {
         this.setUpTitleBar();
     },
 
+    updateTopBar() {
+        if (SharkGame.Settings.current["minimizedTopbar"]) {
+            document.querySelector("body").classList.add("top-bar");
+            $("#wrapper").removeClass("notMinimized");
+            $("#tabList").removeClass("notFixed");
+        } else {
+            document.querySelector("body").classList.remove("top-bar");
+            $("#wrapper").addClass("notMinimized");
+            $("#tabList").addClass("notFixed");
+        }
+    },
+
     wipeTitleBar() {
         $("#titlemenu").empty();
         $("#subtitlemenu").empty();

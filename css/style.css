@@ -384,9 +384,9 @@ pre {
 }
 #contentMenu #tabList {
   float: left;
+  position: fixed;
   margin-bottom: 0.4em;
   margin-left: 1em;
-  position: fixed;
   box-shadow: 0 0 10px 10px var(--color-dark);
   background-color: var(--color-dark);
   z-index: 1;
@@ -404,6 +404,9 @@ pre {
 }
 #contentMenu #tabList:empty {
   box-shadow: none;
+}
+#contentMenu #tabList.notFixed {
+  position: static;
 }
 #contentMenu #tabList .newTab a:link {
   color: #ace3d1;

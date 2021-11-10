@@ -335,6 +335,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
+        SharkGame.TitleBarHandler.updateTopBar();
+
         if (main.autosaveHandler === -1) {
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
