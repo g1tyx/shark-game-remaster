@@ -68,6 +68,7 @@ $.extend(SharkGame, {
         "The Adventure Continues",
         "To Be Continued",
         "what the crab doin",
+        "#TeamSeas",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
