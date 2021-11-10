@@ -236,9 +236,9 @@ SharkGame.Aspects = {
             return (
                 "Gain nothing now. Every time a world is completed, gain <strong>" +
                 level +
-                "</strong> " +
+                "</strong> additional " +
                 sharktext.getResourceName("essence", false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                " additional essence (this bonus is <strong>not</strong> increased by gumption)."
+                " (this bonus is <strong>not</strong> increased by gumption)."
             );
         },
         getUnlocked() {},
