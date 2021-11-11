@@ -110,6 +110,10 @@ SharkGame.AspectTree = {
                 }
             });
         }
+
+        tree.resetScoutingRestrictions();
+        tree.applyScoutingRestrictionsIfNeeded();
+
         tree.applyAspects();
 
         if (SharkGame.persistentFlags.patience) {
@@ -121,9 +125,6 @@ SharkGame.AspectTree = {
 
         res.setResource("aspectAffect", 1);
         res.setTotalResource("aspectAffect", 1);
-
-        tree.resetScoutingRestrictions();
-        tree.applyScoutingRestrictionsIfNeeded();
 
         tree.generateRequirementReference();
     },
