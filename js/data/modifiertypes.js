@@ -409,10 +409,10 @@ SharkGame.ModifierTypes = {
                     return sharktext.getResourceName(resource) + " efficiency × " + degree;
                 },
                 getEffect(genDegree, _outDegree, gen, out) {
-                    return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? 2 ** genDegree : 1;
+                    return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? 2 ** (genDegree - 1) : 1;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
-                    return input * (input > 0 && out !== "tar" ? 2 ** genDegree : 1);
+                    return input * (input > 0 && out !== "tar" ? 2 ** (genDegree - 1) : 1);
                 },
             },
             theTokenForGenerators: {
