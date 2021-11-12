@@ -101,6 +101,7 @@ SharkGame.Stats = {
             );
         }
         genStats.append(stats.createTotalAmountTable());
+        this.update();
     },
 
     update() {
@@ -116,7 +117,11 @@ SharkGame.Stats = {
         // update run times
         const currTime = _.now();
         $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
-        $("#runTime").html(sharktext.formatTime(currTime - SharkGame.timestampRunStart));
+        $("#runTime").html(
+            sharktext.formatTime(
+                currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
+            )
+        );
 
         if (document.getElementById("tooltipbox").attributes.current) {
             stats.networkTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
