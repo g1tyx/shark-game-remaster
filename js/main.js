@@ -3,7 +3,7 @@
 var SharkGame = SharkGame || {};
 
 window.onmousemove = (event) => {
-    SharkGame.lastMouseActivity = _.now();
+    SharkGame.lastActivity = _.now();
 
     const tooltip = document.getElementById("tooltipbox");
     if (!tooltip) return;
@@ -18,6 +18,10 @@ window.onmousemove = (event) => {
         tooltip.style.left = posX + 15 + "px";
     }
 };
+
+$(document).on("keyup", () => {
+    SharkGame.lastActivity = _.now();
+});
 
 // CORE VARIABLES AND HELPER FUNCTIONS
 $.extend(SharkGame, {
@@ -187,7 +191,7 @@ SharkGame.Main = {
         const now = _.now();
         SharkGame.before = now;
         SharkGame.timestampSimulated = now;
-        SharkGame.lastMouseActivity = now;
+        SharkGame.lastActivity = now;
         if (SharkGame.GAME_NAME === null) {
             SharkGame.GAME_NAME = SharkGame.choose(SharkGame.GAME_NAMES);
             document.title = SharkGame.ACTUAL_GAME_NAME + ": " + SharkGame.GAME_NAME;
@@ -480,7 +484,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (cad.pause) {
             SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
             SharkGame.before = _.now();
-            SharkGame.lastMouseActivity = _.now();
+            SharkGame.lastActivity = _.now();
             return;
         }
         if (cad.stop) {
@@ -499,7 +503,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
 
-            if (now - SharkGame.lastMouseActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1) {
+            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1) {
                 main.startIdle(now, elapsedTime);
             }
 
@@ -534,7 +538,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             SharkGame.EventHandler.handleEventTick("afterTick");
         } else {
-            SharkGame.lastMouseActivity = _.now();
+            SharkGame.lastActivity = _.now();
         }
 
         //see if resource table tooltip needs updating
@@ -554,7 +558,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             idleOverlay.show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.IDLE_FADE_TIME);
         }
         res.minuteHand.toggleOff();
-        SharkGame.savedMouseActivity = SharkGame.lastMouseActivity;
+        SharkGame.savedMouseActivity = SharkGame.lastActivity;
         main.continueIdle(now, elapsedTime);
     },
 
@@ -577,7 +581,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             });
         }
         idleOverlay.removeClass("pointy").addClass("click-passthrough");
-        SharkGame.lastMouseActivity = _.now();
+        SharkGame.lastActivity = _.now();
         res.idleMultiplier = 1;
     },
 
