@@ -503,7 +503,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
 
-            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1) {
+            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current["idleEnabled"]) {
                 main.startIdle(now, elapsedTime);
             }
 
