@@ -1044,7 +1044,7 @@ SharkGame.Resources = {
             if (cad.pause) {
                 $("#tooltipbox").html("Click to <strong>unpause</strong>.");
             } else {
-                $("#tooltipbox").html("Click to <strong>pause</strong>.");
+                $("#tooltipbox").html("Click to <strong>pause</strong>, stopping most timers and all resources.");
             }
         },
     },

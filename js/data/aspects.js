@@ -871,7 +871,7 @@ SharkGame.Aspects = {
             return 2;
         },
         getEffect(_level) {
-            return "Unlock a pause button that completely freezes everything.";
+            return "Unlock a pause button that freezes most timers and all resources.";
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
