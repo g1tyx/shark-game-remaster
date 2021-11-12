@@ -228,6 +228,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.COMMIT_SHA = data.sha;
         });
         log.clearMessages(false);
+        SharkGame.Settings.current["buyAmount"] = 1;
 
         SharkGame.persistentFlags.totalPausedTime = 0;
         SharkGame.persistentFlags.currentPausedTime = 0;
