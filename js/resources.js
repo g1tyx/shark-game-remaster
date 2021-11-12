@@ -938,6 +938,9 @@ SharkGame.Resources = {
         },
 
         changeRealMultiplier(someNumber) {
+            if (someNumber === 0) {
+                someNumber = 1;
+            }
             res.specialMultiplier /= res.minuteHand.realMultiplier;
             res.minuteHand.realMultiplier = someNumber;
             res.specialMultiplier *= res.minuteHand.realMultiplier;
