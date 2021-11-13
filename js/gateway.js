@@ -69,6 +69,7 @@ SharkGame.Gateway = {
         SharkGame.Gate.completedRequirements = {};
         // clear non-persistent flags just in case
         SharkGame.flags = {};
+
         // SAVE
         SharkGame.Save.saveGame();
 
@@ -704,13 +705,28 @@ SharkGame.Gateway = {
                         // put back to 4000
                         gateway.cleanUp();
                         gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
+                        if (gateway.shouldCheatsBeUnlocked()) {
+                            gateway.unlockCheats();
+                        }
                     }
                 );
         } else {
             overlay.show().css("opacity", 1.0);
             gateway.cleanUp();
             gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
+            if (gateway.shouldCheatsBeUnlocked()) {
+                gateway.unlockCheats();
+            }
         }
+    },
+
+    shouldCheatsBeUnlocked() {
+        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.debug;
+    },
+
+    unlockCheats() {
+        SharkGame.PaneHandler.showUnlockedCheatsMessage();
+        cad.debug();
     },
 };
 
