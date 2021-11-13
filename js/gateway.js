@@ -582,7 +582,11 @@ SharkGame.Gateway = {
         if (!SharkGame.persistentFlags.totalPausedTime) {
             SharkGame.persistentFlags.totalPausedTime = 0;
         }
-        const time = SharkGame.timestampRunEnd - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime;
+        const time =
+            SharkGame.timestampRunEnd -
+            SharkGame.timestampRunStart -
+            SharkGame.persistentFlags.totalPausedTime -
+            SharkGame.persistentFlags.currentPausedTime;
         return formatLess ? time : sharktext.formatTime(time);
     },
 
