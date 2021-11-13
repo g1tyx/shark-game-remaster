@@ -557,7 +557,7 @@ SharkGame.Stats = {
             formatCounter++;
         });
 
-        if (drawnResourceMap.size) {
+        if (drawnResourceMap.size && !_.isUndefined(incomesTable[0].children[0])) {
             const row = $("<tr>");
             let columns = incomesTable[0].children[0].children.length;
 
