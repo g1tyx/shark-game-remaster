@@ -74,11 +74,6 @@ SharkGame.Stats = {
         } else {
             SharkGame.Button.makeButton("modeButton", "Swap to Simple mode", switchButtonDiv, stats.toggleMode).addClass("min-block");
         }
-        /*         if (SharkGame.Settings.current.incomeTotalMode === "absolute") {
-            SharkGame.Button.makeButton("percentButton", "Show Income as Percentage", switchButtonDiv, stats.togglePercent).addClass("min-block");
-        } else {
-            SharkGame.Button.makeButton("percentButton", "Show Income as Number", switchButtonDiv, stats.togglePercent).addClass("min-block");
-        } */
         incomeDataSel.append(switchButtonDiv);
 
         incomeDataSel.append(table);
@@ -229,7 +224,6 @@ SharkGame.Stats = {
                             "<span style='color: " +
                             res.TOTAL_INCOME_COLOR +
                             "'>" +
-                            // (SharkGame.Settings.current.incomeTotalMode === "absolute" ? (changeChar + sharktext.beautifyIncome(realIncome)).bold() : ((Math.min(realIncome/SharkGame.PlayerIncomeTable.get(incomeKey) * 100, 100)).toFixed(0) + "%")).bold() +
                             (changeChar + sharktext.beautifyIncome(realIncome)).bold() +
                             "</span>";
 
