@@ -219,6 +219,8 @@ SharkGame.Lab = {
     },
 
     onLabButton() {
+        if ($(this).hasClass("disabled")) return;
+
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
         const upgradeId = $(this).attr("id");
