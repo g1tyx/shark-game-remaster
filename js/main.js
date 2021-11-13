@@ -231,8 +231,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Settings.current["buyAmount"] = 1;
 
         // here to stop timer from saying NaN
-        sharkpersflags.totalPausedTime = 0;
-        sharkpersflags.currentPausedTime = 0;
+        SharkGame.persistentFlags.totalPausedTime = 0;
+        SharkGame.persistentFlags.currentPausedTime = 0;
 
         // wipe all resource tables
         SharkGame.Resources.init();
