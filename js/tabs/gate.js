@@ -33,48 +33,47 @@ SharkGame.Gate = {
         SharkGame.TabHandler.registerTab(this);
         SharkGame.Gate.opened = false;
         // redundant reset of gate requirements
-        SharkGame.Gate.requirements = {};
-        SharkGame.Gate.completedRequirements = {};
+        SharkGame.Gate.resetSlots();
     },
 
     setup() {
         /* doesnt need to do anything */
     },
 
+    resetSlots() {
+        SharkGame.Gate.requirements = {};
+        SharkGame.Gate.completedRequirements = {};
+    },
+
     createSlots(gateRequirements, gateCostMultiplier) {
         const gate = SharkGame.Gate;
-        gate.requirements = {};
-        gate.completedRequirements = {};
+        const req = gate.requirements;
+        const creq = gate.completedRequirements;
 
         if (gateRequirements.slots) {
-            gate.requirements.slots = {};
-            gate.completedRequirements.slots = {};
-            // create costs and costsMet
+            req.slots = {};
+            sharkmisc.tryAddProperty(creq, `slots`, {});
             $.each(gateRequirements.slots, (resourceId, requiredAmount) => {
-                gate.requirements.slots[resourceId] = Math.floor(requiredAmount * gateCostMultiplier);
-                gate.completedRequirements.slots[resourceId] = false;
+                req.slots[resourceId] = Math.floor(requiredAmount * gateCostMultiplier);
+                sharkmisc.tryAddProperty(creq.slots, resourceId, false);
             });
         }
 
         if (gateRequirements.upgrades) {
-            gate.requirements.upgrades = [];
-            gate.completedRequirements.upgrades = {};
-            // FIXME: https://discord.com/channels/747861699486285974/795148648837021716/845279763077136424
-            // "the way that i set up the system, it needs a key value pair later down the line, but it'll only use the key.
-            // so i set the key to the name of the upgrade and then just make a placeholder value so that it sticks"
+            req.upgrades = [];
+            sharkmisc.tryAddProperty(creq, `upgrades`, {});
             $.each(gateRequirements.upgrades, (_index, upgradeId) => {
-                gate.requirements.upgrades.push(upgradeId);
-                gate.completedRequirements.upgrades[upgradeId] = false;
+                req.upgrades.push(upgradeId);
+                sharkmisc.tryAddProperty(creq.upgrades, upgradeId, false);
             });
         }
 
         if (gateRequirements.resources) {
-            gate.requirements.resources = {};
-            gate.completedRequirements.resources = {};
-
+            req.resources = {};
+            sharkmisc.tryAddProperty(creq, `resources`, {});
             $.each(gateRequirements.resources, (resourceId, requiredAmount) => {
-                gate.requirements.resources[resourceId] = requiredAmount;
-                gate.completedRequirements.resources[resourceId] = false;
+                req.resources[resourceId] = requiredAmount;
+                sharkmisc.tryAddProperty(creq.resources, resourceId, false);
             });
         }
     },
