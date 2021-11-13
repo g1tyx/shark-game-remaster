@@ -971,6 +971,7 @@ SharkGame.Resources = {
 
         applyHourHand() {
             SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
+            this.updateDisplay();
         },
 
         formatMinuteTime(milliseconds) {
