@@ -325,9 +325,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // rename a game option if this is a first time run
         SharkGame.TitleBarHandler.correctTitleBar();
 
-        // set up tab after load
-        SharkGame.TabHandler.setUpTab();
-
         // apply tick settings
         main.applyFramerate();
 
@@ -365,7 +362,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             if (SharkGame.flags.needOfflineProgress) {
                 SharkGame.persistentFlags.currentPausedTime = SharkGame.flags.needOfflineProgress * 1000;
             }
-            return;
+            SharkGame.flags.needOfflineProgress = 0;
         }
 
         if (SharkGame.flags.needOfflineProgress) {
@@ -419,6 +416,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
             SharkGame.flags.needOfflineProgress = 0;
         }
+
+        // set up tab after load
+        SharkGame.TabHandler.setUpTab();
     },
 
     purgeGame() {
