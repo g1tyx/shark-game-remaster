@@ -105,7 +105,7 @@ SharkGame.Events = {
         handlingTime: "beforeTick",
         priority: 0,
         getAction() {
-            if (sharkpersflags.revealedBuyButtons) {
+            if (SharkGame.persistentFlags.revealedBuyButtons) {
                 return "remove";
             }
             if (res.getTotalResource("crab") > 12 || res.getTotalResource("crystal") > 12) {
@@ -114,7 +114,7 @@ SharkGame.Events = {
             return "pass";
         },
         trigger() {
-            sharkpersflags.revealedBuyButtons = true;
+            SharkGame.persistentFlags.revealedBuyButtons = true;
             SharkGame.TabHandler.setUpTab();
         },
     },
@@ -141,10 +141,10 @@ SharkGame.Events = {
         handlingTime: "afterTick",
         priority: 0,
         getAction() {
-            if (sharkpersflags.individuallyBoughtSharkonium === -1) {
+            if (SharkGame.persistentFlags.individuallyBoughtSharkonium === -1) {
                 return "remove";
             }
-            if (sharkpersflags.individuallyBoughtSharkonium >= 50) {
+            if (SharkGame.persistentFlags.individuallyBoughtSharkonium >= 50) {
                 return "trigger";
             }
             return "pass";
@@ -154,7 +154,7 @@ SharkGame.Events = {
                 $("#buy--1").addClass("reminderShadow");
             } else {
                 $("#buy--1").removeClass("reminderShadow");
-                sharkpersflags.individuallyBoughtSharkonium = 49;
+                SharkGame.persistentFlags.individuallyBoughtSharkonium = 49;
             }
             return true;
         },

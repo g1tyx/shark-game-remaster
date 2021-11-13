@@ -424,7 +424,7 @@ SharkGame.Home = {
         content.append(buttonTabDiv);
         home.createButtonTabs();
         // buy amount buttons
-        if (sharkpersflags.revealedBuyButtons) {
+        if (SharkGame.persistentFlags.revealedBuyButtons) {
             main.createBuyButtons("buy", content, "append");
         }
         // button list
@@ -454,7 +454,7 @@ SharkGame.Home = {
         buttonTabDiv.empty();
         let tabAmount = 0;
 
-        if (!sharkpersflags.revealedBuyButtons) return;
+        if (!SharkGame.persistentFlags.revealedBuyButtons) return;
 
         // add a header for each discovered category
         // make it a link if it's not the current tab
@@ -918,15 +918,15 @@ SharkGame.Home = {
                 // did they only buy one for some reason?
                 if (amountToBuy.equals(1)) {
                     // keep track of how many times they've done that
-                    if (!sharkpersflags.individuallyBoughtSharkonium) {
-                        sharkpersflags.individuallyBoughtSharkonium = 0;
+                    if (!SharkGame.persistentFlags.individuallyBoughtSharkonium) {
+                        SharkGame.persistentFlags.individuallyBoughtSharkonium = 0;
                     }
-                    if (sharkpersflags.individuallyBoughtSharkonium !== -1) {
-                        sharkpersflags.individuallyBoughtSharkonium += 1;
+                    if (SharkGame.persistentFlags.individuallyBoughtSharkonium !== -1) {
+                        SharkGame.persistentFlags.individuallyBoughtSharkonium += 1;
                     }
                 } else {
                     // otherwise they know what they're doing, stop keeping track
-                    sharkpersflags.individuallyBoughtSharkonium = -1;
+                    SharkGame.persistentFlags.individuallyBoughtSharkonium = -1;
                 }
                 // see remindAboutBuyMax event
             }

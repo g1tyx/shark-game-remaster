@@ -550,10 +550,10 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "levelUp") {
-                if (_.isUndefined(sharkpersflags.destinyRolls)) {
-                    sharkpersflags.destinyRolls = this.level;
+                if (_.isUndefined(SharkGame.persistentFlags.destinyRolls)) {
+                    SharkGame.persistentFlags.destinyRolls = this.level;
                 } else {
-                    sharkpersflags.destinyRolls += 1;
+                    SharkGame.persistentFlags.destinyRolls += 1;
                 }
             }
         },

@@ -82,11 +82,11 @@ SharkGame.AspectTree = {
             aspectData.level = 0;
 
             // redundant removal of persistent flags
-            if (sharkpersflags.destinyRolls) {
-                sharkpersflags.destinyRolls = 0;
+            if (SharkGame.persistentFlags.destinyRolls) {
+                SharkGame.persistentFlags.destinyRolls = 0;
             }
-            if (sharkpersflags.patience) {
-                sharkpersflags.patience = 0;
+            if (SharkGame.persistentFlags.patience) {
+                SharkGame.persistentFlags.patience = 0;
             }
         });
 
@@ -116,11 +116,11 @@ SharkGame.AspectTree = {
 
         tree.applyAspects();
 
-        if (sharkpersflags.patience) {
+        if (SharkGame.persistentFlags.patience) {
             if (SharkGame.Aspects.patience.level) {
                 res.changeResource("essence", 2 * (SharkGame.Aspects.patience.level + 1) ** 2);
             }
-            sharkpersflags.patience = undefined;
+            SharkGame.persistentFlags.patience = undefined;
         }
 
         res.setResource("aspectAffect", 1);
@@ -626,27 +626,27 @@ SharkGame.AspectTree = {
 
     applyScoutingRestrictionsIfNeeded() {
         if (gateway.currentlyOnScoutingMission()) {
-            if (!sharkpersflags.aspectStorage) {
-                sharkpersflags.aspectStorage = {};
+            if (!SharkGame.persistentFlags.aspectStorage) {
+                SharkGame.persistentFlags.aspectStorage = {};
             }
             $.each(SharkGame.Aspects, (aspectName, aspectData) => {
                 if (aspectData.core) {
                     return true;
                 }
-                sharkpersflags.aspectStorage[aspectName] = aspectData.level;
+                SharkGame.persistentFlags.aspectStorage[aspectName] = aspectData.level;
                 SharkGame.Aspects[aspectName].level = 0;
             });
         }
     },
 
     resetScoutingRestrictions() {
-        if (!sharkpersflags.aspectStorage) {
-            sharkpersflags.aspectStorage = {};
+        if (!SharkGame.persistentFlags.aspectStorage) {
+            SharkGame.persistentFlags.aspectStorage = {};
         }
         $.each(SharkGame.Aspects, (aspectName) => {
-            if (!_.isUndefined(sharkpersflags.aspectStorage[aspectName])) {
-                SharkGame.Aspects[aspectName].level = sharkpersflags.aspectStorage[aspectName];
-                sharkpersflags.aspectStorage[aspectName] = undefined;
+            if (!_.isUndefined(SharkGame.persistentFlags.aspectStorage[aspectName])) {
+                SharkGame.Aspects[aspectName].level = SharkGame.persistentFlags.aspectStorage[aspectName];
+                SharkGame.persistentFlags.aspectStorage[aspectName] = undefined;
             }
         });
     },

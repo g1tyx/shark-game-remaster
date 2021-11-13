@@ -24,7 +24,7 @@ SharkGame.Gateway = {
             main.endGame(true);
         } else {
             gateway.updateScoutingStatus();
-            sharkpersflags.wasOnScoutingMission = undefined;
+            SharkGame.persistentFlags.wasOnScoutingMission = undefined;
         }
     },
 
@@ -32,7 +32,7 @@ SharkGame.Gateway = {
         SharkGame.PaneHandler.wipeStack();
 
         //ensure buy buttons will be revealed
-        sharkpersflags.revealedBuyButtons = true;
+        SharkGame.persistentFlags.revealedBuyButtons = true;
 
         //be sure minute hand is off
         res.minuteHand.toggleOff();
@@ -46,7 +46,7 @@ SharkGame.Gateway = {
 
         if (!loadingFromSave && SharkGame.wonGame) {
             gateway.markWorldCompleted(world.worldType);
-            sharkpersflags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
+            SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
             gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
         }
 
@@ -282,8 +282,8 @@ SharkGame.Gateway = {
     },
 
     formatDestinyGamble() {
-        if (!_.isUndefined(sharkpersflags.destinyRolls)) {
-            switch (sharkpersflags.destinyRolls) {
+        if (!_.isUndefined(SharkGame.persistentFlags.destinyRolls)) {
+            switch (SharkGame.persistentFlags.destinyRolls) {
                 case 0:
                     $("#destinyGamble").html("No rerolls remain. Beat a world to recharge.").addClass("disabled");
                     break;
@@ -291,14 +291,14 @@ SharkGame.Gateway = {
                     $("#destinyGamble").html("Reroll Worlds (1 reroll remains)");
                     break;
                 default:
-                    $("#destinyGamble").html("Reroll Worlds (" + sharkpersflags.destinyRolls + " rerolls remain)");
+                    $("#destinyGamble").html("Reroll Worlds (" + SharkGame.persistentFlags.destinyRolls + " rerolls remain)");
             }
         }
     },
 
     rerollWorlds() {
-        if (sharkpersflags.destinyRolls && sharkpersflags.destinyRolls > 0) {
-            sharkpersflags.destinyRolls -= 1;
+        if (SharkGame.persistentFlags.destinyRolls && SharkGame.persistentFlags.destinyRolls > 0) {
+            SharkGame.persistentFlags.destinyRolls -= 1;
             gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
             gateway.showPlanets(true);
             SharkGame.Save.saveGame();
@@ -579,39 +579,43 @@ SharkGame.Gateway = {
     },
 
     getTimeInLastWorld(formatLess) {
-        if (!sharkpersflags.totalPausedTime) {
-            sharkpersflags.totalPausedTime = 0;
+        if (!SharkGame.persistentFlags.totalPausedTime) {
+            SharkGame.persistentFlags.totalPausedTime = 0;
         }
-        const time = SharkGame.timestampRunEnd - SharkGame.timestampRunStart - sharkpersflags.totalPausedTime - sharkpersflags.currentPausedTime;
+        const time =
+            SharkGame.timestampRunEnd -
+            SharkGame.timestampRunStart -
+            SharkGame.persistentFlags.totalPausedTime -
+            SharkGame.persistentFlags.currentPausedTime;
         return formatLess ? time : sharktext.formatTime(time);
     },
 
     updateWasScoutingStatus() {
-        if (!_.isUndefined(sharkpersflags.scouting)) {
-            sharkpersflags.wasScouting = sharkpersflags.scouting;
-            sharkpersflags.scouting = undefined;
-        } else if (_.isUndefined(sharkpersflags.wasScouting)) {
+        if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
+            SharkGame.persistentFlags.wasScouting = SharkGame.persistentFlags.scouting;
+            SharkGame.persistentFlags.scouting = undefined;
+        } else if (_.isUndefined(SharkGame.persistentFlags.wasScouting)) {
             // failsafe, assume we were indeed scouting
-            sharkpersflags.wasScouting = true;
+            SharkGame.persistentFlags.wasScouting = true;
         }
     },
 
     updateScoutingStatus() {
-        sharkpersflags.scouting = !gateway.completedWorlds.includes(world.worldType);
+        SharkGame.persistentFlags.scouting = !gateway.completedWorlds.includes(world.worldType);
     },
 
     wasOnScoutingMission() {
-        if (!_.isUndefined(sharkpersflags.scouting)) {
+        if (!_.isUndefined(SharkGame.persistentFlags.scouting)) {
             gateway.updateWasScoutingStatus();
         }
-        return sharkpersflags.wasScouting;
+        return SharkGame.persistentFlags.wasScouting;
     },
 
     currentlyOnScoutingMission() {
-        if (!SharkGame.gameOver && _.isUndefined(sharkpersflags.scouting)) {
+        if (!SharkGame.gameOver && _.isUndefined(SharkGame.persistentFlags.scouting)) {
             gateway.updateScoutingStatus();
         }
-        return sharkpersflags.scouting;
+        return SharkGame.persistentFlags.scouting;
     },
 
     getMinutesBelowPar() {
