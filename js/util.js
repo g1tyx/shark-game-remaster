@@ -470,3 +470,12 @@ SharkGame.ColorUtil = {
         return sharkcolor.convertColorString(color);
     },
 };
+
+SharkGame.MiscUtil = {
+    tryAddProperty(object, property, value) {
+        if (_.isUndefined(object[property])) {
+            object[property] = value;
+        }
+        return object;
+    },
+};
