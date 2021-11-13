@@ -638,6 +638,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     createBuyButtons(customLabel, addToWhere, appendOrPrepend, absoluteOnly) {
         if (!addToWhere) {
             log.addError("Attempted to create buy buttons without specifying what to do with them.");
+            return;
         }
 
         // add buy buttons
