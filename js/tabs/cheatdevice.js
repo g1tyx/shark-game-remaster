@@ -32,12 +32,21 @@ SharkGame.CheatsAndDebug = {
     cheatButtons: {
         giveEverything: {
             get name() {
-                return "Give " + sharkmath.getBuyAmount(true) + " of Everything";
+                return "Give " + sharktext.beautify(sharkmath.getBuyAmount(true)) + " of Everything";
             },
             type: "numeric",
             updates: true,
             click() {
-                cad.giveEverything(sharkmath.getBuyAmount(true));
+                log.addMessage(cad.giveEverything(sharkmath.getBuyAmount(true)));
+            },
+        },
+        removeEverything: {
+            get name() {
+                return "Remove " + sharktext.beautify(sharkmath.getBuyAmount(true)) + " of Everything";
+            },
+            updates: true,
+            click() {
+                log.addMessage(cad.giveEverything(-sharkmath.getBuyAmount(true)));
             },
         },
         pause: {
@@ -268,6 +277,7 @@ SharkGame.CheatsAndDebug = {
         SharkGame.ResourceMap.forEach((_resource, resourceId) => {
             res.changeResource(resourceId, amount);
         });
+        return (amount > 0 ? "Gave " + sharktext.beautify(amount) : "Removed " + sharktext.beautify(-amount)) + " stuff.";
     },
 
     debug() {
