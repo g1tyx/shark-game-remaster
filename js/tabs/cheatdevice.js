@@ -269,12 +269,12 @@ SharkGame.CheatsAndDebug = {
     },
 
     debug() {
-        SharkGame.persistentFlags.debug = true;
+        sharkpersflags.debug = true;
         //
     },
 
     hideDebug() {
-        SharkGame.persistentFlags.debug = false;
+        sharkpersflags.debug = false;
         SharkGame.Tabs.cheats.discovered = false;
         SharkGame.Tabs.cheats.seen = false;
         //SharkGame.HomeActions.getActionTable().debugbutton.unauthorized = true;

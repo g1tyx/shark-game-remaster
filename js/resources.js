@@ -812,7 +812,7 @@ SharkGame.Resources = {
         ],
 
         allowMinuteHand() {
-            SharkGame.persistentFlags.everIdled = true;
+            sharkpersflags.everIdled = true;
             if ($("#minute-hand-toggle").length === 0) {
                 this.setup();
             }
@@ -820,10 +820,10 @@ SharkGame.Resources = {
 
         init() {
             this.changeRealMultiplier(1);
-            SharkGame.persistentFlags.everIdled = false;
+            sharkpersflags.everIdled = false;
             sharkflags.minuteHandTimer = 0;
-            SharkGame.persistentFlags.selectedMultiplier = 2;
-            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
+            sharkpersflags.selectedMultiplier = 2;
+            this.changeSelectedMultiplier(null, sharkpersflags.selectedMultiplier);
             this.active = false;
             $("#minute-hand-div").empty();
         },
@@ -833,11 +833,11 @@ SharkGame.Resources = {
                 sharkflags.minuteHandTimer = 0;
             }
 
-            if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
+            if (!SharkGame.Settings.current.idleEnabled || !sharkpersflags.everIdled) {
                 $("#minute-hand-div").empty();
             } else if ($("#minute-hand-toggle").length === 0) {
                 this.buildUI();
-                this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
+                this.changeSelectedMultiplier(null, sharkpersflags.selectedMultiplier);
                 this.updateMinuteHandLabel();
             }
         },
@@ -862,7 +862,7 @@ SharkGame.Resources = {
                 .attr("type", "range")
                 .attr("min", 1)
                 .attr("max", 9)
-                .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
+                .attr("value", Math.log2(sharkpersflags.selectedMultiplier))
                 .on("input", res.minuteHand.changeSelectedMultiplier);
             $("#minute-row-two").append(slider);
             $("#minute-row-two").append($("<span>").html(") <strong>SPEED</strong>"));
@@ -911,7 +911,7 @@ SharkGame.Resources = {
         toggleMinuteHand() {
             if (!res.minuteHand.active && sharkflags.minuteHandTimer > 0) {
                 res.minuteHand.active = true;
-                res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
+                res.minuteHand.changeRealMultiplier(sharkpersflags.selectedMultiplier);
                 $("#minute-hand-toggle").addClass("minuteOn");
                 log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
             } else if (res.minuteHand.active) {
@@ -924,13 +924,13 @@ SharkGame.Resources = {
         },
 
         changeSelectedMultiplier(_event, arbitrary) {
-            let multiplier = SharkGame.persistentFlags.selectedMultiplier;
+            let multiplier = sharkpersflags.selectedMultiplier;
             if (arbitrary) {
                 multiplier = arbitrary;
             } else {
                 multiplier = 2 ** document.getElementById("minute-slider").value;
             }
-            SharkGame.persistentFlags.selectedMultiplier = multiplier;
+            sharkpersflags.selectedMultiplier = multiplier;
             if (res.minuteHand.active) {
                 res.minuteHand.changeRealMultiplier(multiplier);
             }
@@ -955,9 +955,9 @@ SharkGame.Resources = {
 
         updateMinuteHandLabel() {
             if (!res.minuteHand.active) {
-                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
+                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + sharkpersflags.selectedMultiplier + "×</span>");
             } else {
-                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
+                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + sharkpersflags.selectedMultiplier + "×</span>");
             }
             $("#minute-time").html(sharktext.boldString("(" + res.minuteHand.formatMinuteTime(sharkflags.minuteHandTimer) + ")"));
             if (sharkflags.minuteHandTimer < 100) {
@@ -1036,11 +1036,11 @@ SharkGame.Resources = {
             if (cad.pause) {
                 $("#pause-toggle").removeClass("on");
                 cad.pause = false;
-                SharkGame.persistentFlags.pause = false;
+                sharkpersflags.pause = false;
             } else {
                 $("#pause-toggle").addClass("on");
                 cad.pause = true;
-                SharkGame.persistentFlags.pause = true;
+                sharkpersflags.pause = true;
             }
         },
 

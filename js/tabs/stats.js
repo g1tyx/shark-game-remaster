@@ -113,9 +113,7 @@ SharkGame.Stats = {
         const currTime = _.now();
         $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
         $("#runTime").html(
-            sharktext.formatTime(
-                currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
-            )
+            sharktext.formatTime(currTime - SharkGame.timestampRunStart - sharkpersflags.totalPausedTime - sharkpersflags.currentPausedTime)
         );
 
         if (document.getElementById("tooltipbox").attributes.current) {
