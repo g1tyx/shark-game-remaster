@@ -230,6 +230,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         log.clearMessages(false);
         SharkGame.Settings.current["buyAmount"] = 1;
 
+        // here to stop timer from saying NaN
         SharkGame.persistentFlags.totalPausedTime = 0;
         SharkGame.persistentFlags.currentPausedTime = 0;
 
