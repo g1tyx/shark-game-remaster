@@ -95,9 +95,9 @@ SharkGame.Events = {
             return "remove";
         },
         trigger() {
-            if (!SharkGame.flags.frigidAddedUrchin) {
+            if (!sharkflags.frigidAddedUrchin) {
                 SharkGame.Resources.changeResource("urchin", 1);
-                SharkGame.flags.frigidAddedUrchin = true;
+                sharkflags.frigidAddedUrchin = true;
             }
         },
     },

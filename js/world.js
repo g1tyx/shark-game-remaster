@@ -102,7 +102,7 @@ SharkGame.World = {
     },
 
     isScoutingMission() {
-        if (SharkGame.flags.scouting) {
+        if (sharkflags.scouting) {
             return true;
         }
 
@@ -110,8 +110,8 @@ SharkGame.World = {
         // (but if it IS marked as a scouting mission, we don't care if that's accurate, just blindly accept)
         if (!gateway.completedWorlds.includes(world.worldType)) {
             // this should be a scouting mission
-            SharkGame.flags.scouting = true;
+            sharkflags.scouting = true;
         }
-        return SharkGame.flags.scouting;
+        return sharkflags.scouting;
     },
 };

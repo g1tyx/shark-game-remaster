@@ -294,7 +294,7 @@ SharkGame.Aspects = {
             }
         },
         apply(when) {
-            if (when === "init" && res.getResource("crab") === 0 && !SharkGame.flags.pathOfTimeApplied) {
+            if (when === "init" && res.getResource("crab") === 0 && !sharkflags.pathOfTimeApplied) {
                 const base = 25 * 2 ** this.level;
                 switch (world.worldType) {
                     case "shrouded":
@@ -303,7 +303,7 @@ SharkGame.Aspects = {
                     default:
                         res.changeResource("crab", base);
                 }
-                SharkGame.flags.pathOfTimeApplied = true;
+                sharkflags.pathOfTimeApplied = true;
             }
         },
     },
