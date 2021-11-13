@@ -230,9 +230,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         log.clearMessages(false);
         SharkGame.Settings.current["buyAmount"] = 1;
 
-        SharkGame.persistentFlags.totalPausedTime = 0;
-        SharkGame.persistentFlags.currentPausedTime = 0;
-
         // wipe all resource tables
         SharkGame.Resources.init();
 
