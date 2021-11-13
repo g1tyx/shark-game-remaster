@@ -1664,8 +1664,30 @@ button.planetButton {
     width: 50%;
 }
 
-#cheatButtons {
+#debugButtons {
     float: left;
+    width: 50%;
+
+    .up-down {
+        display: flex;
+        width: 12em;
+        margin: 1% auto;
+        overflow: hidden;
+        font-size: 90%;
+
+        .up-downText {
+            margin: auto;
+        }
+
+        .up-downButtonContainer {
+            float: right;
+            max-width: 1.5em;
+        }
+    }
+}
+
+#funButtons {
+    float: right;
     width: 50%;
 
     .up-down {

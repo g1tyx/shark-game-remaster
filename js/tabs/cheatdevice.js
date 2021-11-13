@@ -122,6 +122,7 @@ SharkGame.CheatsAndDebug = {
         },
         rollDice: {
             name: "Roll the dice for wacky effects",
+            location: "right",
             click() {
                 log.addMessage(cad.rollTheDicePlease());
             },
@@ -138,14 +139,15 @@ SharkGame.CheatsAndDebug = {
 
     switchTo() {
         $("#content").append($("<table>").attr("id", "cheatsDisplay"));
-        $("#content").append($("<table>").attr("id", "cheatButtons"));
-        $("#content").append($("<table>").attr("id", "totalEditTable"));
+        $("#content").append($("<table>").attr("id", "debugButtons"));
+        $("#content").append($("<table>").attr("id", "funButtons"));
         $.each(cad.defaultParameters, (parameter) => {
             $("#cheatsDisplay").append($("<tr>").attr("id", parameter + "Row"));
         });
         let container;
         let buttonContainer; // prettier gets angry at me if i try to declare these case-specific variables inside the case
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
+            const toAppendTo = buttonData.location === "right" ? $("#funButtons") : $("#debugButtons");
             switch (buttonData.type) {
                 case "up-down":
                     if (!buttonData.clickUp || !buttonData.clickDown) {
@@ -162,14 +164,14 @@ SharkGame.CheatsAndDebug = {
                         $("<button id='" + buttonName + "Down' class='min close-button'>⯆</button>").on("click", buttonData.clickDown)
                     );
                     container.append(buttonContainer);
-                    $("#cheatButtons").append(container);
+                    toAppendTo.append(container);
                     break;
                 case "numeric":
-                    main.createBuyButtons("cheat", $("#cheatButtons"), "append", true);
-                    SharkGame.Button.makeButton(buttonName, buttonData.name, $("#cheatButtons"), buttonData.click);
+                    main.createBuyButtons("cheat", toAppendTo, "append", true);
+                    SharkGame.Button.makeButton(buttonName, buttonData.name, toAppendTo, buttonData.click);
                     break;
                 default:
-                    SharkGame.Button.makeButton(buttonName, buttonData.name, $("#cheatButtons"), buttonData.click);
+                    SharkGame.Button.makeButton(buttonName, buttonData.name, toAppendTo, buttonData.click);
             }
         });
 
