@@ -360,14 +360,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.pause.togglePause();
             }
             main.showSidebarIfNeeded();
-            if (sharkflags.needOfflineProgress) {
-                SharkGame.persistentFlags.currentPausedTime = sharkflags.needOfflineProgress * 1000;
+            if (SharkGame.flags.needOfflineProgress) {
+                SharkGame.persistentFlags.currentPausedTime = SharkGame.flags.needOfflineProgress * 1000;
             }
-            sharkflags.needOfflineProgress = 0;
+            SharkGame.flags.needOfflineProgress = 0;
         }
 
-        if (sharkflags.needOfflineProgress) {
-            const secondsElapsed = sharkflags.needOfflineProgress;
+        if (SharkGame.flags.needOfflineProgress) {
+            const secondsElapsed = SharkGame.flags.needOfflineProgress;
 
             if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
@@ -415,7 +415,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 }
                 log.addMessage(notification);
             }
-            sharkflags.needOfflineProgress = 0;
+            SharkGame.flags.needOfflineProgress = 0;
         }
 
         // set up tab after load

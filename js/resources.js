@@ -505,8 +505,8 @@ SharkGame.Resources = {
         chromeForcesWorkarounds: "",
 
         init() {
-            if (!sharkflags.tokens) {
-                sharkflags.tokens = {};
+            if (!SharkGame.flags.tokens) {
+                SharkGame.flags.tokens = {};
             }
 
             if (this.list.length > SharkGame.Aspects.tokenOfIndustry.level) {
@@ -519,8 +519,8 @@ SharkGame.Resources = {
             }
 
             _.each(this.list, (token) => {
-                if (!sharkflags.tokens[token.attr("id")]) {
-                    sharkflags.tokens[token.attr("id")] = "RETURNME";
+                if (!SharkGame.flags.tokens[token.attr("id")]) {
+                    SharkGame.flags.tokens[token.attr("id")] = "RETURNME";
                 }
                 $("#token-div").append(
                     token
@@ -535,11 +535,11 @@ SharkGame.Resources = {
                         .on("mouseleave", res.tableTextLeave)
                 );
                 if (
-                    sharkflags.tokens[token.attr("id")] !== "NA" &&
-                    sharkflags.tokens[token.attr("id")] !== "RETURNME" &&
-                    world.doesResourceExist(sharkflags.tokens[token.attr("id")].split("-")[1])
+                    SharkGame.flags.tokens[token.attr("id")] !== "NA" &&
+                    SharkGame.flags.tokens[token.attr("id")] !== "RETURNME" &&
+                    world.doesResourceExist(SharkGame.flags.tokens[token.attr("id")].split("-")[1])
                 ) {
-                    res.tokens.markLocation(token.attr("id"), sharkflags.tokens[token.attr("id")]);
+                    res.tokens.markLocation(token.attr("id"), SharkGame.flags.tokens[token.attr("id")]);
                     res.tokens.unmarkLocation("NA", token.attr("id"));
                 } else {
                     res.tokens.tryReturnToken(null, true, token);
@@ -556,15 +556,15 @@ SharkGame.Resources = {
                 .attr("draggable", true)
                 .addClass("token");
             this.list.push(token);
-            if (!sharkflags.tokens[identifier]) {
-                sharkflags.tokens[identifier] = initialLocation;
+            if (!SharkGame.flags.tokens[identifier]) {
+                SharkGame.flags.tokens[identifier] = initialLocation;
             }
             return token;
         },
 
         tooltip(_event) {
             if (SharkGame.Settings.current.showTooltips) {
-                if (sharkflags.tokens[this.id] === "NA") {
+                if (SharkGame.flags.tokens[this.id] === "NA") {
                     $("#tooltipbox")
                         .html(
                             sharktext.boldString(
@@ -584,13 +584,13 @@ SharkGame.Resources = {
                 log.addError("Tried to find this token: " + token.attr("id"));
                 return;
             }
-            if (sharkflags.tokens[token.attr("id")] !== "NA") {
-                if (!duringLoad && sharkflags.tokens[token.attr("id")] !== "RETURNME") {
-                    res.tokens.unmarkLocation(sharkflags.tokens[token.attr("id")], token.attr("id"));
+            if (SharkGame.flags.tokens[token.attr("id")] !== "NA") {
+                if (!duringLoad && SharkGame.flags.tokens[token.attr("id")] !== "RETURNME") {
+                    res.tokens.unmarkLocation(SharkGame.flags.tokens[token.attr("id")], token.attr("id"));
                 }
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", token, "general/missing-action");
                 token.attr("draggable", true);
-                sharkflags.tokens[token.attr("id")] = "NA";
+                SharkGame.flags.tokens[token.attr("id")] = "NA";
                 res.tokens.updateTokenDescriptions();
                 res.tableTextLeave();
             }
@@ -601,7 +601,7 @@ SharkGame.Resources = {
             //chrome forcing stinky workaround
             res.tokens.chromeForcesWorkarounds = event.originalEvent.target.id;
             //event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
-            event.originalEvent.dataTransfer.setData("tokenLocation", sharkflags.tokens[this.id]);
+            event.originalEvent.dataTransfer.setData("tokenLocation", SharkGame.flags.tokens[this.id]);
             const image = document.createElement("img");
             image.src = "img/raw/general/theToken.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
@@ -648,8 +648,8 @@ SharkGame.Resources = {
                     if (textToDisplay) textToDisplay += "<br>";
                     textToDisplay += "Token #" + token.attr("id").split("-")[1] + " is ";
                     let tokenLocation;
-                    if (sharkflags.tokens) {
-                        tokenLocation = sharkflags.tokens[token.attr("id")];
+                    if (SharkGame.flags.tokens) {
+                        tokenLocation = SharkGame.flags.tokens[token.attr("id")];
                     }
                     if (_.isUndefined(tokenLocation)) {
                         textToDisplay = "";
@@ -670,8 +670,8 @@ SharkGame.Resources = {
         },
 
         reapplyToken(token) {
-            if (sharkflags.tokens) {
-                $("#" + sharkflags.tokens[token.attr("id")])
+            if (SharkGame.flags.tokens) {
+                $("#" + SharkGame.flags.tokens[token.attr("id")])
                     .css("background-image", "url(img/raw/general/theToken.png)")
                     .attr("draggable", true)
                     .attr("tokenId", token.attr("id"));
@@ -698,13 +698,13 @@ SharkGame.Resources = {
             if (newId.includes("token")) {
                 SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", $("#" + newId), "general/missing-action");
                 $("#" + newId).attr("draggable", true);
-                sharkflags.tokens[newId] = "NA";
+                SharkGame.flags.tokens[newId] = "NA";
             } else {
                 $("#" + newId)
                     .css("background-image", "url(img/raw/general/theToken.png)")
                     .attr("draggable", true)
                     .attr("tokenId", originalId);
-                sharkflags.tokens[originalId] = newId;
+                SharkGame.flags.tokens[originalId] = newId;
             }
             res.tokens.updateTokenDescriptions();
         },
@@ -754,7 +754,7 @@ SharkGame.Resources = {
         tryClickToPlace(event) {
             const textId = event.originalEvent.target.id;
             if (res.tokens.canBePlacedOn(textId)) {
-                $.each(sharkflags.tokens, (tokenId, currentLocation) => {
+                $.each(SharkGame.flags.tokens, (tokenId, currentLocation) => {
                     if (currentLocation === "NA") {
                         res.tokens.markLocation(tokenId, textId);
                         res.tokens.unmarkLocation("NA", tokenId);
@@ -821,7 +821,7 @@ SharkGame.Resources = {
         init() {
             this.changeRealMultiplier(1);
             SharkGame.persistentFlags.everIdled = false;
-            sharkflags.minuteHandTimer = 0;
+            SharkGame.flags.minuteHandTimer = 0;
             SharkGame.persistentFlags.selectedMultiplier = 2;
             this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
             this.active = false;
@@ -829,8 +829,8 @@ SharkGame.Resources = {
         },
 
         setup() {
-            if (_.isUndefined(sharkflags.minuteHandTimer)) {
-                sharkflags.minuteHandTimer = 0;
+            if (_.isUndefined(SharkGame.flags.minuteHandTimer)) {
+                SharkGame.flags.minuteHandTimer = 0;
             }
 
             if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
@@ -883,7 +883,7 @@ SharkGame.Resources = {
         },
 
         updateMinuteHand(timeElapsed) {
-            if (typeof sharkflags.minuteHandTimer !== "number") {
+            if (typeof SharkGame.flags.minuteHandTimer !== "number") {
                 return;
             }
 
@@ -893,15 +893,15 @@ SharkGame.Resources = {
                     res.minuteHand.toggleMinuteHand();
                 }
             } else if (!res.minuteHand.active) {
-                sharkflags.minuteHandTimer += timeElapsed;
+                SharkGame.flags.minuteHandTimer += timeElapsed;
             } else {
-                sharkflags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
-                if (sharkflags.minuteHandTimer < 0) {
+                SharkGame.flags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
+                if (SharkGame.flags.minuteHandTimer < 0) {
                     res.minuteHand.disableNextTick = true;
                     // the net effect of this next statement is making the processing which
                     // happens later in this tick give exactly as much income as needed to exhaust the minute hand
-                    res.minuteHand.changeRealMultiplier(sharkflags.minuteHandTimer / timeElapsed + res.minuteHand.realMultiplier - 1);
-                    sharkflags.minuteHandTimer = 0;
+                    res.minuteHand.changeRealMultiplier(SharkGame.flags.minuteHandTimer / timeElapsed + res.minuteHand.realMultiplier - 1);
+                    SharkGame.flags.minuteHandTimer = 0;
                     res.minuteHand.toggleMinuteHand();
                 }
             }
@@ -909,7 +909,7 @@ SharkGame.Resources = {
         },
 
         toggleMinuteHand() {
-            if (!res.minuteHand.active && sharkflags.minuteHandTimer > 0) {
+            if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 0) {
                 res.minuteHand.active = true;
                 res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
                 $("#minute-hand-toggle").addClass("minuteOn");
@@ -959,8 +959,8 @@ SharkGame.Resources = {
             } else {
                 $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
             }
-            $("#minute-time").html(sharktext.boldString("(" + res.minuteHand.formatMinuteTime(sharkflags.minuteHandTimer) + ")"));
-            if (sharkflags.minuteHandTimer < 100) {
+            $("#minute-time").html(sharktext.boldString("(" + res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer) + ")"));
+            if (SharkGame.flags.minuteHandTimer < 100) {
                 $("#minute-hand-toggle").addClass("disabled");
                 $("#minute-time").addClass("noTime");
             } else {
@@ -970,7 +970,7 @@ SharkGame.Resources = {
         },
 
         applyHourHand() {
-            sharkflags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
+            SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
             this.updateDisplay();
         },
 
@@ -1135,7 +1135,7 @@ SharkGame.Resources = {
         } else {
             statusDiv.show();
             _.each(res.tokens.list, (token) => {
-                if (sharkflags.tokens && sharkflags.tokens[token.attr("id")] !== "NA") {
+                if (SharkGame.flags.tokens && SharkGame.flags.tokens[token.attr("id")] !== "NA") {
                     res.tokens.reapplyToken(token);
                 }
             });
