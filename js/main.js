@@ -482,13 +482,29 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     tick() {
+        if (cad.stop) {
+            return;
+        }
+
         if (cad.pause) {
             SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
             SharkGame.before = _.now();
             SharkGame.lastActivity = _.now();
-            return;
-        }
-        if (cad.stop) {
+            switch (SharkGame.Tabs.current) {
+                case "home":
+                    $.each($("#content").children()[3].children, (_index, button) => {
+                        $(button).addClass("disabled");
+                    });
+                    break;
+                case "lab":
+                    $.each($("#content").children()[1].children[0].children, (_index, button) => {
+                        $(button).addClass("disabled");
+                    });
+                    break;
+                default:
+                    SharkGame.Tabs[SharkGame.Tabs.current].code.update();
+            }
+            res.updateResourcesTable();
             return;
         }
 
