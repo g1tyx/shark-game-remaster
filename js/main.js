@@ -342,7 +342,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
 
         if (SharkGame.Settings.current.updateCheck) {
-            SharkGame.Main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
+            main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
         }
 
         $("#title").on("click", (event) => {
