@@ -392,12 +392,12 @@ SharkGame.AspectTree = {
 
             context.save();
             context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).color;
-            context.fillText("you can only bring core aspects", 440, 60);
-            context.fillText("on scouting missions", 440, 75);
+            context.fillText("on scouting missions", 440, 60);
+            context.fillText("you can only bring core aspects", 440, 75);
             context.fillText("non-core aspects ->", 440, 110);
             context.fillText("<- core aspects", 300, 110);
-            context.fillText("you can only bring core aspects", 440, 710);
-            context.fillText("on scouting missions", 440, 725);
+            context.fillText("on scouting missions", 440, 710);
+            context.fillText("you can only bring core aspects", 440, 725);
             context.fillText("non-core aspects ->", 440, 680);
             context.fillText("<- core aspects", 300, 680);
             context.restore();
