@@ -1199,46 +1199,41 @@ SharkGame.Resources = {
                     .html("⠀" + sharktext.beautify(playerResources.amount))
             );
 
-            const incomeId = $("<td>").attr("id", "income-" + resourceKey);
+            const incomeId = $("<td>")
+                .attr("id", "income-" + resourceKey)
+                .on("dragstart", res.tokens.handleResourceDragStart)
+                .on("dragover", (event) => {
+                    if (res.tokens.canBePlacedOn("income-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
+                        if (SharkGame.Settings.current.showTooltips) {
+                            $("#tooltipbox").html(
+                                "all " +
+                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                    " gains x" +
+                                    (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                            );
+                        }
+                        event.originalEvent.preventDefault();
+                    }
+                })
+                .on("dragend", res.tokens.handleDragEnd)
+                // .on("dragleave", () => {
+                //     $("#tooltipbox").html("");
+                // })
+                .on("drop", res.tokens.dropToken)
+                .on("click", res.tokens.tryClickToPlace);
 
             row.append(incomeId);
 
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
-                incomeId
-                    .html(
-                        "⠀<span class='click-passthrough' style='color:" +
-                            res.INCOME_COLOR +
-                            "'>" +
-                            changeChar +
-                            sharktext.beautifyIncome(income) +
-                            "</span>"
-                    )
-                    .on("dragstart", res.tokens.handleResourceDragStart)
-                    .on("dragover", (event) => {
-                        if (res.tokens.canBePlacedOn("income-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
-                            if (SharkGame.Settings.current.showTooltips) {
-                                $("#tooltipbox").html(
-                                    "all " +
-                                        sharktext.getResourceName(
-                                            resourceKey,
-                                            false,
-                                            69,
-                                            sharkcolor.getElementColor("tooltipbox", "background-color")
-                                        ) +
-                                        " gains x" +
-                                        (SharkGame.Aspects.coordinatedCooperation.level + 2)
-                                );
-                            }
-                            event.originalEvent.preventDefault();
-                        }
-                    })
-                    .on("dragend", res.tokens.handleDragEnd)
-                    // .on("dragleave", () => {
-                    //     $("#tooltipbox").html("");
-                    // })
-                    .on("drop", res.tokens.dropToken)
-                    .on("click", res.tokens.tryClickToPlace);
+                incomeId.html(
+                    "⠀<span class='click-passthrough' style='color:" +
+                        res.INCOME_COLOR +
+                        "'>" +
+                        changeChar +
+                        sharktext.beautifyIncome(income) +
+                        "</span>"
+                );
             }
         }
         return row;
