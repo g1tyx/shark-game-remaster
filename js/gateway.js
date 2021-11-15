@@ -316,7 +316,7 @@ SharkGame.Gateway = {
 
         gatewayContent.append(
             $("<p>").html(
-                "This would grant you <strong>" +
+                `${seenWorldYet ? `A par time` : `This`} would grant you <strong>` +
                     sharktext.beautify(
                         Math.ceil((1 + gateway.getGumptionBonus()) * (seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level),
                         false,
@@ -324,7 +324,7 @@ SharkGame.Gateway = {
                     ) +
                     "</strong> " +
                     sharktext.getResourceName("essence") +
-                    "."
+                    " overall."
             )
         );
 
