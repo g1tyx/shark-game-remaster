@@ -318,7 +318,7 @@ SharkGame.Gateway = {
             $("<p>").html(
                 "This would grant you <strong>" +
                     sharktext.beautify(
-                        Math.ceil((1 + gateway.getGumptionBonus()) * ((seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level)),
+                        Math.ceil((1 + gateway.getGumptionBonus()) * (seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level),
                         false,
                         2
                     ) +
