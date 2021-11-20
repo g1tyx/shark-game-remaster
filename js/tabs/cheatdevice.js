@@ -289,15 +289,12 @@ SharkGame.CheatsAndDebug = {
 
     debug() {
         SharkGame.persistentFlags.debug = true;
-        //
     },
 
     hideDebug() {
         SharkGame.persistentFlags.debug = false;
         SharkGame.Tabs.cheats.discovered = false;
         SharkGame.Tabs.cheats.seen = false;
-        //SharkGame.HomeActions.getActionTable().debugbutton.unauthorized = true;
-        //SharkGame.HomeActions.getActionTable().debugbutton.discovered = false;
         if (SharkGame.Tabs.current === "cheats") {
             SharkGame.Tabs.current = "home";
         }
