@@ -599,8 +599,6 @@ SharkGame.CheatsAndDebug = {
                 if (!SharkGame.ResourceMap.get("fish").income) {
                     SharkGame.ResourceMap.get("fish").income = {};
                 }
-                SharkGame.ResourceMap.get("fish").income.tar = 1;
-                SharkGame.ResourceMap.get("fish").baseIncome.tar = 1;
                 return "Rolled a sixteen. Crystals now produce sand. Sand produces fish. Fish still produces whatever it did before. What?";
             case 17:
                 world.forceExistence("crab");
