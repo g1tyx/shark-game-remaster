@@ -1438,41 +1438,40 @@ button.planetButton:active {
   width: 50%;
 }
 
-#debugButtons {
+#leftButtons {
   float: left;
   width: 50%;
 }
-#debugButtons .up-down {
+#leftButtons .up-down {
   display: flex;
   width: 12em;
   margin: 1% auto;
   overflow: hidden;
   font-size: 90%;
 }
-#debugButtons .up-down .up-downText {
+#leftButtons .up-down .up-downText {
   margin: auto;
 }
-#debugButtons .up-down .up-downButtonContainer {
+#leftButtons .up-down .up-downButtonContainer {
   float: right;
   max-width: 1.5em;
 }
 
-#funButtons {
+#rightButtons {
   float: right;
   width: 50%;
-  text-align: right;
 }
-#funButtons .up-down {
+#rightButtons .up-down {
   display: flex;
   width: 12em;
   margin: 1% auto;
   overflow: hidden;
   font-size: 90%;
 }
-#funButtons .up-down .up-downText {
+#rightButtons .up-down .up-downText {
   margin: auto;
 }
-#funButtons .up-down .up-downButtonContainer {
+#rightButtons .up-down .up-downButtonContainer {
   float: right;
   max-width: 1.5em;
 }

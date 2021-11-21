@@ -4,6 +4,9 @@ SharkGame.CheatsAndDebug = {
     tabDiscovered: false,
     tabSeen: false,
     tabName: "Cheaty Powers",
+    tabBg: "img/bg/bg-gate.png",
+
+    sceneImage: "img/events/misc/scene-reflection.png",
 
     discoverReq: {
         flag: {
@@ -220,10 +223,16 @@ SharkGame.CheatsAndDebug = {
     },
 
     switchTo() {
-        $("#content").append($("<table>").attr("id", "cheatsDisplay"));
-        $("#content").append($("<table>").attr("id", "debugButtons"));
-        $("#content").append($("<table>").attr("id", "funButtons"));
         const content = $("#content");
+        content.append($("<div>").attr("id", "tabMessage"));
+        content.append($("<div>").attr("id", "aspectList"));
+        let message = "";
+        if (SharkGame.Settings.current.showTabImages) {
+            message = "<img width=400 height=200 src='" + cad.sceneImage + "' id='tabSceneImageEssence'>" + "cheats are not canon lol";
+            $("#tabMessage").css("background-image", "url('" + cad.tabBg + "')");
+        }
+        $("#tabMessage").html(message);
+
         content.append($("<table>").attr("id", "leftButtons"));
         content.append($("<table>").attr("id", "rightButtons"));
         content.append($("<table>").attr("id", "cheatsDisplay").html("<br>"));
@@ -259,7 +268,6 @@ SharkGame.CheatsAndDebug = {
         let container;
         let buttonContainer; // prettier gets angry at me if i try to declare these case-specific variables inside the case
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
-            const toAppendTo = buttonData.location === "right" ? $("#funButtons") : $("#debugButtons");
             //const toAppendTo = buttonData.location === "right" ? $("#rightButtons") : $("#leftButtons");
             const toAppendTo = $("#" + buttonData.category);
             switch (buttonData.type) {
