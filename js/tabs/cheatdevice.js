@@ -234,6 +234,13 @@ SharkGame.CheatsAndDebug = {
         //         log.addMessage(cad.challengeMePlease());
         //     },
         // },
+        egg: {
+            name: "egg",
+            category: "nonsense",
+            click() {
+                log.addMessage(cad.doEgg());
+            },
+        },
     },
 
     init() {
@@ -908,5 +915,13 @@ SharkGame.CheatsAndDebug = {
         $("#content").empty();
         cad.switchTo();
         return "Okay, here we go...";
+    },
+    doEgg() {
+        SharkGame.ResourceMap.forEach((resource) => {
+            resource.name = "eggs";
+            resource.singleName = "egg";
+        });
+        res.reconstructResourcesTable();
+        return "egg";
     },
 };
