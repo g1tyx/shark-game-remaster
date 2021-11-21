@@ -18,6 +18,7 @@ SharkGame.CheatsAndDebug = {
     actionPriceModifier: 1,
     noNumberBeautifying: false,
     cycling: false,
+    frozen: false,
 
     defaultParameters: {
         pause: false,
@@ -27,6 +28,7 @@ SharkGame.CheatsAndDebug = {
         actionPriceModifier: 1,
         noNumberBeautifying: false,
         cycling: false,
+        frozen: false,
     },
 
     cheatButtons: {
@@ -134,6 +136,15 @@ SharkGame.CheatsAndDebug = {
             location: "right",
             click() {
                 log.addMessage(cad.rollTheDicePlease());
+            },
+        },
+        freezeGame: {
+            get name() {
+                return cad.frozen ? "Unfreeze game" : "Freeze the game";
+            },
+            updates: true,
+            click() {
+                log.addMessage(cad.toggleFreezePlease());
             },
         },
         // challengeMe: {
@@ -338,7 +349,13 @@ SharkGame.CheatsAndDebug = {
         }
         this.update();
     },
-    freezeGamePlease() {
+    toggleFreezePlease() {
+        if (cad.frozen) {
+            cad.frozen = false;
+            res.setResource("ice", 0);
+            return "Game unfrozen.";
+        }
+        cad.frozen = true;
         world.forceExistence("ice");
         SharkGame.PlayerResources.get("ice").discovered = true;
         res.setResource("ice", 1000);
@@ -346,13 +363,7 @@ SharkGame.CheatsAndDebug = {
         res.clearNetworks();
         res.buildIncomeNetwork();
         res.reconstructResourcesTable();
-        log.addMessage("ICE going, doofus!");
-        return "Game frozen.";
-    },
-    unfreezePlease() {
-        res.setResource("ice", 0);
-        log.addMessage("Unfroze game.");
-        return "Game unfrozen.";
+        return "ICE going, doofus!";
     },
     freeEssencePlease(howMuch = 15) {
         res.changeResource("essence", howMuch);
