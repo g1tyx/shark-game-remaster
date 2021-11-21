@@ -78,10 +78,10 @@ SharkGame.CheatsAndDebug = {
             type: "up-down",
             category: "modifiers",
             clickUp() {
-                cad.goFasterPlease();
+                log.addMessage(cad.goFasterPlease());
             },
             clickDown() {
-                cad.goSlowerPlease();
+                log.addMessage(cad.goSlowerPlease());
             },
         },
         changeUpgradePrices: {
@@ -89,10 +89,10 @@ SharkGame.CheatsAndDebug = {
             type: "up-down",
             category: "modifiers",
             clickUp() {
-                cad.expensiveUpgradesPlease();
+                log.addMessage(cad.expensiveUpgradesPlease());
             },
             clickDown() {
-                cad.cheaperUpgradesPlease();
+                log.addMessage(cad.cheaperUpgradesPlease());
             },
         },
         changeStuffPrices: {
@@ -100,10 +100,10 @@ SharkGame.CheatsAndDebug = {
             type: "up-down",
             category: "modifiers",
             clickUp() {
-                cad.expensiveStuffPlease();
+                log.addMessage(cad.expensiveStuffPlease());
             },
             clickDown() {
-                cad.cheaperStuffPlease();
+                log.addMessage(cad.cheaperStuffPlease());
             },
         },
         toggleDebugButton: {
