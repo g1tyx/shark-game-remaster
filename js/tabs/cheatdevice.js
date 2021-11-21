@@ -187,6 +187,13 @@ SharkGame.CheatsAndDebug = {
                 log.addMessage(cad.beatWorldPlease());
             },
         },
+        addUpgrades: {
+            name: "Get all upgrades",
+            category: "misc",
+            click() {
+                cad.addUpgradesPlease();
+            },
+        },
         rollDice: {
             name: "Roll the dice for wacky effects",
             location: "right",
@@ -867,5 +874,12 @@ SharkGame.CheatsAndDebug = {
                 break;
         }
         return msg;
+    },
+    addUpgradesPlease() {
+        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
+        $.each(upgradeTable, (upgradeId) => {
+            SharkGame.Lab.addUpgrade(upgradeId);
+        });
+        return "Added all upgrades. This might get weird.";
     },
 };
