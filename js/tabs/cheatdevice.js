@@ -194,6 +194,13 @@ SharkGame.CheatsAndDebug = {
                 cad.addUpgradesPlease();
             },
         },
+        addIdleTime: {
+            name: "Add idle time",
+            category: "misc",
+            click() {
+                cad.addIdleTimePlease();
+            },
+        },
         rollDice: {
             name: "Roll the dice for wacky effects",
             location: "right",
@@ -881,5 +888,9 @@ SharkGame.CheatsAndDebug = {
             SharkGame.Lab.addUpgrade(upgradeId);
         });
         return "Added all upgrades. This might get weird.";
+    },
+    addIdleTimePlease(time = Math.random() * 60000) {
+        SharkGame.flags.minuteHandTimer += time;
+        res.minuteHand.updateDisplay();
     },
 };
