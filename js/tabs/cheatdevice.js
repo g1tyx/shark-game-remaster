@@ -38,6 +38,7 @@ SharkGame.CheatsAndDebug = {
             },
             type: "numeric",
             updates: true,
+            category: "stuff",
             click() {
                 log.addMessage(cad.giveEverything(sharkmath.getBuyAmount(true)));
             },
@@ -47,6 +48,7 @@ SharkGame.CheatsAndDebug = {
                 return "Remove " + sharktext.beautify(sharkmath.getBuyAmount(true)) + " of Everything";
             },
             updates: true,
+            category: "stuff",
             click() {
                 log.addMessage(cad.giveEverything(-sharkmath.getBuyAmount(true)));
             },
@@ -56,6 +58,7 @@ SharkGame.CheatsAndDebug = {
                 return cad.pause ? "Unpause Game" : "Pause Game";
             },
             updates: true,
+            category: "debug",
             click() {
                 cad.togglePausePlease();
             },
@@ -65,6 +68,7 @@ SharkGame.CheatsAndDebug = {
                 return cad.stop ? "Resume Execution" : "Halt Execution";
             },
             updates: true,
+            category: "debug",
             click() {
                 cad.toggleStopPlease();
             },
@@ -72,6 +76,7 @@ SharkGame.CheatsAndDebug = {
         changeSpeed: {
             name: "Game speed",
             type: "up-down",
+            category: "modifiers",
             clickUp() {
                 cad.goFasterPlease();
             },
@@ -82,6 +87,7 @@ SharkGame.CheatsAndDebug = {
         changeUpgradePrices: {
             name: "Upgrade prices",
             type: "up-down",
+            category: "modifiers",
             clickUp() {
                 cad.expensiveUpgradesPlease();
             },
@@ -92,6 +98,7 @@ SharkGame.CheatsAndDebug = {
         changeStuffPrices: {
             name: "Cost of stuff",
             type: "up-down",
+            category: "modifiers",
             clickUp() {
                 cad.expensiveStuffPlease();
             },
@@ -107,6 +114,7 @@ SharkGame.CheatsAndDebug = {
                     return "Disable debug button";
                 }
             },
+            category: "debug",
             updates: true,
             click() {
                 cad.toggleDebugButton();
@@ -120,6 +128,7 @@ SharkGame.CheatsAndDebug = {
                     return "Disable number formatting";
                 }
             },
+            category: "debug",
             updates: true,
             click() {
                 cad.toggleBeautify();
@@ -127,6 +136,7 @@ SharkGame.CheatsAndDebug = {
         },
         beatWorld: {
             name: "Beat this world immediately",
+            category: "misc",
             click() {
                 log.addMessage(cad.beatWorldPlease());
             },
@@ -134,6 +144,7 @@ SharkGame.CheatsAndDebug = {
         rollDice: {
             name: "Roll the dice for wacky effects",
             location: "right",
+            category: "nonsense",
             click() {
                 log.addMessage(cad.rollTheDicePlease());
             },
@@ -143,6 +154,7 @@ SharkGame.CheatsAndDebug = {
                 return cad.frozen ? "Unfreeze game" : "Freeze the game";
             },
             updates: true,
+            category: "nonsense",
             click() {
                 log.addMessage(cad.toggleFreezePlease());
             },
@@ -168,13 +180,45 @@ SharkGame.CheatsAndDebug = {
         $("#content").append($("<table>").attr("id", "cheatsDisplay"));
         $("#content").append($("<table>").attr("id", "debugButtons"));
         $("#content").append($("<table>").attr("id", "funButtons"));
+        const content = $("#content");
+        content.append($("<table>").attr("id", "leftButtons"));
+        content.append($("<table>").attr("id", "rightButtons"));
+        content.append($("<table>").attr("id", "cheatsDisplay").html("<br>"));
         $.each(cad.defaultParameters, (parameter) => {
             $("#cheatsDisplay").append($("<tr>").attr("id", parameter + "Row"));
         });
+
+        const categories = [];
+        let placeLeft = true;
+        _.each(cad.cheatButtons, (buttonData) => {
+            const category = buttonData.category;
+            if (!categories.includes(category)) {
+                categories.push(category);
+                if (placeLeft) {
+                    $("#leftButtons").append(
+                        $("<tr>")
+                            .attr("id", category)
+                            .html("<h3>" + category + "</h3>")
+                    );
+                    placeLeft = false;
+                } else {
+                    $("#rightButtons").append(
+                        $("<tr>")
+                            .attr("id", category)
+                            .html("<h3>" + category + "</h3>")
+                    );
+                    placeLeft = true;
+                }
+            }
+        });
+
+        let selector;
         let container;
         let buttonContainer; // prettier gets angry at me if i try to declare these case-specific variables inside the case
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
             const toAppendTo = buttonData.location === "right" ? $("#funButtons") : $("#debugButtons");
+            //const toAppendTo = buttonData.location === "right" ? $("#rightButtons") : $("#leftButtons");
+            const toAppendTo = $("#" + buttonData.category);
             switch (buttonData.type) {
                 case "up-down":
                     if (!buttonData.clickUp || !buttonData.clickDown) {
