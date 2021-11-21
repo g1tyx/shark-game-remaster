@@ -5,7 +5,7 @@ SharkGame.ResourceTable = {
     numen: {
         name: "numina",
         singleName: "numen",
-        desc: "You think as a deity. You act as a deity. You are a deity.",
+        //desc: "You think as a deity. You act as a deity. You are a deity.",
         color: "#FFFFFF",
         value: -1,
     },

@@ -219,6 +219,14 @@ SharkGame.CheatsAndDebug = {
                 log.addMessage(cad.toggleFreezePlease());
             },
         },
+        forceExistence: {
+            name: "Make all resources exist",
+            location: "right",
+            category: "nonsense",
+            click() {
+                log.addMessage(cad.forceAllExist());
+            },
+        },
         // challengeMe: {
         //     name: "Spin the wheel of challenges",
         //     location: "right",
@@ -892,5 +900,13 @@ SharkGame.CheatsAndDebug = {
     addIdleTimePlease(time = Math.random() * 60000) {
         SharkGame.flags.minuteHandTimer += time;
         res.minuteHand.updateDisplay();
+    },
+    forceAllExist() {
+        SharkGame.ResourceMap.forEach((resource, resourceId) => {
+            if (resource.desc && resource.desc !== "") world.forceExistence(resourceId);
+        });
+        $("#content").empty();
+        cad.switchTo();
+        return "Okay, here we go...";
     },
 };
