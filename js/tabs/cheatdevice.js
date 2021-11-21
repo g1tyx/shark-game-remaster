@@ -53,6 +53,49 @@ SharkGame.CheatsAndDebug = {
                 log.addMessage(cad.giveEverything(-sharkmath.getBuyAmount(true)));
             },
         },
+        giveSomething: {
+            get name() {
+                const resource = $("#somethingSelector")[0].value;
+                return (
+                    "Give " +
+                    sharktext.beautify(sharkmath.getBuyAmount(true)) +
+                    " " +
+                    sharktext.getResourceName(resource, false, sharkmath.getBuyAmount(true))
+                );
+            },
+            type: "choice",
+            choiceId: "somethingSelector",
+            getChoices() {
+                const existingStuff = [];
+                SharkGame.ResourceMap.forEach((_resource, resourceId) => {
+                    if (world.doesResourceExist(resourceId)) {
+                        existingStuff.push(resourceId);
+                    }
+                });
+                return existingStuff;
+            },
+            updates: true,
+            category: "stuff",
+            click() {
+                log.addMessage(cad.giveSomething($("#somethingSelector")[0].value, sharkmath.getBuyAmount(true)));
+            },
+        },
+        removeSomething: {
+            get name() {
+                const resource = $("#somethingSelector")[0].value;
+                return (
+                    "Remove " +
+                    sharktext.beautify(sharkmath.getBuyAmount(true)) +
+                    " " +
+                    sharktext.getResourceName(resource, false, sharkmath.getBuyAmount(true))
+                );
+            },
+            updates: true,
+            category: "stuff",
+            click() {
+                log.addMessage(cad.giveSomething($("#somethingSelector")[0].value, -sharkmath.getBuyAmount(true)));
+            },
+        },
         pause: {
             get name() {
                 return cad.pause ? "Unpause Game" : "Pause Game";
@@ -241,6 +284,14 @@ SharkGame.CheatsAndDebug = {
                     main.createBuyButtons("cheat", toAppendTo, "append", true);
                     SharkGame.Button.makeButton(buttonName, buttonData.name, toAppendTo, buttonData.click);
                     break;
+                case "choice":
+                    selector = $("<select>").attr("id", buttonData.choiceId);
+                    _.each(buttonData.getChoices(), (choice) => {
+                        selector.append("<option>" + choice + "</option>");
+                    });
+                    toAppendTo.append(selector);
+                    SharkGame.Button.makeButton(buttonName, buttonData.name, toAppendTo, buttonData.click);
+                    break;
                 default:
                     SharkGame.Button.makeButton(buttonName, buttonData.name, toAppendTo, buttonData.click);
             }
@@ -340,6 +391,19 @@ SharkGame.CheatsAndDebug = {
             res.changeResource(resourceId, amount);
         });
         return (amount > 0 ? "Gave " + sharktext.beautify(amount) : "Removed " + sharktext.beautify(-amount)) + " stuff.";
+    },
+
+    giveSomething(resourceId = "fish", amount = 1) {
+        res.changeResource(resourceId, amount);
+        let returnText;
+        if (amount > 0) {
+            returnText =
+                "Gave " + sharktext.beautify(amount) + " " + sharktext.getResourceName(resourceId, false, sharkmath.getBuyAmount(true)) + ".";
+        } else {
+            returnText =
+                "Removed " + sharktext.beautify(-amount) + " " + sharktext.getResourceName(resourceId, false, sharkmath.getBuyAmount(true)) + ".";
+        }
+        return returnText;
     },
 
     debug() {
