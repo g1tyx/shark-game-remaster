@@ -275,6 +275,10 @@ SharkGame.Gateway = {
             SharkGame.Button.makeButton("destinyGamble", "foobar", planetSelectionContent, gateway.rerollWorlds);
         }
 
+        if (SharkGame.persistentFlags.debug) {
+            SharkGame.Button.makeButton("visitButton", "visit any world", planetSelectionContent, gateway.showWorldVisitMenu);
+        }
+
         // add return to gateway button
         const returnButtonDiv = $("<div>");
         SharkGame.Button.makeButton("backToGateway", "return to gateway", returnButtonDiv, () => {
@@ -481,6 +485,26 @@ SharkGame.Gateway = {
                 }
             }
         });
+    },
+
+    showWorldVisitMenu() {
+        const menuContent = $("<div>").append($("<p>").html("Pick a world to visit:"));
+        const visitButtons = $("<div>").attr("id", "visitButtons");
+
+        _.each(gateway.allowedWorlds, (planetName) => {
+            SharkGame.Button.makeButton(planetName + "VisitButton", "visit " + planetName, visitButtons, () => {
+                world.worldType = planetName;
+                main.loopGame();
+            });
+        });
+
+        menuContent.append(visitButtons);
+        SharkGame.Button.makeButton("backButton", "go back", menuContent, () => {
+            gateway.switchViews(gateway.showPlanets);
+        });
+
+        SharkGame.PaneHandler.swapCurrentPane("DEBUG VISIT", menuContent, true, 500, true);
+        gateway.transitioning = false;
     },
 
     getVoiceMessage() {

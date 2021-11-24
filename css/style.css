@@ -1434,7 +1434,6 @@ button.planetButton:active {
 }
 
 #cheatsDisplay {
-  margin-top: 1em;
   width: 50%;
 }
 
@@ -1640,6 +1639,10 @@ button.planetButton:active {
 
 .can-afford-aspect {
   text-shadow: 0 0 0.6em #ace3d1;
+}
+
+#visitButtons {
+  margin: 1em 0;
 }
 
 /*# sourceMappingURL=style.css.map */
