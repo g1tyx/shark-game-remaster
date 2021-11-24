@@ -124,10 +124,12 @@ SharkGame.CheatsAndDebug = {
             type: "up-down",
             category: "modifiers",
             clickUp() {
-                log.addMessage(cad.goFasterPlease());
+                const msg = cad.goFasterPlease();
+                if (msg) log.addMessage(msg);
             },
             clickDown() {
-                log.addMessage(cad.goSlowerPlease());
+                const msg = cad.goSlowerPlease();
+                if (msg) log.addMessage(msg);
             },
         },
         changeUpgradePrices: {
@@ -135,10 +137,12 @@ SharkGame.CheatsAndDebug = {
             type: "up-down",
             category: "modifiers",
             clickUp() {
-                log.addMessage(cad.expensiveUpgradesPlease());
+                const msg = cad.expensiveUpgradesPlease();
+                if (msg) log.addMessage(msg);
             },
             clickDown() {
-                log.addMessage(cad.cheaperUpgradesPlease());
+                const msg = cad.cheaperUpgradesPlease();
+                if (msg) log.addMessage(msg);
             },
         },
         changeStuffPrices: {
@@ -146,10 +150,34 @@ SharkGame.CheatsAndDebug = {
             type: "up-down",
             category: "modifiers",
             clickUp() {
-                log.addMessage(cad.expensiveStuffPlease());
+                const msg = cad.expensiveStuffPlease();
+                if (msg) log.addMessage(msg);
             },
             clickDown() {
-                log.addMessage(cad.cheaperStuffPlease());
+                const msg = cad.cheaperStuffPlease();
+                if (msg) log.addMessage(msg);
+            },
+        },
+        toggleFreeStuff: {
+            get name() {
+                return cad.actionPriceModifier ? "Enable free stuff" : "Disable free stuff";
+            },
+            category: "modifiers",
+            updates: true,
+            click() {
+                const msg = cad.toggleFreeStuff();
+                if (msg) log.addMessage(msg);
+            },
+        },
+        toggleFreeUpgrades: {
+            get name() {
+                return cad.upgradePriceModifier ? "Enable free upgrades" : "Disable free upgrades";
+            },
+            category: "modifiers",
+            updates: true,
+            click() {
+                const msg = cad.toggleFreeUpgrades();
+                if (msg) log.addMessage(msg);
             },
         },
         toggleDebugButton: {
@@ -828,6 +856,9 @@ SharkGame.CheatsAndDebug = {
         let msg = "";
         cad.upgradePriceModifier *= 2;
         switch (cad.upgradePriceModifier) {
+            case 0:
+                log.addError("Can't change the price of upgrades because they're free.");
+                break;
             case 2:
                 msg = "Upgrades are twice as expensive.";
                 break;
@@ -847,6 +878,9 @@ SharkGame.CheatsAndDebug = {
         let msg = "";
         cad.upgradePriceModifier *= 0.5;
         switch (cad.upgradePriceModifier) {
+            case 0:
+                log.addError("Can't change the price of upgrades because they're free.");
+                break;
             case 1 / 2:
                 msg = "Upgrades are half as expensive.";
                 break;
@@ -866,6 +900,9 @@ SharkGame.CheatsAndDebug = {
         let msg = "";
         cad.actionPriceModifier *= 2;
         switch (cad.actionPriceModifier) {
+            case 0:
+                log.addError("Can't change the price of stuff because it's free.");
+                break;
             case 2:
                 msg = "Stuff is twice as expensive.";
                 break;
@@ -885,6 +922,9 @@ SharkGame.CheatsAndDebug = {
         let msg = "";
         cad.actionPriceModifier *= 0.5;
         switch (cad.actionPriceModifier) {
+            case 0:
+                log.addError("Can't change the price of stuff because it's free.");
+                break;
             case 1 / 2:
                 msg = "Stuff is half as expensive.";
                 break;
@@ -896,6 +936,24 @@ SharkGame.CheatsAndDebug = {
                 break;
         }
         return msg;
+    },
+    toggleFreeStuff() {
+        if (cad.actionPriceModifier === 0) {
+            cad.actionPriceModifier = 1;
+            return "Made stuff not free.";
+        } else {
+            cad.actionPriceModifier = 0;
+            return "Made stuff free.";
+        }
+    },
+    toggleFreeUpgrades() {
+        if (cad.upgradePriceModifier === 0) {
+            cad.upgradePriceModifier = 1;
+            return "Made upgrades not free.";
+        } else {
+            cad.upgradePriceModifier = 0;
+            return "Made upgrades free.";
+        }
     },
     addUpgradesPlease() {
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
