@@ -593,10 +593,10 @@ SharkGame.Aspects = {
         },
         apply(when) {
             if (when === "levelUp") {
-                SharkGame.Button.makeButton("respecModeButton", "respec mode", $("#aspectTreeNavButtons"), tree.toggleRefundMode());
+                SharkGame.Button.makeButton("respecModeButton", "respec mode", $("#aspectTreeNavButtons"), tree.toggleRefundMode);
                 SharkGame.Button.makeButton("respecButton", "respec all", $("#aspectTreeNavButtons"), () => {
                     if (confirm("Are you sure you want to respec all refundable aspects?")) {
-                        tree.respecTree();
+                        tree.respecTree;
                     }
                 });
             }
