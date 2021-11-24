@@ -8,6 +8,12 @@ SharkGame.TabHandler = {
         SharkGame.Tabs.current = "home";
     },
 
+    keybindSwitchTab(tab) {
+        if (SharkGame.Tabs[tab].discovered) {
+            SharkGame.TabHandler.changeTab(tab);
+        }
+    },
+
     checkTabUnlocks() {
         $.each(SharkGame.Tabs, (tabName, tab) => {
             if (tabName === "current" || tab.discovered) {

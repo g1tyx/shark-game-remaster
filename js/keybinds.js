@@ -2,6 +2,12 @@ SharkGame.Keybinds = {
     defaultBinds: {
         0: "test",
         P: "pause",
+        1: "switch to home tab",
+        2: "switch to lab tab",
+        3: "switch to grotto tab",
+        4: "switch to recycler tab",
+        5: "switch to gate tab",
+        6: "switch to reflection tab",
         Backquote: "open bind menu",
     },
     keybinds: {},
@@ -86,6 +92,24 @@ SharkGame.Keybinds = {
                     if (SharkGame.Aspects.meditation.level && !SharkGame.gameOver) {
                         res.pause.togglePause();
                     }
+                    break;
+                case "switch to home tab":
+                    SharkGame.TabHandler.keybindSwitchTab("home");
+                    break;
+                case "switch to lab tab":
+                    SharkGame.TabHandler.keybindSwitchTab("lab");
+                    break;
+                case "switch to grotto tab":
+                    SharkGame.TabHandler.keybindSwitchTab("stats");
+                    break;
+                case "switch to recycler tab":
+                    SharkGame.TabHandler.keybindSwitchTab("recycler");
+                    break;
+                case "switch to gate tab":
+                    SharkGame.TabHandler.keybindSwitchTab("gate");
+                    break;
+                case "switch to reflection tab":
+                    SharkGame.TabHandler.keybindSwitchTab("reflection");
                     break;
                 default:
                 // do nothing
