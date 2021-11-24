@@ -237,6 +237,12 @@ SharkGame.Gateway = {
                 }
             });
         }
+
+        if (SharkGame.persistentFlags.debug) {
+            SharkGame.Button.makeButton("debugModeButton", "debug mode", buttonDiv, tree.toggleDebugMode);
+        }
+
+        tree.debugMode = false;
         tree.refundMode = false;
 
         aspectTreeContent.append(buttonDiv);

@@ -46,13 +46,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: [],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     pathOfIndustry: {
@@ -87,13 +81,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["apotheosis"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
         apply(when) {
             if (when === "init") {
@@ -143,13 +131,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     pathOfEnlightenment: {
@@ -173,13 +155,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["apotheosis"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     distantForesight: {
@@ -208,13 +184,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["cleanSlate"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     patience: {
@@ -244,13 +214,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["meditation"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     pathOfTime: {
@@ -285,13 +249,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["apotheosis"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
         apply(when) {
             if (when === "init" && res.getResource("crab") === 0 && !SharkGame.flags.pathOfTimeApplied) {
@@ -329,13 +287,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["tokenOfIndustry"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     syntheticTransmutation: {
@@ -357,13 +309,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     amorphousAssembly: {
@@ -385,13 +331,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["syntheticTransmutation"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     mechanicalManifestation: {
@@ -413,13 +353,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["syntheticTransmutation"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     thePlan: {
@@ -441,13 +375,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfIndustry"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     collectiveCooperation: {
@@ -469,13 +397,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["thePlan"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     constructedConception: {
@@ -497,13 +419,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["thePlan"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
         apply(when) {
             if (when === "init") {
@@ -540,13 +456,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["cleanSlate"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
         apply(when) {
             if (when === "levelUp") {
@@ -583,13 +493,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
         apply(when) {
             if (when === "levelUp") {
@@ -627,13 +531,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["pathOfTime"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     /*     keenEyesight: {
@@ -706,13 +604,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["pathOfTime"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     extensiveOrganization: {
@@ -740,13 +632,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["internalCalculator"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
         apply(when) {
             if (when === "init") {
@@ -776,13 +662,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["extensiveOrganization"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     theHourHand: {
@@ -809,13 +689,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     gumption: {
@@ -846,13 +720,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["meditation"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     meditation: {
@@ -880,13 +748,7 @@ SharkGame.Aspects = {
         },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
     infinityVision: {
@@ -910,13 +772,7 @@ SharkGame.Aspects = {
         getUnlocked() {},
         prerequisites: ["cleanSlate"],
         clicked(_event) {
-            if (tree.refundMode) {
-                if (!this.noRefunds) tree.refundLevels(this);
-                tree.updateRequirementReference();
-                tree.render();
-            } else {
-                tree.increaseLevel(this);
-            }
+            tree.handleClickedAspect(this);
         },
     },
 

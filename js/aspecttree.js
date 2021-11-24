@@ -92,6 +92,7 @@ SharkGame.AspectTree = {
 
         // turn off refund mode
         tree.refundMode = false;
+        tree.debugMode = false;
     },
 
     setup() {
@@ -565,15 +566,35 @@ SharkGame.AspectTree = {
         }
     },
 
-    increaseLevel(aspect) {
-        if (aspect.level >= aspect.max || aspect.getUnlocked() || _.some(aspect.prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0)) {
-            return;
+    handleClickedAspect(aspect) {
+        if (tree.refundMode) {
+            if (!aspect.noRefunds) tree.refundLevels(aspect);
+            // tree.updateRequirementReference();
+            // tree.render();
+        } else if (tree.debugMode) {
+            tree.setLevel(aspect, prompt("Set to what level?"));
+        } else {
+            tree.increaseLevel(aspect);
+        }
+    },
+
+    increaseLevel(aspect, ignoreRestrictions) {
+        let cost = 0;
+        if (!ignoreRestrictions) {
+            if (
+                aspect.level >= aspect.max ||
+                aspect.getUnlocked() ||
+                _.some(aspect.prerequisites, (prereq) => SharkGame.Aspects[prereq].level === 0)
+            ) {
+                return;
+            }
+
+            cost = aspect.getCost(aspect.level);
+            if (cost > res.getResource("essence")) {
+                return;
+            }
         }
 
-        const cost = aspect.getCost(aspect.level);
-        if (cost > res.getResource("essence")) {
-            return;
-        }
         res.changeResource("essence", -cost);
         aspect.level++;
         if (typeof aspect.apply === "function") {
@@ -618,8 +639,11 @@ SharkGame.AspectTree = {
     },
 
     refundLevels(aspectData) {
+        let cost = 0;
         while (aspectData.level) {
-            res.changeResource("essence", aspectData.getCost(aspectData.level - 1));
+            cost = aspectData.getCost(aspectData.level - 1);
+            if (_.isUndefined(cost)) cost = 0;
+            res.changeResource("essence", cost);
             aspectData.level -= 1;
         }
     },
@@ -817,6 +841,18 @@ SharkGame.AspectTree = {
         } else {
             tree.refundMode = true;
             $("#respecModeButton").addClass("respecMode");
+            if (tree.debugMode) tree.toggleDebugMode();
+        }
+    },
+
+    toggleDebugMode() {
+        if (tree.debugMode) {
+            tree.debugMode = false;
+            $("#debugModeButton").removeClass("respecMode");
+        } else {
+            tree.debugMode = true;
+            $("#debugModeButton").addClass("respecMode");
+            if (tree.refundMode) tree.toggleRefundMode();
         }
     },
 
@@ -830,5 +866,20 @@ SharkGame.AspectTree = {
             level -= 1;
         }
         return value;
+    },
+
+    // will loop increase and decrease levels
+    setLevel(aspect, targetLevel) {
+        if (isNaN(targetLevel)) return;
+        targetLevel = Math.ceil(targetLevel);
+        if (targetLevel < 0) return;
+
+        if (targetLevel - aspect.level < 0) {
+            aspect.level = 0;
+        }
+
+        while (targetLevel - aspect.level > 0) {
+            tree.increaseLevel(aspect, true);
+        }
     },
 };
