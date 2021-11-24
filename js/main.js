@@ -19,8 +19,14 @@ window.onmousemove = (event) => {
     }
 };
 
-$(document).on("keyup", () => {
+$(document).on("keyup", (event) => {
     SharkGame.lastActivity = _.now();
+    SharkGame.Keybinds.handleKeyUp(event.code);
+});
+
+$(document).on("keydown", (event) => {
+    SharkGame.lastActivity = _.now();
+    SharkGame.Keybinds.handleKeyDown(event.code);
 });
 
 // CORE VARIABLES AND HELPER FUNCTIONS
@@ -265,6 +271,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.TitleBarHandler.init();
         SharkGame.TabHandler.init();
         SharkGame.PaneHandler.init();
+
+        SharkGame.Keybinds.init();
 
         SharkGame.Resources.minuteHand.init();
     },
