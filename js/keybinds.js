@@ -1,6 +1,7 @@
 SharkGame.Keybinds = {
     defaultBinds: {
         0: "test",
+        P: "pause",
         Backquote: "open bind menu",
     },
     keybinds: {},
@@ -80,6 +81,11 @@ SharkGame.Keybinds = {
                     break;
                 case "open bind menu":
                     // do nothing for now
+                    break;
+                case "pause":
+                    if (SharkGame.Aspects.meditation.level && !SharkGame.gameOver) {
+                        res.pause.togglePause();
+                    }
                     break;
                 default:
                 // do nothing
