@@ -17,7 +17,7 @@ SharkGame.Home = {
         start: [
             {
                 name: "start-you-are-a-shark",
-                message: "",
+                message: "You feel a bit hungry.",
             },
             {
                 name: "start-shark",
