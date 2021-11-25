@@ -213,8 +213,22 @@ SharkGame.Gateway = {
         aspectTreeContent.append(
             $("<strong>")
                 .attr("id", "essenceCount")
-                .html(sharktext.beautify(res.getResource("essence"), false, 2) + " ESSENCE")
+                .attr("contenteditable", SharkGame.persistentFlags.debug ? "true" : "false")
+                .html(sharktext.beautify(res.getResource("essence"), false, 2))
+                .on("keydown", function (event) {
+                    if (event.code === "Enter") {
+                        event.preventDefault();
+                        window.getSelection().removeAllRanges();
+
+                        const html = $(this).html();
+                        if (!isNaN(html)) {
+                            res.setResource("essence", Number(html));
+                        }
+                        tree.updateEssenceCounter();
+                    }
+                })
         );
+        aspectTreeContent.append($("<strong>").html(" ESSENCE"));
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         aspectTreeContent.append(tree.drawTree(SharkGame.Settings.current.doAspectTable === "table"));
 
