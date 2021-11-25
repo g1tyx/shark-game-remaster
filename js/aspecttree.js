@@ -365,7 +365,7 @@ SharkGame.AspectTree = {
         const staticButton = _.find(tree.staticButtons, ({ posX, posY, width, height }) => {
             return mousePos.posX - posX >= 0 && mousePos.posY - posY >= 0 && mousePos.posX - posX <= width && mousePos.posY - posY <= height;
         });
-        if (staticButton !== undefined) {
+        if (staticButton !== undefined && (!staticButton.getUnlocked || staticButton.getUnlocked())) {
             return staticButton;
         }
 
@@ -615,10 +615,9 @@ SharkGame.AspectTree = {
             if (icon === "general/missing-action" && SharkGame.Sprites["aspects/" + name]) {
                 icon = "aspects/" + name;
             }
-            const sprite = SharkGame.Sprites[icon];
+            let sprite = SharkGame.Sprites[icon];
             if (sprite === undefined) {
-                log.addError(new Error(`Unknown sprite '${icon}' in prestige tree.`));
-                return;
+                sprite = SharkGame.Sprites["general/missing-action"];
             }
             context.drawImage(
                 eventIcon ? EVENT_SPRITE_SHEET : SPRITE_SHEET,
@@ -787,8 +786,10 @@ SharkGame.AspectTree = {
                 });
             } else {
                 // we have a static button
-                tooltipBox.html(button.getEffect()).removeClass("forAspectTree forAspectTreeAffordable").addClass("forAspectTreeUnpurchased");
-                context.canvas.style.cursor = "pointer";
+                if (!button.getUnlocked || button.getUnlocked()) {
+                    tooltipBox.html(button.getEffect()).removeClass("forAspectTree forAspectTreeAffordable").addClass("forAspectTreeUnpurchased");
+                    context.canvas.style.cursor = "pointer";
+                }
                 return;
             }
 
