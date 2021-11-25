@@ -27,7 +27,8 @@ SharkGame.Panes = {
         "<p>If your home is truly lost, then what is the point?</p>" +
         "<p>Is the journey the point? Or is it perhaps the power? In truth, it was always your decision. No-one can make it for you.</p>" +
         "<p>But regardless, your adventure has come to an end...for now. You can always come back again. Perhaps when there are more places to visit, and things to see, you will find what you seek.</p>" +
-        "<br><p><b>Cheats unlocked.</b></p>" +
+        "<hr>" +
+        "<p><strong>Cheats unlocked.</strong></p>" +
         "<p>Visit a world to engage in ridiculous hijinks.</p>" +
         "<p>Thank you for playing New Frontiers! I hope to see you back again next update.</p>",
     help:
