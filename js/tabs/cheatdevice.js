@@ -285,7 +285,11 @@ SharkGame.CheatsAndDebug = {
         content.append($("<div>").attr("id", "aspectList"));
         let message = "";
         if (SharkGame.Settings.current.showTabImages) {
-            message = "<img width=400 height=200 src='" + cad.sceneImage + "' id='tabSceneImageEssence'>" + "cheats are not canon lol";
+            message =
+                "<img width=400 height=200 src='" +
+                cad.sceneImage +
+                "' id='tabSceneImageEssence'>" +
+                "Doubles as a debug menu and a location for various cheats.";
             $("#tabMessage").css("background-image", "url('" + cad.tabBg + "')");
         }
         $("#tabMessage").html(message);
