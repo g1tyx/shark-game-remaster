@@ -43,8 +43,8 @@ SharkGame.AspectTree = {
         zoom: {
             posX: 10,
             posY: 10,
-            width: 15,
-            height: 15,
+            width: 30,
+            height: 30,
 
             name: "Zoom",
             description: "Change the zoom level.",
@@ -61,6 +61,86 @@ SharkGame.AspectTree = {
                 } else {
                     tree.cameraZoom = 1;
                 }
+            },
+            getOn() {
+                return tree.cameraZoom !== 1;
+            },
+        },
+        respec: {
+            posX: 10,
+            get posY() {
+                return tree.staticButtons.zoom.posY + tree.staticButtons.zoom.height + 10;
+            },
+            width: 30,
+            height: 30,
+
+            name: "Respec",
+            description: "Toggles respec mode.",
+            getEffect() {
+                if (tree.refundMode) {
+                    return "Deactivate respec mode.";
+                } else {
+                    return "Activate respec mode to refund aspects (if possible) on click.";
+                }
+            },
+            clicked() {
+                tree.toggleRefundMode();
+            },
+            getUnlocked() {
+                return SharkGame.Aspects.cleanSlate.level > 0;
+            },
+            getOn() {
+                return tree.refundMode;
+            },
+        },
+        respecAll: {
+            posX: 10,
+            get posY() {
+                return tree.staticButtons.respec.posY + tree.staticButtons.respec.height + 10;
+            },
+            width: 30,
+            height: 30,
+
+            name: "Respec All",
+            description: "Respecs all aspects.",
+            getEffect() {
+                return "Respec ALL refundable aspects.";
+            },
+            clicked() {
+                if (confirm("Are you sure you want to respec ALL refundable aspects?")) {
+                    tree.respecTree();
+                }
+            },
+            getUnlocked() {
+                return SharkGame.Aspects.cleanSlate.level > 0;
+            },
+            getOn() {
+                return false;
+            },
+        },
+        debug: {
+            posX: 760,
+            posY: 10,
+            width: 30,
+            height: 30,
+
+            name: "Debug",
+            description: "Toggles debug mode.",
+            getEffect() {
+                if (tree.debugMode) {
+                    return "Deactivate debug mode.";
+                } else {
+                    return "Activate debug mode to freely change levels of aspects.";
+                }
+            },
+            clicked() {
+                tree.toggleDebugMode();
+            },
+            getUnlocked() {
+                return SharkGame.persistentFlags.debug;
+            },
+            getOn() {
+                return tree.debugMode;
             },
         },
     },
@@ -492,7 +572,14 @@ SharkGame.AspectTree = {
         context.fillStyle = buttonColor;
         context.strokeStyle = borderColor;
         _.each(tree.staticButtons, ({ posX, posY, width, height, icon, eventSprite }, name) => {
-            tree.renderButton(context, posX, posY, width, height, icon, eventSprite, name);
+            const button = tree.staticButtons[name];
+            if (!button.getUnlocked || button.getUnlocked()) {
+                if (button.getOn && button.getOn()) {
+                    context.fillStyle = borderColor;
+                }
+                tree.renderButton(context, posX, posY, width, height, icon, eventSprite, name);
+                context.fillStyle = buttonColor;
+            }
         });
         context.restore();
 
@@ -676,23 +763,40 @@ SharkGame.AspectTree = {
     },
 
     updateTooltip(button) {
+        // console.log("test");
         const tooltipBox = $("#tooltipbox");
         const context = tree.context;
         if (button === undefined) {
             context.canvas.style.cursor = "grab";
-            tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
+            tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased forAspectTreeAffordable");
         } else {
             let name;
-            _.forEach(SharkGame.Aspects, (aspectData, aspectName) => {
-                if (aspectData.name === button.name) {
-                    name = aspectName;
+            _.forEach(tree.staticButtons, (buttonData, buttonName) => {
+                if (buttonData.name === button.name) {
+                    name = buttonName;
                     return false;
                 }
             });
+
             if (!name) {
-                tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased");
+                _.forEach(SharkGame.Aspects, (aspectData, aspectName) => {
+                    if (aspectData.name === button.name) {
+                        name = aspectName;
+                        return false;
+                    }
+                });
+            } else {
+                // we have a static button
+                tooltipBox.html(button.getEffect()).removeClass("forAspectTree forAspectTreeAffordable").addClass("forAspectTreeUnpurchased");
+                context.canvas.style.cursor = "pointer";
                 return;
             }
+
+            if (!name) {
+                tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased forAspectTreeAffordable");
+                return;
+            }
+
             const reqref = tree.requirementReference[name];
 
             const cost = button.getCost(button.level);

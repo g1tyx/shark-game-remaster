@@ -229,17 +229,19 @@ SharkGame.Gateway = {
             $("#tooltipbox").empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         });
 
-        if (SharkGame.Aspects.cleanSlate.level) {
-            SharkGame.Button.makeButton("respecModeButton", "respec mode", buttonDiv, tree.toggleRefundMode);
-            SharkGame.Button.makeButton("respecButton", "respec all", buttonDiv, () => {
-                if (confirm("Are you sure you want to respec all refundable aspects?")) {
-                    tree.respecTree();
-                }
-            });
-        }
+        if (SharkGame.Settings.current.doAspectTable === "table") {
+            if (SharkGame.Aspects.cleanSlate.level) {
+                SharkGame.Button.makeButton("respecModeButton", "respec mode", buttonDiv, tree.toggleRefundMode);
+                SharkGame.Button.makeButton("respecButton", "respec all", buttonDiv, () => {
+                    if (confirm("Are you sure you want to respec all refundable aspects?")) {
+                        tree.respecTree();
+                    }
+                });
+            }
 
-        if (SharkGame.persistentFlags.debug) {
-            SharkGame.Button.makeButton("debugModeButton", "debug mode", buttonDiv, tree.toggleDebugMode);
+            if (SharkGame.persistentFlags.debug) {
+                SharkGame.Button.makeButton("debugModeButton", "debug mode", buttonDiv, tree.toggleDebugMode);
+            }
         }
 
         tree.debugMode = false;
