@@ -577,7 +577,7 @@ SharkGame.AspectTree = {
                 if (button.getOn && button.getOn()) {
                     context.fillStyle = borderColor;
                 }
-                tree.renderButton(context, posX, posY, width, height, icon, eventSprite, name);
+                tree.renderButton(context, posX, posY, width, height, icon || "aspects/static/" + name, eventSprite, name);
                 context.fillStyle = buttonColor;
             }
         });
