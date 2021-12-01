@@ -40,7 +40,6 @@
                 "args": "all"
             }
         ],
-        "func-names": ["error", "always"],
         "func-style": ["error", "declaration"],
         "no-inner-declarations": "off",
         "prefer-const": "error",

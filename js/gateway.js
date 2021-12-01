@@ -69,6 +69,7 @@ SharkGame.Gateway = {
         SharkGame.Gate.completedRequirements = {};
         // clear non-persistent flags just in case
         SharkGame.flags = {};
+
         // SAVE
         SharkGame.Save.saveGame();
 
@@ -212,8 +213,22 @@ SharkGame.Gateway = {
         aspectTreeContent.append(
             $("<strong>")
                 .attr("id", "essenceCount")
-                .html(sharktext.beautify(res.getResource("essence"), false, 2) + " ESSENCE")
+                .attr("contenteditable", SharkGame.persistentFlags.debug ? "true" : "false")
+                .html(sharktext.beautify(res.getResource("essence"), false, 2))
+                .on("keydown", function (event) {
+                    if (event.code === "Enter") {
+                        event.preventDefault();
+                        window.getSelection().removeAllRanges();
+
+                        const html = $(this).html();
+                        if (!isNaN(html)) {
+                            res.setResource("essence", Number(html));
+                        }
+                        tree.updateEssenceCounter();
+                    }
+                })
         );
+        aspectTreeContent.append($("<strong>").html(" ESSENCE"));
         aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
         aspectTreeContent.append(tree.drawTree(SharkGame.Settings.current.doAspectTable === "table"));
 
@@ -228,14 +243,22 @@ SharkGame.Gateway = {
             $("#tooltipbox").empty().removeClass("forAspectTree forAspectTreeUnpurchased");
         });
 
-        if (SharkGame.Aspects.cleanSlate.level) {
-            SharkGame.Button.makeButton("respecModeButton", "respec mode", buttonDiv, tree.toggleRefundMode);
-            SharkGame.Button.makeButton("respecButton", "respec all", buttonDiv, () => {
-                if (confirm("Are you sure you want to respec all refundable aspects?")) {
-                    tree.respecTree();
-                }
-            });
+        if (SharkGame.Settings.current.doAspectTable === "table") {
+            if (SharkGame.Aspects.cleanSlate.level) {
+                SharkGame.Button.makeButton("respecModeButton", "respec mode", buttonDiv, tree.toggleRefundMode);
+                SharkGame.Button.makeButton("respecButton", "respec all", buttonDiv, () => {
+                    if (confirm("Are you sure you want to respec all refundable aspects?")) {
+                        tree.respecTree();
+                    }
+                });
+            }
+
+            if (SharkGame.persistentFlags.debug) {
+                SharkGame.Button.makeButton("debugModeButton", "debug mode", buttonDiv, tree.toggleDebugMode);
+            }
         }
+
+        tree.debugMode = false;
         tree.refundMode = false;
 
         aspectTreeContent.append(buttonDiv);
@@ -266,6 +289,10 @@ SharkGame.Gateway = {
 
         if (SharkGame.Aspects.destinyGamble.level > 0) {
             SharkGame.Button.makeButton("destinyGamble", "foobar", planetSelectionContent, gateway.rerollWorlds);
+        }
+
+        if (SharkGame.persistentFlags.debug) {
+            SharkGame.Button.makeButton("visitButton", "visit any world", planetSelectionContent, gateway.showWorldVisitMenu);
         }
 
         // add return to gateway button
@@ -474,6 +501,26 @@ SharkGame.Gateway = {
                 }
             }
         });
+    },
+
+    showWorldVisitMenu() {
+        const menuContent = $("<div>").append($("<p>").html("Pick a world to visit:"));
+        const visitButtons = $("<div>").attr("id", "visitButtons");
+
+        _.each(gateway.allowedWorlds, (planetName) => {
+            SharkGame.Button.makeButton(planetName + "VisitButton", "visit " + planetName, visitButtons, () => {
+                world.worldType = planetName;
+                main.loopGame();
+            });
+        });
+
+        menuContent.append(visitButtons);
+        SharkGame.Button.makeButton("backButton", "go back", menuContent, () => {
+            gateway.switchViews(gateway.showPlanets);
+        });
+
+        SharkGame.PaneHandler.swapCurrentPane("DEBUG VISIT", menuContent, true, 500, true);
+        gateway.transitioning = false;
     },
 
     getVoiceMessage() {
@@ -708,13 +755,28 @@ SharkGame.Gateway = {
                         // put back to 4000
                         gateway.cleanUp();
                         gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
+                        if (gateway.shouldCheatsBeUnlocked()) {
+                            gateway.unlockCheats();
+                        }
                     }
                 );
         } else {
             overlay.show().css("opacity", 1.0);
             gateway.cleanUp();
             gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
+            if (gateway.shouldCheatsBeUnlocked()) {
+                gateway.unlockCheats();
+            }
         }
+    },
+
+    shouldCheatsBeUnlocked() {
+        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.debug;
+    },
+
+    unlockCheats() {
+        SharkGame.PaneHandler.showUnlockedCheatsMessage();
+        cad.debug();
     },
 };
 
