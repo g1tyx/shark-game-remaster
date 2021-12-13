@@ -9,6 +9,13 @@ SharkGame.Keybinds = {
         5: "switch to gate tab",
         6: "switch to reflection tab",
         Backquote: "bind home ocean button",
+        "Shift + Z": "switch to buy 1",
+        "Shift + X": "switch to buy 10",
+        "Shift + C": "switch to buy 100",
+        "Shift + V": "switch to buy 1/3 max",
+        "Shift + B": "switch to buy 1/2 max",
+        "Shift + N": "switch to buy max",
+        "Shift + M": "switch to buy custom",
     },
     keybinds: {},
 
@@ -154,6 +161,62 @@ SharkGame.Keybinds = {
                     break;
                 case "switch to reflection tab":
                     SharkGame.TabHandler.keybindSwitchTab("reflection");
+                    break;
+                case "switch to buy 1":
+                    if (!$("#buy-1").hasClass("disabled")) {
+                        SharkGame.Settings.current.buyAmount = 1;
+                        $("#custom-input").attr("disabled", true);
+                        $("button[id^='buy-']").removeClass("disabled");
+                        $("#buy-1").addClass("disabled");
+                    }
+                    break;
+                case "switch to buy 10":
+                    if (!$("#buy-10").hasClass("disabled")) {
+                        SharkGame.Settings.current.buyAmount = 10;
+                        $("#custom-input").attr("disabled", true);
+                        $("button[id^='buy-']").removeClass("disabled");
+                        $("#buy-10").addClass("disabled");
+                    }
+                    break;
+                case "switch to buy 100":
+                    if (!$("#buy-100").hasClass("disabled")) {
+                        SharkGame.Settings.current.buyAmount = 100;
+                        $("#custom-input").attr("disabled", true);
+                        $("button[id^='buy-']").removeClass("disabled");
+                        $("#buy-100").addClass("disabled");
+                    }
+                    break;
+                case "switch to buy 1/3 max":
+                    if (!$("#buy--3").hasClass("disabled")) {
+                        SharkGame.Settings.current.buyAmount = -3;
+                        $("#custom-input").attr("disabled", true);
+                        $("button[id^='buy-']").removeClass("disabled");
+                        $("#buy--3").addClass("disabled");
+                    }
+                    break;
+                case "switch to buy 1/2 max":
+                    if (!$("#buy--2").hasClass("disabled")) {
+                        SharkGame.Settings.current.buyAmount = -2;
+                        $("#custom-input").attr("disabled", true);
+                        $("button[id^='buy-']").removeClass("disabled");
+                        $("#buy--2").addClass("disabled");
+                    }
+                    break;
+                case "switch to buy max":
+                    if (!$("#buy--1").hasClass("disabled")) {
+                        SharkGame.Settings.current.buyAmount = -1;
+                        $("#custom-input").attr("disabled", true);
+                        $("button[id^='buy-']").removeClass("disabled");
+                        $("#buy--1").addClass("disabled");
+                    }
+                    break;
+                case "switch to buy custom":
+                    if (!$("#buy-custom").hasClass("disabled")) {
+                        SharkGame.Settings.current.buyAmount = `custom`;
+                        $("#custom-input").attr("disabled", false);
+                        $("button[id^='buy-']").removeClass("disabled");
+                        $("#buy-custom").addClass("disabled");
+                    }
                     break;
                 default:
                     if (SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionType)) {
