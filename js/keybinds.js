@@ -19,6 +19,24 @@ SharkGame.Keybinds = {
     },
     keybinds: {},
 
+    actions: [
+        `pause`,
+        "switch to home tab",
+        "switch to lab tab",
+        "switch to grotto tab",
+        "switch to recycler tab",
+        "switch to gate tab",
+        "switch to reflection tab",
+        "bind home ocean button",
+        "switch to buy 1",
+        "switch to buy 10",
+        "switch to buy 100",
+        "switch to buy 1/3 max",
+        "switch to buy 1/2 max",
+        "switch to buy max",
+        "switch to buy custom",
+    ],
+
     modifierKeys: {
         ShiftLeft: 0,
         ShiftRight: 0,
