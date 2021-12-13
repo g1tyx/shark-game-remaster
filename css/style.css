@@ -1434,25 +1434,43 @@ button.planetButton:active {
 }
 
 #cheatsDisplay {
-  margin-top: 1em;
   width: 50%;
 }
 
-#cheatButtons {
+#leftButtons {
   float: left;
   width: 50%;
 }
-#cheatButtons .up-down {
+#leftButtons .up-down {
   display: flex;
   width: 12em;
   margin: 1% auto;
   overflow: hidden;
   font-size: 90%;
 }
-#cheatButtons .up-down .up-downText {
+#leftButtons .up-down .up-downText {
   margin: auto;
 }
-#cheatButtons .up-down .up-downButtonContainer {
+#leftButtons .up-down .up-downButtonContainer {
+  float: right;
+  max-width: 1.5em;
+}
+
+#rightButtons {
+  float: right;
+  width: 50%;
+}
+#rightButtons .up-down {
+  display: flex;
+  width: 12em;
+  margin: 1% auto;
+  overflow: hidden;
+  font-size: 90%;
+}
+#rightButtons .up-down .up-downText {
+  margin: auto;
+}
+#rightButtons .up-down .up-downButtonContainer {
   float: right;
   max-width: 1.5em;
 }
@@ -1621,6 +1639,10 @@ button.planetButton:active {
 
 .can-afford-aspect {
   text-shadow: 0 0 0.6em #ace3d1;
+}
+
+#visitButtons {
+  margin: 1em 0;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -17,7 +17,20 @@ SharkGame.Panes = {
         "<p>The gate leads away from this strange ocean...</p>" +
         "<p>Back home to the oceans you came from!</p>" +
         "<h3>Or are they?</h3>",
-
+    cheats:
+        "<p>You enter the space between worlds.</p>" +
+        "<p><strong>1000 essence.</strong> You glow. The ether flows through you like blood.</p>" +
+        "<p>Your long journey has made you strong, fast, and clever. Your power grows with every world you visit.</p>" +
+        "<p>Your radiant energy shines through the deepest chasms and the smuggest grins; the iciest cold and the bleakest cities. You are something much more than a shark now.</p>" +
+        "<p>And yet...your home is nowhere in sight.</p>" +
+        "<p>You stop to ponder this conundrum.</p>" +
+        "<p>If your home is truly lost, then what is the point?</p>" +
+        "<p>Is the journey the point? Or is it perhaps the power? In truth, it was always your decision. No-one can make it for you.</p>" +
+        "<p>But regardless, your adventure has come to an end...for now. You can always come back again. Perhaps when there are more places to visit, and things to see, you will find what you seek.</p>" +
+        "<hr>" +
+        "<p><strong>Cheats unlocked.</strong></p>" +
+        "<p>Visit a world to engage in ridiculous hijinks.</p>" +
+        "<p>Thank you for playing New Frontiers! I hope to see you back again next update.</p>",
     help:
         "<p>This game is a game about resources and discovery, and does not demand your full attention. " +
         "It will happily run in the background, and works even while closed.</p>" +
@@ -413,5 +426,9 @@ SharkGame.PaneHandler = {
             }
         );
         this.addPaneToStack("THAT'S NOT GOOD...", aspectWarnDiv, true);
+    },
+
+    showUnlockedCheatsMessage() {
+        this.addPaneToStack("...", SharkGame.Panes.cheats);
     },
 };

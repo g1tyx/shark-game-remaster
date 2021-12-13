@@ -17,7 +17,7 @@ SharkGame.Home = {
         start: [
             {
                 name: "start-you-are-a-shark",
-                message: "",
+                message: "You feel a bit hungry.",
             },
             {
                 name: "start-shark",
@@ -753,6 +753,8 @@ SharkGame.Home = {
         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         if (action.unauthorized) {
             return false;
+        } else if (!_.isUndefined(action.unauthorized)) {
+            return true;
         }
         // check to see if this action should be forcibly removed
         if (action.removedBy && home.shouldRemoveHomeButton(action)) {
