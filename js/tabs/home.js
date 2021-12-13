@@ -878,6 +878,13 @@ SharkGame.Home = {
         } else {
             button = $("#" + actionName);
         }
+
+        if (SharkGame.Keybinds.bindMode) {
+            SharkGame.Keybinds.settingAction = actionName;
+            SharkGame.Keybinds.updateBindModeState();
+            return;
+        }
+
         if (button.hasClass("disabled")) return;
         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
         let actionCost = {};
