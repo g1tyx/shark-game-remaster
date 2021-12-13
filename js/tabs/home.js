@@ -98,14 +98,51 @@ SharkGame.Home = {
                 message: "Schools of fish fill the vast, blue expanse. This place feels so familiar.",
             },
             {
-                name: "marine-clams",
+                name: "marine-noticed-lobsters",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "You notice a bunch creatures scurrying around on the ocean floor. They look like crabs, but longer, and...redder?",
+                message: "You notice a bunch of creatures lazing about on the ocean floor. They're like crabs, but...<i>longer</i>.",
             },
             {
                 name: "marine-lobsters",
-                unlock: { totalResource: { lobster: 20 } },
+                unlock: { totalResource: { lobster: 25 } },
                 message: "The lobsters work, but seem carefree. They worry about nothing.",
+            },
+            {
+                name: "marine-lobsters",
+                unlock: { totalResource: { lobster: 125 } },
+                message: "The lobsters chat idly while they work. They talk about the good old days...the glory days.",
+            },
+            {
+                name: "marine-calcinium",
+                unlock: { totalResource: { calcinium: 1 } },
+                message: "Calcinium. It's cold, hard, and rough, and it feels fragile, but isn't. The lobsters look excited.",
+            },
+            {
+                name: "marine-robotics",
+                unlock: { upgrade: ["calciniumRobotics"] },
+                message:
+                    "A cold, stony limb fishes clams out of the seabed. The ray controls it with ease, like it was already a part of them. Such incredible tools.",
+            },
+            {
+                // do color transition 1 here
+                name: "marine-bioengineering",
+                unlock: { upgrade: ["bioengineering"] },
+                message:
+                    "Stone-to-brain interface. Shelbernetic enhancements. Population automation. The lobsters say calcinium is an extension of life itself.",
+            },
+            {
+                // second color transition
+                name: "marine-sentience",
+                unlock: { upgrade: ["sentientCircuitBoards"] },
+                message: "",
+                // we can't understand it, no, we could never hope to understand it like the lobsters do
+                // 'they [the circuits] even die...just like us.'
+            },
+            {
+                // final color transition
+                name: "marine-abandoned",
+                unlock: { upgrade: ["mobiusShells"] },
+                message: "Murk spills out of the machines. The sky is blanketed in a green fog. This dying world drags everyone down with it.",
             },
         ],
 
