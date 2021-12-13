@@ -31,6 +31,8 @@ SharkGame.Gateway = {
     enterGate(loadingFromSave) {
         SharkGame.PaneHandler.wipeStack();
 
+        SharkGame.OverlayHandler.enterGateway();
+
         //ensure buy buttons will be revealed
         SharkGame.persistentFlags.revealedBuyButtons = true;
 
@@ -736,38 +738,18 @@ SharkGame.Gateway = {
         }
         pane.addClass("gateway");
 
-        const overlay = $("#overlay");
-        overlay.addClass("gateway");
-
         // make overlay opaque
         if (SharkGame.Settings.current.showAnimations) {
             gateway.transitioning = true;
-            overlay
-                .show()
-                .css("opacity", 0)
-                .animate(
-                    {
-                        opacity: 1.0,
-                    },
-                    1000,
-                    "swing",
-                    () => {
-                        // put back to 4000
-                        gateway.cleanUp();
-                        gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
-                        if (gateway.shouldCheatsBeUnlocked()) {
-                            gateway.unlockCheats();
-                        }
-                    }
-                );
-        } else {
-            overlay.show().css("opacity", 1.0);
+        }
+
+        SharkGame.OverlayHandler.revealOverlay(1000, 1.0, () => {
             gateway.cleanUp();
             gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
             if (gateway.shouldCheatsBeUnlocked()) {
                 gateway.unlockCheats();
             }
-        }
+        });
     },
 
     shouldCheatsBeUnlocked() {

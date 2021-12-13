@@ -145,16 +145,9 @@ SharkGame.PaneHandler = {
 
         // begin fading in/displaying overlay if it isn't already visible
         const overlay = $("#overlay");
-        // is it already up?
-        if (overlay.is(":hidden")) {
-            // nope, show overlay
-            const overlayOpacity = customOpacity || 0.5;
-            if (SharkGame.Settings.current.showAnimations) {
-                overlay.show().css("opacity", 0).animate({ opacity: overlayOpacity }, fadeInTime);
-            } else {
-                overlay.show().css("opacity", overlayOpacity);
-            }
-        }
+        const overlayOpacity = $(`#overlay`).hasClass(`gateway`) ? 1.0 : customOpacity || 0.5;
+
+        SharkGame.OverlayHandler.revealOverlay(fadeInTime, overlayOpacity);
 
         // adjust header
         const titleDiv = $("#paneHeaderTitleDiv");
@@ -212,7 +205,7 @@ SharkGame.PaneHandler = {
     hidePane() {
         document.getElementById("overlay").removeEventListener("click", SharkGame.PaneHandler.nextPaneInStack);
         $("#overlay").removeClass("pointy");
-        $("#overlay").hide();
+        SharkGame.OverlayHandler.hideOverlay();
         $("#pane").hide();
     },
 
@@ -405,7 +398,15 @@ SharkGame.PaneHandler = {
     showKeybinds() {
         const keybindTable = $(`<table>`).attr(`id`, `keybindTable`);
 
-        let row;
+        let row = $(`<tr>`);
+        row.append(
+            $(`<td>`).append(
+                $(`<button>`)
+                    .html(`new bind`)
+                    .on(`click`, () => {})
+            )
+        );
+        keybindTable.append(row);
 
         $.each(SharkGame.Keybinds.keybinds, (boundKey, boundAction) => {
             row = $(`<tr>`).attr(`id`, boundKey);

@@ -214,7 +214,6 @@ SharkGame.Main = {
         SharkGame.sidebarHidden = true;
         // remove any errant classes
         $("#pane").removeClass("gateway");
-        $("#overlay").removeClass("gateway");
 
         // clear any html and remove errant classes from tooltip
         $("#tooltipbox")
@@ -271,6 +270,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.TitleBarHandler.init();
         SharkGame.TabHandler.init();
         SharkGame.PaneHandler.init();
+        SharkGame.OverlayHandler.init();
 
         SharkGame.Keybinds.init();
 
