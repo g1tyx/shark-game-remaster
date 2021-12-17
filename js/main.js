@@ -1046,20 +1046,4 @@ SharkGame.Changelog = {
 $(() => {
     $("#game").show();
     main.init();
-
-    // ctrl+s saves
-    $(window).on("keydown", (event) => {
-        if (event.ctrlKey || event.metaKey) {
-            switch (String.fromCharCode(event.key).toLowerCase()) {
-                case "s":
-                    event.preventDefault();
-                    SharkGame.Save.saveGame();
-                    break;
-                case "o":
-                    event.preventDefault();
-                    SharkGame.PaneHandler.showOptions();
-                    break;
-            }
-        }
-    });
 });
