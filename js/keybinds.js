@@ -126,7 +126,7 @@ SharkGame.Keybinds = {
                 this.updateBindModeState();
             }
         } else if (boundAction) {
-            this.handleUpBind(boundAction);
+            return this.handleUpBind(boundAction);
         }
     },
 
@@ -149,8 +149,9 @@ SharkGame.Keybinds = {
             }
         } else if (this.waitForKey && !boundAction && !$.isEmptyObject($(`#new-bind-button`)) && !isModifier) {
             this.bindMenuNewBind(keyID);
+            return true;
         } else if (boundAction) {
-            this.handleDownBind(boundAction);
+            return this.handleDownBind(boundAction);
         }
     },
 
@@ -164,6 +165,8 @@ SharkGame.Keybinds = {
                     ) {
                         $(`#${actionType}`).removeClass(`keep-button-pressed`);
                         home.onHomeButton(null, actionType);
+                    } else {
+                        return false;
                     }
                     console.log(actionType);
                 // return false;
@@ -271,16 +274,12 @@ SharkGame.Keybinds = {
                     }
                     break;
                 default:
+                    console.log(actionType);
                     if (SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionType)) {
                         $(`#${actionType}`).addClass(`keep-button-pressed`);
+                    } else {
+                        return false;
                     }
-                    console.log(actionType);
-                    /*                     _.each(SharkGame.HomeActions, (table) => {
-                        if (typeof table !== `function` && table[actionType]) {
-
-                        }
-                    }); */
-                    return false;
             }
             return true;
         }

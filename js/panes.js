@@ -175,6 +175,21 @@ SharkGame.PaneHandler = {
         return false;
     },
 
+    isPaneAlreadyUp(title) {
+        let alreadyUp;
+        if (this.currentPane) {
+            alreadyUp = this.currentPane[0] === title;
+        } else {
+            return false;
+        }
+
+        _.each(this.paneStack, (pane) => {
+            alreadyUp = alreadyUp || pane[0] === title;
+        });
+
+        return alreadyUp;
+    },
+
     showPane(title, contents, notCloseable, fadeInTime, customOpacity, preserveElements) {
         let pane;
 

@@ -21,12 +21,16 @@ window.onmousemove = (event) => {
 
 $(document).on("keyup", (event) => {
     SharkGame.lastActivity = _.now();
-    SharkGame.Keybinds.handleKeyUp(event.code);
+    if (SharkGame.Keybinds.handleKeyUp(event.code)) {
+        event.preventDefault();
+    }
 });
 
 $(document).on("keydown", (event) => {
     SharkGame.lastActivity = _.now();
-    SharkGame.Keybinds.handleKeyDown(event.code);
+    if (SharkGame.Keybinds.handleKeyDown(event.code)) {
+        event.preventDefault();
+    }
 });
 
 // CORE VARIABLES AND HELPER FUNCTIONS
