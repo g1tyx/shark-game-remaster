@@ -133,6 +133,48 @@ SharkGame.PaneHandler = {
         }
     },
 
+    isStackClosable() {
+        let canCloseAll;
+        if (this.currentPane) {
+            canCloseAll = !this.currentPane[2];
+        } else {
+            return true;
+        }
+
+        _.each(this.paneStack, (pane) => {
+            canCloseAll = canCloseAll && !pane[2];
+        });
+
+        return canCloseAll;
+    },
+
+    tryClosePane() {
+        if (this.isPaneUp() && this.isCurrentPaneCloseable()) {
+            this.nextPaneInStack();
+            return true;
+        }
+    },
+
+    tryWipeStack() {
+        while (this.currentPane) {
+            if (!this.tryClosePane()) {
+                return false;
+            }
+        }
+        return true;
+    },
+
+    isPaneUp() {
+        return !$(`#pane`).is(`:hidden`) && $(`#pane`).html();
+    },
+
+    isCurrentPaneCloseable() {
+        if (this.currentPane) {
+            return !this.currentPane[2];
+        }
+        return false;
+    },
+
     showPane(title, contents, notCloseable, fadeInTime, customOpacity, preserveElements) {
         let pane;
 

@@ -1,13 +1,12 @@
 SharkGame.Keybinds = {
     defaultBinds: {
-        0: "toggle bind mode",
         P: "pause",
-        1: "switch to home tab",
-        2: "switch to lab tab",
-        3: "switch to grotto tab",
-        4: "switch to recycler tab",
-        5: "switch to gate tab",
-        6: "switch to reflection tab",
+        "Shift + 1": "switch to home tab",
+        "Shift + 2": "switch to lab tab",
+        "Shift + 3": "switch to grotto tab",
+        "Shift + 4": "switch to recycler tab",
+        "Shift + 5": "switch to gate tab",
+        "Shift + 6": "switch to reflection tab",
         Backquote: "bind home ocean button",
         "Shift + Z": "switch to buy 1",
         "Shift + X": "switch to buy 10",
@@ -35,6 +34,8 @@ SharkGame.Keybinds = {
         "switch to buy 1/2 max",
         "switch to buy max",
         "switch to buy custom",
+        "open options",
+        "skip world",
     ],
 
     modifierKeys: {
@@ -49,12 +50,31 @@ SharkGame.Keybinds = {
     init() {
         this.keybinds = _.cloneDeep(this.defaultBinds);
         this.bindMode = false;
-        this.tempDisableBind = false;
+        this.bindModeLock = false;
         this.settingAction = undefined;
         this.settingKey = undefined;
     },
 
     setup() {},
+
+    cleanActionID(actionID) {
+        if (!this.actions.includes(actionID)) {
+            if (SharkGame.HomeActions.getActionTable()[actionID]) {
+                // see if this action happens to have a name in this world
+                actionID = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionID).name;
+            } else {
+                // perform a manual search to find the name of this action
+                _.each(SharkGame.HomeActions, (homeActionsObject) => {
+                    if (typeof homeActionsObject === "object" && homeActionsObject[actionID]) {
+                        actionID = homeActionsObject[actionID].name;
+                        return false;
+                    }
+                });
+            }
+        }
+
+        return actionID;
+    },
 
     // makes IDs human-readable
     cleanID(keyID) {
@@ -94,7 +114,7 @@ SharkGame.Keybinds = {
 
         const boundAction = this.keybinds[keyID];
         if (this.bindMode && boundAction !== "bind home ocean button") {
-            if (!_.isUndefined(modifiersEntry)) {
+            if (_.isUndefined(modifiersEntry)) {
                 this.settingKey = keyID;
                 this.updateBindModeState();
             }
@@ -129,7 +149,10 @@ SharkGame.Keybinds = {
         if (!this.tempDisableBind) {
             switch (actionType) {
                 default:
-                    if (SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionType)) {
+                    if (
+                        SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionType) &&
+                        $(`#${actionType}`).hasClass(`keep-button-pressed`)
+                    ) {
                         $(`#${actionType}`).removeClass(`keep-button-pressed`);
                         home.onHomeButton(null, actionType);
                     }
@@ -155,7 +178,9 @@ SharkGame.Keybinds = {
                     // do nothing for now
                     break;
                 case "bind home ocean button":
-                    this.toggleBindMode();
+                    if (!this.bindModeLock) {
+                        this.toggleBindMode(true);
+                    }
                     break;
                 case "pause":
                     if (SharkGame.Aspects.meditation.level && !SharkGame.gameOver) {
@@ -256,10 +281,53 @@ SharkGame.Keybinds = {
         this.keybinds[keyID] = actionType;
     },
 
-    updateBindModeOverlay() {},
+    updateBindModeOverlay(toggledByKey) {
+        if (this.bindMode) {
+            if (!SharkGame.OverlayHandler.isOverlayShown()) {
+                SharkGame.OverlayHandler.revealOverlay(250, 0.8);
+            }
 
-    updateBindModeState() {
-        this.updateBindModeOverlay();
+            $(`#buttonList`).children().addClass("front");
+
+            const textConatiner = $(`<div>`).attr(`id`, `keybind-overlay-container`);
+            textConatiner.css(`width`, SharkGame.Settings.current.sidebarWidth);
+
+            $(`#overlay`).empty();
+
+            textConatiner.append($(`<h1>`).html("ACTION BIND MODE"));
+            if (_.isUndefined(this.settingAction) && _.isUndefined(this.settingKey)) {
+                textConatiner.append($(`<p>`).html(`<strong>Click the button you want to bind, then press a key to bind it to.</strong>`));
+            } else if (!_.isUndefined(this.settingAction) && _.isUndefined(this.settingKey)) {
+                textConatiner.append($(`<p>`).html(`<strong>Press a key to bind to ${this.cleanActionID(this.settingAction)}.</strong>`));
+            } else if (_.isUndefined(this.settingAction) && !_.isUndefined(this.settingKey)) {
+                textConatiner.append($(`<p>`).html(`<strong>Click a button to bind to ${this.settingKey}.</strong>`));
+            } else {
+                textConatiner.append($(`<p>`).html(`<strong>Bound ${this.settingKey} to ${this.cleanActionID(this.settingAction)}.</strong>`));
+            }
+
+            $(`#overlay`).append(textConatiner);
+        } else {
+            this.bindModeLock = true;
+            if (toggledByKey) {
+                SharkGame.OverlayHandler.hideOverlay(250, () => {
+                    $(`#buttonList`).children().removeClass("front");
+                    $(`#overlay`).empty();
+                    this.bindModeLock = false;
+                });
+            } else {
+                setTimeout(() => {
+                    SharkGame.OverlayHandler.hideOverlay(250, () => {
+                        $(`#buttonList`).children().removeClass("front");
+                        $(`#overlay`).empty();
+                        this.bindModeLock = false;
+                    });
+                }, 1000);
+            }
+        }
+    },
+
+    updateBindModeState(toggledByKey) {
+        this.updateBindModeOverlay(toggledByKey);
         if (this.checkForBindModeCombo()) {
             // check to make sure we dont merge redundant modifier keys
             // or just pass nothing when setting a modifier key
@@ -272,7 +340,7 @@ SharkGame.Keybinds = {
         return this.settingAction && this.settingKey;
     },
 
-    toggleBindMode() {
+    toggleBindMode(toggledByKey) {
         // toggle bind mode:
         // first, settingaction and settingkey to undefined
         // then toggle the bindmode property in sharkgame.keybinds
@@ -294,12 +362,17 @@ SharkGame.Keybinds = {
         this.settingKey = undefined;
         this.settingAction = undefined;
 
-        if (this.bindMode) {
-            console.log(`off`);
-            this.bindMode = false;
-        } else {
-            console.log(`on`);
-            this.bindMode = true;
+        if (SharkGame.PaneHandler.isStackClosable() && SharkGame.Tabs.current === `home`) {
+            if (this.bindMode) {
+                console.log(`off`);
+                this.bindMode = false;
+            } else {
+                console.log(`on`);
+                this.bindMode = true;
+                SharkGame.PaneHandler.tryWipeStack();
+            }
+
+            this.updateBindModeState(toggledByKey);
         }
     },
 };

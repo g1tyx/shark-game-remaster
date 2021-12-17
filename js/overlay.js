@@ -43,6 +43,10 @@ SharkGame.OverlayHandler = {
         }
     },
 
+    isOverlayShown() {
+        return !$(`#overlay`).is(`:hidden`) && $(`#overlay`).css(`opacity`) !== 0;
+    },
+
     enterGateway() {
         $(`#overlay`).addClass(`gateway`);
     },
