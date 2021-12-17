@@ -534,6 +534,37 @@ SharkGame.Home = {
         home.update();
     },
 
+    getButtonTabs() {
+        const buttonTabsArray = [];
+        $.each(SharkGame.HomeActionCategories, (categoryName) => {
+            if ($(`#buttonTab-${categoryName}`).html() || home.currentButtonTab === categoryName) {
+                buttonTabsArray.push(categoryName);
+            }
+        });
+        console.log(buttonTabsArray);
+        return buttonTabsArray;
+    },
+
+    getNextButtonTab() {
+        const tabs = this.getButtonTabs();
+        const currentTabIndex = tabs.indexOf(home.currentButtonTab);
+
+        if (currentTabIndex === tabs.length - 1) {
+            return tabs[0];
+        }
+        return tabs[currentTabIndex + 1];
+    },
+
+    getPreviousButtonTab() {
+        const tabs = this.getButtonTabs();
+        const currentTabIndex = tabs.indexOf(home.currentButtonTab);
+
+        if (currentTabIndex === 0) {
+            return tabs[tabs.length - 1];
+        }
+        return tabs[currentTabIndex - 1];
+    },
+
     updateMessage(suppressAnimation) {
         const worldType = SharkGame.WorldTypes[world.worldType];
         const events = home.extraMessages[world.worldType];

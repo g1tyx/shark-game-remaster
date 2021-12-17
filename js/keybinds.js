@@ -15,28 +15,33 @@ SharkGame.Keybinds = {
         "Shift + B": "switch to buy 1/2 max",
         "Shift + N": "switch to buy max",
         "Shift + M": "switch to buy custom",
+        "Control + O": "open options",
+        "Control + S": "save",
     },
     keybinds: {},
 
     actions: [
         `nothing`,
         `pause`,
-        "switch to home tab",
-        "switch to lab tab",
-        "switch to grotto tab",
-        "switch to recycler tab",
-        "switch to gate tab",
-        "switch to reflection tab",
-        "bind home ocean button",
-        "switch to buy 1",
-        "switch to buy 10",
-        "switch to buy 100",
-        "switch to buy 1/3 max",
-        "switch to buy 1/2 max",
-        "switch to buy max",
-        "switch to buy custom",
-        "open options",
-        "skip world",
+        `save`,
+        `open options`,
+        `skip world`,
+        `bind home ocean button`,
+        `switch to home tab`,
+        `switch to lab tab`,
+        `switch to grotto tab`,
+        `switch to recycler tab`,
+        `switch to gate tab`,
+        `switch to reflection tab`,
+        `switch home button tab left`,
+        `switch home button tab right`,
+        `switch to buy 1`,
+        `switch to buy 10`,
+        `switch to buy 100`,
+        `switch to buy 1/3 max`,
+        `switch to buy 1/2 max`,
+        `switch to buy max`,
+        `switch to buy custom`,
     ],
 
     modifierKeys: {
@@ -217,6 +222,16 @@ SharkGame.Keybinds = {
                 case "switch to reflection tab":
                     SharkGame.TabHandler.keybindSwitchTab("reflection");
                     break;
+                case `switch home button tab left`:
+                    if (SharkGame.Tabs.current === `home`) {
+                        home.changeButtonTab(home.getPreviousButtonTab());
+                    }
+                    break;
+                case `switch home button tab right`:
+                    if (SharkGame.Tabs.current === `home`) {
+                        home.changeButtonTab(home.getNextButtonTab());
+                    }
+                    break;
                 case "switch to buy 1":
                     if (!$("#buy-1").hasClass("disabled")) {
                         SharkGame.Settings.current.buyAmount = 1;
@@ -271,6 +286,20 @@ SharkGame.Keybinds = {
                         $("#custom-input").attr("disabled", false);
                         $("button[id^='buy-']").removeClass("disabled");
                         $("#buy-custom").addClass("disabled");
+                    }
+                    break;
+                case "open options":
+                    if (!SharkGame.PaneHandler.isPaneAlreadyUp(`Options`)) {
+                        SharkGame.PaneHandler.showOptions();
+                    }
+                    break;
+                case "save":
+                    SharkGame.Save.saveGame();
+                    SharkGame.Log.addMessage(`Saved game.`);
+                    break;
+                case "skip world":
+                    if (!SharkGame.gameOver) {
+                        SharkGame.TitleBar.skipLink.onClick();
                     }
                     break;
                 default:
