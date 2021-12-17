@@ -7,7 +7,7 @@ SharkGame.Keybinds = {
         "Shift + 4": "switch to recycler tab",
         "Shift + 5": "switch to gate tab",
         "Shift + 6": "switch to reflection tab",
-        Backquote: "bind home ocean button",
+        Period: "bind home ocean button",
         "Shift + Z": "switch to buy 1",
         "Shift + X": "switch to buy 10",
         "Shift + C": "switch to buy 100",
@@ -19,6 +19,7 @@ SharkGame.Keybinds = {
     keybinds: {},
 
     actions: [
+        `nothing`,
         `pause`,
         "switch to home tab",
         "switch to lab tab",
@@ -51,11 +52,17 @@ SharkGame.Keybinds = {
         this.keybinds = _.cloneDeep(this.defaultBinds);
         this.bindMode = false;
         this.bindModeLock = false;
+        this.waitForKey = false;
         this.settingAction = undefined;
         this.settingKey = undefined;
     },
 
     setup() {},
+
+    compressKeyID(keyID) {
+        keyID = keyID.replace(/ /gi, ``).replace(`+`, `-`);
+        return keyID;
+    },
 
     cleanActionID(actionID) {
         if (!this.actions.includes(actionID)) {
@@ -125,7 +132,8 @@ SharkGame.Keybinds = {
 
     handleKeyDown(keyID) {
         const modifiersEntry = this.modifierKeys[keyID];
-        if (!_.isUndefined(modifiersEntry)) {
+        const isModifier = !_.isUndefined(modifiersEntry);
+        if (isModifier) {
             this.modifierKeys[keyID] = 1;
         }
 
@@ -135,11 +143,12 @@ SharkGame.Keybinds = {
 
         const boundAction = this.keybinds[keyID];
         if (this.bindMode && boundAction !== "bind home ocean button") {
-            console.log(modifiersEntry);
-            if (_.isUndefined(modifiersEntry)) {
+            if (!isModifier) {
                 this.settingKey = keyID;
                 this.updateBindModeState();
             }
+        } else if (this.waitForKey && !boundAction && !$.isEmptyObject($(`#new-bind-button`)) && !isModifier) {
+            this.bindMenuNewBind(keyID);
         } else if (boundAction) {
             this.handleDownBind(boundAction);
         }
@@ -279,6 +288,14 @@ SharkGame.Keybinds = {
 
     addKeybind(keyID, actionType) {
         this.keybinds[keyID] = actionType;
+    },
+
+    bindMenuNewBind(keyID) {
+        this.waitForKey = false;
+        this.addKeybind(keyID, `nothing`);
+        // just remake the whole pane
+        SharkGame.PaneHandler.nextPaneInStack();
+        SharkGame.PaneHandler.showKeybinds();
     },
 
     updateBindModeOverlay(toggledByKey) {

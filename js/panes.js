@@ -438,6 +438,10 @@ SharkGame.PaneHandler = {
     },
 
     showKeybinds() {
+        if (SharkGame.Keybinds.waitForKey) {
+            SharkGame.Keybinds.waitForKey = false;
+        }
+
         const keybindTable = $(`<table>`).attr(`id`, `keybindTable`);
 
         let row = $(`<tr>`);
@@ -445,39 +449,40 @@ SharkGame.PaneHandler = {
             $(`<td>`).append(
                 $(`<button>`)
                     .html(`new bind`)
-                    .on(`click`, () => {})
+                    .attr(`id`, `new-bind-button`)
+                    .on(`click`, function () {
+                        $(this).html(`press some keys...`);
+                        SharkGame.Keybinds.waitForKey = true;
+                    })
             )
         );
         keybindTable.append(row);
 
         $.each(SharkGame.Keybinds.keybinds, (boundKey, boundAction) => {
-            row = $(`<tr>`).attr(`id`, boundKey);
+            row = $(`<tr>`).attr(`id`, SharkGame.Keybinds.compressKeyID(boundKey));
             row.append($(`<td>`).html(boundKey));
 
             if (SharkGame.Keybinds.actions.includes(boundAction)) {
-                const selector = $("<select>")
-                    .attr(`row`, boundKey)
-                    .on(`change`, function () {
-                        SharkGame.Keybinds.addKeybind(boundKey, $(this)[0].value);
-                        console.log(`bound ${boundKey} to ${$(this)[0].value}`);
-                        console.log($(this));
-                    });
+                const selector = $("<select>").on(`change`, function () {
+                    SharkGame.Keybinds.addKeybind(boundKey, $(this)[0].value);
+                    console.log(`bound ${boundKey} to ${$(this)[0].value}`);
+                    console.log($(this));
+                });
                 _.each(SharkGame.Keybinds.actions, (potentialBoundAction) => {
                     selector.append(`<option ${boundAction === potentialBoundAction ? `selected` : ``}>` + potentialBoundAction + "</option>");
                 });
                 row.append(selector);
             } else {
-                row.append($(`<td>`).html(boundAction));
+                row.append($(`<td>`).html(SharkGame.Keybinds.cleanActionID(boundAction)));
             }
 
             row.append(
                 $(`<td>`).append(
                     $("<button>")
                         .addClass("min close-button")
-                        .attr(`row`, boundKey)
                         .html("✕")
                         .on(`click`, () => {
-                            $(`#${boundKey}`).remove();
+                            $(`#${SharkGame.Keybinds.compressKeyID(boundKey)}`).remove();
                             delete SharkGame.Keybinds.keybinds[boundKey];
                         })
                 )
