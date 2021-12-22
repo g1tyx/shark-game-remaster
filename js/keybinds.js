@@ -27,6 +27,7 @@ SharkGame.Keybinds = {
         `open options`,
         `skip world`,
         `bind home ocean button`,
+        `buy topmost upgrade`,
         `switch to home tab`,
         `switch to lab tab`,
         `switch to grotto tab`,
@@ -297,6 +298,9 @@ SharkGame.Keybinds = {
                     if (!SharkGame.gameOver) {
                         SharkGame.TitleBar.skipLink.onClick();
                     }
+                    break;
+                case `buy topmost upgrade`:
+                    SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
                     break;
                 default:
                     console.log(actionType);
