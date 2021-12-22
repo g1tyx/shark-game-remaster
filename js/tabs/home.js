@@ -996,17 +996,6 @@ SharkGame.Home = {
         button.addClass("disabled");
     },
 
-    everything: {
-        onEverythingButton() {
-            _.each(home.buttonNamesList, (actionName) => {
-                const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
-                if (!home.doesButtonGiveNegativeThing(actionData)) {
-                    home.onHomeButton("blah", actionName);
-                }
-            });
-        },
-    },
-
     onHomeHover(mouseEnterEvent, actionName) {
         if (!SharkGame.Settings.current.showTooltips || (!actionName && !mouseEnterEvent) || !main.shouldShowTooltips()) {
             return;
