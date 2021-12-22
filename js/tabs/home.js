@@ -434,10 +434,6 @@ SharkGame.Home = {
         if (SharkGame.Settings.current.showTabImages) {
             tabMessage.css("background-image", "url('" + home.tabBg + "')");
         }
-
-        if (SharkGame.Aspects.anythingAndEverything.level) {
-            this.everything.addEverythingButton();
-        }
         this.update();
     },
 
@@ -527,9 +523,6 @@ SharkGame.Home = {
         }
         home.currentButtonTab = tabToChangeTo;
         $("#buttonList").empty();
-        if (SharkGame.Aspects.anythingAndEverything.level) {
-            this.everything.addEverythingButton();
-        }
         home.createButtonTabs();
         home.update();
     },
@@ -1004,20 +997,6 @@ SharkGame.Home = {
     },
 
     everything: {
-        addEverythingButton() {
-            const buttonListSel = $("#buttonList");
-
-            const buttonSelector = SharkGame.Button.makeHoverscriptButton(
-                "anythingAndEverything",
-                "Anything and Everything",
-                buttonListSel,
-                home.everything.onEverythingButton,
-                home.everything.onEverythingHover,
-                home.onHomeUnhover
-            ); // box-shadow: 0 0 6px 3px #f00, 0 0 3px 1px #ff1a1a inset;
-            buttonSelector.html($("<span id='" + "anythingAndEverything" + "Label' class='click-passthrough'>Press anything and everything</span>"));
-        },
-
         onEverythingButton() {
             _.each(home.buttonNamesList, (actionName) => {
                 const actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
@@ -1025,15 +1004,6 @@ SharkGame.Home = {
                     home.onHomeButton("blah", actionName);
                 }
             });
-        },
-
-        onEverythingHover() {
-            if (!SharkGame.Settings.current.showTooltips) {
-                return;
-            }
-
-            $("#tooltipbox").removeClass("forIncomeTable").attr("current", "").addClass("forHomeButtonOrGrotto");
-            $("#tooltipbox").html("Clicks every other button in the list without a red border, in order, from left to right and top to bottom.");
         },
     },
 

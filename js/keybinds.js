@@ -28,6 +28,7 @@ SharkGame.Keybinds = {
         `skip world`,
         `bind home ocean button`,
         `buy topmost upgrade`,
+        `press all buying buttons`,
         `switch to home tab`,
         `switch to lab tab`,
         `switch to grotto tab`,
@@ -301,6 +302,17 @@ SharkGame.Keybinds = {
                     break;
                 case `buy topmost upgrade`:
                     SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
+                    break;
+                case `press all buying buttons`:
+                    _.each(home.buttonNamesList, (actionName, actionData) => {
+                        // actionData gets immediately overwritten because
+                        // linter will yell at me if i define a variable in the switch statement
+                        // and this is a decent workaround
+                        actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+                        if (!home.doesButtonGiveNegativeThing(actionData)) {
+                            home.onHomeButton(null, actionName);
+                        }
+                    });
                     break;
                 default:
                     console.log(actionType);
