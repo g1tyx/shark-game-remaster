@@ -22,13 +22,14 @@ SharkGame.Keybinds = {
 
     actions: [
         `nothing`,
+        `bind home ocean button`,
         `pause`,
         `save`,
         `open options`,
         `skip world`,
-        `bind home ocean button`,
-        `buy topmost upgrade`,
+        `enter gate`,
         `press all buying buttons`,
+        `buy topmost upgrade`,
         `switch to home tab`,
         `switch to lab tab`,
         `switch to grotto tab`,
@@ -313,6 +314,11 @@ SharkGame.Keybinds = {
                             home.onHomeButton(null, actionName);
                         }
                     });
+                    break;
+                case `enter gate`:
+                    if (SharkGame.Gate.shouldBeOpen()) {
+                        SharkGame.Gate.enterGate();
+                    }
                     break;
                 default:
                     console.log(actionType);
