@@ -28,6 +28,7 @@ SharkGame.Keybinds = {
         `open options`,
         `skip world`,
         `enter gate`,
+        `toggle idle time use`,
         `return all tokens`,
         `press all buying buttons`,
         `buy topmost upgrade`,
@@ -300,6 +301,11 @@ SharkGame.Keybinds = {
                 case "skip world":
                     if (!SharkGame.gameOver) {
                         SharkGame.TitleBar.skipLink.onClick();
+                    }
+                    break;
+                case `toggle idle time use`:
+                    if (SharkGame.persistentFlags.everIdled && !SharkGame.gameOver) {
+                        res.minuteHand.toggleMinuteHand();
                     }
                     break;
                 case `return all tokens`:
