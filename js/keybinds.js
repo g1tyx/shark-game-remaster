@@ -174,10 +174,6 @@ SharkGame.Keybinds = {
                         return false;
                     }
                     console.log(actionType);
-                // return false;
-                // do nothing yet
-                // or alternatively:
-                // SharkGame.Log.addError("Keybind assigned to nonexistent action.");
             }
             return true;
         }
@@ -374,8 +370,6 @@ SharkGame.Keybinds = {
     updateBindModeState(toggledByKey) {
         this.updateBindModeOverlay(toggledByKey);
         if (this.checkForBindModeCombo()) {
-            // check to make sure we dont merge redundant modifier keys
-            // or just pass nothing when setting a modifier key
             this.addKeybind(this.composeKeys(this.settingKey), this.settingAction);
             this.toggleBindMode();
         }
