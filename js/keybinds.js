@@ -28,6 +28,7 @@ SharkGame.Keybinds = {
         `open options`,
         `skip world`,
         `enter gate`,
+        `return all tokens`,
         `press all buying buttons`,
         `buy topmost upgrade`,
         `switch to home tab`,
@@ -300,6 +301,11 @@ SharkGame.Keybinds = {
                     if (!SharkGame.gameOver) {
                         SharkGame.TitleBar.skipLink.onClick();
                     }
+                    break;
+                case `return all tokens`:
+                    _.each(res.tokens.list, (token) => {
+                        res.tokens.tryReturnToken(null, false, token);
+                    });
                     break;
                 case `buy topmost upgrade`:
                     SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
