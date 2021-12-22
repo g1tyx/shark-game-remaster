@@ -478,6 +478,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             saveData.timestampRunStart = _.now();
             saveData.timestampRunEnd = SharkGame.timestampRunEnd;
 
+            saveData.keybinds = _.cloneDeep(SharkGame.Keybinds.keybinds);
+
             saveData.saveVersion = SharkGame.Save.saveUpdaters.length - 1;
             saveString = ascii85.encode(pako.deflate(JSON.stringify(saveData), { to: "string" }));
 
