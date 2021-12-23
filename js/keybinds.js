@@ -95,16 +95,19 @@ SharkGame.Keybinds = {
 
     // makes IDs human-readable
     cleanID(keyID) {
-        keyID = keyID.replace("Digit", "").replace("Key", "");
-        if (keyID.includes("Left")) {
-            keyID = "Left " + keyID.replace("Left", "");
-        }
-        if (keyID.includes("Right")) {
-            keyID = "Right " + keyID.replace("Right", "");
-        }
-        if (keyID === "CapsLock") {
-            keyID = "Caps Lock";
-        }
+        keyID = keyID
+            .replace(`Digit`, ``)
+            .replace(`Key`, ``)
+            .replace(`CapsLock`, `Caps Lock`)
+            .replace(`NumLock`, `Num Lock`)
+            .replace(`ScrollLock`, `Scroll Lock`)
+            .replace(`ContextMenu`, `Context Menu`);
+        _.each([`Left`, `Right`, `Up`, `Down`, `Numpad`], (direction) => {
+            if (keyID.includes(direction)) {
+                keyID = `${direction} ` + keyID.replace(direction, ``);
+            }
+        });
+        keyID = keyID.replace(`Up Page`, `Page Up`).replace(`Down Page`, `Page Down`);
         return keyID;
     },
 
