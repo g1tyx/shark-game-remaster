@@ -846,8 +846,8 @@ SharkGame.AspectTree = {
                     `<br /><span class='littleTooltipText'>${levelText}</span>` +
                     `<br/>${button.getEffect(1)}<br/>` +
                     `<span class='littleTooltipText'>${button.description}</span><br/>` +
-                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    `<span class='bold'>${costText}</span>`;
+                    (tree.debugMode ? "" : "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    `<span class='bold'>${costText}</span>`);
                 tooltipBox.addClass("forAspectTreeUnpurchased");
             } else if (button.level < button.max) {
                 let costText = ``;
@@ -876,8 +876,8 @@ SharkGame.AspectTree = {
                     "<hr class='hrForTooltipSeparationInGateway'>" +
                     "<span class='littleTooltipText' class='bold'>NEXT LEVEL:</span><br />" +
                     button.getEffect(button.level + 1) +
-                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    `<span class='bold'>${costText}</span>`;
+                    (tree.debugMode ? "" : "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    `<span class='bold'>${costText}</span>`);
             } else if (button.level === undefined) {
                 const levelText =
                     (button.core ? " core aspect" : "") + (button.core && button.noRefunds ? ", " : "") + (button.noRefunds ? "no refunds" : "");
@@ -909,8 +909,8 @@ SharkGame.AspectTree = {
                     `<br /><span class='littleTooltipText'>${levelText}</span>` +
                     `<br />${button.getEffect(button.level)}` +
                     `<br /><span class='littleTooltipText'>${button.description}</span>` +
-                    "<hr class='hrForTooltipJuxtapositionInGateway'>" +
-                    `<strong>${costText}</strong></span>`;
+                    (tree.debugMode ? "": "<hr class='hrForTooltipJuxtapositionInGateway'>" +
+                    `<strong>${costText}</strong></span>`);
             }
             tooltipBox.html(tooltipText);
         }
