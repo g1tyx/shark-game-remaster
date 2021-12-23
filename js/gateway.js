@@ -629,6 +629,9 @@ SharkGame.Gateway = {
         if (!SharkGame.persistentFlags.totalPausedTime) {
             SharkGame.persistentFlags.totalPausedTime = 0;
         }
+        if (!SharkGame.persistentFlags.currentPausedTime) {
+            SharkGame.persistentFlags.currentPausedTime = 0;
+        }
         const time =
             SharkGame.timestampRunEnd -
             SharkGame.timestampRunStart -
