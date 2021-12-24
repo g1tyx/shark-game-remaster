@@ -6,7 +6,7 @@ window.onmousemove = (event) => {
     SharkGame.lastActivity = _.now();
 
     const tooltip = document.getElementById("tooltipbox");
-    if (!tooltip) return;
+    if (!tooltip || tooltip.innerHTML === "") return;
     const posX = event.clientX;
     const posY = event.clientY;
 

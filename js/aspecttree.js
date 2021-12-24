@@ -439,11 +439,15 @@ SharkGame.AspectTree = {
         return aspect;
     },
 
+    previousButton: undefined,
     /** @param {MouseEvent} event */
     updateMouse(event) {
         const button = tree.getButtonUnderMouse(event);
-
-        tree.updateTooltip(button);
+        if (button !== tree.previousButton) {
+            console.log("different");
+            tree.previousButton = button;
+            tree.updateTooltip(button);
+        }
     },
 
     /** @param {MouseEvent} event */
