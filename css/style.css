@@ -109,7 +109,7 @@ body {
   font-size: 13pt;
   text-align: center;
   min-height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 div {
@@ -192,10 +192,6 @@ pre {
   text-align: left;
 }
 
-#game {
-  display: none;
-}
-
 .section, #content, #sidebar, #title {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -209,7 +205,7 @@ pre {
   margin: 5px;
 }
 
-.click-passthrough, .copyrightNotice, .largeDesc, .medDesc, .smallDesc, .smallDescAllowClicks, .button-icon, .top-bar #title #titlebar, .top-bar #title {
+.click-passthrough, .largeDesc, .medDesc, .smallDesc, .smallDescAllowClicks, .button-icon, .top-bar #title #titlebar, .top-bar #title {
   pointer-events: none;
 }
 
@@ -758,7 +754,7 @@ button.newlyDiscovered {
   padding: 0;
   margin: 0;
   max-height: 600pt;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 #upgradeList li {
   padding: 0.5em 0.5em 0.5em 0.2em;

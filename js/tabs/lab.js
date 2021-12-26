@@ -225,7 +225,6 @@ SharkGame.Lab = {
         }
 
         if (!suppressAnimation && SharkGame.Settings.current.showAnimations) {
-            debugger;
             tabMessageSel.animate({ opacity: 0 }, 200, () => {
                 $(tabMessageSel).animate({ opacity: 1 }, 200).html(message);
             });

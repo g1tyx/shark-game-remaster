@@ -270,7 +270,7 @@ body {
     font-size: 13pt;
     text-align: center;
     min-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 div {
@@ -972,7 +972,7 @@ button.newlyDiscovered {
         padding: 0;
         margin: 0;
         max-height: 600pt;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     li {
@@ -1244,9 +1244,6 @@ button {
 
 .copyrightNotice {
     @include no-select;
-    // In Chrome, rendering error makes copyright notice be in front
-    // of the resource table sometimes, preventing tooltips and clicking
-    @extend .click-passthrough;
     font-size: 80%;
     color: var(--color-lighter);
     filter: brightness(130%);
