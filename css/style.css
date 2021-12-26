@@ -543,10 +543,10 @@ pre {
   box-shadow: 0 0 2px 2px var(--color-dark) inset;
 }
 #log #messageList.scrollable {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 #log #messageList.forRightSide {
-  overflow-y: scroll;
+  overflow-y: auto;
   border-style: none;
   max-height: 42em;
 }
@@ -557,7 +557,7 @@ pre {
   padding-right: 0.4em;
 }
 #log #messageList.forLeftSide {
-  overflow-y: scroll;
+  overflow-y: auto;
   border-style: none;
   max-height: 30em;
 }
@@ -614,6 +614,9 @@ pre {
 
 #buttonList {
   padding: 1em;
+}
+#buttonList button {
+  touch-action: manipulation;
 }
 #buttonList.homeScreen {
   display: flex;

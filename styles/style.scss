@@ -729,11 +729,11 @@ pre {
         @include box-shadow-inset(0, 0, 2px, 2px, var(--color-dark));
 
         &.scrollable {
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         &.forRightSide {
-            overflow-y: scroll;
+            overflow-y: auto;
             border-style: none;
             max-height: 42em;
             li {
@@ -745,7 +745,7 @@ pre {
         }
 
         &.forLeftSide {
-            overflow-y: scroll;
+            overflow-y: auto;
             border-style: none;
             max-height: 30em;
             li {
@@ -804,6 +804,12 @@ pre {
 #buttonList {
     @extend .inner-section;
     padding: 1em;
+
+    button {
+        // disables mobile zooming on double tap except for safari
+        // https://stackoverflow.com/questions/10614481/
+        touch-action: manipulation;
+    }
 
     &.homeScreen {
         display: flex;
