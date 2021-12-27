@@ -180,6 +180,15 @@ h4 {
   -moz-border-radius: 10px;
   border-radius: 10px;
   height: 100%;
+  min-height: 93vh;
+  display: flex;
+  flex-direction: column;
+}
+#wrapper #game {
+  flex: 1 0 auto;
+}
+#wrapper #copyright {
+  flex-shrink: 0;
 }
 #wrapper.topLogActive {
   margin-top: 4.8em;
@@ -190,6 +199,10 @@ h4 {
 
 pre {
   text-align: left;
+}
+
+#game {
+  display: none;
 }
 
 .section, #content, #sidebar, #title {

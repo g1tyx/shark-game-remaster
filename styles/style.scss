@@ -344,6 +344,18 @@ h4 {
     @include border-radius(10px);
     height: 100%;
 
+    min-height: 93vh;
+    display: flex;
+    flex-direction: column;
+
+    #game {
+        flex: 1 0 auto;
+    }
+
+    #copyright {
+        flex-shrink: 0;
+    }
+
     &.topLogActive {
         margin-top: 4.8em;
     }
