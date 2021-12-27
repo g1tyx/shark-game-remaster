@@ -444,7 +444,6 @@ SharkGame.AspectTree = {
     updateMouse(event) {
         const button = tree.getButtonUnderMouse(event);
         if (button !== tree.previousButton) {
-            console.log("different");
             tree.previousButton = button;
             tree.updateTooltip(button);
         }
