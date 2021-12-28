@@ -28,7 +28,10 @@ SharkGame.Log = {
                 $("#titlebackground").addClass("topLogActive");
                 break;
             default:
-                $("#rightLogContainer").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forRightSide")));
+                $("#rightLogContainer")
+                    .append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forRightSide")))
+                    .css("top", $("#rightLogContainer").offset().top)
+                    .css("position", "sticky");
                 $("#wrapper").removeClass("topLogActive");
                 $("#titlebackground").removeClass("topLogActive");
         }
