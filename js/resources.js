@@ -862,6 +862,7 @@ SharkGame.Resources = {
                 .attr("type", "range")
                 .attr("min", 1)
                 .attr("max", 9)
+                .attr("step", 0.01)
                 .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
                 .on("input", res.minuteHand.changeSelectedMultiplier);
             $("#minute-row-two").append(slider);
@@ -928,7 +929,7 @@ SharkGame.Resources = {
             if (arbitrary) {
                 multiplier = arbitrary;
             } else {
-                multiplier = 2 ** document.getElementById("minute-slider").value;
+                multiplier = 2 ** Math.floor(document.getElementById("minute-slider").value);
             }
             SharkGame.persistentFlags.selectedMultiplier = multiplier;
             if (res.minuteHand.active) {
@@ -954,11 +955,8 @@ SharkGame.Resources = {
         },
 
         updateMinuteHandLabel() {
-            if (!res.minuteHand.active) {
-                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
-            } else {
-                $("#minute-multiplier").html("<span class='click-passthrough bold'>" + SharkGame.persistentFlags.selectedMultiplier + "×</span>");
-            }
+            const multiplier = SharkGame.persistentFlags.selectedMultiplier.toString().padStart(3, " ").replaceAll(" ", "&nbsp;&nbsp;");
+            $("#minute-multiplier").html("<span class='click-passthrough bold'>" + multiplier + "×</span>");
             $("#minute-time").html(sharktext.boldString("(" + res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer) + ")"));
             if (SharkGame.flags.minuteHandTimer < 100) {
                 $("#minute-hand-toggle").addClass("disabled");
@@ -998,7 +996,7 @@ SharkGame.Resources = {
             $("#minute-slider").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
             $("#minute-hand-toggle").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
             if (res.minuteHand.active && SharkGame.Settings.current.minuteHandEffects) {
-                const multiplier = 2 ** document.getElementById("minute-slider").value;
+                const multiplier = 2 ** Math.floor(document.getElementById("minute-slider").value);
                 if (multiplier === 2) {
                     $("#minute-slider").addClass("power1");
                     $("#minute-hand-toggle").addClass("power1");

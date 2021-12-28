@@ -286,7 +286,7 @@ SharkGame.TextUtil = {
         const numMonths = Math.floor(numWeeks / 4);
         const numYears = Math.floor(numMonths / 12);
 
-        const formatSeconds = (numSeconds % 60).toString(10).padStart(2, "0");
+        const formatSeconds = (numSeconds % 60).toString(10).padStart(2, "0") + (numMinutes === 0 ? "s" : "");
         const formatMinutes = numMinutes > 0 ? (numMinutes % 60).toString(10).padStart(2, "0") + ":" : "";
         const formatHours = numHours > 0 ? (numHours % 24).toString() + ":" : "";
         const formatDays = numDays > 0 ? (numDays % 7).toString() + "D, " : "";
