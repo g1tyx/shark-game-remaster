@@ -180,7 +180,7 @@ h4 {
   -moz-border-radius: 10px;
   border-radius: 10px;
   height: 100%;
-  min-height: 93vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
 }
@@ -557,7 +557,7 @@ pre {
 #log #messageList.forRightSide {
   overflow-y: auto;
   border-style: none;
-  max-height: 42em;
+  max-height: 39em;
 }
 #log #messageList.forRightSide li {
   padding-top: 1em;
@@ -583,7 +583,6 @@ pre {
 #rightLogContainer {
   float: right;
   width: 18%;
-  max-height: 40em;
   background-color: var(--color-med);
   box-shadow: 0 0 5px 5px var(--color-dark) inset;
   overflow: clip;

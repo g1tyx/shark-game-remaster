@@ -58,12 +58,35 @@ SharkGame.Log = {
             messageItem.addClass("evenMessage");
         }
 
-        if (showAnims) {
+        function height(elt, position) {
+            return (
+                elt.getBoundingClientRect().top +
+                (position === "bottom" ? elt.getBoundingClientRect().y : 0) -
+                messageList.getBoundingClientRect().top
+            );
+        }
+
+        const messageList = document.querySelector("#messageList");
+        log.messages.push(messageItem);
+
+        if (messageList.scrollTop !== 0) {
+            messageItem.prependTo("#messageList");
+            let highestVisible = null;
+            for (let i = log.messages.length - 1; i > 0; i--) {
+                if (height(log.messages[i][0], "bottom") > 0) {
+                    highestVisible = i;
+                    break;
+                }
+            }
+
+            const desiredTopElt = log.messages[_.clamp(highestVisible + 1, log.messages.length - 1)][0];
+            const desiredTop = messageList.scrollTop + height(desiredTopElt, "top");
+            $(messageList).animate({ scrollTop: desiredTop + "px" }, 50, "linear");
+        } else if (showAnims) {
             messageItem.hide().css("opacity", 0).prependTo("#messageList").slideDown(50).animate({ opacity: 1.0 }, 100);
         } else {
             messageItem.prependTo("#messageList");
         }
-        log.messages.push(messageItem);
 
         log.correctLogLength();
 
