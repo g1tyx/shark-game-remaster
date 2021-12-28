@@ -824,6 +824,12 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202201??a": [
+        "Added keybinds. You can now bind a large array of actions to different key combinations.",
+        "Ixbix - fixed issues with gateway time spent in last world",
+        "Ixbix - stopped minute hand slider from flopping around",
+        "Ixbix - added touchscreen support for the aspect tree",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211201a": [
         "Added something special at 1000 total essence.",
         "Changed the aspect tree UI to remove unnecessary buttons from below the tree.",
