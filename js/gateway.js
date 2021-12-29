@@ -687,15 +687,38 @@ SharkGame.Gateway = {
         if (gateway.getPar() && !loadingFromSave && SharkGame.wonGame) {
             let timeBelowPar = gateway.getMinutesBelowPar();
             if (timeBelowPar > 0) {
-                let timeBelowFive = 5 - gateway.getTimeInLastWorld() / 60000;
-                for (let halfPower = 1; timeBelowFive > 0; halfPower++) {
-                    timeBelowFive -= 5 / 2 ** halfPower;
-                    reward += 1;
-                }
-
                 while (timeBelowPar > 0) {
                     timeBelowPar -= 5;
                     reward += 1;
+                }
+
+                let timeBelowThreshold;
+                const rawTime = gateway.getTimeInLastWorld(true) / 60000;
+                if (rawTime < 5) {
+                    timeBelowThreshold = 5 - rawTime;
+
+                    while (timeBelowThreshold > 0) {
+                        timeBelowThreshold -= 1;
+                        reward += 1;
+                    }
+                }
+
+                if (rawTime < 1) {
+                    timeBelowThreshold = 1 - rawTime;
+
+                    while (timeBelowThreshold > 0) {
+                        timeBelowThreshold -= 1 / 6;
+                        reward += 1;
+                    }
+                }
+
+                if (rawTime < 1 / 6) {
+                    timeBelowThreshold = 1 / 6 - rawTime;
+
+                    while (timeBelowThreshold > 0) {
+                        timeBelowThreshold -= 1 / 60;
+                        reward += 1;
+                    }
                 }
             }
         }
