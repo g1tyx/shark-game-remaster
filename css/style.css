@@ -125,18 +125,6 @@ body {
   background: #38a581;
 }
 
-:not(body)::-webkit-scrollbar-track {
-  -webkit-box-shadow: 0 0 2px 2px var(--color-dark) inset;
-  -moz-box-shadow: 0 0 2px 2px var(--color-dark) inset;
-  box-shadow: 0 0 2px 2px var(--color-dark) inset;
-}
-
-.gateway:not(body)::-webkit-scrollbar-track {
-  -webkit-box-shadow: 0 0 2px 2px #246c54 inset;
-  -moz-box-shadow: 0 0 2px 2px #246c54 inset;
-  box-shadow: 0 0 2px 2px #246c54 inset;
-}
-
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-light);
 }
