@@ -345,6 +345,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
 
+        window.addEventListener("beforeunload", main.autosave);
+
         if (SharkGame.Settings.current.updateCheck) {
             main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
         }

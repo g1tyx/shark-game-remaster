@@ -66,6 +66,12 @@ SharkGame.Lab = {
         lab.updateUpgradeList();
         lab.update();
         lab.setHint(upgradeTable);
+
+        /* FIXME Make purchasable upgrades sticky if shorter than than window height
+            Css sticky does not work as #content has overflow: hidden because
+            of the float layout. Solution is either to find a hack, rewrite sticky with js,
+            or rework layout into flex.
+        */
     },
 
     setHint(upgradeTable, isNotStart) {
