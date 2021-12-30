@@ -89,7 +89,7 @@ SharkGame.Stats = {
                 $("<p>").html("Time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>").addClass("medDesc")
             );
             if (SharkGame.persistentFlags.scouting === false) {
-                genStats.append($("<p>").html(`Par: ${gateway.getPar()} minutes.`).addClass("medDesc"));
+                genStats.append($("<p>").html(`Par: ${gateway.getPar()} minutes`).addClass("medDesc"));
             }
         }
         genStats.append($("<h3>").html("Total Ocean Resources Acquired"));
