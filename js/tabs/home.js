@@ -1262,11 +1262,16 @@ SharkGame.Home = {
             }
         });
 
-        if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"')) {
+        if (document.getElementById("tooltipbox").innerHTML !== text.replace(/'/g, '"').replace(/br\//g, "br")) {
             document.getElementById("tooltipbox").innerHTML = text;
         }
-        $("#tooltipbox").removeClass("forIncomeTable").attr("current", "");
-        $("#tooltipbox").addClass("forHomeButtonOrGrotto").attr("current", actionName);
+
+        if ($("#tooltipbox").attr("current") !== actionName) {
+            $("#tooltipbox").removeClass("forIncomeTable").attr("current", "");
+            $("#tooltipbox").addClass("forHomeButtonOrGrotto").attr("current", actionName);
+        } else {
+            $("#tooltipbox").removeClass("forIncomeTable").addClass("forHomeButtonOrGrotto");
+        }
     },
 
     onHomeUnhover() {

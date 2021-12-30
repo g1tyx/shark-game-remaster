@@ -270,7 +270,7 @@ body {
     font-size: 13pt;
     text-align: center;
     min-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 div {
@@ -343,6 +343,18 @@ h4 {
     padding: 10px;
     @include border-radius(10px);
     height: 100%;
+
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+
+    #game {
+        flex: 1 0 auto;
+    }
+
+    #copyright {
+        flex-shrink: 0;
+    }
 
     &.topLogActive {
         margin-top: 4.8em;
@@ -729,13 +741,13 @@ pre {
         @include box-shadow-inset(0, 0, 2px, 2px, var(--color-dark));
 
         &.scrollable {
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         &.forRightSide {
-            overflow-y: scroll;
+            overflow-y: auto;
             border-style: none;
-            max-height: 42em;
+            max-height: 39em;
             li {
                 padding-top: 1em;
                 padding-bottom: 1em;
@@ -745,7 +757,7 @@ pre {
         }
 
         &.forLeftSide {
-            overflow-y: scroll;
+            overflow-y: auto;
             border-style: none;
             max-height: 30em;
             li {
@@ -765,7 +777,6 @@ pre {
 #rightLogContainer {
     float: right;
     width: 18%;
-    max-height: 40em;
     background-color: var(--color-med);
     box-shadow: 0 0 5px 5px var(--color-dark) inset;
     overflow: clip;
@@ -804,6 +815,12 @@ pre {
 #buttonList {
     @extend .inner-section;
     padding: 1em;
+
+    button {
+        // disables mobile zooming on double tap except for safari
+        // https://stackoverflow.com/questions/10614481/
+        touch-action: manipulation;
+    }
 
     &.homeScreen {
         display: flex;
@@ -966,7 +983,7 @@ button.newlyDiscovered {
         padding: 0;
         margin: 0;
         max-height: 600pt;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     li {
@@ -1001,7 +1018,6 @@ button.newlyDiscovered {
         border: 0.2em solid $color-danger-lighter;
         @include box-shadow-inset(0, 0, 15px, 15px, $color-danger-darker);
         padding: 0.5em;
-        z-index: 5;
         text-shadow: 0px 0px 2px #000000;
     }
 
@@ -1239,9 +1255,6 @@ button {
 
 .copyrightNotice {
     @include no-select;
-    // In Chrome, rendering error makes copyright notice be in front
-    // of the resource table sometimes, preventing tooltips and clicking
-    @extend .click-passthrough;
     font-size: 80%;
     color: var(--color-lighter);
     filter: brightness(130%);

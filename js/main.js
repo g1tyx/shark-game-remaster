@@ -6,7 +6,7 @@ window.onmousemove = (event) => {
     SharkGame.lastActivity = _.now();
 
     const tooltip = document.getElementById("tooltipbox");
-    if (!tooltip) return;
+    if (!tooltip || tooltip.innerHTML === "") return;
     const posX = event.clientX;
     const posY = event.clientY;
 
@@ -356,6 +356,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (main.autosaveHandler === -1) {
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
+
+        window.addEventListener("beforeunload", main.autosave);
 
         if (SharkGame.Settings.current.updateCheck) {
             main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);

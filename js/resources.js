@@ -983,7 +983,7 @@ SharkGame.Resources = {
 
             const formatSeconds = (numSeconds >= 60 ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
             const formatMinutes = numMinutes > 0 ? (numMinutes % 60) + "m " : "";
-            const formatHours = numHours > 0 ? (numHours % 24) + " h " : "";
+            const formatHours = numHours > 0 ? (numHours % 24) + "h " : "";
             const formatDays = numDays > 0 ? (numDays % 7) + "D, " : "";
             const formatWeeks = numWeeks > 0 ? (numWeeks % 4) + "W, " : "";
             const formatMonths = numMonths > 0 ? (numMonths % 12) + "M, " : "";

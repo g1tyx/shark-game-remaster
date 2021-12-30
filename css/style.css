@@ -109,7 +109,7 @@ body {
   font-size: 13pt;
   text-align: center;
   min-height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 div {
@@ -180,6 +180,15 @@ h4 {
   -moz-border-radius: 10px;
   border-radius: 10px;
   height: 100%;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+#wrapper #game {
+  flex: 1 0 auto;
+}
+#wrapper #copyright {
+  flex-shrink: 0;
 }
 #wrapper.topLogActive {
   margin-top: 4.8em;
@@ -209,7 +218,7 @@ pre {
   margin: 5px;
 }
 
-.click-passthrough, .copyrightNotice, .largeDesc, .medDesc, .smallDesc, .smallDescAllowClicks, .button-icon, .top-bar #title #titlebar, .top-bar #title {
+.click-passthrough, .largeDesc, .medDesc, .smallDesc, .smallDescAllowClicks, .button-icon, .top-bar #title #titlebar, .top-bar #title {
   pointer-events: none;
 }
 
@@ -543,12 +552,12 @@ pre {
   box-shadow: 0 0 2px 2px var(--color-dark) inset;
 }
 #log #messageList.scrollable {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 #log #messageList.forRightSide {
-  overflow-y: scroll;
+  overflow-y: auto;
   border-style: none;
-  max-height: 42em;
+  max-height: 39em;
 }
 #log #messageList.forRightSide li {
   padding-top: 1em;
@@ -557,7 +566,7 @@ pre {
   padding-right: 0.4em;
 }
 #log #messageList.forLeftSide {
-  overflow-y: scroll;
+  overflow-y: auto;
   border-style: none;
   max-height: 30em;
 }
@@ -574,7 +583,6 @@ pre {
 #rightLogContainer {
   float: right;
   width: 18%;
-  max-height: 40em;
   background-color: var(--color-med);
   box-shadow: 0 0 5px 5px var(--color-dark) inset;
   overflow: clip;
@@ -614,6 +622,9 @@ pre {
 
 #buttonList {
   padding: 1em;
+}
+#buttonList button {
+  touch-action: manipulation;
 }
 #buttonList.homeScreen {
   display: flex;
@@ -755,7 +766,7 @@ button.newlyDiscovered {
   padding: 0;
   margin: 0;
   max-height: 600pt;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 #upgradeList li {
   padding: 0.5em 0.5em 0.5em 0.2em;
@@ -785,7 +796,6 @@ button.newlyDiscovered {
   -moz-box-shadow: 0 0 15px 15px #450808 inset;
   box-shadow: 0 0 15px 15px #450808 inset;
   padding: 0.5em;
-  z-index: 5;
   text-shadow: 0px 0px 2px #000000;
 }
 #recyclerContainer > #outputButtons {

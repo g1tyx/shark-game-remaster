@@ -53,16 +53,10 @@ SharkGame.Lab = {
         const content = $("#content");
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
-        const allResearchDone = lab.allResearchDone();
-        let message = allResearchDone ? lab.messageDone : lab.message;
-        const imgSrc = allResearchDone ? lab.sceneDoneImage : lab.sceneImage;
         const tabMessageSel = $("<div>").attr("id", "tabMessage");
-        if (SharkGame.Settings.current.showTabImages) {
-            message = "<img width=400 height=200 src='" + imgSrc + "' id='tabSceneImage'>" + message;
-            tabMessageSel.css("background-image", "url('" + lab.tabBg + "')");
-        }
-        tabMessageSel.html(message);
         content.append(tabMessageSel);
+        lab.updateMessage(true);
+
         const buttonListContainer = $("<div>").attr("id", "buttonLeftContainer");
         buttonListContainer.append($("<div>").attr("id", "buttonList").addClass("lab").append($("<h3>").html("Available Upgrades")));
         content.append(buttonListContainer);
@@ -72,12 +66,19 @@ SharkGame.Lab = {
         lab.updateUpgradeList();
         lab.update();
         lab.setHint(upgradeTable);
+
+        /* FIXME Make purchasable upgrades sticky if shorter than than window height
+            Css sticky does not work as #content has overflow: hidden because
+            of the float layout. Solution is either to find a hack, rewrite sticky with js,
+            or rework layout into flex.
+        */
     },
 
-    setHint(upgradeTable) {
+    setHint(upgradeTable, isNotStart) {
         const lab = SharkGame.Lab;
         if (lab.allResearchDone()) {
             $("#buttonList").append($("<p>").html("The scientists rest content, sure that they're done with their work."));
+            if (isNotStart) lab.updateMessage();
         } else if (lab.listEmpty) {
             $("#buttonList").append($("<p>").html("The scientists are out of ideas, but there are always more discoveries to be made."));
 
@@ -218,7 +219,29 @@ SharkGame.Lab = {
         }
     },
 
+    updateMessage(suppressAnimation) {
+        const lab = SharkGame.Lab;
+        const allResearchDone = lab.allResearchDone();
+        let message = allResearchDone ? lab.messageDone : lab.message;
+        const imgSrc = allResearchDone ? lab.sceneDoneImage : lab.sceneImage;
+        const tabMessageSel = $("#tabMessage");
+        if (SharkGame.Settings.current.showTabImages) {
+            message = `<img width=400 height=200 src='${imgSrc}' id='tabSceneImage'>${message}`;
+            tabMessageSel.css(`background-image", "url('${lab.tabBg}')`);
+        }
+
+        if (!suppressAnimation && SharkGame.Settings.current.showAnimations) {
+            tabMessageSel.animate({ opacity: 0 }, 200, () => {
+                $(tabMessageSel).animate({ opacity: 1 }, 200).html(message);
+            });
+        } else {
+            tabMessageSel.html(message);
+        }
+    },
+
     onLabButton(upgradeId) {
+        if ($(this).hasClass("disabled")) return;
+
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
         let upgrade;
 
@@ -269,6 +292,8 @@ SharkGame.Lab = {
                 SharkGame.Lab.setHint(upgradeTable);
             }
         }
+        SharkGame.Lab.update();
+        SharkGame.Lab.setHint(upgradeTable, true);
     },
 
     addUpgrade(upgradeId) {
