@@ -1917,3 +1917,17 @@ button.planetButton {
     float: left;
     margin-left: 1rem;
 }
+
+select {
+    background-color: var(--color-dark);
+    color: inherit;
+    border: none;
+    outline: none;
+    font-size: inherit;
+    text-align: right;
+    text-align-last: right;
+}
+
+option {
+    direction: rtl;
+}
