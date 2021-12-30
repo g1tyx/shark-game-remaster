@@ -114,12 +114,16 @@ SharkGame.Stats = {
 
         // update run times
         const currTime = _.now();
-        $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
-        $("#runTime").html(
-            sharktext.formatTime(
-                currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
-            )
+        const gameTime = sharktext.formatTime(currTime - SharkGame.timestampGameStart);
+        if ($("#gameTime").html() !== gameTime) {
+            $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
+        }
+        const runTime = sharktext.formatTime(
+            currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
         );
+        if ($("#runTime").html() !== runTime) {
+            $("#runTime").html(runTime);
+        }
 
         if (document.getElementById("tooltipbox").attributes.current) {
             stats.networkTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
