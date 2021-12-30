@@ -21,6 +21,19 @@ window.onmousemove = (event) => {
 
 $(document).on("keyup", (event) => {
     SharkGame.lastActivity = _.now();
+
+    const mkey = SharkGame.Keybinds.modifierKeys;
+    if ((mkey.ShiftLeft || mkey.ShiftRight) && !event.shiftKey) {
+        mkey.ShiftLeft = 0;
+        mkey.ShiftRight = 0;
+    } else if ((mkey.AltLeft || mkey.AltRight) && !event.altKey) {
+        mkey.AltLeft = 0;
+        mkey.AltRight = 0;
+    } else if ((mkey.ControlLeft || mkey.ControlRight) && !event.ctrlKey) {
+        mkey.ControlLeft = 0;
+        mkey.ControlRight = 0;
+    }
+
     if (SharkGame.Keybinds.handleKeyUp(event.code)) {
         event.preventDefault();
     }
