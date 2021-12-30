@@ -1946,6 +1946,10 @@ select {
     font-size: inherit;
     text-align: right;
     text-align-last: right;
+
+    .evenMessage {
+        background-color: var(--color-med);
+    }
 }
 
 option {

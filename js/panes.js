@@ -483,8 +483,12 @@ SharkGame.PaneHandler = {
                     console.log(`bound ${boundKey} to ${$(this)[0].value}`);
                     console.log($(this));
                 });
-                _.each(SharkGame.Keybinds.actions, (potentialBoundAction) => {
-                    selector.append(`<option ${boundAction === potentialBoundAction ? `selected` : ``}>` + potentialBoundAction + "</option>");
+                _.each(SharkGame.Keybinds.actions, (potentialBoundAction, i) => {
+                    selector.append(
+                        `<option${i % 2 === 0 ? ' class="evenMessage"' : ""} ${boundAction === potentialBoundAction ? ` selected` : ``}>` +
+                            potentialBoundAction +
+                            "</option>"
+                    );
                 });
                 row.append(selector);
             } else {
