@@ -650,7 +650,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/dev", (data) => {
             if (data.sha !== SharkGame.COMMIT_SHA) {
                 $("#updateGameBox")
-                    .html("You see a new update swimming towards you. Click to update.")
+                    .html(
+                        `You see a new update swimming towards you.<br> On it you can just make out the words <br>"${data.commit.message}". <br>Click to update.`
+                    )
                     .on("click", () => {
                         try {
                             SharkGame.Save.saveGame();
