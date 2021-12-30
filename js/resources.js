@@ -1245,6 +1245,9 @@ SharkGame.Resources = {
             resourceName = $(this).attr("id");
             if (!resourceName) return;
         }
+        if (!SharkGame.TabHandler.isTabUnlocked("stats")) {
+            return;
+        }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
         let isGeneratingText = "";
         let isConsumingText = "";
