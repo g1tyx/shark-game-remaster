@@ -651,7 +651,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             if (data.sha !== SharkGame.COMMIT_SHA) {
                 $("#updateGameBox")
                     .html(
-                        `You see a new update swimming towards you.<br> On it you can just make out the words <br>"${data.commit.message}". <br>Click to update.`
+                        `You see a new update swimming towards you.<br> On it you can just make out the words <br>"${
+                            data.commit.message.split("\n")[0]
+                        }". <br>Click to update.`
                     )
                     .on("click", () => {
                         try {
