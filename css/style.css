@@ -400,7 +400,7 @@ pre {
 
 #contentMenu {
   overflow: hidden;
-  height: 1.8em;
+  min-height: 1.8em;
 }
 #contentMenu ul {
   padding: 0;
@@ -1655,6 +1655,7 @@ button.planetButton:active {
 
 #minute-row-two {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .front {
@@ -1693,6 +1694,9 @@ select {
   font-size: inherit;
   text-align: right;
   text-align-last: right;
+}
+select .evenMessage {
+  background-color: var(--color-med);
 }
 
 option {

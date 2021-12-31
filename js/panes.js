@@ -9,7 +9,7 @@ SharkGame.Panes = {
         "<br><p><a href='https://github.com/spencers145/SharkGame'>NEW FRONTIERS</a> created by base4/spencers145.<br/>" +
         "Art and sprite contributions by Jay, <a href='https://www.imdb.com/name/nm12683932/'>Noah Deibler,</a> and <a href='https://twitter.com/vhs_static'>@vhs_static</a> and friends.<br/>" +
         "Additional help from <a href='https://github.com/stampyzfanz'>Ixbixbam</a>.<br/>" +
-        "<span class='smallDesc'>Ixbix's games at his little corner of the internet are </span><a href='https://stampyzfanz.github.io/games'>here</a><span class='smallDesc'>.</span><br/>" +
+        "<span class='smallDesc'>Ixbix's games at his little corner of the internet are </span><a href='https://stampyzfanz.github.io/'>here</a><span class='smallDesc'>.</span><br/>" +
         '<span style="color: rgba(0,0,0,0);">With some help by <a href="https://github.com/Toby222" style="color: rgba(0,0,0,0);">Toby</a></span><br/>',
 
     ending:

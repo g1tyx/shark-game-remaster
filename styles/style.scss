@@ -570,7 +570,7 @@ pre {
 
 #contentMenu {
     overflow: hidden;
-    height: 1.8em;
+    min-height: 1.8em;
 
     ul {
         padding: 0;
@@ -1905,6 +1905,7 @@ button.planetButton {
 
 #minute-row-two {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .front {
