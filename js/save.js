@@ -248,7 +248,7 @@ SharkGame.Save = {
                 }
             }
 
-            if (SharkGame.Settings.current.offlineModeActive && !SharkGame.gameOver) {
+            if (!SharkGame.gameOver) {
                 // get times elapsed since last save game
                 let secondsElapsed = (_.now() - saveData.timestampLastSave) / 1000;
                 if (secondsElapsed < 0) {

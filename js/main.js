@@ -388,7 +388,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
             main.showSidebarIfNeeded();
             if (SharkGame.flags.needOfflineProgress) {
-                SharkGame.persistentFlags.currentPausedTime = SharkGame.flags.needOfflineProgress * 1000;
+                SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
             }
             SharkGame.flags.needOfflineProgress = 0;
         }
