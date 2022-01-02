@@ -317,7 +317,9 @@ SharkGame.Keybinds = {
                     });
                     break;
                 case `buy topmost upgrade`:
-                    SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
+                    if (!cad.pause && !cad.stop) {
+                        SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
+                    }
                     break;
                 case `press all buying buttons`:
                     if (!SharkGame.flags.pressedAllButtonsThisTick) {
