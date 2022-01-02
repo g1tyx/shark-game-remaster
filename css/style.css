@@ -1687,7 +1687,7 @@ button.planetButton:active {
 }
 
 select {
-  background-color: var(--color-dark);
+  background-color: var(--color-darker);
   color: inherit;
   border: none;
   outline: none;
@@ -1696,7 +1696,7 @@ select {
   text-align-last: right;
 }
 select .evenMessage {
-  background-color: var(--color-med);
+  background-color: var(--color-dark);
 }
 
 option {
