@@ -389,12 +389,19 @@ SharkGame.Keybinds = {
             }
 
             $(`#overlay`).append(textConatiner);
+            $(`#overlay`)
+                .on(`click`, () => {
+                    this.toggleBindMode(true);
+                })
+                .css(`cursor`, `pointer`);
         } else {
+            $(`#overlay`).css(`cursor`, ``);
             this.bindModeLock = true;
             if (toggledByKey) {
                 SharkGame.OverlayHandler.hideOverlay(250, () => {
                     $(`#buttonList`).children().removeClass("front");
                     $(`#overlay`).empty();
+                    $(`#overlay`).off("click");
                     this.bindModeLock = false;
                 });
             } else {
@@ -402,6 +409,7 @@ SharkGame.Keybinds = {
                     SharkGame.OverlayHandler.hideOverlay(250, () => {
                         $(`#buttonList`).children().removeClass("front");
                         $(`#overlay`).empty();
+                        $(`#overlay`).off("click");
                         this.bindModeLock = false;
                     });
                 }, 1000);
