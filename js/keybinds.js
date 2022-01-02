@@ -320,15 +320,18 @@ SharkGame.Keybinds = {
                     SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
                     break;
                 case `press all buying buttons`:
-                    _.each(home.buttonNamesList, (actionName, actionData) => {
-                        // actionData gets immediately overwritten because
-                        // linter will yell at me if i define a variable in the switch statement
-                        // and this is a decent workaround
-                        actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
-                        if (!home.doesButtonGiveNegativeThing(actionData)) {
-                            home.onHomeButton(null, actionName);
-                        }
-                    });
+                    if (!SharkGame.flags.pressedAllButtonsThisTick) {
+                        _.each(home.buttonNamesList, (actionName, actionData) => {
+                            // actionData gets immediately overwritten because
+                            // linter will yell at me if i define a variable in the switch statement
+                            // and this is a decent workaround
+                            actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+                            if (!home.doesButtonGiveNegativeThing(actionData) && home.shouldHomeButtonBeUsable(actionData)) {
+                                home.onHomeButton(null, actionName);
+                            }
+                        });
+                        SharkGame.flags.pressedAllButtonsThisTick = true;
+                    }
                     break;
                 case `enter gate`:
                     if (SharkGame.Gate.shouldBeOpen()) {

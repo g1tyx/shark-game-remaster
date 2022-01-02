@@ -817,6 +817,18 @@ SharkGame.Home = {
         return true;
     },
 
+    shouldHomeButtonBeUsable(_actionData) {
+        let shouldBeUsable = true;
+
+        if (cad.pause || cad.stop) {
+            shouldBeUsable = false;
+        }
+        // this function might contain more stuff later
+        // for now, the only exception to being able to
+        // use home buttons is if the game is paused
+        return shouldBeUsable;
+    },
+
     shouldRemoveHomeButton(action) {
         let disable = false;
         // eslint-disable-next-line id-length
