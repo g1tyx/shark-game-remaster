@@ -363,6 +363,80 @@ SharkGame.PaneHandler = {
         row.append($("<td>").attr("colSpan", 4).append($("<input>").attr("type", "text").attr("id", "importExportField")));
         optionsTable.append(row);
 
+        // BACKUP MANAGEMENT
+        row = $("<tr>");
+        const row2 = $("<tr>");
+        row.append($("<td>").html("Save Backups:<br/><span class='smallDesc'>(Create a backup save.)</span>"));
+        row2.append($("<td>").html("Load Backups:<br/><span class='smallDesc'>(Load a backup save.)</span>"));
+
+        _.each([`1`, `2`, `3`], (tag) => {
+            row.append(
+                $(`<td>`).append(
+                    $(`<button>`)
+                        .html(`save ${tag}`)
+                        .addClass(`option-button`)
+                        .on(`click`, () => {
+                            if (SharkGame.Save.savedGameExists(`Backup${tag}`)) {
+                                if (!confirm(`There is already a save in this slot. Overwrite it?`)) {
+                                    return;
+                                }
+                            }
+                            SharkGame.Save.createTaggedSave(`Backup${tag}`);
+                            $(`#load${tag}`).removeClass(`disabled`);
+                        })
+                )
+            );
+
+            const loadButton = $(`<button>`)
+                .html(`load ${tag}`)
+                .attr(`id`, `load${tag}`)
+                .addClass(`option-button`)
+                .on(`click`, () => {
+                    if (!$(`#load${tag}`).hasClass(`disabled`) && SharkGame.Save.savedGameExists(`Backup${tag}`)) {
+                        if (
+                            confirm(
+                                `Are you absolutely sure you want to load this save${SharkGame.Save.getTaggedSaveCharacteristics(`Backup${tag}`)}?`
+                            )
+                        ) {
+                            SharkGame.Save.loadTaggedSave(`Backup${tag}`);
+                        }
+                    }
+                });
+
+            if (!SharkGame.Save.savedGameExists(`Backup${tag}`)) {
+                loadButton.addClass(`disabled`);
+            }
+
+            row2.append($(`<td>`).append(loadButton));
+        });
+
+        optionsTable.append(row);
+
+        if (SharkGame.persistentFlags.unlockedDebug) {
+            const loadButton = $(`<button>`)
+                .html(`load pre-cheats backup`)
+                .attr(`id`, `loadCheats`)
+                .addClass(`option-button`)
+                .on(`click`, () => {
+                    if (!$(`#loadCheats`).hasClass(`disabled`) && SharkGame.Save.savedGameExists(`BackupCheats`)) {
+                        if (
+                            confirm(
+                                `Are you absolutely sure you want to load this save${SharkGame.Save.getTaggedSaveCharacteristics(`BackupCheats`)}?`
+                            )
+                        ) {
+                            SharkGame.Save.loadTaggedSave(`BackupCheats`);
+                        }
+                    }
+                });
+
+            if (!SharkGame.Save.savedGameExists(`BackupCheats`)) {
+                loadButton.addClass(`disabled`);
+            }
+            row2.append(loadButton);
+        }
+
+        optionsTable.append(row2);
+
         // SETTING WIPE
         row = $("<tr>");
         row.append($("<td>").html("Wipe Settings:<br/><span class='smallDesc'>(Change all settings to default.)</span>"));
@@ -393,7 +467,7 @@ SharkGame.PaneHandler = {
         // add save wipe
         row = $("<tr>");
         row.append(
-            $("<td>").html("Wipe Save:<br/><span class='smallDesc'>(Completely wipe your save and reset the game. COMPLETELY. FOREVER.)</span>")
+            $("<td>").html("Wipe Save:<br/><span class='smallDesc'>(Completely wipe your main save and reset the game. COMPLETELY. FOREVER.)</span>")
         );
         row.append(
             $("<td>").append(

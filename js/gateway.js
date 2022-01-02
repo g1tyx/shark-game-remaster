@@ -783,8 +783,9 @@ SharkGame.Gateway = {
     },
 
     unlockCheats() {
-        if (!SharkGame.persistentFlags.debug) {
+        if (!SharkGame.persistentFlags.debug && !SharkGame.persistentFlags.unlockedDebug) {
             SharkGame.PaneHandler.showUnlockedCheatsMessage();
+            SharkGame.Save.createTaggedSave(`BackupCheats`);
             cad.debug();
         }
         SharkGame.persistentFlags.unlockedDebug = true;
