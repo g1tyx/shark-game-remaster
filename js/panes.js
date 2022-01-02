@@ -409,6 +409,36 @@ SharkGame.PaneHandler = {
         );
         optionsTable.append(row);
 
+        if (SharkGame.persistentFlags.unlockedDebug) {
+            row = $("<tr>");
+            row.append($("<td>").html("Hide Cheats:<br/><span class='smallDesc'>(Hide or show cheats.)</span>"));
+            row.append(
+                $("<td>").append(
+                    $("<button>")
+                        .html("show")
+                        .addClass("option-button")
+                        .on("click", () => {
+                            cad.debug();
+                        })
+                )
+            );
+            row.append(
+                $("<td>").append(
+                    $("<button>")
+                        .html("hide")
+                        .addClass("option-button")
+                        .on("click", () => {
+                            cad.hideDebug();
+                        })
+                )
+            );
+            optionsTable.prepend(row);
+
+            optionsTable.prepend(
+                $("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString(`CHEATS and DEBUG`) + "</span></h3>")
+            );
+        }
+
         row = $("<tr>");
         row.append($("<td>").html("Keybinds:<br/><span class='smallDesc'>(Change keybinds.)</span>"));
         row.append(

@@ -779,12 +779,15 @@ SharkGame.Gateway = {
     },
 
     shouldCheatsBeUnlocked() {
-        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.debug;
+        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.unlockedDebug;
     },
 
     unlockCheats() {
-        SharkGame.PaneHandler.showUnlockedCheatsMessage();
-        cad.debug();
+        if (!SharkGame.persistentFlags.debug) {
+            SharkGame.PaneHandler.showUnlockedCheatsMessage();
+            cad.debug();
+        }
+        SharkGame.persistentFlags.unlockedDebug = true;
     },
 };
 
