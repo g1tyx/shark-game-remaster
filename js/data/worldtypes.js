@@ -218,6 +218,7 @@ SharkGame.WorldTypes = {
         },
         entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
+        bonus: 1,
         includedResources: [
             "essence",
             "sharks",

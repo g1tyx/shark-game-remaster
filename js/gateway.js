@@ -347,7 +347,10 @@ SharkGame.Gateway = {
             $("<p>").html(
                 `${seenWorldYet ? `A par time` : `This`} would grant you <strong>` +
                     sharktext.beautify(
-                        Math.ceil((1 + gateway.getGumptionBonus()) * (seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level),
+                        Math.ceil(
+                            (1 + gateway.getGumptionBonus()) * ((seenWorldYet ? 2 : 4) + (selectedWorldData.bonus ? selectedWorldData.bonus : 0)) +
+                                SharkGame.Aspects.patience.level
+                        ),
                         false,
                         2
                     ) +
@@ -725,10 +728,15 @@ SharkGame.Gateway = {
         return reward;
     },
 
-    getBaseReward(loadingFromSave) {
+    getBaseReward(loadingFromSave, whichWorld = world.worldType) {
         let reward = 0;
         if (!loadingFromSave && SharkGame.wonGame) {
             reward = gateway.wasOnScoutingMission() ? 4 : 2;
+
+            const bonus = SharkGame.WorldTypes[whichWorld].bonus;
+            if (bonus) {
+                reward += bonus;
+            }
         }
         return reward;
     },
