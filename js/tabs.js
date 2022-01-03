@@ -16,7 +16,7 @@ SharkGame.TabHandler = {
                     const $content = $(content);
                     $content.css("position", "static");
                     const boundingBox = content.getBoundingClientRect();
-                    if (boundingBox.top + boundingBox.height < $(window).height()) {
+                    if ($content.offset().top + boundingBox.height < $(window).height()) {
                         $content.css("top", $content.offset().top).css("position", "sticky");
                     }
                 },
@@ -25,11 +25,8 @@ SharkGame.TabHandler = {
             );
         }
 
-        let resizeObserver = new ResizeObserver(debounced());
+        const resizeObserver = new ResizeObserver(debounced());
         resizeObserver.observe(document.getElementById("content"));
-
-        resizeObserver = new ResizeObserver(debounced());
-        resizeObserver.observe(document.getElementById("sidebar"));
     },
 
     keybindSwitchTab(tab) {
