@@ -728,6 +728,13 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     SharkGame.Settings.current.buyAmount = amount === "custom" ? "custom" : parseInt(thisButton.attr("id").slice(4));
                     $("button[id^='buy-']").removeClass("disabled");
                     thisButton.addClass("disabled");
+                })
+                .on("mouseenter", () => {
+                    $(`#tooltipbox`).html(`${label} amount of things`);
+                    console.log(`hi`);
+                })
+                .on("mouseleave", () => {
+                    $(`#tooltipbox`).html(``);
                 });
         });
         buttonList.append(
