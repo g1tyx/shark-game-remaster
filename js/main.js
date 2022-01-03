@@ -731,7 +731,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 })
                 .on("mouseenter", () => {
                     $(`#tooltipbox`).html(`${label} amount of things`);
-                    console.log(`hi`);
                 })
                 .on("mouseleave", () => {
                     $(`#tooltipbox`).html(``);
