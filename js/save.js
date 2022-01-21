@@ -316,9 +316,10 @@ SharkGame.Save = {
         const save = this.decodeSave(localStorage.getItem(SharkGame.Save.saveFileName + tag));
         let text;
         if (save) {
-            text = ` from ${SharkGame.TextUtil.formatTime(_.now() - save.timestampLastSave)} ago with ${
-                save.resources.essence.totalAmount || 0
-            } lifetime essence`;
+            text = ` from ${SharkGame.TextUtil.formatTime(_.now() - save.timestampLastSave)} ago`;
+            if (save.resources.essence) {
+                text += `with ${save.resources.essence.totalAmount || 0} lifetime essence`;
+            }
         } else {
             SharkGame.Log.addError(`Tried to get characteristics of ${SharkGame.Save.saveFileName + tag}, but no such save exists.`);
             throw new Error(`Tried to get characteristics of ${SharkGame.Save.saveFileName + tag}, but no such save exists.`);
