@@ -59,7 +59,9 @@ SharkGame.Keybinds = {
     },
 
     init() {
-        this.keybinds = _.cloneDeep(this.defaultBinds);
+        if ($.isEmptyObject(this.keybinds)) {
+            this.resetKeybindsToDefault();
+        }
         this.bindMode = false;
         this.bindModeLock = false;
         this.waitForKey = false;
@@ -68,6 +70,10 @@ SharkGame.Keybinds = {
     },
 
     setup() {},
+
+    resetKeybindsToDefault() {
+        this.keybinds = _.cloneDeep(this.defaultBinds);
+    },
 
     compressKeyID(keyID) {
         keyID = keyID.replace(/ /gi, ``).replace(`+`, `-`);

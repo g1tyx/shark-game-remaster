@@ -455,6 +455,7 @@ SharkGame.PaneHandler = {
                                     SharkGame.Settings[settingName].onChange();
                                 }
                             });
+                            SharkGame.Keybinds.resetKeybindsToDefault();
                             SharkGame.PaneHandler.nextPaneInStack();
                             SharkGame.PaneHandler.showOptions();
                         }
