@@ -47,10 +47,12 @@ SharkGame.WorldTypes = {
     },
     marine: {
         name: "Marine",
-        desc: "A serene, blue marble. Peaceful and beautiful.",
+        vagueDesc: "Feels familiar.",
+        desc: "A serene, blue marble.",
         shortDesc: "strange blue",
         foresight: {
-            longDesc: "A vast, blue ocean, swarming with fish. A great place to be a shark, surely.",
+            vagueLongDesc: "This place is so familiar.",
+            longDesc: "A vast, blue ocean, swarming with fish.",
             missing: ["laser"],
             present: ["clam", "lobster"],
             tip: "",
@@ -85,11 +87,12 @@ SharkGame.WorldTypes = {
     },
     haven: {
         name: "Haven",
+        vagueDesc: "Feels lively.",
         desc: "An aquamarine world of plenty. So beautiful, yet so vulnerable.",
         shortDesc: "thriving aquamarine",
         foresight: {
-            longDesc:
-                "This world is teeming with life, more than any other place you've seen before. The water is clear, the sand is clean, the fish are plenty. A paradise in every way.",
+            vagueLongDesc: "You can sense a lot of activity in this world.",
+            longDesc: "The water is clear, the sand is clean, and the fish are plenty. A paradise in every way.",
             missing: ["laser", "sharkonium"],
             present: ["coral", "dolphin", "whale"],
             tip: "The abudance of resources might may your stay here shorter than others.",
@@ -122,7 +125,7 @@ SharkGame.WorldTypes = {
     },
     tempestuous: {
         name: "Tempestuous",
-        desc: "A swirling maelstrom of storms where nothing rests.",
+        desc: "A swirling maelstrom where nothing rests.",
         shortDesc: "stormy grey",
         entry: "You recall nothing and know only the storms. The unrelenting, restless storms scattering your possessions and allies.",
         style: "tempestuous",
@@ -195,9 +198,11 @@ SharkGame.WorldTypes = {
     },
     abandoned: {
         name: "Abandoned",
+        vagueDesc: "Feels lonely.",
         desc: "A dying world filled with machinery.",
         shortDesc: "murky dark green",
         foresight: {
+            vagueLongDesc: "This world has an aura of death and apathy.",
             get longDesc() {
                 return (
                     "The water here is dank and tinted green by " +
@@ -218,6 +223,7 @@ SharkGame.WorldTypes = {
         },
         entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
+        bonus: 1,
         includedResources: [
             "essence",
             "sharks",
@@ -251,10 +257,16 @@ SharkGame.WorldTypes = {
     },
     shrouded: {
         name: "Shrouded",
+        vagueDesc: "Feels mysterious.",
         desc: "A dark, murky ocean of secrecy.",
         foresight: {
+            vagueLongDesc: "You feel a strange power radiating from this world.",
             get longDesc() {
-                return "It's hard to see more than 10 feet in this place, let alone manage a frenzy. Glowing crystals litter the water, though, so it's never completely dark.";
+                return `This place is completely shrouded in darkness. Glowing ${sharktext.getResourceName(
+                    `crystal`,
+                    false,
+                    69
+                )} litter the water and strange figures lurk among the endless shadows.`;
             },
             missing: ["kelp", "crab", "laser"],
             present: ["jellyfish", "chimaera", "eel"],
@@ -286,10 +298,12 @@ SharkGame.WorldTypes = {
     },
     frigid: {
         name: "Frigid",
+        vagueDesc: "Feels chilly.",
         desc: "An arctic ocean dangling on the edge of frozen doom.",
         shortDesc: "freezing white",
         foresight: {
-            longDesc: "This world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
+            vagueLongDesc: "From afar, bitter cold stings your mind.",
+            longDesc: "The world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
             missing: ["seaApple", "ray"],
             present: ["squid", "urchin"],
             get tip() {

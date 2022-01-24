@@ -170,4 +170,18 @@ SharkGame.Events = {
             return true;
         },
     },
+    resetPressAllButtonsKeybind: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (!SharkGame.gameOver) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            SharkGame.flags.pressedAllButtonsThisTick = false;
+            return true;
+        },
+    },
 };

@@ -6,7 +6,7 @@ window.onmousemove = (event) => {
     SharkGame.lastActivity = _.now();
 
     const tooltip = document.getElementById("tooltipbox");
-    if (!tooltip) return;
+    if (!tooltip || tooltip.innerHTML === "") return;
     const posX = event.clientX;
     const posY = event.clientY;
 
@@ -19,8 +19,31 @@ window.onmousemove = (event) => {
     }
 };
 
-$(document).on("keyup", () => {
+$(document).on("keyup", (event) => {
     SharkGame.lastActivity = _.now();
+
+    const mkey = SharkGame.Keybinds.modifierKeys;
+    if ((mkey.ShiftLeft || mkey.ShiftRight) && !event.shiftKey) {
+        mkey.ShiftLeft = 0;
+        mkey.ShiftRight = 0;
+    } else if ((mkey.AltLeft || mkey.AltRight) && !event.altKey) {
+        mkey.AltLeft = 0;
+        mkey.AltRight = 0;
+    } else if ((mkey.ControlLeft || mkey.ControlRight) && !event.ctrlKey) {
+        mkey.ControlLeft = 0;
+        mkey.ControlRight = 0;
+    }
+
+    if (SharkGame.Keybinds.handleKeyUp(event.code)) {
+        event.preventDefault();
+    }
+});
+
+$(document).on("keydown", (event) => {
+    SharkGame.lastActivity = _.now();
+    if (SharkGame.Keybinds.handleKeyDown(event.code)) {
+        event.preventDefault();
+    }
 });
 
 // CORE VARIABLES AND HELPER FUNCTIONS
@@ -208,7 +231,6 @@ SharkGame.Main = {
         SharkGame.sidebarHidden = true;
         // remove any errant classes
         $("#pane").removeClass("gateway");
-        $("#overlay").removeClass("gateway");
 
         // clear any html and remove errant classes from tooltip
         $("#tooltipbox")
@@ -265,6 +287,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.TitleBarHandler.init();
         SharkGame.TabHandler.init();
         SharkGame.PaneHandler.init();
+        SharkGame.OverlayHandler.init();
+
+        SharkGame.Keybinds.init();
 
         SharkGame.Resources.minuteHand.init();
     },
@@ -345,6 +370,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
 
+        window.addEventListener("beforeunload", main.autosave);
+
         if (SharkGame.Settings.current.updateCheck) {
             main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
         }
@@ -361,7 +388,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
             main.showSidebarIfNeeded();
             if (SharkGame.flags.needOfflineProgress) {
-                SharkGame.persistentFlags.currentPausedTime = SharkGame.flags.needOfflineProgress * 1000;
+                SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
             }
             SharkGame.flags.needOfflineProgress = 0;
         }
@@ -465,6 +492,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             saveData.timestampGameStart = SharkGame.timestampGameStart;
             saveData.timestampRunStart = _.now();
             saveData.timestampRunEnd = SharkGame.timestampRunEnd;
+
+            saveData.keybinds = _.cloneDeep(SharkGame.Keybinds.keybinds);
 
             saveData.saveVersion = SharkGame.Save.saveUpdaters.length - 1;
             saveString = ascii85.encode(pako.deflate(JSON.stringify(saveData), { to: "string" }));
@@ -621,7 +650,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/dev", (data) => {
             if (data.sha !== SharkGame.COMMIT_SHA) {
                 $("#updateGameBox")
-                    .html("You see a new update swimming towards you. Click to update.")
+                    .html(
+                        `You see a new update swimming towards you.<br> On it you can just make out the words <br>"${
+                            data.commit.message.split("\n")[0]
+                        }". <br>Click to update.`
+                    )
                     .on("click", () => {
                         try {
                             SharkGame.Save.saveGame();
@@ -695,6 +728,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     SharkGame.Settings.current.buyAmount = amount === "custom" ? "custom" : parseInt(thisButton.attr("id").slice(4));
                     $("button[id^='buy-']").removeClass("disabled");
                     thisButton.addClass("disabled");
+                })
+                .on("mouseenter", () => {
+                    $(`#tooltipbox`).html(`${label} amount of things`);
+                })
+                .on("mouseleave", () => {
+                    $(`#tooltipbox`).html(``);
                 });
         });
         buttonList.append(
@@ -810,6 +849,16 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202201??a": [
+        "Added keybinds. You can now bind a large array of actions to different key combinations.",
+        "Added backup saves. You can now back up your saves as you wish, with three slots!",
+        "Added real species/family names when recruiting urchins and squid, instead of weird placeholder messages.",
+        "When first unlocking cheats at 1000 lifetime essence, a special backup is automatically created.",
+        "Added toggle for cheats; you don't have to see them if you don't want to.",
+        "Ixbix - fixed issues with gateway time spent in last world",
+        "Ixbix - stopped minute hand slider from flopping around",
+        "Ixbix - added touchscreen support for the aspect tree",
+    ],
     "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211201a": [
         "Added something special at 1000 total essence.",
         "Changed the aspect tree UI to remove unnecessary buttons from below the tree.",
@@ -1038,20 +1087,4 @@ SharkGame.Changelog = {
 $(() => {
     $("#game").show();
     main.init();
-
-    // ctrl+s saves
-    $(window).on("keydown", (event) => {
-        if (event.ctrlKey || event.metaKey) {
-            switch (String.fromCharCode(event.key).toLowerCase()) {
-                case "s":
-                    event.preventDefault();
-                    SharkGame.Save.saveGame();
-                    break;
-                case "o":
-                    event.preventDefault();
-                    SharkGame.PaneHandler.showOptions();
-                    break;
-            }
-        }
-    });
 });

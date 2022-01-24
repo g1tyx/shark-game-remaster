@@ -31,6 +31,8 @@ SharkGame.Gateway = {
     enterGate(loadingFromSave) {
         SharkGame.PaneHandler.wipeStack();
 
+        SharkGame.OverlayHandler.enterGateway();
+
         //ensure buy buttons will be revealed
         SharkGame.persistentFlags.revealedBuyButtons = true;
 
@@ -345,7 +347,10 @@ SharkGame.Gateway = {
             $("<p>").html(
                 `${seenWorldYet ? `A par time` : `This`} would grant you <strong>` +
                     sharktext.beautify(
-                        Math.ceil((1 + gateway.getGumptionBonus()) * (seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level),
+                        Math.ceil(
+                            (1 + gateway.getGumptionBonus()) * ((seenWorldYet ? 2 : 4) + (selectedWorldData.bonus ? selectedWorldData.bonus : 0)) +
+                                SharkGame.Aspects.patience.level
+                        ),
                         false,
                         2
                     ) +
@@ -629,6 +634,9 @@ SharkGame.Gateway = {
         if (!SharkGame.persistentFlags.totalPausedTime) {
             SharkGame.persistentFlags.totalPausedTime = 0;
         }
+        if (!SharkGame.persistentFlags.currentPausedTime) {
+            SharkGame.persistentFlags.currentPausedTime = 0;
+        }
         const time =
             SharkGame.timestampRunEnd -
             SharkGame.timestampRunStart -
@@ -682,25 +690,53 @@ SharkGame.Gateway = {
         if (gateway.getPar() && !loadingFromSave && SharkGame.wonGame) {
             let timeBelowPar = gateway.getMinutesBelowPar();
             if (timeBelowPar > 0) {
-                let timeBelowFive = 5 - gateway.getTimeInLastWorld() / 60000;
-                for (let halfPower = 1; timeBelowFive > 0; halfPower++) {
-                    timeBelowFive -= 5 / 2 ** halfPower;
-                    reward += 1;
-                }
-
                 while (timeBelowPar > 0) {
                     timeBelowPar -= 5;
                     reward += 1;
+                }
+
+                let timeBelowThreshold;
+                const rawTime = gateway.getTimeInLastWorld(true) / 60000;
+                if (rawTime < 5) {
+                    timeBelowThreshold = 5 - rawTime;
+
+                    while (timeBelowThreshold > 0) {
+                        timeBelowThreshold -= 1;
+                        reward += 1;
+                    }
+                }
+
+                if (rawTime < 1) {
+                    timeBelowThreshold = 1 - rawTime;
+
+                    while (timeBelowThreshold > 0) {
+                        timeBelowThreshold -= 1 / 6;
+                        reward += 1;
+                    }
+                }
+
+                if (rawTime < 1 / 6) {
+                    timeBelowThreshold = 1 / 6 - rawTime;
+
+                    while (timeBelowThreshold > 0) {
+                        timeBelowThreshold -= 1 / 60;
+                        reward += 1;
+                    }
                 }
             }
         }
         return reward;
     },
 
-    getBaseReward(loadingFromSave) {
+    getBaseReward(loadingFromSave, whichWorld = world.worldType) {
         let reward = 0;
         if (!loadingFromSave && SharkGame.wonGame) {
             reward = gateway.wasOnScoutingMission() ? 4 : 2;
+
+            const bonus = SharkGame.WorldTypes[whichWorld].bonus;
+            if (bonus) {
+                reward += bonus;
+            }
         }
         return reward;
     },
@@ -736,47 +772,31 @@ SharkGame.Gateway = {
         }
         pane.addClass("gateway");
 
-        const overlay = $("#overlay");
-        overlay.addClass("gateway");
-
         // make overlay opaque
         if (SharkGame.Settings.current.showAnimations) {
             gateway.transitioning = true;
-            overlay
-                .show()
-                .css("opacity", 0)
-                .animate(
-                    {
-                        opacity: 1.0,
-                    },
-                    1000,
-                    "swing",
-                    () => {
-                        // put back to 4000
-                        gateway.cleanUp();
-                        gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
-                        if (gateway.shouldCheatsBeUnlocked()) {
-                            gateway.unlockCheats();
-                        }
-                    }
-                );
-        } else {
-            overlay.show().css("opacity", 1.0);
+        }
+
+        SharkGame.OverlayHandler.revealOverlay(1000, 1.0, () => {
             gateway.cleanUp();
             gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
             if (gateway.shouldCheatsBeUnlocked()) {
                 gateway.unlockCheats();
             }
-        }
+        });
     },
 
     shouldCheatsBeUnlocked() {
-        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.debug;
+        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.unlockedDebug;
     },
 
     unlockCheats() {
-        SharkGame.PaneHandler.showUnlockedCheatsMessage();
-        cad.debug();
+        if (!SharkGame.persistentFlags.debug && !SharkGame.persistentFlags.unlockedDebug) {
+            SharkGame.PaneHandler.showUnlockedCheatsMessage();
+            SharkGame.Save.createTaggedSave(`BackupCheats`);
+            cad.debug();
+        }
+        SharkGame.persistentFlags.unlockedDebug = true;
     },
 };
 

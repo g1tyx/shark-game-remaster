@@ -61,7 +61,9 @@
         <script type="text/javascript" src="js/data/aspects.js"></script>
         <script type="text/javascript" src="js/data/sprites.js"></script>
 
+        <script type="text/javascript" src="js/overlay.js"></script>
         <script type="text/javascript" src="js/eventhandler.js"></script>
+        <script type="text/javascript" src="js/keybinds.js"></script>
         <script type="text/javascript" src="js/resources.js"></script>
         <script type="text/javascript" src="js/world.js"></script>
         <script type="text/javascript" src="js/log.js"></script>
@@ -137,7 +139,7 @@
             </div>
         </noscript>
         <div id="wrapper">
-            <div id="game">
+            <div id="game" class="clear-fix">
                 <header id="title">
                     <h1 id="gameName">- SHARK GAME -</h1>
                     <h4 id="versionNumber"></h4>
@@ -156,7 +158,6 @@
                 <div id="log" class="rightlog"></div>
                 <nav id="contentMenu"></nav>
                 <main id="content"></main>
-                <div class="clear-fix"></div>
                 <div id="idle-overlay" class="click-passthrough">
                     <h1>IDLE MODE</h1>
                     <span
@@ -167,14 +168,14 @@
                     <i>click to dismiss.</i>
                 </div>
                 <div id="overlay"></div>
-                <footer id="copyright" class="copyrightNotice">
-                    The above variably-named Shark Game<br />
-                    &copy; <a href="https://cirri.al/">Cirrial</a>, 2014-2016<br />
-                    &copy; <a href="https://github.com/spencers145/">spencers145</a>, 2020-2021<br />
-                    All rights reserved.
-                </footer>
                 <div id="preloadedImages"></div>
             </div>
+            <footer id="copyright" class="copyrightNotice">
+                The above variably-named Shark Game<br />
+                &copy; <a href="https://cirri.al/">Cirrial</a>, 2014-2016<br />
+                &copy; <a href="https://github.com/spencers145/">spencers145</a>, 2020-2021<br />
+                All rights reserved.
+            </footer>
         </div>
     </body>
 </html>
