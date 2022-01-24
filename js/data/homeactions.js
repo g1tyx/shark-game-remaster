@@ -3828,11 +3828,11 @@ SharkGame.HomeActions = {
 
         getMaker: {},
 
-        getExtractor: {
-            name: "Assemble extractor ray",
+        getClamScavenger: {
+            name: "Equip clam scavenger",
             effect: {
                 resource: {
-                    extractor: 1,
+                    clamScavenger: 1,
                 },
             },
             cost: [
@@ -3845,7 +3845,7 @@ SharkGame.HomeActions = {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["calciniumBiosynergy"],
+                upgrade: ["calciniumRobotics"],
             },
             outcomes: [],
             multiOutcomes: [],
@@ -3859,7 +3859,7 @@ SharkGame.HomeActions = {
         getBrood: {},
 
         getSeabedStripper: {
-            name: "Build seabed stripper",
+            name: "Equip seabed stripper",
             effect: {
                 resource: {
                     seabedStripper: 1,
@@ -3867,14 +3867,14 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "calcinium", costFunction: "linear", priceIncrease: 150 },
-                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "planter", costFunction: "constant", priceIncrease: 1 },
             ],
             max: "seabedStripper",
             prereq: {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["crustaceanTransmutation"],
+                upgrade: ["calciniumRobotics"],
             },
             outcomes: [],
             multiOutcomes: [],
@@ -3930,7 +3930,7 @@ SharkGame.HomeActions = {
         // CRUSTACEAN MACHINES /////////////////////////////////////////////////////////
 
         getCalciniumConverter: {
-            name: "Build calcinium converter",
+            name: "Assemble calcinium converter",
             effect: {
                 resource: {
                     calciniumConverter: 1,
@@ -3945,7 +3945,7 @@ SharkGame.HomeActions = {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["crustaceanTransmutation"],
+                upgrade: ["calciniumCybernetics"],
             },
             outcomes: [
                 /*                 "Berry sprayer is active.",
@@ -4087,6 +4087,7 @@ SharkGame.HomeActionCategories = {
             "getKelpCultivator",
             "getSeabedStripper",
             "getCalciniumConverter",
+            "getClamScavenger",
         ],
     },
 

@@ -403,15 +403,15 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
-    extractor: {
-        name: "clam extractors",
-        singleName: "clam extractor",
+    clamScavenger: {
+        name: "clam scavengers",
+        singleName: "clam scavenger",
         desc: "",
         color: "#C3C4DD",
         income: {
             clam: 50,
         },
-        value: 3500,
+        value: 3500, // remember to set this too
     },
 
     seabedStripper: {
@@ -1411,7 +1411,7 @@ SharkGame.InternalCategories = {
     },
     lobstermachines: {
         name: "Lobster Machines",
-        resources: ["calcinium", "seabedStripper", "calciniumConverter"],
+        resources: ["calcinium", "seabedStripper", "calciniumConverter", "rayScavenger"],
     },
     basicmaterials: {
         resources: ["fish", "sand", "crystal", "science", "junk"],

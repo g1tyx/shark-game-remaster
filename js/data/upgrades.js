@@ -2416,7 +2416,7 @@ SharkGame.Upgrades = {
             desc: "These strange creatures related to crabs require further investigation. What is with exoskeletons?",
             researchedMessage: "We've figured out how these shellfish function. There's far too many limbs involved.",
             effectDesc:
-                "Shrimp and lobsters are twice as effective. Lobsters can now gather other things or cover themselves in shiny eggs, also called 'berries'. What's a berry?",
+                "Lobsters are twice as effective. Lobsters can now gather other things or cover themselves in shiny eggs, also called 'berries'. What's a berry?",
             cost: {
                 science: 2500,
                 clam: 1000,
@@ -2601,18 +2601,18 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        calciniumBiosynergy: {
-            name: "Calcinium Biosynergy",
+        calciniumRobotics: {
+            name: "Calcinium Robotics",
             desc: "So the lobsters remembered what calcinium is for. They're telling us about all the weird tools and machines they used to make with it. Let's try to piece the designs back together!",
             researchedMessage:
                 "With enough tinkering, we've managed to recreate a few of their designs! They're not machines on their own, it's more like frenzy members wielding machines.",
             effectDesc:
-                "Clam extractors, seabed strippers, and calcinium converters can be trained. The designs are for lobsters, but a communication error may have caused us to make two of them for non-lobsters. Whoops!",
+                "Clam scavengers and seabed strippers can be trained. The designs are for lobsters, but a communication error may have caused us to make two of them for non-lobsters. Whoops!",
             cost: {
                 calcinium: 2500,
             },
             required: {
-                upgrades: ["engineering"],
+                upgrades: ["automation", "calciniumStudies"],
                 seen: ["calcinium"],
             },
         },
@@ -2632,6 +2632,18 @@ SharkGame.Upgrades = {
                 incomeMultiplier: {
                     crab: 4,
                 },
+            },
+        },
+        calciniumCybernetics: {
+            name: "Calcinium Cybernetics",
+            desc: "",
+            researchedMessage: "",
+            effectDesc: "",
+            cost: {
+                calcinium: 2500,
+            },
+            required: {
+                upgrades: ["calciniumRobotics"],
             },
         },
         recyclerDiscovery: {
@@ -2691,7 +2703,7 @@ SharkGame.Upgrades = {
             },
         },
         bioengineering: {
-            name: "",
+            name: "Bioengineering",
             desc: "",
             researchedMessage: "",
             effectDesc: "",
