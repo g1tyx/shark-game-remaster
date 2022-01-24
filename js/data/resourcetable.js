@@ -1292,7 +1292,6 @@ SharkGame.ResourceCategories = {
             "sifter",
             "extractionTeam",
             "scholar",
-            "extractor",
             //"prospector",
             //"shoveler",
             //"miller",
@@ -1325,6 +1324,7 @@ SharkGame.ResourceCategories = {
             "eggBrooder",
             "crimsonCombine",
             "kelpCultivator",
+            "clamScavenger",
             "seabedStripper",
             "calciniumConverter",
             //"coalescer",
@@ -1411,7 +1411,7 @@ SharkGame.InternalCategories = {
     },
     lobstermachines: {
         name: "Lobster Machines",
-        resources: ["calcinium", "seabedStripper", "calciniumConverter", "rayScavenger"],
+        resources: ["calcinium", "seabedStripper", "calciniumConverter", "clamScavenger"],
     },
     basicmaterials: {
         resources: ["fish", "sand", "crystal", "science", "junk"],
