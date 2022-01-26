@@ -849,12 +849,13 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202201??a": [
+    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20220125a": [
         "Added keybinds. You can now bind a large array of actions to different key combinations.",
         "Added backup saves. You can now back up your saves as you wish, with three slots!",
         "Added real species/family names when recruiting urchins and squid, instead of weird placeholder messages.",
         "When first unlocking cheats at 1000 lifetime essence, a special backup is automatically created.",
         "Added toggle for cheats; you don't have to see them if you don't want to.",
+        "Made some more UI changes.",
         "Ixbix - fixed issues with gateway time spent in last world",
         "Ixbix - stopped minute hand slider from flopping around",
         "Ixbix - added touchscreen support for the aspect tree",
