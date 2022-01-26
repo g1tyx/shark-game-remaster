@@ -856,6 +856,7 @@ SharkGame.Changelog = {
         "When first unlocking cheats at 1000 lifetime essence, a special backup is automatically created.",
         "Added toggle for cheats; you don't have to see them if you don't want to.",
         "Made some more UI changes.",
+        "Removed aspect: Anything and Everything",
         "Ixbix - fixed issues with gateway time spent in last world",
         "Ixbix - stopped minute hand slider from flopping around",
         "Ixbix - added touchscreen support for the aspect tree",
