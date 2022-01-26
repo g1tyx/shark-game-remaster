@@ -862,7 +862,7 @@ SharkGame.Resources = {
                 .attr("type", "range")
                 .attr("min", 1)
                 .attr("max", 9)
-                .attr("step", 0.01)
+                .attr("step", 1)
                 .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
                 .on("input", res.minuteHand.changeSelectedMultiplier);
             $("#minute-row-two").append(slider);
@@ -1244,9 +1244,6 @@ SharkGame.Resources = {
         if (!resourceName) {
             resourceName = $(this).attr("id");
             if (!resourceName) return;
-        }
-        if (!SharkGame.TabHandler.isTabUnlocked("stats")) {
-            return;
         }
         const generators = SharkGame.FlippedBreakdownIncomeTable.get(resourceName);
         let isGeneratingText = "";

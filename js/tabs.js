@@ -17,7 +17,7 @@ SharkGame.TabHandler = {
                     $content.css("position", "static");
                     const boundingBox = content.getBoundingClientRect();
                     if ($content.offset().top + boundingBox.height < $(window).height()) {
-                        $content.css("top", $content.offset().top).css("position", "sticky");
+                        $content.css("top", $content.offset().top);
                     }
                 },
                 400,

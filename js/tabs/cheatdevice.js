@@ -480,6 +480,7 @@ SharkGame.CheatsAndDebug = {
 
     debug() {
         SharkGame.persistentFlags.debug = true;
+        SharkGame.persistentFlags.unlockedDebug = true;
     },
 
     hideDebug() {
