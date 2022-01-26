@@ -84,7 +84,7 @@ SharkGame.MathUtil = {
 
     getBuyAmount(noMaxBuy) {
         if (SharkGame.Settings.current.buyAmount === "custom") {
-            return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
+            return $("#custom-input")[0] && Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
                 ? Math.floor($("#custom-input")[0].valueAsNumber)
                 : 1;
         } else {
