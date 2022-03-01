@@ -99,7 +99,7 @@ $.extend(SharkGame, {
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "0.2 OPEN ALPHA",
+    VERSION: "20220125a",
     ORIGINAL_VERSION: 0.71,
     VERSION_NAME: "New Perspectives",
     EPSILON: 1e-6, // floating point comparison is a joy
