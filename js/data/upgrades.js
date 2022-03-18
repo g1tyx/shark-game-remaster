@@ -2568,16 +2568,11 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Learned how to manufacture calcinium. I wonder what it's for? The lobsters are currently in the process of consolidating their information on it.",
             cost: {
-                seaApple: 25,
+                clam: 25000,
+                crystal: 20000,
             },
             required: {
-                upgrades: ["kelpHorticulture"],
-                seen: ["seaApple"],
-            },
-            effect: {
-                incomeMultiplier: {
-                    kelp: 2,
-                },
+                upgrades: ["transmutation"],
             },
         },
         engineering: {
@@ -2587,7 +2582,7 @@ SharkGame.Upgrades = {
             effectDesc: "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.",
             cost: {
                 science: 250000,
-                sharkonium: 17500,
+                sharkonium: 27500,
             },
             required: {
                 upgrades: ["automation"],
@@ -2595,21 +2590,20 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeMultiplier: {
-                    crystalMiner: 2,
+                    crystalMiner: 4,
                     fishMachine: 2,
-                    sandDigger: 2,
+                    sandDigger: 4,
                 },
             },
         },
         calciniumRobotics: {
             name: "Calcinium Robotics",
-            desc: "So the lobsters remembered what calcinium is for. They're telling us about all the weird tools and machines they used to make with it. Let's try to piece the designs back together!",
-            researchedMessage:
-                "With enough tinkering, we've managed to recreate a few of their designs! They're not machines on their own, it's more like frenzy members wielding machines.",
+            desc: "So the lobsters remembered what calcinium is for.",
+            researchedMessage: "With enough effort, we've managed to fashion calcinium tools for the frenzy.",
             effectDesc:
-                "Clam scavengers and seabed strippers can be trained. The designs are for lobsters, but a communication error may have caused us to make two of them for non-lobsters. Whoops!",
+                "Rays and planter crabs can be trained as clam scavengers and seabed strippers. These tools are designed to work without input from their users. Freaky.",
             cost: {
-                calcinium: 2500,
+                calcinium: 25000,
             },
             required: {
                 upgrades: ["automation", "calciniumStudies"],
@@ -2636,11 +2630,13 @@ SharkGame.Upgrades = {
         },
         calciniumCybernetics: {
             name: "Calcinium Cybernetics",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
+            desc: "Robot tools are great and all, but they're pretty dumb on their own. We could do better if we learned to control them.",
+            researchedMessage:
+                "A bundle of crumpled blueprints and a few morally dubious science experiments later, brains can now interface directly with calcinium machines. Future!",
+            effectDesc: "Clam scavengers and seabed strippers are four times as effective. Also, we can make calcinium converters??",
             cost: {
-                calcinium: 2500,
+                science: 1000000,
+                calcinium: 250000,
             },
             required: {
                 upgrades: ["calciniumRobotics"],
@@ -2664,32 +2660,31 @@ SharkGame.Upgrades = {
             name: "Iterative Design",
             desc: "The machines are useful, but they could be better. Let's build new ones, from scratch!",
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
-            effectDesc: "All shark machines run twice as fast. Again! Scientists are 4 times faster as well.",
+            effectDesc: "",
             cost: {
-                science: 15000,
-                sharkonium: 17500,
+                science: 150000,
+                sharkonium: 175000,
             },
             required: {
                 upgrades: ["engineering"],
             },
             effect: {
                 incomeMultiplier: {
-                    crystalMiner: 2,
-                    fishMachine: 2,
-                    sandDigger: 2,
-                    autoTransmuter: 2,
+                    crystalMiner: 8,
+                    fishMachine: 4,
+                    sandDigger: 8,
+                    autoTransmuter: 4,
                     skimmer: 2,
-                    heater: 2,
-                    scientist: 4,
+                    scientist: 16,
                 },
             },
         },
         highEnergyFusion: {
             name: "High-Energy Fusion",
-            desc: "The lobsters are excited to show us their newest rediscovery: high-energy fusion! It involves",
-            researchedMessage:
-                "The lobsters showed us how fusing pearls and clams at a higher temperature can result in a waaay better clam to crystal ratio. We still have to use the whole clam, unfortunately.",
-            effectDesc: "Reduced clam to crystal conversion ratio from 5-1 to 1-1. Recycler reshmycler, we have FUSION!!",
+            desc: "The lobsters are excited to show us something, but they need a lot of calcinium first.",
+            researchedMessage: "The process is so bright, it could melt out our eyes out - but it's so much better than the old fusion.",
+            effectDesc:
+                "Calcinium converters are 8 times as efficient, and improved clam-crystal fusion ratio from 5-1 to 1-1. Recycler reshmycler, we have FUSION!!",
             cost: {
                 science: 250000,
             },
@@ -2698,7 +2693,7 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeMultiplier: {
-                    calciniumConverter: 2,
+                    calciniumConverter: 8,
                 },
             },
         },
@@ -2708,16 +2703,21 @@ SharkGame.Upgrades = {
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                science: 696969,
-                calcinium: 50000,
+                science: 7500000,
+                calcinium: 500000,
             },
             required: {
-                upgrades: ["kelpHorticulture"],
-                seen: ["seaApple"],
+                upgrades: ["calciniumCybernetics", "iterativeDesign"],
+                seen: ["clamScavenger", "seabedStripper"],
             },
             effect: {
                 incomeMultiplier: {
-                    kelp: 2,
+                    shark: 128,
+                    ray: 32,
+                    crab: 32,
+                    lobster: 64,
+                    scientist: 64,
+                    planter: 64,
                 },
             },
         },
@@ -2728,20 +2728,21 @@ SharkGame.Upgrades = {
             effectDesc: "Something ancient lurked in the depths.",
             cost: {
                 science: 1e6,
-                shark: 1000,
-                fish: 50000,
+                shark: 10000,
+                fish: 5000000,
             },
             required: {
                 upgrades: ["farExploration"],
             },
         },
         sentientCircuitBoards: {
-            name: "",
+            name: "Sentient Circuit Boards",
             desc: "",
             researchedMessage: "",
             effectDesc: "",
             cost: {
-                seaApple: 25,
+                calcinium: 250000000,
+                science: 25000000,
             },
             required: {
                 upgrades: ["kelpHorticulture"],
@@ -2749,7 +2750,10 @@ SharkGame.Upgrades = {
             },
             effect: {
                 incomeMultiplier: {
-                    kelp: 2,
+                    nurse: 64,
+                    maker: 64,
+                    brood: 64,
+                    berrier: 128,
                 },
             },
         },
@@ -2769,20 +2773,23 @@ SharkGame.Upgrades = {
             },
         },
         mobiusShells: {
-            name: "",
-            desc: "",
-            researchedMessage: "",
-            effectDesc: "",
+            name: "Mobius Shells",
+            desc: "We don't know how to describe what the lobsters are suggesting.",
+            researchedMessage: "...",
+            effectDesc: "We have officially gone too far.",
             cost: {
-                seaApple: 25,
+                calcinium: 1e9,
+                lobster: 100000,
             },
             required: {
-                upgrades: ["kelpHorticulture"],
+                upgrades: ["sentientCircuitBoards", "gateDiscovery"],
                 seen: ["seaApple"],
             },
             effect: {
                 incomeMultiplier: {
-                    kelp: 2,
+                    lobster: 4096,
+                    berrier: 4096,
+                    calciniumConverter: 4096,
                 },
             },
         },

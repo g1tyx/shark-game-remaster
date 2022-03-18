@@ -910,10 +910,9 @@ SharkGame.Gateway.Messages = {
         violent: [
             "The boiling ocean only stirred you on.",
             "You are forged from the geothermal vents.",
-            "The shrimp are no simpletons. They are merely focused.",
+            "The shrimp are no simpletons.",
             "That environment is ideal for life. Just not for your kind.",
-            "Do you wonder how the shrimp learned to become something more?",
-            "The shrimp are intolerant of shark industry. Remember: that is okay.",
+            "Do you wonder why there were no sharks here?",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",

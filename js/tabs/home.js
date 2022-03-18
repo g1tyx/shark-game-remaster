@@ -100,7 +100,7 @@ SharkGame.Home = {
             {
                 name: "marine-noticed-lobsters",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "You notice a bunch of creatures lazing about on the ocean floor. They're like crabs, but...<i>longer</i>.",
+                message: "You notice a bunch of creatures lazing about on the ocean floor. They ignore your presence.",
             },
             {
                 name: "marine-lobsters",
@@ -110,18 +110,17 @@ SharkGame.Home = {
             {
                 name: "marine-lobsters",
                 unlock: { totalResource: { lobster: 125 } },
-                message: "The lobsters chat idly while they work. They talk about the good old days...the glory days.",
+                message: "The lobsters chat idly while they work. They talk about the good old days.",
             },
             {
                 name: "marine-calcinium",
                 unlock: { totalResource: { calcinium: 1 } },
-                message: "Calcinium. It's cold, hard, and rough, and it feels fragile, but isn't. The lobsters look excited.",
+                message: "Calcinium. It's cold, hard, and rough. It feels fragile, but isn't.",
             },
             {
                 name: "marine-robotics",
                 unlock: { upgrade: ["calciniumRobotics"] },
-                message:
-                    "A cold, stony limb fishes clams out of the seabed. The ray controls it with ease, like it was already a part of them. Such incredible tools.",
+                message: "A cold, rough limb fishes clams out of the seabed. The lobsters watch intently.",
             },
             {
                 // do color transition 1 here
