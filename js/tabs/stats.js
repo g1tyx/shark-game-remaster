@@ -378,7 +378,19 @@ SharkGame.Stats = {
                         .attr("id", "table-amount-" + headingName)
                 );
             }
-            resourceMapRow.append($("<td>").html(sharktext.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
+            resourceMapRow.append(
+                $("<td>")
+                    .html(
+                        sharktext.getResourceName(
+                            headingName,
+                            undefined,
+                            undefined,
+                            rowStyle === "evenRow" ? sharkcolor.getVariableColor("--color-dark") : sharkcolor.getVariableColor("--color-darker")
+                        )
+                    )
+                    .attr("rowspan", subheadings)
+                    .addClass(rowStyle)
+            );
 
             function addCell(text, rowspan, id) {
                 if (id) {
@@ -459,7 +471,18 @@ SharkGame.Stats = {
                             .attr("id", "table-amount-" + generatorName + "-" + incomeKey)
                     );
                 }
-                resourceMapRow.append($("<td>").html(sharktext.getResourceName(subheadingKey)).addClass(rowStyle));
+                resourceMapRow.append(
+                    $("<td>")
+                        .html(
+                            sharktext.getResourceName(
+                                subheadingKey,
+                                undefined,
+                                undefined,
+                                rowStyle === "evenRow" ? sharkcolor.getVariableColor("--color-dark") : sharkcolor.getVariableColor("--color-darker")
+                            )
+                        )
+                        .addClass(rowStyle)
+                );
 
                 // which mode are we in?
                 if (SharkGame.Settings.current.grottoMode === "advanced") {
@@ -688,7 +711,9 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0 && res.getCategoryOfResource(resourceId) !== "hidden") {
                 const row = $("<tr>");
 
-                row.append($("<td>").html(sharktext.getResourceName(resourceId)));
+                row.append(
+                    $("<td>").html(sharktext.getResourceName(resourceId, undefined, undefined, sharkcolor.getVariableColor("--color-darker")))
+                );
                 row.append(
                     $("<td>")
                         .html(sharktext.beautify(res.getTotalResource(resourceId)))

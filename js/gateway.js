@@ -361,7 +361,7 @@ SharkGame.Gateway = {
                         2
                     ) +
                     "</strong> " +
-                    sharktext.getResourceName("essence") +
+                    sharktext.getResourceName("essence", undefined, undefined, sharkcolor.getElementColor("pane")) +
                     " overall."
             )
         );
@@ -579,7 +579,11 @@ SharkGame.Gateway = {
                 if (worldData.foresight.missing.length > 0) {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.foresight.missing, (missingResource) => {
-                        missingList.append($("<li>").html("This world has no " + sharktext.getResourceName(missingResource, false, 2) + "."));
+                        missingList.append(
+                            $("<li>").html(
+                                "This world has no " + sharktext.getResourceName(missingResource, false, 2, sharkcolor.getElementColor("pane")) + "."
+                            )
+                        );
                     });
                     contentDiv.prepend(missingList);
                 }
@@ -589,9 +593,13 @@ SharkGame.Gateway = {
                         presentList.append(
                             $("<li>").html(
                                 "You feel the presence of " +
-                                    (gateway.playerHasSeenResource(presentResource)
-                                        ? sharktext.getResourceName(presentResource, false, 2)
-                                        : sharktext.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
+                                    sharktext.getResourceName(
+                                        presentResource,
+                                        false,
+                                        2,
+                                        sharkcolor.getElementColor("pane", "background-color"),
+                                        gateway.playerHasSeenResource(presentResource) ? undefined : gateway.PresenceFeelings[presentResource]
+                                    ) +
                                     "."
                             )
                         );
@@ -604,14 +612,18 @@ SharkGame.Gateway = {
                         if (gateway.playerHasSeenResource(modifier.resource) || !(worldData.foresight.present.indexOf(modifier.resource) > -1)) {
                             modifierList.append(
                                 $("<li>").html(
-                                    SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource)
+                                    SharkGame.ModifierReference.get(modifier.modifier).effectDescription(
+                                        modifier.amount,
+                                        modifier.resource,
+                                        "#246c54"
+                                    )
                                 )
                             );
                         } else {
                             modifierList.append(
                                 $("<li>").html(
                                     SharkGame.ModifierReference.get(modifier.modifier)
-                                        .effectDescription(modifier.amount, modifier.resource)
+                                        .effectDescription(modifier.amount, modifier.resource, sharkcolor.getElementColor("pane"))
                                         .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource])
                                 )
                             );

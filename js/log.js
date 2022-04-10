@@ -62,6 +62,10 @@ SharkGame.Log = {
         }
     },
 
+    isNextMessageEven() {
+        return this.totalCount % 2 === 1;
+    },
+
     addMessage(message) {
         const showAnims = SharkGame.Settings.current.showAnimations;
 
@@ -70,7 +74,7 @@ SharkGame.Log = {
         }
         const messageItem = $("<li>").html(message);
 
-        if (this.totalCount % 2 === 1) {
+        if (log.isNextMessageEven()) {
             messageItem.addClass("evenMessage");
         }
 

@@ -203,7 +203,7 @@ SharkGame.Recycler = {
             ) {
                 SharkGame.Button.makeHoverscriptButton(
                     "input-" + resourceName,
-                    "Recycle " + sharktext.getResourceName(resourceName),
+                    "Recycle " + sharktext.getResourceName(resourceName, undefined, undefined, sharkcolor.getVariableColor("--color-light")),
                     inputButtonDiv,
                     rec.onInput,
                     rec.onInputHover,
@@ -211,7 +211,7 @@ SharkGame.Recycler = {
                 );
                 SharkGame.Button.makeHoverscriptButton(
                     "output-" + resourceName,
-                    "Convert to " + sharktext.getResourceName(resourceName),
+                    "Convert to " + sharktext.getResourceName(resourceName, undefined, undefined, sharkcolor.getVariableColor("--color-light")),
                     outputButtonDiv,
                     rec.onOutput,
                     rec.onOutputHover,
@@ -361,15 +361,19 @@ SharkGame.Recycler = {
                 produced *= res.getResource(rec.hoveredResource) / -buy;
             }
             let amountstring = sharktext.beautify(produced);
-            amountstring = "<br/><br/>AND " + amountstring.bold() + " " + sharktext.getResourceName("tar");
+            amountstring =
+                "<br/><br/>AND " +
+                amountstring.bold() +
+                " " +
+                sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("junkDisplay"));
             if (tarTolerance > 0) {
                 amountstring +=
                     "<br/>(" +
                     sharktext.beautify(Math.max(produced - tarTolerance, 0)) +
                     " " +
-                    sharktext.getResourceName("tar") +
+                    sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("junkDisplay")) +
                     " WITH<br/>" +
-                    sharktext.getResourceName("filter", false, 2) +
+                    sharktext.getResourceName("filter", false, 2, sharkcolor.getElementColor("junkDisplay")) +
                     ")";
             }
             return amountstring;
@@ -394,7 +398,7 @@ SharkGame.Recycler = {
             "<b>%<br/>EFFICIENCY</b><br/><br/>EQUIVALENT TO:<br/>" +
             amountstring.bold() +
             " " +
-            sharktext.getResourceName(rec.hoveredResource).bold() +
+            sharktext.getResourceName(rec.hoveredResource, undefined, undefined, sharkcolor.getElementColor("junkDisplay")).bold() +
             "<br/>WORTH OF RESIDUE"
         );
     },

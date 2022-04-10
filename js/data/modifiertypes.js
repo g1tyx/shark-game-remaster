@@ -52,10 +52,11 @@ SharkGame.ModifierTypes = {
                  * Generates a description of a modifier's effect at a specific degree on a specific resource. Used in world selection when viewing world properties using distant foresight, and for the descriptions of the effects of upgrades.
                  * @param {*} degree The hypothetical value of the modifier.
                  * @param {*} resource The resource that the effect would be applied to.
+                 * @param {string} background The background of the effect text to ensure there is enough contrast.
                  * @returns A description of the hypothetical effect of the modifier.
                  */
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " speed × " + degree;
+                effectDescription(degree, resource, background) {
+                    return sharktext.getResourceName(resource, undefined, undefined, background) + " speed × " + degree;
                 },
                 /**
                  * Tells how much a specific generator-income pair with specific modifier degrees has its income multiplied. Only used for multiplier-like modifiers, otherwise returns 1. Used in the grotto in advanced view; see res.getMultiplierProduct().
@@ -93,8 +94,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return "All " + sharktext.getResourceName(resource) + " production × " + degree;
+                effectDescription(degree, resource, background) {
+                    return "All " + sharktext.getResourceName(resource, undefined, undefined, background) + " production × " + degree;
                 },
                 getEffect(_genDegree, outDegree, _gen, _out) {
                     return outDegree;
@@ -114,8 +115,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " efficiency × " + degree;
+                effectDescription(degree, resource, background) {
+                    return sharktext.getResourceName(resource, undefined, undefined, background) + " efficiency × " + degree;
                 },
                 getEffect(genDegree, _outDegree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? genDegree : 1;
@@ -133,8 +134,14 @@ SharkGame.ModifierTypes = {
                     }
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " collection of " + sharktext.getResourceName("sand") + " × " + degree;
+                effectDescription(degree, resource, background) {
+                    return (
+                        sharktext.getResourceName(resource, undefined, undefined, background) +
+                        " collection of " +
+                        sharktext.getResourceName("sand", undefined, undefined, background) +
+                        " × " +
+                        degree
+                    );
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -152,8 +159,14 @@ SharkGame.ModifierTypes = {
                     }
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " collection of " + sharktext.getResourceName("kelp") + " × " + degree;
+                effectDescription(degree, resource, background) {
+                    return (
+                        sharktext.getResourceName(resource, undefined, undefined, background) +
+                        " collection of " +
+                        sharktext.getResourceName("kelp", undefined, undefined, background) +
+                        " × " +
+                        degree
+                    );
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -171,8 +184,15 @@ SharkGame.ModifierTypes = {
                     }
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource, false, 2) + " melt " + sharktext.getResourceName("ice") + " " + degree + "× faster.";
+                effectDescription(degree, resource, background) {
+                    return (
+                        sharktext.getResourceName(resource, false, 2, background) +
+                        " melt " +
+                        sharktext.getResourceName("ice", undefined, undefined, background) +
+                        " " +
+                        degree +
+                        "× faster."
+                    );
                 },
                 getEffect(degree, _gen, _out) {
                     return degree;
@@ -191,7 +211,7 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "coral");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource) {
+                effectDescription(_degree, _resource, background) {
                     return "";
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -210,7 +230,7 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "jellyfish");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource) {
+                effectDescription(_degree, _resource, background) {
                     return "";
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -236,8 +256,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * (1 + degree);
                 },
-                effectDescription(degree, resource) {
-                    return "Income from " + sharktext.getResourceName(resource, false, 2) + " ×" + (1 + degree).toFixed(2);
+                effectDescription(degree, resource, background) {
+                    return "Income from " + sharktext.getResourceName(resource, false, 2, background) + " ×" + (1 + degree).toFixed(2);
                 },
                 getEffect(genDegree, _outDegree, _gen, _out) {
                     return genDegree;
@@ -256,8 +276,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * (1 / (1 + degree));
                 },
-                effectDescription(degree, resource) {
-                    return "Income from " + sharktext.getResourceName(resource, false, 2) + " ×" + (1 / (1 + degree)).toFixed(2);
+                effectDescription(degree, resource, background) {
+                    return "Income from " + sharktext.getResourceName(resource, false, 2, background) + " ×" + (1 / (1 + degree)).toFixed(2);
                 },
                 getEffect(genDegree, _outDegree, _gen, _out) {
                     return genDegree;
@@ -279,8 +299,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * (1 + degree);
                 },
-                effectDescription(degree, resource) {
-                    return "All " + sharktext.getResourceName(resource, false, 2) + " production ×" + (1 + degree).toFixed(2);
+                effectDescription(degree, resource, background) {
+                    return "All " + sharktext.getResourceName(resource, false, 2, background) + " production ×" + (1 + degree).toFixed(2);
                 },
                 getEffect(_genDegree, outDegree, _gen, _out) {
                     return outDegree;
@@ -302,8 +322,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * (1 / (1 + degree));
                 },
-                effectDescription(degree, resource) {
-                    return "All " + sharktext.getResourceName(resource, false, 2) + " production ×" + (1 / (1 + degree)).toFixed(2);
+                effectDescription(degree, resource, background) {
+                    return "All " + sharktext.getResourceName(resource, false, 2, background) + " production ×" + (1 / (1 + degree)).toFixed(2);
                 },
                 getEffect(_genDegree, outDegree, _gen, _out) {
                     return outDegree;
@@ -327,8 +347,10 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers("world", resource);
                     return current + degree;
                 },
-                effectDescription(degree, resource) {
-                    return "Gain " + sharktext.beautify(degree) + " " + sharktext.getResourceName(resource, false, degree) + " per second";
+                effectDescription(degree, resource, background) {
+                    return (
+                        "Gain " + sharktext.beautify(degree) + " " + sharktext.getResourceName(resource, false, degree, background) + " per second"
+                    );
                 },
                 applyToInput(input, _genDegree, _outDegree, _gen, _out) {
                     // planetary income handled separately
@@ -342,8 +364,8 @@ SharkGame.ModifierTypes = {
                     res.changeResource(resource * degree);
                     return current + degree;
                 },
-                effectDescription(degree, resource) {
-                    return "Start with " + degree + " " + sharktext.getResourceName(resource, false, degree);
+                effectDescription(degree, resource, background) {
+                    return "Start with " + degree + " " + sharktext.getResourceName(resource, false, degree, background);
                 },
                 applyToInput(input, _genDegree, _outDegree, _gen, _out) {
                     // starting resources has no bearing on income
@@ -361,8 +383,12 @@ SharkGame.ModifierTypes = {
                     current.push(restriction);
                     return current;
                 },
-                effectDescription(restriction, generator) {
-                    return sharktext.getResourceName(generator, false, 2) + " cannot produce " + sharktext.getResourceName(restriction, false, 2);
+                effectDescription(restriction, generator, background) {
+                    return (
+                        sharktext.getResourceName(generator, false, 2, background) +
+                        " cannot produce " +
+                        sharktext.getResourceName(restriction, false, 2, background)
+                    );
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
                     return genDegree.includes(out) ? 0 : input;
@@ -384,8 +410,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " efficiency × " + degree;
+                effectDescription(degree, resource, background) {
+                    return sharktext.getResourceName(resource, undefined, undefined, background) + " efficiency × " + degree;
                 },
                 getEffect(genDegree, _outDegree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? genDegree : 1;
@@ -405,8 +431,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " efficiency × " + degree;
+                effectDescription(degree, resource, background) {
+                    return sharktext.getResourceName(resource, undefined, undefined, background) + " efficiency × " + degree;
                 },
                 getEffect(genDegree, _outDegree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? 2 ** (genDegree - 1) : 1;
@@ -424,8 +450,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return sharktext.getResourceName(resource) + " speed × " + degree;
+                effectDescription(degree, resource, background) {
+                    return sharktext.getResourceName(resource, undefined, undefined, background) + " speed × " + degree;
                 },
                 getEffect(genDegree, _outDegree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? genDegree : 1;
@@ -446,8 +472,8 @@ SharkGame.ModifierTypes = {
                     });
                     return current * degree;
                 },
-                effectDescription(degree, resource) {
-                    return "All " + sharktext.getResourceName(resource) + " production × " + degree;
+                effectDescription(degree, resource, background) {
+                    return "All " + sharktext.getResourceName(resource, undefined, undefined, background) + " production × " + degree;
                 },
                 getEffect(_genDegree, outDegree, gen, out) {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? outDegree : 1;

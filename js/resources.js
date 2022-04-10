@@ -1169,7 +1169,7 @@ SharkGame.Resources = {
             row.append(
                 $("<td>")
                     .attr("id", "resource-" + resourceKey)
-                    .html(sharktext.getResourceName(resourceKey))
+                    .html(sharktext.getResourceName(resourceKey, undefined, undefined, sharkcolor.getVariableColor("--color-darker")))
                     .on("dragstart", res.tokens.handleResourceDragStart)
                     .on("dragover", (event) => {
                         if (res.tokens.canBePlacedOn("resource-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {

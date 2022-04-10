@@ -300,14 +300,16 @@ SharkGame.TextUtil = {
         return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds + formatCentiseconds;
     },
 
-    getResourceName(resourceName, darken, arbitraryAmount, background) {
+    getResourceName(resourceName, darken, arbitraryAmount, background, textToColor) {
         if (res.isCategory(resourceName)) {
-            return SharkGame.ResourceCategories[resourceName].name;
+            return textToColor || SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
         const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
-        let name = amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name;
+        let name = textToColor || (amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name);
         let extraStyle = "";
+
+        // if (!background) debugger;
 
         // easter egg logic
         if (name === "world") {
@@ -317,6 +319,8 @@ SharkGame.TextUtil = {
         if (SharkGame.Settings.current.boldCosts) {
             name = name.bold();
         }
+
+        let RETURNINGSTRING = "";
 
         if (SharkGame.Settings.current.colorCosts !== "none") {
             let color = SharkGame.Settings.current.colorCosts === "color" ? resource.color : sharkcolor.getBrightColor(resource.color);
@@ -332,35 +336,22 @@ SharkGame.TextUtil = {
                 } else {
                     contrast = (backRLum + 0.05) / (colorRLum + 0.05);
                 }
+                name += contrast.toFixed(2);
                 const tolerance = 2; // for easy changing
                 if (contrast < tolerance) {
+                    console.log(name);
                     const requiredLuminance = tolerance * backRLum + 0.05 * tolerance - 0.05;
+
+                    extraStyle = " style='color:" + color + "'";
+                    RETURNINGSTRING += "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
+
                     color = sharkcolor.correctLuminance(color, requiredLuminance > 1 ? (backRLum + 0.05) / tolerance - 0.05 : requiredLuminance);
                 }
             }
+            // if (background) color = background;
             extraStyle = " style='color:" + color + "'";
         }
-        return "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
-    },
-
-    applyResourceColoration(resourceName, textToColor) {
-        if (res.isCategory(resourceName)) {
-            return textToColor;
-        }
-
-        if (SharkGame.Settings.current.boldCosts) {
-            textToColor = textToColor.bold();
-        }
-        let extraStyle = "";
-        if (SharkGame.Settings.current.colorCosts !== "none") {
-            extraStyle =
-                " style='color:" +
-                (SharkGame.Settings.current.colorCosts === "color"
-                    ? SharkGame.ResourceMap.get(resourceName).color
-                    : sharkcolor.getBrightColor(SharkGame.ResourceMap.get(resourceName).color)) +
-                "'";
-        }
-        return "<span class='click-passthrough'" + extraStyle + ">" + textToColor + "</span>";
+        return RETURNINGSTRING + "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
     },
 
     // make a resource list object into a string describing its contents
@@ -468,9 +459,13 @@ SharkGame.ColorUtil = {
         return "#" + red + green + blue;
     },
 
-    getElementColor(id, propertyName) {
+    getElementColor(id, propertyName = "background-color") {
         const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return sharkcolor.convertColorString(color);
+    },
+
+    getVariableColor(variable) {
+        return getComputedStyle(document.body).getPropertyValue(variable).replace(/ /g, "");
     },
 };
 

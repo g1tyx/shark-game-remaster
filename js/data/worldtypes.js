@@ -207,7 +207,9 @@ SharkGame.WorldTypes = {
             get longDesc() {
                 return (
                     "The water here is dank and tinted green by " +
-                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? sharktext.getResourceName("tar") + "." : "an unrecognizable substance.") +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1
+                        ? sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("pane")) + "."
+                        : "an unrecognizable substance.") +
                     " Husks of machinery litter the ocean floor."
                 );
             },
@@ -217,7 +219,7 @@ SharkGame.WorldTypes = {
                 return (
                     "This ocean is polluted with " +
                     (gateway.completedWorlds.indexOf("abandoned") > -1
-                        ? sharktext.getResourceName("tar")
+                        ? sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("pane"))
                         : "an unrecognizable substance" + ". It is only harmful when machines produce it.")
                 );
             },
@@ -266,7 +268,8 @@ SharkGame.WorldTypes = {
                 return `This place is completely shrouded in darkness. Glowing ${sharktext.getResourceName(
                     `crystal`,
                     false,
-                    69
+                    69,
+                    sharkcolor.getElementColor("pane")
                 )} litter the water and strange figures lurk among the endless shadows.`;
             },
             missing: ["kelp", "crab", "laser"],
@@ -310,9 +313,9 @@ SharkGame.WorldTypes = {
             get tip() {
                 return (
                     "This world has " +
-                    sharktext.getResourceName("ice") +
+                    sharktext.getResourceName("ice", undefined, undefined, sharkcolor.getElementColor("pane")) +
                     ". " +
-                    sharktext.getResourceName("ice") +
+                    sharktext.getResourceName("ice", undefined, undefined, sharkcolor.getElementColor("pane")) +
                     " will slow some of the frenzy, and will be present from the start."
                 );
             },
