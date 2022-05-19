@@ -329,7 +329,7 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
-            console.debug(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)}`);
+            console.log(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)}`);
             res.updateResourcesTable();
         }
     },
