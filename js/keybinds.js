@@ -187,7 +187,7 @@ SharkGame.Keybinds = {
                     } else {
                         return false;
                     }
-                    //console.log(actionType);
+                //console.log(actionType);
             }
             return true;
         }

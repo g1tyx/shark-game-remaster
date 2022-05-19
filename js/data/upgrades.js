@@ -2367,7 +2367,8 @@ SharkGame.Upgrades = {
         pearlConversion: {
             name: "Pearl Conversion",
             desc: "We somtimes find these shiny things inside of clams. The lobsters say they can use them?",
-            researchedMessage: "Well, we can transmute what are called 'pearls' into crystals now, though we also need the rest of the clam, too. (yes, the entire clam)",
+            researchedMessage:
+                "Well, we can transmute what are called 'pearls' into crystals now, though we also need the rest of the clam, too. (yes, the entire clam)",
             effectDesc:
                 "We can turn clams into crystals using the 'pearls' inside them as a focus. Maybe one day we won't need to use the whole clam.",
             cost: {
@@ -2635,7 +2636,8 @@ SharkGame.Upgrades = {
             name: "Far Exploration",
             desc: "Explore the vast reaches beyond the home ocean.",
             researchedMessage: "Crystal-rich deposits were found, as well as strange, deep chasms.",
-            effectDesc: "Crabs are eight times as effective, and crystal miners are twice as effective. Did you know oceans are actually even bigger than big? Remarkable!",
+            effectDesc:
+                "Crabs are eight times as effective, and crystal miners are twice as effective. Did you know oceans are actually even bigger than big? Remarkable!",
             cost: {
                 science: 5000000,
                 clam: 7500000,
@@ -2729,8 +2731,7 @@ SharkGame.Upgrades = {
             name: "High-Energy Fusion",
             desc: "The lobsters are excited to show us something, but they need a lot of help first.",
             researchedMessage: "The process is so bright, it could melt out our eyes out - but it's so much better than the old fusion.",
-            effectDesc:
-                "Improved clam-crystal fusion ratio from 5-1 to 1-5. Recycler reshmycler, we have FUSION!!",
+            effectDesc: "Improved clam-crystal fusion ratio from 5-1 to 1-5. Recycler reshmycler, we have FUSION!!",
             cost: {
                 science: 1e9,
             },
@@ -2756,7 +2757,8 @@ SharkGame.Upgrades = {
             name: "Sentient Circuit Boards",
             desc: "The lobsters propose a final step.",
             researchedMessage: "Despite objections, the plan went ahead. Birthgivers now transfer their cybernetics to every single child they bear.",
-            effectDesc: "Efficiency of nurses, ray makers, and crab broods up 64 times. Berriers are up 128 times. It's all for the sake of the frenzy. It's better this way.",
+            effectDesc:
+                "Efficiency of nurses, ray makers, and crab broods up 64 times. Berriers are up 128 times. It's all for the sake of the frenzy. It's better this way.",
             cost: {
                 calcinium: 1e8,
                 science: 2e10,
@@ -2776,7 +2778,8 @@ SharkGame.Upgrades = {
         mobiusShells: {
             name: "Mobius Shells",
             desc: "We don't know how to describe what the lobsters are suggesting.",
-            researchedMessage: "They went through with it. We didn't get the chance to tell otherwise. Now when we see them, we're not even sure what we're looking at. In fact, we'd like to stop looking now.",
+            researchedMessage:
+                "They went through with it. We didn't get the chance to tell otherwise. Now when we see them, we're not even sure what we're looking at. In fact, we'd like to stop looking now.",
             effectDesc: "We tried to ask them what happened. They won't talk to us anymore.",
             cost: {
                 calcinium: 5e10,
