@@ -95,27 +95,32 @@ SharkGame.Home = {
         marine: [
             {
                 name: "marine-default",
-                message: "Schools of fish fill the vast, blue expanse. This place feels so familiar.",
+                message: "Schools of fish fill the vast expanse. This place feels so familiar.",
             },
             {
                 name: "marine-noticed-lobsters",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "You notice a bunch of creatures lazing about on the ocean floor. They ignore your presence.",
+                message: "You notice some creatures on the ocean floor. They laze about and ignore your presence.",
+            },
+            {
+                name: "marine-noticed-lobsters-2",
+                unlock: { upgrade: ["seabedGeology"] },
+                message: "You notice some creatures on the ocean floor. They laze about and ignore your presence.",
             },
             {
                 name: "marine-lobsters",
-                unlock: { totalResource: { lobster: 25 } },
+                unlock: { totalResource: { lobster: 1 } },
                 message: "The lobsters work, but seem carefree. They worry about nothing.",
             },
             {
-                name: "marine-lobsters",
+                name: "marine-lobsters-talk",
                 unlock: { totalResource: { lobster: 125 } },
-                message: "The lobsters chat idly while they work. They talk about the good old days.",
+                message: "When the lobsters talk, they speak of the good old days. They talk a lot.",
             },
             {
                 name: "marine-calcinium",
                 unlock: { totalResource: { calcinium: 1 } },
-                message: "Calcinium. It's cold, hard, and rough. It feels fragile, but isn't.",
+                message: "Calcinium. It's rough, hard, and chalky. It feels fragile, but isn't.",
             },
             {
                 name: "marine-robotics",
@@ -127,13 +132,13 @@ SharkGame.Home = {
                 name: "marine-bioengineering",
                 unlock: { upgrade: ["bioengineering"] },
                 message:
-                    "Stone-to-brain interface. Shelbernetic enhancements. Population automation. The lobsters say calcinium is an extension of life itself.",
+                    "Stone-to-brain interface. Shelbernetic enhancements. Population automation. The lobsters say that calcinium is an extension of life itself.",
             },
             {
                 // second color transition
                 name: "marine-sentience",
                 unlock: { upgrade: ["sentientCircuitBoards"] },
-                message: "",
+                message: "All of us have boards now. Children are born half-machine. The lobsters call it effective.",
                 // we can't understand it, no, we could never hope to understand it like the lobsters do
                 // 'they [the circuits] even die...just like us.'
             },
@@ -141,7 +146,7 @@ SharkGame.Home = {
                 // final color transition
                 name: "marine-abandoned",
                 unlock: { upgrade: ["mobiusShells"] },
-                message: "Murk spills out of the machines. The sky is blanketed in a green fog. This dying world drags everyone down with it.",
+                message: "Murk spills out of the frenzy. A murky fog begins to descend. This dying world drags everyone down with it.",
             },
         ],
 
