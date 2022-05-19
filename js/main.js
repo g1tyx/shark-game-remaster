@@ -849,6 +849,11 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 202205??a": [
+        "Added Marine worldtype.",
+        "Fixed some miscellaneous bugs.",
+        "got some other things in the pipeline but not much else yet lol give me a few days",
+    ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220125a": [
         "Added keybinds. You can now bind a large array of actions to different key combinations.",
         "Added backup saves. You can now back up your saves as you wish, with three slots!",
