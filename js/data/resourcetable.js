@@ -378,7 +378,7 @@ SharkGame.ResourceTable = {
         name: "lobsters",
         singleName: "lobster",
         color: "#BF0F00",
-        desc: "",
+        desc: "Trainees.",
         income: {
             clam: 2,
         },
@@ -389,6 +389,7 @@ SharkGame.ResourceTable = {
         name: "lobster berriers",
         singleName: "lobster berrier",
         color: "#719188",
+        desc: "There's always more.",
         income: {
             lobster: 0.05,
         },
@@ -403,22 +404,30 @@ SharkGame.ResourceTable = {
         value: 3000,
     },
 
-    extractor: {
-        name: "clam extractors",
-        singleName: "clam extractor",
-        desc: "",
+    calcinium: {
+        name: "calcinium",
+        singleName: "calcinium",
+        desc: "Lobster-invented, clam-derived ceramic.",
+        color: "#F5F5DB",
+        value: 75,
+    },
+
+    clamScavenger: {
+        name: "clam scavengers",
+        singleName: "clam scavenger",
+        desc: "Half-machine, half-ray, totally ridiculous.",
         color: "#C3C4DD",
         income: {
-            clam: 50,
+            clam: 250,
         },
-        value: 3500,
+        value: 3500, // remember to set this too
     },
 
     seabedStripper: {
         name: "seabed strippers",
         singleName: "seabed stripper",
-        desc: "",
-        color: "#836E5F",
+        desc: "The end of environmentalism.",
+        color: "#7C8A60",
         income: {
             kelp: 100,
         },
@@ -428,26 +437,18 @@ SharkGame.ResourceTable = {
     calciniumConverter: {
         name: "calcinium converters",
         singleName: "calcinium converter",
-        desc: "",
+        desc: "Trained.",
         color: "#836E5F",
         income: {
             get crystal() {
-                return -100 + 50 * SharkGame.Aspects.mechanicalManifestation.level;
+                return -400 + 200 * SharkGame.Aspects.mechanicalManifestation.level;
             },
             get clam() {
-                return -300 + 150 * SharkGame.Aspects.mechanicalManifestation.level;
+                return -1200 + 600 * SharkGame.Aspects.mechanicalManifestation.level;
             },
-            calcinium: 30,
+            calcinium: 120,
         },
         value: 20000, // remember to set this value
-    },
-
-    calcinium: {
-        name: "calcinium",
-        singleName: "calcinium",
-        desc: "",
-        color: "#000000",
-        value: 75,
     },
 
     // VIOLENT
@@ -1292,7 +1293,6 @@ SharkGame.ResourceCategories = {
             "sifter",
             "extractionTeam",
             "scholar",
-            "extractor",
             //"prospector",
             //"shoveler",
             //"miller",
@@ -1325,6 +1325,7 @@ SharkGame.ResourceCategories = {
             "eggBrooder",
             "crimsonCombine",
             "kelpCultivator",
+            "clamScavenger",
             "seabedStripper",
             "calciniumConverter",
             //"coalescer",
@@ -1411,7 +1412,7 @@ SharkGame.InternalCategories = {
     },
     lobstermachines: {
         name: "Lobster Machines",
-        resources: ["calcinium", "seabedStripper", "calciniumConverter"],
+        resources: ["calcinium", "seabedStripper", "calciniumConverter", "clamScavenger"],
     },
     basicmaterials: {
         resources: ["fish", "sand", "crystal", "science", "junk"],

@@ -3673,10 +3673,22 @@ SharkGame.HomeActions = {
             name: "Convert clam pearls",
             effect: {
                 resource: {
-                    crystal: 1,
+                    get crystal() {
+                        if (SharkGame.Upgrades.purchased.includes(`highEnergyFusion`)) return 5;
+                        return 1;
+                    },
                 },
             },
-            cost: [{ resource: "clam", costFunction: "constant", priceIncrease: 5 }],
+            cost: [
+                {
+                    resource: "clam",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        if (SharkGame.Upgrades.purchased.includes(`highEnergyFusion`)) return 1;
+                        return 5;
+                    },
+                },
+            ],
             max: "clam",
             prereq: {
                 resource: {
@@ -3690,7 +3702,7 @@ SharkGame.HomeActions = {
                 "Okay, we managed to only use the pearls this time, but we, uh, had to break the clams open pretty roughly.",
                 "Pearls to... nope. Clams to crystals. Science is hard.",
             ],
-            helpText: "Convert a pearl (and the clam around it) into crystal.",
+            helpText: "Convert pearls (and the clams around them) into crystal.",
         },
 
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
@@ -3763,9 +3775,19 @@ SharkGame.HomeActions = {
             ],
             max: "calcinium",
             prereq: {
-                upgrade: [""],
+                upgrade: ["calciniumStudies"],
             },
-            outcomes: [],
+            outcomes: [
+                `Fusion complete.`,
+                `Clams sacrificed.`,
+                `The fresh calcinium boils the water around it as it cools.`,
+                `The clams and crystals meld together into a single unit.`,
+                `The structures of the clams and crystals interlock, then solidify.`,
+                `Bits of debris shoot out, glowing with heat as two become one.`,
+                `Onlookers watch in awe as the lightshow goes on.`,
+                `The pearl works its magic.`,
+                `Completed fusion.`,
+            ],
             helpText: "Smelt resources into calcinium for use in crustacean machines.",
         },
 
@@ -3815,7 +3837,7 @@ SharkGame.HomeActions = {
                 "More lobsters for the snipping and the cutting and the clam grab!",
                 "Clam patrol, here we go.",
             ],
-            helpText: "",
+            helpText: "Hire a lobster to do scoop up clams for us.",
         },
 
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3828,28 +3850,43 @@ SharkGame.HomeActions = {
 
         getMaker: {},
 
-        getExtractor: {
-            name: "Assemble extractor ray",
+        getClamScavenger: {
+            name: "Equip clam scavenger",
             effect: {
                 resource: {
-                    extractor: 1,
+                    clamScavenger: 1,
                 },
             },
             cost: [
                 { resource: "ray", costFunction: "constant", priceIncrease: 1 },
                 { resource: "calcinium", costFunction: "linear", priceIncrease: 15 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 500 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 1000 },
             ],
-            max: "extractor",
+            max: "clamScavenger",
             prereq: {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["calciniumBiosynergy"],
+                upgrade: ["calciniumRobotics"],
             },
-            outcomes: [],
-            multiOutcomes: [],
-            helpText: "",
+            outcomes: [
+                `Scavenger ready to scavenge.`,
+                `Claw arm operational.`,
+                `Arm training complete.`,
+                `One ray, able to use goofy oversized arm, coming right up.`,
+                `A ray, ready to have a big arm do its job for it.`,
+                `Ray equipped.`,
+                `Ray ready to indiscriminately tear up the seabed.`,
+            ],
+            multiOutcomes: [
+                `These arms are big.`,
+                `Scoop scoop scoop.`,
+                `Expensive equipment equipped.`,
+                `Directive: dig clams.`,
+                `The faint sound of grinding stone fills the water.`,
+                `Why a crab claw? why not a lobster? Actually, wait...is there a difference?`,
+            ],
+            helpText: "Strap a big goofy claw arm to a ray and train it to scoop huge amounts of clams.",
         },
 
         // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3859,7 +3896,7 @@ SharkGame.HomeActions = {
         getBrood: {},
 
         getSeabedStripper: {
-            name: "Build seabed stripper",
+            name: "Equip seabed stripper",
             effect: {
                 resource: {
                     seabedStripper: 1,
@@ -3867,18 +3904,35 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "calcinium", costFunction: "linear", priceIncrease: 150 },
-                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "planter", costFunction: "constant", priceIncrease: 1 },
             ],
             max: "seabedStripper",
             prereq: {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["crustaceanTransmutation"],
+                upgrade: ["calciniumRobotics"],
             },
-            outcomes: [],
-            multiOutcomes: [],
-            helpText: "",
+            outcomes: [
+                `Planter has been upgraded.`,
+                `Seabed stripper, ready to destroy the forests.`,
+                `One seabed stripper, ready to pretend to be a sea spider.`,
+                `One snippy crab coming right up.`,
+                `Snip.`,
+                `The crab gestures with all its claws.`,
+                `Promoted a planter.`,
+                `Improved a planter.`,
+            ],
+            multiOutcomes: [
+                `Snip snip snip.`,
+                `The claws rip into kelp like a synchronized dance.`,
+                `The sound of plants ripping fills the water.`,
+                `Directive: extract kelp from forests.`,
+                `Many small snippers come to life and begin snipping through kelp at incredible speed.`,
+                `The crabs join another group headed out in search of new forests.`,
+                `Too many arms, honestly.`,
+            ],
+            helpText: "Equip a planter with many additional arms for maximum efficiency.",
         },
 
         // LOBSTER JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3930,7 +3984,7 @@ SharkGame.HomeActions = {
         // CRUSTACEAN MACHINES /////////////////////////////////////////////////////////
 
         getCalciniumConverter: {
-            name: "Build calcinium converter",
+            name: "Assemble calcinium converter",
             effect: {
                 resource: {
                     calciniumConverter: 1,
@@ -3945,21 +3999,28 @@ SharkGame.HomeActions = {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["crustaceanTransmutation"],
+                upgrade: ["calciniumCybernetics"],
             },
             outcomes: [
-                /*                 "Berry sprayer is active.",
-                "Berry sprayer capable.",
-                "This egg spraying machine clatters to life.",
-                "This automated caretaker gets to work.", */
+                `One lobster-turned-cyborg coming right up.`,
+                `Incoming cyborg.`,
+                `Lobster has been augmented.`,
+                `The lobster gets to work immediately.`,
+                `The lobster ignores your presence as it searches for materials.`,
+                `The converter begins to convert.`,
+                `The converter asks for materials.`,
             ],
             multiOutcomes: [
-                /*                 "Automation of population? What a terrifying concept.",
-                "The machine rears lobster eggs. Wouldn't the shrimp want something like this too?",
-                "There is an uneasiness about these machines that fills the sharks with concern.",
-                "Why was this machine invented? Are we helping to prepare an army?", */
+                `Lasers charged.`,
+                `Fusion beams ready.`,
+                `Future!?`,
+                `Directive: automate.`,
+                `Setting phasers to fuse...`,
+                `The power of the sun in an attached limb!`,
+                `Focus. Focus. Come on...fuse!`,
+                `Two becomes one.`,
             ],
-            helpText: "", // This crustacean machine distributes lobster eggs for optimal hatching conditions.
+            helpText: "Modify a lobster to fuse calcinium with cool cyborg laser beams.", // This crustacean machine distributes lobster eggs for optimal hatching conditions.
         },
     },
 };
@@ -4087,6 +4148,7 @@ SharkGame.HomeActionCategories = {
             "getKelpCultivator",
             "getSeabedStripper",
             "getCalciniumConverter",
+            "getClamScavenger",
         ],
     },
 

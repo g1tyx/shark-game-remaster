@@ -76,14 +76,15 @@ SharkGame.WorldTypes = {
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 2 }],
         gateRequirements: {
             slots: {
-                fish: 1e9,
-                sand: 1e7,
-                crystal: 1e7,
-                kelp: 1e7,
-                seaApple: 1e6,
-                sharkonium: 1e6,
+                fish: 1e11,
+                clam: 1e22,
+                crystal: 1e11,
+                kelp: 1e9,
+                calcinium: 1e10,
+                sharkonium: 1e10,
             },
         },
+        par: 55,
     },
     haven: {
         name: "Haven",
@@ -198,7 +199,7 @@ SharkGame.WorldTypes = {
     },
     abandoned: {
         name: "Abandoned",
-        vagueDesc: "Feels lonely.",
+        vagueDesc: "Feels grimy.",
         desc: "A dying world filled with machinery.",
         shortDesc: "murky dark green",
         foresight: {

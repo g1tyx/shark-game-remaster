@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded", "marine"],
 
     completedWorlds: [],
 
@@ -98,6 +98,8 @@ SharkGame.Gateway = {
         }
         gatewayContent.append($("<p>").html(sharktext.boldString("Something unseen says,")).addClass("medDesc"));
         gatewayContent.append($("<em>").attr("id", "gatewayVoiceMessage").html(gateway.getVoiceMessage()));
+
+        // figure out all our rewards
         if (baseReward > 0) {
             gatewayContent.append(
                 $("<p>").html(
@@ -811,7 +813,7 @@ SharkGame.Gateway.PresenceFeelings = {
     squid: "loyal hunters?",
     urchin: "dimwitted creatures?",
     shrimp: "simple creatures?",
-    lobster: "unfamiliar crustaceans?",
+    lobster: "worriless crustaceans?",
     chimaera: "familiar predators?",
     eel: "slithering hunters?",
     tar: "something dirty?",
@@ -888,9 +890,8 @@ SharkGame.Gateway.Messages = {
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
-            "A blue world. A dream of a former life, perhaps.",
-            "Do you wonder where the lobsters' former machines are?",
-            "A tragedy: or, perhaps, merely the cost of progress.",
+            "Do you wonder where the remnants of the lobsters' past are?",
+            "A tragedy; or, perhaps, merely the cost of progress.",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
@@ -910,10 +911,9 @@ SharkGame.Gateway.Messages = {
         violent: [
             "The boiling ocean only stirred you on.",
             "You are forged from the geothermal vents.",
-            "The shrimp are no simpletons. They are merely focused.",
+            "The shrimp are no simpletons.",
             "That environment is ideal for life. Just not for your kind.",
-            "Do you wonder how the shrimp learned to become something more?",
-            "The shrimp are intolerant of shark industry. Remember: that is okay.",
+            "Do you wonder why there were no sharks here?",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",
