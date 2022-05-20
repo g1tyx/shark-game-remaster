@@ -146,7 +146,7 @@ SharkGame.Home = {
                 // final color transition
                 name: "marine-abandoned",
                 unlock: { upgrade: ["mobiusShells"] },
-                message: "Murk spills out of the frenzy. A murky fog begins to descend. This dying world drags everyone down with it.",
+                message: "Murk spills out of the frenzy. A rancid fog begins to descend. This dying world drags everyone down with it.",
             },
         ],
 
