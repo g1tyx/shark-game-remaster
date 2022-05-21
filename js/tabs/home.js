@@ -305,7 +305,7 @@ SharkGame.Home = {
             {
                 name: "shrouded-eel-onlookers",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "Divers have reported sightings of 'skittish', wiggly creatures on the ocean floor. What on earth...?",
+                message: "Divers have reported sightings of wiggly things on the ocean floor. They dart into their holes when approached.",
             },
             {
                 name: "shrouded-eels",
@@ -335,9 +335,10 @@ SharkGame.Home = {
                     "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice. The sharp snap of broken arcana echoes in your mind.",
             },
             {
-                name: "shrouded-end",
-                unlock: { upgrade: ["arcaneActivation"] },
-                message: "The gate opens. It pulls, tugging at you. The force is immense.",
+                name: "shrouded-city",
+                unlock: { upgrade: ["arcaneHeart"] },
+                message:
+                    "The halls of the broken city echo with the dreams of a forgotten world. The eels argue otherwise. They say those halls are filled with hope.",
             },
             {
                 name: "shrouded-essence",

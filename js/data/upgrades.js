@@ -2145,9 +2145,8 @@ SharkGame.Upgrades = {
         },
         bioelectricity: {
             name: "Bioelectricity",
-            desc: "Further study has revealed arcana to be incredibly electrically conductive. We can't really make circuits out of them, but...well, there's this other idea...",
-            researchedMessage:
-                "We've developed special tools that technically-inclined electric eels can use to pump bioelectricity directly into machines! Brilliant?",
+            desc: "Further study has revealed arcana to be electrically conductive. They're too brittle to build circuits, but the eels have another idea...",
+            researchedMessage: "The eels have developed a tool to pump bioelectricity directly into machines! Brilliant!",
             effectDesc: "Machines are four times as effective. Eel-harnessed energy is weird, but practical.",
             cost: {
                 sharkonium: 200000,
@@ -2168,7 +2167,7 @@ SharkGame.Upgrades = {
             name: "Arcane Sacrifice",
             desc: "Further study has revealed arcana to be shards of a sort of huge, abstract battery for...something. If harnessed, this could change everything.",
             researchedMessage:
-                "It turns out that the innate energy contained within the arcana can be violently released when shattered. If we do it just right, then we reap all the benefits.",
+                "It turns out that the energy within arcana is violently released when shattered. If we do it just right, then we reap all the benefits.",
             effectDesc: "Arcana can now be shattered, sacrificing them for the greater good.",
             cost: {
                 arcana: 10000,
@@ -2220,11 +2219,11 @@ SharkGame.Upgrades = {
         },
         arcaneHeart: {
             name: "Arcane Heart",
-            desc: "The eels aren't really venturing outward like the rest of us. Something about safety in numbers... We need to figure out what role they played in all this. Maybe that'll show them their own potential.",
+            desc: "The eels aren't really venturing outward like the rest of us; they stick near their holes. If we can show them their own potential, maybe they'll a little act differently.",
             researchedMessage:
-                "An extensive canvasing of the ocean floor had lead to the discovery of an ancient system of subterranian eel burrows, containing tools and machinery, and bits of...well...they look like arcana, but they're not glowing.",
+                "Piecing together what little we know from eels and chimaeras, we've managed to locate an undiscovered network of subterranian eel tunnels. Within it are the crumbled remains of an ancient industrial city, one that must have housed millions.",
             effectDesc:
-                "Newfound confidence makes eels and their roles four times as effective. Also, closer inspection shows that the cache of arcana in the burrows isn't even in shards. They're like big, geometric chunks of the stuff.",
+                "Eels and their roles four times as effective. As word of the ancient ruins spread, the eels began to talk and act differently. It wasn't long before they started to join our expeditions en masse.",
             cost: {
                 science: 4e7,
             },
@@ -2244,7 +2243,7 @@ SharkGame.Upgrades = {
             name: "Arcane Activation",
             desc: "The gate beckons.",
             researchedMessage:
-                "The power of the arcana flashes away in a blinding light as it is smashed. When we open our eyes again, gate has been brought to life.",
+                "The power of the arcana flashes away in a blinding light as it is smashed. When we opened our eyes again, the gate was finally alive.",
             effectDesc: "...",
             cost: {
                 science: 2e10,
