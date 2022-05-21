@@ -2684,7 +2684,8 @@ SharkGame.Upgrades = {
             name: "Iterative Design",
             desc: "The machines are useful, but they could be better. Let's build new ones, from scratch!",
             researchedMessage: "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.",
-            effectDesc: "",
+            effectDesc:
+                "Scientists are 16 times as effective, crystal miners and sand diggers 8 times, fish machines 4 times, and auto transmuters 4 times faster. Finally, some REAL engineering!",
             cost: {
                 science: 40000000,
                 sharkonium: 5000000,
