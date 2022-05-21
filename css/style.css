@@ -1364,6 +1364,10 @@ button.planetButton:active {
   box-shadow: none;
 }
 
+#gatewayVoiceMessage {
+  font-size: 1.25em;
+}
+
 .tooltip {
   display: block;
   background-color: var(--color-light);
