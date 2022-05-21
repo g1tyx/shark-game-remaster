@@ -851,6 +851,9 @@ SharkGame.FunFacts = [
 SharkGame.Changelog = {
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 202205??a": [
         "Added Marine worldtype.",
+        "Swapped the order of some aspects on the tree.",
+        "Revised a small part of the Abandoned world.",
+        "Revised some of the Shrouded world's story.",
         "Fixed some miscellaneous bugs.",
         "got some other things in the pipeline but not much else yet lol give me a few days",
     ],
