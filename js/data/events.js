@@ -101,6 +101,19 @@ SharkGame.Events = {
             }
         },
     },
+    abandonedRefundInvestigators: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            if (!SharkGame.flags.abandonedRefundedInvestigators) {
+                SharkGame.Resources.changeResource("investigator", 500);
+                SharkGame.flags.abandonedRefundedInvestigators = true;
+            }
+        },
+    },
     revealBuyButtons: {
         handlingTime: "beforeTick",
         priority: 0,

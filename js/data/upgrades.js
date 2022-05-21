@@ -828,8 +828,8 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Laser rays can fuse sand to crystal at an absurd rate: 128 times faster! We have figured out how to create more ancient parts by fusing clams and crystals.",
             cost: {
-                science: 3500000,
-                ancientPart: 2250,
+                science: 7500000,
+                ancientPart: 1000,
             },
             required: {
                 upgrades: ["reverseEngineering", "iterativeDesign", "laserRays"],
@@ -840,16 +840,30 @@ SharkGame.Upgrades = {
                 },
             },
         },
-        artifactAssembly: {
-            name: "Artifact Assembly",
-            desc: "Assemble the pieces. Create the tool. Open the gate.",
-            researchedMessage: "It is done.",
-            effectDesc: "The artifact is assembled. The gate can be opened.",
+        investigatetions: {
+            name: "Investi-gate-tions",
+            desc: "Temporarily commit 500 investigators to investigating the gate. Uncover its mysteries in record time!",
+            researchedMessage: "Using our reverse-engineering techniques, the investigators have come up with a theory on how to open the gate!",
+            effectDesc: "Gate investigated. We think we have a way to open it, but it's not gonna be easy...the mechanism is complicated.",
             cost: {
-                ancientPart: 350000,
+                science: 4e7,
+                investigator: 500,
             },
             required: {
-                upgrades: ["highEnergyFusion"],
+                upgrades: ["reverseEngineering"],
+            },
+            events: ["abandonedRefundInvestigators"],
+        },
+        artifactAssembly: {
+            name: "Artifact Assembly",
+            desc: "Assemble the pieces. Open the gate. We demand it.",
+            researchedMessage: "It worked perfectly! Our little controller managed to coax the gate into turning on!",
+            effectDesc: "It is done.",
+            cost: {
+                ancientPart: 400000,
+            },
+            required: {
+                upgrades: ["investigatetions"],
             },
         },
         eightfoldOptimisation: {
@@ -861,7 +875,7 @@ SharkGame.Upgrades = {
                 science: 8e7,
             },
             required: {
-                upgrades: ["reverseEngineering", "octalEfficiency"],
+                upgrades: ["investigatetions", "octalEfficiency"],
             },
             effect: {
                 incomeMultiplier: {
@@ -881,12 +895,12 @@ SharkGame.Upgrades = {
             desc: "Better engineering and transmutation processes lead to a refinement of our machines.",
             researchedMessage: "We are blurring the line between science and magic more than ever before!",
             effectDesc:
-                "Shark machines are all four times as effective, filters are 4 times as effective. We work better with the machines, not against them.",
+                "Shark machines are all four times as effective, filters are 8 times as effective. We work better with the machines, not against them.",
             cost: {
-                science: 6e7,
+                science: 1e8,
             },
             required: {
-                upgrades: ["reverseEngineering", "iterativeDesign"],
+                upgrades: ["investigatetions", "iterativeDesign"],
             },
             effect: {
                 incomeMultiplier: {
