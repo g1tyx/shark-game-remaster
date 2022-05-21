@@ -83,7 +83,7 @@ SharkGame.Gateway = {
         main.purgeGame();
     },
 
-    showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus()) {
+    showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus(), forceWorldBased = false) {
         const gumptionBonus = Math.ceil(gumptionRatio * (baseReward + speedReward));
 
         // get some useful numbers
@@ -97,7 +97,11 @@ SharkGame.Gateway = {
             gatewayContent.append($("<p>").html("It is not clear how you have ended up here, but you remember a bitter defeat.").addClass("medDesc"));
         }
         gatewayContent.append($("<p>").html(sharktext.boldString("Something unseen says,")).addClass("medDesc"));
-        gatewayContent.append($("<em>").attr("id", "gatewayVoiceMessage").html(gateway.getVoiceMessage()));
+        gatewayContent.append(
+            $("<em>")
+                .attr("id", "gatewayVoiceMessage")
+                .html(sharktext.boldString(gateway.getVoiceMessage(SharkGame.wonGame, forceWorldBased)))
+        );
 
         // figure out all our rewards
         if (baseReward > 0) {
@@ -530,14 +534,19 @@ SharkGame.Gateway = {
         gateway.transitioning = false;
     },
 
-    getVoiceMessage() {
+    getVoiceMessage(wonGame, forceWorldBased) {
         // the point of this function is to add to the message pool all available qualifying messages and then pick one
         const messagePool = [];
         const totalEssence = res.getTotalResource("essence");
 
         // if the game wasn't won, add loss messages
-        if (!SharkGame.wonGame) {
+        if (!wonGame) {
             messagePool.push(...gateway.Messages.loss);
+        } else if (forceWorldBased) {
+            const planetPool = gateway.Messages.lastPlanetBased[world.worldType];
+            if (planetPool) {
+                messagePool.push(...planetPool);
+            }
         } else {
             // determine which essence based messages should go into the pool
             _.each(gateway.Messages.essenceBased, (message) => {
@@ -788,7 +797,7 @@ SharkGame.Gateway = {
 
         SharkGame.OverlayHandler.revealOverlay(1000, 1.0, () => {
             gateway.cleanUp();
-            gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
+            gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus, true);
             if (gateway.shouldCheatsBeUnlocked()) {
                 gateway.unlockCheats();
             }
