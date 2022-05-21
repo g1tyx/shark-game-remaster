@@ -373,7 +373,7 @@ SharkGame.Gateway = {
         }
 
         const attributeDiv = $("<div>");
-        gateway.showPlanetAttributes(selectedWorldData, attributeDiv);
+        gateway.showPlanetAttributes(selectedWorldData, seenWorldYet, attributeDiv);
         gatewayContent.append(attributeDiv);
 
         if (seenWorldYet && selectedWorldData.par) {
@@ -491,7 +491,7 @@ SharkGame.Gateway = {
                 const label =
                     sharktext.boldString(seenWorldYet ? deeperPlanetData.name : "???") +
                     "<br>" +
-                    deeperPlanetData.desc +
+                    (seenWorldYet ? deeperPlanetData.desc : deeperPlanetData.vagueDesc) +
                     (seenWorldYet && gateway.getPar(planetData.type)
                         ? "<br>Par: <strong>" + gateway.getPar(planetData.type) + " minutes</strong>"
                         : "");
@@ -562,11 +562,11 @@ SharkGame.Gateway = {
         return '"' + SharkGame.choose(messagePool) + '"';
     },
 
-    showPlanetAttributes(worldData, contentDiv) {
+    showPlanetAttributes(worldData, seenWorldYet, contentDiv) {
         /* eslint-disable no-fallthrough */
-        contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
         switch (SharkGame.Aspects.distantForesight.level) {
             case 1:
+                contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
                 if (worldData.foresight.missing.length > 0) {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.foresight.missing, (missingResource) => {
@@ -612,6 +612,13 @@ SharkGame.Gateway = {
                     contentDiv.prepend($("<p>").html("ATTRIBUTES:"));
                 } else {
                     contentDiv.prepend($("<p>").html("NO KNOWN ATTRIBUTES"));
+                }
+                break;
+            default:
+                if (seenWorldYet) {
+                    contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
+                } else {
+                    contentDiv.prepend($("<p>").html(worldData.foresight.vagueLongDesc));
                 }
         }
         /* eslint-enable no-fallthrough */

@@ -303,7 +303,7 @@ SharkGame.WorldTypes = {
         desc: "An arctic ocean dangling on the edge of frozen doom.",
         shortDesc: "freezing white",
         foresight: {
-            vagueLongDesc: "From afar, bitter cold stings your mind.",
+            vagueLongDesc: "Bitter cold stings your mind from afar.",
             longDesc: "The world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
             missing: ["seaApple", "ray"],
             present: ["squid", "urchin"],
