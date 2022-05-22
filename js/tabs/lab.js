@@ -267,11 +267,6 @@ SharkGame.Lab = {
                     log.addMessage(upgrade.researchedMessage);
                 }
             }
-
-            if (SharkGame.Tabs.current === "lab") {
-                SharkGame.Lab.update();
-                SharkGame.Lab.setHint(upgradeTable);
-            }
         } else if (!_.isUndefined(upgradeId)) {
             upgrade = SharkGame.Upgrades.getUpgradeData(upgradeTable, upgradeId);
             if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
@@ -291,8 +286,6 @@ SharkGame.Lab = {
 
             if (SharkGame.Tabs.current === "lab") {
                 $(`#${upgradeId}`).remove();
-                SharkGame.Lab.update();
-                SharkGame.Lab.setHint(upgradeTable);
             }
         }
         if (SharkGame.Tabs.current === "lab") {
