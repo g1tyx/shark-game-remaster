@@ -28,16 +28,18 @@ SharkGame.HomeActions = {
         // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
         const data = _.cloneDeep(table[actionName]);
 
-        if (cad.actionPriceModifier !== 1) {
-            _.each(data.cost, (costData) => {
-                costData.priceIncrease *= cad.actionPriceModifier;
-            });
-        }
+        if (data) {
+            if (cad.actionPriceModifier !== 1) {
+                _.each(data.cost, (costData) => {
+                    costData.priceIncrease *= cad.actionPriceModifier;
+                });
+            }
 
-        if (home.getActionCategory(actionName) === "frenzy") {
-            _.each(data.cost, (costData) => {
-                costData.priceIncrease *= 0.5 ** SharkGame.Aspects.thePlan.level;
-            });
+            if (home.getActionCategory(actionName) === "frenzy") {
+                _.each(data.cost, (costData) => {
+                    costData.priceIncrease *= 0.5 ** SharkGame.Aspects.thePlan.level;
+                });
+            }
         }
 
         return data;
