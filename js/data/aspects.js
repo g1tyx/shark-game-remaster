@@ -181,7 +181,11 @@ SharkGame.Aspects = {
                 //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
             }
         },
-        getUnlocked() {},
+        getUnlocked() {
+            if (gateway.completedWorlds.length < 2) {
+                return "Scout at least one world to unlock this aspect.";
+            }
+        },
         prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.handleClickedAspect(this);
