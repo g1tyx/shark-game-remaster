@@ -792,6 +792,9 @@ SharkGame.Home = {
                 case "getUrchin":
                     spritename = Math.random() < 0.002 ? "actions/getUrchinHatted" : "actions/getUrchin";
                     break;
+                case "getLobster":
+                    spritename = Math.random() < 0.002 ? "actions/getLobter" : "actions/getLobster";
+                    break;
                 default:
                     spritename = "actions/" + actionName;
             }
