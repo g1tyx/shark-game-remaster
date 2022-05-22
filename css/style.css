@@ -1324,6 +1324,27 @@ button.respecMode.gateway, button.respecMode.newlyDiscovered {
   box-shadow: 0 0 3px 3px #60c9a7;
 }
 
+.disabledAspectDiv {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  border-radius: 0.5em;
+  background-color: #113228;
+  -webkit-box-shadow: 0 0 0.5em 0.5em #113228;
+  -moz-box-shadow: 0 0 0.5em 0.5em #113228;
+  box-shadow: 0 0 0.5em 0.5em #113228;
+  padding: 0.2em;
+  margin: 1.5em;
+  max-width: 14em;
+}
+.disabledAspectDiv .gatewayButton, .disabledAspectDiv button.newlyDiscovered, .disabledAspectDiv .gateway button, .gateway .disabledAspectDiv button,
+.disabledAspectDiv button.gateway {
+  -webkit-box-shadow: 0 0 3px 3px #38a581;
+  -moz-box-shadow: 0 0 3px 3px #38a581;
+  box-shadow: 0 0 3px 3px #38a581;
+}
+
 .planetDisplay {
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
