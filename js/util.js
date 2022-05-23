@@ -309,8 +309,6 @@ SharkGame.TextUtil = {
         let name = textToColor || (amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name);
         let extraStyle = "";
 
-        // if (!background) debugger;
-
         // easter egg logic
         if (name === "world") {
             name = Math.random() > 0.0005 ? "world" : "ZA WARUDO";
@@ -319,8 +317,6 @@ SharkGame.TextUtil = {
         if (SharkGame.Settings.current.boldCosts) {
             name = name.bold();
         }
-
-        let RETURNINGSTRING = "";
 
         if (SharkGame.Settings.current.colorCosts !== "none") {
             let color = SharkGame.Settings.current.colorCosts === "color" ? resource.color : sharkcolor.getBrightColor(resource.color);
@@ -336,22 +332,16 @@ SharkGame.TextUtil = {
                 } else {
                     contrast = (backRLum + 0.05) / (colorRLum + 0.05);
                 }
-                name += contrast.toFixed(2);
-                const tolerance = 2; // for easy changing
+                const tolerance = 3.5; // for easy changing
                 if (contrast < tolerance) {
-                    console.log(name);
                     const requiredLuminance = tolerance * backRLum + 0.05 * tolerance - 0.05;
-
-                    extraStyle = " style='color:" + color + "'";
-                    RETURNINGSTRING += "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
-
                     color = sharkcolor.correctLuminance(color, requiredLuminance > 1 ? (backRLum + 0.05) / tolerance - 0.05 : requiredLuminance);
                 }
             }
             // if (background) color = background;
             extraStyle = " style='color:" + color + "'";
         }
-        return RETURNINGSTRING + "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
+        return "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
     },
 
     // make a resource list object into a string describing its contents
@@ -426,9 +416,15 @@ SharkGame.ColorUtil = {
         const varA = 1.075 * (0.2126 * red ** 2 + 0.7152 * green ** 2 + 0.0722 * blue ** 2);
         const varB = -0.075 * (0.2126 * red + 0.7152 * green + 0.0722 * blue);
         const ratio = Math.max((-varB + Math.sqrt(varB ** 2 + 4 * varA * luminance)) / (2 * varA), 0);
-        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0)).toString(16);
-        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0)).toString(16);
-        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0)).toString(16);
+        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
+        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
+        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
         return "#" + red + green + blue;
     },
 
