@@ -211,7 +211,7 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "coral");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource, background) {
+                effectDescription(_degree, _resource, _background) {
                     return "";
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -230,7 +230,7 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "jellyfish");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource, background) {
+                effectDescription(_degree, _resource, _background) {
                     return "";
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
