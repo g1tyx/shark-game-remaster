@@ -6,7 +6,7 @@
         "jquery": true,
         "es2021": true
     },
-    "extends": ["eslint:recommended", "prettier/prettier", "plugin:prettier/recommended"],
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
     "globals": {
         "_": "readonly",
         "ascii85": "readonly",
