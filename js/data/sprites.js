@@ -1228,6 +1228,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/fuseCalcinium": {
+        frame: { x: 2832, y: 46, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/fuseDelphinium": {
         frame: { x: 106, y: 104, w: 50, h: 50 },
         rotated: false,
@@ -1887,6 +1895,14 @@ SharkGame.Sprites = {
     },
     "technologies/cetaceanAwareness": {
         frame: { x: 2018, y: 50, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/crustaceanBiology": {
+        frame: { x: 2882, y: 0, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
