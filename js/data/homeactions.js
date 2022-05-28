@@ -3600,6 +3600,8 @@ SharkGame.HomeActions = {
         getSandDigger: {},
 
         getFishMachine: {},
+
+        getAutoTransmuter: {},
     },
     marine: {
         catchFish: {},
