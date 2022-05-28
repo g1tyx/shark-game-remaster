@@ -138,6 +138,8 @@ SharkGame.TextUtil = {
                 "ice",
                 "science",
                 "arcana",
+                "kelp",
+                "calcinium",
             ].includes(name)
         ) {
             return "";
@@ -166,6 +168,7 @@ SharkGame.TextUtil = {
                 "science",
                 "arcana",
                 "kelp",
+                "calcinium",
             ].includes(name) ||
             amount === 1
         ) {
