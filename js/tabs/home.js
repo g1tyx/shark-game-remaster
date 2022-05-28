@@ -337,8 +337,7 @@ SharkGame.Home = {
             {
                 name: "shrouded-city",
                 unlock: { upgrade: ["arcaneHeart"] },
-                message:
-                    "The halls of the broken city echo with the dreams of a forgotten world. The eels argue otherwise. They say those halls are filled with hope.",
+                message: "The sounds of explorers echo endlessly through the tunnels of the broken city. The eels say they are filled with hope.",
             },
             {
                 name: "shrouded-essence",
