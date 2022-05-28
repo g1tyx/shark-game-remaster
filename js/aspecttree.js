@@ -713,8 +713,8 @@ SharkGame.AspectTree = {
     handleClickedAspect(aspect) {
         if (tree.refundMode) {
             if (!aspect.noRefunds) tree.refundLevels(aspect);
-            // tree.updateRequirementReference();
-            // tree.render();
+            tree.updateRequirementReference();
+            tree.render();
         } else if (tree.debugMode) {
             tree.setLevel(aspect, prompt("Set to what level?"));
         } else {
