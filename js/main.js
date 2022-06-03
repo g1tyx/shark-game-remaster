@@ -849,14 +849,16 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 202205??a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220603a": [
         "Added Marine worldtype.",
+        "Planet descriptions are now much more vague until you've visited them.",
+        "Distant Foresight greatly decreases vagueness of planet descriptions now.",
         "Swapped the order of some aspects on the tree.",
         "Revised the ending of the Abandoned world.",
-        "Revised some of the Shrouded world's story.",
+        "Revised bits of the Shrouded world's story.",
         "By popular demand, added auto-transmuter to Shrouded.",
         "Fixed some miscellaneous bugs.",
-        "Ixbix - tweaked text visibility-ensuring system",
+        "Ixbix - tweaked text visibility system",
     ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220125a": [
         "Added keybinds. You can now bind a large array of actions to different key combinations.",
