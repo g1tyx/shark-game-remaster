@@ -572,6 +572,26 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "marine-robotics": {
+        frame: {
+            x: 810,
+            y: 2042,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "marine-abandoned": {
         frame: {
             x: 406,
