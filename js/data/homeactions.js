@@ -3841,7 +3841,7 @@ SharkGame.HomeActions = {
                 "More lobsters for the snipping and the cutting and the clam grab!",
                 "Clam patrol, here we go.",
             ],
-            helpText: "Hire a lobster to do scoop up clams for us.",
+            helpText: "Hire a lobster to scoop up clams for us.",
         },
 
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
