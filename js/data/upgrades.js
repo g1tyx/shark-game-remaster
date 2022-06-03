@@ -1757,7 +1757,7 @@ SharkGame.Upgrades = {
                 "Not only did we actually figure out where the floor is, we met the weird wiggly creatures! They apologized for their earlier hesitence. Something about sharks and eating.",
             effectDesc: "Rays gather sand twice as fast now that we...know where the sand is, and eels can be recruited into the frenzy.",
             cost: {
-                science: 350,
+                science: 400,
                 sand: 750,
             },
             required: {
@@ -1771,7 +1771,7 @@ SharkGame.Upgrades = {
         },
         thermalVents: {
             cost: {
-                science: 450,
+                science: 600,
                 sand: 1000,
             },
         },
@@ -1781,7 +1781,7 @@ SharkGame.Upgrades = {
             researchedMessage: "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!",
             effectDesc: "Advances in agriculture will fuel future endeavors. Who knows what we'll do next!",
             cost: {
-                science: 500,
+                science: 700,
                 sand: 1000,
             },
             required: {
@@ -1826,7 +1826,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?",
             cost: {
-                science: 1500,
+                science: 1750,
             },
             required: {
                 upgrades: ["underwaterChemistry", "agriculture"],
@@ -1845,7 +1845,7 @@ SharkGame.Upgrades = {
             effectDesc:
                 "Rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
             cost: {
-                science: 1750,
+                science: 2000,
             },
             required: {
                 upgrades: ["biology"],
@@ -1863,7 +1863,7 @@ SharkGame.Upgrades = {
                 "After some somewhat one-sided discussion with the eels on the nature of eel pits and crucial safety and security in the form of seabed holes, we understand...maybe.",
             effectDesc: "Eels are twice as effective now we know how they prefer to live. Also, they can now breed in pits, or something.",
             cost: {
-                science: 2000,
+                science: 2250,
             },
             required: {
                 upgrades: ["biology"],
@@ -1882,7 +1882,7 @@ SharkGame.Upgrades = {
             researchedMessage: "Results inconclusive! Further research required. It could be such a benefit for science!",
             effectDesc: "We can dissect jellyfish for science. Gross.",
             cost: {
-                science: 2750,
+                science: 3250,
                 jellyfish: 500,
             },
             required: {
