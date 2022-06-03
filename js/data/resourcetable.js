@@ -420,7 +420,7 @@ SharkGame.ResourceTable = {
         income: {
             clam: 250,
         },
-        value: 3500, // remember to set this too
+        value: 3250, // remember to set this too
     },
 
     seabedStripper: {
@@ -431,7 +431,7 @@ SharkGame.ResourceTable = {
         income: {
             kelp: 100,
         },
-        value: 20000, // remember to set this value
+        value: 2250, // remember to set this value
     },
 
     calciniumConverter: {
@@ -448,7 +448,7 @@ SharkGame.ResourceTable = {
             },
             calcinium: 120,
         },
-        value: 20000, // remember to set this value
+        value: 1500, // remember to set this value
     },
 
     // VIOLENT
