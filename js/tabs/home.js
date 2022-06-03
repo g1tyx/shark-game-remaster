@@ -124,7 +124,7 @@ SharkGame.Home = {
             },
             {
                 name: "marine-robotics",
-                unlock: { upgrade: ["calciniumRobotics"] },
+                unlock: { totalResource: { clamScavenger: 1 } },
                 message: "A cold, rough limb fishes clams out of the seabed. The lobsters watch intently.",
             },
             {
