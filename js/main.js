@@ -397,6 +397,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             const secondsElapsed = SharkGame.flags.needOfflineProgress;
 
             if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
+                res.minuteHand.allowMinuteHand();
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
             } else {
                 main.processSimTime(secondsElapsed, true);
