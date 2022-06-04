@@ -819,12 +819,12 @@ SharkGame.Resources = {
         },
 
         init() {
-            this.changeRealMultiplier(1);
+            res.minuteHand.realMultiplier = 1;
             SharkGame.persistentFlags.everIdled = false;
             SharkGame.flags.minuteHandTimer = 0;
             SharkGame.persistentFlags.selectedMultiplier = 2;
-            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
             this.active = false;
+            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
             $("#minute-hand-div").empty();
         },
 
