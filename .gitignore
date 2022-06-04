@@ -1,0 +1,5 @@
+# yarn/npm
+node_modules/
+img/raw/big/spriteunfinished.png
+.vscode/
+package-lock.json
