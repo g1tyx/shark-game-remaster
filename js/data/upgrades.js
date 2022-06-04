@@ -2630,7 +2630,8 @@ SharkGame.Upgrades = {
             desc: "Robot tools are great and all, but they're pretty dumb on their own. We could do better if we learned to control them.",
             researchedMessage:
                 "A bundle of crumpled blueprints and a few morally dubious experiments later, brains can now interface with calcinium machines. Future!",
-            effectDesc: "Clam scavengers and seabed strippers are four times as effective. Also, we can make calcinium converters??",
+            effectDesc:
+                "Clam scavengers are twice as effective and seabed strippers are four times as effective. Also, we can make calcinium converters??",
             cost: {
                 science: 1250000,
                 calcinium: 500000,
