@@ -4120,6 +4120,7 @@ SharkGame.HomeActionCategories = {
             "forgeSpronge",
             "fuseAncientPart",
             "makeSacrifice",
+            "fuseCalcinium",
         ],
     },
 
