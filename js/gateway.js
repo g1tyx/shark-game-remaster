@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded", "marine"],
 
     completedWorlds: [],
 
@@ -83,7 +83,7 @@ SharkGame.Gateway = {
         main.purgeGame();
     },
 
-    showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus()) {
+    showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus(), forceWorldBased = false) {
         const gumptionBonus = Math.ceil(gumptionRatio * (baseReward + speedReward));
 
         // get some useful numbers
@@ -97,7 +97,13 @@ SharkGame.Gateway = {
             gatewayContent.append($("<p>").html("It is not clear how you have ended up here, but you remember a bitter defeat.").addClass("medDesc"));
         }
         gatewayContent.append($("<p>").html(sharktext.boldString("Something unseen says,")).addClass("medDesc"));
-        gatewayContent.append($("<em>").attr("id", "gatewayVoiceMessage").html(gateway.getVoiceMessage()));
+        gatewayContent.append(
+            $("<em>")
+                .attr("id", "gatewayVoiceMessage")
+                .html(sharktext.boldString(gateway.getVoiceMessage(SharkGame.wonGame, forceWorldBased)))
+        );
+
+        // figure out all our rewards
         if (baseReward > 0) {
             gatewayContent.append(
                 $("<p>").html(
@@ -347,12 +353,15 @@ SharkGame.Gateway = {
             $("<p>").html(
                 `${seenWorldYet ? `A par time` : `This`} would grant you <strong>` +
                     sharktext.beautify(
-                        Math.ceil((1 + gateway.getGumptionBonus()) * (seenWorldYet ? 2 : 4) + SharkGame.Aspects.patience.level),
+                        Math.ceil(
+                            (1 + gateway.getGumptionBonus()) * ((seenWorldYet ? 2 : 4) + (selectedWorldData.bonus ? selectedWorldData.bonus : 0)) +
+                                SharkGame.Aspects.patience.level
+                        ),
                         false,
                         2
                     ) +
                     "</strong> " +
-                    sharktext.getResourceName("essence") +
+                    sharktext.getResourceName("essence", undefined, undefined, sharkcolor.getElementColor("pane")) +
                     " overall."
             )
         );
@@ -368,7 +377,7 @@ SharkGame.Gateway = {
         }
 
         const attributeDiv = $("<div>");
-        gateway.showPlanetAttributes(selectedWorldData, attributeDiv);
+        gateway.showPlanetAttributes(selectedWorldData, seenWorldYet, attributeDiv);
         gatewayContent.append(attributeDiv);
 
         if (seenWorldYet && selectedWorldData.par) {
@@ -486,7 +495,7 @@ SharkGame.Gateway = {
                 const label =
                     sharktext.boldString(seenWorldYet ? deeperPlanetData.name : "???") +
                     "<br>" +
-                    deeperPlanetData.desc +
+                    (seenWorldYet ? deeperPlanetData.desc : deeperPlanetData.vagueDesc) +
                     (seenWorldYet && gateway.getPar(planetData.type)
                         ? "<br>Par: <strong>" + gateway.getPar(planetData.type) + " minutes</strong>"
                         : "");
@@ -525,14 +534,19 @@ SharkGame.Gateway = {
         gateway.transitioning = false;
     },
 
-    getVoiceMessage() {
+    getVoiceMessage(wonGame, forceWorldBased) {
         // the point of this function is to add to the message pool all available qualifying messages and then pick one
         const messagePool = [];
         const totalEssence = res.getTotalResource("essence");
 
         // if the game wasn't won, add loss messages
-        if (!SharkGame.wonGame) {
+        if (!wonGame) {
             messagePool.push(...gateway.Messages.loss);
+        } else if (forceWorldBased) {
+            const planetPool = gateway.Messages.lastPlanetBased[world.worldType];
+            if (planetPool) {
+                messagePool.push(...planetPool);
+            }
         } else {
             // determine which essence based messages should go into the pool
             _.each(gateway.Messages.essenceBased, (message) => {
@@ -557,15 +571,19 @@ SharkGame.Gateway = {
         return '"' + SharkGame.choose(messagePool) + '"';
     },
 
-    showPlanetAttributes(worldData, contentDiv) {
+    showPlanetAttributes(worldData, seenWorldYet, contentDiv) {
         /* eslint-disable no-fallthrough */
-        contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
         switch (SharkGame.Aspects.distantForesight.level) {
             case 1:
+                contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
                 if (worldData.foresight.missing.length > 0) {
                     const missingList = $("<ul>").addClass("gatewayPropertyList");
                     _.each(worldData.foresight.missing, (missingResource) => {
-                        missingList.append($("<li>").html("This world has no " + sharktext.getResourceName(missingResource, false, 2) + "."));
+                        missingList.append(
+                            $("<li>").html(
+                                "This world has no " + sharktext.getResourceName(missingResource, false, 2, sharkcolor.getElementColor("pane")) + "."
+                            )
+                        );
                     });
                     contentDiv.prepend(missingList);
                 }
@@ -575,9 +593,13 @@ SharkGame.Gateway = {
                         presentList.append(
                             $("<li>").html(
                                 "You feel the presence of " +
-                                    (gateway.playerHasSeenResource(presentResource)
-                                        ? sharktext.getResourceName(presentResource, false, 2)
-                                        : sharktext.applyResourceColoration(presentResource, gateway.PresenceFeelings[presentResource])) +
+                                    sharktext.getResourceName(
+                                        presentResource,
+                                        false,
+                                        2,
+                                        sharkcolor.getElementColor("pane", "background-color"),
+                                        gateway.playerHasSeenResource(presentResource) ? undefined : gateway.PresenceFeelings[presentResource]
+                                    ) +
                                     "."
                             )
                         );
@@ -590,14 +612,18 @@ SharkGame.Gateway = {
                         if (gateway.playerHasSeenResource(modifier.resource) || !(worldData.foresight.present.indexOf(modifier.resource) > -1)) {
                             modifierList.append(
                                 $("<li>").html(
-                                    SharkGame.ModifierReference.get(modifier.modifier).effectDescription(modifier.amount, modifier.resource)
+                                    SharkGame.ModifierReference.get(modifier.modifier).effectDescription(
+                                        modifier.amount,
+                                        modifier.resource,
+                                        "#246c54"
+                                    )
                                 )
                             );
                         } else {
                             modifierList.append(
                                 $("<li>").html(
                                     SharkGame.ModifierReference.get(modifier.modifier)
-                                        .effectDescription(modifier.amount, modifier.resource)
+                                        .effectDescription(modifier.amount, modifier.resource, sharkcolor.getElementColor("pane"))
                                         .replace(new RegExp(modifier.resource, "g"), gateway.PresenceFeelings[modifier.resource])
                                 )
                             );
@@ -607,6 +633,13 @@ SharkGame.Gateway = {
                     contentDiv.prepend($("<p>").html("ATTRIBUTES:"));
                 } else {
                     contentDiv.prepend($("<p>").html("NO KNOWN ATTRIBUTES"));
+                }
+                break;
+            default:
+                if (seenWorldYet) {
+                    contentDiv.prepend($("<p>").html(worldData.foresight.longDesc));
+                } else {
+                    contentDiv.prepend($("<p>").html(worldData.foresight.vagueLongDesc));
                 }
         }
         /* eslint-enable no-fallthrough */
@@ -725,10 +758,15 @@ SharkGame.Gateway = {
         return reward;
     },
 
-    getBaseReward(loadingFromSave) {
+    getBaseReward(loadingFromSave, whichWorld = world.worldType) {
         let reward = 0;
         if (!loadingFromSave && SharkGame.wonGame) {
             reward = gateway.wasOnScoutingMission() ? 4 : 2;
+
+            const bonus = SharkGame.WorldTypes[whichWorld].bonus;
+            if (bonus) {
+                reward += bonus;
+            }
         }
         return reward;
     },
@@ -771,7 +809,7 @@ SharkGame.Gateway = {
 
         SharkGame.OverlayHandler.revealOverlay(1000, 1.0, () => {
             gateway.cleanUp();
-            gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus);
+            gateway.showGateway(baseReward, patienceReward, speedReward, gumptionBonus, true);
             if (gateway.shouldCheatsBeUnlocked()) {
                 gateway.unlockCheats();
             }
@@ -779,12 +817,16 @@ SharkGame.Gateway = {
     },
 
     shouldCheatsBeUnlocked() {
-        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.debug;
+        return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.unlockedDebug;
     },
 
     unlockCheats() {
-        SharkGame.PaneHandler.showUnlockedCheatsMessage();
-        cad.debug();
+        if (!SharkGame.persistentFlags.debug && !SharkGame.persistentFlags.unlockedDebug) {
+            SharkGame.PaneHandler.showUnlockedCheatsMessage();
+            SharkGame.Save.createTaggedSave(`BackupCheats`);
+            cad.debug();
+        }
+        SharkGame.persistentFlags.unlockedDebug = true;
     },
 };
 
@@ -799,7 +841,7 @@ SharkGame.Gateway.PresenceFeelings = {
     squid: "loyal hunters?",
     urchin: "dimwitted creatures?",
     shrimp: "simple creatures?",
-    lobster: "unfamiliar crustaceans?",
+    lobster: "worriless crustaceans?",
     chimaera: "familiar predators?",
     eel: "slithering hunters?",
     tar: "something dirty?",
@@ -876,9 +918,8 @@ SharkGame.Gateway.Messages = {
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
-            "A blue world. A dream of a former life, perhaps.",
-            "Do you wonder where the lobsters' former machines are?",
-            "A tragedy: or, perhaps, merely the cost of progress.",
+            "Do you wonder where the remnants of the lobsters' past are?",
+            "A tragedy; or, perhaps, merely the cost of progress.",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
@@ -898,10 +939,9 @@ SharkGame.Gateway.Messages = {
         violent: [
             "The boiling ocean only stirred you on.",
             "You are forged from the geothermal vents.",
-            "The shrimp are no simpletons. They are merely focused.",
+            "The shrimp are no simpletons.",
             "That environment is ideal for life. Just not for your kind.",
-            "Do you wonder how the shrimp learned to become something more?",
-            "The shrimp are intolerant of shark industry. Remember: that is okay.",
+            "Do you wonder why there were no sharks here?",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",

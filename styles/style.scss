@@ -273,6 +273,26 @@ body {
     overflow-y: auto;
 }
 
+::-webkit-scrollbar {
+    width: initial; /* without this you can't change any properties */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-med);
+}
+
+.gateway::-webkit-scrollbar-track {
+    background: $color-discovery-dark2;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-light);
+}
+
+.gateway::-webkit-scrollbar-thumb {
+    background-color: $color-discovery-dark;
+}
+
 div {
     padding: 0;
     margin: 0;
@@ -550,7 +570,7 @@ pre {
 
 #contentMenu {
     overflow: hidden;
-    height: 1.8em;
+    min-height: 1.8em;
 
     ul {
         padding: 0;
@@ -1530,6 +1550,22 @@ button.gateway {
     }
 }
 
+.disabledAspectDiv {
+    display: inline-block;
+    vertical-align: middle;
+
+    @include border-radius(0.5em);
+    background-color: $color-discovery-dark4;
+    @include box-shadow(0, 0, 0.5em, 0.5em, $color-discovery-dark4);
+    padding: 0.2em;
+    margin: 1.5em;
+    max-width: 14em;
+
+    .gatewayButton {
+        @include box-shadow(0, 0, 3px, 3px, $color-discovery-dark2);
+    }
+}
+
 .planetDisplay {
     @include border-radius(50px);
     background-color: $color-discovery-dark;
@@ -1560,6 +1596,10 @@ button.planetButton {
     &:active {
         @include clear-box-shadow();
     }
+}
+
+#gatewayVoiceMessage {
+    font-size: 1.25em;
 }
 
 .tooltip {
@@ -1885,6 +1925,7 @@ button.planetButton {
 
 #minute-row-two {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .front {
@@ -1916,4 +1957,22 @@ button.planetButton {
 #keybind-overlay-container {
     float: left;
     margin-left: 1rem;
+}
+
+select {
+    background-color: var(--color-darker);
+    color: inherit;
+    border: none;
+    outline: none;
+    font-size: inherit;
+    text-align: right;
+    text-align-last: right;
+
+    .evenMessage {
+        background-color: var(--color-dark);
+    }
+}
+
+option {
+    direction: rtl;
 }

@@ -63,7 +63,7 @@ SharkGame.CheatsAndDebug = {
                     "Give " +
                     sharktext.beautify(sharkmath.getBuyAmount(true)) +
                     " " +
-                    sharktext.getResourceName(resource, false, sharkmath.getBuyAmount(true))
+                    sharktext.getResourceName(resource, false, sharkmath.getBuyAmount(true), sharkcolor.getVariableColor("--color-light"))
                 );
             },
             type: "choice",
@@ -90,7 +90,7 @@ SharkGame.CheatsAndDebug = {
                     "Remove " +
                     sharktext.beautify(sharkmath.getBuyAmount(true)) +
                     " " +
-                    sharktext.getResourceName(resource, false, sharkmath.getBuyAmount(true))
+                    sharktext.getResourceName(resource, false, sharkmath.getBuyAmount(true), sharkcolor.getVariableColor("--color-light"))
                 );
             },
             updates: true,
@@ -276,7 +276,10 @@ SharkGame.CheatsAndDebug = {
     },
 
     setup() {
-        /* doesnt need to do anything */
+        if (SharkGame.persistentFlags.debug) {
+            // unlock cheats for anyone who already has debug mode access
+            gateway.unlockCheats();
+        }
     },
 
     switchTo() {
@@ -465,28 +468,35 @@ SharkGame.CheatsAndDebug = {
     giveSomething(resourceId = "fish", amount = 1) {
         res.changeResource(resourceId, amount);
         let returnText;
+        const resourceName = sharktext.getResourceName(
+            resourceId,
+            false,
+            sharkmath.getBuyAmount(true),
+            log.isNextMessageEven() ? sharkcolor.getVariableColor("--color-dark") : sharkcolor.getVariableColor("--color-med")
+        );
         if (amount > 0) {
-            returnText =
-                "Gave " + sharktext.beautify(amount) + " " + sharktext.getResourceName(resourceId, false, sharkmath.getBuyAmount(true)) + ".";
+            returnText = `Gave ${sharktext.beautify(amount)} ${resourceName}.`;
         } else {
-            returnText =
-                "Removed " + sharktext.beautify(-amount) + " " + sharktext.getResourceName(resourceId, false, sharkmath.getBuyAmount(true)) + ".";
+            returnText = `Removed ${sharktext.beautify(-amount)} ${resourceName}.`;
         }
         return returnText;
     },
 
     debug() {
         SharkGame.persistentFlags.debug = true;
+        SharkGame.persistentFlags.unlockedDebug = true;
     },
 
     hideDebug() {
         SharkGame.persistentFlags.debug = false;
         SharkGame.Tabs.cheats.discovered = false;
         SharkGame.Tabs.cheats.seen = false;
-        if (SharkGame.Tabs.current === "cheats") {
-            SharkGame.Tabs.current = "home";
+        if (!SharkGame.gameOver) {
+            if (SharkGame.Tabs.current === "cheats") {
+                SharkGame.Tabs.current = "home";
+            }
+            SharkGame.TabHandler.setUpTab();
         }
-        SharkGame.TabHandler.setUpTab();
     },
 
     toggleDebugButton() {

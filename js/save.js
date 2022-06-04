@@ -68,16 +68,7 @@ SharkGame.Save = {
         return saveString;
     },
 
-    loadGame(importSaveData) {
-        let saveData;
-        let saveDataString = importSaveData || localStorage.getItem(SharkGame.Save.saveFileName);
-
-        if (!saveDataString) {
-            throw new Error("Tried to load game, but no game to load.");
-        } else if (typeof saveDataString !== "string") {
-            throw new Error("Tried to load game, but save wasn't a string.");
-        }
-
+    decodeSave(saveDataString) {
         // if first letter of string is <, data is encoded in ascii85, decode it.
         if (saveDataString.substring(0, 2) === "<~") {
             try {
@@ -102,15 +93,25 @@ SharkGame.Save = {
         // if first letter of string is {, data is json
         if (saveDataString.charAt(0) === "{") {
             try {
-                saveData = JSON.parse(saveDataString);
+                return JSON.parse(saveDataString);
             } catch (err) {
-                let errMessage = "Couldn't load save data. It didn't parse correctly. Your save: " + saveDataString;
-                if (importSaveData) {
-                    errMessage += " Did you paste the entire string?";
-                }
+                const errMessage = "Couldn't load save data. It didn't parse correctly. Your save: " + saveDataString;
                 throw new Error(errMessage);
             }
         }
+    },
+
+    loadGame(importSaveData) {
+        let saveData;
+        const saveDataString = importSaveData || localStorage.getItem(SharkGame.Save.saveFileName);
+
+        if (!saveDataString) {
+            throw new Error("Tried to load game, but no game to load.");
+        } else if (typeof saveDataString !== "string") {
+            throw new Error("Tried to load game, but save wasn't a string.");
+        }
+
+        saveData = this.decodeSave(saveDataString);
 
         if (saveData) {
             //check for updates
@@ -248,7 +249,7 @@ SharkGame.Save = {
                 }
             }
 
-            if (SharkGame.Settings.current.offlineModeActive && !SharkGame.gameOver) {
+            if (!SharkGame.gameOver) {
                 // get times elapsed since last save game
                 let secondsElapsed = (_.now() - saveData.timestampLastSave) / 1000;
                 if (secondsElapsed < 0) {
@@ -273,7 +274,7 @@ SharkGame.Save = {
         // load the game from this save data string
         try {
             main.wipeGame();
-            SharkGame.Save.loadGame(data, data === "{}");
+            SharkGame.Save.loadGame(data);
             main.setUpGame();
         } catch (err) {
             log.addError(err);
@@ -299,17 +300,57 @@ SharkGame.Save = {
         return saveData;
     },
 
-    savedGameExists() {
-        return localStorage.getItem(SharkGame.Save.saveFileName) !== null;
+    savedGameExists(tag = ``) {
+        return localStorage.getItem(SharkGame.Save.saveFileName + tag) !== null;
     },
 
-    deleteSave() {
-        localStorage.removeItem(SharkGame.Save.saveFileName);
+    deleteSave(tag = ``) {
+        localStorage.removeItem(SharkGame.Save.saveFileName + tag);
+    },
+
+    getTaggedSaveCharacteristics(tag) {
+        if (_.isUndefined(tag)) {
+            SharkGame.Log.addError(`Tried to get characteristics of a tagged save, but no tag was given.`);
+            throw new Error(`Tried to get characteristics of a tagged save, but no tag was given.`);
+        }
+        const save = this.decodeSave(localStorage.getItem(SharkGame.Save.saveFileName + tag));
+        let text;
+        if (save) {
+            text = ` from ${SharkGame.TextUtil.formatTime(_.now() - save.timestampLastSave)} ago`;
+            if (save.resources.essence) {
+                text += ` with ${save.resources.essence.totalAmount || 0} lifetime essence`;
+            }
+        } else {
+            SharkGame.Log.addError(`Tried to get characteristics of ${SharkGame.Save.saveFileName + tag}, but no such save exists.`);
+            throw new Error(`Tried to get characteristics of ${SharkGame.Save.saveFileName + tag}, but no such save exists.`);
+        }
+        return text;
+    },
+
+    createTaggedSave(tag) {
+        if (_.isUndefined(tag)) {
+            SharkGame.Log.addError(`Tried to create a tagged save, but no tag was given.`);
+            throw new Error(`Tried to create a tagged save, but no tag was given.`);
+        }
+        localStorage.setItem(SharkGame.Save.saveFileName + tag, localStorage.getItem(SharkGame.Save.saveFileName));
+    },
+
+    loadTaggedSave(tag) {
+        if (_.isUndefined(tag)) {
+            SharkGame.Log.addError(`Tried to load a tagged save, but no tag was given.`);
+            throw new Error(`Tried to load a tagged save, but no tag was given.`);
+        }
+
+        if (this.savedGameExists(tag)) {
+            this.importData(localStorage.getItem(SharkGame.Save.saveFileName + tag));
+        } else {
+            SharkGame.Log.addError(`Tried to load ${SharkGame.Save.saveFileName + tag}, but no such save exists.`);
+        }
     },
 
     wipeSave() {
-        localStorage.setItem(SharkGame.Save.saveFileName + "Backup", localStorage.getItem(SharkGame.Save.saveFileName));
-        SharkGame.Save.deleteSave();
+        this.createTaggedSave(`Backup`);
+        this.deleteSave();
     },
 
     saveUpdaters: [

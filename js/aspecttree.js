@@ -61,6 +61,7 @@ SharkGame.AspectTree = {
                 } else {
                     tree.cameraZoom = 1;
                 }
+                tree.updateTooltip(this);
             },
             getOn() {
                 return tree.cameraZoom !== 1;
@@ -85,6 +86,7 @@ SharkGame.AspectTree = {
             },
             clicked() {
                 tree.toggleRefundMode();
+                tree.updateTooltip(this);
             },
             getUnlocked() {
                 return SharkGame.Aspects.cleanSlate.level > 0;
@@ -135,6 +137,7 @@ SharkGame.AspectTree = {
             },
             clicked() {
                 tree.toggleDebugMode();
+                tree.updateTooltip(this);
             },
             getUnlocked() {
                 return SharkGame.persistentFlags.debug;
@@ -710,13 +713,14 @@ SharkGame.AspectTree = {
     handleClickedAspect(aspect) {
         if (tree.refundMode) {
             if (!aspect.noRefunds) tree.refundLevels(aspect);
-            // tree.updateRequirementReference();
-            // tree.render();
+            tree.updateRequirementReference();
+            tree.render();
         } else if (tree.debugMode) {
             tree.setLevel(aspect, prompt("Set to what level?"));
         } else {
             tree.increaseLevel(aspect);
         }
+        tree.updateTooltip(aspect);
     },
 
     increaseLevel(aspect, ignoreRestrictions) {
@@ -854,6 +858,11 @@ SharkGame.AspectTree = {
             }
 
             const reqref = tree.requirementReference[name];
+
+            if (!reqref) {
+                tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased forAspectTreeAffordable");
+                return;
+            }
 
             const cost = button.getCost(button.level);
 

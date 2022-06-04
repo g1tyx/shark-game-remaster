@@ -21,6 +21,19 @@ window.onmousemove = (event) => {
 
 $(document).on("keyup", (event) => {
     SharkGame.lastActivity = _.now();
+
+    const mkey = SharkGame.Keybinds.modifierKeys;
+    if ((mkey.ShiftLeft || mkey.ShiftRight) && !event.shiftKey) {
+        mkey.ShiftLeft = 0;
+        mkey.ShiftRight = 0;
+    } else if ((mkey.AltLeft || mkey.AltRight) && !event.altKey) {
+        mkey.AltLeft = 0;
+        mkey.AltRight = 0;
+    } else if ((mkey.ControlLeft || mkey.ControlRight) && !event.ctrlKey) {
+        mkey.ControlLeft = 0;
+        mkey.ControlRight = 0;
+    }
+
     if (SharkGame.Keybinds.handleKeyUp(event.code)) {
         event.preventDefault();
     }
@@ -86,9 +99,9 @@ $.extend(SharkGame, {
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "0.2 OPEN ALPHA",
+    VERSION: "202205??a",
     ORIGINAL_VERSION: 0.71,
-    VERSION_NAME: "New Perspectives",
+    VERSION_NAME: "The Marine Update",
     EPSILON: 1e-6, // floating point comparison is a joy
     // agreed, already had to deal with it on recycler revisions
     // did you know that reducing a float like 1.2512351261 to 1.25 by literally removing the decimal and multiplying by 100 gives you something like 125.0000001?
@@ -233,7 +246,7 @@ SharkGame.Main = {
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
 Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
-        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/dev", (data) => {
+        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/alpha", (data) => {
             SharkGame.COMMIT_SHA = data.sha;
         });
         log.clearMessages(false);
@@ -375,7 +388,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
             main.showSidebarIfNeeded();
             if (SharkGame.flags.needOfflineProgress) {
-                SharkGame.persistentFlags.currentPausedTime = SharkGame.flags.needOfflineProgress * 1000;
+                SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
             }
             SharkGame.flags.needOfflineProgress = 0;
         }
@@ -634,10 +647,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     checkForUpdate() {
-        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/dev", (data) => {
+        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/alpha", (data) => {
             if (data.sha !== SharkGame.COMMIT_SHA) {
                 $("#updateGameBox")
-                    .html("You see a new update swimming towards you. Click to update.")
+                    .html(
+                        `You see a new update swimming towards you.<br> On it you can just make out the words <br>"${
+                            data.commit.message.split("\n")[0]
+                        }". <br>Click to update.`
+                    )
                     .on("click", () => {
                         try {
                             SharkGame.Save.saveGame();
@@ -711,6 +728,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     SharkGame.Settings.current.buyAmount = amount === "custom" ? "custom" : parseInt(thisButton.attr("id").slice(4));
                     $("button[id^='buy-']").removeClass("disabled");
                     thisButton.addClass("disabled");
+                })
+                .on("mouseenter", () => {
+                    $(`#tooltipbox`).html(`${label} amount of things`);
+                })
+                .on("mouseleave", () => {
+                    $(`#tooltipbox`).html(``);
                 });
         });
         buttonList.append(
@@ -826,18 +849,35 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202201??a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220603a": [
+        "Added Marine worldtype.",
+        "Planet descriptions are now much more vague until you've visited them.",
+        "Distant Foresight greatly decreases vagueness of planet descriptions now.",
+        "Swapped the order of some aspects on the tree.",
+        "Revised the ending of the Abandoned world.",
+        "Revised bits of the Shrouded world's story.",
+        "By popular demand, added auto-transmuter to Shrouded.",
+        "Fixed some miscellaneous bugs.",
+        "Ixbix - tweaked text visibility system",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220125a": [
         "Added keybinds. You can now bind a large array of actions to different key combinations.",
+        "Added backup saves. You can now back up your saves as you wish, with three slots!",
+        "Added real species/family names when recruiting urchins and squid, instead of weird placeholder messages.",
+        "When first unlocking cheats at 1000 lifetime essence, a special backup is automatically created.",
+        "Added toggle for cheats; you don't have to see them if you don't want to.",
+        "Made some more UI changes.",
+        "Removed aspect: Anything and Everything",
         "Ixbix - fixed issues with gateway time spent in last world",
         "Ixbix - stopped minute hand slider from flopping around",
         "Ixbix - added touchscreen support for the aspect tree",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211201a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20211201a": [
         "Added something special at 1000 total essence.",
         "Changed the aspect tree UI to remove unnecessary buttons from below the tree.",
         "Fixed some bugs related to the patience and gumption aspects.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20211109a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20211109a": [
         "Final revamp of the aspect tree. Not the final addition to it, though.",
         "Added idle mode. The game will pause and accumulate idle time after 2 minutes of inactivity.",
         "The minute hand now stores offline progress and idle time. You can use your stored time in the form of a multiplier.",
@@ -848,11 +888,13 @@ SharkGame.Changelog = {
         "Updated UI.",
         "Fixed some out-of-place flavor text.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210814a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210814a": [
         "Added Shrouded worldtype.",
-        "Changed the aspect tree and its aspects significantly. All essence must be refunded and all aspects must be reset because of this. Sorry!",
+        "Retooled Haven worldtype.",
+        "Changed the aspect tree and its aspects significantly. All aspects must be refunded because of this. Sorry!",
         "Implemented a basic 'playstyle' choice. The game will adjust pacing to suit your choice.",
-        "You can now access the options menu in the gateway.",
+        "Improved resource table tooltips.",
+        "You can now access the options menu in the gateway. (this took a surprising amount of work)",
         "'Wipe Save' now doesn't reset any settings. Added a separate button to reset settings.",
         "Added sprites.",
         "Greatly improved game stability when dealing with large numbers (above a quadrillion).",
@@ -860,7 +902,7 @@ SharkGame.Changelog = {
         "Fixed bugs with grotto.",
         "Fixed bugs with tooltips in the aspect tree.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210728a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210728a": [
         "The log can now be in one of 3 spots. Change which one in options. Default is now right side.",
         "Added Resource Affect tooltips; mouse over the multipliers in the R column in the advanced grotto table and you can see what is causing them.",
         "Added work-in-progress (but functional) aspect table as an alternative to the tree, specifically for accessibility.",
@@ -872,7 +914,7 @@ SharkGame.Changelog = {
         "Fixed incorrect description of an aspect.",
         "Fixed bugs with importing saves.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210713a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210713a": [
         "Tooltips show you how much you already own of what you're buying. Can be turned off in options.",
         "Tooltips have their numbers scale based on how much of something you're buying. Can be turned off in options.",
         "The key for advanced mode grotto has been enhanced.",
@@ -884,7 +926,7 @@ SharkGame.Changelog = {
         "Corrected a bunch of upgrade effect descriptions.",
         "Minor bugfixes.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210709a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210709a": [
         "Added the Frigid worldtype.",
         "Replaced the Artifacts system with the Aspects system.",
         "Tweaked Haven.",
@@ -895,15 +937,15 @@ SharkGame.Changelog = {
         "Added 'bright' text color mode, screws up some colors but makes colored text easier to read.",
         "Added auto color-visibility adjuster. Tries to change the color of text if it would be hard to read on a certain background.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
         "Fixed bug where haven had no essence. Oops.",
         "Changed home messages a little.",
         "Retconned some previous patch notes.",
         "Added sprite for octopus investigator.",
         "Internal stuff.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210515a": ["Added missing flavor text.", "Internal stuff."],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210422a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210515a": ["Added missing flavor text.", "Internal stuff."],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210422a": [
         "Implemented reworked gameplay for the Haven worldtype.",
         "Made sweeping changes to the UI.",
         "Improved grotto formatting.",
@@ -914,20 +956,20 @@ SharkGame.Changelog = {
         "Added minimized titlebar. You can switch it back to the old one in the options menu.",
         "Added categories to options menu. Now it's readable!",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210314a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210314a": [
         "Fixed bug related to how artifacts display in the grotto.",
         "Fixed bug related to artifact affects not applying properly.",
         "Fixed bug where the grotto would show an upgrade multiplier for everything, even if it was x1.",
         "Fixed bug where artifact effects would not reset when importing.",
         "Added 'INCOME PER' statistic to Simple grotto. Shows absolutely how much of a resource you get per generator.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210312a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210312a": [
         "Added simplified grotto.",
         "Made grotto way easier to understand.",
         "Added tooltips to income table.",
         "Did internal rework of the multiplier system, created the modifier system.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
         "Scrapped Chaotic worldtype. Completely.",
         "Implemented gameplay for 1 out of 7 necessary planet reworks.",
         "Implemented new assets.",

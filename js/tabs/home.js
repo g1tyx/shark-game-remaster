@@ -95,17 +95,58 @@ SharkGame.Home = {
         marine: [
             {
                 name: "marine-default",
-                message: "Schools of fish fill the vast, blue expanse. This place feels so familiar.",
+                message: "Schools of fish fill the vast expanse. This place feels so familiar.",
             },
             {
-                name: "marine-clams",
+                name: "marine-noticed-lobsters",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "You notice a bunch creatures scurrying around on the ocean floor. They look like crabs, but longer, and...redder?",
+                message: "You notice some creatures on the ocean floor. They laze about and ignore your presence.",
+            },
+            {
+                name: "marine-noticed-lobsters-2",
+                unlock: { upgrade: ["seabedGeology"] },
+                message: "You notice some creatures on the ocean floor. They laze about and ignore your presence.",
             },
             {
                 name: "marine-lobsters",
-                unlock: { totalResource: { lobster: 20 } },
+                unlock: { totalResource: { lobster: 1 } },
                 message: "The lobsters work, but seem carefree. They worry about nothing.",
+            },
+            {
+                name: "marine-lobsters-talk",
+                unlock: { totalResource: { lobster: 125 } },
+                message: "When the lobsters talk, they speak of the good old days. They talk a lot.",
+            },
+            {
+                name: "marine-calcinium",
+                unlock: { totalResource: { calcinium: 1 } },
+                message: "Calcinium. It's rough, hard, and chalky. It feels fragile, but isn't.",
+            },
+            {
+                name: "marine-robotics",
+                unlock: { totalResource: { clamScavenger: 1 } },
+                message: "A cold, rough limb fishes clams out of the seabed. The lobsters watch intently.",
+            },
+            {
+                // do color transition 1 here
+                name: "marine-bioengineering",
+                unlock: { upgrade: ["bioengineering"] },
+                message:
+                    "Stone-to-brain interface. Shelbernetic enhancements. Population automation. The lobsters say that calcinium is an extension of life itself.",
+            },
+            {
+                // second color transition
+                name: "marine-sentience",
+                unlock: { upgrade: ["sentientCircuitBoards"] },
+                message: "All of us have boards now. Children are born half-machine. The lobsters call it effective.",
+                // we can't understand it, no, we could never hope to understand it like the lobsters do
+                // 'they [the circuits] even die...just like us.'
+            },
+            {
+                // final color transition
+                name: "marine-abandoned",
+                unlock: { upgrade: ["mobiusShells"] },
+                message: "Murk spills out of the frenzy. A rancid fog begins to descend. This dying world drags everyone down with it.",
             },
         ],
 
@@ -264,7 +305,7 @@ SharkGame.Home = {
             {
                 name: "shrouded-eel-onlookers",
                 unlock: { upgrade: ["crystalContainer"] },
-                message: "Divers have reported sightings of 'skittish', wiggly creatures on the ocean floor. What on earth...?",
+                message: "Divers have reported sightings of wiggly things on the ocean floor. They dart into their holes when approached.",
             },
             {
                 name: "shrouded-eels",
@@ -294,9 +335,9 @@ SharkGame.Home = {
                     "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice. The sharp snap of broken arcana echoes in your mind.",
             },
             {
-                name: "shrouded-end",
-                unlock: { upgrade: ["arcaneActivation"] },
-                message: "The gate opens. It pulls, tugging at you. The force is immense.",
+                name: "shrouded-city",
+                unlock: { upgrade: ["arcaneHeart"] },
+                message: "The sounds of explorers echo endlessly through the tunnels of the broken city. The eels say they are filled with hope.",
             },
             {
                 name: "shrouded-essence",
@@ -750,6 +791,9 @@ SharkGame.Home = {
                 case "getUrchin":
                     spritename = Math.random() < 0.002 ? "actions/getUrchinHatted" : "actions/getUrchin";
                     break;
+                case "getLobster":
+                    spritename = Math.random() < 0.002 ? "actions/getLobter" : "actions/getLobster";
+                    break;
                 default:
                     spritename = "actions/" + actionName;
             }
@@ -815,6 +859,18 @@ SharkGame.Home = {
         }
         // if nothing fails, return true
         return true;
+    },
+
+    shouldHomeButtonBeUsable(_actionData) {
+        let shouldBeUsable = true;
+
+        if (cad.pause || cad.stop) {
+            shouldBeUsable = false;
+        }
+        // this function might contain more stuff later
+        // for now, the only exception to being able to
+        // use home buttons is if the game is paused
+        return shouldBeUsable;
     },
 
     shouldRemoveHomeButton(action) {

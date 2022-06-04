@@ -9,21 +9,23 @@ SharkGame.TabHandler = {
 
         $(window).on("resize", _.debounce(this.validateTabWidth, 300));
 
-        const debounced = _.debounce(
-            (_entries) => {
-                const content = $("#content");
-                content.css("position", "static");
-                const height = content.innerHeight();
-                if (height < $(window).height() || height * 3 < $("#resourceTableContainer").innerHeight()) {
-                    content.css("top", content.offset().top).css("position", "sticky");
-                }
-            },
-            400,
-            { maxWait: 600 }
-        );
+        function debounced() {
+            return _.debounce(
+                (_entries) => {
+                    const content = _entries[0].target;
+                    const $content = $(content);
+                    $content.css("position", "static");
+                    const boundingBox = content.getBoundingClientRect();
+                    if ($content.offset().top + boundingBox.height < $(window).height()) {
+                        $content.css("top", $content.offset().top);
+                    }
+                },
+                400,
+                { maxWait: 600 }
+            );
+        }
 
-        const resizeObserver = new ResizeObserver(debounced);
-
+        const resizeObserver = new ResizeObserver(debounced());
         resizeObserver.observe(document.getElementById("content"));
     },
 

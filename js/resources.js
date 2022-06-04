@@ -862,7 +862,7 @@ SharkGame.Resources = {
                 .attr("type", "range")
                 .attr("min", 1)
                 .attr("max", 9)
-                .attr("step", 0.01)
+                .attr("step", 1)
                 .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
                 .on("input", res.minuteHand.changeSelectedMultiplier);
             $("#minute-row-two").append(slider);
@@ -1169,7 +1169,7 @@ SharkGame.Resources = {
             row.append(
                 $("<td>")
                     .attr("id", "resource-" + resourceKey)
-                    .html(sharktext.getResourceName(resourceKey))
+                    .html(sharktext.getResourceName(resourceKey, undefined, undefined, sharkcolor.getVariableColor("--color-darker")))
                     .on("dragstart", res.tokens.handleResourceDragStart)
                     .on("dragover", (event) => {
                         if (res.tokens.canBePlacedOn("resource-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
@@ -1238,7 +1238,7 @@ SharkGame.Resources = {
     },
 
     tableTextEnter(_mouseEnterEvent, resourceName) {
-        if (!SharkGame.Settings.current.showTooltips || !main.shouldShowTooltips()) {
+        if (!SharkGame.Settings.current.showTooltips) {
             return;
         }
         if (!resourceName) {
@@ -1297,19 +1297,22 @@ SharkGame.Resources = {
         let text = sharktext.getResourceName(resourceName, false, 2, sharkcolor.getElementColor("tooltipbox", "background-color"));
         if (isGeneratingText !== "") {
             text +=
-                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " PRODUCING</span>" + isGeneratingText;
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " PRODUCING</span>" + isGeneratingText;
         }
         if (isConsumingText !== "") {
-            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " CONSUMING</span>" + isConsumingText;
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " CONSUMING</span>" + isConsumingText;
         }
         if ((isGeneratingText || isConsumingText) && (producertext || consumertext)) {
             text += "<br><span class='littleTooltipText'>and</span>";
         }
         if (producertext !== "") {
-            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " PRODUCED BY</span>" + producertext;
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " PRODUCED BY</span>" + producertext;
         }
         if (consumertext !== "") {
-            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " CONSUMED BY</span>" + consumertext;
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " CONSUMED BY</span>" + consumertext;
         }
 
         if (SharkGame.ResourceMap.get(resourceName).desc) {

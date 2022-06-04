@@ -159,8 +159,8 @@ SharkGame.Aspects = {
         },
     },
     distantForesight: {
-        posX: 100,
-        posY: 550,
+        posX: 200,
+        posY: 475,
         width: 40,
         height: 40,
 
@@ -181,8 +181,12 @@ SharkGame.Aspects = {
                 //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
             }
         },
-        getUnlocked() {},
-        prerequisites: ["cleanSlate"],
+        getUnlocked() {
+            if (gateway.completedWorlds.length < 2) {
+                return "Scout at least one world to unlock this aspect.";
+            }
+        },
+        prerequisites: ["pathOfEnlightenment"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },
@@ -454,7 +458,7 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {},
-        prerequisites: ["cleanSlate"],
+        prerequisites: ["distantForesight"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },
@@ -469,8 +473,8 @@ SharkGame.Aspects = {
         },
     },
     cleanSlate: {
-        posX: 200,
-        posY: 475,
+        posX: 100,
+        posY: 550,
         width: 40,
         height: 40,
 
@@ -491,12 +495,12 @@ SharkGame.Aspects = {
                 return "Scout at least one world to unlock this aspect.";
             }
         },
-        prerequisites: ["pathOfEnlightenment"],
+        prerequisites: ["distantForesight"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },
         apply(when) {
-            if (when === "levelUp") {
+            if (when === "levelUp" && SharkGame.Settings.current.doAspectTable === "table") {
                 SharkGame.Button.makeButton("respecModeButton", "respec mode", $("#aspectTreeNavButtons"), tree.toggleRefundMode);
                 SharkGame.Button.makeButton("respecButton", "respec all", $("#aspectTreeNavButtons"), () => {
                     if (confirm("Are you sure you want to respec all refundable aspects?")) {
@@ -748,7 +752,7 @@ SharkGame.Aspects = {
             return "Reveal all aspects which are not locked.";
         },
         getUnlocked() {},
-        prerequisites: ["cleanSlate"],
+        prerequisites: ["distantForesight"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },

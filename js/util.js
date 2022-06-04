@@ -84,7 +84,7 @@ SharkGame.MathUtil = {
 
     getBuyAmount(noMaxBuy) {
         if (SharkGame.Settings.current.buyAmount === "custom") {
-            return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
+            return $("#custom-input")[0] && Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
                 ? Math.floor($("#custom-input")[0].valueAsNumber)
                 : 1;
         } else {
@@ -138,6 +138,8 @@ SharkGame.TextUtil = {
                 "ice",
                 "science",
                 "arcana",
+                "kelp",
+                "calcinium",
             ].includes(name)
         ) {
             return "";
@@ -166,6 +168,7 @@ SharkGame.TextUtil = {
                 "science",
                 "arcana",
                 "kelp",
+                "calcinium",
             ].includes(name) ||
             amount === 1
         ) {
@@ -278,6 +281,7 @@ SharkGame.TextUtil = {
     },
 
     formatTime(milliseconds) {
+        const numCentiseconds = Math.floor((milliseconds % 1000) / 10);
         const numSeconds = Math.floor(milliseconds / 1000);
         const numMinutes = Math.floor(numSeconds / 60);
         const numHours = Math.floor(numMinutes / 60);
@@ -286,7 +290,9 @@ SharkGame.TextUtil = {
         const numMonths = Math.floor(numWeeks / 4);
         const numYears = Math.floor(numMonths / 12);
 
-        const formatSeconds = (numSeconds % 60).toString(10).padStart(2, "0") + (numMinutes === 0 ? "s" : "");
+        const formatCentiseconds =
+            (milliseconds / 1000 < 10 ? "." + numCentiseconds.toString(10).padStart(2, "0") : "") + (numMinutes === 0 ? "s" : "");
+        const formatSeconds = (numSeconds % 60).toString(10).padStart(numSeconds >= 60 ? 2 : 0, "0");
         const formatMinutes = numMinutes > 0 ? (numMinutes % 60).toString(10).padStart(2, "0") + ":" : "";
         const formatHours = numHours > 0 ? (numHours % 24).toString() + ":" : "";
         const formatDays = numDays > 0 ? (numDays % 7).toString() + "D, " : "";
@@ -294,16 +300,16 @@ SharkGame.TextUtil = {
         const formatMonths = numMonths > 0 ? (numMonths % 12).toString() + "M, " : "";
         const formatYears = numYears > 0 ? numYears.toString() + "Y, " : "";
 
-        return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds;
+        return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds + formatCentiseconds;
     },
 
-    getResourceName(resourceName, darken, arbitraryAmount, background) {
+    getResourceName(resourceName, darken, arbitraryAmount, background, textToColor) {
         if (res.isCategory(resourceName)) {
-            return SharkGame.ResourceCategories[resourceName].name;
+            return textToColor || SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
         const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
-        let name = amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name;
+        let name = textToColor || (amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name);
         let extraStyle = "";
 
         // easter egg logic
@@ -329,35 +335,16 @@ SharkGame.TextUtil = {
                 } else {
                     contrast = (backRLum + 0.05) / (colorRLum + 0.05);
                 }
-                const tolerance = 2; // for easy changing
+                const tolerance = 3.5; // for easy changing
                 if (contrast < tolerance) {
                     const requiredLuminance = tolerance * backRLum + 0.05 * tolerance - 0.05;
                     color = sharkcolor.correctLuminance(color, requiredLuminance > 1 ? (backRLum + 0.05) / tolerance - 0.05 : requiredLuminance);
                 }
             }
+            // if (background) color = background;
             extraStyle = " style='color:" + color + "'";
         }
         return "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
-    },
-
-    applyResourceColoration(resourceName, textToColor) {
-        if (res.isCategory(resourceName)) {
-            return textToColor;
-        }
-
-        if (SharkGame.Settings.current.boldCosts) {
-            textToColor = textToColor.bold();
-        }
-        let extraStyle = "";
-        if (SharkGame.Settings.current.colorCosts !== "none") {
-            extraStyle =
-                " style='color:" +
-                (SharkGame.Settings.current.colorCosts === "color"
-                    ? SharkGame.ResourceMap.get(resourceName).color
-                    : sharkcolor.getBrightColor(SharkGame.ResourceMap.get(resourceName).color)) +
-                "'";
-        }
-        return "<span class='click-passthrough'" + extraStyle + ">" + textToColor + "</span>";
     },
 
     // make a resource list object into a string describing its contents
@@ -432,9 +419,15 @@ SharkGame.ColorUtil = {
         const varA = 1.075 * (0.2126 * red ** 2 + 0.7152 * green ** 2 + 0.0722 * blue ** 2);
         const varB = -0.075 * (0.2126 * red + 0.7152 * green + 0.0722 * blue);
         const ratio = Math.max((-varB + Math.sqrt(varB ** 2 + 4 * varA * luminance)) / (2 * varA), 0);
-        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0)).toString(16);
-        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0)).toString(16);
-        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0)).toString(16);
+        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
+        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
+        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
         return "#" + red + green + blue;
     },
 
@@ -465,9 +458,13 @@ SharkGame.ColorUtil = {
         return "#" + red + green + blue;
     },
 
-    getElementColor(id, propertyName) {
+    getElementColor(id, propertyName = "background-color") {
         const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return sharkcolor.convertColorString(color);
+    },
+
+    getVariableColor(variable) {
+        return getComputedStyle(document.body).getPropertyValue(variable).replace(/ /g, "");
     },
 };
 

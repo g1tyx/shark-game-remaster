@@ -59,7 +59,9 @@ SharkGame.Keybinds = {
     },
 
     init() {
-        this.keybinds = _.cloneDeep(this.defaultBinds);
+        if ($.isEmptyObject(this.keybinds)) {
+            this.resetKeybindsToDefault();
+        }
         this.bindMode = false;
         this.bindModeLock = false;
         this.waitForKey = false;
@@ -68,6 +70,10 @@ SharkGame.Keybinds = {
     },
 
     setup() {},
+
+    resetKeybindsToDefault() {
+        this.keybinds = _.cloneDeep(this.defaultBinds);
+    },
 
     compressKeyID(keyID) {
         keyID = keyID.replace(/ /gi, ``).replace(`+`, `-`);
@@ -130,7 +136,7 @@ SharkGame.Keybinds = {
 
         keyID = this.cleanID(keyID);
         keyID = this.composeKeys(keyID);
-        console.log(keyID);
+        //console.log(keyID);
 
         const boundAction = this.keybinds[keyID];
         if (this.bindMode && boundAction !== "bind home ocean button") {
@@ -152,7 +158,7 @@ SharkGame.Keybinds = {
 
         keyID = this.cleanID(keyID);
         keyID = this.composeKeys(keyID);
-        console.log(keyID);
+        //console.log(keyID);
 
         const boundAction = this.keybinds[keyID];
         if (this.bindMode && boundAction !== "bind home ocean button") {
@@ -181,7 +187,7 @@ SharkGame.Keybinds = {
                     } else {
                         return false;
                     }
-                    console.log(actionType);
+                //console.log(actionType);
             }
             return true;
         }
@@ -317,18 +323,23 @@ SharkGame.Keybinds = {
                     });
                     break;
                 case `buy topmost upgrade`:
-                    SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
+                    if (!cad.pause && !cad.stop) {
+                        SharkGame.Lab.onLabButton(SharkGame.Lab.findAllAffordableUpgrades()[0]);
+                    }
                     break;
                 case `press all buying buttons`:
-                    _.each(home.buttonNamesList, (actionName, actionData) => {
-                        // actionData gets immediately overwritten because
-                        // linter will yell at me if i define a variable in the switch statement
-                        // and this is a decent workaround
-                        actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
-                        if (!home.doesButtonGiveNegativeThing(actionData)) {
-                            home.onHomeButton(null, actionName);
-                        }
-                    });
+                    if (!SharkGame.flags.pressedAllButtonsThisTick) {
+                        _.each(home.buttonNamesList, (actionName, actionData) => {
+                            // actionData gets immediately overwritten because
+                            // linter will yell at me if i define a variable in the switch statement
+                            // and this is a decent workaround
+                            actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
+                            if (!home.doesButtonGiveNegativeThing(actionData) && home.shouldHomeButtonBeUsable(actionData)) {
+                                home.onHomeButton(null, actionName);
+                            }
+                        });
+                        SharkGame.flags.pressedAllButtonsThisTick = true;
+                    }
                     break;
                 case `enter gate`:
                     if (SharkGame.Gate.shouldBeOpen()) {
@@ -336,7 +347,7 @@ SharkGame.Keybinds = {
                     }
                     break;
                 default:
-                    console.log(actionType);
+                    //console.log(actionType);
                     if (SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionType)) {
                         $(`#${actionType}`).addClass(`keep-button-pressed`);
                     } else {
@@ -384,12 +395,19 @@ SharkGame.Keybinds = {
             }
 
             $(`#overlay`).append(textConatiner);
+            $(`#overlay`)
+                .on(`click`, () => {
+                    this.toggleBindMode(true);
+                })
+                .css(`cursor`, `pointer`);
         } else {
+            $(`#overlay`).css(`cursor`, ``);
             this.bindModeLock = true;
             if (toggledByKey) {
                 SharkGame.OverlayHandler.hideOverlay(250, () => {
                     $(`#buttonList`).children().removeClass("front");
                     $(`#overlay`).empty();
+                    $(`#overlay`).off("click");
                     this.bindModeLock = false;
                 });
             } else {
@@ -397,6 +415,7 @@ SharkGame.Keybinds = {
                     SharkGame.OverlayHandler.hideOverlay(250, () => {
                         $(`#buttonList`).children().removeClass("front");
                         $(`#overlay`).empty();
+                        $(`#overlay`).off("click");
                         this.bindModeLock = false;
                     });
                 }, 1000);
@@ -440,10 +459,10 @@ SharkGame.Keybinds = {
 
         if (SharkGame.PaneHandler.isStackClosable() && SharkGame.Tabs.current === `home`) {
             if (this.bindMode) {
-                console.log(`off`);
+                //console.log(`off`);
                 this.bindMode = false;
             } else {
-                console.log(`on`);
+                //console.log(`on`);
                 this.bindMode = true;
                 SharkGame.PaneHandler.tryWipeStack();
             }

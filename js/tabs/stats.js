@@ -67,7 +67,7 @@ SharkGame.Stats = {
             "margin-bottom": "15px",
             clear: "both",
         });
-        // TODO NAME BUTTON BETTER
+
         SharkGame.Button.makeButton("switchButton", "Swap Producers and Produced", switchButtonDiv, stats.toggleSwitch).addClass("min-block");
         if (SharkGame.Settings.current.grottoMode === "simple") {
             SharkGame.Button.makeButton("modeButton", "Swap to Advanced mode", switchButtonDiv, stats.toggleMode).addClass("min-block");
@@ -88,6 +88,9 @@ SharkGame.Stats = {
             genStats.append(
                 $("<p>").html("Time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>").addClass("medDesc")
             );
+            if (SharkGame.persistentFlags.scouting === false) {
+                genStats.append($("<p>").html(`Par: ${gateway.getPar()} minutes`).addClass("medDesc"));
+            }
         }
         genStats.append($("<h3>").html("Total Ocean Resources Acquired"));
         if (!firstTime) {
@@ -111,12 +114,16 @@ SharkGame.Stats = {
 
         // update run times
         const currTime = _.now();
-        $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
-        $("#runTime").html(
-            sharktext.formatTime(
-                currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
-            )
+        const gameTime = sharktext.formatTime(currTime - SharkGame.timestampGameStart);
+        if ($("#gameTime").html() !== gameTime) {
+            $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
+        }
+        const runTime = sharktext.formatTime(
+            currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
         );
+        if ($("#runTime").html() !== runTime) {
+            $("#runTime").html(runTime);
+        }
 
         if (document.getElementById("tooltipbox").attributes.current) {
             stats.networkTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
@@ -371,7 +378,19 @@ SharkGame.Stats = {
                         .attr("id", "table-amount-" + headingName)
                 );
             }
-            resourceMapRow.append($("<td>").html(sharktext.getResourceName(headingName)).attr("rowspan", subheadings).addClass(rowStyle));
+            resourceMapRow.append(
+                $("<td>")
+                    .html(
+                        sharktext.getResourceName(
+                            headingName,
+                            undefined,
+                            undefined,
+                            rowStyle === "evenRow" ? sharkcolor.getVariableColor("--color-dark") : sharkcolor.getVariableColor("--color-darker")
+                        )
+                    )
+                    .attr("rowspan", subheadings)
+                    .addClass(rowStyle)
+            );
 
             function addCell(text, rowspan, id) {
                 if (id) {
@@ -452,7 +471,18 @@ SharkGame.Stats = {
                             .attr("id", "table-amount-" + generatorName + "-" + incomeKey)
                     );
                 }
-                resourceMapRow.append($("<td>").html(sharktext.getResourceName(subheadingKey)).addClass(rowStyle));
+                resourceMapRow.append(
+                    $("<td>")
+                        .html(
+                            sharktext.getResourceName(
+                                subheadingKey,
+                                undefined,
+                                undefined,
+                                rowStyle === "evenRow" ? sharkcolor.getVariableColor("--color-dark") : sharkcolor.getVariableColor("--color-darker")
+                            )
+                        )
+                        .addClass(rowStyle)
+                );
 
                 // which mode are we in?
                 if (SharkGame.Settings.current.grottoMode === "advanced") {
@@ -600,10 +630,17 @@ SharkGame.Stats = {
             columns -= 4;
 
             if (SharkGame.Settings.current.grottoMode === "advanced") {
+                function tooltip($elt, html) {
+                    return $elt.on("mouseenter", () => $("#tooltipbox").html(html)).on("mouseleave", () => $("#tooltipbox").html(""));
+                }
+
                 row.append(
-                    $("<td>")
-                        .html("<div style='text-align:center; color:" + res.UPGRADE_MULTIPLIER_COLOR + "'><strong>U</strong></div>")
-                        .addClass("evenRow")
+                    tooltip(
+                        $("<td>")
+                            .html("<div style='text-align:center; color:" + res.UPGRADE_MULTIPLIER_COLOR + "'><strong>U</strong></div>")
+                            .addClass("evenRow"),
+                        "<strong>U</strong>pgrade effects"
+                    )
                 );
                 if (main.isFirstTime()) {
                     row.append($("<td>").html(undefined).addClass("evenRow"));
@@ -611,19 +648,28 @@ SharkGame.Stats = {
                     row.append($("<td>").html(undefined).addClass("evenRow"));
                 } else {
                     row.append(
-                        $("<td>")
-                            .html("<div style='text-align:center; color:" + res.WORLD_MULTIPLIER_COLOR + "'><strong>W</strong></div>")
-                            .addClass("evenRow")
+                        tooltip(
+                            $("<td>")
+                                .html("<div style='text-align:center; color:" + res.WORLD_MULTIPLIER_COLOR + "'><strong>W</strong></div>")
+                                .addClass("evenRow"),
+                            "<strong>W</strong>orld effects"
+                        )
                     );
                     row.append(
-                        $("<td>")
-                            .html("<div style='text-align:center; color:" + res.ASPECT_MULTIPLIER_COLOR + "'><strong>A</strong></div>")
-                            .addClass("evenRow")
+                        tooltip(
+                            $("<td>")
+                                .html("<div style='text-align:center; color:" + res.ASPECT_MULTIPLIER_COLOR + "'><strong>A</strong></div>")
+                                .addClass("evenRow"),
+                            "<strong>A</strong>spect effects"
+                        )
                     );
                     row.append(
-                        $("<td>")
-                            .html("<div style='text-align:center; color:" + res.RESOURCE_AFFECT_MULTIPLIER_COLOR + "'><strong>R</strong></div>")
-                            .addClass("evenRow")
+                        tooltip(
+                            $("<td>")
+                                .html("<div style='text-align:center; color:" + res.RESOURCE_AFFECT_MULTIPLIER_COLOR + "'><strong>R</strong></div>")
+                                .addClass("evenRow"),
+                            "How some <strong>R</strong>esources affect each other"
+                        )
                     );
                 }
                 columns -= 4;
@@ -665,7 +711,9 @@ SharkGame.Stats = {
             if (res.getTotalResource(resourceId) > 0 && res.getCategoryOfResource(resourceId) !== "hidden") {
                 const row = $("<tr>");
 
-                row.append($("<td>").html(sharktext.getResourceName(resourceId)));
+                row.append(
+                    $("<td>").html(sharktext.getResourceName(resourceId, undefined, undefined, sharkcolor.getVariableColor("--color-darker")))
+                );
                 row.append(
                     $("<td>")
                         .html(sharktext.beautify(res.getTotalResource(resourceId)))
