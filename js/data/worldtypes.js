@@ -161,30 +161,37 @@ SharkGame.WorldTypes = {
     },
     violent: {
         name: "Violent",
+        vagueDesc: "Feels hot.",
         desc: "An ocean close to boiling and choking under sulphuric fumes.",
         shortDesc: "searing red",
+        foresight: {
+            vagueLongDesc: "Horrible heat sears your mind from afar.",
+            longDesc: "Despite its seemingly inhospitable atmosphere, this world is teeming with life.",
+            missing: ["crystal", "shark", "laser", "planter"],
+            present: ["coral", "sponge", "algae", "shrimp"],
+        },
         entry: "The burning waters sear the last traces of your past experiences from you. From beneath, the vents spew forth a heavy cloud of sand.",
         style: "violent",
-        /* includedResources: [
-            "sharks",
+        includedResources: [
             "rays",
             "crabs",
             "shrimps",
             "basicmaterials",
             "kelpstuff",
-            "sharkmachines",
+            "crustaceanmachines",
             "sponge",
             "algae",
-        ], */
+            "coral",
+            "essence",
+            "world",
+            "aspectAffect",
+        ],
+        absentResources: ["crystal", "laser", "planter"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "breeders", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ray", amount: 1.5 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "coral", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "algae", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "sand", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "kelp", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "algae", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.5 },
         ],
         gateRequirements: {
             slots: {
