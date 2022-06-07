@@ -9,7 +9,15 @@ SharkGame.Lab = {
     sceneImage: "img/events/misc/scene-lab.png",
     sceneDoneImage: "img/events/misc/scene-lab-done.png",
 
-    discoverReq: { resource: { science: 10 } },
+    get discoverReq() {
+        console.log(world.worldType);
+        switch (world.worldType) {
+            case `violent`:
+                return { resource: { seaApple: 10 } };
+            default:
+                return { resource: { science: 10 } };
+        }
+    },
 
     listEmpty: true,
 
@@ -26,7 +34,7 @@ SharkGame.Lab = {
     },
 
     setup() {
-        /* doesnt need to do anything */
+        SharkGame.TabHandler.updateRegistration(this);
     },
 
     resetUpgrades() {

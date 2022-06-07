@@ -131,6 +131,11 @@ SharkGame.TabHandler = {
         };
     },
 
+    updateRegistration(tab) {
+        SharkGame.Tabs[tab.tabId].name = tab.tabName;
+        SharkGame.Tabs[tab.tabId].discoverReq = tab.discoverReq || {};
+    },
+
     createTabNavigation() {
         const tabs = SharkGame.Tabs;
         const tabList = $("#tabList");
