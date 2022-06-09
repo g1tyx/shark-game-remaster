@@ -25,7 +25,18 @@ SharkGame.Resources = {
     init() {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (resourceId, resource) => {
-            SharkGame.ResourceMap.set(resourceId, _.cloneDeep(resource));
+            const resourceObject = _.cloneDeep(resource);
+            if (resourceObject.name)
+                Object.defineProperty(resourceObject, `name`, Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `name`));
+            if (resourceObject.singleName)
+                Object.defineProperty(
+                    resourceObject,
+                    `singleName`,
+                    Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `singleName`)
+                );
+            if (resourceObject.desc)
+                Object.defineProperty(resourceObject, `desc`, Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `desc`));
+            SharkGame.ResourceMap.set(resourceId, resourceObject);
         });
 
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
