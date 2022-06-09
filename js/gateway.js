@@ -845,6 +845,7 @@ SharkGame.Gateway.PresenceFeelings = {
     chimaera: "familiar predators?",
     eel: "slithering hunters?",
     tar: "something dirty?",
+    algae: "something slimy?",
     // swordfish: "wary hunters",
 };
 
