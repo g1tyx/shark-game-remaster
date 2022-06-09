@@ -232,6 +232,26 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "haven-history": {
+        frame: {
+            x: 1214,
+            y: 2042,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "haven-song": {
         frame: {
             x: 1214,
@@ -1242,6 +1262,14 @@ SharkGame.Sprites = {
     },
     "actions/forgeSpronge": {
         frame: { x: 54, y: 104, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/fuseAncientPart": {
+        frame: { x: 2932, y: 100, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
