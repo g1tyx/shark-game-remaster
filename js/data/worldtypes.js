@@ -178,6 +178,7 @@ SharkGame.WorldTypes = {
             "crabs",
             "catcher",
             "shrimps",
+            "poriteProducer",
             "basicmaterials",
             "kelpstuff",
             "porite",
@@ -195,16 +196,8 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 10 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.5 },
         ],
-        gateRequirements: {
-            slots: {
-                sand: 1e8,
-                kelp: 5e6,
-                coral: 1e7,
-                algae: 5e7,
-                sponge: 5e6,
-                junk: 1e8,
-            },
-        },
+        gateRequirements: { upgrades: ["apologeticAmnesty"] },
+        par: 45,
     },
     abandoned: {
         name: "Abandoned",
