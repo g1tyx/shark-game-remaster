@@ -206,6 +206,12 @@ SharkGame.ModifierTypes = {
             addCoralIncome: {
                 defaultValue: 0,
                 apply(current, degree, resource) {
+                    if (!SharkGame.ResourceMap.get(resource).baseIncome) {
+                        SharkGame.ResourceMap.get(resource).baseIncome = {};
+                    }
+                    if (!SharkGame.ResourceMap.get(resource).income) {
+                        SharkGame.ResourceMap.get(resource).income = {};
+                    }
                     const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
                     baseIncomes.coral = (baseIncomes.coral ? baseIncomes.coral : 0) + degree;
                     res.reapplyModifiers(resource, "coral");
@@ -225,6 +231,12 @@ SharkGame.ModifierTypes = {
             addJellyIncome: {
                 defaultValue: 0,
                 apply(current, degree, resource) {
+                    if (!SharkGame.ResourceMap.get(resource).baseIncome) {
+                        SharkGame.ResourceMap.get(resource).baseIncome = {};
+                    }
+                    if (!SharkGame.ResourceMap.get(resource).income) {
+                        SharkGame.ResourceMap.get(resource).income = {};
+                    }
                     const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
                     baseIncomes.jellyfish = (baseIncomes.jellyfish ? baseIncomes.jellyfish : 0) + degree;
                     res.reapplyModifiers(resource, "jellyfish");
