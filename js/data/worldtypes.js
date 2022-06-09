@@ -167,18 +167,20 @@ SharkGame.WorldTypes = {
         foresight: {
             vagueLongDesc: "Horrible heat sears your mind from afar.",
             longDesc: "Despite its seemingly inhospitable atmosphere, this world is teeming with life.",
-            missing: ["crystal", "shark", "laser", "planter"],
+            missing: ["crystal", "shark", "planter"],
             present: ["coral", "sponge", "algae", "shrimp"],
         },
         entry: "The burning waters sear the last traces of your past experiences from you. From beneath, the vents spew forth a heavy cloud of sand.",
         style: "violent",
         includedResources: [
             "rays",
+            "shoveler",
             "crabs",
+            "catcher",
             "shrimps",
             "basicmaterials",
             "kelpstuff",
-            "crustaceanmachines",
+            "porite",
             "sponge",
             "algae",
             "coral",
@@ -189,8 +191,8 @@ SharkGame.WorldTypes = {
         absentResources: ["crystal", "laser", "planter"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "breeders", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ray", amount: 1.5 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ray", amount: 4 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 10 },
             { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.5 },
         ],
         gateRequirements: {
@@ -405,7 +407,6 @@ SharkGame.WorldTypes = {
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "sponge", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "shrimp", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "worker", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "clamCollector", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "eggBrooder", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "sprongeSmelter", amount: 0.5 },
