@@ -851,6 +851,11 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 202206??a": [
+        "Added Violent worldtype.",
+        "Stuff table tooltips now show how a resource slows or speeds up others.",
+        "stay tuned for a ton of bugfixes and adjustments",
+    ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220603a": [
         "Added Marine worldtype.",
         "Planet descriptions are now much more vague until you've visited them.",
