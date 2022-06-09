@@ -1696,6 +1696,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/prySponge2": {
+        frame: { x: 1198, y: 54, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/stonePrySponge": {
         frame: { x: 1198, y: 54, w: 50, h: 50 },
         rotated: false,
@@ -1714,6 +1722,14 @@ SharkGame.Sprites = {
     },
     "actions/smeltCoralglass": {
         frame: { x: 1198, y: 106, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/smeltPorite": {
+        frame: { x: 2882, y: 50, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -2156,6 +2172,14 @@ SharkGame.Sprites = {
     },
     "technologies/seabedGeology": {
         frame: { x: 1596, y: 2, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/secretSmithing": {
+        frame: { x: 2882, y: 100, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
