@@ -3019,7 +3019,7 @@ SharkGame.Upgrades = {
             name: "Eusociality",
             desc: "The shrimp are weird. They have some advanced social system beyond our comprehension. What's their deal?",
             researchedMessage: "We have learned far more than we needed to about the duties of egg bearing queens in eusocial colonies.",
-            effectDesc: "Shimp queens are available, and we'll never sleep soundly again.",
+            effectDesc: "Shrimp queens are available, and we'll never sleep soundly again.",
             cost: {
                 sponge: 400,
                 algae: 400,
