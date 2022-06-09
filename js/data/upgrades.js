@@ -2813,4 +2813,510 @@ SharkGame.Upgrades = {
             },
         },
     },
+    violent: {
+        xenobiology: {
+            name: "Xenobiology",
+            desc: "Determine what is with these weird faceless creatures we keep finding.",
+            researchedMessage: "Results inconclusive! Further research required.",
+            effectDesc: "Kelp produces sea apples twice as fast. We can dissect sea apples for science. Also, sea apple isn't a fruit. Gross.",
+            cost: {
+                seaApple: 2,
+                coral: 10,
+            },
+            required: {},
+            effect: {
+                incomeMultiplier: {
+                    kelp: 2,
+                },
+            },
+        },
+        seabedGeology: {
+            name: "Seabed Geology",
+            desc: "Study the bottom of the ocean to determine the rich, deep, juicy secrets it contains.",
+            researchedMessage: "Not only did we find a whole bunch of weird things, the rays found that there was more sand!",
+            effectDesc:
+                "Rays are twice as effective with their understanding of the seabed and its varieties of sediment, and crabs are twice as effective at finding coral.",
+            cost: {
+                science: 50,
+                sand: 5000,
+            },
+            required: {},
+            effect: {
+                incomeMultiplier: {
+                    ray: 2,
+                    crab: 2,
+                },
+            },
+        },
+        thermalVents: {
+            name: "Thermal Vents",
+            desc: "Investigate the boiling vents that just seem to keep on heating things up.",
+            researchedMessage: "As it turns out, they're constantly spewing out resources! So that's where all this kelp is coming from...",
+            effectDesc: "A power source for future technologies has been discovered, but more importantly, we get 3 times more from the vents.",
+            cost: {
+                science: 120,
+                sand: 5000,
+                coral: 50,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+            effect: {
+                incomeBoost: {
+                    world: 3,
+                },
+            },
+        },
+        statsDiscovery: {
+            name: "Storage Caverns",
+            desc: "It's about time to start moving the stores we have to a better place. We've found one but it needs setting up.",
+            researchedMessage:
+                "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. We're organized! Sort of!",
+            effectDesc: "By storing things in a centralised location, we now finally have an idea of what we're doing...sort of.",
+            cost: {
+                science: 150,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+        },
+        spongeCollection: {
+            name: "Sponge Collection",
+            desc: "We can see these things littering the reefs and beds, but we don't know how to collect them without breaking them.",
+            researchedMessage:
+                "Understanding the fragile nature of sponges and their weird porous texture, we can now collect sponges by snipping or just not biting so hard.",
+            effectDesc: "Sponge can be collected in the same way fish can be.",
+            cost: {
+                science: 200,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+        },
+        sustainableSolutions: {
+            name: "Sustainable Solutions",
+            desc: "The shrimp aren't going to work with us, because apparently, sharks are a wasteful, invasive species. Okay. Whatever that means.",
+            researchedMessage:
+                "We have deduced that not ripping shrimp houses off the seafloor is a good starting point. Other than that, we have no idea. Further brainstorming required.",
+            effectDesc: "No more gathering sponges manually, because that's wasteful...or something.",
+            cost: {
+                science: 80,
+            },
+            required: {
+                upgrades: ["spongeCollection"],
+                seen: ["sponge"],
+            },
+        },
+        kelpCatching: {
+            name: "Kelp Catching",
+            desc: `The vents spew out kelp, but we just pick it up when it hits the ground. Maybe it's more efficient (maybe sustainable?????) to grab it while it's still flying around.`,
+            researchedMessage: `We have found that crabs are great at catching things. Y'know, since, like, claws and stuff. With proper instruction, we can direct them to increase our kelp yield.`,
+            effectDesc: "Through careful observation and training, crabs can be made catchers to increase our kelp output from vents.",
+            cost: {
+                sand: 30000,
+                science: 500,
+            },
+            required: {
+                upgrades: ["sustainableSolutions"],
+            },
+        },
+        coralSymbiosis: {
+            name: "Coral Symbiosis",
+            desc: `Alright, so according to some very "helpful" comments from the shrimp, we need to live alongside the environment instead of taking advantage of it. Suuuure.`,
+            researchedMessage: `Almost all of the coral we find can catch small fish, and through that, we've found a way to live alongside them. By "hiring" them. To get us fish.`,
+            effectDesc:
+                "We don't just throw coral in a pile anymore; now they're all on payroll, and we take a cut of their fish. I hope you're happy, shrimps.",
+            cost: {
+                coral: 100,
+                science: 1000,
+            },
+            required: {
+                upgrades: ["sustainableSolutions"],
+            },
+            effect: {
+                addFishIncome: {
+                    coral: 0.2,
+                },
+            },
+        },
+        agriculture: {
+            name: "Agriculture",
+            desc: "Apparently, we're not supposed to be stealing coral off the seabed. Stealing from who, exactly???",
+            researchedMessage:
+                "To their credit, it's a lot easier to do this when we make more of them ourselves. Clumping them up and letting them grow is an efficient solution.",
+            effectDesc: "Coral production x2, now that we don't have to venture out to take all our coral off the seabed.",
+            cost: {
+                science: 1500,
+                sand: 7500,
+            },
+            required: {
+                upgrades: ["sustainableSolutions"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    coral: 2,
+                },
+                resourceBoost: {
+                    coral: 2,
+                },
+            },
+        },
+        rayBiology: {
+            name: "Ray Biology",
+            desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
+            researchedMessage:
+                "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
+            effectDesc:
+                "Rays and laser rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+            cost: {
+                science: 2000,
+                sand: 10000,
+            },
+            required: {
+                upgrades: ["agriculture"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    ray: 2,
+                },
+            },
+        },
+        crabBiology: {
+            name: "Crab Biology",
+            desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
+            researchedMessage:
+                "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
+            effectDesc:
+                "Crabs are four times as effective and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
+            cost: {
+                science: 2500,
+                coral: 750,
+            },
+            required: {
+                upgrades: ["coralSymbiosis"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 4,
+                },
+            },
+        },
+        consistentCommunication: {
+            name: "Consistent Communication",
+            desc: "Alright shrimps, we've given into your demands! No more unsustainable practices, probably! We just have to get that message across to the king.",
+            researchedMessage:
+                "With ample demonstration of what we've gathered sustainably, some shrimp are now willing to help us, but definitely not all. The king was not impressed.",
+            effectDesc: `Can now hire some shrimp, though not all. The king remains entirely unconvinced of our willingness to "behave."`,
+            cost: {
+                coral: 2500,
+                fish: 50000,
+            },
+            required: {
+                upgrades: ["agriculture", "coralSymbiosis"],
+            },
+        },
+        eusociality: {
+            name: "Eusociality",
+            desc: "The shrimp are weird. They have some advanced social system beyond our comprehension. What's their deal?",
+            researchedMessage: "We have learned far more than we needed to about the duties of egg bearing queens in eusocial colonies.",
+            effectDesc: "Shimp queens are available, and we'll never sleep soundly again.",
+            cost: {
+                sponge: 400,
+                algae: 400,
+            },
+            required: {
+                upgrades: ["consistentCommunication"],
+                seen: ["shrimp"],
+            },
+        },
+        properPractices: {
+            name: "Proper Practices",
+            desc: "We've just been haphazardly throwing sponges here and there and hoping that they grow. In retrospect, not the greatest idea.",
+            researchedMessage: "We didn't learn how to better arrange them. Instead, we accidentally learned how to feed them better. Oops?",
+            effectDesc: "Accidentally found a way to get sponges growing and consuming twice as fast.",
+            cost: {
+                sponge: 2000,
+            },
+            required: {
+                upgrades: ["consistentCommunication"],
+                seen: ["shrimp"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    sponge: 2,
+                },
+            },
+        },
+        wormWarriors: {
+            name: "Worm Warriors",
+            desc: "Shrimp sponge hives are under constant threat from outside invaders that aren't us. A collaboration effort might help them out.",
+            researchedMessage: "Our efforts have lead to the establishment of a new shrimp caste - the worm warrior.",
+            effectDesc: "Shrimp queens are twice as efficient now that they don't need to worry about worms eating them.",
+            cost: {
+                sponge: 7500,
+                shrimp: 500,
+            },
+            required: {
+                upgrades: ["eusociality"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    queen: 2,
+                },
+            },
+        },
+        secretSmelting: {
+            name: "Secret Smelting",
+            desc: "The shrimps in our frenzy are willing to reveal the recipe of a secret material to us. Wow!",
+            researchedMessage:
+                "It's called porite, and it's made with sand and sponges. Unfortunately, it takes a LOT of sand to make it. Forunately, this is the ocean.",
+            effectDesc: `Learned the secrets to smelting porite from the shrimp. Glass has never been so useful. Well, I don't actually know, but it's probably useful.`,
+            cost: {
+                sponge: 25000,
+                algae: 25000,
+                sand: 1000000,
+            },
+            required: {
+                upgrades: ["eusociality"],
+            },
+        },
+        secretSmithing: {
+            name: "Secret Smithing",
+            desc: "With the power of porite at our fingertips, we can finally...uh...wait, actually, what CAN we do with it?",
+            researchedMessage: "After consulting our shrimp informants about it, they have suggested that we use the glass to forge tools.",
+            effectDesc: `Farmer shrimp are now available...and look, they have cute little pitchforks!`,
+            cost: {
+                porite: 10000,
+            },
+            required: {
+                upgrades: ["secretSmelting"],
+                seen: ["porite"],
+            },
+        },
+        passivePores: {
+            name: "Passive Pores",
+            desc: "You mean to tell me that sponge has been coming out of the vents this whole time, and we just didn't notice?",
+            researchedMessage:
+                "We've equipped our catchers to help them carefully retreieve sponge that flies out of the vents every once in a while.",
+            effectDesc: `Vents now provide a passive sponge income.`,
+            cost: {
+                porite: 25000,
+            },
+            required: {
+                upgrades: ["secretSmithing"],
+            },
+            effect: {
+                addSpongeIncome: {
+                    world: 0.5,
+                },
+            },
+        },
+        agricaching: {
+            name: "Agricaching",
+            desc: "No, not agri<i>catching</i>, we already did that. It's agri<i>caching</i>; we're caching this time.",
+            researchedMessage:
+                "Decided to split up kelp and sponge into many groups, hopefully attracting more sea apples and evenly consuming algae that way.",
+            effectDesc:
+                "We're twice as effective at finding sea apples on kelp, and sponges grow and consume twice as fast. Organization is the future.",
+            cost: {
+                sand: 2500000,
+                porite: 50000,
+            },
+            required: {
+                upgrades: ["secretSmithing"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    kelp: 2,
+                    sponge: 2,
+                },
+            },
+        },
+        ventFunneling: {
+            name: "Vent Funneling",
+            desc: "The vents spew stuff all over the place, making it hard to collect things from them. Maybe we could construct a way to condense, or at least aim, the stuff coming out?",
+            researchedMessage: "Porite can resist the heat of the smaller vents, so we've built tubes to make their output less all-over-the-place.",
+            effectDesc: `We are 3 times more effective at collecting resources from the vents, but also, we're 500 times better at collecting sand from them. It all collects into a neat little pile.`,
+            cost: {
+                porite: 50000,
+            },
+            required: {
+                upgrades: ["passivePores"],
+            },
+            effect: {
+                sandMultiplier: {
+                    world: 500,
+                },
+                kelpMultiplier: {
+                    world: 3,
+                },
+            },
+        },
+        superShovels: {
+            name: "Super Shovels",
+            desc: "We're running out of sand. We need more sand. Time to get more sand.",
+            researchedMessage:
+                "With enough porite, we have managed to come up with a shoveling apparatus for rays to use, letting them dig up and skim sand from vents en masse.",
+            effectDesc: `Can now train rays to use porite shovels to increase sand production. These things are big, so it's good that the sea has basically infinite sand.`,
+            cost: {
+                science: 1000000,
+                porite: 250000,
+            },
+            required: {
+                upgrades: ["secretSmithing"],
+            },
+        },
+        culturalCoalescence: {
+            name: "Cultural Coalescence",
+            desc: "Despite our rich working relationship, we have a poor understanding of shrimp society.",
+            researchedMessage: "The shrimp gave us all lessons in how their society functions, held thrice weekly.",
+            effectDesc:
+                "Shrimp and shrimp queens are twice as effective. Fun fact: the king has lived for a very, very long time. Nobody quite knows how.",
+            cost: {
+                science: 2000000,
+                porite: 5000000,
+            },
+            required: {
+                upgrades: ["superShovels"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shrimp: 2,
+                    queen: 2,
+                },
+            },
+        },
+        centralizedVentSystem: {
+            name: "Centralized Venting System",
+            desc: "It's about time we finished organizing this loosely-tied-together vent operation.",
+            researchedMessage:
+                "By building even more tubes, we have centralized our vents' output to a single area, greatly improving efficiency of extraction and sorting!",
+            effectDesc:
+                "Now that all the resources end up in one convenient location, we take advantage our vents' production 3 times more efficiently.",
+            cost: {
+                science: 2000000,
+                porite: 5000000,
+            },
+            required: {
+                upgrades: ["ventFunneling", "superShovels"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    world: 3,
+                },
+            },
+        },
+        algaeAcolytes: {
+            name: "Algae Acolytes",
+            desc: "More algae. Feed the sponges. Feed them.",
+            researchedMessage: "We may have accidentally created a bit of a cult.",
+            effectDesc:
+                "Shrimp produce algae 4 times faster, queens produce shrimp 4 times faster. There is now a cult. Of algae. Algae worship and total dedication.",
+            cost: {
+                science: 7500000,
+                porite: 10000000,
+            },
+            required: {
+                upgrades: ["superShovels"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shrimp: 4,
+                    queen: 4,
+                },
+            },
+        },
+        speedySponges: {
+            name: "Speedy Sponges",
+            desc: "The algae acolytes have an idea.",
+            researchedMessage: "We have no idea what they did, but it worked.",
+            effectDesc: "Sponges reproduce 4 times faster. The acolytes won't tell us how they did it. They keep secrets from us now.",
+            cost: {
+                science: 15000000,
+                porite: 100000000,
+            },
+            required: {
+                upgrades: ["algaeAcolytes"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    sponge: 4,
+                },
+            },
+        },
+        superiorSmelting: {
+            name: "Superior Smelting",
+            desc: "We think we have a way to improve the process of creating porite.",
+            researchedMessage:
+                "By preparing and exercising more control over the smelting process, we have lowered the sand requirement significantly.",
+            effectDesc:
+                "Porite needs 10 times less sand to be made. I knew our process before was bad, but I didn't think it had THAT MUCH room for improvement...",
+            cost: {
+                science: 15000000,
+                porite: 100000000,
+            },
+            required: {
+                upgrades: ["algaeAcolytes"],
+            },
+        },
+        inventiveIndustry: {
+            name: "Inventive Industry",
+            desc: "Shrimp industry is booming! Others, not so much.",
+            researchedMessage: "Division of resources is necessary for a stable economy. ",
+            effectDesc:
+                "Crabs, rays, ray makers, crab broods, times 8. Porite producer is 16 times as efficient. Putting resources toward our non-shrimp members has paved the way for universal prosperity.",
+            cost: {
+                science: 100000000,
+                porite: 500000000,
+            },
+            required: {
+                upgrades: ["speedySponges"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 8,
+                    ray: 8,
+                    maker: 8,
+                    brood: 8,
+                },
+                incomeBoost: {
+                    poriteProducer: 16,
+                },
+            },
+        },
+        treatiesOfSustainability: {
+            name: "Treaties Of Sustainability",
+            desc: "To convince the king of our honesty, we will need to do a lot of thinking.",
+            researchedMessage: "The king is wary of our progress. He questions if our use of the vents is healthy for other sea life.",
+            effectDesc:
+                "We need to suck up to the king if we want the gate activated, so that's what we'll deign to do. In the meantime, times 8 to crabs, rays, ray makers, and broods.",
+            cost: {
+                science: 1e11,
+            },
+            required: {
+                upgrades: ["consistentCommunication"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 8,
+                    ray: 8,
+                    maker: 8,
+                    brood: 8,
+                },
+            },
+        },
+        apologeticAmnesty: {
+            name: "Apologetic Amnesty",
+            desc: "Give the king what he wants.",
+            researchedMessage: "The king has decided to open the gate for us, on the condition that he takes control of the frenzy. A deal's a deal.",
+            effectDesc:
+                "The king took us into an old, secret room behind the throne. His assistants flipped the right levers and switches, and the gate opened.",
+            cost: {
+                sponge: 1e17,
+            },
+            required: {
+                upgrades: ["treatiesOfSustainability", "algaeAcolytes"],
+            },
+        },
+    },
 };

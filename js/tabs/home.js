@@ -218,12 +218,57 @@ SharkGame.Home = {
         violent: [
             {
                 name: "violent-default",
-                message: "Bursts of plenty from the scorching vents, but so hot. No place for the young.",
+                message: "Bursts of plenty from the scorching vents, but so hot, and not a shark in sight.",
             },
             {
-                name: "shrimp-one",
-                unlock: { resource: { shrimp: 50 }, homeAction: ["getShrimp"] },
-                message: "The shrimps are tiny, but hard-working. They live for their sponge hives.",
+                name: "violent-shrimp-contact",
+                unlock: { totalResource: { sponge: 1 } },
+                message: `You are approached by a single shrimp. They relay a message to you: stop harvesting sponges, or face the wrath of the king of shrimps.`,
+            },
+            {
+                name: "violent-shrimp-threat",
+                unlock: { totalResource: { sponge: 100 } },
+                message: `You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.`,
+            },
+            {
+                name: "violent-rumors",
+                unlock: { totalResource: { maker: 3 } },
+                message: `Rumor has it that the king of shrimps guards the key to a secret, sacred gate in his sandcastle.`,
+            },
+            {
+                name: "violent-shrimp-communication",
+                unlock: { upgrade: ["consistentCommunication"] },
+                message: `With some shrimp now willing to swim with the frenzy, they leave their homes. You can now harvest those homes without repercussions.`,
+            },
+            {
+                name: "violent-shrimps",
+                unlock: { totalResource: { shrimp: 250 } },
+                message: "The shrimps work hard. They live for their sponge hives and dedicate themselves to their king.",
+            },
+            {
+                name: "violent-monarchy",
+                unlock: { totalResource: { shrimp: 1250 } },
+                message: "The shrimps work hard. They ask us if we work hard for our king, too.",
+            },
+            {
+                name: "violent-smithing",
+                unlock: { upgrade: ["secretSmithing"] },
+                message: `Porite: glassy hunks sealed on the outside but porous on the inside: so it's lightweight, yet it stays strong.`,
+            },
+            {
+                name: "violent-word-has-spread",
+                unlock: { upgrade: ["algaeAcolytes"] },
+                message: `Word of your newest endeavors (and illegal porite manufacturing) have reached the king of shrimps, or so you hear. He hasn't sent an army to stop you, so...`,
+            },
+            {
+                name: "violent-treaties",
+                unlock: { upgrade: ["treatiesOfSustainability"] },
+                message: `The king of shrimps says that if we want him to open the gate, we need to pay back what we stole from his people.`,
+            },
+            {
+                name: "violent-hope",
+                unlock: { upgrade: ["apologeticAmnesty"] },
+                message: `"Perhaps not all sharks are so vile," says the king of shrimps. "Perhaps, you will be different."`,
             },
         ],
 
