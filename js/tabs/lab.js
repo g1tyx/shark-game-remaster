@@ -6,14 +6,29 @@ SharkGame.Lab = {
     tabName: "Laboratory",
     tabBg: "img/bg/bg-lab.png",
 
-    sceneImage: "img/events/misc/scene-lab.png",
-    sceneDoneImage: "img/events/misc/scene-lab-done.png",
+    get sceneImage() {
+        switch (world.worldType) {
+            case `violent`:
+                return "";
+            default:
+                return "img/events/misc/scene-lab.png";
+        }
+    },
+
+    get sceneDoneImage() {
+        switch (world.worldType) {
+            case `violent`:
+                return "";
+            default:
+                return "img/events/misc/scene-lab-done.png";
+        }
+    },
 
     get discoverReq() {
         console.log(world.worldType);
         switch (world.worldType) {
             case `violent`:
-                return { resource: { seaApple: 10 } };
+                return { resource: { seaApple: 1 } };
             default:
                 return { resource: { science: 10 } };
         }
@@ -21,10 +36,28 @@ SharkGame.Lab = {
 
     listEmpty: true,
 
-    message: "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.",
-    messageDone:
-        "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.<br/>" +
-        "Looks like that's it! No more things to figure out.",
+    get message() {
+        switch (world.worldType) {
+            case `violent`:
+                return "Sort of just off to the side, there's a group effort underway to dissect sea apples and discuss stuff that we don't yet understand.";
+            default:
+                return "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.";
+        }
+    },
+    get messageDone() {
+        switch (world.worldType) {
+            case `violent`:
+                return (
+                    "Sort of just off to the side, the rays and crabs are compiling our completed work.<br/>" +
+                    "Looks like that's it! No more things to figure out."
+                );
+            default:
+                return (
+                    "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.<br/>" +
+                    "Looks like that's it! No more things to figure out."
+                );
+        }
+    },
 
     init() {
         const lab = SharkGame.Lab;
@@ -88,10 +121,27 @@ SharkGame.Lab = {
     setHint(upgradeTable, isNotStart) {
         const lab = SharkGame.Lab;
         if (lab.allResearchDone()) {
-            $("#buttonList").append($("<p>").html("The scientists rest content, sure that they're done with their work."));
+            let message;
+            switch (world.worldType) {
+                case `violent`:
+                    message = "We rest content, sure that our work is done.";
+                    break;
+                default:
+                    message = "The scientists rest content, sure that they're done with their work.";
+            }
+
+            $("#buttonList").append($("<p>").html(message));
             if (isNotStart) lab.updateMessage();
         } else if (lab.listEmpty) {
-            $("#buttonList").append($("<p>").html("The scientists are out of ideas, but there are always more discoveries to be made."));
+            let message;
+            switch (world.worldType) {
+                case `violent`:
+                    message = "We're out of ideas, but there are always more discoveries to be made.";
+                    break;
+                default:
+                    message = "The scientists are out of ideas, but there are always more discoveries to be made.";
+            }
+            $("#buttonList").append($("<p>").html(message));
 
             const hintedUpgrade = _.find(
                 upgradeTable,
@@ -238,7 +288,12 @@ SharkGame.Lab = {
         const lab = SharkGame.Lab;
         const allResearchDone = lab.allResearchDone();
         let message = allResearchDone ? lab.messageDone : lab.message;
-        const imgSrc = allResearchDone ? lab.sceneDoneImage : lab.sceneImage;
+        let imgSrc = allResearchDone ? lab.sceneDoneImage : lab.sceneImage;
+
+        if (!imgSrc) {
+            imgSrc = "img/events/misc/missing.png";
+        }
+
         const tabMessageSel = $("#tabMessage");
         if (SharkGame.Settings.current.showTabImages) {
             message = `<img width=400 height=200 src='${imgSrc}' id='tabSceneImage'>${message}`;
