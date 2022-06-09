@@ -1305,6 +1305,128 @@ SharkGame.Resources = {
             }
         });
 
+        const sendObject = {};
+        sendObject[resourceName] = res.getResource(resourceName);
+        const condensedEffects = res.condenseNode(sendObject);
+        const furtherCondensedEffects = { generators: { increase: {}, decrease: {} }, resources: { increase: {}, decrease: {} } };
+
+        $.each(condensedEffects.genAffect, (type, effects) => {
+            switch (type) {
+                case "increase":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        furtherCondensedEffects.generators.increase[affectedGenerator] = degree;
+                    });
+                    break;
+                case "decrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        furtherCondensedEffects.generators.decrease[affectedGenerator] = -degree;
+                    });
+                    break;
+                case "multincrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        if (typeof furtherCondensedEffects.generators.increase[affectedGenerator] !== `number`) {
+                            furtherCondensedEffects.generators.increase[affectedGenerator] = degree;
+                        } else {
+                            furtherCondensedEffects.generators.increase[affectedGenerator] += 1;
+                            furtherCondensedEffects.generators.increase[affectedGenerator] *= 1 + degree;
+                            furtherCondensedEffects.generators.increase[affectedGenerator] -= 1;
+                        }
+                    });
+                    break;
+                case "multdecrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        if (typeof furtherCondensedEffects.generators.decrease[affectedGenerator] !== `number`) {
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] = -degree;
+                        } else {
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] += 1;
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] *= 1 + -degree;
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] -= 1;
+                        }
+                    });
+                    break;
+            }
+        });
+        $.each(condensedEffects.resAffect, (type, effects) => {
+            switch (type) {
+                case "increase":
+                    $.each(effects, (affectedResource, degree) => {
+                        furtherCondensedEffects.resources.increase[affectedResource] = degree;
+                    });
+                    break;
+                case "decrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        furtherCondensedEffects.resources.decrease[affectedResource] = -degree;
+                    });
+                    break;
+                case "multincrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        if (typeof furtherCondensedEffects.resources.increase[affectedResource] !== `number`) {
+                            furtherCondensedEffects.resources.increase[affectedResource] = degree;
+                        } else {
+                            furtherCondensedEffects.resources.increase[affectedResource] += 1;
+                            furtherCondensedEffects.resources.increase[affectedResource] *= 1 + degree;
+                            furtherCondensedEffects.resources.increase[affectedResource] -= 1;
+                        }
+                    });
+                    break;
+                case "multdecrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        if (typeof furtherCondensedEffects.resources.decrease[affectedResource] !== `number`) {
+                            furtherCondensedEffects.resources.decrease[affectedResource] = -degree;
+                        } else {
+                            furtherCondensedEffects.resources.decrease[affectedResource] += 1;
+                            furtherCondensedEffects.resources.decrease[affectedResource] *= 1 + -degree;
+                            furtherCondensedEffects.resources.decrease[affectedResource] -= 1;
+                        }
+                    });
+                    break;
+            }
+        });
+
+        let increaseText = "";
+
+        $.each(furtherCondensedEffects.generators.increase, (affectedGenerator, degree) => {
+            if (world.doesResourceExist(affectedGenerator)) {
+                increaseText += "<br>";
+                increaseText +=
+                    sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` speed by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
+            }
+        });
+
+        $.each(furtherCondensedEffects.resources.increase, (affectedResource, degree) => {
+            if (world.doesResourceExist(affectedResource)) {
+                increaseText += "<br>";
+                increaseText +=
+                    sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` gains by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
+            }
+        });
+
+        let decreaseText = "";
+
+        $.each(furtherCondensedEffects.generators.decrease, (affectedGenerator, degree) => {
+            if (world.doesResourceExist(affectedGenerator)) {
+                decreaseText += "<br>";
+                decreaseText +=
+                    sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` speed by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+            }
+        });
+
+        $.each(furtherCondensedEffects.resources.decrease, (affectedResource, degree) => {
+            if (world.doesResourceExist(affectedResource)) {
+                decreaseText += "<br>";
+                decreaseText +=
+                    sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` gains by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+            }
+        });
+
         let text = sharktext.getResourceName(resourceName, false, 2, sharkcolor.getElementColor("tooltipbox", "background-color"));
         if (isGeneratingText !== "") {
             text +=
@@ -1324,6 +1446,18 @@ SharkGame.Resources = {
         if (consumertext !== "") {
             text +=
                 "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " CONSUMED BY</span>" + consumertext;
+        }
+
+        if ((increaseText || decreaseText) && (producertext || consumertext || isGeneratingText || isConsumingText)) {
+            text += "<br><span class='littleTooltipText'>and</span>";
+        }
+        if (increaseText !== "") {
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " INCREASING</span>" + increaseText;
+        }
+        if (decreaseText !== "") {
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " DECREASING</span>" + decreaseText;
         }
 
         if (SharkGame.ResourceMap.get(resourceName).desc) {
