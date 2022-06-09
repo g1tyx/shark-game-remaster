@@ -332,8 +332,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.AspectTree.setup();
 
         // initialise tabs
-        SharkGame.Home.setup();
+        // always set up lab first
         SharkGame.Lab.setup();
+        SharkGame.Home.setup();
         SharkGame.Stats.setup();
         SharkGame.Recycler.setup();
         SharkGame.Gate.setup();

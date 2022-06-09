@@ -175,8 +175,9 @@ SharkGame.Save = {
                 world.worldType = saveData.world.type;
             }
 
+            SharkGame.Upgrades.purchaseQueue = [];
             _.each(saveData.upgrades, (upgradeId) => {
-                SharkGame.Lab.addUpgrade(upgradeId, "load");
+                SharkGame.Upgrades.purchaseQueue.push(upgradeId);
             });
 
             // load aspects (need to have the cost reducer loaded before world init)

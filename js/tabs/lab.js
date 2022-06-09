@@ -34,6 +34,9 @@ SharkGame.Lab = {
     },
 
     setup() {
+        _.each(SharkGame.Upgrades.purchaseQueue, (upgradeId) => {
+            SharkGame.Lab.addUpgrade(upgradeId, "load");
+        });
         SharkGame.TabHandler.updateRegistration(this);
     },
 
