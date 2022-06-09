@@ -288,24 +288,26 @@ SharkGame.Resources = {
     },
 
     getProductAmountFromGeneratorResource(generator, product, numGenerator = res.getResource(generator)) {
+        const baseIncome = SharkGame.ResourceMap.get(generator).income[product];
         return (
-            SharkGame.ResourceMap.get(generator).income[product] *
+            baseIncome *
             numGenerator *
             res.getSpecialMultiplier() *
             res.getNetworkIncomeModifier("generator", generator) *
-            res.getNetworkIncomeModifier("resource", product) *
+            res.getNetworkIncomeModifier("resource", product, baseIncome) *
             cad.speed *
             res.idleMultiplier
         );
     },
 
-    getNetworkIncomeModifier(network, resource) {
+    getNetworkIncomeModifier(network, resource, baseIncome) {
         switch (network) {
             case "generator":
                 network = SharkGame.GeneratorIncomeAffected;
                 break;
             case "resource":
                 network = SharkGame.ResourceIncomeAffected;
+                if (baseIncome && baseIncome < 0) return 1;
         }
 
         const node = network[resource];
