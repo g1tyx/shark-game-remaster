@@ -525,23 +525,6 @@ SharkGame.ResourceTable = {
         value: 50000, // remember to set this
     },
 
-    poriteProducer: {
-        name: "porite producers",
-        singleName: "porite producer",
-        desc: "Smiths of the sea.",
-        color: "#C04830",
-        income: {
-            get sponge() {
-                return -250 + 125 * SharkGame.Aspects.mechanicalManifestation.level;
-            },
-            get sand() {
-                return -2500 + 1250 * SharkGame.Aspects.mechanicalManifestation.level;
-            },
-            porite: 100,
-        },
-        value: 50000, // remember to set this
-    },
-
     porite: {
         name: "porite",
         singleName: "porite",
@@ -1341,7 +1324,6 @@ SharkGame.ResourceCategories = {
             "extractionTeam",
             "scholar",
             "catcher",
-            "poriteProducer",
             "shoveler",
             //"prospector",
             //"shoveler",

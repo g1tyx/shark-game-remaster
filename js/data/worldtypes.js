@@ -178,7 +178,6 @@ SharkGame.WorldTypes = {
             "crabs",
             "catcher",
             "shrimps",
-            "poriteProducer",
             "basicmaterials",
             "kelpstuff",
             "porite",

@@ -4063,37 +4063,6 @@ SharkGame.HomeActions = {
             ],
             helpText: "Dedicate a shrimp to the cultivation of plants.",
         },
-        getPoriteProducer: {
-            name: "Train porite producer",
-            effect: {
-                resource: {
-                    poriteProducer: 1,
-                },
-            },
-            cost: [
-                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
-                { resource: "porite", costFunction: "linear", priceIncrease: 10 },
-            ],
-            max: "poriteProducer",
-            prereq: {
-                upgrade: ["secretSmithing"],
-            },
-            outcomes: [
-                "Now, start producing porite!",
-                "Get to it, porite producer!",
-                "Chop chop, we need porite now!",
-                "This one quickly gets to work with our forges.",
-                "Gave a crab some big porite tools and told it how to smelt stuff. Surely, this will end well.",
-            ],
-            multiOutcomes: [
-                "Is this really necessary?",
-                "Fire up the forge!",
-                "These ones form a small team, and start working together with the same forge.",
-                "I swear this is sustainable.",
-                "I hereby swear that I will not overconsume sponges. No promises about sand.",
-            ],
-            helpText: "Train a crab to forge porite from sponges and sand.",
-        },
     },
 };
 

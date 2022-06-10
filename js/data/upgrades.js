@@ -3264,7 +3264,7 @@ SharkGame.Upgrades = {
             desc: "Shrimp industry is booming! Others, not so much.",
             researchedMessage: "Division of resources is necessary for a stable economy. ",
             effectDesc:
-                "Crabs, rays, ray makers, crab broods, times 8. Porite producer is 16 times as efficient. Putting resources toward our non-shrimp members has paved the way for universal prosperity.",
+                "Crabs, rays, ray makers, crab broods, times 8. Putting resources toward our non-shrimp members has paved the way for universal prosperity.",
             cost: {
                 science: 100000000,
                 porite: 500000000,
@@ -3278,9 +3278,6 @@ SharkGame.Upgrades = {
                     ray: 8,
                     maker: 8,
                     brood: 8,
-                },
-                incomeBoost: {
-                    poriteProducer: 16,
                 },
             },
         },
