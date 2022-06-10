@@ -314,6 +314,14 @@ SharkGame.TextUtil = {
         let name = textToColor || (amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name);
         let extraStyle = "";
 
+        if (SharkGame.flags.egg) {
+            if (amount > 1) {
+                name = `eggs`;
+            } else {
+                name = `egg`;
+            }
+        }
+
         // easter egg logic
         if (name === "world") {
             name = Math.random() > 0.0005 ? "world" : "ZA WARUDO";

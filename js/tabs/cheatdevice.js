@@ -989,10 +989,11 @@ SharkGame.CheatsAndDebug = {
         return "Okay, here we go...";
     },
     doEgg() {
-        SharkGame.ResourceMap.forEach((resource) => {
-            resource.name = "eggs";
-            resource.singleName = "egg";
-        });
+        if (SharkGame.flags.egg) {
+            SharkGame.flags.egg = false;
+        } else {
+            SharkGame.flags.egg = true;
+        }
         res.reconstructResourcesTable();
         return "egg";
     },
