@@ -250,7 +250,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.COMMIT_SHA = data.sha;
         });
         log.clearMessages(false);
-        SharkGame.Settings.current["buyAmount"] = 1;
+        SharkGame.Settings.current.buyAmount = 1;
 
         // here to stop timer from saying NaN
         SharkGame.persistentFlags.totalPausedTime = 0;
@@ -371,7 +371,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
 
-        //window.addEventListener("beforeunload", main.autosave);
+        // window.addEventListener("beforeunload", main.autosave);
 
         if (SharkGame.Settings.current.updateCheck) {
             main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
@@ -552,7 +552,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
 
-            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current["idleEnabled"]) {
+            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current.idleEnabled) {
                 main.startIdle(now, elapsedTime);
             }
 
@@ -590,7 +590,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.lastActivity = _.now();
         }
 
-        //see if resource table tooltip needs updating
+        // see if resource table tooltip needs updating
         if (document.getElementById("tooltipbox").className.split(" ").includes("forIncomeTable")) {
             if (document.getElementById("tooltipbox").attributes.current) {
                 res.tableTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);

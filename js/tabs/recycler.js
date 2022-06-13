@@ -495,7 +495,7 @@ SharkGame.Recycler = {
         if (purchaseAmount <= Math.pow(10, maxEfficiencyRecyclePowerOfTen)) {
             rec.efficiency = baseEfficiency;
         } else {
-            //otherwise, scale back based purely on the number to process
+            // otherwise, scale back based purely on the number to process
             // 'cheating' by lowering the value of n is ok if the player wants to put in a ton of effort
             // the system is more sensible, and people can get a feel for it easier if i make this change
             // the amount that this effects things isn't crazy high either, so

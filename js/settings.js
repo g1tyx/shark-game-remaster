@@ -161,7 +161,7 @@ SharkGame.Settings = {
         options: [true, false],
         category: "APPEARANCE",
         onChange() {
-            if (SharkGame.Settings.current["enableThemes"]) {
+            if (SharkGame.Settings.current.enableThemes) {
                 document.querySelector("body").classList.remove("no-theme");
             } else {
                 document.querySelector("body").classList.add("no-theme");

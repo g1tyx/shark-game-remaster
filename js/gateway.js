@@ -33,12 +33,12 @@ SharkGame.Gateway = {
 
         SharkGame.OverlayHandler.enterGateway();
 
-        //ensure buy buttons will be revealed
+        // ensure buy buttons will be revealed
         SharkGame.persistentFlags.revealedBuyButtons = true;
 
-        //be sure minute hand is off
+        // be sure minute hand is off
         res.minuteHand.toggleOff();
-        //be sure we're not paused
+        // be sure we're not paused
         if (cad.pause) {
             res.pause.togglePause();
         }

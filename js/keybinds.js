@@ -136,7 +136,6 @@ SharkGame.Keybinds = {
 
         keyID = this.cleanID(keyID);
         keyID = this.composeKeys(keyID);
-        //console.log(keyID);
 
         const boundAction = this.keybinds[keyID];
         if (this.bindMode && boundAction !== "bind home ocean button") {
@@ -158,7 +157,6 @@ SharkGame.Keybinds = {
 
         keyID = this.cleanID(keyID);
         keyID = this.composeKeys(keyID);
-        //console.log(keyID);
 
         const boundAction = this.keybinds[keyID];
         if (this.bindMode && boundAction !== "bind home ocean button") {
@@ -187,7 +185,6 @@ SharkGame.Keybinds = {
                     } else {
                         return false;
                     }
-                //console.log(actionType);
             }
             return true;
         }
@@ -347,7 +344,6 @@ SharkGame.Keybinds = {
                     }
                     break;
                 default:
-                    //console.log(actionType);
                     if (SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionType)) {
                         $(`#${actionType}`).addClass(`keep-button-pressed`);
                     } else {
@@ -459,10 +455,8 @@ SharkGame.Keybinds = {
 
         if (SharkGame.PaneHandler.isStackClosable() && SharkGame.Tabs.current === `home`) {
             if (this.bindMode) {
-                //console.log(`off`);
                 this.bindMode = false;
             } else {
-                //console.log(`on`);
                 this.bindMode = true;
                 SharkGame.PaneHandler.tryWipeStack();
             }

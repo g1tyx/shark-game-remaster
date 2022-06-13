@@ -459,12 +459,12 @@ SharkGame.Home = {
                 unlock: { upgrade: ["rapidRecharging"] },
                 message: "A wave of heat washes over you, and the dingy complex comes back to life. The gate turns on.",
             },
-            /*{
+            /* {
                 name: "frigid-end",
                 unlock: { upgrade: ["rapidRepairs"] },
                 message: "The gate opens. The squid bid you farewell.",
-            },*/
-            //another one: "the maw of the gate opens"
+            }, */
+            // another one: "the maw of the gate opens"
         ],
         /*
         {
@@ -492,8 +492,8 @@ SharkGame.Home = {
         // rename home tab
         const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
         home.tabName = tabName;
-        if (SharkGame.Tabs["home"]) {
-            SharkGame.Tabs["home"].name = tabName;
+        if (SharkGame.Tabs.home) {
+            SharkGame.Tabs.home.name = tabName;
         }
         home.discoverActions();
     },

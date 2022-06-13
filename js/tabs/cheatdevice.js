@@ -332,7 +332,7 @@ SharkGame.CheatsAndDebug = {
         let container;
         let buttonContainer; // prettier gets angry at me if i try to declare these case-specific variables inside the case
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
-            //const toAppendTo = buttonData.location === "right" ? $("#rightButtons") : $("#leftButtons");
+            // const toAppendTo = buttonData.location === "right" ? $("#rightButtons") : $("#leftButtons");
             const toAppendTo = $("#" + buttonData.category);
             switch (buttonData.type) {
                 case "up-down":

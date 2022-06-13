@@ -437,7 +437,7 @@ SharkGame.Stats = {
                 multipliers.aspect.push(res.getMultiplierProduct("aspect", generatorName, incomeKey));
             });
             $.each(multipliers, (category, values) => {
-                //thanks stackoverflow
+                // thanks stackoverflow
                 multipliers[category] =
                     values.filter((value, index, list) => {
                         return list.indexOf(value) === index;

@@ -368,7 +368,7 @@ SharkGame.Lab = {
         const upgrade = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeId);
         if (upgrade && !SharkGame.Upgrades.purchased.includes(upgradeId)) {
             SharkGame.Upgrades.purchased.push(upgradeId);
-            //l.updateResearchList();
+            // l.updateResearchList();
             SharkGame.Gate.checkUpgradeRequirements(upgradeId);
 
             // if the upgrade has effects, do them

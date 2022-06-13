@@ -22,7 +22,7 @@ SharkGame.MathUtil = {
         if (typeof current === "object") {
             return available.dividedBy(cost).plus(current);
         }
-        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin
+        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); // safety margin
         return available / cost + current;
     },
 
@@ -46,7 +46,7 @@ SharkGame.MathUtil = {
         if (typeof current === "object") {
             return current.times(current).plus(current).plus(available.times(2).dividedBy(cost)).plus(0.25).squareRoot().minus(0.5);
         } else {
-            available = Math.floor(Math.floor(available) * (1 - 1e-9)); //safety margin
+            available = Math.floor(Math.floor(available) * (1 - 1e-9)); // safety margin
             return Math.sqrt(current * current + current + (2 * available) / cost + 0.25) - 0.5;
         }
     },
@@ -108,10 +108,10 @@ SharkGame.MathUtil = {
     },
 };
 
-//linear floor(sqrt(current^2 + current + 2 * price/k + 1/4) - 1/2)
-//exponential floor(log(b^old + (b-1) * price / k) / log(b))
-//linear total cost = k / 2 * (n^2 + n)
-//exponential total cost = k * (b^n - 1) / (b - 1)
+// linear floor(sqrt(current^2 + current + 2 * price/k + 1/4) - 1/2)
+// exponential floor(log(b^old + (b-1) * price / k) / log(b))
+// linear total cost = k / 2 * (n^2 + n)
+// exponential total cost = k * (b^n - 1) / (b - 1)
 
 SharkGame.TextUtil = {
     plural(number) {
@@ -121,7 +121,7 @@ SharkGame.TextUtil = {
     getDeterminer(name) {
         const firstLetter = SharkGame.ResourceMap.get(name).name.charAt(0);
 
-        //note to self: make the next line not suck
+        // note to self: make the next line not suck
         // Possibly add an "uncountable" property to resources somehow? Manual works fine though
         if (
             [
@@ -152,7 +152,7 @@ SharkGame.TextUtil = {
     },
 
     getIsOrAre(name, amount = res.getResource(name)) {
-        //should make a universal list for these somewhere in textutil, ya?
+        // should make a universal list for these somewhere in textutil, ya?
         if (
             [
                 "sand",
@@ -310,7 +310,7 @@ SharkGame.TextUtil = {
             return textToColor || SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
-        const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
+        const amount = arbitraryAmount || Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
         let name = textToColor || (amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name);
         let extraStyle = "";
 

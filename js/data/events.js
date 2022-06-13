@@ -131,7 +131,7 @@ SharkGame.Events = {
             SharkGame.TabHandler.setUpTab();
         },
     },
-    /*getAllAffordableUpgrades*/
+    /* getAllAffordableUpgrades */
     updateLabNotifier: {
         handlingTime: "afterTick",
         priority: 0,

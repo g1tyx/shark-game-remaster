@@ -611,9 +611,9 @@ SharkGame.Resources = {
 
         handleTokenDragStart(event) {
             event.originalEvent.dataTransfer.setData("tokenId", event.originalEvent.target.id);
-            //chrome forcing stinky workaround
+            // chrome forcing stinky workaround
             res.tokens.chromeForcesWorkarounds = event.originalEvent.target.id;
-            //event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
+            // event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
             event.originalEvent.dataTransfer.setData("tokenLocation", SharkGame.flags.tokens[this.id]);
             const image = document.createElement("img");
             image.src = "img/raw/general/theToken.png";
@@ -739,7 +739,8 @@ SharkGame.Resources = {
             const multiplier = (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1);
             if (targetId === "NA" || targetId.includes("token")) {
                 return;
-            } else if (targetId.includes("resource")) {
+            }
+            if (targetId.includes("resource")) {
                 res.applyModifier("theTokenForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else if (targetId.includes("income")) {
                 res.applyModifier("theTokenForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);

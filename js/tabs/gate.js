@@ -196,7 +196,7 @@ SharkGame.Gate = {
                 remaining.push(resource);
             }
         });
-        return remaining ? remaining : false;
+        return remaining || false;
     },
 
     onHover() {

@@ -5,7 +5,7 @@ SharkGame.ResourceTable = {
     numen: {
         name: "numina",
         singleName: "numen",
-        //desc: "You think as a deity. You act as a deity. You are a deity.",
+        // desc: "You think as a deity. You act as a deity. You are a deity.",
         color: "#FFFFFF",
         value: -1,
     },
@@ -323,10 +323,10 @@ SharkGame.ResourceTable = {
         color: "#B2CFCB",
         income: {
             crystal: 100,
-            //stone: 10,
+            // stone: 10,
             tar: 0.04,
         },
-        value: 33500, //100 crystal 100 sand 25 sharkonium (3550)
+        value: 33500, // 100 crystal 100 sand 25 sharkonium (3550)
     },
 
     sandDigger: {
@@ -338,7 +338,7 @@ SharkGame.ResourceTable = {
             sand: 200,
             tar: 0.02,
         },
-        value: 120000, //500 sand 150 sharkonium (12000)
+        value: 120000, // 500 sand 150 sharkonium (12000)
     },
 
     autoTransmuter: {
@@ -355,7 +355,7 @@ SharkGame.ResourceTable = {
             },
             sharkonium: 20,
         },
-        value: 155000, //100 crystal 200 sharkonium (15500)
+        value: 155000, // 100 crystal 200 sharkonium (15500)
     },
 
     fishMachine: {
@@ -367,7 +367,7 @@ SharkGame.ResourceTable = {
             fish: 400,
             tar: 0.02,
         },
-        value: 70000, //100 sharkonium (7000)
+        value: 70000, // 100 sharkonium (7000)
     },
 
     skimmer: {
@@ -951,7 +951,7 @@ SharkGame.ResourceTable = {
         name: "extraction teams",
         singleName: "extraction team",
         desc: "We work better together.",
-        color: "#ff7847", //needs new color
+        color: "#ff7847", // needs new color
         income: {
             crystal: 1,
         },
@@ -1187,7 +1187,7 @@ SharkGame.ResourceSpecialProperties = {
         //
     ],
     incomeCap: {
-        //ice: 2,
+        // ice: 2,
     },
 };
 
@@ -1210,7 +1210,7 @@ SharkGame.ResourceCategories = {
         ],
         resources: [
             "science",
-            //"knowledge",
+            // "knowledge",
         ],
     },
     magical: {
@@ -1269,8 +1269,8 @@ SharkGame.ResourceCategories = {
             "kelp",
             "coral",
             "algae",
-            //"stone",
-            //"gravel",
+            // "stone",
+            // "gravel",
         ],
     },
     processed: {
@@ -1325,10 +1325,10 @@ SharkGame.ResourceCategories = {
             "scholar",
             "catcher",
             "shoveler",
-            //"prospector",
-            //"shoveler",
-            //"miller",
-            //"rockLobster",
+            // "prospector",
+            // "shoveler",
+            // "miller",
+            // "rockLobster",
         ],
     },
     machines: {
@@ -1357,9 +1357,9 @@ SharkGame.ResourceCategories = {
             "clamScavenger",
             "seabedStripper",
             "calciniumConverter",
-            //"coalescer",
-            //"crusher",
-            //"pulverizer",
+            // "coalescer",
+            // "crusher",
+            // "pulverizer",
         ],
     },
     special: {

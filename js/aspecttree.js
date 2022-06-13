@@ -295,12 +295,12 @@ SharkGame.AspectTree = {
             }
             aspectTableRowCurrent.append($(`<td>`).html(aspectData.level));
 
-            //aspectTableRowCurrent.classList.add("aspect-table-row");
-            //aspectTableRowCurrent.id = "aspect-table-row-" + aspectId;
+            // aspectTableRowCurrent.classList.add("aspect-table-row");
+            // aspectTableRowCurrent.id = "aspect-table-row-" + aspectId;
 
             const aspectTableRowNext = $("<tr>");
             if (!reqref.max) {
-                //${aspectData.level + 1}`
+                // ${aspectData.level + 1}`
                 aspectTableRowNext.append($(`<td>`).html(`NEXT: ${aspectData.getEffect(aspectData.level + 1)}`));
                 aspectTableRowNext.append($(`<td>`).html(`${aspectData.level + 1}`));
             } else {
@@ -377,7 +377,7 @@ SharkGame.AspectTree = {
                 false,
                 false,
                 false,
-                0 /*left*/,
+                0 /* left */,
                 null
             );
 

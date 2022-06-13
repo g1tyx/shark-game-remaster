@@ -177,7 +177,7 @@ SharkGame.Aspects = {
             switch (level) {
                 case 1:
                     return "Reveals basic information about a world before you choose to visit it.";
-                //case 2:
+                // case 2:
                 //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
             }
         },
@@ -504,7 +504,7 @@ SharkGame.Aspects = {
                 SharkGame.Button.makeButton("respecModeButton", "respec mode", $("#aspectTreeNavButtons"), tree.toggleRefundMode);
                 SharkGame.Button.makeButton("respecButton", "respec all", $("#aspectTreeNavButtons"), () => {
                     if (confirm("Are you sure you want to respec all refundable aspects?")) {
-                        tree.respecTree;
+                        tree.respecTree();
                     }
                 });
             }
@@ -632,7 +632,7 @@ SharkGame.Aspects = {
             }
         },
         getUnlocked() {
-            //return SharkGame.Gateway.completedWorlds.includes("tempestuous") ? "" : "Complete the Tempestuous worldtype to unlock this aspect.";
+            // return SharkGame.Gateway.completedWorlds.includes("tempestuous") ? "" : "Complete the Tempestuous worldtype to unlock this aspect.";
         },
         prerequisites: ["internalCalculator"],
         clicked(_event) {

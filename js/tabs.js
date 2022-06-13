@@ -103,7 +103,7 @@ SharkGame.TabHandler = {
         $("#contentMenu").empty();
         $("#contentMenu").append(
             `<ul id="tabList" class="${
-                SharkGame.Settings.current["minimizedTopbar"] ? "" : "notFixed"
+                SharkGame.Settings.current.minimizedTopbar ? "" : "notFixed"
             }"></ul></div><div id="tabBorder" class="clear-fix">`
         );
 

@@ -1485,7 +1485,7 @@ SharkGame.HomeActions = {
             effect: {
                 resource: {
                     spronge: 1,
-                    //tar: 0.001,
+                    // tar: 0.001,
                 },
             },
             cost: [
@@ -2473,7 +2473,7 @@ SharkGame.HomeActions = {
         // SQUID JOBS ////////////////////////////////////////////////////////////////////////////////
 
         getExtractionTeam: {
-            //i consider this a squid job
+            // i consider this a squid job
             name: "Organize extraction team",
             effect: {
                 resource: {
@@ -4100,15 +4100,15 @@ SharkGame.HomeActionCategories = {
         name: "Jobs",
         actions: [
             "getDiver",
-            //"getProspector",
+            // "getProspector",
             "getScientist",
             "getLaser",
-            //getShoveler",
+            // getShoveler",
             "getPlanter",
             "getCollector",
-            //"getMiller",
+            // "getMiller",
             "getFarmer",
-            //"getRockLobster",
+            // "getRockLobster",
             "getPhilosopher",
             "getTreasurer",
             "getTechnician",
@@ -4130,7 +4130,7 @@ SharkGame.HomeActionCategories = {
         actions: [
             "getNurse",
             "getMaker",
-            //"stoneGetMaker",
+            // "stoneGetMaker",
             "getBrood",
             "getQueen",
             "getBerrier",
@@ -4145,7 +4145,7 @@ SharkGame.HomeActionCategories = {
         name: "Processing",
         actions: [
             "seaApplesToScience",
-            //"spongeToScience",
+            // "spongeToScience",
             "jellyfishToScience",
             "pearlConversion",
             "advancedPearlConversion",
@@ -4169,8 +4169,8 @@ SharkGame.HomeActionCategories = {
             "getAutoTransmuter",
             "getFishMachine",
             "getSkimmer",
-            //"getCrusher",
-            //"getPulverizer",
+            // "getCrusher",
+            // "getPulverizer",
             "getHeater",
         ],
     },
@@ -4185,7 +4185,7 @@ SharkGame.HomeActionCategories = {
             "getClamCollector",
             "getEggBrooder",
             "getSprongeSmelter",
-            //"getCoalescer",
+            // "getCoalescer",
             "getCrimsonCombine",
             "getKelpCultivator",
             "getSeabedStripper",
