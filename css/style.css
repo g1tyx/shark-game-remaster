@@ -4,10 +4,8 @@
 .fill-available-width, #sidebar #resourceTableContainer table {
   width: 100%;
   width: fill-available;
-  width: -moz-available;
-  /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available;
-  /* Mozilla-based browsers will ignore this. */
+  width: -moz-available; /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
 }
 
 .clear-fix {
@@ -113,8 +111,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: initial;
-  /* without this you can't change any properties */
+  width: initial; /* without this you can't change any properties */
 }
 
 ::-webkit-scrollbar-track {
