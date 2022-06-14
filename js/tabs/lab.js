@@ -6,17 +6,57 @@ SharkGame.Lab = {
     tabName: "Laboratory",
     tabBg: "img/bg/bg-lab.png",
 
-    sceneImage: "img/events/misc/scene-lab.png",
-    sceneDoneImage: "img/events/misc/scene-lab-done.png",
+    get sceneImage() {
+        switch (world.worldType) {
+            case `violent`:
+                return "";
+            default:
+                return "img/events/misc/scene-lab.png";
+        }
+    },
 
-    discoverReq: { resource: { science: 10 } },
+    get sceneDoneImage() {
+        switch (world.worldType) {
+            case `violent`:
+                return "";
+            default:
+                return "img/events/misc/scene-lab-done.png";
+        }
+    },
+
+    get discoverReq() {
+        switch (world.worldType) {
+            case `violent`:
+                return { resource: { seaApple: 1 } };
+            default:
+                return { resource: { science: 10 } };
+        }
+    },
 
     listEmpty: true,
 
-    message: "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.",
-    messageDone:
-        "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.<br/>" +
-        "Looks like that's it! No more things to figure out.",
+    get message() {
+        switch (world.worldType) {
+            case `violent`:
+                return "Sort of just off to the side, there's a group effort underway to dissect sea apples and discuss stuff that we don't yet understand.";
+            default:
+                return "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.";
+        }
+    },
+    get messageDone() {
+        switch (world.worldType) {
+            case `violent`:
+                return (
+                    "Sort of just off to the side, the rays and crabs are compiling our completed work.<br/>" +
+                    "Looks like that's it! No more things to figure out."
+                );
+            default:
+                return (
+                    "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.<br/>" +
+                    "Looks like that's it! No more things to figure out."
+                );
+        }
+    },
 
     init() {
         const lab = SharkGame.Lab;
@@ -26,7 +66,10 @@ SharkGame.Lab = {
     },
 
     setup() {
-        /* doesnt need to do anything */
+        _.each(SharkGame.Upgrades.purchaseQueue, (upgradeId) => {
+            SharkGame.Lab.addUpgrade(upgradeId, "load");
+        });
+        SharkGame.TabHandler.updateRegistration(this);
     },
 
     resetUpgrades() {
@@ -53,18 +96,12 @@ SharkGame.Lab = {
         const content = $("#content");
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
-        const allResearchDone = lab.allResearchDone();
-        let message = allResearchDone ? lab.messageDone : lab.message;
-        const imgSrc = allResearchDone ? lab.sceneDoneImage : lab.sceneImage;
         const tabMessageSel = $("<div>").attr("id", "tabMessage");
-        if (SharkGame.Settings.current.showTabImages) {
-            message = "<img width=400 height=200 src='" + imgSrc + "' id='tabSceneImage'>" + message;
-            tabMessageSel.css("background-image", "url('" + lab.tabBg + "')");
-        }
-        tabMessageSel.html(message);
         content.append(tabMessageSel);
+        lab.updateMessage(true);
+
         const buttonListContainer = $("<div>").attr("id", "buttonLeftContainer");
-        buttonListContainer.append($("<div>").attr("id", "buttonList").append($("<h3>").html("Available Upgrades")));
+        buttonListContainer.append($("<div>").attr("id", "buttonList").addClass("lab").append($("<h3>").html("Available Upgrades")));
         content.append(buttonListContainer);
         content.append($("<div>").attr("id", "upgradeList"));
         content.append($("<div>").addClass("clear-fix"));
@@ -72,14 +109,38 @@ SharkGame.Lab = {
         lab.updateUpgradeList();
         lab.update();
         lab.setHint(upgradeTable);
+
+        /* FIXME Make purchasable upgrades sticky if shorter than than window height
+            Css sticky does not work as #content has overflow: hidden because
+            of the float layout. Solution is either to find a hack, rewrite sticky with js,
+            or rework layout into flex.
+        */
     },
 
-    setHint(upgradeTable) {
+    setHint(upgradeTable, isNotStart) {
         const lab = SharkGame.Lab;
         if (lab.allResearchDone()) {
-            $("#buttonList").append($("<p>").html("The scientists rest content, sure that they're done with their work."));
+            let message;
+            switch (world.worldType) {
+                case `violent`:
+                    message = "We rest content, sure that our work is done.";
+                    break;
+                default:
+                    message = "The scientists rest content, sure that they're done with their work.";
+            }
+
+            $("#buttonList").append($("<p>").html(message));
+            if (isNotStart) lab.updateMessage();
         } else if (lab.listEmpty) {
-            $("#buttonList").append($("<p>").html("The scientists are out of ideas, but there are always more discoveries to be made."));
+            let message;
+            switch (world.worldType) {
+                case `violent`:
+                    message = "We're out of ideas, but there are always more discoveries to be made.";
+                    break;
+                default:
+                    message = "The scientists are out of ideas, but there are always more discoveries to be made.";
+            }
+            $("#buttonList").append($("<p>").html(message));
 
             const hintedUpgrade = _.find(
                 upgradeTable,
@@ -96,7 +157,11 @@ SharkGame.Lab = {
                 hintResource = _.find(hintedUpgrade.required.seen, (resource) => world.doesResourceExist(resource));
             if (hintResource) {
                 $("#buttonList").append(
-                    $("<p>").html("You get the feeling that " + sharktext.getResourceName(hintResource, false, 2) + " may be the key.")
+                    $("<p>").html(
+                        "You get the feeling that " +
+                            sharktext.getResourceName(hintResource, false, 2, sharkcolor.getElementColor("buttonList")) +
+                            " may be the key."
+                    )
                 );
             } else {
                 log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade}), but no valid hint resource.`);
@@ -191,7 +256,7 @@ SharkGame.Lab = {
 
         const effects = SharkGame.Lab.getResearchEffects(upgradeData);
         let label = upgradeData.name + "<br/>" + upgradeData.desc + "<br/>" + effects;
-        const costText = sharktext.resourceListToString(upgradeCost, !enableButton);
+        const costText = sharktext.resourceListToString(upgradeCost, !enableButton, sharkcolor.getElementColor(upgradeName));
         if (costText !== "") {
             label += "<br/>Cost: " + costText;
         }
@@ -218,37 +283,91 @@ SharkGame.Lab = {
         }
     },
 
-    onLabButton() {
-        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
+    updateMessage(suppressAnimation) {
+        const lab = SharkGame.Lab;
+        const allResearchDone = lab.allResearchDone();
+        let message = allResearchDone ? lab.messageDone : lab.message;
+        let imgSrc = allResearchDone ? lab.sceneDoneImage : lab.sceneImage;
 
-        const upgradeId = $(this).attr("id");
-        const upgrade = SharkGame.Upgrades.getUpgradeData(upgradeTable, upgradeId);
-        if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
-            $(this).remove();
-            return; // something went wrong don't even pay attention to this function
+        if (!imgSrc) {
+            imgSrc = "img/events/misc/missing.png";
         }
 
-        if (res.checkResources(upgrade.cost)) {
-            // kill button
-            $(this).remove();
-            // take resources
-            res.changeManyResources(upgrade.cost, true);
-            // purchase upgrade
-            SharkGame.Lab.addUpgrade(upgradeId);
+        const tabMessageSel = $("#tabMessage");
+        if (SharkGame.Settings.current.showTabImages) {
+            message = `<img width=400 height=200 src='${imgSrc}' id='tabSceneImage'>${message}`;
+            tabMessageSel.css(`background-image", "url('${lab.tabBg}')`);
+        }
 
-            if (upgrade.researchedMessage) {
-                log.addMessage(upgrade.researchedMessage);
+        if (!suppressAnimation && SharkGame.Settings.current.showAnimations) {
+            tabMessageSel.animate({ opacity: 0 }, 200, () => {
+                $(tabMessageSel).animate({ opacity: 1 }, 200).html(message);
+            });
+        } else {
+            tabMessageSel.html(message);
+        }
+    },
+
+    onLabButton(upgradeId) {
+        if ($(this).hasClass("disabled")) return;
+
+        const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
+        let upgrade;
+
+        if (typeof upgradeId === `object`) {
+            if ($(this).hasClass("disabled")) return;
+
+            upgradeId = $(this).attr("id");
+            upgrade = SharkGame.Upgrades.getUpgradeData(upgradeTable, upgradeId);
+            if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
+                $(this).remove();
+                return; // something went wrong don't even pay attention to this function
+            }
+
+            if (res.checkResources(upgrade.cost)) {
+                // kill button
+                $(this).remove();
+                // take resources
+                res.changeManyResources(upgrade.cost, true);
+                // purchase upgrade
+                SharkGame.Lab.addUpgrade(upgradeId);
+
+                if (upgrade.researchedMessage) {
+                    log.addMessage(upgrade.researchedMessage);
+                }
+            }
+        } else if (!_.isUndefined(upgradeId)) {
+            upgrade = SharkGame.Upgrades.getUpgradeData(upgradeTable, upgradeId);
+            if (SharkGame.Upgrades.purchased.includes(upgradeId)) {
+                return; // something went wrong don't even pay attention to this function
+            }
+
+            if (res.checkResources(upgrade.cost)) {
+                // take resources
+                res.changeManyResources(upgrade.cost, true);
+                // purchase upgrade
+                SharkGame.Lab.addUpgrade(upgradeId);
+
+                if (upgrade.researchedMessage) {
+                    log.addMessage(upgrade.researchedMessage);
+                }
+            }
+
+            if (SharkGame.Tabs.current === "lab") {
+                $(`#${upgradeId}`).remove();
             }
         }
-        SharkGame.Lab.update();
-        SharkGame.Lab.setHint(upgradeTable);
+        if (SharkGame.Tabs.current === "lab") {
+            SharkGame.Lab.update();
+            SharkGame.Lab.setHint(upgradeTable, true);
+        }
     },
 
     addUpgrade(upgradeId) {
         const upgrade = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeId);
         if (upgrade && !SharkGame.Upgrades.purchased.includes(upgradeId)) {
             SharkGame.Upgrades.purchased.push(upgradeId);
-            //l.updateResearchList();
+            // l.updateResearchList();
             SharkGame.Gate.checkUpgradeRequirements(upgradeId);
 
             // if the upgrade has effects, do them
@@ -277,7 +396,7 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
-            console.debug(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)}`);
+            res.updateResourcesTable();
         }
     },
 
@@ -360,7 +479,19 @@ SharkGame.Lab = {
         const effects = [];
         $.each(upgrade.effect, (effectType, effectsList) => {
             $.each(effectsList, (resource, degree) => {
-                const effectText = SharkGame.ModifierReference.get(effectType).effectDescription(degree, resource);
+                // The CSS for the effect is .medDesc which contains "filter: brightness(1.3)"
+                // In order to compensate, this code scales the background to be 1.3 times darker.
+                const color = sharkcolor.getVariableColor("--color-light").replace(/[^0-9a-f]/gi, "");
+                // Convert to rgb channels, convert from hex to decimal and scale it
+                let red = parseInt(color.substr(0, 2), 16) / 1.3;
+                let green = parseInt(color.substr(2, 2), 16) / 1.3;
+                let blue = parseInt(color.substr(4, 2), 16) / 1.3;
+                // Convert back to hex
+                red = parseInt(red).toString(16);
+                green = parseInt(green).toString(16);
+                blue = parseInt(blue).toString(16);
+                const darkerColour = "#" + red + green + blue;
+                const effectText = SharkGame.ModifierReference.get(effectType).effectDescription(degree, resource, darkerColour);
                 if (world.doesResourceExist(resource) && effectText !== "") {
                     effects.push(effectText);
                 }

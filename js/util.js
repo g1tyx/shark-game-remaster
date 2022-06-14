@@ -1,5 +1,12 @@
 "use strict";
+/**
+ * @type Record<string, (a: number, b: number, k: number) => number>
+ */
 SharkGame.MathUtil = {
+    // current = current amount
+    // desired = desired amount
+    // cost = constant price
+    // returns: cost to get to b from a
     constantCost(current, difference, cost) {
         if (typeof current === "object") {
             return cost.times(difference);
@@ -7,14 +14,22 @@ SharkGame.MathUtil = {
         return difference * cost;
     },
 
+    // current = current amount
+    // available = available price amount
+    // cost = constant price
+    // returns: absolute max items that can be held with invested and current resources
     constantMax(current, available, cost) {
         if (typeof current === "object") {
             return available.dividedBy(cost).plus(current);
         }
-        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin
+        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); // safety margin
         return available / cost + current;
     },
 
+    // current = current amount
+    // desired = desired amount
+    // cost = cost increase per item
+    // returns: cost to get to b from a
     linearCost(current, difference, constant) {
         if (typeof current === "object") {
             return constant.dividedBy(2).times(difference.times(difference).plus(difference).plus(current.times(2).times(difference)));
@@ -23,15 +38,30 @@ SharkGame.MathUtil = {
         }
     },
 
+    // current = current amount
+    // available = available price amount
+    // cost = cost increase per item
+    // returns: absolute max items that can be held with invested and current resources
     linearMax(current, available, cost) {
         if (typeof current === "object") {
             return current.times(current).plus(current).plus(available.times(2).dividedBy(cost)).plus(0.25).squareRoot().minus(0.5);
         } else {
-            available = Math.floor(Math.floor(available) * (1 - 1e-9)); //safety margin
+            available = Math.floor(Math.floor(available) * (1 - 1e-9)); // safety margin
             return Math.sqrt(current * current + current + (2 * available) / cost + 0.25) - 0.5;
         }
     },
 
+    // these need to be adapted probably?
+    // will anything ever use these
+    // exponentialCost(a, b, k) {
+    //     return (k * Math.pow()) - ();
+    // },
+    //
+    // exponentialMax(a, b, k) {
+    //     return Math.floor(Math.log(Math.pow(b,a) + (b-1) * b / k) / Math.log(a));
+    // }
+
+    // artificial limit - whatever has these functions for cost/max can only have one of)
     uniqueCost(current, difference, cost) {
         if (typeof current === "object") {
             if (current.lessThan(1) && current.plus(difference).lessThanOrEqualTo(2)) {
@@ -47,13 +77,14 @@ SharkGame.MathUtil = {
         }
     },
 
+    // this takes an argument to know whether or not to return a Decimal or a Number
     uniqueMax(current) {
         return typeof current === "object" ? new Decimal(1) : 1;
     },
 
     getBuyAmount(noMaxBuy) {
         if (SharkGame.Settings.current.buyAmount === "custom") {
-            return Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
+            return $("#custom-input")[0] && Math.floor($("#custom-input")[0].valueAsNumber) >= 1 && $("#custom-input")[0].valueAsNumber < 1e18
                 ? Math.floor($("#custom-input")[0].valueAsNumber)
                 : 1;
         } else {
@@ -65,6 +96,7 @@ SharkGame.MathUtil = {
         }
     },
 
+    // This is weird
     getPurchaseAmount(resource, owned = res.getResource(resource)) {
         const buy = sharkmath.getBuyAmount();
 
@@ -76,10 +108,10 @@ SharkGame.MathUtil = {
     },
 };
 
-//linear floor(sqrt(current^2 + current + 2 * price/k + 1/4) - 1/2)
-//exponential floor(log(b^old + (b-1) * price / k) / log(b))
-//linear total cost = k / 2 * (n^2 + n)
-//exponential total cost = k * (b^n - 1) / (b - 1)
+// linear floor(sqrt(current^2 + current + 2 * price/k + 1/4) - 1/2)
+// exponential floor(log(b^old + (b-1) * price / k) / log(b))
+// linear total cost = k / 2 * (n^2 + n)
+// exponential total cost = k * (b^n - 1) / (b - 1)
 
 SharkGame.TextUtil = {
     plural(number) {
@@ -89,12 +121,27 @@ SharkGame.TextUtil = {
     getDeterminer(name) {
         const firstLetter = SharkGame.ResourceMap.get(name).name.charAt(0);
 
-        //note to self: make the next line not suck
+        // note to self: make the next line not suck
         // Possibly add an "uncountable" property to resources somehow? Manual works fine though
         if (
-            ["sand", "algae", "coral", "spronge", "delphinium", "coralglass", "sharkonium", "residue", "tar", "ice", "science", "arcana"].includes(
-                name
-            )
+            [
+                "kelp",
+                "sand",
+                "algae",
+                "coral",
+                "spronge",
+                "delphinium",
+                "coralglass",
+                "porite",
+                "sharkonium",
+                "residue",
+                "tar",
+                "ice",
+                "science",
+                "arcana",
+                "kelp",
+                "calcinium",
+            ].includes(name)
         ) {
             return "";
         } else if ("aeiou".includes(firstLetter)) {
@@ -105,7 +152,7 @@ SharkGame.TextUtil = {
     },
 
     getIsOrAre(name, amount = res.getResource(name)) {
-        //should make a universal list for these somewhere in textutil, ya?
+        // should make a universal list for these somewhere in textutil, ya?
         if (
             [
                 "sand",
@@ -115,12 +162,15 @@ SharkGame.TextUtil = {
                 "spronge",
                 "delphinium",
                 "coralglass",
+                "porite",
                 "sharkonium",
                 "residue",
                 "tar",
                 "ice",
                 "science",
                 "arcana",
+                "kelp",
+                "calcinium",
             ].includes(name) ||
             amount === 1
         ) {
@@ -129,6 +179,7 @@ SharkGame.TextUtil = {
         return "are";
     },
 
+    /** @param {string} string */
     boldString(string) {
         return `<span class='bold'>${string}</span>`;
     },
@@ -232,6 +283,7 @@ SharkGame.TextUtil = {
     },
 
     formatTime(milliseconds) {
+        const numCentiseconds = Math.floor((milliseconds % 1000) / 10);
         const numSeconds = Math.floor(milliseconds / 1000);
         const numMinutes = Math.floor(numSeconds / 60);
         const numHours = Math.floor(numMinutes / 60);
@@ -240,7 +292,9 @@ SharkGame.TextUtil = {
         const numMonths = Math.floor(numWeeks / 4);
         const numYears = Math.floor(numMonths / 12);
 
-        const formatSeconds = (numSeconds % 60).toString(10).padStart(2, "0");
+        const formatCentiseconds =
+            (milliseconds / 1000 < 10 ? "." + numCentiseconds.toString(10).padStart(2, "0") : "") + (numMinutes === 0 ? "s" : "");
+        const formatSeconds = (numSeconds % 60).toString(10).padStart(numSeconds >= 60 ? 2 : 0, "0");
         const formatMinutes = numMinutes > 0 ? (numMinutes % 60).toString(10).padStart(2, "0") + ":" : "";
         const formatHours = numHours > 0 ? (numHours % 24).toString() + ":" : "";
         const formatDays = numDays > 0 ? (numDays % 7).toString() + "D, " : "";
@@ -248,17 +302,25 @@ SharkGame.TextUtil = {
         const formatMonths = numMonths > 0 ? (numMonths % 12).toString() + "M, " : "";
         const formatYears = numYears > 0 ? numYears.toString() + "Y, " : "";
 
-        return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds;
+        return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds + formatCentiseconds;
     },
 
-    getResourceName(resourceName, darken, arbitraryAmount, background) {
+    getResourceName(resourceName, darken, arbitraryAmount, background, textToColor) {
         if (res.isCategory(resourceName)) {
-            return SharkGame.ResourceCategories[resourceName].name;
+            return textToColor || SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
-        const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
-        let name = amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name;
+        const amount = arbitraryAmount || Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
+        let name = textToColor || (amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name);
         let extraStyle = "";
+
+        if (SharkGame.flags.egg) {
+            if (amount > 1) {
+                name = `eggs`;
+            } else {
+                name = `egg`;
+            }
+        }
 
         // easter egg logic
         if (name === "world") {
@@ -283,37 +345,19 @@ SharkGame.TextUtil = {
                 } else {
                     contrast = (backRLum + 0.05) / (colorRLum + 0.05);
                 }
-                const tolerance = 2; // for easy changing
+                const tolerance = 3.5; // for easy changing
                 if (contrast < tolerance) {
                     const requiredLuminance = tolerance * backRLum + 0.05 * tolerance - 0.05;
                     color = sharkcolor.correctLuminance(color, requiredLuminance > 1 ? (backRLum + 0.05) / tolerance - 0.05 : requiredLuminance);
                 }
             }
+            // if (background) color = background;
             extraStyle = " style='color:" + color + "'";
         }
         return "<span class='click-passthrough'" + extraStyle + ">" + name + "</span>";
     },
 
-    applyResourceColoration(resourceName, textToColor) {
-        if (res.isCategory(resourceName)) {
-            return textToColor;
-        }
-
-        if (SharkGame.Settings.current.boldCosts) {
-            textToColor = textToColor.bold();
-        }
-        let extraStyle = "";
-        if (SharkGame.Settings.current.colorCosts !== "none") {
-            extraStyle =
-                " style='color:" +
-                (SharkGame.Settings.current.colorCosts === "color"
-                    ? SharkGame.ResourceMap.get(resourceName).color
-                    : sharkcolor.getBrightColor(SharkGame.ResourceMap.get(resourceName).color)) +
-                "'";
-        }
-        return "<span class='click-passthrough'" + extraStyle + ">" + textToColor + "</span>";
-    },
-
+    // make a resource list object into a string describing its contents
     resourceListToString(resourceList, darken, backgroundColor) {
         if ($.isEmptyObject(resourceList)) {
             return "";
@@ -385,9 +429,15 @@ SharkGame.ColorUtil = {
         const varA = 1.075 * (0.2126 * red ** 2 + 0.7152 * green ** 2 + 0.0722 * blue ** 2);
         const varB = -0.075 * (0.2126 * red + 0.7152 * green + 0.0722 * blue);
         const ratio = Math.max((-varB + Math.sqrt(varB ** 2 + 4 * varA * luminance)) / (2 * varA), 0);
-        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0)).toString(16);
-        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0)).toString(16);
-        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0)).toString(16);
+        red = parseInt(Math.min(255, 255 * red * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
+        green = parseInt(Math.min(255, 255 * green * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
+        blue = parseInt(Math.min(255, 255 * blue * ratio).toFixed(0))
+            .toString(16)
+            .padStart(2, "0");
         return "#" + red + green + blue;
     },
 
@@ -418,8 +468,21 @@ SharkGame.ColorUtil = {
         return "#" + red + green + blue;
     },
 
-    getElementColor(id, propertyName) {
+    getElementColor(id, propertyName = "background-color") {
         const color = getComputedStyle(document.getElementById(id)).getPropertyValue(propertyName);
         return sharkcolor.convertColorString(color);
+    },
+
+    getVariableColor(variable) {
+        return getComputedStyle(document.body).getPropertyValue(variable).replace(/ /g, "");
+    },
+};
+
+SharkGame.MiscUtil = {
+    tryAddProperty(object, property, value) {
+        if (_.isUndefined(object[property])) {
+            object[property] = value;
+        }
+        return object;
     },
 };

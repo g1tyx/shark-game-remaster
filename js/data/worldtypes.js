@@ -39,18 +39,20 @@ SharkGame.WorldTypes = {
                 fish: 1e7,
                 sand: 1e6,
                 crystal: 1e6,
-                kelp: 1e5,
-                seaApple: 1e5,
-                sharkonium: 1e6,
+                kelp: 1e6,
+                seaApple: 5e5,
+                sharkonium: 8e5,
             },
         },
     },
     marine: {
         name: "Marine",
-        desc: "A serene, blue marble. Peaceful and beautiful.",
+        vagueDesc: "Feels familiar.",
+        desc: "A serene, blue marble.",
         shortDesc: "strange blue",
         foresight: {
-            longDesc: "A vast, blue ocean, swarming with fish. A great place to be a shark, surely.",
+            vagueLongDesc: "This place is so familiar.",
+            longDesc: "A vast, blue ocean, swarming with fish.",
             missing: ["laser"],
             present: ["clam", "lobster"],
             tip: "",
@@ -74,22 +76,24 @@ SharkGame.WorldTypes = {
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 2 }],
         gateRequirements: {
             slots: {
-                fish: 1e9,
-                sand: 1e7,
-                crystal: 1e7,
-                kelp: 1e7,
-                seaApple: 1e6,
-                sharkonium: 1e6,
+                fish: 1e11,
+                clam: 1e22,
+                crystal: 1e11,
+                kelp: 1e9,
+                calcinium: 1e10,
+                sharkonium: 1e10,
             },
         },
+        par: 55,
     },
     haven: {
         name: "Haven",
+        vagueDesc: "Feels lively.",
         desc: "An aquamarine world of plenty. So beautiful, yet so vulnerable.",
         shortDesc: "thriving aquamarine",
         foresight: {
-            longDesc:
-                "This world is teeming with life, more than any other place you've seen before. The water is clear, the sand is clean, the fish are plenty. A paradise in every way.",
+            vagueLongDesc: "You can sense a lot of activity in this world.",
+            longDesc: "The water is clear, the sand is clean, and the fish are plenty. A paradise in every way.",
             missing: ["laser", "sharkonium"],
             present: ["coral", "dolphin", "whale"],
             tip: "The abudance of resources might may your stay here shorter than others.",
@@ -118,10 +122,11 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 1 },
         ],
         gateRequirements: { resources: { chorus: 1 } },
+        par: 35,
     },
     tempestuous: {
         name: "Tempestuous",
-        desc: "A swirling maelstrom of storms where nothing rests.",
+        desc: "A swirling maelstrom where nothing rests.",
         shortDesc: "stormy grey",
         entry: "You recall nothing and know only the storms. The unrelenting, restless storms scattering your possessions and allies.",
         style: "tempestuous",
@@ -156,51 +161,56 @@ SharkGame.WorldTypes = {
     },
     violent: {
         name: "Violent",
+        vagueDesc: "Feels hot.",
         desc: "An ocean close to boiling and choking under sulphuric fumes.",
         shortDesc: "searing red",
+        foresight: {
+            vagueLongDesc: "Horrible heat sears your mind from afar.",
+            longDesc: "Despite its seemingly inhospitable atmosphere, this world is teeming with life.",
+            missing: ["crystal", "shark", "planter"],
+            present: ["coral", "sponge", "algae", "shrimp"],
+        },
         entry: "The burning waters sear the last traces of your past experiences from you. From beneath, the vents spew forth a heavy cloud of sand.",
         style: "violent",
-        /* includedResources: [
-            "sharks",
+        includedResources: [
             "rays",
+            "shoveler",
             "crabs",
+            "catcher",
             "shrimps",
             "basicmaterials",
             "kelpstuff",
-            "sharkmachines",
+            "porite",
             "sponge",
             "algae",
-        ], */
+            "coral",
+            "essence",
+            "world",
+            "aspectAffect",
+        ],
+        absentResources: ["crystal", "laser", "planter"],
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeReciprocalMultiplier", resource: "breeders", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "coral", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "algae", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "sand", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "kelp", amount: 1 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "algae", amount: 1 },
+            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "ray", amount: 4 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: 10 },
+            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: 0.5 },
         ],
-        gateRequirements: {
-            slots: {
-                sand: 1e8,
-                kelp: 5e6,
-                coral: 1e7,
-                algae: 5e7,
-                sponge: 5e6,
-                junk: 1e8,
-            },
-        },
+        gateRequirements: { upgrades: ["apologeticAmnesty"] },
+        par: 45,
     },
     abandoned: {
         name: "Abandoned",
+        vagueDesc: "Feels grimy.",
         desc: "A dying world filled with machinery.",
         shortDesc: "murky dark green",
         foresight: {
+            vagueLongDesc: "This world has an aura of death and apathy.",
             get longDesc() {
                 return (
                     "The water here is dank and tinted green by " +
-                    (gateway.completedWorlds.indexOf("abandoned") > -1 ? sharktext.getResourceName("tar") + "." : "an unrecognizable substance.") +
+                    (gateway.completedWorlds.indexOf("abandoned") > -1
+                        ? sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("pane")) + "."
+                        : "an unrecognizable substance.") +
                     " Husks of machinery litter the ocean floor."
                 );
             },
@@ -210,13 +220,14 @@ SharkGame.WorldTypes = {
                 return (
                     "This ocean is polluted with " +
                     (gateway.completedWorlds.indexOf("abandoned") > -1
-                        ? sharktext.getResourceName("tar")
+                        ? sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("pane"))
                         : "an unrecognizable substance" + ". It is only harmful when machines produce it.")
                 );
             },
         },
         entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
         style: "abandoned",
+        bonus: 1,
         includedResources: [
             "essence",
             "sharks",
@@ -246,13 +257,21 @@ SharkGame.WorldTypes = {
             { type: "multiplier", modifier: "planetaryIncome", resource: "tar", amount: -0.02 },
         ],
         gateRequirements: { upgrades: ["artifactAssembly"] },
+        par: 45,
     },
     shrouded: {
         name: "Shrouded",
+        vagueDesc: "Feels mysterious.",
         desc: "A dark, murky ocean of secrecy.",
         foresight: {
+            vagueLongDesc: "You feel a strange power radiating from this world.",
             get longDesc() {
-                return "It's hard to see more than 10 feet in this place, let alone manage a frenzy. Glowing crystals litter the water, though, so it's never completely dark.";
+                return `This place is completely shrouded in darkness. Glowing ${sharktext.getResourceName(
+                    `crystal`,
+                    false,
+                    69,
+                    sharkcolor.getElementColor("pane")
+                )} litter the water and strange figures lurk among the endless shadows.`;
             },
             missing: ["kelp", "crab", "laser"],
             present: ["jellyfish", "chimaera", "eel"],
@@ -280,21 +299,24 @@ SharkGame.WorldTypes = {
         gateRequirements: {
             upgrades: ["arcaneActivation"],
         },
+        par: 50,
     },
     frigid: {
         name: "Frigid",
+        vagueDesc: "Feels chilly.",
         desc: "An arctic ocean dangling on the edge of frozen doom.",
         shortDesc: "freezing white",
         foresight: {
-            longDesc: "This world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
+            vagueLongDesc: "Bitter cold stings your mind from afar.",
+            longDesc: "The world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.",
             missing: ["seaApple", "ray"],
             present: ["squid", "urchin"],
             get tip() {
                 return (
                     "This world has " +
-                    sharktext.getResourceName("ice") +
+                    sharktext.getResourceName("ice", undefined, undefined, sharkcolor.getElementColor("pane")) +
                     ". " +
-                    sharktext.getResourceName("ice") +
+                    sharktext.getResourceName("ice", undefined, undefined, sharkcolor.getElementColor("pane")) +
                     " will slow some of the frenzy, and will be present from the start."
                 );
             },
@@ -333,6 +355,7 @@ SharkGame.WorldTypes = {
                 fish: 2e8,
             },
         },
+        par: 45,
     },
     template: {
         name: "",
@@ -376,7 +399,6 @@ SharkGame.WorldTypes = {
         modifiers: [
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "sponge", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "shrimp", amount: 0.5 },
-            { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "worker", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "clamCollector", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "eggBrooder", amount: 0.5 },
             { type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "sprongeSmelter", amount: 0.5 },

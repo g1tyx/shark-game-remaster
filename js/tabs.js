@@ -6,6 +6,33 @@ SharkGame.Tabs = {
 SharkGame.TabHandler = {
     init() {
         SharkGame.Tabs.current = "home";
+
+        $(window).on("resize", _.debounce(this.validateTabWidth, 300));
+
+        function debounced() {
+            return _.debounce(
+                (_entries) => {
+                    const content = _entries[0].target;
+                    const $content = $(content);
+                    $content.css("position", "static");
+                    const boundingBox = content.getBoundingClientRect();
+                    if ($content.offset().top + boundingBox.height < $(window).height()) {
+                        $content.css("top", $content.offset().top);
+                    }
+                },
+                400,
+                { maxWait: 600 }
+            );
+        }
+
+        const resizeObserver = new ResizeObserver(debounced());
+        resizeObserver.observe(document.getElementById("content"));
+    },
+
+    keybindSwitchTab(tab) {
+        if (SharkGame.Tabs[tab].discovered) {
+            SharkGame.TabHandler.changeTab(tab);
+        }
     },
 
     checkTabUnlocks() {
@@ -60,6 +87,13 @@ SharkGame.TabHandler = {
         return SharkGame.Tabs[tabName].discovered;
     },
 
+    validateTabWidth() {
+        const logLocation = SharkGame.Settings.current.logLocation;
+        if (logLocation !== "left" && logLocation !== "top") {
+            $("#tabList").css("margin-right", $(window).width() - document.getElementById("content").getBoundingClientRect().right + 14 + "px");
+        }
+    },
+
     setUpTab() {
         const tabs = SharkGame.Tabs;
         // empty out content div
@@ -67,7 +101,13 @@ SharkGame.TabHandler = {
 
         content.empty();
         $("#contentMenu").empty();
-        $("#contentMenu").append('<ul id="tabList"></ul></div><div id="tabBorder" class="clear-fix">');
+        $("#contentMenu").append(
+            `<ul id="tabList" class="${
+                SharkGame.Settings.current.minimizedTopbar ? "" : "notFixed"
+            }"></ul></div><div id="tabBorder" class="clear-fix">`
+        );
+
+        this.validateTabWidth();
 
         this.createTabNavigation();
 
@@ -89,6 +129,11 @@ SharkGame.TabHandler = {
             code: tab,
             discoverReq: tab.discoverReq || {},
         };
+    },
+
+    updateRegistration(tab) {
+        SharkGame.Tabs[tab.tabId].name = tab.tabName;
+        SharkGame.Tabs[tab.tabId].discoverReq = tab.discoverReq || {};
     },
 
     createTabNavigation() {

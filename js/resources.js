@@ -24,7 +24,18 @@ SharkGame.Resources = {
     init() {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (resourceId, resource) => {
-            SharkGame.ResourceMap.set(resourceId, _.cloneDeep(resource));
+            const resourceObject = _.cloneDeep(resource);
+            if (resourceObject.name)
+                Object.defineProperty(resourceObject, `name`, Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `name`));
+            if (resourceObject.singleName)
+                Object.defineProperty(
+                    resourceObject,
+                    `singleName`,
+                    Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `singleName`)
+                );
+            if (resourceObject.desc)
+                Object.defineProperty(resourceObject, `desc`, Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `desc`));
+            SharkGame.ResourceMap.set(resourceId, resourceObject);
         });
 
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
@@ -276,24 +287,26 @@ SharkGame.Resources = {
     },
 
     getProductAmountFromGeneratorResource(generator, product, numGenerator = res.getResource(generator)) {
+        const baseIncome = SharkGame.ResourceMap.get(generator).income[product];
         return (
-            SharkGame.ResourceMap.get(generator).income[product] *
+            baseIncome *
             numGenerator *
             res.getSpecialMultiplier() *
             res.getNetworkIncomeModifier("generator", generator) *
-            res.getNetworkIncomeModifier("resource", product) *
+            res.getNetworkIncomeModifier("resource", product, baseIncome) *
             cad.speed *
             res.idleMultiplier
         );
     },
 
-    getNetworkIncomeModifier(network, resource) {
+    getNetworkIncomeModifier(network, resource, baseIncome) {
         switch (network) {
             case "generator":
                 network = SharkGame.GeneratorIncomeAffected;
                 break;
             case "resource":
                 network = SharkGame.ResourceIncomeAffected;
+                if (baseIncome && baseIncome < 0) return 1;
         }
 
         const node = network[resource];
@@ -597,9 +610,9 @@ SharkGame.Resources = {
 
         handleTokenDragStart(event) {
             event.originalEvent.dataTransfer.setData("tokenId", event.originalEvent.target.id);
-            //chrome forcing stinky workaround
+            // chrome forcing stinky workaround
             res.tokens.chromeForcesWorkarounds = event.originalEvent.target.id;
-            //event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
+            // event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
             event.originalEvent.dataTransfer.setData("tokenLocation", SharkGame.flags.tokens[this.id]);
             const image = document.createElement("img");
             image.src = "img/raw/general/theToken.png";
@@ -725,7 +738,8 @@ SharkGame.Resources = {
             const multiplier = (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1);
             if (targetId === "NA" || targetId.includes("token")) {
                 return;
-            } else if (targetId.includes("resource")) {
+            }
+            if (targetId.includes("resource")) {
                 res.applyModifier("theTokenForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else if (targetId.includes("income")) {
                 res.applyModifier("theTokenForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
@@ -810,56 +824,76 @@ SharkGame.Resources = {
             "You come back from the brink, exhaustion replaced by energy and enthusiasm.",
         ],
 
+        allowMinuteHand() {
+            SharkGame.persistentFlags.everIdled = true;
+            if ($("#minute-hand-toggle").length === 0) {
+                this.setup();
+            }
+        },
+
         init() {
-            if (typeof SharkGame.flags.minuteHandTimer !== "number") {
-                SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
-            }
-            if (!SharkGame.persistentFlags.selectedMultiplier) {
-                SharkGame.persistentFlags.selectedMultiplier = 2;
-            }
-            if (SharkGame.persistentFlags.everIdled && $("#minute-hand-toggle").length === 0 && SharkGame.Settings.current.idleEnabled) {
-                SharkGame.Button.makeHoverscriptButton(
-                    "minute-hand-toggle",
-                    "my cool button",
-                    $("#minute-hand-div"),
-                    res.minuteHand.toggleMinuteHand,
-                    res.minuteHand.showTooltip,
-                    res.tableTextLeave
-                );
-                $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
-                $("#minute-row-two").append($("<div>").attr("id", "minute-time"));
-                $("#minute-row-two").append($("<div>").attr("id", "minute-pause"));
-
-                if (SharkGame.Aspects.meditation.level) {
-                    SharkGame.Button.makeHoverscriptButton(
-                        "pause-toggle",
-                        "||",
-                        $("#minute-pause"),
-                        res.pause.togglePause,
-                        res.pause.showTooltip,
-                        res.tableTextLeave
-                    );
-                }
-                $("#pause-toggle").addClass("close-button min");
-
-                const slider = $("<input>")
-                    .attr("id", "minute-slider")
-                    .attr("type", "range")
-                    .attr("min", 1)
-                    .attr("max", 9)
-                    .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
-                    .on("input", res.minuteHand.changeSelectedMultiplier);
-                $("#minute-hand-div").append(slider);
-                res.minuteHand.updateRotationNextTick = true;
-            }
-
-            if (!SharkGame.persistentFlags.everIdled || !SharkGame.Settings.current.idleEnabled) {
-                $("#minute-hand-div").empty();
-            }
-            this.changeRealMultiplier(1);
+            res.minuteHand.realMultiplier = 1;
+            SharkGame.persistentFlags.everIdled = false;
+            SharkGame.flags.minuteHandTimer = 0;
+            SharkGame.persistentFlags.selectedMultiplier = 2;
             this.active = false;
             this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
-            this.updateMinuteHandLabel();
+            $("#minute-hand-div").empty();
+        },
+
+        setup() {
+            if (_.isUndefined(SharkGame.flags.minuteHandTimer)) {
+                SharkGame.flags.minuteHandTimer = 0;
+            }
+
+            if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
+                $("#minute-hand-div").empty();
+            } else if ($("#minute-hand-toggle").length === 0) {
+                this.buildUI();
+                this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
+                this.updateMinuteHandLabel();
+            }
+        },
+
+        buildUI() {
+            SharkGame.Button.makeHoverscriptButton(
+                "minute-hand-toggle",
+                "my cool button",
+                $("#minute-hand-div"),
+                res.minuteHand.toggleMinuteHand,
+                res.minuteHand.showTooltip,
+                res.tableTextLeave
+            );
+            $("#minute-hand-toggle").html("<strong>TOGGLE</strong>");
+            $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
+            $("#minute-row-two").append($("<span>").attr("id", "minute-multiplier"));
+            $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+
+            $("#minute-row-two").append($("<span>").html("("));
+            const slider = $("<input>")
+                .attr("id", "minute-slider")
+                .attr("type", "range")
+                .attr("min", 1)
+                .attr("max", 9)
+                .attr("step", 1)
+                .attr("value", Math.log2(SharkGame.persistentFlags.selectedMultiplier))
+                .on("input", res.minuteHand.changeSelectedMultiplier);
+            $("#minute-row-two").append(slider);
+            $("#minute-row-two").append($("<span>").html(") <strong>SPEED</strong>"));
+
+            $("#minute-row-two").append($("<div>").attr("id", "minute-pause"));
+
+            if (SharkGame.Aspects.meditation.level) {
+                SharkGame.Button.makeHoverscriptButton(
+                    "pause-toggle",
+                    "||",
+                    $("#minute-pause"),
+                    res.pause.togglePause,
+                    res.pause.showTooltip,
+                    res.tableTextLeave
+                );
+            }
+            $("#pause-toggle").addClass("close-button min");
         },
 
         updateMinuteHand(timeElapsed) {
@@ -908,10 +942,7 @@ SharkGame.Resources = {
             if (arbitrary) {
                 multiplier = arbitrary;
             } else {
-                multiplier = 2 ** document.getElementById("minute-slider").value;
-                document
-                    .getElementById("minute-slider")
-                    .style.setProperty("--minuterotation", "rotate(" + (45 * document.getElementById("minute-slider").value - 90) + "deg)");
+                multiplier = 2 ** Math.floor(document.getElementById("minute-slider").value);
             }
             SharkGame.persistentFlags.selectedMultiplier = multiplier;
             if (res.minuteHand.active) {
@@ -921,6 +952,9 @@ SharkGame.Resources = {
         },
 
         changeRealMultiplier(someNumber) {
+            if (someNumber === 0) {
+                someNumber = 1;
+            }
             res.specialMultiplier /= res.minuteHand.realMultiplier;
             res.minuteHand.realMultiplier = someNumber;
             res.specialMultiplier *= res.minuteHand.realMultiplier;
@@ -934,17 +968,10 @@ SharkGame.Resources = {
         },
 
         updateMinuteHandLabel() {
-            if (!res.minuteHand.active) {
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>ACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
-                );
-            } else {
-                $("#minute-hand-toggle").html(
-                    "<span class='click-passthrough bold'>DEACTIVATE " + SharkGame.persistentFlags.selectedMultiplier + "x SPEED</span>"
-                );
-            }
-            $("#minute-time").html(sharktext.boldString("(" + (SharkGame.flags.minuteHandTimer / 1000).toFixed(1) + "s)"));
-            if (SharkGame.flags.minuteHandTimer === 0) {
+            const multiplier = SharkGame.persistentFlags.selectedMultiplier.toString().padStart(3, " ").replaceAll(" ", "&nbsp;&nbsp;");
+            $("#minute-multiplier").html("<span class='click-passthrough bold'>" + multiplier + "×</span>");
+            $("#minute-time").html(sharktext.boldString("(" + res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer) + ")"));
+            if (SharkGame.flags.minuteHandTimer < 100) {
                 $("#minute-hand-toggle").addClass("disabled");
                 $("#minute-time").addClass("noTime");
             } else {
@@ -953,11 +980,36 @@ SharkGame.Resources = {
             }
         },
 
+        applyHourHand() {
+            SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
+            this.updateDisplay();
+        },
+
+        formatMinuteTime(milliseconds) {
+            const numSeconds = Math.floor(milliseconds / 100) / 10;
+            const numMinutes = Math.floor(numSeconds / 60);
+            const numHours = Math.floor(numMinutes / 60);
+            const numDays = Math.floor(numHours / 24);
+            const numWeeks = Math.floor(numDays / 7);
+            const numMonths = Math.floor(numWeeks / 4);
+            const numYears = Math.floor(numMonths / 12);
+
+            const formatSeconds = (numSeconds >= 60 ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
+            const formatMinutes = numMinutes > 0 ? (numMinutes % 60) + "m " : "";
+            const formatHours = numHours > 0 ? (numHours % 24) + "h " : "";
+            const formatDays = numDays > 0 ? (numDays % 7) + "D, " : "";
+            const formatWeeks = numWeeks > 0 ? (numWeeks % 4) + "W, " : "";
+            const formatMonths = numMonths > 0 ? (numMonths % 12) + "M, " : "";
+            const formatYears = numYears > 0 ? numYears + "Y, " : "";
+
+            return formatYears + formatMonths + formatWeeks + formatDays + formatHours + formatMinutes + formatSeconds;
+        },
+
         updatePowers() {
             $("#minute-slider").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
             $("#minute-hand-toggle").removeClass("power1").removeClass("power2").removeClass("power3").removeClass("power4").removeClass("power5");
             if (res.minuteHand.active && SharkGame.Settings.current.minuteHandEffects) {
-                const multiplier = 2 ** document.getElementById("minute-slider").value;
+                const multiplier = 2 ** Math.floor(document.getElementById("minute-slider").value);
                 if (multiplier === 2) {
                     $("#minute-slider").addClass("power1");
                     $("#minute-hand-toggle").addClass("power1");
@@ -979,8 +1031,14 @@ SharkGame.Resources = {
 
         showTooltip() {
             $("#tooltipbox").html(
-                "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it.<br><br>(traditional offline progress available in options)"
+                "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
             );
+        },
+
+        toggleOff() {
+            if (res.minuteHand.active) {
+                res.minuteHand.toggleMinuteHand();
+            }
         },
     },
 
@@ -989,9 +1047,11 @@ SharkGame.Resources = {
             if (cad.pause) {
                 $("#pause-toggle").removeClass("on");
                 cad.pause = false;
+                SharkGame.persistentFlags.pause = false;
             } else {
                 $("#pause-toggle").addClass("on");
                 cad.pause = true;
+                SharkGame.persistentFlags.pause = true;
             }
         },
 
@@ -999,7 +1059,7 @@ SharkGame.Resources = {
             if (cad.pause) {
                 $("#tooltipbox").html("Click to <strong>unpause</strong>.");
             } else {
-                $("#tooltipbox").html("Click to <strong>pause</strong>.");
+                $("#tooltipbox").html("Click to <strong>pause</strong>, stopping most timers and all resources.");
             }
         },
     },
@@ -1122,7 +1182,7 @@ SharkGame.Resources = {
             row.append(
                 $("<td>")
                     .attr("id", "resource-" + resourceKey)
-                    .html(sharktext.getResourceName(resourceKey))
+                    .html(sharktext.getResourceName(resourceKey, undefined, undefined, sharkcolor.getVariableColor("--color-darker")))
                     .on("dragstart", res.tokens.handleResourceDragStart)
                     .on("dragover", (event) => {
                         if (res.tokens.canBePlacedOn("resource-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
@@ -1150,46 +1210,41 @@ SharkGame.Resources = {
                     .html("⠀" + sharktext.beautify(playerResources.amount))
             );
 
-            const incomeId = $("<td>").attr("id", "income-" + resourceKey);
+            const incomeId = $("<td>")
+                .attr("id", "income-" + resourceKey)
+                .on("dragstart", res.tokens.handleResourceDragStart)
+                .on("dragover", (event) => {
+                    if (res.tokens.canBePlacedOn("income-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
+                        if (SharkGame.Settings.current.showTooltips) {
+                            $("#tooltipbox").html(
+                                "all " +
+                                    sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                                    " gains x" +
+                                    (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                            );
+                        }
+                        event.originalEvent.preventDefault();
+                    }
+                })
+                .on("dragend", res.tokens.handleDragEnd)
+                // .on("dragleave", () => {
+                //     $("#tooltipbox").html("");
+                // })
+                .on("drop", res.tokens.dropToken)
+                .on("click", res.tokens.tryClickToPlace);
 
             row.append(incomeId);
 
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
-                incomeId
-                    .html(
-                        "⠀<span class='click-passthrough' style='color:" +
-                            res.INCOME_COLOR +
-                            "'>" +
-                            changeChar +
-                            sharktext.beautifyIncome(income) +
-                            "</span>"
-                    )
-                    .on("dragstart", res.tokens.handleResourceDragStart)
-                    .on("dragover", (event) => {
-                        if (res.tokens.canBePlacedOn("income-" + resourceKey) && res.tokens.chromeForcesWorkarounds) {
-                            if (SharkGame.Settings.current.showTooltips) {
-                                $("#tooltipbox").html(
-                                    "all " +
-                                        sharktext.getResourceName(
-                                            resourceKey,
-                                            false,
-                                            69,
-                                            sharkcolor.getElementColor("tooltipbox", "background-color")
-                                        ) +
-                                        " gains x" +
-                                        (SharkGame.Aspects.coordinatedCooperation.level + 2)
-                                );
-                            }
-                            event.originalEvent.preventDefault();
-                        }
-                    })
-                    .on("dragend", res.tokens.handleDragEnd)
-                    // .on("dragleave", () => {
-                    //     $("#tooltipbox").html("");
-                    // })
-                    .on("drop", res.tokens.dropToken)
-                    .on("click", res.tokens.tryClickToPlace);
+                incomeId.html(
+                    "⠀<span class='click-passthrough' style='color:" +
+                        res.INCOME_COLOR +
+                        "'>" +
+                        changeChar +
+                        sharktext.beautifyIncome(income) +
+                        "</span>"
+                );
             }
         }
         return row;
@@ -1252,22 +1307,159 @@ SharkGame.Resources = {
             }
         });
 
+        const sendObject = {};
+        sendObject[resourceName] = res.getResource(resourceName);
+        const condensedEffects = res.condenseNode(sendObject);
+        const furtherCondensedEffects = { generators: { increase: {}, decrease: {} }, resources: { increase: {}, decrease: {} } };
+
+        $.each(condensedEffects.genAffect, (type, effects) => {
+            switch (type) {
+                case "increase":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        furtherCondensedEffects.generators.increase[affectedGenerator] = degree;
+                    });
+                    break;
+                case "decrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        furtherCondensedEffects.generators.decrease[affectedGenerator] = -degree;
+                    });
+                    break;
+                case "multincrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        if (typeof furtherCondensedEffects.generators.increase[affectedGenerator] !== `number`) {
+                            furtherCondensedEffects.generators.increase[affectedGenerator] = degree;
+                        } else {
+                            furtherCondensedEffects.generators.increase[affectedGenerator] += 1;
+                            furtherCondensedEffects.generators.increase[affectedGenerator] *= 1 + degree;
+                            furtherCondensedEffects.generators.increase[affectedGenerator] -= 1;
+                        }
+                    });
+                    break;
+                case "multdecrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        if (typeof furtherCondensedEffects.generators.decrease[affectedGenerator] !== `number`) {
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] = -degree;
+                        } else {
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] += 1;
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] *= 1 + -degree;
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] -= 1;
+                        }
+                    });
+                    break;
+            }
+        });
+        $.each(condensedEffects.resAffect, (type, effects) => {
+            switch (type) {
+                case "increase":
+                    $.each(effects, (affectedResource, degree) => {
+                        furtherCondensedEffects.resources.increase[affectedResource] = degree;
+                    });
+                    break;
+                case "decrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        furtherCondensedEffects.resources.decrease[affectedResource] = -degree;
+                    });
+                    break;
+                case "multincrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        if (typeof furtherCondensedEffects.resources.increase[affectedResource] !== `number`) {
+                            furtherCondensedEffects.resources.increase[affectedResource] = degree;
+                        } else {
+                            furtherCondensedEffects.resources.increase[affectedResource] += 1;
+                            furtherCondensedEffects.resources.increase[affectedResource] *= 1 + degree;
+                            furtherCondensedEffects.resources.increase[affectedResource] -= 1;
+                        }
+                    });
+                    break;
+                case "multdecrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        if (typeof furtherCondensedEffects.resources.decrease[affectedResource] !== `number`) {
+                            furtherCondensedEffects.resources.decrease[affectedResource] = -degree;
+                        } else {
+                            furtherCondensedEffects.resources.decrease[affectedResource] += 1;
+                            furtherCondensedEffects.resources.decrease[affectedResource] *= 1 + -degree;
+                            furtherCondensedEffects.resources.decrease[affectedResource] -= 1;
+                        }
+                    });
+                    break;
+            }
+        });
+
+        let increaseText = "";
+
+        $.each(furtherCondensedEffects.generators.increase, (affectedGenerator, degree) => {
+            if (world.doesResourceExist(affectedGenerator)) {
+                increaseText += "<br>";
+                increaseText +=
+                    sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` speed by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
+            }
+        });
+
+        $.each(furtherCondensedEffects.resources.increase, (affectedResource, degree) => {
+            if (world.doesResourceExist(affectedResource)) {
+                increaseText += "<br>";
+                increaseText +=
+                    sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` gains by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
+            }
+        });
+
+        let decreaseText = "";
+
+        $.each(furtherCondensedEffects.generators.decrease, (affectedGenerator, degree) => {
+            if (world.doesResourceExist(affectedGenerator)) {
+                decreaseText += "<br>";
+                decreaseText +=
+                    sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` speed by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+            }
+        });
+
+        $.each(furtherCondensedEffects.resources.decrease, (affectedResource, degree) => {
+            if (world.doesResourceExist(affectedResource)) {
+                decreaseText += "<br>";
+                decreaseText +=
+                    sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` gains by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+            }
+        });
+
         let text = sharktext.getResourceName(resourceName, false, 2, sharkcolor.getElementColor("tooltipbox", "background-color"));
         if (isGeneratingText !== "") {
             text +=
-                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " PRODUCING</span>" + isGeneratingText;
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " PRODUCING</span>" + isGeneratingText;
         }
         if (isConsumingText !== "") {
-            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " CONSUMING</span>" + isConsumingText;
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " CONSUMING</span>" + isConsumingText;
         }
         if ((isGeneratingText || isConsumingText) && (producertext || consumertext)) {
             text += "<br><span class='littleTooltipText'>and</span>";
         }
         if (producertext !== "") {
-            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " PRODUCED BY</span>" + producertext;
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " PRODUCED BY</span>" + producertext;
         }
         if (consumertext !== "") {
-            text += "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName).toUpperCase() + " CONSUMED BY</span>" + consumertext;
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " CONSUMED BY</span>" + consumertext;
+        }
+
+        if ((increaseText || decreaseText) && (producertext || consumertext || isGeneratingText || isConsumingText)) {
+            text += "<br><span class='littleTooltipText'>and</span>";
+        }
+        if (increaseText !== "") {
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " INCREASING</span>" + increaseText;
+        }
+        if (decreaseText !== "") {
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " DECREASING</span>" + decreaseText;
         }
 
         if (SharkGame.ResourceMap.get(resourceName).desc) {
@@ -1301,8 +1493,7 @@ SharkGame.Resources = {
                         ? resourceCategories[affectedGeneratorCategory].resources
                         : [affectedGeneratorCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, affectedGenerator) => {
+                    $.each(nodes, (_key, affectedGenerator) => {
                         if (world.doesResourceExist(affectedGenerator) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
@@ -1323,8 +1514,7 @@ SharkGame.Resources = {
                         ? resourceCategories[affectedResourceCategory].resources
                         : [affectedResourceCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, affectedResource) => {
+                    $.each(nodes, (_key, affectedResource) => {
                         if (world.doesResourceExist(affectedResource) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }

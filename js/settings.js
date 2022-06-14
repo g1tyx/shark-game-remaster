@@ -48,13 +48,7 @@ SharkGame.Settings = {
         category: "LAYOUT",
         options: [true, false],
         onChange() {
-            if (SharkGame.Settings.current["minimizedTopbar"]) {
-                document.querySelector("body").classList.add("top-bar");
-                $("#wrapper").removeClass("notMinimized");
-            } else {
-                document.querySelector("body").classList.remove("top-bar");
-                $("#wrapper").addClass("notMinimized");
-            }
+            SharkGame.TitleBarHandler.updateTopBar();
         },
     },
 
@@ -88,17 +82,6 @@ SharkGame.Settings = {
         options: [true, false],
         onChange() {
             res.rebuildTable = true;
-        },
-    },
-
-    buttonDisplayType: {
-        defaultSetting: "pile",
-        name: "Home Sea Button Display",
-        desc: "How to arrange buttons.",
-        category: "LAYOUT",
-        options: ["list", "pile"],
-        onChange() {
-            SharkGame.TabHandler.changeTab(SharkGame.Tabs.current);
         },
     },
 
@@ -178,7 +161,7 @@ SharkGame.Settings = {
         options: [true, false],
         category: "APPEARANCE",
         onChange() {
-            if (SharkGame.Settings.current["enableThemes"]) {
+            if (SharkGame.Settings.current.enableThemes) {
                 document.querySelector("body").classList.remove("no-theme");
             } else {
                 document.querySelector("body").classList.add("no-theme");
@@ -246,7 +229,7 @@ SharkGame.Settings = {
         category: "OTHER",
         options: [true, false],
         onChange() {
-            res.minuteHand.init();
+            res.minuteHand.setup();
         },
     },
 

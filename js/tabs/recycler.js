@@ -12,8 +12,7 @@ SharkGame.Recycler = {
         upgrade: ["recyclerDiscovery"],
     },
 
-    message:
-        "The recycler allows for the repurposing of any and all of your unwanted materials.<br/><span class='medDesc'>Feed the machines. Feed them.</span>",
+    message: "Convert things into residue, and residue into things!<br/><span class='medDesc'>Feed the machines. Feed them.</span>",
 
     recyclerInputMessages: [
         "The machines grind and churn.",
@@ -204,7 +203,7 @@ SharkGame.Recycler = {
             ) {
                 SharkGame.Button.makeHoverscriptButton(
                     "input-" + resourceName,
-                    "Recycle " + sharktext.getResourceName(resourceName),
+                    "Recycle " + sharktext.getResourceName(resourceName, undefined, undefined, sharkcolor.getVariableColor("--color-light")),
                     inputButtonDiv,
                     rec.onInput,
                     rec.onInputHover,
@@ -212,7 +211,7 @@ SharkGame.Recycler = {
                 );
                 SharkGame.Button.makeHoverscriptButton(
                     "output-" + resourceName,
-                    "Convert to " + sharktext.getResourceName(resourceName),
+                    "Convert to " + sharktext.getResourceName(resourceName, undefined, undefined, sharkcolor.getVariableColor("--color-light")),
                     outputButtonDiv,
                     rec.onOutput,
                     rec.onOutputHover,
@@ -362,15 +361,19 @@ SharkGame.Recycler = {
                 produced *= res.getResource(rec.hoveredResource) / -buy;
             }
             let amountstring = sharktext.beautify(produced);
-            amountstring = "<br/><br/>AND " + amountstring.bold() + " " + sharktext.getResourceName("tar");
+            amountstring =
+                "<br/><br/>AND " +
+                amountstring.bold() +
+                " " +
+                sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("junkDisplay"));
             if (tarTolerance > 0) {
                 amountstring +=
                     "<br/>(" +
                     sharktext.beautify(Math.max(produced - tarTolerance, 0)) +
                     " " +
-                    sharktext.getResourceName("tar") +
+                    sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("junkDisplay")) +
                     " WITH<br/>" +
-                    sharktext.getResourceName("filter", false, 2) +
+                    sharktext.getResourceName("filter", false, 2, sharkcolor.getElementColor("junkDisplay")) +
                     ")";
             }
             return amountstring;
@@ -395,7 +398,7 @@ SharkGame.Recycler = {
             "<b>%<br/>EFFICIENCY</b><br/><br/>EQUIVALENT TO:<br/>" +
             amountstring.bold() +
             " " +
-            sharktext.getResourceName(rec.hoveredResource).bold() +
+            sharktext.getResourceName(rec.hoveredResource, undefined, undefined, sharkcolor.getElementColor("junkDisplay")).bold() +
             "<br/>WORTH OF RESIDUE"
         );
     },
@@ -492,7 +495,7 @@ SharkGame.Recycler = {
         if (purchaseAmount <= Math.pow(10, maxEfficiencyRecyclePowerOfTen)) {
             rec.efficiency = baseEfficiency;
         } else {
-            //otherwise, scale back based purely on the number to process
+            // otherwise, scale back based purely on the number to process
             // 'cheating' by lowering the value of n is ok if the player wants to put in a ton of effort
             // the system is more sensible, and people can get a feel for it easier if i make this change
             // the amount that this effects things isn't crazy high either, so

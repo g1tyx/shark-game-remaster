@@ -223,6 +223,26 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "haven-history": {
+        frame: {
+            x: 1214,
+            y: 2042,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "haven-song": {
         frame: {
             x: 1214,
@@ -503,10 +523,90 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "lobster-one": {
+    "marine-lobsters": {
         frame: {
             x: 1214,
             y: 818,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "marine-noticed-lobsters": {
+        frame: {
+            x: 2,
+            y: 1838,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "marine-noticed-lobsters-2": {
+        frame: {
+            x: 2,
+            y: 2042,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "marine-robotics": {
+        frame: {
+            x: 810,
+            y: 2042,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "marine-abandoned": {
+        frame: {
+            x: 406,
+            y: 2042,
             w: 400,
             h: 200,
         },
@@ -983,6 +1083,30 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "aspects/static/respec": {
+        frame: { x: 2732, y: 126, w: 32, h: 32 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 32, h: 32 },
+        sourceSize: { w: 32, h: 32 },
+        pivot: { x: 0, y: 0 },
+    },
+    "aspects/static/respecAll": {
+        frame: { x: 2762, y: 96, w: 32, h: 32 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 32, h: 32 },
+        sourceSize: { w: 32, h: 32 },
+        pivot: { x: 0, y: 0 },
+    },
+    "aspects/static/zoom": {
+        frame: { x: 2732, y: 96, w: 32, h: 32 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 32, h: 32 },
+        sourceSize: { w: 32, h: 32 },
+        pivot: { x: 0, y: 0 },
+    },
     "aspects/patience": {
         frame: { x: 2218, y: 0, w: 32, h: 32 },
         rotated: false,
@@ -1135,6 +1259,22 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/fuseAncientPart": {
+        frame: { x: 2932, y: 100, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/fuseCalcinium": {
+        frame: { x: 2832, y: 46, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/fuseDelphinium": {
         frame: { x: 106, y: 104, w: 50, h: 50 },
         rotated: false,
@@ -1193,6 +1333,30 @@ SharkGame.Sprites = {
     },
     "actions/getClam": {
         frame: { x: 418, y: 104, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/getClamCollector": {
+        frame: { x: 2682, y: 96, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/getClamScavenger": {
+        frame: { x: 2782, y: 46, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/getCollector": {
+        frame: { x: 2682, y: 46, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1327,6 +1491,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getLobter": {
+        frame: { x: 2792, y: 96, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/getMaker": {
         frame: { x: 920, y: 2, w: 50, h: 50 },
         rotated: false,
@@ -1359,6 +1531,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getPit": {
+        frame: { x: 2632, y: 46, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/getPlanter": {
         frame: { x: 990, y: 54, w: 50, h: 50 },
         rotated: false,
@@ -1385,6 +1565,14 @@ SharkGame.Sprites = {
     },
     "actions/getScavenger": {
         frame: { x: 2432, y: 46, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/getScholar": {
+        frame: { x: 2632, y: 96, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1425,6 +1613,14 @@ SharkGame.Sprites = {
     },
     "actions/getSifter": {
         frame: { x: 2068, y: 100, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/getSprongeSmelter": {
+        frame: { x: 2732, y: 46, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1519,6 +1715,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/prySponge2": {
+        frame: { x: 1198, y: 54, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/stonePrySponge": {
         frame: { x: 1198, y: 54, w: 50, h: 50 },
         rotated: false,
@@ -1537,6 +1741,14 @@ SharkGame.Sprites = {
     },
     "actions/smeltCoralglass": {
         frame: { x: 1198, y: 106, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/smeltPorite": {
+        frame: { x: 2882, y: 50, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1738,6 +1950,14 @@ SharkGame.Sprites = {
     },
     "technologies/cetaceanAwareness": {
         frame: { x: 2018, y: 50, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/crustaceanBiology": {
+        frame: { x: 2882, y: 0, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1971,6 +2191,14 @@ SharkGame.Sprites = {
     },
     "technologies/seabedGeology": {
         frame: { x: 1596, y: 2, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "technologies/secretSmithing": {
+        frame: { x: 2882, y: 100, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },

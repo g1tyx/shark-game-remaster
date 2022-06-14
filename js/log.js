@@ -7,6 +7,9 @@ SharkGame.Log = {
     init() {
         this.moveLog();
         log.initialised = true;
+
+        $(window).on("resize", _.debounce(this.changeHeight, 300));
+        this.changeHeight();
     },
 
     moveLog() {
@@ -16,24 +19,26 @@ SharkGame.Log = {
         switch (SharkGame.Settings.current.logLocation) {
             case "left":
                 $("#sidebar").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forLeftSide")));
-                $("#buttonList").removeClass("smallerMargin");
                 $("#wrapper").removeClass("topLogActive");
                 $("#titlebackground").removeClass("topLogActive");
+                $("#tabList").css("margin-right", 0);
                 break;
             case "top":
                 $("#titlebar").append(logDiv);
                 logDiv
                     .append($("<button id='extendLog' class='min close-button'>⯆</button>").on("click", log.toggleExtendedLog))
                     .append("<ul id='messageList'></ul>");
-                $("#buttonList").removeClass("smallerMargin");
                 $("#wrapper").addClass("topLogActive");
                 $("#titlebackground").addClass("topLogActive");
+                $("#tabList").css("margin-right", 0);
                 break;
             default:
                 $("#rightLogContainer").append(logDiv.append("<h3>Log<h3/>").append($("<ul id='messageList'></ul>").addClass("forRightSide")));
-                $("#buttonList").addClass("smallerMargin");
                 $("#wrapper").removeClass("topLogActive");
                 $("#titlebackground").removeClass("topLogActive");
+                $("#rightLogContainer").css("position", "static").css("top", $("#rightLogContainer").offset().top).css("position", "sticky");
+                SharkGame.TabHandler.validateTabWidth();
+                this.changeHeight();
         }
 
         const prevMessages = _.cloneDeep(log.messages);
@@ -49,6 +54,18 @@ SharkGame.Log = {
         });
     },
 
+    changeHeight() {
+        if (SharkGame.Settings.current.logLocation !== "left" && SharkGame.Settings.current.logLocation !== "top") {
+            const maxHeight =
+                $(window).outerHeight(true) - document.getElementById("messageList").getBoundingClientRect().top - $("#copyright").height() - 10;
+            $("#messageList").css("max-height", maxHeight + "px");
+        }
+    },
+
+    isNextMessageEven() {
+        return this.totalCount % 2 === 1;
+    },
+
     addMessage(message) {
         const showAnims = SharkGame.Settings.current.showAnimations;
 
@@ -57,16 +74,39 @@ SharkGame.Log = {
         }
         const messageItem = $("<li>").html(message);
 
-        if (this.totalCount % 2 === 1) {
+        if (log.isNextMessageEven()) {
             messageItem.addClass("evenMessage");
         }
 
-        if (showAnims) {
+        function height(elt, position) {
+            return (
+                elt.getBoundingClientRect().top +
+                (position === "bottom" ? elt.getBoundingClientRect().y : 0) -
+                messageList.getBoundingClientRect().top
+            );
+        }
+
+        const messageList = document.querySelector("#messageList");
+        log.messages.push(messageItem);
+
+        if (messageList.scrollTop !== 0) {
+            messageItem.prependTo("#messageList");
+            let highestVisible = null;
+            for (let i = log.messages.length - 1; i > 0; i--) {
+                if (height(log.messages[i][0], "bottom") > 0) {
+                    highestVisible = i;
+                    break;
+                }
+            }
+
+            const desiredTopElt = log.messages[_.clamp(highestVisible + 1, log.messages.length - 1)][0];
+            const desiredTop = messageList.scrollTop + height(desiredTopElt, "top");
+            $(messageList).animate({ scrollTop: desiredTop + "px" }, 50, "linear");
+        } else if (showAnims) {
             messageItem.hide().css("opacity", 0).prependTo("#messageList").slideDown(50).animate({ opacity: 1.0 }, 100);
         } else {
             messageItem.prependTo("#messageList");
         }
-        log.messages.push(messageItem);
 
         log.correctLogLength();
 

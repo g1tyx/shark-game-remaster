@@ -46,7 +46,7 @@ function assertOrBadInput(expression, message) {
 }
 
 window.ascii85 = new (class ascii85 {
-    Ascii85CodecError = class Ascii85CodecError extends Error {
+    Ascii85CodecError = (class Ascii85CodecError extends Error {
         constructor(message) {
             super(message);
         }
@@ -54,7 +54,7 @@ window.ascii85 = new (class ascii85 {
         toString() {
             return "Ascii85CodecError" + (this.message ? ": " + this.message : "");
         }
-    };
+    });
     encode(bytes) {
         assertOrBadInput(!/[^\x00-\xFF]/.test(bytes), "Input contains out-of-range characters."); // disallow two-byte chars
         const padding = "\x00\x00\x00\x00".slice(bytes.length % 4 || 4);

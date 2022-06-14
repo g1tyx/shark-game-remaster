@@ -18,16 +18,18 @@ SharkGame.HomeActions = {
         // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
         const data = _.cloneDeep(table[actionName]);
 
-        if (cad.actionPriceModifier !== 1) {
-            _.each(data.cost, (costData) => {
-                costData.priceIncrease *= cad.actionPriceModifier;
-            });
-        }
+        if (data) {
+            if (cad.actionPriceModifier !== 1) {
+                _.each(data.cost, (costData) => {
+                    costData.priceIncrease *= cad.actionPriceModifier;
+                });
+            }
 
-        if (home.getActionCategory(actionName) === "frenzy") {
-            _.each(data.cost, (costData) => {
-                costData.priceIncrease *= 0.5 ** SharkGame.Aspects.thePlan.level;
-            });
+            if (home.getActionCategory(actionName) === "frenzy") {
+                _.each(data.cost, (costData) => {
+                    costData.priceIncrease *= 0.5 ** SharkGame.Aspects.thePlan.level;
+                });
+            }
         }
 
         return data;
@@ -523,7 +525,7 @@ SharkGame.HomeActions = {
             max: "ray",
             prereq: {
                 resource: {
-                    shark: 4,
+                    shark: 5,
                 },
             },
             outcomes: [
@@ -594,7 +596,7 @@ SharkGame.HomeActions = {
             max: "crab",
             prereq: {
                 resource: {
-                    shark: 9,
+                    shark: 10,
                     ray: 4,
                 },
             },
@@ -642,141 +644,7 @@ SharkGame.HomeActions = {
             helpText: "Hire a crab to find things that sharks and rays overlook.",
         },
 
-        getShrimp: {
-            name: "Acquire shrimp",
-            effect: {
-                resource: {
-                    shrimp: 1,
-                },
-            },
-            cost: [{ resource: "sponge", costFunction: "linear", priceIncrease: 5 }],
-            max: "shrimp",
-            prereq: {
-                resource: {
-                    sponge: 5,
-                },
-                upgrade: ["seabedGeology"],
-            },
-            outcomes: [
-                "An african filter shrimp joins you.",
-                "An amano shrimp joins you.",
-                "A bamboo shrimp joins you.",
-                "A bee shrimp joins you.",
-                "A black tiger shrimp joins you.",
-                "A blue bee shrimp joins you.",
-                "A blue pearl shrimp joins you.",
-                "A blue tiger shrimp joins you.",
-                "A brown camo shrimp joins you.",
-                "A cardinal shrimp joins you.",
-                "A crystal red shrimp joins you.",
-                "A dark green shrimp joins you.",
-                "A glass shrimp joins you.",
-                "A golden bee shrimp joins you.",
-                "A harlequin shrimp joins you.",
-                "A malaya shrimp joins you.",
-                "A neocaridina heteropoda joins you.",
-                "A ninja shrimp joins you.",
-                "An orange bee shrimp joins you.",
-                "An orange delight shrimp joins you.",
-                "A purple zebra shrimp joins you.",
-                "A red cherry shrimp joins you.",
-                "A red goldflake shrimp joins you.",
-                "A red tiger shrimp joins you.",
-                "A red tupfel shrimp joins you.",
-                "A snowball shrimp joins you.",
-                "A sulawesi shrimp joins you.",
-                "A tiger shrimp joins you.",
-                "A white bee shrimp joins you.",
-                "A yellow shrimp joins you.",
-            ],
-            multiOutcomes: [
-                "That's a lot of shrimp.",
-                "So many shrimp, it's like a cloud!",
-                "I can't cope with this many shrimp!",
-                "Shrimp, they're like bugs, except not bugs or anything related at all!",
-                "They're so tiny!",
-                "How can something so small take up so much space?",
-                "Sponge forever!",
-            ],
-            helpText: "Convince shrimp to assist you in the gathering of algae, which helps boost sponge production.",
-        },
-
-        getLobster: {
-            name: "Gain lobster",
-            effect: {
-                resource: {
-                    lobster: 1,
-                },
-            },
-            cost: [{ resource: "clam", costFunction: "linear", priceIncrease: 10 }],
-            max: "lobster",
-            prereq: {
-                resource: {
-                    clam: 10,
-                },
-                upgrade: ["seabedGeology"],
-            },
-            outcomes: [
-                "A scampi joins you.",
-                "A crayfish joins you.",
-                "A clawed lobster joins you.",
-                "A spiny lobster joins you.",
-                "A slipper lobster joins you.",
-                "A hummer lobster joins you.",
-                "A crawfish joins you.",
-                "A rock lobster joins you.",
-                "A langouste joins you.",
-                "A shovel-nose lobster joins you.",
-                "A crawdad joins you.",
-            ],
-            multiOutcomes: [
-                "Lobsters lobsters lobsters lobsters.",
-                "But they weren't rocks...",
-                "The clam forecast is looking good!",
-                "They're all about the clams!",
-                "More lobsters, because why not?",
-                "HEAVY LOBSTERS",
-                "More lobsters for the snipping and the cutting and the clam grab!",
-                "Clam patrol, here we go.",
-            ],
-            helpText: "Lobster like clams. Will work for clams. Good work. Many clams.",
-        },
-
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
-
-        getDiver: {
-            name: "Prepare diver shark",
-            effect: {
-                resource: {
-                    diver: 1,
-                },
-            },
-            cost: [
-                { resource: "shark", costFunction: "constant", priceIncrease: 1 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 30 },
-            ],
-            max: "diver",
-            prereq: {
-                resource: {
-                    shark: 1,
-                },
-                world: "shrouded",
-            },
-            outcomes: [
-                "Well, better you than me.",
-                "Good luck down there!",
-                "You're doing good work for us, diver shark.",
-                "Fare well on your expeditions, shark!",
-            ],
-            multiOutcomes: [
-                "Follow the crystals!",
-                "We will find the secrets of the deep!",
-                "Brave the deep!",
-                "Find the crystals for science!",
-                "Deep, dark, scary waters. Good luck, all of you.",
-            ],
-            helpText: "Let a shark go deep into the darkness for more crystals and whatever else they may find.",
-        },
 
         getScientist: {
             name: "Train science shark",
@@ -979,7 +847,6 @@ SharkGame.HomeActions = {
                 upgrade: ["rayBiology"],
             },
             outcomes: [
-                "The application of kelp supplements has made a ray very productive.",
                 "More rays lets you get more rays which you can then use to get more rays.",
                 "The ray singularity begins!",
                 "A ray maker is ready.",
@@ -1143,120 +1010,11 @@ SharkGame.HomeActions = {
                 "Snip snap clack clack burble burble crabs crabs crabs crabs.",
                 "More crabs are always a good idea. Crystals aren't cheap.",
                 "The broods swell in number. The sharks are uneasy, but the concern soon passes.",
-                "Yes. Feed the kelp. Feed it. Feeeeeed it.",
             ],
             helpText: "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.",
         },
 
-        // SHRIMP JOBS ////////////////////////////////////////////////////////////////////////////////
-
-        getQueen: {
-            name: "Crown shrimp queen",
-            effect: {
-                resource: {
-                    queen: 1,
-                },
-            },
-            cost: [
-                { resource: "shrimp", costFunction: "constant", priceIncrease: 1 },
-                { resource: "sponge", costFunction: "linear", priceIncrease: 50 },
-            ],
-            max: "queen",
-            prereq: {
-                resource: {
-                    shrimp: 1,
-                },
-                upgrade: ["eusociality"],
-            },
-            outcomes: [
-                "Shrimp queen prepped for duty!",
-                "A royal shrimp is she!",
-                "More shrimp for the shrimp superorganism!",
-                "Give it time before they start singing about wanting to break free.",
-                "Long live the tiny tiny shrimp queen!",
-            ],
-            multiOutcomes: [
-                "Okay, so it's not exactly a royal role, but hey, they're gonna be making eggs for a long time. Humour them.",
-                "This is the weirdest monarchy in existence.",
-                "Welcome to the superorganisation!",
-                "They want to ride their bicycle.",
-                "Give it time before they start singing about wanting to break free.",
-                "Queens for the shrimp colony! Eggs for the egg throne!",
-            ],
-            helpText: "Create a shrimp queen to make more shrimp.",
-        },
-
-        getWorker: {
-            name: "Assign shrimp worker",
-            effect: {
-                resource: {
-                    worker: 1,
-                },
-            },
-            cost: [
-                { resource: "shrimp", costFunction: "constant", priceIncrease: 1 },
-                { resource: "sponge", costFunction: "linear", priceIncrease: 20 },
-            ],
-            max: "worker",
-            prereq: {
-                resource: {
-                    shrimp: 1,
-                },
-                upgrade: ["eusociality"],
-            },
-            outcomes: [
-                "No more work for this shrimp! Of their particular variety! Now slightly different work! Go!",
-                "Consider this a promotion.",
-                "This shrimp is going to have to come in on weekends now, I'm afraid.",
-                "We sure love micromanaging these tiny guys on an individual basis, don't we.",
-                "This little shrimp is so happy to be picked out of the crowd.",
-            ],
-            multiOutcomes: [
-                "These are some pretty fluid castes.",
-                "Promotions for everybody!",
-                "We're reorganising the superorganism.",
-                "The sponge must grow.",
-                "The sponge is the life.",
-                "Glory to the sponge. Glory to the shrimp mass.",
-            ],
-            helpText: "Dedicate a shrimp to collecting stuff that isn't algae.",
-        },
-
         // LOBSTER JOBS ////////////////////////////////////////////////////////////////////////////////
-
-        getBerrier: {
-            name: "Form lobster berrier",
-            effect: {
-                resource: {
-                    berrier: 1,
-                },
-            },
-            cost: [
-                { resource: "lobster", costFunction: "constant", priceIncrease: 1 },
-                { resource: "clam", costFunction: "linear", priceIncrease: 30 },
-            ],
-            max: "berrier",
-            prereq: {
-                resource: {
-                    lobster: 1,
-                },
-                upgrade: ["crustaceanBiology"],
-            },
-            outcomes: [
-                "We didn't need to see the process behind this.",
-                "One lobster brimming with eggs to go.",
-                "It's like some weird counterpart to the planter crab. But with eggs.",
-                "Lobster with rocks ready to make a move. Oh, okay, eggs, whatever, see, they look like shiny pebbles from a distance and... oh, forget it.",
-            ],
-            multiOutcomes: [
-                "Berrier isn't even a word!",
-                "Berries and eggs aren't even the same thing!",
-                "How do these things swim with this much weighing them down?",
-                "We aren't running out of volunteers any time soon.",
-                "Did you see them fight for this job? Claws everywhere, I tell you!",
-            ],
-            helpText: "Dedicate a lobster to egg production. We don't know how it works. Ask the lobsters.",
-        },
 
         /*
         getRockLobster: {
@@ -1298,7 +1056,6 @@ SharkGame.HomeActions = {
             ],
             helpText: "Give a lobster the right gear to crack open stones in the name of gravel.",
         },
-        */
 
         getHarvester: {
             name: "Train lobster harvester",
@@ -1333,6 +1090,7 @@ SharkGame.HomeActions = {
             ],
             helpText: "Train a lobster to cut down kelp faster than anything can plant it. Sustainable!",
         },
+        */
 
         // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
 
@@ -1540,36 +1298,6 @@ SharkGame.HomeActions = {
                 "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.",
         },
 
-        getHeater: {
-            name: "Build heater",
-            effect: {
-                resource: {
-                    heater: 1,
-                },
-            },
-            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 250 }],
-            max: "heater",
-            prereq: {
-                upgrade: ["thermalConditioning"],
-            },
-            outcomes: [
-                "Heater activated.",
-                "Heater constructed.",
-                "Climate control online.",
-                "Construction complete.",
-                "The end of ice.",
-            ],
-            multiOutcomes: [
-                "The ice age comes to a close.",
-                "Is this replacing one form of destruction for another?",
-                "Life becomes easier.",
-                "The warmth. The warmth we desired so much.",
-                "Life returns to the frozen sea.",
-                "This world awakens.",
-            ],
-            helpText: "Construct a machine to combat the advancing ice shelf.",
-        },
-
         // MODDED MACHINES
 
         /*
@@ -1667,104 +1395,6 @@ SharkGame.HomeActions = {
             helpText: "Construct a machine to break down gravel into sand.",
         },
         */
-
-        // CRUSTACEAN MACHINES /////////////////////////////////////////////////////////
-
-        getSpongeFarmer: {
-            name: "Build sponge farmer",
-            effect: {
-                resource: {
-                    spongeFarmer: 1,
-                },
-            },
-            cost: [{ resource: "coralglass", costFunction: "linear", priceIncrease: 200 }],
-            max: "spongeFarmer",
-            prereq: {
-                resource: {
-                    coralglass: 200,
-                },
-                upgrade: ["coralCircuitry"],
-            },
-            outcomes: [
-                "Sponge farmer is active.",
-                "Sponge farmer capable.",
-                "This sponge farming machine clatters to life.",
-                "This automated caretaker gets to work.",
-            ],
-            multiOutcomes: [
-                "Sponges are not hard to domesticate. It's harder to make them wild.",
-                "The shrimp will be happier.",
-                "There is something missing compared to our machines. Ours are slightly more menacing, but also more effective.",
-                "Who needs this much sponge?",
-            ],
-            helpText: "This crustacean machine automatically farms and harvests sponge.",
-        },
-
-        getBerrySprayer: {
-            name: "Build berry sprayer",
-            effect: {
-                resource: {
-                    berrySprayer: 1,
-                },
-            },
-            cost: [{ resource: "coralglass", costFunction: "linear", priceIncrease: 500 }],
-            max: "berrySprayer",
-            prereq: {
-                resource: {
-                    coralglass: 500,
-                    lobster: 2,
-                },
-                upgrade: ["coralCircuitry"],
-            },
-            outcomes: [
-                "Berry sprayer is active.",
-                "Berry sprayer capable.",
-                "This egg spraying machine clatters to life.",
-                "This automated caretaker gets to work.", // yeah, it's lazy, I know, but still just as appropriate
-            ],
-            multiOutcomes: [
-                "Automation of population? What a terrifying concept.",
-                "The machine rears lobster eggs. Wouldn't the shrimp want something like this too?",
-                "There is an uneasiness about these machines that fills the sharks with concern.",
-                "Why was this machine invented? Are we helping to prepare an army?",
-            ],
-            helpText: "This crustacean machine distributes lobster eggs for optimal hatching conditions.",
-        },
-
-        getGlassMaker: {
-            name: "Build glass maker",
-            effect: {
-                resource: {
-                    glassMaker: 1,
-                },
-            },
-            cost: [
-                { resource: "coralglass", costFunction: "linear", priceIncrease: 400 },
-                { resource: "sand", costFunction: "linear", priceIncrease: 200 },
-                { resource: "coral", costFunction: "linear", priceIncrease: 200 },
-            ],
-            max: "glassMaker",
-            prereq: {
-                resource: {
-                    coralglass: 400,
-                },
-                upgrade: ["coralCircuitry"],
-            },
-            outcomes: [
-                "Glass maker is active.",
-                "Glass maker capable.",
-                "This glass forging machine clatters to life.",
-                "The coralglass factory whirrs and boils.",
-            ],
-            multiOutcomes: [
-                "Coralglass. The sharkonium of the shelled kind.",
-                "The raw heat from these things could boil the ocean dry. How they do it, we don't know.",
-                "Coralglass. So fragile, so beautiful, yet so durable. They make the machines in their own image.",
-                "The fine intricacies of these machines are lost on us, given how much of our technological development involves our mouths.",
-            ],
-            helpText:
-                "This crustacean machine automatically makes coralglass out of coral and sand through processes we don't fully understand.",
-        },
     },
     abandoned: {
         catchFish: {},
@@ -1842,7 +1472,7 @@ SharkGame.HomeActions = {
             effect: {
                 resource: {
                     spronge: 1,
-                    //tar: 0.001,
+                    // tar: 0.001,
                 },
             },
             cost: [
@@ -2742,23 +2372,30 @@ SharkGame.HomeActions = {
                 upgrade: ["civilContact"],
             },
             outcomes: [
-                "Skwid. I mean, squid.",
-                "You. Hunting duty. Get on it.",
-                "Squid at your service.",
-                "Squid ready to hunt.",
-                "The squid ventures out in search of fish.",
-                "The squid has no qualms about joining the frenzy.",
-                "The squid offers its utmost respect.",
+                "A giant squid joins you.",
+                "A bush-club squid joins you.",
+                "A comb-finned squid joins you.",
+                "A glass squid joins you.",
+                "An armhook squid joins you.",
+                "A jewel squid joins you.",
+                "A scaled squid joins you.",
+                "A big-fin squid joins you.",
+                "A whip-lash squid joins you.",
+                "A flying squid joins you.",
+                "A hooked squid joins you.",
+                "A glacial squid joins you.",
+                "A fire squid joins you.",
+                "A grass squid joins you.",
             ],
             multiOutcomes: [
-                "Squids? Squid.",
                 "The squid join the frenzy, but stay close to the village.",
                 "The squid are cooperative and obedient. They do as directed.",
                 "A squiggle of squid! No, of course that's not real.",
-                "A...group! Of squid!",
-                "A shoal of squid!",
-                "A squad of squid! A squid squad!",
-                "A school of squid!",
+                "You all. Hunting duty. Get on it.",
+                "Squid are ready to hunt.",
+                "The squid venture out in search of fish.",
+                "The squid have no qualms about joining the frenzy.",
+                "The squid offer their utmost respect.",
             ],
             helpText: "Enlist a squid to help us hunt down fish. Squid are used to the cold.",
         },
@@ -2784,7 +2421,21 @@ SharkGame.HomeActions = {
             prereq: {
                 upgrade: ["urchinAttraction"],
             },
-            outcomes: ["OUCH!", "OW!", "YEOUCH!", "OUCHIE!", "insert pain noise", "OOCH!"],
+            outcomes: [
+                "A collector urchin joins you.",
+                "A burrowing urchin joins you.",
+                "A fire urchin joins you.",
+                "A lance urchin joins you.",
+                "A long-spined urchin joins you.",
+                "A reef urchin joins you.",
+                "A rock-boring urchin joins you.",
+                "A pencil urchin joins you.",
+                "A needle urchin joins you.",
+                "A violet urchin joins you.",
+                "A purple urchin joins you.",
+                "A double-spined urchin joins you.",
+                "A flower urchin joins you.",
+            ],
             multiOutcomes: [
                 "ow ow ow spikes hurt",
                 "The urchins join the frenzy. The frenzy keeps its distance.",
@@ -2809,7 +2460,7 @@ SharkGame.HomeActions = {
         // SQUID JOBS ////////////////////////////////////////////////////////////////////////////////
 
         getExtractionTeam: {
-            //i consider this a squid job
+            // i consider this a squid job
             name: "Organize extraction team",
             effect: {
                 resource: {
@@ -3404,7 +3055,6 @@ SharkGame.HomeActions = {
                 upgrade: ["rayBiology"],
             },
             outcomes: [
-                "The application of kelp supplements has made a ray very productive.",
                 "More rays lets you get more rays which you can then use to get more rays.",
                 "The ray singularity begins!",
                 "A ray maker is ready.",
@@ -3565,6 +3215,8 @@ SharkGame.HomeActions = {
         getSandDigger: {},
 
         getFishMachine: {},
+
+        getAutoTransmuter: {},
     },
     marine: {
         catchFish: {},
@@ -3640,10 +3292,22 @@ SharkGame.HomeActions = {
             name: "Convert clam pearls",
             effect: {
                 resource: {
-                    crystal: 1,
+                    get crystal() {
+                        if (SharkGame.Upgrades.purchased.includes(`highEnergyFusion`)) return 5;
+                        return 1;
+                    },
                 },
             },
-            cost: [{ resource: "clam", costFunction: "constant", priceIncrease: 5 }],
+            cost: [
+                {
+                    resource: "clam",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        if (SharkGame.Upgrades.purchased.includes(`highEnergyFusion`)) return 1;
+                        return 5;
+                    },
+                },
+            ],
             max: "clam",
             prereq: {
                 resource: {
@@ -3657,7 +3321,7 @@ SharkGame.HomeActions = {
                 "Okay, we managed to only use the pearls this time, but we, uh, had to break the clams open pretty roughly.",
                 "Pearls to... nope. Clams to crystals. Science is hard.",
             ],
-            helpText: "Convert a pearl (and the clam around it) into crystal.",
+            helpText: "Convert pearls (and the clams around them) into crystal.",
         },
 
         // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
@@ -3730,9 +3394,19 @@ SharkGame.HomeActions = {
             ],
             max: "calcinium",
             prereq: {
-                upgrade: [""],
+                upgrade: ["calciniumStudies"],
             },
-            outcomes: [],
+            outcomes: [
+                `Fusion complete.`,
+                `Clams sacrificed.`,
+                `The fresh calcinium boils the water around it as it cools.`,
+                `The clams and crystals meld together into a single unit.`,
+                `The structures of the clams and crystals interlock, then solidify.`,
+                `Bits of debris shoot out, glowing with heat as two become one.`,
+                `Onlookers watch in awe as the lightshow goes on.`,
+                `The pearl works its magic.`,
+                `Completed fusion.`,
+            ],
             helpText: "Smelt resources into calcinium for use in crustacean machines.",
         },
 
@@ -3782,7 +3456,7 @@ SharkGame.HomeActions = {
                 "More lobsters for the snipping and the cutting and the clam grab!",
                 "Clam patrol, here we go.",
             ],
-            helpText: "",
+            helpText: "Hire a lobster to scoop up clams for us.",
         },
 
         // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3795,28 +3469,43 @@ SharkGame.HomeActions = {
 
         getMaker: {},
 
-        getExtractor: {
-            name: "Assemble extractor ray",
+        getClamScavenger: {
+            name: "Equip clam scavenger",
             effect: {
                 resource: {
-                    extractor: 1,
+                    clamScavenger: 1,
                 },
             },
             cost: [
                 { resource: "ray", costFunction: "constant", priceIncrease: 1 },
                 { resource: "calcinium", costFunction: "linear", priceIncrease: 15 },
-                { resource: "fish", costFunction: "linear", priceIncrease: 500 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 1000 },
             ],
-            max: "extractor",
+            max: "clamScavenger",
             prereq: {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["calciniumBiosynergy"],
+                upgrade: ["calciniumRobotics"],
             },
-            outcomes: [],
-            multiOutcomes: [],
-            helpText: "",
+            outcomes: [
+                `Scavenger ready to scavenge.`,
+                `Claw arm operational.`,
+                `Arm training complete.`,
+                `One ray, able to use goofy oversized arm, coming right up.`,
+                `A ray, ready to have a big arm do its job for it.`,
+                `Ray equipped.`,
+                `Ray ready to indiscriminately tear up the seabed.`,
+            ],
+            multiOutcomes: [
+                `These arms are big.`,
+                `Scoop scoop scoop.`,
+                `Expensive equipment equipped.`,
+                `Directive: dig clams.`,
+                `The faint sound of grinding stone fills the water.`,
+                `Why a crab claw? why not a lobster? Actually, wait...is there a difference?`,
+            ],
+            helpText: "Strap a big goofy claw arm to a ray and train it to scoop huge amounts of clams.",
         },
 
         // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3826,7 +3515,7 @@ SharkGame.HomeActions = {
         getBrood: {},
 
         getSeabedStripper: {
-            name: "Build seabed stripper",
+            name: "Equip seabed stripper",
             effect: {
                 resource: {
                     seabedStripper: 1,
@@ -3834,18 +3523,35 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "calcinium", costFunction: "linear", priceIncrease: 150 },
-                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "planter", costFunction: "constant", priceIncrease: 1 },
             ],
             max: "seabedStripper",
             prereq: {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["crustaceanTransmutation"],
+                upgrade: ["calciniumRobotics"],
             },
-            outcomes: [],
-            multiOutcomes: [],
-            helpText: "",
+            outcomes: [
+                `Planter has been upgraded.`,
+                `Seabed stripper, ready to destroy the forests.`,
+                `One seabed stripper, ready to pretend to be a sea spider.`,
+                `One snippy crab coming right up.`,
+                `Snip.`,
+                `The crab gestures with all its claws.`,
+                `Promoted a planter.`,
+                `Improved a planter.`,
+            ],
+            multiOutcomes: [
+                `Snip snip snip.`,
+                `The claws rip into kelp like a synchronized dance.`,
+                `The sound of plants ripping fills the water.`,
+                `Directive: extract kelp from forests.`,
+                `Many small snippers come to life and begin snipping through kelp at incredible speed.`,
+                `The crabs join another group headed out in search of new forests.`,
+                `Too many arms, honestly.`,
+            ],
+            helpText: "Equip a planter with many additional arms for maximum efficiency.",
         },
 
         // LOBSTER JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3897,7 +3603,7 @@ SharkGame.HomeActions = {
         // CRUSTACEAN MACHINES /////////////////////////////////////////////////////////
 
         getCalciniumConverter: {
-            name: "Build calcinium converter",
+            name: "Assemble calcinium converter",
             effect: {
                 resource: {
                     calciniumConverter: 1,
@@ -3912,21 +3618,437 @@ SharkGame.HomeActions = {
                 resource: {
                     calcinium: 1,
                 },
-                upgrade: ["crustaceanTransmutation"],
+                upgrade: ["calciniumCybernetics"],
             },
             outcomes: [
-                /*                 "Berry sprayer is active.",
-                "Berry sprayer capable.",
-                "This egg spraying machine clatters to life.",
-                "This automated caretaker gets to work.", */
+                `One lobster-turned-cyborg coming right up.`,
+                `Incoming cyborg.`,
+                `Lobster has been augmented.`,
+                `The lobster gets to work immediately.`,
+                `The lobster ignores your presence as it searches for materials.`,
+                `The converter begins to convert.`,
+                `The converter asks for materials.`,
             ],
             multiOutcomes: [
-                /*                 "Automation of population? What a terrifying concept.",
-                "The machine rears lobster eggs. Wouldn't the shrimp want something like this too?",
-                "There is an uneasiness about these machines that fills the sharks with concern.",
-                "Why was this machine invented? Are we helping to prepare an army?", */
+                `Lasers charged.`,
+                `Fusion beams ready.`,
+                `Future!?`,
+                `Directive: automate.`,
+                `Setting phasers to fuse...`,
+                `The power of the sun in an attached limb!`,
+                `Focus. Focus. Come on...fuse!`,
+                `Two becomes one.`,
             ],
-            helpText: "", // This crustacean machine distributes lobster eggs for optimal hatching conditions.
+            helpText: "Modify a lobster to fuse calcinium with cool cyborg laser beams.", // This crustacean machine distributes lobster eggs for optimal hatching conditions.
+        },
+    },
+    violent: {
+        // FREEBIES ////////////////////////////////////////////////////////////////////////////////
+
+        catchFish: {},
+
+        debugbutton: {},
+
+        prySponge: {
+            removedBy: {
+                totalResourceThreshold: [{ resource: `sponge`, threshold: 100 }],
+            },
+        },
+
+        prySponge2: {
+            name: "Pry sponge",
+            effect: {
+                resource: {
+                    get sponge() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
+                },
+            },
+            cost: {},
+            prereq: {
+                upgrade: ["consistentCommunication"],
+            },
+            outcomes: [
+                "Pried an orange elephant ear sponge from the rocks.",
+                "Pried a brain sponge from the rocks.",
+                "Pried a branching tube sponge from the rocks.",
+                "Pried a brown volcano carpet from the rocks.",
+                "Pried a row pore rope sponge from the rocks.",
+                "Pried a branching vase sponge from the rocks.",
+                "Pried a chicken liver sponge from the rocks.",
+                "Pried a red boring sponge from the rocks.",
+                "Pried a heavenly sponge from the rocks.",
+                "Pried a brown encrusting octopus sponge from the rocks.",
+                "Pried a stinker sponge from the rocks.",
+                "Pried a black-ball sponge from the rocks.",
+                "Pried a strawberry vase sponge from the rocks.",
+                "Pried a convoluted orange sponge from the rocks.",
+                "Pried a touch-me-not sponge from the rocks. Ow.",
+                "Pried a lavender rope sponge from the rocks.",
+                "Pried a red-orange branching sponge from the rocks.",
+                "Pried a variable boring sponge from the rocks.",
+                "Pried a loggerhead sponge from the rocks.",
+                "Pried a yellow sponge from the rocks.",
+                "Pried an orange lumpy encrusting sponge from the rocks.",
+                "Pried a giant barrel sponge from the rocks.",
+            ],
+            helpText: "Grab a sponge from the seabed for future use.",
+        },
+
+        // CONVERSIONS ////////////////////////////////////////////////////////////////////////////////
+
+        seaApplesToScience: {
+            prereq: {
+                resource: {
+                    seaApple: 1,
+                },
+                upgrade: ["xenobiology"],
+            },
+        },
+
+        // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
+
+        smeltPorite: {
+            name: "Smelt stuff to porite",
+            effect: {
+                resource: {
+                    porite: 1,
+                },
+            },
+            cost: [
+                {
+                    resource: "sponge",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return 5 - 1 * SharkGame.Aspects.syntheticTransmutation.level;
+                    },
+                },
+                {
+                    resource: "sand",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        const upgradeMod = SharkGame.Upgrades.purchased.includes(`superiorSmelting`) ? 1 : 10;
+                        return (5 - 1 * SharkGame.Aspects.syntheticTransmutation.level) * upgradeMod;
+                    },
+                },
+            ],
+            max: "porite",
+            prereq: {
+                upgrade: ["secretSmelting"],
+            },
+            outcomes: [
+                "Porite smelted!",
+                "Porite melted! No. Wait.",
+                "How does sponge become part of glass? Well, you see, it's all very simple, or that's what the shrimp told me.",
+                "The backbo-- the exoskeleton of the shrimp industry!",
+                "So fragile. Yet so useful.",
+            ],
+            helpText: "Smelt resources into porite for use in shrimp tools!",
+        },
+
+        // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
+
+        getManta: {
+            prereq: {
+                resource: {
+                    fish: 15,
+                },
+            },
+        },
+
+        getCrab: {
+            prereq: {
+                resource: {
+                    ray: 4,
+                },
+            },
+        },
+
+        getShrimp: {
+            name: "Acquire shrimp",
+            effect: {
+                resource: {
+                    shrimp: 1,
+                },
+            },
+            cost: [{ resource: "sponge", costFunction: "linear", priceIncrease: 5 }],
+            max: "shrimp",
+            prereq: {
+                resource: {
+                    sponge: 5,
+                },
+                upgrade: ["consistentCommunication"],
+            },
+            outcomes: [
+                "An african filter shrimp joins you.",
+                "An amano shrimp joins you.",
+                "A bamboo shrimp joins you.",
+                "A bee shrimp joins you.",
+                "A black tiger shrimp joins you.",
+                "A blue bee shrimp joins you.",
+                "A blue pearl shrimp joins you.",
+                "A blue tiger shrimp joins you.",
+                "A brown camo shrimp joins you.",
+                "A cardinal shrimp joins you.",
+                "A crystal red shrimp joins you.",
+                "A dark green shrimp joins you.",
+                "A glass shrimp joins you.",
+                "A golden bee shrimp joins you.",
+                "A harlequin shrimp joins you.",
+                "A malaya shrimp joins you.",
+                "A neocaridina heteropoda joins you.",
+                "A ninja shrimp joins you.",
+                "An orange bee shrimp joins you.",
+                "An orange delight shrimp joins you.",
+                "A purple zebra shrimp joins you.",
+                "A red cherry shrimp joins you.",
+                "A red goldflake shrimp joins you.",
+                "A red tiger shrimp joins you.",
+                "A red tupfel shrimp joins you.",
+                "A snowball shrimp joins you.",
+                "A sulawesi shrimp joins you.",
+                "A tiger shrimp joins you.",
+                "A white bee shrimp joins you.",
+                "A yellow shrimp joins you.",
+            ],
+            multiOutcomes: [
+                "That's a lot of shrimp.",
+                "So many shrimp, it's like a cloud!",
+                "I can't cope with this many shrimp!",
+                "Shrimp, they're like bugs, except not bugs or anything related at all!",
+                "They're so tiny!",
+                "How can something so small take up so much space?",
+                "Sponge forever!",
+            ],
+            helpText: "Convince shrimp to assist you in the gathering of algae, which helps boost sponge production.",
+        },
+
+        // RAY JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getMaker: {
+            name: "Instruct a ray maker",
+            effect: {
+                resource: {
+                    maker: 1,
+                },
+            },
+            cost: [
+                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 300 },
+            ],
+            max: "maker",
+            prereq: {
+                resource: {
+                    ray: 1,
+                },
+                upgrade: ["rayBiology"],
+            },
+            outcomes: [
+                "More rays lets you get more rays which you can then use to get more rays.",
+                "The ray singularity begins!",
+                "A ray maker is ready.",
+                "Looks like you gave them quite the ray maker blow! 'Them' being the intangible enemy that is lacking in resources.",
+                "The ray seems concerned, but obliges. The mission has been given.",
+            ],
+            multiOutcomes: [
+                "All these makers. What are they making? What is it for? Oh. It's rays, and it's probably for sand or something.",
+                "More ray makers means more rays. Do you understand what that means?! Do you?! It means more rays. Good. On the same page, then.",
+                "Rapidly breeding aquatic wildlife is probably a severe ecological hazard. Good thing this isn't Earth's oceans, probably!",
+                "Have you ever thought about what the rays wanted? Because this might have been what they wanted after all.",
+                "MORE LASER RAYS FOR THE LASER ARMY-- oh. Well, this is good too.",
+            ],
+            helpText: "Remove a ray from sand business and let them concentrate on making more rays.",
+        },
+
+        getShoveler: {
+            name: "Instruct a ray shoveler",
+            effect: {
+                resource: {
+                    shoveler: 1,
+                },
+            },
+            cost: [
+                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
+                { resource: "porite", costFunction: "linear", priceIncrease: 200 },
+            ],
+            max: "shoveler",
+            prereq: {
+                resource: {
+                    ray: 1,
+                },
+                upgrade: ["superShovels"],
+            },
+            outcomes: [
+                "Shoveler instructed.",
+                "Shoveler equipped.",
+                "The shoveler begins digging up sand scattered by the vents.",
+                "The shoveler heads for the nearest vent.",
+                "The shoveler straps on its gear.",
+                "This ray looks determined to increase productivity.",
+            ],
+            multiOutcomes: [
+                "Glory to the sand.",
+                "It's shoveling time!",
+                "Dig dig dig.",
+                "Can you dig it?",
+                "The ray has a tool. It's a shovel, because it's a tool designed for shoving stuff.",
+                "The rays descend on the nearest vent.",
+                "The rays disperse and make their way to individual vents.",
+                "The rays begin clearing the top layer of sand around nearby vents.",
+            ],
+            helpText: "Teach a ray to quickly move sand around using a huge, specialized scoop.",
+        },
+
+        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getCatcher: {
+            name: "Gear up catcher crab",
+            effect: {
+                resource: {
+                    catcher: 1,
+                },
+            },
+            cost: [
+                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "sand", costFunction: "linear", priceIncrease: 100 },
+            ],
+            max: "catcher",
+            prereq: {
+                upgrade: ["kelpCatching"],
+            },
+            outcomes: [
+                "Crab ready to catch.",
+                "Crab has its eyes on a piece of drifting kelp as soon as it reaches a vent.",
+                "This one will make a game-winning catch someday, I can just feel it.",
+                "Crab ready to pitch- I mean catch.",
+                "Equipped crab with extendo-reach.",
+                "This crab now reaches farther.",
+            ],
+            multiOutcomes: [
+                "A bunch of claw-doodad-wielding crabs make their way to the nearest vent.",
+                "The extendo-grip crabs are gripping stuff.",
+                "The crabs test out their new equipment by messing with each other from afar. Hey, get back to work!",
+                "The crabs nestle into their chosen spots around the vent output.",
+                "Though monotonous, they seem content with this life.",
+                "These crabs are ready to have some fun with extendo-reach.",
+                "The crabs just seem happy to help.",
+            ],
+            helpText: "Grant a crab the tools and training to help them catch stuff coming from the vents.",
+        },
+
+        getBrood: {
+            name: "Form crab brood",
+            effect: {
+                resource: {
+                    brood: 1,
+                },
+            },
+            cost: [
+                { resource: "crab", costFunction: "constant", priceIncrease: 20 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 200 },
+            ],
+            max: "brood",
+            prereq: {
+                resource: {
+                    crab: 1,
+                },
+                upgrade: ["crabBiology"],
+            },
+            outcomes: [
+                "A bunch of crabs pile together into some sort of weird cluster.",
+                "Crab team, assemble! FORM THE CRAB BROOD!",
+                "[This message has been censored for reasons of being mostly really gross.]",
+                "Eggs, eggs everywhere, but never stop and think.",
+                "Writhing crab pile. Didn't expect those words next to each other today, did you.",
+                "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.",
+            ],
+            multiOutcomes: [
+                "The broods grow. The swarm rises.",
+                "All these crabs are probably a little excessive. ...is what I could say, but I'm going to say this instead. MORE CRABS.",
+                "A sea of crabs on the bottom of the sea. Clickity clackity.",
+                "Snip snap clack clack burble burble crabs crabs crabs crabs.",
+                "More crabs are always a good idea. Crystals aren't cheap.",
+                "The broods swell in number. The sharks are uneasy, but the concern soon passes.",
+            ],
+            helpText: "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.",
+        },
+
+        // SHRIMP JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getQueen: {
+            name: "Crown shrimp queen",
+            effect: {
+                resource: {
+                    queen: 1,
+                },
+            },
+            cost: [
+                { resource: "shrimp", costFunction: "constant", priceIncrease: 1 },
+                { resource: "sponge", costFunction: "linear", priceIncrease: 250 },
+            ],
+            max: "queen",
+            prereq: {
+                resource: {
+                    shrimp: 1,
+                },
+                upgrade: ["eusociality"],
+            },
+            outcomes: [
+                "Up the ranks you go, little one.",
+                "Shrimp queen prepped for duty!",
+                "A royal shrimp is she!",
+                "More shrimp for the shrimp superorganism!",
+                "Give it time before they start singing about wanting to break free.",
+                "Long live the tiny tiny shrimp queen!",
+            ],
+            multiOutcomes: [
+                "Okay, so it's not exactly a royal role, but hey, they're gonna be making eggs for a long time. Humour them.",
+                "This is the weirdest monarchy in existence.",
+                "Welcome to the superorganisation!",
+                "They want to ride their bicycle.",
+                "Give it time before they start singing about wanting to break free.",
+                "Queens for the shrimp colony! Eggs for the egg throne!",
+                "Go, more shrimps!",
+                "Neverending shrimp cycle, GO!",
+            ],
+            helpText: "Crown a shrimp queen to make more shrimp.",
+        },
+
+        getFarmer: {
+            name: "Assign shrimp farmer",
+            effect: {
+                resource: {
+                    farmer: 1,
+                },
+            },
+            cost: [
+                { resource: "shrimp", costFunction: "constant", priceIncrease: 1 },
+                { resource: "porite", costFunction: "linear", priceIncrease: 10 },
+            ],
+            max: "farmer",
+            prereq: {
+                resource: {
+                    shrimp: 1,
+                },
+                upgrade: ["secretSmithing"],
+            },
+            outcomes: [
+                "One shrimp equipped with tiny pitchfork and cute little hat.",
+                "Gave a shrimp the tools it needs to farm efficiently.",
+                "The shrimp happily takes on its new role.",
+                "In a way, this is a promotion.",
+                "One shrimp, ready to contribute even more to society than usual.",
+            ],
+            multiOutcomes: [
+                "The shrimps are excited to contribute to the sponge mass.",
+                "These are some pretty fluid castes.",
+                "Promotions for everybody!",
+                "Glory to the king! We honor him with our cute little pitchforks.",
+                "The sponge must grow.",
+                "The sponge is life.",
+                "Glory to the sponge. Glory to the shrimp mass.",
+            ],
+            helpText: "Dedicate a shrimp to the cultivation of plants.",
         },
     },
 };
@@ -3965,16 +4087,15 @@ SharkGame.HomeActionCategories = {
         name: "Jobs",
         actions: [
             "getDiver",
-            //"getProspector",
+            // "getProspector",
             "getScientist",
             "getLaser",
-            //getShoveler",
+            // getShoveler",
             "getPlanter",
             "getCollector",
-            //"getMiller",
-            "getWorker",
-            "getHarvester",
-            //"getRockLobster",
+            // "getMiller",
+            "getFarmer",
+            // "getRockLobster",
             "getPhilosopher",
             "getTreasurer",
             "getTechnician",
@@ -3987,6 +4108,7 @@ SharkGame.HomeActionCategories = {
             "getExtractionTeam",
             "getScholar",
             "getExtractor",
+            "getCatcher",
         ],
     },
 
@@ -3995,7 +4117,7 @@ SharkGame.HomeActionCategories = {
         actions: [
             "getNurse",
             "getMaker",
-            //"stoneGetMaker",
+            // "stoneGetMaker",
             "getBrood",
             "getQueen",
             "getBerrier",
@@ -4010,7 +4132,7 @@ SharkGame.HomeActionCategories = {
         name: "Processing",
         actions: [
             "seaApplesToScience",
-            //"spongeToScience",
+            // "spongeToScience",
             "jellyfishToScience",
             "pearlConversion",
             "advancedPearlConversion",
@@ -4022,6 +4144,7 @@ SharkGame.HomeActionCategories = {
             "forgeSpronge",
             "fuseAncientPart",
             "makeSacrifice",
+            "fuseCalcinium",
         ],
     },
 
@@ -4033,8 +4156,8 @@ SharkGame.HomeActionCategories = {
             "getAutoTransmuter",
             "getFishMachine",
             "getSkimmer",
-            //"getCrusher",
-            //"getPulverizer",
+            // "getCrusher",
+            // "getPulverizer",
             "getHeater",
         ],
     },
@@ -4049,11 +4172,12 @@ SharkGame.HomeActionCategories = {
             "getClamCollector",
             "getEggBrooder",
             "getSprongeSmelter",
-            //"getCoalescer",
+            // "getCoalescer",
             "getCrimsonCombine",
             "getKelpCultivator",
             "getSeabedStripper",
             "getCalciniumConverter",
+            "getClamScavenger",
         ],
     },
 

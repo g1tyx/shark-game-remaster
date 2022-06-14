@@ -51,11 +51,11 @@ $color-dark-tempestuous: #253046;
 $color-darker-tempestuous: #121a2b;
 
 //violent theme
-$color-lighter-violent: #975f5f;
-$color-light-violent: #714141;
-$color-med-violent: #6b2b2b;
-$color-dark-violent: #5c1919;
-$color-darker-violent: #450808;
+$color-lighter-violent: #cf9d9d;
+$color-light-violent: #8f5252;
+$color-med-violent: #681e1e;
+$color-dark-violent: #521212;
+$color-darker-violent: #2b0707;
 
 // -- END OF THEMES --
 
@@ -270,7 +270,27 @@ body {
     font-size: 13pt;
     text-align: center;
     min-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: initial; /* without this you can't change any properties */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-med);
+}
+
+.gateway::-webkit-scrollbar-track {
+    background: $color-discovery-dark2;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-light);
+}
+
+.gateway::-webkit-scrollbar-thumb {
+    background-color: $color-discovery-dark;
 }
 
 div {
@@ -343,6 +363,18 @@ h4 {
     padding: 10px;
     @include border-radius(10px);
     height: 100%;
+
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+
+    #game {
+        flex: 1 0 auto;
+    }
+
+    #copyright {
+        flex-shrink: 0;
+    }
 
     &.topLogActive {
         margin-top: 4.8em;
@@ -538,7 +570,7 @@ pre {
 
 #contentMenu {
     overflow: hidden;
-    height: 1.8em;
+    min-height: 1.8em;
 
     ul {
         padding: 0;
@@ -555,16 +587,25 @@ pre {
 
     #tabList {
         float: left;
+        position: fixed;
         margin-bottom: 0.4em;
         margin-left: 1em;
-        position: fixed;
         box-shadow: 0 0 10px 10px var(--color-dark);
         background-color: var(--color-dark);
-        z-index: 9;
+        z-index: 1; // Was there a reason for this? added randomly in e939c35c10dae2fb12ffda8e01de0e498e439c33
+        // yes it was added to stop random ui elements from overlapping the tab list
 
         li {
             font-weight: bold;
             @include pipe-separators;
+        }
+
+        &:empty {
+            box-shadow: none;
+        }
+
+        &.notFixed {
+            position: static;
         }
 
         .newTab {
@@ -720,13 +761,13 @@ pre {
         @include box-shadow-inset(0, 0, 2px, 2px, var(--color-dark));
 
         &.scrollable {
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         &.forRightSide {
-            overflow-y: scroll;
+            overflow-y: auto;
             border-style: none;
-            max-height: 42em;
+            max-height: 39em;
             li {
                 padding-top: 1em;
                 padding-bottom: 1em;
@@ -736,7 +777,7 @@ pre {
         }
 
         &.forLeftSide {
-            overflow-y: scroll;
+            overflow-y: auto;
             border-style: none;
             max-height: 30em;
             li {
@@ -756,17 +797,14 @@ pre {
 #rightLogContainer {
     float: right;
     width: 18%;
-    max-height: 40em;
+    background-color: var(--color-med);
+    box-shadow: 0 0 5px 5px var(--color-dark) inset;
+    overflow: clip;
 }
 
 #resource-numen {
     // fancier schmancier special rule
     text-shadow: 0 0 0.3em $color-numen, 0 0 0.6em $color-numen, 0 0 0.8em $color-numen;
-}
-
-#resource-essence {
-    // fancy schmancy special rule
-    text-shadow: 0 0 0.6em $color-essence;
 }
 
 #content {
@@ -790,38 +828,45 @@ pre {
 }
 
 #extraMessage {
-    &.smallDesc {
-        font-size: 90%;
-    }
+    display: inline-block;
+    width: 400px;
 }
 
 #buttonList {
     @extend .inner-section;
     padding: 1em;
-}
-
-.pileArrangement {
-    ul {
-        display: inline-block;
-    }
-
-    li {
-        display: inline-block;
-    }
 
     button {
-        display: inline-block;
-        margin: 0.8em;
-        max-width: 12em;
+        // disables mobile zooming on double tap except for safari
+        // https://stackoverflow.com/questions/10614481/
+        touch-action: manipulation;
+    }
 
-        &.newlyDiscovered {
-            max-width: 12em;
+    &.homeScreen {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        ul {
+            display: inline-block;
+        }
+
+        li {
+            display: inline-block;
+        }
+
+        button {
+            display: inline-block;
+            margin: 0.4em;
+            height: 10em;
+            width: 12em;
         }
     }
 
-    &.smallerMargin {
+    &.lab {
+        width: 100%;
         button {
-            margin: 0.4em;
+            width: 100%;
         }
     }
 }
@@ -840,7 +885,6 @@ button.newlyDiscovered {
     }
 
     li {
-        font-weight: bold;
         @include pipe-separators;
     }
 
@@ -959,7 +1003,7 @@ button.newlyDiscovered {
         padding: 0;
         margin: 0;
         max-height: 600pt;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     li {
@@ -994,7 +1038,6 @@ button.newlyDiscovered {
         border: 0.2em solid $color-danger-lighter;
         @include box-shadow-inset(0, 0, 15px, 15px, $color-danger-darker);
         padding: 0.5em;
-        z-index: 5;
         text-shadow: 0px 0px 2px #000000;
     }
 
@@ -1068,7 +1111,8 @@ button {
         @include box-shadow(0px, 0px, 2px, 2px, var(--color-lighter));
     }
 
-    &:active {
+    &:active,
+    &.keep-button-pressed {
         background-color: var(--color-dark);
         color: var(--color-light);
         @include box-shadow-inset(0px, 3px, 7px, 7px, var(--color-darker));
@@ -1183,14 +1227,13 @@ button {
 
 #idle-overlay {
     @include opacity(0.8);
-    @extend .click-passthrough;
     position: fixed;
     top: 0;
     left: 0;
     background-color: black;
     width: 100%;
     height: 100%;
-    z-index: 12;
+    z-index: 20;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1232,9 +1275,6 @@ button {
 
 .copyrightNotice {
     @include no-select;
-    // In Chrome, rendering error makes copyright notice be in front
-    // of the resource table sometimes, preventing tooltips and clicking
-    @extend .click-passthrough;
     font-size: 80%;
     color: var(--color-lighter);
     filter: brightness(130%);
@@ -1321,37 +1361,28 @@ button {
 
 .gateway {
     text-align: center;
-    text-shadow: 0 0 0.7em lighten($color-discovery, 5%);
 
     h1 {
         text-align: center;
         color: lighten($color-discovery, 10%);
-        text-shadow: 0 0 0.3em lighten($color-discovery, 20%), 0 0 2em lighten($color-discovery, 20%);
     }
 
     h2 {
         text-align: center;
         color: $color-discovery;
-        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     h3 {
         text-align: center;
         color: $color-discovery;
-        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     h4 {
         text-align: center;
         color: $color-discovery;
-        text-shadow: 0 0 0.3em lighten($color-discovery, 10%), 0 0 2em lighten($color-discovery, 10%);
     }
 
     .medDesc {
-        color: lighten($color-discovery-dark2, 30%);
-    }
-
-    .largeDesc {
         color: lighten($color-discovery-dark2, 30%);
     }
 
@@ -1361,9 +1392,8 @@ button {
 }
 
 .gatewayButton {
-    background-color: $color-discovery-dark2;
+    background-color: $color-discovery-dark3;
     border-color: $color-discovery;
-    text-shadow: 0 0 0.5em lighten($color-discovery, 5%);
     max-width: 16em;
 
     div {
@@ -1378,7 +1408,7 @@ button {
     }
 
     &:active {
-        background-color: $color-discovery-dark3;
+        background-color: $color-discovery-dark4;
         color: $color-discovery-dark;
         @include box-shadow-inset(0px, 3px, 7px, 7px, $color-discovery-dark3);
 
@@ -1405,6 +1435,11 @@ button {
             background-color: $color-discovery-dark4;
             @include clear-box-shadow();
         }
+    }
+
+    &.respecMode {
+        box-shadow: 0 0 6px lighten($color-discovery, 15%) inset;
+        background-color: $color-discovery-dark2;
     }
 }
 
@@ -1465,7 +1500,6 @@ button.gateway {
 .gatewayPropertyList {
     list-style-type: none;
     padding-left: 0;
-    text-shadow: 0 0 0.6em black;
     li {
         padding-left: 0;
     }
@@ -1491,8 +1525,9 @@ button.gateway {
 
 #aspectTable {
     border-spacing: 0;
-    tr:nth-child(4n),
-    tr:nth-child(4n + 1) {
+    tr:nth-child(6n + 1),
+    tr:nth-child(6n + 2),
+    tr:nth-child(6n + 3) {
         td {
             background-color: $color-discovery-dark2;
         }
@@ -1515,6 +1550,22 @@ button.gateway {
     }
 }
 
+.disabledAspectDiv {
+    display: inline-block;
+    vertical-align: middle;
+
+    @include border-radius(0.5em);
+    background-color: $color-discovery-dark4;
+    @include box-shadow(0, 0, 0.5em, 0.5em, $color-discovery-dark4);
+    padding: 0.2em;
+    margin: 1.5em;
+    max-width: 14em;
+
+    .gatewayButton {
+        @include box-shadow(0, 0, 3px, 3px, $color-discovery-dark2);
+    }
+}
+
 .planetDisplay {
     @include border-radius(50px);
     background-color: $color-discovery-dark;
@@ -1525,7 +1576,6 @@ button.gateway {
 button.planetButton {
     background-color: transparent;
     border: none;
-    text-shadow: 0 0 0.5em lighten($color-discovery, 5%);
     padding: 20px;
     max-width: 14em;
     margin: 0.8em;
@@ -1548,6 +1598,10 @@ button.planetButton {
     }
 }
 
+#gatewayVoiceMessage {
+    font-size: 1.25em;
+}
+
 .tooltip {
     display: block;
     background-color: var(--color-light);
@@ -1563,7 +1617,7 @@ button.planetButton {
     padding-bottom: 12px;
     min-width: 200px;
     position: fixed;
-    z-index: 12;
+    z-index: 40;
     opacity: 1;
     transition: opacity 0.3s;
     text-shadow: 0px 0px 3px #000000;
@@ -1593,11 +1647,15 @@ button.planetButton {
 
 .forAspectTree {
     width: 300px;
-    background-color: $color-discovery-dark3;
-    border-color: $color-discovery-dark2;
+    background-color: darken($color-discovery-dark3, 10%);
+    border-color: $color-discovery-dark4;
     &Unpurchased {
         background-color: $color-discovery-dark4;
-        border-color: $color-discovery-dark3;
+        border-color: darken($color-discovery-dark4, 5%);
+    }
+    &Affordable {
+        background-color: $color-discovery-dark3;
+        border-color: $color-discovery-dark2;
     }
 }
 
@@ -1609,6 +1667,16 @@ button.planetButton {
 .hrForTooltipSeparation {
     border: 0;
     border-top: 2px dashed var(--color-lighter);
+}
+
+.hrForTooltipSeparationInGateway {
+    border: 0;
+    border-top: 2px dashed white;
+}
+
+.hrForTooltipJuxtapositionInGateway {
+    border: 0;
+    border-top: 2px solid white;
 }
 
 .collapser {
@@ -1646,12 +1714,33 @@ button.planetButton {
 }
 
 #cheatsDisplay {
-    margin-top: 1em;
     width: 50%;
 }
 
-#cheatButtons {
+#leftButtons {
     float: left;
+    width: 50%;
+
+    .up-down {
+        display: flex;
+        width: 12em;
+        margin: 1% auto;
+        overflow: hidden;
+        font-size: 90%;
+
+        .up-downText {
+            margin: auto;
+        }
+
+        .up-downButtonContainer {
+            float: right;
+            max-width: 1.5em;
+        }
+    }
+}
+
+#rightButtons {
+    float: right;
     width: 50%;
 
     .up-down {
@@ -1791,12 +1880,9 @@ button.planetButton {
 }
 
 #minute-slider {
-    --minuterotation: rotate(-45deg);
     background: $color-discovery-dark4;
-    margin-top: 10px;
     border-style: dashed;
     border-color: $color-discovery-dark3;
-    margin-bottom: 8px;
 
     &.power1 {
         background: lighten($color-discovery-dark4, 5%);
@@ -1829,23 +1915,9 @@ button.planetButton {
     }
 }
 
-#minute-slider::-webkit-slider-thumb {
-    background: url(../img/raw/aspect/theMinuteHandCentered.png);
-    width: 32px;
-    height: 32px;
-    border: 0px;
-    transform: var(--minuterotation);
-}
-
-#minute-slider::-moz-range-thumb {
-    background: url(../img/raw/aspect/theMinuteHandCentered.png);
-    width: 32px;
-    height: 32px;
-    border: 0px;
-    transform: var(--minuterotation);
-}
-
 #minute-time {
+    margin-bottom: 1rem;
+
     &.noTime {
         color: #555;
     }
@@ -1853,8 +1925,54 @@ button.planetButton {
 
 #minute-row-two {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .front {
-    z-index: 13;
+    z-index: 30;
+}
+
+.inGateway {
+    visibility: hidden;
+
+    #overlay {
+        visibility: visible;
+    }
+}
+
+.can-afford-aspect {
+    text-shadow: 0 0 0.6em #ace3d1;
+}
+
+#visitButtons {
+    margin: 1em 0;
+}
+
+#keybindTable {
+    td {
+        padding: 0.2rem;
+    }
+}
+
+#keybind-overlay-container {
+    float: left;
+    margin-left: 1rem;
+}
+
+select {
+    background-color: var(--color-darker);
+    color: inherit;
+    border: none;
+    outline: none;
+    font-size: inherit;
+    text-align: right;
+    text-align-last: right;
+
+    .evenMessage {
+        background-color: var(--color-dark);
+    }
+}
+
+option {
+    direction: rtl;
 }

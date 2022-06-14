@@ -30,7 +30,10 @@ SharkGame.Reflection = {
         const ref = SharkGame.Reflection;
         const content = $("#content");
         content.append($("<div>").attr("id", "tabMessage"));
+        content.append($(`<h2>`).attr(`id`, `enabledAspectHead`));
         content.append($("<div>").attr("id", "aspectList"));
+        content.append($(`<h2>`).attr(`id`, `disabledAspectHead`));
+        content.append($("<div>").attr("id", "disabledAspectList"));
         let message = ref.message;
         const tabMessageSel = $("#tabMessage");
         if (SharkGame.Settings.current.showTabImages) {
@@ -74,6 +77,39 @@ SharkGame.Reflection = {
         });
         if ($("#aspectList > div").length === 0) {
             listSel.append("<p><em>You have no aspects to you yet.</em></p>");
+        }
+
+        const listSelDisabled = $("#disabledAspectList");
+        $.each(SharkGame.persistentFlags.aspectStorage, (aspectId, aspectLevel) => {
+            const ASPECT_DATA = SharkGame.Aspects[aspectId];
+            if (aspectLevel && ASPECT_DATA && !ASPECT_DATA.ignore) {
+                let aspectLabel = ASPECT_DATA.name + "<br><span class='medDesc reflectionText'>";
+                if (aspectLevel >= ASPECT_DATA.max) {
+                    aspectLabel += "(Maximum Level)";
+                } else {
+                    aspectLabel += "(Level: " + sharktext.beautify(aspectLevel) + ")";
+                }
+                aspectLabel += `<br>${ASPECT_DATA.getEffect(aspectLevel)}</span>`;
+
+                const item = $("<div>").addClass("disabledAspectDiv");
+                item.append(aspectLabel);
+                listSelDisabled.append(item);
+
+                if (SharkGame.Settings.current.showIcons) {
+                    // FIXME: artifacts -> aspects
+                    // base: ditto what i said above
+                    const iconDiv = SharkGame.changeSprite(SharkGame.spriteIconPath, "aspects/" + aspectId, null, "aspects/apotheosis");
+                    if (iconDiv) {
+                        iconDiv.addClass("button-icon");
+                        iconDiv.addClass("gatewayButton");
+                        item.prepend(iconDiv);
+                    }
+                }
+            }
+        });
+        if ($("#disabledAspectList > div").length !== 0) {
+            $(`#disabledAspectHead`).html(`Disabled Aspects`);
+            $(`#enabledAspectHead`).html(`Enabled Aspects`);
         }
     },
 };

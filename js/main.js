@@ -1,9 +1,11 @@
 "use strict";
+window.SharkGame = window.SharkGame || {};
+
 window.onmousemove = (event) => {
-    SharkGame.lastMouseActivity = _.now();
+    SharkGame.lastActivity = _.now();
 
     const tooltip = document.getElementById("tooltipbox");
-    if (!tooltip) return;
+    if (!tooltip || tooltip.innerHTML === "") return;
     const posX = event.clientX;
     const posY = event.clientY;
 
@@ -16,10 +18,35 @@ window.onmousemove = (event) => {
     }
 };
 
+$(document).on("keyup", (event) => {
+    SharkGame.lastActivity = _.now();
+
+    const mkey = SharkGame.Keybinds.modifierKeys;
+    if ((mkey.ShiftLeft || mkey.ShiftRight) && !event.shiftKey) {
+        mkey.ShiftLeft = 0;
+        mkey.ShiftRight = 0;
+    } else if ((mkey.AltLeft || mkey.AltRight) && !event.altKey) {
+        mkey.AltLeft = 0;
+        mkey.AltRight = 0;
+    } else if ((mkey.ControlLeft || mkey.ControlRight) && !event.ctrlKey) {
+        mkey.ControlLeft = 0;
+        mkey.ControlRight = 0;
+    }
+
+    if (SharkGame.Keybinds.handleKeyUp(event.code)) {
+        event.preventDefault();
+    }
+});
+
+$(document).on("keydown", (event) => {
+    SharkGame.lastActivity = _.now();
+    if (SharkGame.Keybinds.handleKeyDown(event.code)) {
+        event.preventDefault();
+    }
+});
+
 // CORE VARIABLES AND HELPER FUNCTIONS
-/** @type {SharkGame} */
-/* eslint-disable-next-line no-shadow */
-const SharkGame = {
+$.extend(SharkGame, {
     GAME_NAMES: [
         "Five Seconds A Shark",
         "Next Shark Game",
@@ -67,12 +94,13 @@ const SharkGame = {
         "The Adventure Continues",
         "To Be Continued",
         "what the crab doin",
+        "#TeamSeas",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "0.2 OPEN ALPHA",
+    VERSION: "202205??a",
     ORIGINAL_VERSION: 0.71,
-    VERSION_NAME: "New Perspectives",
+    VERSION_NAME: "The Marine Update",
     EPSILON: 1e-6, // floating point comparison is a joy
     // agreed, already had to deal with it on recycler revisions
     // did you know that reducing a float like 1.2512351261 to 1.25 by literally removing the decimal and multiplying by 100 gives you something like 125.0000001?
@@ -86,7 +114,7 @@ const SharkGame = {
     dt: 1 / 10,
     before: _.now(),
     lastMouseActivity: _.now(),
-    idleTransitioning: false,
+    savedMouseActivity: _.now(),
 
     timestampLastSave: false,
     timestampGameStart: false,
@@ -106,6 +134,11 @@ const SharkGame = {
     spriteIconPath: "img/sharksprites.png",
     spriteHomeEventPath: "img/sharkeventsprites.png",
 
+    /**
+     *
+     * @param {any[]} choices
+     * @returns {any} A random element of choices
+     */
     choose(choices) {
         return choices[Math.floor(Math.random() * choices.length)];
     },
@@ -142,37 +175,7 @@ const SharkGame = {
         }
         return imageDiv;
     },
-};
-
-window.onmousemove = (event) => {
-    const tooltip = document.getElementById("tooltipbox");
-    if (!tooltip) return;
-    const posX = event.clientX;
-    const posY = event.clientY;
-
-    const tooltipStyle = getComputedStyle(tooltip);
-
-    // get visual width in px, plus 15px offset from cursor
-    const tooltipWidth = [
-        tooltipStyle.width,
-        tooltipStyle.paddingLeft,
-        tooltipStyle.paddingRight,
-        tooltipStyle.borderLeft,
-        tooltipStyle.borderRight,
-        tooltipStyle.marginLeft,
-        tooltipStyle.marginRight,
-    ].reduce((prev, cur) => prev + parseInt(cur), 0);
-
-    tooltip.style.top = posY - 20 + "px";
-    // Would clip over right screen edge
-    if (tooltipWidth + posX + 35 > window.innerWidth) {
-        tooltip.style.left = posX - 10 - tooltipWidth + "px";
-    } else {
-        tooltip.style.left = posX + 15 + "px";
-    }
-};
-
-// CORE VARIABLES AND HELPER FUNCTIONS
+});
 
 SharkGame.Main = {
     tickHandler: -1,
@@ -202,6 +205,14 @@ SharkGame.Main = {
         main.restoreGame("load");
         // then set up the game according to this data
         main.setUpGame();
+
+        const isSafari =
+            /constructor/i.test(window.HTMLElement) ||
+            (!window.safari || (typeof safari !== "undefined" && window.safari.pushNotification)).toString() === "[object SafariRemoteNotification]";
+        if (isSafari) {
+            console.info("Detected Safari browser!");
+            SharkGame.PaneHandler.addPaneToStack("Safari Notice", SharkGame.Panes.safariNotice);
+        }
     },
 
     // reset all game variables to their defaults
@@ -210,7 +221,7 @@ SharkGame.Main = {
         const now = _.now();
         SharkGame.before = now;
         SharkGame.timestampSimulated = now;
-        SharkGame.lastMouseActivity = now;
+        SharkGame.lastActivity = now;
         if (SharkGame.GAME_NAME === null) {
             SharkGame.GAME_NAME = SharkGame.choose(SharkGame.GAME_NAMES);
             document.title = SharkGame.ACTUAL_GAME_NAME + ": " + SharkGame.GAME_NAME;
@@ -220,13 +231,22 @@ SharkGame.Main = {
         SharkGame.timestampGameStart = now;
         SharkGame.timestampRunStart = now;
 
+        $("#game").removeClass("inGateway");
         $("#sidebar").hide();
         $("#overlay").hide();
         $("#idle-overlay").hide();
         SharkGame.sidebarHidden = true;
         // remove any errant classes
         $("#pane").removeClass("gateway");
-        $("#overlay").removeClass("gateway");
+
+        // clear any html and remove errant classes from tooltip
+        $("#tooltipbox")
+            .removeClass("forHomeButtonOrGrotto")
+            .removeClass("forIncomeTable")
+            .removeClass("forAspectTree")
+            .removeClass("forAspectTreeUnpurchased")
+            .removeClass("forAspectTreeAffordable")
+            .html("");
 
         $("#gameName").html("- " + SharkGame.GAME_NAME + " -");
         $("#versionNumber").html(
@@ -237,7 +257,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.COMMIT_SHA = data.sha;
         });
         log.clearMessages(false);
+        SharkGame.Settings.current.buyAmount = 1;
 
+        // here to stop timer from saying NaN
         SharkGame.persistentFlags.totalPausedTime = 0;
         SharkGame.persistentFlags.currentPausedTime = 0;
 
@@ -272,6 +294,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.TitleBarHandler.init();
         SharkGame.TabHandler.init();
         SharkGame.PaneHandler.init();
+        SharkGame.OverlayHandler.init();
+
+        SharkGame.Keybinds.init();
+
+        SharkGame.Resources.minuteHand.init();
     },
 
     // load stored game data, if there is anything to load
@@ -312,8 +339,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.AspectTree.setup();
 
         // initialise tabs
-        SharkGame.Home.setup();
+        // always set up lab first
         SharkGame.Lab.setup();
+        SharkGame.Home.setup();
         SharkGame.Stats.setup();
         SharkGame.Recycler.setup();
         SharkGame.Gate.setup();
@@ -322,7 +350,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         SharkGame.EventHandler.setup();
 
-        res.minuteHand.init();
+        res.minuteHand.setup();
         res.tokens.init();
 
         // end game if necessary
@@ -331,15 +359,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // rename a game option if this is a first time run
         SharkGame.TitleBarHandler.correctTitleBar();
 
-        // set up tab after load
-        SharkGame.TabHandler.setUpTab();
-
         // apply tick settings
         main.applyFramerate();
 
         // apply settings
         $.each(SharkGame.Settings, (settingId, settingData) => {
-            if (!SharkGame.Settings.current[settingId]) {
+            if (_.isUndefined(SharkGame.Settings.current[settingId])) {
                 SharkGame.Settings.current[settingId] = settingData.defaultSetting;
                 if (typeof settingData.onChange === "function") {
                     settingData.onChange();
@@ -347,12 +372,16 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
+        SharkGame.TitleBarHandler.updateTopBar();
+
         if (main.autosaveHandler === -1) {
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
 
+        // window.addEventListener("beforeunload", main.autosave);
+
         if (SharkGame.Settings.current.updateCheck) {
-            SharkGame.Main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
+            main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
         }
 
         $("#title").on("click", (event) => {
@@ -361,12 +390,23 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
+        if (SharkGame.persistentFlags.pause) {
+            if (!cad.pause) {
+                res.pause.togglePause();
+            }
+            main.showSidebarIfNeeded();
+            if (SharkGame.flags.needOfflineProgress) {
+                SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
+            }
+            SharkGame.flags.needOfflineProgress = 0;
+        }
+
         if (SharkGame.flags.needOfflineProgress) {
             const secondsElapsed = SharkGame.flags.needOfflineProgress;
 
-            if (SharkGame.Settings.current.idleEnabled) {
+            if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
+                res.minuteHand.allowMinuteHand();
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
-                SharkGame.persistentFlags.everIdled = true;
             } else {
                 main.processSimTime(secondsElapsed, true);
             }
@@ -413,6 +453,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
             SharkGame.flags.needOfflineProgress = 0;
         }
+
+        // set up tab after load
+        SharkGame.TabHandler.setUpTab();
     },
 
     purgeGame() {
@@ -459,10 +502,14 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             saveData.timestampRunStart = _.now();
             saveData.timestampRunEnd = SharkGame.timestampRunEnd;
 
+            saveData.keybinds = _.cloneDeep(SharkGame.Keybinds.keybinds);
+
             saveData.saveVersion = SharkGame.Save.saveUpdaters.length - 1;
             saveString = ascii85.encode(pako.deflate(JSON.stringify(saveData), { to: "string" }));
 
             SharkGame.Save.importData(saveString);
+
+            res.minuteHand.applyHourHand();
 
             try {
                 SharkGame.Save.saveGame();
@@ -474,13 +521,29 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     tick() {
-        if (cad.pause) {
-            SharkGame.persistentFlags.currentPausedTime = _.now() - SharkGame.before;
-            SharkGame.before = _.now();
-            SharkGame.lastMouseActivity = _.now();
+        if (cad.stop) {
             return;
         }
-        if (cad.stop) {
+
+        if (cad.pause) {
+            SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
+            SharkGame.before = _.now();
+            SharkGame.lastActivity = _.now();
+            switch (SharkGame.Tabs.current) {
+                case "home":
+                    $.each($("#content").children()[3].children, (_index, button) => {
+                        $(button).addClass("disabled");
+                    });
+                    break;
+                case "lab":
+                    $.each($("#content").children()[1].children[0].children, (_index, button) => {
+                        $(button).addClass("disabled");
+                    });
+                    break;
+                default:
+                    SharkGame.Tabs[SharkGame.Tabs.current].code.update();
+            }
+            res.updateResourcesTable();
             return;
         }
 
@@ -495,48 +558,17 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             // tick main game stuff
             const now = _.now();
             const elapsedTime = now - SharkGame.before;
-            if (now - SharkGame.lastMouseActivity > SharkGame.IDLE_THRESHOLD) {
-                if ($("#idle-overlay").is(":hidden")) {
-                    $("#minute-hand-div").addClass("front");
-                    $("#idle-overlay").show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.IDLE_FADE_TIME);
-                }
-                const speedRatio = Math.min((now - SharkGame.lastMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
-                res.idleMultiplier = 1 - speedRatio;
-                if (speedRatio > 0.1 && !SharkGame.persistentFlags.everIdled) {
-                    SharkGame.persistentFlags.everIdled = true;
-                    res.minuteHand.init();
-                    SharkGame.flags.minuteHandTimer = 0;
-                }
-                if (res.minuteHand.active) {
-                    res.minuteHand.toggleMinuteHand();
-                }
-                res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
-            } else {
-                if (!$("#idle-overlay").is(":hidden") && !SharkGame.idleTransitioning) {
-                    $("#idle-overlay")
-                        .stop(true)
-                        .animate({ opacity: 0 }, 1000, () => {
-                            $("#idle-overlay").hide().stop(true);
-                        });
-                    SharkGame.idleTransitioning = true;
-                }
-                if ($("#idle-overlay").is(":hidden")) {
-                    SharkGame.idleTransitioning = false;
-                    $("#minute-hand-div").removeClass("front");
-                }
-                res.idleMultiplier = 1;
+
+            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current.idleEnabled) {
+                main.startIdle(now, elapsedTime);
+            }
+
+            if (res.idleMultiplier < 1) {
+                main.continueIdle(now, elapsedTime);
             }
 
             if (res.minuteHand.active) {
                 res.minuteHand.updateMinuteHand(elapsedTime);
-            }
-
-            if (res.minuteHand.updateRotationNextTick) {
-                document
-                    .getElementById("minute-slider")
-                    .style.setProperty("--minuterotation", "rotate(" + (45 * document.getElementById("minute-slider").value - 90) + "deg)");
-                res.minuteHand.updateRotationNextTick = false;
-                // wish i could do something about this but i dont know what to do really
             }
 
             // check if the sidebar needs to come back
@@ -544,14 +576,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 main.showSidebarIfNeeded();
             }
 
-            if (res.idleMultiplier !== 0) {
-                // skip income processing if it's not necessary
-                if (elapsedTime > SharkGame.INTERVAL) {
-                    // Compensate for lost time.
-                    main.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
-                } else {
-                    main.processSimTime(SharkGame.dt);
-                }
+            if (elapsedTime > SharkGame.INTERVAL) {
+                // Compensate for lost time.
+                main.processSimTime(SharkGame.dt * (elapsedTime / SharkGame.INTERVAL));
+            } else {
+                main.processSimTime(SharkGame.dt);
             }
 
             res.updateResourcesTable();
@@ -565,15 +594,51 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             SharkGame.EventHandler.handleEventTick("afterTick");
         } else {
-            SharkGame.lastMouseActivity = _.now();
+            SharkGame.lastActivity = _.now();
         }
 
-        //see if resource table tooltip needs updating
+        // see if resource table tooltip needs updating
         if (document.getElementById("tooltipbox").className.split(" ").includes("forIncomeTable")) {
             if (document.getElementById("tooltipbox").attributes.current) {
                 res.tableTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
             }
         }
+    },
+
+    startIdle(now, elapsedTime) {
+        const idleOverlay = $("#idle-overlay");
+        idleOverlay.addClass("pointy").removeClass("click-passthrough");
+        idleOverlay.on("click", main.endIdle);
+        if (idleOverlay.is(":hidden")) {
+            $("#minute-hand-div").addClass("front");
+            idleOverlay.show().css("opacity", 0).animate({ opacity: 0.8 }, SharkGame.IDLE_FADE_TIME);
+        }
+        res.minuteHand.toggleOff();
+        SharkGame.savedMouseActivity = SharkGame.lastActivity;
+        main.continueIdle(now, elapsedTime);
+    },
+
+    continueIdle(now, elapsedTime) {
+        const speedRatio = Math.min((now - SharkGame.savedMouseActivity - SharkGame.IDLE_THRESHOLD) / SharkGame.IDLE_FADE_TIME, 1);
+        res.idleMultiplier = 1 - speedRatio;
+
+        if (speedRatio > 0.8 && !SharkGame.persistentFlags.everIdled) {
+            res.minuteHand.allowMinuteHand();
+        }
+        res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
+    },
+
+    endIdle() {
+        const idleOverlay = $("#idle-overlay");
+        if (!idleOverlay.is(":hidden")) {
+            idleOverlay.stop(true).animate({ opacity: 0 }, 800, () => {
+                $("#minute-hand-div").removeClass("front");
+                idleOverlay.hide().stop(true);
+            });
+        }
+        idleOverlay.removeClass("pointy").addClass("click-passthrough");
+        SharkGame.lastActivity = _.now();
+        res.idleMultiplier = 1;
     },
 
     processSimTime(numberOfSeconds, load = false) {
@@ -594,7 +659,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/dev", (data) => {
             if (data.sha !== SharkGame.COMMIT_SHA) {
                 $("#updateGameBox")
-                    .html("You see a new update swimming towards you. Click to update.")
+                    .html(
+                        `You see a new update swimming towards you.<br> On it you can just make out the words <br>"${
+                            data.commit.message.split("\n")[0]
+                        }". <br>Click to update.`
+                    )
                     .on("click", () => {
                         try {
                             SharkGame.Save.saveGame();
@@ -612,6 +681,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     createBuyButtons(customLabel, addToWhere, appendOrPrepend, absoluteOnly) {
         if (!addToWhere) {
             log.addError("Attempted to create buy buttons without specifying what to do with them.");
+            return;
         }
 
         // add buy buttons
@@ -667,6 +737,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     SharkGame.Settings.current.buyAmount = amount === "custom" ? "custom" : parseInt(thisButton.attr("id").slice(4));
                     $("button[id^='buy-']").removeClass("disabled");
                     thisButton.addClass("disabled");
+                })
+                .on("mouseenter", () => {
+                    $(`#tooltipbox`).html(`${label} amount of things`);
+                })
+                .on("mouseleave", () => {
+                    $(`#tooltipbox`).html(``);
                 });
         });
         buttonList.append(
@@ -731,22 +807,29 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.timestampGameStart = _.now();
         SharkGame.timestampRunStart = _.now();
     },
+
+    shouldShowTooltips() {
+        if (!(main.isFirstTime() && res.getResource("fish") < 35 && res.getResource("shark") < 3)) {
+            SharkGame.persistentFlags.tooltipUnlocked = true;
+        }
+        return SharkGame.persistentFlags.tooltipUnlocked;
+    },
 };
 
 SharkGame.Button = {
-    makeHoverscriptButton(id, content, parentDiv, onClick, onMouseEnter, onMouseLeave) {
+    makeHoverscriptButton(id, name, div, handler, hhandler, huhandler) {
         return $("<button>")
-            .html(content)
+            .html(name)
             .attr("id", id)
             .addClass("hoverbutton")
-            .appendTo(parentDiv)
-            .on("click", onClick)
-            .on("mouseenter", onMouseEnter)
-            .on("mouseleave", onMouseLeave);
+            .appendTo(div)
+            .on("click", handler)
+            .on("mouseenter", hhandler)
+            .on("mouseleave", huhandler);
     },
 
-    makeButton(id, content, parentDiv, onClick) {
-        return $("<button>").html(content).attr("id", id).appendTo(parentDiv).on("click", onClick);
+    makeButton(id, name, div, handler) {
+        return $("<button>").html(name).attr("id", id).appendTo(div).on("click", handler);
     },
 };
 
@@ -775,7 +858,51 @@ SharkGame.FunFacts = [
 ];
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 202108??a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 202206??a": [
+        "Added Violent worldtype.",
+        "Stuff table tooltips now show how a resource slows or speeds up others.",
+        "stay tuned for a ton of bugfixes and adjustments",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220603a": [
+        "Added Marine worldtype.",
+        "Planet descriptions are now much more vague until you've visited them.",
+        "Distant Foresight greatly decreases vagueness of planet descriptions now.",
+        "Swapped the order of some aspects on the tree.",
+        "Revised the ending of the Abandoned world.",
+        "Revised bits of the Shrouded world's story.",
+        "By popular demand, added auto-transmuter to Shrouded.",
+        "Fixed some miscellaneous bugs.",
+        "Ixbix - tweaked text visibility system",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220125a": [
+        "Added keybinds. You can now bind a large array of actions to different key combinations.",
+        "Added backup saves. You can now back up your saves as you wish, with three slots!",
+        "Added real species/family names when recruiting urchins and squid, instead of weird placeholder messages.",
+        "When first unlocking cheats at 1000 lifetime essence, a special backup is automatically created.",
+        "Added toggle for cheats; you don't have to see them if you don't want to.",
+        "Made some more UI changes.",
+        "Removed aspect: Anything and Everything",
+        "Ixbix - fixed issues with gateway time spent in last world",
+        "Ixbix - stopped minute hand slider from flopping around",
+        "Ixbix - added touchscreen support for the aspect tree",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20211201a": [
+        "Added something special at 1000 total essence.",
+        "Changed the aspect tree UI to remove unnecessary buttons from below the tree.",
+        "Fixed some bugs related to the patience and gumption aspects.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20211109a": [
+        "Final revamp of the aspect tree. Not the final addition to it, though.",
+        "Added idle mode. The game will pause and accumulate idle time after 2 minutes of inactivity.",
+        "The minute hand now stores offline progress and idle time. You can use your stored time in the form of a multiplier.",
+        "Removed the playstyle choice because the new idle system does its job better.",
+        "Implemented scouting. You get more essence when you first play a world, but SOME aspects can't be used.",
+        "Implemented par times. If you beat a world faster than par, you get extra essence. Go even faster for even more.",
+        "Added and changed sprites.",
+        "Updated UI.",
+        "Fixed some out-of-place flavor text.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210814a": [
         "Added Shrouded worldtype.",
         "Changed the aspect tree and its aspects significantly. All essence must be refunded and all aspects must be reset because of this. Sorry!",
         "Implemented a basic 'playstyle' choice. The game will adjust pacing to suit your choice.",
@@ -787,7 +914,7 @@ SharkGame.Changelog = {
         "Fixed bugs with grotto.",
         "Fixed bugs with tooltips in the aspect tree.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210728a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210728a": [
         "The log can now be in one of 3 spots. Change which one in options. Default is now right side.",
         "Added Resource Affect tooltips; mouse over the multipliers in the R column in the advanced grotto table and you can see what is causing them.",
         "Added work-in-progress (but functional) aspect table as an alternative to the tree, specifically for accessibility.",
@@ -799,7 +926,7 @@ SharkGame.Changelog = {
         "Fixed incorrect description of an aspect.",
         "Fixed bugs with importing saves.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210713a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210713a": [
         "Tooltips show you how much you already own of what you're buying. Can be turned off in options.",
         "Tooltips have their numbers scale based on how much of something you're buying. Can be turned off in options.",
         "The key for advanced mode grotto has been enhanced.",
@@ -811,7 +938,7 @@ SharkGame.Changelog = {
         "Corrected a bunch of upgrade effect descriptions.",
         "Minor bugfixes.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210709a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210709a": [
         "Added the Frigid worldtype.",
         "Replaced the Artifacts system with the Aspects system.",
         "Tweaked Haven.",
@@ -822,15 +949,15 @@ SharkGame.Changelog = {
         "Added 'bright' text color mode, screws up some colors but makes colored text easier to read.",
         "Added auto color-visibility adjuster. Tries to change the color of text if it would be hard to read on a certain background.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210610a": [
         "Fixed bug where haven had no essence. Oops.",
         "Changed home messages a little.",
         "Retconned some previous patch notes.",
         "Added sprite for octopus investigator.",
         "Internal stuff.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210515a": ["Added missing flavor text.", "Internal stuff."],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210422a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210515a": ["Added missing flavor text.", "Internal stuff."],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210422a": [
         "Implemented reworked gameplay for the Haven worldtype.",
         "Made sweeping changes to the UI.",
         "Improved grotto formatting.",
@@ -841,20 +968,20 @@ SharkGame.Changelog = {
         "Added minimized titlebar. You can switch it back to the old one in the options menu.",
         "Added categories to options menu. Now it's readable!",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210314a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210314a": [
         "Fixed bug related to how artifacts display in the grotto.",
         "Fixed bug related to artifact affects not applying properly.",
         "Fixed bug where the grotto would show an upgrade multiplier for everything, even if it was x1.",
         "Fixed bug where artifact effects would not reset when importing.",
         "Added 'INCOME PER' statistic to Simple grotto. Shows absolutely how much of a resource you get per generator.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 patch 20210312a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210312a": [
         "Added simplified grotto.",
         "Made grotto way easier to understand.",
         "Added tooltips to income table.",
         "Did internal rework of the multiplier system, created the modifier system.",
     ],
-    "<a href='https://github.com/spencers145/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 - New Perspectives (2021/??/??)": [
         "Scrapped Chaotic worldtype. Completely.",
         "Implemented gameplay for 1 out of 7 necessary planet reworks.",
         "Implemented new assets.",
@@ -987,20 +1114,4 @@ SharkGame.Changelog = {
 $(() => {
     $("#game").show();
     main.init();
-
-    // ctrl+s saves
-    $(window).on("keydown", (event) => {
-        if (event.ctrlKey || event.metaKey) {
-            switch (String.fromCharCode(event.key).toLowerCase()) {
-                case "s":
-                    event.preventDefault();
-                    SharkGame.Save.saveGame();
-                    break;
-                case "o":
-                    event.preventDefault();
-                    SharkGame.PaneHandler.showOptions();
-                    break;
-            }
-        }
-    });
 });

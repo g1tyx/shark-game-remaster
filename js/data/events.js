@@ -89,23 +89,37 @@ SharkGame.Events = {
             }
         },
     },
-    /*     revealBuyButtons: {
+    abandonedRefundInvestigators: {
         handlingTime: "beforeTick",
         priority: 0,
         getAction() {
-            if (world.worldType !== "start") {
+            return "remove";
+        },
+        trigger() {
+            if (!SharkGame.flags.abandonedRefundedInvestigators) {
+                SharkGame.Resources.changeResource("investigator", 500);
+                SharkGame.flags.abandonedRefundedInvestigators = true;
+            }
+        },
+    },
+    revealBuyButtons: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.persistentFlags.revealedBuyButtons) {
                 return "remove";
             }
-            if (res.getTotalResource("crab") > 3) {
+            if (res.getTotalResource("crab") > 12 || res.getTotalResource("crystal") > 12) {
                 return "trigger";
             }
             return "pass";
         },
         trigger() {
-            SharkGame.flags.revealedBuyButtons = true;
+            SharkGame.persistentFlags.revealedBuyButtons = true;
             SharkGame.TabHandler.setUpTab();
         },
-    }, getAllAffordableUpgrades*/
+    },
+    /* getAllAffordableUpgrades */
     updateLabNotifier: {
         handlingTime: "afterTick",
         priority: 0,
@@ -154,6 +168,20 @@ SharkGame.Events = {
         },
         trigger() {
             res.reapplyModifiers("aspectAffect", "crystal");
+            return true;
+        },
+    },
+    resetPressAllButtonsKeybind: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (!SharkGame.gameOver) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            SharkGame.flags.pressedAllButtonsThisTick = false;
             return true;
         },
     },
