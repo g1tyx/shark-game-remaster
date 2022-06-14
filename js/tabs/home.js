@@ -920,17 +920,16 @@ SharkGame.Home = {
 
     shouldRemoveHomeButton(action) {
         let disable = false;
-        // eslint-disable-next-line id-length
-        $.each(action.removedBy, (kind, by) => {
+        $.each(action.removedBy, (kind, when) => {
             switch (kind) {
                 case "totalResourceThreshold":
-                    disable = disable || _.some(by, (resourceObject) => res.getTotalResource(resourceObject.resource) >= resourceObject.threshold);
+                    disable = disable || _.some(when, (resourceObject) => res.getTotalResource(resourceObject.resource) >= resourceObject.threshold);
                     break;
                 case "otherActions":
-                    disable = disable || _.some(by, (otherAction) => home.areActionPrereqsMet(otherAction));
+                    disable = disable || _.some(when, (otherAction) => home.areActionPrereqsMet(otherAction));
                     break;
                 case "upgrades":
-                    disable = disable || _.some(by, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
+                    disable = disable || _.some(when, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
                     break;
             }
         });

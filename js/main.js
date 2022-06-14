@@ -1,6 +1,5 @@
 "use strict";
-/* eslint-disable-next-line no-var, no-use-before-define, no-shadow */
-var SharkGame = SharkGame || {};
+window.SharkGame = window.SharkGame || {};
 
 window.onmousemove = (event) => {
     SharkGame.lastActivity = _.now();
@@ -206,6 +205,14 @@ SharkGame.Main = {
         main.restoreGame("load");
         // then set up the game according to this data
         main.setUpGame();
+
+        const isSafari =
+            /constructor/i.test(window.HTMLElement) ||
+            (!window.safari || (typeof safari !== "undefined" && window.safari.pushNotification)).toString() === "[object SafariRemoteNotification]";
+        if (isSafari) {
+            console.info("Detected Safari browser!");
+            SharkGame.PaneHandler.addPaneToStack("Safari Notice", SharkGame.Panes.safariNotice);
+        }
     },
 
     // reset all game variables to their defaults

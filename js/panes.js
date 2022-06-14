@@ -59,6 +59,12 @@ SharkGame.Panes = {
         "<p>v0.2 is a total rework.<br/>Right now only four worlds (besides the starter world) are playable.<br><b>Things will be missing.</b> New stuff will be added.</p>" +
         "<p>To give feedback or contribute, check out our <a href='https://discord.gg/eYqApFkFPY'>Discord</a>.</p>" +
         "<p>To play the stable (OUTDATED) version (with all planets), visit <a href='https://spencers145.github.io/SharkGame/'>this link</a>.</p>",
+
+    safariNotice:
+        "It seems you are using Safari.<br />This browser is currently not well-tested due to lack of corresponding hardware.<br />" +
+        "If you are willing to help us test it, please join us on <a href='https://discord.gg/s4tTj7y72z'>Discord</a>, or message" +
+        " <a target='_blank' href='https://www.reddit.com/user/toby_prime'>Toby</a> or" +
+        " <a target='_blank' href='https://www.reddit.com/user/SpencerS145/'>Base</a> on Reddit.",
 };
 
 SharkGame.PaneHandler = {
@@ -67,6 +73,7 @@ SharkGame.PaneHandler = {
 
     init() {
         SharkGame.PaneHandler.wipeStack();
+        SharkGame.PaneHandler.buildPane();
     },
 
     buildPane() {
@@ -191,14 +198,7 @@ SharkGame.PaneHandler = {
     },
 
     showPane(title, contents, notCloseable, fadeInTime, customOpacity, preserveElements) {
-        let pane;
-
-        // GENERATE PANE IF THIS IS THE FIRST TIME
-        if (!SharkGame.paneGenerated) {
-            pane = SharkGame.PaneHandler.buildPane();
-        } else {
-            pane = $("#pane");
-        }
+        const pane = $("#pane");
 
         // begin fading in/displaying overlay if it isn't already visible
         const overlay = $("#overlay");

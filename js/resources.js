@@ -1494,8 +1494,7 @@ SharkGame.Resources = {
                         ? resourceCategories[affectedGeneratorCategory].resources
                         : [affectedGeneratorCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, affectedGenerator) => {
+                    $.each(nodes, (_key, affectedGenerator) => {
                         if (world.doesResourceExist(affectedGenerator) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
@@ -1516,8 +1515,7 @@ SharkGame.Resources = {
                         ? resourceCategories[affectedResourceCategory].resources
                         : [affectedResourceCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, affectedResource) => {
+                    $.each(nodes, (_key, affectedResource) => {
                         if (world.doesResourceExist(affectedResource) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }
