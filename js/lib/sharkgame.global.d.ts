@@ -128,15 +128,23 @@ declare global {
     };
     type UpgradeTable = Record<UpgradeName, Upgrade>;
 
-    // TODO: Find out how to replace `string[]|number` with a Type parameter, since it's only ever one or the other per Modifier
-    type Modifier = {
-        defaultValue: string[] | number;
-        name?: string;
-        apply(current: string[] | number, degree: number | string, generator: string): string[] | number;
-        effectDescription?(degree: number | string, generator: string): string;
-        getEffect?(genDegree: number, outDegree: number, gen: string, out: string): number;
-        applyToInput(input: number, genDegree: string[] | number, outDegree: string[] | number, gen: string, out: string): number;
-    };
+    type Modifier =
+        | {
+              defaultValue: string[];
+              name?: string;
+              apply(current: string[], degree: number | string, generator: string): string[];
+              effectDescription?(degree: number | string, generator: string): string;
+              getEffect?(genDegree: number, outDegree: number, gen: string, out: string): number;
+              applyToInput(input: number, genDegree: string[], outDegree: string[], gen: string, out: string): number;
+          }
+        | {
+              defaultValue: number;
+              name?: string;
+              apply(current: number, degree: number | string, generator: string): number;
+              effectDescription?(degree: number | string, generator: string): string;
+              getEffect?(genDegree: number, outDegree: number, gen: string, out: string): number;
+              applyToInput(input: number, genDegree: number, outDegree: number, gen: string, out: string): number;
+          };
 
     type Pane = [title: string, contents: JQuery<HTMLElement>, notCloseable: boolean | undefined, fadeInTime: number, customOpacity: number];
 
@@ -308,7 +316,7 @@ declare global {
         /** Generated cache on-demand */
         generated: Record<WorldName, HomeActionTable>;
         default: HomeActionTable;
-        getActionTable(worldType?: WorldName);
+        getActionTable(worldType?: WorldName): Record<HomeActionName, HomeAction>;
         /**
          * Retrieves, modifies, and returns the data for an action. Implemented to intercept retreival of action data to handle special logic where alternatives are inconvenient or impossible.
          * @param table The table to retrieve the action data from
@@ -435,16 +443,14 @@ declare global {
         name: string;
         onChange?(): void;
     };
-    type CurrentSettings<T> = {
-        current: Record<Option<T>, T>;
-    };
 
-    type SettingsModule = Record<OptionName, Option<unknown>> &
-        CurrentSettings<unknown> & {
-            buyAmount: InternalOption<number | "custom">;
-            grottoMode: InternalOption<"simple" | "advanced">;
-            showPercentages: InternalOption<"absolute" | "percentage">;
-        };
+    type SettingsModule = Record<OptionName, Option<unknown>> & {
+        current: Record<OptionName, unknown>;
+    } & {
+        buyAmount: InternalOption<number | "custom">;
+        grottoMode: InternalOption<"simple" | "advanced">;
+        showPercentages: InternalOption<"absolute" | "percentage">;
+    };
 
     type SpritesModule = Record<
         SpriteName,
@@ -800,7 +806,7 @@ declare global {
     type SharkGameConstants = {
         ACTUAL_GAME_NAME: string;
         BIGGEST_SAFE_NUMBER: number;
-        COMMIT_SHA: number;
+        COMMIT_SHA: string;
         EPSILON: number;
         GAME_NAME: string;
         GAME_NAMES: string[];
@@ -822,7 +828,7 @@ declare global {
         flags: Record<string, unknown>; // TODO: Find out unknown type
         gameOver: boolean;
         paneGenerated: boolean;
-        persistentFlags: Record<string, unknown>; // TODO: Find out unknown type
+        persistentFlags: Record<string, any>;
         sidebarHidden: boolean;
         spriteHomeEventPath: string;
         spriteIconPath: string;
