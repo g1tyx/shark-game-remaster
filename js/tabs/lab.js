@@ -254,7 +254,7 @@ SharkGame.Lab = {
             enableButton = res.checkResources(upgradeCost);
         }
 
-        const effects = SharkGame.Lab.getResearchEffects(upgradeData, !enableButton);
+        const effects = SharkGame.Lab.getResearchEffects(upgradeData);
         let label = upgradeData.name + "<br/>" + upgradeData.desc + "<br/>" + effects;
         const costText = sharktext.resourceListToString(upgradeCost, !enableButton, sharkcolor.getElementColor(upgradeName));
         if (costText !== "") {
@@ -404,6 +404,7 @@ SharkGame.Lab = {
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
         const lab = SharkGame.Lab;
         let allDone = true;
+        // TODO: Use .every instead of .each
         $.each(upgradeTable, (upgradeId) => {
             if (lab.isUpgradePossible(upgradeId)) {
                 allDone = allDone && SharkGame.Upgrades.purchased.includes(upgradeId) && lab.isUpgradeVisible(upgradeId);
@@ -474,7 +475,7 @@ SharkGame.Lab = {
         return true;
     },
 
-    getResearchEffects(upgrade, _darken) {
+    getResearchEffects(upgrade) {
         const effects = [];
         $.each(upgrade.effect, (effectType, effectsList) => {
             $.each(effectsList, (resource, degree) => {

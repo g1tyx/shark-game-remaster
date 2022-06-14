@@ -1,13 +1,8 @@
 "use strict";
 SharkGame.Upgrades = {
     purchased: [],
-    /**
-     * @type Record<string, Record<string, any>>
-     * Generated cache on-demand
-     */
     generated: {},
 
-    /** @param worldType {string} */
     getUpgradeTable(worldType = world.worldType) {
         if (typeof SharkGame.Upgrades[worldType] !== "object") {
             // This world type doesn't have any special upgrades, so use the default ones.
@@ -20,11 +15,6 @@ SharkGame.Upgrades = {
         return SharkGame.Upgrades.generated[worldType];
     },
 
-    /**
-     * Retrieves, modifies, and returns the data for an upgrade. Implemented to intercept retreival of upgrade data to handle special logic where alternatives are inconvenient or impossible.
-     * @param {object} table The table to retrieve the upgrade data from
-     * @param {string} upgradeName The name of the upgrade
-     */
     getUpgradeData(table, upgradeName) {
         if (!table[upgradeName]) {
             return;
@@ -64,8 +54,8 @@ SharkGame.Upgrades = {
         return data;
     },
 
-    /** @param worldType {string} */
     generateUpgradeTable(worldType = world.worldType) {
+        /** @type {UpgradeTable} */
         let finalTable = {};
         const defaultUpgrades = SharkGame.Upgrades.default;
         if (_.has(SharkGame.Upgrades, worldType)) {

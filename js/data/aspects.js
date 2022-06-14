@@ -1,23 +1,5 @@
 "use strict";
 
-/**
- * @type {Record<string, {
- *     requiredBy: string[] | undefined
- *     eventSprite: boolean // Whether to use the event spritesheet
- *     icon: string
- *     posX: number
- *     posY: number
- *     width: number
- *     height: number
- *     level: number
- *     prerequisites: string[]
- *     getCost(level: number): number
- *     getEffect(level: number): string
- *     getUnlocked(): string // tells you if miscellaneous requirements have been met. if they have, returns nothing. if they have not, returns a message stating why not.
- *     clicked(): void
- *     apply(time: string): void
- * }>
- */
 // idea: aspect which helps to reveal more of the tree
 SharkGame.Aspects = {
     apotheosis: {

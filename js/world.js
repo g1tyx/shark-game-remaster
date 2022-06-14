@@ -85,10 +85,6 @@ SharkGame.World = {
         return SharkGame.WorldTypes[world.worldType].entry;
     },
 
-    /**
-     * @param {string} resourceName ID of resource to check
-     * @returns Whether or not the resource exists on the current planet
-     */
     doesResourceExist(resourceName) {
         return world.worldResources.get(resourceName).exists;
     },

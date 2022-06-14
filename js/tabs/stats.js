@@ -311,6 +311,7 @@ SharkGame.Stats = {
     },
 
     createIncomeTable() {
+        /** @type {JQuery<HTMLTableElement} */
         let incomesTable = $("#incomeTable");
         if (incomesTable.length === 0) {
             incomesTable = $("<table>").attr("id", "incomeTable");

@@ -15,18 +15,6 @@
 //
 // a system will be implemented to handle events which will simply be called every tick before and after regular processing.
 //
-/**
- * !! Copied from ../eventhandler.js !!
- * @typedef {"beforeTick" | "afterTick"} eventName
- * @typedef {"trigger" | "remove" | "pass"} eventAction
- * @typedef {{
- *     handlingTime: eventName
- *     priority: number
- *     getAction(): eventAction
- *     trigger(): boolean - Whether to keep the event after firing
- * }} SharkEventHandler
- */
-/** @type Record<string, SharkEventHandler> */
 SharkGame.Events = {
     frigidInitiateIcyDoom: {
         handlingTime: "beforeTick",

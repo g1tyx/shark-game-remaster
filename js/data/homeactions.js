@@ -1,12 +1,7 @@
 "use strict";
 SharkGame.HomeActions = {
-    /**
-     * @type Record<string, Record<string, any>>
-     * Generated cache on-demand
-     */
     generated: {},
 
-    /** @param worldType {string} */
     getActionTable(worldType = world.worldType) {
         if (typeof SharkGame.HomeActions[worldType] !== "object" || worldType === "generated") {
             worldType = "default";
@@ -19,11 +14,6 @@ SharkGame.HomeActions = {
         }
     },
 
-    /**
-     * Retrieves, modifies, and returns the data for an action. Implemented to intercept retreival of action data to handle special logic where alternatives are inconvenient or impossible.
-     * @param {object} table The table to retrieve the action data from
-     * @param {string} actionName The name of the action
-     */
     getActionData(table, actionName) {
         // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
         const data = _.cloneDeep(table[actionName]);
@@ -45,10 +35,6 @@ SharkGame.HomeActions = {
         return data;
     },
 
-    /**
-     * @param worldType {string}
-     * @returns {Record<string, Record<string, unknown>>}
-     */
     generateActionTable(worldType = world.worldType) {
         const defaultActions = SharkGame.HomeActions.default;
 
@@ -56,6 +42,7 @@ SharkGame.HomeActions = {
             return defaultActions;
         }
 
+        /** @type {Record<HomeActionName, HomeAction>} */
         const finalTable = {};
         const worldActions = SharkGame.HomeActions[worldType];
 
