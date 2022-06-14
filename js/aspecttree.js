@@ -241,7 +241,6 @@ SharkGame.AspectTree = {
         function clickCallback(event) {
             const aspectId = event.currentTarget.getAttribute("data-aspectId");
             const aspect = SharkGame.Aspects[aspectId];
-            // console.debug(aspect);
 
             aspect.clicked(event);
 
@@ -821,7 +820,6 @@ SharkGame.AspectTree = {
     },
 
     updateTooltip(button) {
-        // console.log("test");
         const tooltipBox = $("#tooltipbox");
         const context = tree.context;
         if (button === undefined) {

@@ -620,7 +620,6 @@ SharkGame.Home = {
                 buttonTabsArray.push(categoryName);
             }
         });
-        console.log(buttonTabsArray);
         return buttonTabsArray;
     },
 

@@ -20,7 +20,6 @@ SharkGame.ResourceTable = {
 
     world: {
         get name() {
-            console.log(world.worldType);
             switch (world.worldType) {
                 case `violent`:
                     return `vents`;

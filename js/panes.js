@@ -585,8 +585,7 @@ SharkGame.PaneHandler = {
             if (SharkGame.Keybinds.actions.includes(boundAction)) {
                 const selector = $("<select>").on(`change`, function () {
                     SharkGame.Keybinds.addKeybind(boundKey, $(this)[0].value);
-                    console.log(`bound ${boundKey} to ${$(this)[0].value}`);
-                    console.log($(this));
+                    console.debug(`bound ${boundKey} to ${$(this)[0].value}`);
                 });
                 _.each(SharkGame.Keybinds.actions, (potentialBoundAction, i) => {
                     selector.append(

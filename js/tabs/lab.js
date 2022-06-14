@@ -25,7 +25,6 @@ SharkGame.Lab = {
     },
 
     get discoverReq() {
-        console.log(world.worldType);
         switch (world.worldType) {
             case `violent`:
                 return { resource: { seaApple: 1 } };
@@ -397,7 +396,6 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
-            console.log(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(_.now() - SharkGame.timestampRunStart)}`);
             res.updateResourcesTable();
         }
     },

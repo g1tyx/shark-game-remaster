@@ -196,10 +196,10 @@ SharkGame.Keybinds = {
         if (!this.tempDisableBind && actionType) {
             switch (actionType) {
                 case "test":
-                    console.log("test successful");
                     break;
                 case "open bind menu":
                     // do nothing for now
+                    // TODO: Implement this, I suppose
                     break;
                 case "bind home ocean button":
                     if (!this.bindModeLock) {
@@ -352,6 +352,7 @@ SharkGame.Keybinds = {
             }
             return true;
         }
+        return false;
     },
 
     addKeybind(keyID, actionType) {
