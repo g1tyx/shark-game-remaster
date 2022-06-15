@@ -835,6 +835,7 @@ SharkGame.Resources = {
             res.minuteHand.realMultiplier = 1;
             SharkGame.persistentFlags.everIdled = false;
             SharkGame.flags.minuteHandTimer = 0;
+            SharkGame.flags.hourHandLeft = 0;
             SharkGame.persistentFlags.selectedMultiplier = 2;
             this.active = false;
             this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
@@ -844,6 +845,9 @@ SharkGame.Resources = {
         setup() {
             if (_.isUndefined(SharkGame.flags.minuteHandTimer)) {
                 SharkGame.flags.minuteHandTimer = 0;
+            }
+            if (_.isUndefined(SharkGame.flags.hourHandLeft)) {
+                SharkGame.flags.hourHandLeft = 0;
             }
 
             if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
@@ -909,7 +913,12 @@ SharkGame.Resources = {
             } else if (!res.minuteHand.active) {
                 SharkGame.flags.minuteHandTimer += timeElapsed;
             } else {
-                SharkGame.flags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
+                const timeRemoved = timeElapsed * (res.minuteHand.realMultiplier - 1);
+                SharkGame.flags.hourHandLeft -= timeRemoved;
+                if (SharkGame.flags.hourHandLeft < 0) {
+                    SharkGame.flags.hourHandLeft = 0;
+                }
+                SharkGame.flags.minuteHandTimer -= timeRemoved;
                 if (SharkGame.flags.minuteHandTimer < 0) {
                     res.minuteHand.disableNextTick = true;
                     // the net effect of this next statement is making the processing which
@@ -982,7 +991,9 @@ SharkGame.Resources = {
         },
 
         applyHourHand() {
-            SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
+            const hourHand = 60000 * SharkGame.Aspects.theHourHand.level;
+            SharkGame.flags.hourHandLeft = hourHand;
+            SharkGame.flags.minuteHandTimer = hourHand;
             this.updateDisplay();
         },
 

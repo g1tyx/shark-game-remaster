@@ -46,10 +46,13 @@ SharkGame.Gateway = {
         tree.resetScoutingRestrictions();
         gateway.updateWasScoutingStatus();
 
-        if (!loadingFromSave && SharkGame.wonGame) {
-            gateway.markWorldCompleted(world.worldType);
-            SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
-            gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
+        if (!loadingFromSave) {
+            SharkGame.persistentFlags.lastRunTime = sharktime.getRunTime();
+            if (SharkGame.wonGame) {
+                gateway.markWorldCompleted(world.worldType);
+                SharkGame.persistentFlags.destinyRolls = SharkGame.Aspects.destinyGamble.level;
+                gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
+            }
         }
 
         if (this.planetPool.length === 0) {
@@ -661,18 +664,22 @@ SharkGame.Gateway = {
     },
 
     getTimeInLastWorld(formatLess) {
-        if (!SharkGame.persistentFlags.totalPausedTime) {
-            SharkGame.persistentFlags.totalPausedTime = 0;
+        if (SharkGame.persistentFlags.lastRunTime) {
+            return formatLess ? SharkGame.persistentFlags.lastRunTime : sharktext.formatTime(SharkGame.persistentFlags.lastRunTime);
+        } else {
+            if (!SharkGame.persistentFlags.totalPausedTime) {
+                SharkGame.persistentFlags.totalPausedTime = 0;
+            }
+            if (!SharkGame.persistentFlags.currentPausedTime) {
+                SharkGame.persistentFlags.currentPausedTime = 0;
+            }
+            const time =
+                SharkGame.timestampRunEnd -
+                SharkGame.timestampRunStart -
+                SharkGame.persistentFlags.totalPausedTime -
+                SharkGame.persistentFlags.currentPausedTime;
+            return formatLess ? time : sharktext.formatTime(time);
         }
-        if (!SharkGame.persistentFlags.currentPausedTime) {
-            SharkGame.persistentFlags.currentPausedTime = 0;
-        }
-        const time =
-            SharkGame.timestampRunEnd -
-            SharkGame.timestampRunStart -
-            SharkGame.persistentFlags.totalPausedTime -
-            SharkGame.persistentFlags.currentPausedTime;
-        return formatLess ? time : sharktext.formatTime(time);
     },
 
     updateWasScoutingStatus() {

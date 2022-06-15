@@ -83,10 +83,12 @@ SharkGame.Stats = {
         const genStats = $("#generalStats");
         genStats.append($("<h3>").html("General Stats"));
         const firstTime = main.isFirstTime();
-        genStats.append($("<p>").html("Time since you began:<br/><span id='gameTime' class='timeDisplay'></span>").addClass("medDesc"));
+        genStats.append(
+            $("<p>").html("Real time since you began your journey:<br/><span id='gameTime' class='timeDisplay'></span>").addClass("medDesc")
+        );
         if (!firstTime) {
             genStats.append(
-                $("<p>").html("Time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>").addClass("medDesc")
+                $("<p>").html("Relative time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>").addClass("medDesc")
             );
             if (SharkGame.persistentFlags.scouting === false) {
                 genStats.append($("<p>").html(`Par: ${gateway.getPar()} minutes`).addClass("medDesc"));
@@ -112,18 +114,7 @@ SharkGame.Stats = {
             stats.recreateIncomeTable = false;
         }
 
-        // update run times
-        const currTime = _.now();
-        const gameTime = sharktext.formatTime(currTime - SharkGame.timestampGameStart);
-        if ($("#gameTime").html() !== gameTime) {
-            $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
-        }
-        const runTime = sharktext.formatTime(
-            currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
-        );
-        if ($("#runTime").html() !== runTime) {
-            $("#runTime").html(runTime);
-        }
+        stats.updateTimers();
 
         if (document.getElementById("tooltipbox").attributes.current) {
             stats.networkTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
@@ -210,6 +201,19 @@ SharkGame.Stats = {
             log.addMessage(SharkGame.choose(category.disposeMessage));
         } else {
             log.addMessage("Can't dispose that much! You don't have enough of it.");
+        }
+    },
+
+    updateTimers() {
+        // update run times
+        const gameTime = sharktext.formatTime(_.now() - SharkGame.timestampGameStart);
+        if ($("#gameTime").html() !== gameTime) {
+            $("#gameTime").html(gameTime);
+        }
+
+        const runTime = sharktext.formatTime(sharktime.getRunTime());
+        if ($("#runTime").html() !== runTime) {
+            $("#runTime").html(runTime);
         }
     },
 

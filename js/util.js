@@ -482,6 +482,23 @@ SharkGame.ColorUtil = {
     },
 };
 
+SharkGame.TimeUtil = {
+    getRunTime(ignoreMinuteHandAndPause) {
+        const realRunTime = _.now() - SharkGame.timestampRunStart;
+        const pausedTime = SharkGame.persistentFlags.totalPausedTime + SharkGame.persistentFlags.currentPausedTime;
+        let storedTime = 0;
+        if (typeof SharkGame.flags.hourHandLeft === `number`) {
+            storedTime = SharkGame.flags.minuteHandTimer - SharkGame.flags.hourHandLeft;
+        }
+
+        if (ignoreMinuteHandAndPause) {
+            return realRunTime;
+        } else {
+            return realRunTime - pausedTime - storedTime;
+        }
+    },
+};
+
 SharkGame.MiscUtil = {
     tryAddProperty(object, property, value) {
         if (_.isUndefined(object[property])) {
