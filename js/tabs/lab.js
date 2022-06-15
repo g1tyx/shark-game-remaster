@@ -396,6 +396,17 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
+            if (!SharkGame.flags.upgradeTimes) {
+                SharkGame.flags.upgradeTimes = {};
+            }
+            const gotUpgradeTime = SharkGame.flags.upgradeTimes[upgradeId];
+            if (gotUpgradeTime) {
+                console.log(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(gotUpgradeTime)}`);
+            } else {
+                console.log(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(sharktime.getRunTime())}`);
+                SharkGame.flags.upgradeTimes[upgradeId] = sharktime.getRunTime();
+            }
+
             res.updateResourcesTable();
         }
     },
