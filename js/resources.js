@@ -1411,7 +1411,7 @@ SharkGame.Resources = {
                 decreaseText +=
                     sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     ` speed by ` +
-                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
             }
         });
 
@@ -1421,7 +1421,7 @@ SharkGame.Resources = {
                 decreaseText +=
                     sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     ` gains by ` +
-                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
             }
         });
 
