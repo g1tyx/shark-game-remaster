@@ -924,6 +924,7 @@ SharkGame.Resources = {
 
         toggleMinuteHand() {
             if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 0) {
+                main.endIdle();
                 res.minuteHand.active = true;
                 res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
                 $("#minute-hand-toggle").addClass("minuteOn");
