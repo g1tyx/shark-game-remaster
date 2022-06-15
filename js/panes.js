@@ -40,8 +40,8 @@ SharkGame.Panes = {
 
     donate:
         "<h2>You can donate to various projects and organizations below to help support sea life:</h2>" +
-        "<span class='smallDescAllowClicks'>(seems only fitting, given the original game was made for a charity stream)</span>" +
-        "<p><strong>#TeamSeas</strong> is a project with the goal of taking 30 million pounds of trash out of the ocean by January 2022. You can <a href='https://teamseas.org/'>donate to #TeamSeas here</a>.</p>" +
+        "<span class='smallDescAllowClicks'>(seems only fitting, given the original game was made for a charity event)</span>" +
+        "<p><strong>#TeamSeas</strong> is a project which is using donations to take over 30 million pounds of trash out of the ocean. You can <a href='https://teamseas.org/'>donate to #TeamSeas here</a>.</p>" +
         "<p><strong>The Shark Trust</strong> is an organization that exists solely to advocate for research into, education about, and fair treatment of sharks. You can <a href='https://www.sharktrust.org/Listing/Category/donate' target='_blank'>donate to the Shark Trust here</a>.</p>" +
         "<p><span class='smallDescAllowClicks'>(But if you'd rather, you can also " +
         "<a href='https://www.paypal.com/cgi-bin/" +
