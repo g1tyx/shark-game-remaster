@@ -179,6 +179,10 @@ SharkGame.TextUtil = {
         return "are";
     },
 
+    shouldHideNumberOfThis(name) {
+        return [`world`, `aspectAffect`, `specialResourceOne`, `specialResourceTwo`].includes(name);
+    },
+
     /** @param {string} string */
     boldString(string) {
         return `<span class='bold'>${string}</span>`;

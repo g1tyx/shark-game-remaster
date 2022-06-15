@@ -41,6 +41,44 @@ SharkGame.ResourceTable = {
         forceIncome: true,
     },
 
+    specialResourceOne: {
+        get name() {
+            switch (world.worldType) {
+                default:
+                    return `???`;
+            }
+        },
+        get singleName() {
+            switch (world.worldType) {
+                default:
+                    return `???`;
+            }
+        },
+        desc: "how are you seeing this",
+        color: "#FFFFFF",
+        value: 123456789,
+        forceIncome: true,
+    },
+
+    specialResourceTwo: {
+        get name() {
+            switch (world.worldType) {
+                default:
+                    return `???`;
+            }
+        },
+        get singleName() {
+            switch (world.worldType) {
+                default:
+                    return `???`;
+            }
+        },
+        desc: "how are you seeing this",
+        color: "#FFFFFF",
+        value: 123456789,
+        forceIncome: false,
+    },
+
     aspectAffect: {
         name: "aspects",
         singleName: "aspects",
@@ -1369,7 +1407,7 @@ SharkGame.ResourceCategories = {
     hidden: {
         name: "Hidden",
         disposeMessage: ["Bad player! Stop it!"],
-        resources: ["world", "sacrifice", "aspectAffect"],
+        resources: ["world", "sacrifice", "aspectAffect", "specialResourceOne", "specialResourceTwo"],
     },
 };
 

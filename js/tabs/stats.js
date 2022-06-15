@@ -244,10 +244,9 @@ SharkGame.Stats = {
                             cell = $("#table-amount-" + resourceId);
                         }
 
-                        newValue =
-                            resourceId !== "world" && resourceId !== "aspectAffect"
-                                ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(resourceId)).bold() + "</div>"
-                                : "";
+                        newValue = !sharktext.shouldHideNumberOfThis(resourceId)
+                            ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(resourceId)).bold() + "</div>"
+                            : "";
                         if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
                         }
@@ -371,7 +370,7 @@ SharkGame.Stats = {
                     $("<td>")
                         .attr("rowspan", subheadings)
                         .html(
-                            headingName !== "world" && headingName !== "aspectAffect"
+                            !sharktext.shouldHideNumberOfThis(headingName)
                                 ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(headingName)).bold() + "</div>"
                                 : ""
                         )
@@ -464,7 +463,7 @@ SharkGame.Stats = {
                     resourceMapRow.append(
                         $("<td>")
                             .html(
-                                generatorName !== "world" && generatorName !== "aspectAffect"
+                                !sharktext.shouldHideNumberOfThis(generatorName)
                                     ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(subheadingKey)).bold() + "</div>"
                                     : ""
                             )

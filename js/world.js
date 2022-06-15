@@ -22,6 +22,10 @@ SharkGame.World = {
         res.setResource("world", 1);
         res.setTotalResource("world", 1);
         world.apply();
+        res.setResource("specialResourceOne", 1);
+        res.setTotalResource("specialResourceOne", 1);
+        res.setResource("specialResourceTwo", 1);
+        res.setTotalResource("specialResourceTwo", 1);
     },
 
     apply() {

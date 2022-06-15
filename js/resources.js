@@ -1288,18 +1288,14 @@ SharkGame.Resources = {
                 if (amount > 0) {
                     producertext += "<br>";
                     producertext +=
-                        (which === "world" || which === "aspectAffect"
-                            ? ""
-                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (sharktext.shouldHideNumberOfThis(which) ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(amount).bold();
                 } else if (amount < 0) {
                     consumertext += "<br>";
                     consumertext +=
-                        (which === "world" || which === "aspectAffect"
-                            ? ""
-                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (sharktext.shouldHideNumberOfThis(which) ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(-amount).bold();
