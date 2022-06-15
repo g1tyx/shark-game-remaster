@@ -76,13 +76,13 @@ SharkGame.TitleBar = {
         link: "https://discord.gg/eYqApFkFPY",
     },
 
-    noticeLink: {
+    /* noticeLink: {
         name: "notice",
         main: false,
         onClick() {
             SharkGame.PaneHandler.addPaneToStack("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
         },
-    },
+    }, */
 };
 
 SharkGame.TitleBarHandler = {
