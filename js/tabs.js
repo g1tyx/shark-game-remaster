@@ -76,9 +76,20 @@ SharkGame.TabHandler = {
             }
 
             if (reqsMet) {
+                // special logic for special tabs
+                switch (tabName) {
+                    case `reflection`:
+                        if (!SharkGame.persistentFlags.seenReflection) log.addDiscovery("Discovered " + tab.name + "!");
+                        break;
+                    case `cheats`:
+                        if (!SharkGame.persistentFlags.seenCheatsTab) log.addDiscovery("Discovered " + tab.name + "!");
+                        break;
+                    default:
+                        log.addDiscovery("Discovered " + tab.name + "!");
+                }
+
                 // unlock tab!
                 this.discoverTab(tabName);
-                log.addDiscovery("Discovered " + tab.name + "!");
             }
         });
     },
@@ -186,6 +197,11 @@ SharkGame.TabHandler = {
 
     discoverTab(tab) {
         SharkGame.Tabs[tab].discovered = true;
+
+        if ((tab === `reflection` && SharkGame.persistentFlags.seenReflection) || (tab === `cheats` && SharkGame.persistentFlags.seenCheatsTab)) {
+            SharkGame.Tabs[tab].seen = true;
+        }
+
         // force a total redraw of the navigation
         this.createTabMenu();
     },

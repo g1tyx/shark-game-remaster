@@ -382,6 +382,7 @@ SharkGame.CheatsAndDebug = {
         }
 
         this.update();
+        SharkGame.persistentFlags.seenCheatsTab = true;
     },
 
     update() {
