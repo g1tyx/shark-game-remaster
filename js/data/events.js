@@ -29,7 +29,7 @@ SharkGame.Events = {
             return "pass";
         },
         trigger() {
-            SharkGame.GeneratorIncomeAffectors.ice.multiply.world = -(1 / 666);
+            SharkGame.ResourceIncomeAffectors.ice.multiply.ice = -(1 / 666);
             res.clearNetworks();
             res.buildIncomeNetwork();
         },
@@ -55,6 +55,7 @@ SharkGame.Events = {
             SharkGame.ResourceMap.get("heater").desc = "Kept ice at bay. Not very useful anymore.";
             res.reapplyModifiers("heater", "kelp");
             res.reapplyModifiers("heater", "ice");
+            SharkGame.ResourceIncomeAffectors.ice.multiply.ice = 0;
             res.clearNetworks();
             res.buildIncomeNetwork();
         },

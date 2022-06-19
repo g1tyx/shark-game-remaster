@@ -1133,7 +1133,6 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
             nurse: -0.001,
             maker: -0.001,
             brood: -0.001,
-            world: -0.00125,
         },
     },
     tar: {
@@ -1168,6 +1167,12 @@ SharkGame.GeneratorIncomeAffected = {
 };
 
 SharkGame.ResourceIncomeAffectorsOriginal = {
+    ice: {
+        multiply: {
+            ice: -0.00125,
+        },
+    },
+
     historian: {
         multiply: {
             science: 0.01,
