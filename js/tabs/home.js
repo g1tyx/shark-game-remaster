@@ -1343,6 +1343,10 @@ SharkGame.Home = {
             });
         }
 
+        if (actionData.getSpecialTooltip) {
+            text += actionData.getSpecialTooltip() + "<br>";
+        }
+
         if (SharkGame.HomeActions.getActionTable()[actionName].helpText) {
             text +=
                 "<hr class='hrForTooltipSeparation'><span class='medDesc'>" + SharkGame.HomeActions.getActionTable()[actionName].helpText + "</span>";
