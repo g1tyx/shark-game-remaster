@@ -7,7 +7,7 @@ SharkGame.OverlayHandler = {
 
     revealOverlay(duration, endOpacity, callback = $.noop) {
         if (duration === 0 || !SharkGame.Settings.current.showAnimations) {
-            $(`#overlay`).css(`opacity`, endOpacity);
+            $(`#overlay`).css(`opacity`, endOpacity).show();
             callback();
         } else {
             if ($(`#overlay`).is(`:hidden`)) {
