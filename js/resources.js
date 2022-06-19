@@ -1400,7 +1400,7 @@ SharkGame.Resources = {
         let increaseText = "";
 
         $.each(furtherCondensedEffects.generators.increase, (affectedGenerator, degree) => {
-            if (world.doesResourceExist(affectedGenerator)) {
+            if (world.doesResourceExist(affectedGenerator) && res.getResource(affectedGenerator) > SharkGame.EPSILON) {
                 increaseText += "<br>";
                 increaseText +=
                     sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -1410,7 +1410,7 @@ SharkGame.Resources = {
         });
 
         $.each(furtherCondensedEffects.resources.increase, (affectedResource, degree) => {
-            if (world.doesResourceExist(affectedResource)) {
+            if (world.doesResourceExist(affectedResource) && res.getResource(affectedResource) > SharkGame.EPSILON) {
                 increaseText += "<br>";
                 increaseText +=
                     sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -1422,7 +1422,7 @@ SharkGame.Resources = {
         let decreaseText = "";
 
         $.each(furtherCondensedEffects.generators.decrease, (affectedGenerator, degree) => {
-            if (world.doesResourceExist(affectedGenerator)) {
+            if (world.doesResourceExist(affectedGenerator) && res.getResource(affectedGenerator) > SharkGame.EPSILON) {
                 decreaseText += "<br>";
                 decreaseText +=
                     sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -1432,7 +1432,7 @@ SharkGame.Resources = {
         });
 
         $.each(furtherCondensedEffects.resources.decrease, (affectedResource, degree) => {
-            if (world.doesResourceExist(affectedResource)) {
+            if (world.doesResourceExist(affectedResource) && res.getResource(affectedResource) > SharkGame.EPSILON) {
                 decreaseText += "<br>";
                 decreaseText +=
                     sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
