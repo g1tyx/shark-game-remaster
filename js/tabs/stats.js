@@ -488,12 +488,21 @@ SharkGame.Stats = {
                         .addClass(rowStyle)
                 );
 
+                const baseIncomeChangeChar =
+                    incomeValue *
+                        res.getNetworkIncomeModifier("generator", generatorName, incomeValue) *
+                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue) <
+                    0
+                        ? ""
+                        : "+";
                 // which mode are we in?
                 if (SharkGame.Settings.current.grottoMode === "advanced") {
                     addCell(
                         [
                             res.INCOME_COLOR,
-                            changeChar + sharktext.beautify(SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey], false, 2) + "/s",
+                            baseIncomeChangeChar +
+                                sharktext.beautify(SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey], false, 2) +
+                                "/s",
                         ],
                         "inline",
                         "advanced-base-income-" + generatorName + "-" + incomeKey
@@ -541,7 +550,7 @@ SharkGame.Stats = {
                     addCell(
                         [
                             res.INCOME_COLOR,
-                            changeChar +
+                            baseIncomeChangeChar +
                                 sharktext.beautify(
                                     incomeValue *
                                         res.getNetworkIncomeModifier("generator", generatorName) *
