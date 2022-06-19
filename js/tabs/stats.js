@@ -538,7 +538,8 @@ SharkGame.Stats = {
                     }
 
                     const resourceAffectMultiplier =
-                        res.getNetworkIncomeModifier("generator", generatorName) * res.getNetworkIncomeModifier("resource", incomeKey);
+                        res.getNetworkIncomeModifier("generator", generatorName, incomeValue) *
+                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue);
                     if (resourceAffectMultiplier !== 1) {
                         addCell(
                             [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + sharktext.beautify(resourceAffectMultiplier, false, 2)],
@@ -553,8 +554,8 @@ SharkGame.Stats = {
                             baseIncomeChangeChar +
                                 sharktext.beautify(
                                     incomeValue *
-                                        res.getNetworkIncomeModifier("generator", generatorName) *
-                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                        res.getNetworkIncomeModifier("generator", generatorName, incomeValue) *
+                                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue),
                                     false,
                                     2
                                 ) +

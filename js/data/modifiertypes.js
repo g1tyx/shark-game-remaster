@@ -143,11 +143,11 @@ SharkGame.ModifierTypes = {
                         degree
                     );
                 },
-                getEffect(degree, _gen, _out) {
-                    return degree;
+                getEffect(genDegree, _outDegree, _gen, out) {
+                    return out === "sand" ? genDegree : 1;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
-                    return input * (out !== "sand" ? genDegree : 1);
+                    return input * (out === "sand" ? genDegree : 1);
                 },
             },
             kelpMultiplier: {
@@ -168,11 +168,11 @@ SharkGame.ModifierTypes = {
                         degree
                     );
                 },
-                getEffect(degree, _gen, _out) {
-                    return degree;
+                getEffect(genDegree, _outDegree, _gen, out) {
+                    return out === "kelp" ? genDegree : 1;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
-                    return input * (out !== "kelp" ? genDegree : 1);
+                    return input * (out === "kelp" ? genDegree : 1);
                 },
             },
             heaterMultiplier: {
@@ -194,8 +194,8 @@ SharkGame.ModifierTypes = {
                         "× faster."
                     );
                 },
-                getEffect(degree, _gen, _out) {
-                    return degree;
+                getEffect(genDegree, _outDegree, _gen, _out) {
+                    return genDegree;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
                     return input * (out === "ice" && input < 0 ? genDegree : 1);
