@@ -140,7 +140,7 @@ SharkGame.Lab = {
                 default:
                     message = "The scientists are out of ideas, but there are always more discoveries to be made.";
             }
-            $("#buttonList").append($("<p>").html(message));
+            $("#buttonList").html($("<p>").html(message));
 
             const hintedUpgrade = _.find(
                 upgradeTable,
