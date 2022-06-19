@@ -663,7 +663,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "shrimp-one": {
+    "volcanic-shrimps": {
         frame: {
             x: 810,
             y: 1022,
@@ -1043,7 +1043,7 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
-    "violent-default": {
+    "volcanic-default": {
         frame: {
             x: 1618,
             y: 818,
@@ -1419,6 +1419,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getFarmer": {
+        frame: { x: 2932, y: 0, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/spongeFiltration": {
         frame: { x: 2118, y: 100, w: 50, h: 50 },
         rotated: false,
@@ -1549,6 +1557,14 @@ SharkGame.Sprites = {
     },
     "actions/getQueen": {
         frame: { x: 1024, y: 2, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
+    "actions/getResearcher": {
+        frame: { x: 2932, y: 50, w: 50, h: 50 },
         rotated: false,
         trimmed: false,
         spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
@@ -1876,7 +1892,7 @@ SharkGame.Sprites = {
         sourceSize: { w: 100, h: 100 },
         pivot: { x: 0, y: 0 },
     },
-    "planets/violent": {
+    "planets/volcanic": {
         frame: { x: 818, y: 2, w: 100, h: 100 },
         rotated: false,
         trimmed: false,

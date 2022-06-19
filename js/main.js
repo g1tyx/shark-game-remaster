@@ -95,12 +95,13 @@ $.extend(SharkGame, {
         "To Be Continued",
         "what the crab doin",
         "#TeamSeas",
+        "2",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "202205??a",
+    VERSION: "202206??a",
     ORIGINAL_VERSION: 0.71,
-    VERSION_NAME: "The Marine Update",
+    VERSION_NAME: "The Volcanic Update",
     EPSILON: 1e-6, // floating point comparison is a joy
     // agreed, already had to deal with it on recycler revisions
     // did you know that reducing a float like 1.2512351261 to 1.25 by literally removing the decimal and multiplying by 100 gives you something like 125.0000001?
@@ -1031,12 +1032,16 @@ SharkGame.FunFacts = {
 };
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 202206??a": [
-        "Added Violent worldtype.",
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 202206??a": [
+        "Added Volcanic worldtype.",
+        "The time taken to beat a world <b>doesn't increase when you are offline or in idle mode</b>. However, when you use the minute hand to <b><i>spend</i> time</b> earned from idling or being offline, that <b>DOES count against your time</b> for beating the world. However, any time gained from the <b>hour hand</b> aspect will NOT count against your time when used.",
+        "Added fun facts button! Press to randomly receive a fun fact.",
         "Stuff table tooltips now show how a resource slows or speeds up others.",
-        "stay tuned for a ton of bugfixes and adjustments",
+        "Removed alpha notice.",
+        "Fixed a bunch of miscellaneous bugs.",
+        "Did other assorted tasks.",
     ],
-    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220603a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220603a": [
         "Added Marine worldtype.",
         "Planet descriptions are now much more vague until you've visited them.",
         "Distant Foresight greatly decreases vagueness of planet descriptions now.",

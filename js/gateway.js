@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded", "marine", "violent"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded", "marine", "volcanic"],
 
     completedWorlds: [],
 
@@ -944,7 +944,7 @@ SharkGame.Gateway.Messages = {
             "Do you wonder why the swordfish obeyed?",
             "Do you wonder what the swordfish were so startled by?",
         ],
-        violent: [
+        volcanic: [
             "The boiling ocean only stirred you on.",
             "You are forged from the geothermal vents.",
             "The shrimp are no simpletons.",

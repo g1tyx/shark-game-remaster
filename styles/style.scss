@@ -50,12 +50,12 @@ $color-med-tempestuous: #3e4960;
 $color-dark-tempestuous: #253046;
 $color-darker-tempestuous: #121a2b;
 
-//violent theme
-$color-lighter-violent: #cf9d9d;
-$color-light-violent: #8f5252;
-$color-med-violent: #681e1e;
-$color-dark-violent: #521212;
-$color-darker-violent: #2b0707;
+//volcanic theme
+$color-lighter-volcanic: #cf9d9d;
+$color-light-volcanic: #8f5252;
+$color-med-volcanic: #681e1e;
+$color-dark-volcanic: #521212;
+$color-darker-volcanic: #2b0707;
 
 // -- END OF THEMES --
 
@@ -244,13 +244,13 @@ $sidebar-width: 25%;
             --color-darker: #{$color-darker-tempestuous};
             --color-title: #{rgba(red($color-med-tempestuous), green($color-med-tempestuous), blue($color-med-tempestuous), 0.2)};
         }
-        &.violent {
-            --color-lighter: #{$color-lighter-violent};
-            --color-light: #{$color-light-violent};
-            --color-med: #{$color-med-violent};
-            --color-dark: #{$color-dark-violent};
-            --color-darker: #{$color-darker-violent};
-            --color-title: #{rgba(red($color-med-violent), green($color-med-violent), blue($color-med-violent), 0.2)};
+        &.volcanic {
+            --color-lighter: #{$color-lighter-volcanic};
+            --color-light: #{$color-light-volcanic};
+            --color-med: #{$color-med-volcanic};
+            --color-dark: #{$color-dark-volcanic};
+            --color-darker: #{$color-darker-volcanic};
+            --color-title: #{rgba(red($color-med-volcanic), green($color-med-volcanic), blue($color-med-volcanic), 0.2)};
         }
     }
 }

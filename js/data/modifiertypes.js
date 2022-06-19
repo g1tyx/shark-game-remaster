@@ -307,8 +307,73 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "sponge");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource, _background) {
-                    return "";
+                effectDescription(degree, resource, background) {
+                    return `Add ${degree} ${sharktext.getResourceName(`sponge`, false, false, background)}/s to ${sharktext.getResourceName(
+                        resource,
+                        false,
+                        69,
+                        background
+                    )}`;
+                },
+                getEffect(_genDegree, _outDegree, _gen, _out) {
+                    return 1;
+                },
+                applyToInput(input, _genDegree, _outDegree, _gen, _out) {
+                    // this applies to base income so it should never be reapplied
+                    return input;
+                },
+            },
+            addAlgaeIncome: {
+                defaultValue: 0,
+                apply(current, degree, resource) {
+                    if (!SharkGame.ResourceMap.get(resource).baseIncome) {
+                        SharkGame.ResourceMap.get(resource).baseIncome = {};
+                    }
+                    if (!SharkGame.ResourceMap.get(resource).income) {
+                        SharkGame.ResourceMap.get(resource).income = {};
+                    }
+                    const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
+                    baseIncomes.algae = (baseIncomes.algae ? baseIncomes.algae : 0) + degree;
+                    res.reapplyModifiers(resource, "algae");
+                    return current + degree;
+                },
+                effectDescription(degree, resource, background) {
+                    return `Add ${degree} ${sharktext.getResourceName(`algae`, false, false, background)}/s to ${sharktext.getResourceName(
+                        resource,
+                        false,
+                        69,
+                        background
+                    )}`;
+                },
+                getEffect(_genDegree, _outDegree, _gen, _out) {
+                    return 1;
+                },
+                applyToInput(input, _genDegree, _outDegree, _gen, _out) {
+                    // this applies to base income so it should never be reapplied
+                    return input;
+                },
+            },
+            addSandIncome: {
+                defaultValue: 0,
+                apply(current, degree, resource) {
+                    if (!SharkGame.ResourceMap.get(resource).baseIncome) {
+                        SharkGame.ResourceMap.get(resource).baseIncome = {};
+                    }
+                    if (!SharkGame.ResourceMap.get(resource).income) {
+                        SharkGame.ResourceMap.get(resource).income = {};
+                    }
+                    const baseIncomes = SharkGame.ResourceMap.get(resource).baseIncome;
+                    baseIncomes.sand = (baseIncomes.sand ? baseIncomes.sand : 0) + degree;
+                    res.reapplyModifiers(resource, "sand");
+                    return current + degree;
+                },
+                effectDescription(degree, resource, background) {
+                    return `Add ${degree} ${sharktext.getResourceName(`sand`, false, false, background)}/s to ${sharktext.getResourceName(
+                        resource,
+                        false,
+                        69,
+                        background
+                    )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
                     return 1;
@@ -407,6 +472,31 @@ SharkGame.ModifierTypes = {
                 },
                 applyToInput(input, _genDegree, outDegree, _gen, _out) {
                     return input * outDegree;
+                },
+            },
+            planetaryFishMultiplier: {
+                defaultValue: 1,
+                apply(current, degree, boostedGenerator) {
+                    const incomes = SharkGame.ResourceMap.get(boostedGenerator).income;
+                    if (incomes.fish) {
+                        incomes.fish = incomes.fish * degree;
+                    }
+                    return current * degree;
+                },
+                effectDescription(degree, boostedGenerator, background) {
+                    return (
+                        sharktext.getResourceName(boostedGenerator, undefined, undefined, background) +
+                        " collection of " +
+                        sharktext.getResourceName("fish", undefined, undefined, background) +
+                        " × " +
+                        degree
+                    );
+                },
+                getEffect(degree, _gen, _out) {
+                    return degree;
+                },
+                applyToInput(input, genDegree, _outDegree, _gen, out) {
+                    return input * (out !== "fish" ? genDegree : 1);
                 },
             },
         },
@@ -556,7 +646,7 @@ SharkGame.ModifierTypes = {
                     return SharkGame.ResourceMap.get(gen).income[out] > 0 && out !== "tar" ? outDegree : 1;
                 },
                 applyToInput(input, _genDegree, outDegree, _gen, _out) {
-                    return input * outDegree;
+                    return input > 0 ? input * outDegree : input;
                 },
             },
         },

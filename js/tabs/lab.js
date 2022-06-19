@@ -8,7 +8,7 @@ SharkGame.Lab = {
 
     get sceneImage() {
         switch (world.worldType) {
-            case `violent`:
+            case `volcanic`:
                 return "";
             default:
                 return "img/events/misc/scene-lab.png";
@@ -17,7 +17,7 @@ SharkGame.Lab = {
 
     get sceneDoneImage() {
         switch (world.worldType) {
-            case `violent`:
+            case `volcanic`:
                 return "";
             default:
                 return "img/events/misc/scene-lab-done.png";
@@ -26,8 +26,6 @@ SharkGame.Lab = {
 
     get discoverReq() {
         switch (world.worldType) {
-            case `violent`:
-                return { resource: { seaApple: 1 } };
             default:
                 return { resource: { science: 10 } };
         }
@@ -37,17 +35,17 @@ SharkGame.Lab = {
 
     get message() {
         switch (world.worldType) {
-            case `violent`:
-                return "Sort of just off to the side, there's a group effort underway to dissect sea apples and discuss stuff that we don't yet understand.";
+            case `volcanic`:
+                return "Sort of just off to the side, a group of curious crabs congregate and discuss stuff that we don't understand.";
             default:
                 return "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.";
         }
     },
     get messageDone() {
         switch (world.worldType) {
-            case `violent`:
+            case `volcanic`:
                 return (
-                    "Sort of just off to the side, the rays and crabs are compiling our completed work.<br/>" +
+                    "Sort of just off to the side, the researchers are compiling their work and filing it away.<br/>" +
                     "Looks like that's it! No more things to figure out."
                 );
             default:
@@ -123,7 +121,7 @@ SharkGame.Lab = {
         if (lab.allResearchDone()) {
             let message;
             switch (world.worldType) {
-                case `violent`:
+                case `volcanic`:
                     message = "We rest content, sure that our work is done.";
                     break;
                 default:
@@ -135,8 +133,8 @@ SharkGame.Lab = {
         } else if (lab.listEmpty) {
             let message;
             switch (world.worldType) {
-                case `violent`:
-                    message = "We're out of ideas, but there are always more discoveries to be made.";
+                case `volcanic`:
+                    message = "The crabs are out of ideas, but there are always more discoveries to be made.";
                     break;
                 default:
                     message = "The scientists are out of ideas, but there are always more discoveries to be made.";

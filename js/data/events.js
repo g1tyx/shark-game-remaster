@@ -103,6 +103,171 @@ SharkGame.Events = {
             }
         },
     },
+    volcanicEnsureSponge: {
+        handlingTime: "afterTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.World.worldType !== "volcanic") {
+                return "remove";
+            }
+            if (SharkGame.Upgrades.purchased.includes("agriculture") && res.getResource("sponge") < 1) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            res.changeResource(`sponge`, 1); // sponge should never ever go below one once you have access to farms
+            return true;
+        },
+    },
+    volcanicHandleAlgaeSpongeRelationship: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.World.worldType !== "volcanic") {
+                return "remove";
+            }
+            if (SharkGame.Upgrades.purchased.includes("spongeCollection")) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            const underfeeding = SharkGame.ResourceMap.get(`specialResourceOne`);
+            if (!underfeeding.baseIncome) {
+                underfeeding.baseIncome = { sponge: 0 };
+                underfeeding.income = { sponge: 0 };
+            }
+
+            const sponge = res.getResource(`sponge`);
+            const algae = res.getResource(`algae`);
+            const limitRatio = SharkGame.Upgrades.purchased.includes(`feedingTechniques`) ? 4 : 1;
+            if (sponge / algae > limitRatio) {
+                underfeeding.baseIncome.sponge = -(sponge - algae * limitRatio);
+            } else {
+                underfeeding.baseIncome.sponge = 0;
+            }
+            res.reapplyModifiers(`specialResourceOne`, `sponge`);
+            return true;
+        },
+    },
+    volcanicToggleSmelt: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            if (SharkGame.flags.autoSmelt) {
+                SharkGame.flags.autoSmelt = false;
+            } else {
+                SharkGame.flags.autoSmelt = true;
+            }
+        },
+    },
+    volcanicHandleAutoSmelt: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.World.worldType !== "volcanic") {
+                return "remove";
+            }
+            if (SharkGame.Upgrades.purchased.includes("superSmelting")) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            const sponge = res.getResource(`sponge`);
+            const sand = res.getResource(`sand`);
+            const vents = SharkGame.ResourceMap.get(`world`);
+
+            vents.baseIncome.sponge = 0;
+            vents.baseIncome.sand = 0;
+            vents.baseIncome.porite = 0;
+
+            if (SharkGame.flags.autoSmelt) {
+                const spongeCost = SharkGame.HomeActions.volcanic.smeltPorite.cost[0].priceIncrease;
+                const sandCost = SharkGame.HomeActions.volcanic.smeltPorite.cost[1].priceIncrease;
+                const maxSpongeCycles = sponge / spongeCost;
+                const maxSandCycles = sand / sandCost;
+                if (maxSpongeCycles >= 1 && maxSandCycles >= 1) {
+                    const max = Math.min(maxSpongeCycles, maxSandCycles);
+                    vents.baseIncome.sponge = (-max * spongeCost) / 2;
+                    vents.baseIncome.sand = (-max * sandCost) / 2;
+                    vents.baseIncome.porite = max / 2;
+                }
+            }
+            res.reapplyModifiers(`world`, `sponge`);
+            res.reapplyModifiers(`world`, `sand`);
+            res.reapplyModifiers(`world`, `porite`);
+            return true;
+        },
+    },
+    volcanicGlassTempering: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            SharkGame.GeneratorIncomeAffectors.farmer.multiply.spongeFarm *= 2;
+            SharkGame.GeneratorIncomeAffectors.farmer.multiply.coralFarm *= 2;
+            SharkGame.ResourceIncomeAffectors.researcher.multiply.science *= 2;
+            SharkGame.ResourceIncomeAffectors.shoveler.multiply.sand *= 2;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    volcanicFirstDraft: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            SharkGame.ResourceIncomeAffectors.shoveler.multiply.sand *= 2;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    volcanicSuperShovels: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            SharkGame.ResourceIncomeAffectors.shoveler.multiply.sand *= 4;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    volcanicSecondDraft: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            SharkGame.GeneratorIncomeAffectors.farmer.multiply.spongeFarm *= 2;
+            SharkGame.GeneratorIncomeAffectors.farmer.multiply.coralFarm *= 2;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
+    volcanicCrabReform: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            SharkGame.ResourceIncomeAffectors.researcher.multiply.science *= 4;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
     revealBuyButtons: {
         handlingTime: "beforeTick",
         priority: 0,
