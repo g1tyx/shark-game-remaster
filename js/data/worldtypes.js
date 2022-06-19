@@ -225,7 +225,7 @@ SharkGame.WorldTypes = {
                 );
             },
         },
-        entry: "You do not know who left this world so torn and empty. Was it some predecessor of yours? Was it you yourself?",
+        entry: "The water is tainted. The pungent smell snaps you awake to the lifeless landscape. You do not know who left this world so torn and empty.",
         style: "abandoned",
         bonus: 1,
         includedResources: [
