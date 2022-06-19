@@ -21,14 +21,6 @@ SharkGame.TitleBar = {
         },
     },
 
-    changelogLink: {
-        name: "changelog",
-        main: false,
-        onClick() {
-            SharkGame.PaneHandler.showChangelog();
-        },
-    },
-
     helpLink: {
         name: "help",
         main: true,
@@ -51,6 +43,22 @@ SharkGame.TitleBar = {
                 SharkGame.wonGame = false;
                 main.endGame();
             }
+        },
+    },
+
+    funFactsLink: {
+        name: "fun fact",
+        main: false,
+        onClick() {
+            SharkGame.FunFacts.showFact();
+        },
+    },
+
+    changelogLink: {
+        name: "changelog",
+        main: false,
+        onClick() {
+            SharkGame.PaneHandler.showChangelog();
         },
     },
 
