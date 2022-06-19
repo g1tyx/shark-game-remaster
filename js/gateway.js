@@ -928,6 +928,7 @@ SharkGame.Gateway.Messages = {
             "Do you bring life, or do you bring death, worldbuilder?",
             "Do you wonder where the remnants of the lobsters' past are?",
             "A tragedy; or, perhaps, merely the cost of progress.",
+            "We confront our mistakes as choices. We repeat them, or we do not.",
         ],
         haven: [
             "A beautiful paradise. It may be a while before you find a world so peaceful.",
@@ -947,9 +948,10 @@ SharkGame.Gateway.Messages = {
         volcanic: [
             "The boiling ocean only stirred you on.",
             "You are forged from the geothermal vents.",
-            "The shrimp are no simpletons.",
+            "The shrimp are no simpletons. You have demonstrated as much.",
             "That environment is ideal for life. Just not for your kind.",
-            "Do you wonder why there were no sharks here?",
+            "Do you wonder why that world had no sharks?",
+            "Do you wonder why the king was so startled when he finally saw you?",
         ],
         abandoned: [
             "Do you wonder who abandoned the machines?",
@@ -975,15 +977,15 @@ SharkGame.Gateway.Messages = {
         "No matter. You will succeed in the future, no doubt.",
         "Never give in. Never surrender. Empty platitudes, perhaps, but sound advice nonetheless.",
         "Mistakes are filled with lessons. Learn never to repeat them.",
-        "How does it feel to know that everyone who trusted you has perished?",
-        "Another world dies. Was this one significant to you?",
+        /*         "How does it feel to know that everyone who trusted you has perished?",
+        "Another world dies. Was this one significant to you?", */
         "A sad event. There is plenty of time to redeem yourself.",
-        "What a pity. What a shame. I hear the mournful cries of a dying ocean.",
+        /*         "What a pity. What a shame. I hear the mournful cries of a dying ocean.", */
         "You can do better. You will do better. Believe.",
-        "You wish to get back here so quickly?",
-        "You and everything you knew has died. Perhaps not you. Perhaps not.",
+        /*         "You wish to get back here so quickly?",
+        "You and everything you knew has died. Perhaps not you. Perhaps not.", */
         "One more try, perhaps?",
-        "Excellence is pure habit. We are what we repeatedly do.",
+        "Excellence is pure habit. We are what we repeatedly do. Try again, and do better.",
     ],
     generic: [
         "There is no warmth or cold here. Only numbness.",
