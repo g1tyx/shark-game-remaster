@@ -487,27 +487,30 @@ SharkGame.Lab = {
     },
 
     getResearchEffects(upgrade) {
+        // The CSS for the effect is .medDesc which contains "filter: brightness(1.3)"
+        // In order to compensate, this code scales the background to be 1.3 times darker.
+        const color = sharkcolor.getVariableColor("--color-light").replace(/[^0-9a-f]/gi, "");
+        // Convert to rgb channels, convert from hex to decimal and scale it
+        let red = parseInt(color.substr(0, 2), 16) / 1.3;
+        let green = parseInt(color.substr(2, 2), 16) / 1.3;
+        let blue = parseInt(color.substr(4, 2), 16) / 1.3;
+        // Convert back to hex
+        red = parseInt(red).toString(16);
+        green = parseInt(green).toString(16);
+        blue = parseInt(blue).toString(16);
+        const darkerColour = "#" + red + green + blue;
+
         const effects = [];
         $.each(upgrade.effect, (effectType, effectsList) => {
             $.each(effectsList, (resource, degree) => {
-                // The CSS for the effect is .medDesc which contains "filter: brightness(1.3)"
-                // In order to compensate, this code scales the background to be 1.3 times darker.
-                const color = sharkcolor.getVariableColor("--color-light").replace(/[^0-9a-f]/gi, "");
-                // Convert to rgb channels, convert from hex to decimal and scale it
-                let red = parseInt(color.substr(0, 2), 16) / 1.3;
-                let green = parseInt(color.substr(2, 2), 16) / 1.3;
-                let blue = parseInt(color.substr(4, 2), 16) / 1.3;
-                // Convert back to hex
-                red = parseInt(red).toString(16);
-                green = parseInt(green).toString(16);
-                blue = parseInt(blue).toString(16);
-                const darkerColour = "#" + red + green + blue;
                 const effectText = SharkGame.ModifierReference.get(effectType).effectDescription(degree, resource, darkerColour);
                 if (world.doesResourceExist(resource) && effectText !== "") {
                     effects.push(effectText);
                 }
             });
         });
+        if (upgrade.customEffect) effects.push(upgrade.customEffect(darkerColour));
+
         return "<span class='medDesc' class='click-passthrough'>(Effects: " + (effects.length > 0 ? effects.join(", ") : "???") + ")</span>";
     },
 
