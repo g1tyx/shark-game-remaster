@@ -217,8 +217,13 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "coral");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource, _background) {
-                    return "";
+                effectDescription(degree, resource, background) {
+                    return `Add ${degree} ${sharktext.getResourceName(`coral`, false, false, background)}/s to ${sharktext.getResourceName(
+                        resource,
+                        false,
+                        69,
+                        background
+                    )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
                     return 1;
@@ -242,8 +247,13 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "jellyfish");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource, _background) {
-                    return "";
+                effectDescription(degree, resource, background) {
+                    return `Add ${degree} ${sharktext.getResourceName(`jellyfish`, false, false, background)}/s to ${sharktext.getResourceName(
+                        resource,
+                        false,
+                        69,
+                        background
+                    )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
                     return 1;
@@ -267,8 +277,13 @@ SharkGame.ModifierTypes = {
                     res.reapplyModifiers(resource, "fish");
                     return current + degree;
                 },
-                effectDescription(_degree, _resource, _background) {
-                    return "";
+                effectDescription(degree, resource, background) {
+                    return `Add ${degree} ${sharktext.getResourceName(`fish`, false, false, background)}/s to ${sharktext.getResourceName(
+                        resource,
+                        false,
+                        69,
+                        background
+                    )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
                     return 1;
