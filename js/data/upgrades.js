@@ -2831,11 +2831,11 @@ SharkGame.Upgrades = {
         },
         curiousCollection: {
             name: "Curious Collection",
-            desc: "We've been collecting this pinkish-red stuff. What actually IS it?",
+            desc: "We've been collecting all this 'coral' stuff. What actually IS it?",
             researchedMessage:
-                "We've decided to call it coral, for no particular reason. Now that we know its name, we know what it is! Objective completed.",
+                "It's an animal of some kind, since it moves. It clearly eats something, but we have no idea what. It just kinda reaches into the water sometimes. Weird.",
             effectDesc:
-                "Invented a name for coral, which lets us actually refer to it properly. Crabs and curious crabs work twice as efficiently because of this.",
+                "We now have the most absolutely rudimentary understanding of coral. Crabs and curious crabs work twice as efficiently because of this.",
             cost: {
                 science: 125,
                 coral: 20,
