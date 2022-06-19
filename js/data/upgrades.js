@@ -656,6 +656,8 @@ SharkGame.Upgrades = {
         },
         crabBiology: {
             desc: "Crabs are a mystery. They keep to themselves and dig up crystals or pick up sponge. What is even up with that? What ARE crabs??",
+            effectDesc:
+                "Crabs and sponge collectors are four times as effective, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
             cost: {
                 science: 2700,
                 fish: 2500,
