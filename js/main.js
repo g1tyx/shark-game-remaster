@@ -299,6 +299,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Keybinds.init();
 
         SharkGame.Resources.minuteHand.init();
+        SharkGame.Resources.pause.init();
     },
 
     // load stored game data, if there is anything to load

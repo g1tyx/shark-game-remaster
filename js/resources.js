@@ -1055,6 +1055,10 @@ SharkGame.Resources = {
     },
 
     pause: {
+        init() {
+            if (cad.pause) this.togglePause();
+        },
+
         togglePause() {
             if (cad.pause) {
                 $("#pause-toggle").removeClass("on");
