@@ -536,7 +536,7 @@ SharkGame.Home = {
         buttonTabDiv.empty();
         let tabAmount = 0;
 
-        if (!SharkGame.persistentFlags.revealedBuyButtons) return;
+        if (!SharkGame.persistentFlags.revealedButtonTabs) return;
 
         // add a header for each discovered category
         // make it a link if it's not the current tab

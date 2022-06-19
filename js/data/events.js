@@ -120,6 +120,24 @@ SharkGame.Events = {
             SharkGame.TabHandler.setUpTab();
         },
     },
+    revealButtonTabs: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (world.worldType === `start` && !SharkGame.persistentFlags.revealedButtonTabs) {
+                if (res.getTotalResource("scientist") > 0) {
+                    return "trigger";
+                }
+                return "pass";
+            }
+            SharkGame.persistentFlags.revealedButtonTabs = true;
+            return "remove";
+        },
+        trigger() {
+            SharkGame.persistentFlags.revealedButtonTabs = true;
+            SharkGame.TabHandler.setUpTab();
+        },
+    },
     /* getAllAffordableUpgrades */
     updateLabNotifier: {
         handlingTime: "afterTick",
