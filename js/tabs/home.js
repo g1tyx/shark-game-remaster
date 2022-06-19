@@ -1275,7 +1275,7 @@ SharkGame.Home = {
             $.each(condensedObject.genAffect.increase, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1288,7 +1288,7 @@ SharkGame.Home = {
             $.each(condensedObject.genAffect.decrease, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1307,7 +1307,7 @@ SharkGame.Home = {
                 degreePerPurchase = degreePerPurchase ** buyingHowMuch - 1;
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1326,7 +1326,7 @@ SharkGame.Home = {
                 degreePerPurchase = 1 - degreePerPurchase ** buyingHowMuch;
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
