@@ -4246,7 +4246,7 @@ SharkGame.HomeActions = {
                 "Farms are a-go.",
                 "Designated growing spots.",
             ],
-            helpText: "Pick and spot and set up a sponge farm there.",
+            helpText: "Pick a spot and set up a sponge farm there.",
         },
 
         getCoralFarm: {
@@ -4284,7 +4284,7 @@ SharkGame.HomeActions = {
                 "Farms are a-go.",
                 "Designated growing spots.",
             ],
-            helpText: "Pick and spot and set up a coral farm there.",
+            helpText: "Pick a spot and set up a coral farm there.",
         },
     },
 };
