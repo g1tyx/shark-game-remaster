@@ -3051,7 +3051,7 @@ SharkGame.Upgrades = {
         },
         crabBiology: {
             name: "Crab Biology",
-            desc: "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??",
+            desc: "Crabs are a mystery. They keep to themselves and dig up coral or think about stuff. What is even up with that? What ARE crabs??",
             researchedMessage:
                 "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
             effectDesc:
