@@ -130,7 +130,7 @@ SharkGame.Lab = {
                     message = "The scientists rest content, sure that they're done with their work.";
             }
 
-            $("#buttonList").append($("<p>").html(message));
+            $("#buttonList").html($("<p>").html(message));
             if (isNotStart) lab.updateMessage();
         } else if (lab.listEmpty) {
             let message;
