@@ -571,14 +571,14 @@ SharkGame.Stats = {
                     addCell(
                         [
                             res.TOTAL_INCOME_COLOR,
-                            (Math.min((realIncome / SharkGame.PlayerIncomeTable.get(incomeKey)) * 100, 100).toFixed(0) + "%").bold(),
+                            sharktext.boldString(Math.min((realIncome / SharkGame.PlayerIncomeTable.get(incomeKey)) * 100, 100).toFixed(0) + "%"),
                         ],
                         "inline",
                         "income-" + generatorName + "-" + incomeKey
                     );
                 } else {
                     addCell(
-                        [res.TOTAL_INCOME_COLOR, (changeChar + sharktext.beautifyIncome(realIncome)).bold()],
+                        [res.TOTAL_INCOME_COLOR, sharktext.boldString(changeChar + sharktext.beautifyIncome(realIncome))],
                         "inline",
                         "income-" + generatorName + "-" + incomeKey
                     );
