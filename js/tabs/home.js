@@ -1044,9 +1044,19 @@ SharkGame.Home = {
             if (action.effect.resource) {
                 res.changeManyResources(action.effect.resource);
             }
+            if (action.effect.events) {
+                _.each(action.effect.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
+                });
+            }
             log.addMessage(SharkGame.choose(action.outcomes));
         } else if (amount.greaterThan(0)) {
             // cost action
+            if (action.effect.events) {
+                _.each(action.effect.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
+                });
+            }
 
             // did the player just purchase sharkonium?
             if (actionName === "transmuteSharkonium") {
