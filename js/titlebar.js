@@ -62,13 +62,13 @@ SharkGame.TitleBar = {
         },
     },
 
-    creditsLink: {
+    /* creditsLink: {
         name: "credits",
         main: false,
         onClick() {
             SharkGame.PaneHandler.addPaneToStack("Credits", SharkGame.Panes.credits);
         },
-    },
+    }, */ // credits now at bottom of page
 
     donateLink: {
         name: "donate",
