@@ -850,9 +850,14 @@ SharkGame.FunFacts = {
     getPool() {
         const pool = [];
         const currentWorld = world.worldType;
-        _.each(this.worldBased[currentWorld], (fact) => {
-            pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
-        });
+        if (
+            this.worldBased[currentWorld] &&
+            (!this.worldBased[currentWorld].areRequirementsMet || this.worldBased[currentWorld].areRequirementsMet())
+        ) {
+            _.each(this.worldBased[currentWorld], (fact) => {
+                pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
+            });
+        }
 
         let anyAvailableResource = false;
         $.each(this.resourceBased, (resource, facts) => {
@@ -897,20 +902,32 @@ SharkGame.FunFacts = {
     },
 
     worldBased: {
-        frigid: ["In the original shark game, ice used to eat away your resources instead of slowing their production."],
-        volcanic: [
-            "Hydrothermal vents do not spew fire in real life. They spew smoke.",
-            "Hydrothermal vents support a diverse array of sea life due to their high output of minerals.",
-            "Hydrothermal vents are found at fault lines in the earth's crust, where water becomes superheated due to magma rising close to the ocean floor.",
-            "As a source of heat and minerals, hydrothermal vents support a wide variety of life around them in the deep sea stemming from bacteria who process those minerals.",
-        ],
-        shrouded: ["Arcane, super-charged energy crystals are definitely not real."],
-        abandoned: [
-            "This world was the first one to be remade for New Frontiers.",
-            "In the original shark game, the tar was gained passively, and machines produced a negligible amount.",
-        ],
-        haven: ["Kelp paper is real. You cannot write on it though."],
-        marine: [],
+        frigid: {},
+        volcanic: {
+            messages: [
+                "Hydrothermal vents do not spew fire in real life. They spew smoke.",
+                "Hydrothermal vents support a diverse array of sea life due to their high output of minerals.",
+                "Hydrothermal vents are found at fault lines in the earth's crust, where water becomes superheated due to magma rising close to the ocean floor.",
+                "As a source of heat and minerals, hydrothermal vents support a wide variety of life around them in the deep sea stemming from bacteria who process those minerals.",
+            ],
+            areRequirementsMet() {
+                return SharkGame.Upgrades.purchased.includes("thermalVents");
+            },
+        },
+        shrouded: {},
+        abandoned: {
+            messages: [
+                "This world was the first one to be remade for New Frontiers.",
+                "In the original shark game, the tar was gained passively, and machines produced a negligible amount.",
+            ],
+        },
+        haven: {
+            messages: ["Kelp paper is real. You cannot write on it though."],
+            areRequirementsMet() {
+                return SharkGame.Upgrades.purchased.includes("sunObservation");
+            },
+        },
+        marine: {},
     },
 
     resourceBased: {
@@ -1022,6 +1039,8 @@ SharkGame.FunFacts = {
             "Kelp is a kind of algae. In fact, all seaweed is algae.",
         ],
         kelp: ["Kelp is not a plant. It's a kind of algae, and algae isn't a plant, so kelp isn't a plant."],
+        arcana: ["Arcane, super-charged energy crystals are definitely not real."],
+        ice: ["In the original shark game, ice used to eat away your resources instead of slowing their production."],
     },
 
     default: [
