@@ -215,58 +215,60 @@ SharkGame.Home = {
             },
         ],
 
-        violent: [
+        volcanic: [
             {
-                name: "violent-default",
-                message: "Bursts of plenty from the scorching vents, but so hot, and not a shark in sight.",
+                name: "volcanic-default",
+                message: "Scorching vents fill the sea with white and black smoke. There's not a shark in sight.",
             },
             {
-                name: "violent-shrimp-contact",
+                name: "volcanic-shrimp-contact",
                 unlock: { totalResource: { sponge: 1 } },
                 message: `You are approached by a single shrimp. They relay a message to you: stop harvesting sponges, or face the wrath of the king of shrimps.`,
             },
             {
-                name: "violent-shrimp-threat",
-                unlock: { totalResource: { sponge: 100 } },
+                name: "volcanic-shrimp-threat",
+                unlock: { totalResource: { sponge: 200 } },
                 message: `You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.`,
             },
             {
-                name: "violent-rumors",
-                unlock: { totalResource: { maker: 3 } },
-                message: `Rumor has it that the king of shrimps guards the key to a secret, sacred gate in his sandcastle.`,
-            },
-            {
-                name: "violent-shrimp-communication",
+                name: "volcanic-shrimp-communication",
                 unlock: { upgrade: ["consistentCommunication"] },
-                message: `With some shrimp now willing to swim with the frenzy, they leave their homes. You can now harvest those homes without repercussions.`,
+                message: "The homes (sponges) left behind by shrimp joining the frenzy may now be taken for ourselves.",
             },
             {
-                name: "violent-shrimps",
-                unlock: { totalResource: { shrimp: 250 } },
-                message: "The shrimps work hard. They live for their sponge hives and dedicate themselves to their king.",
+                name: "volcanic-monarchy",
+                unlock: { totalResource: { queen: 1 } },
+                message: "The shrimps follow a caste system with the king on top. They ask if you have a king, too.",
             },
             {
-                name: "violent-monarchy",
-                unlock: { totalResource: { shrimp: 1250 } },
-                message: "The shrimps work hard. They ask us if we work hard for our king, too.",
+                name: "volcanic-shrimps",
+                unlock: { upgrade: ["sustainableSolutions"] },
+                message:
+                    "The shrimp speak of an ancient visitor who violated their world, and how they wish to restore it. They work hard for their future.",
             },
             {
-                name: "violent-smithing",
-                unlock: { upgrade: ["secretSmithing"] },
-                message: `Porite: glassy hunks sealed on the outside but porous on the inside: so it's lightweight, yet it stays strong.`,
+                name: "volcanic-smithing",
+                unlock: { totalResource: { porite: 1 } },
+                message: "Porite: glassy hunks sealed on the outside but porous on the inside: it's lightweight, yet it stays strong.",
             },
             {
-                name: "violent-word-has-spread",
+                name: "volcanic-noticed",
+                unlock: { upgrade: ["firstDraft"] },
+                message: "The king has finally caught wind of your plans, rumors say. They say he plans to destroy the entire frenzy.",
+            },
+            {
+                name: "volcanic-noticed",
                 unlock: { upgrade: ["algaeAcolytes"] },
-                message: `Word of your newest endeavors (and illegal porite manufacturing) have reached the king of shrimps, or so you hear. He hasn't sent an army to stop you, so...`,
+                message: "The acolytes gather. They pray for their king. They pray for their world. They pray for you.",
+            },
+            // Rumor has it that the king of shrimps guards the key to a secret, sacred gate in his sandcastle.
+            {
+                name: "volcanic-beauty",
+                unlock: { upgrade: ["finalDraft"] },
+                message: "The king is speechless. As he views the great industrial city, his subjects gather and cheer, celebrating his arrival.",
             },
             {
-                name: "violent-treaties",
-                unlock: { upgrade: ["treatiesOfSustainability"] },
-                message: `The king of shrimps says that if we want him to open the gate, we need to pay back what we stole from his people.`,
-            },
-            {
-                name: "violent-hope",
+                name: "volcanic-hope",
                 unlock: { upgrade: ["apologeticAmnesty"] },
                 message: `"Perhaps not all sharks are so vile," says the king of shrimps. "Perhaps, you will be different."`,
             },
@@ -536,7 +538,7 @@ SharkGame.Home = {
         buttonTabDiv.empty();
         let tabAmount = 0;
 
-        if (!SharkGame.persistentFlags.revealedBuyButtons) return;
+        if (!SharkGame.persistentFlags.revealedButtonTabs) return;
 
         // add a header for each discovered category
         // make it a link if it's not the current tab
@@ -1044,9 +1046,19 @@ SharkGame.Home = {
             if (action.effect.resource) {
                 res.changeManyResources(action.effect.resource);
             }
+            if (action.effect.events) {
+                _.each(action.effect.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
+                });
+            }
             log.addMessage(SharkGame.choose(action.outcomes));
         } else if (amount.greaterThan(0)) {
             // cost action
+            if (action.effect.events) {
+                _.each(action.effect.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
+                });
+            }
 
             // did the player just purchase sharkonium?
             if (actionName === "transmuteSharkonium") {
@@ -1275,7 +1287,7 @@ SharkGame.Home = {
             $.each(condensedObject.genAffect.increase, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1288,7 +1300,7 @@ SharkGame.Home = {
             $.each(condensedObject.genAffect.decrease, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1307,7 +1319,7 @@ SharkGame.Home = {
                 degreePerPurchase = degreePerPurchase ** buyingHowMuch - 1;
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1326,11 +1338,15 @@ SharkGame.Home = {
                 degreePerPurchase = 1 - degreePerPurchase ** buyingHowMuch;
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
             });
+        }
+
+        if (actionData.getSpecialTooltip) {
+            text += actionData.getSpecialTooltip() + "<br>";
         }
 
         if (SharkGame.HomeActions.getActionTable()[actionName].helpText) {
@@ -1382,6 +1398,7 @@ SharkGame.Home = {
     },
 
     getCost(action, amount) {
+        /** @type {Record<Resource, number>} */
         const calcCost = {};
         const rawCost = action.cost;
 

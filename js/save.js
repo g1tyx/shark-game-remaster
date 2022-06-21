@@ -656,7 +656,7 @@ SharkGame.Save = {
             _.each(["iterativeDesign", "superprocessing"], (upgradeId) => {
                 save.upgrades[upgradeId] = false;
             });
-            _.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"], (worldType) => {
+            _.each(["start", "marine", "chaotic", "haven", "tempestuous", "volcanic", "abandoned", "shrouded", "frigid"], (worldType) => {
                 save.completedWorlds[worldType] = false;
             });
             return save;

@@ -4,8 +4,10 @@
 .fill-available-width, #sidebar #resourceTableContainer table {
   width: 100%;
   width: fill-available;
-  width: -moz-available; /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+  width: -moz-available;
+  /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;
+  /* Mozilla-based browsers will ignore this. */
 }
 
 .clear-fix {
@@ -84,7 +86,7 @@
   --color-darker: #121a2b;
   --color-title: rgba(62, 73, 96, 0.2);
 }
-:root :not(.no-theme).violent {
+:root :not(.no-theme).volcanic {
   --color-lighter: #cf9d9d;
   --color-light: #8f5252;
   --color-med: #681e1e;
@@ -111,7 +113,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: initial; /* without this you can't change any properties */
+  width: initial;
+  /* without this you can't change any properties */
 }
 
 ::-webkit-scrollbar-track {

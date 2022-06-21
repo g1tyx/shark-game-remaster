@@ -400,7 +400,7 @@
             "sourceSize": { "w": 100, "h": 100 },
             "pivot": { "x": 0, "y": 0 }
         },
-        "planets/violent": {
+        "planets/volcanic": {
             "frame": { "x": 818, "y": 2, "w": 100, "h": 100 },
             "rotated": false,
             "trimmed": false,

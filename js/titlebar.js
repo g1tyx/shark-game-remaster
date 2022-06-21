@@ -21,14 +21,6 @@ SharkGame.TitleBar = {
         },
     },
 
-    changelogLink: {
-        name: "changelog",
-        main: false,
-        onClick() {
-            SharkGame.PaneHandler.showChangelog();
-        },
-    },
-
     helpLink: {
         name: "help",
         main: true,
@@ -54,6 +46,22 @@ SharkGame.TitleBar = {
         },
     },
 
+    funFactsLink: {
+        name: "fun fact",
+        main: false,
+        onClick() {
+            SharkGame.FunFacts.showFact();
+        },
+    },
+
+    changelogLink: {
+        name: "changelog",
+        main: false,
+        onClick() {
+            SharkGame.PaneHandler.showChangelog();
+        },
+    },
+
     creditsLink: {
         name: "credits",
         main: false,
@@ -76,13 +84,13 @@ SharkGame.TitleBar = {
         link: "https://discord.gg/eYqApFkFPY",
     },
 
-    noticeLink: {
+    /* noticeLink: {
         name: "notice",
         main: false,
         onClick() {
             SharkGame.PaneHandler.addPaneToStack("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
         },
-    },
+    }, */
 };
 
 SharkGame.TitleBarHandler = {

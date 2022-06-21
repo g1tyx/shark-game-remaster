@@ -4,6 +4,7 @@
     "repository": "https://github.com/spencers145/SharkGame",
     "author": "spencers145 <smartypantsspencer@gmail.com>",
     "license": "MIT",
+    "types": "index.d.ts",
     "scripts": {
         "postinstall": "yarn simple-git-hooks",
         "fix": "eslint . --fix && prettier . --write",

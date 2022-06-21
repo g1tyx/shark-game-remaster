@@ -897,7 +897,7 @@ SharkGame.AspectTree = {
                         costText = `NO REFUNDS`;
                     }
                 } else {
-                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost} ESSENCE</span>`;
                 }
 
                 const levelText =
@@ -919,7 +919,7 @@ SharkGame.AspectTree = {
                         costText = `REFUND VALUE: <span class="can-afford-aspect">${refundValue}</span>`;
                     }
                 } else {
-                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost} ESSENCE</span>`;
                 }
 
                 const levelText =

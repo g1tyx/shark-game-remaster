@@ -1,5 +1,4 @@
 "use strict";
-/** @type {Map<string, any>} */
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
 SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income and after modifiers are applied
@@ -836,6 +835,7 @@ SharkGame.Resources = {
             res.minuteHand.realMultiplier = 1;
             SharkGame.persistentFlags.everIdled = false;
             SharkGame.flags.minuteHandTimer = 0;
+            SharkGame.flags.hourHandLeft = 0;
             SharkGame.persistentFlags.selectedMultiplier = 2;
             this.active = false;
             this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
@@ -845,6 +845,9 @@ SharkGame.Resources = {
         setup() {
             if (_.isUndefined(SharkGame.flags.minuteHandTimer)) {
                 SharkGame.flags.minuteHandTimer = 0;
+            }
+            if (_.isUndefined(SharkGame.flags.hourHandLeft)) {
+                SharkGame.flags.hourHandLeft = 0;
             }
 
             if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
@@ -910,7 +913,12 @@ SharkGame.Resources = {
             } else if (!res.minuteHand.active) {
                 SharkGame.flags.minuteHandTimer += timeElapsed;
             } else {
-                SharkGame.flags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
+                const timeRemoved = timeElapsed * (res.minuteHand.realMultiplier - 1);
+                SharkGame.flags.hourHandLeft -= timeRemoved;
+                if (SharkGame.flags.hourHandLeft < 0) {
+                    SharkGame.flags.hourHandLeft = 0;
+                }
+                SharkGame.flags.minuteHandTimer -= timeRemoved;
                 if (SharkGame.flags.minuteHandTimer < 0) {
                     res.minuteHand.disableNextTick = true;
                     // the net effect of this next statement is making the processing which
@@ -925,6 +933,7 @@ SharkGame.Resources = {
 
         toggleMinuteHand() {
             if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 0) {
+                main.endIdle();
                 res.minuteHand.active = true;
                 res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
                 $("#minute-hand-toggle").addClass("minuteOn");
@@ -982,7 +991,9 @@ SharkGame.Resources = {
         },
 
         applyHourHand() {
-            SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
+            const hourHand = 60000 * SharkGame.Aspects.theHourHand.level;
+            SharkGame.flags.hourHandLeft = hourHand;
+            SharkGame.flags.minuteHandTimer = hourHand;
             this.updateDisplay();
         },
 
@@ -1044,6 +1055,10 @@ SharkGame.Resources = {
     },
 
     pause: {
+        init() {
+            if (cad.pause) this.togglePause();
+        },
+
         togglePause() {
             if (cad.pause) {
                 $("#pause-toggle").removeClass("on");
@@ -1289,18 +1304,14 @@ SharkGame.Resources = {
                 if (amount > 0) {
                     producertext += "<br>";
                     producertext +=
-                        (which === "world" || which === "aspectAffect"
-                            ? ""
-                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (sharktext.shouldHideNumberOfThis(which) ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(amount).bold();
                 } else if (amount < 0) {
                     consumertext += "<br>";
                     consumertext +=
-                        (which === "world" || which === "aspectAffect"
-                            ? ""
-                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (sharktext.shouldHideNumberOfThis(which) ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(-amount).bold();
@@ -1389,7 +1400,7 @@ SharkGame.Resources = {
         let increaseText = "";
 
         $.each(furtherCondensedEffects.generators.increase, (affectedGenerator, degree) => {
-            if (world.doesResourceExist(affectedGenerator)) {
+            if (world.doesResourceExist(affectedGenerator) && res.getResource(affectedGenerator) > SharkGame.EPSILON) {
                 increaseText += "<br>";
                 increaseText +=
                     sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -1399,7 +1410,7 @@ SharkGame.Resources = {
         });
 
         $.each(furtherCondensedEffects.resources.increase, (affectedResource, degree) => {
-            if (world.doesResourceExist(affectedResource)) {
+            if (world.doesResourceExist(affectedResource) && res.getResource(affectedResource) > SharkGame.EPSILON) {
                 increaseText += "<br>";
                 increaseText +=
                     sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
@@ -1411,22 +1422,22 @@ SharkGame.Resources = {
         let decreaseText = "";
 
         $.each(furtherCondensedEffects.generators.decrease, (affectedGenerator, degree) => {
-            if (world.doesResourceExist(affectedGenerator)) {
+            if (world.doesResourceExist(affectedGenerator) && res.getResource(affectedGenerator) > SharkGame.EPSILON) {
                 decreaseText += "<br>";
                 decreaseText +=
                     sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     ` speed by ` +
-                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
             }
         });
 
         $.each(furtherCondensedEffects.resources.decrease, (affectedResource, degree) => {
-            if (world.doesResourceExist(affectedResource)) {
+            if (world.doesResourceExist(affectedResource) && res.getResource(affectedResource) > SharkGame.EPSILON) {
                 decreaseText += "<br>";
                 decreaseText +=
                     sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                     ` gains by ` +
-                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * (1 + degree)))}%`);
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
             }
         });
 

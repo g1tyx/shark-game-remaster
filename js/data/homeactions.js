@@ -1,12 +1,7 @@
 "use strict";
 SharkGame.HomeActions = {
-    /**
-     * @type Record<string, Record<string, any>>
-     * Generated cache on-demand
-     */
     generated: {},
 
-    /** @param worldType {string} */
     getActionTable(worldType = world.worldType) {
         if (typeof SharkGame.HomeActions[worldType] !== "object" || worldType === "generated") {
             worldType = "default";
@@ -19,11 +14,6 @@ SharkGame.HomeActions = {
         }
     },
 
-    /**
-     * Retrieves, modifies, and returns the data for an action. Implemented to intercept retreival of action data to handle special logic where alternatives are inconvenient or impossible.
-     * @param {object} table The table to retrieve the action data from
-     * @param {string} actionName The name of the action
-     */
     getActionData(table, actionName) {
         // probably find a way to forego the clonedeep here, but the performance impact seems negligible.
         const data = _.cloneDeep(table[actionName]);
@@ -45,10 +35,6 @@ SharkGame.HomeActions = {
         return data;
     },
 
-    /**
-     * @param worldType {string}
-     * @returns {Record<string, Record<string, unknown>>}
-     */
     generateActionTable(worldType = world.worldType) {
         const defaultActions = SharkGame.HomeActions.default;
 
@@ -56,6 +42,7 @@ SharkGame.HomeActions = {
             return defaultActions;
         }
 
+        /** @type {Record<HomeActionName, HomeAction>} */
         const finalTable = {};
         const worldActions = SharkGame.HomeActions[worldType];
 
@@ -332,7 +319,7 @@ SharkGame.HomeActions = {
                 "Why are we even doing this? Who knows! Science!",
                 "What is even the point of these things? Why are they named for fruit? They're squirming!",
             ],
-            helpText: "Dissect sea apples to gain additional science. Research!",
+            helpText: "Dissect the sea apples our kelp attracts to gain additional science. Research!",
         },
 
         /*
@@ -3298,7 +3285,7 @@ SharkGame.HomeActions = {
                 "Why are we even doing this? Who knows! Science!",
                 "What is even the point of these things? Why are they named for fruit? They're squirming!",
             ],
-            helpText: "Dissect sea apples to gain additional science. Research!",
+            helpText: "Dissect the sea apples our kelp attracts to gain additional science. Research!",
         },
 
         pearlConversion: {
@@ -3655,7 +3642,7 @@ SharkGame.HomeActions = {
             helpText: "Modify a lobster to fuse calcinium with cool cyborg laser beams.", // This crustacean machine distributes lobster eggs for optimal hatching conditions.
         },
     },
-    violent: {
+    volcanic: {
         // FREEBIES ////////////////////////////////////////////////////////////////////////////////
 
         catchFish: {},
@@ -3664,7 +3651,7 @@ SharkGame.HomeActions = {
 
         prySponge: {
             removedBy: {
-                totalResourceThreshold: [{ resource: `sponge`, threshold: 100 }],
+                totalResourceThreshold: [{ resource: `sponge`, threshold: 200 }],
             },
         },
 
@@ -3708,18 +3695,54 @@ SharkGame.HomeActions = {
             helpText: "Grab a sponge from the seabed for future use.",
         },
 
-        // CONVERSIONS ////////////////////////////////////////////////////////////////////////////////
+        // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
 
-        seaApplesToScience: {
+        toggleAutoSmelt: {
+            name: "Use vents to smelt porite",
+            effect: {
+                events: ["volcanicToggleSmelt"],
+            },
+            cost: {},
             prereq: {
-                resource: {
-                    seaApple: 1,
-                },
-                upgrade: ["xenobiology"],
+                upgrade: ["superSmelting"],
+            },
+            outcomes: ["Toggled automatic smelting."],
+            helpText: "Toggle automatic smelting of porite.",
+            getSpecialTooltip() {
+                let text = `AUTOSMELT ${SharkGame.flags.autoSmelt ? "ON" : "OFF"}<br>`;
+                if (SharkGame.flags.autoSmelt) {
+                    const sponge = res.getResource(`sponge`);
+                    const sand = res.getResource(`sand`);
+                    const spongeCost = SharkGame.HomeActions.volcanic.smeltPorite.cost[0].priceIncrease;
+                    const sandCost = SharkGame.HomeActions.volcanic.smeltPorite.cost[1].priceIncrease;
+                    const maxSpongeCycles = sponge / spongeCost;
+                    const maxSandCycles = sand / sandCost;
+
+                    text += `<span class="littleGeneralText">`;
+                    if (maxSpongeCycles < maxSandCycles)
+                        text += `${sharktext.getResourceName(
+                            `sponge`,
+                            false,
+                            false,
+                            sharkcolor.getElementColor("tooltipbox", "background-color")
+                        )}`;
+                    if (maxSandCycles <= maxSpongeCycles)
+                        text += `${sharktext.getResourceName(
+                            `sand`,
+                            false,
+                            false,
+                            sharkcolor.getElementColor("tooltipbox", "background-color")
+                        )}`;
+                    text += ` is limiting ${sharktext.getResourceName(
+                        `porite`,
+                        false,
+                        false,
+                        sharkcolor.getElementColor("tooltipbox", "background-color")
+                    )} production</span>`;
+                }
+                return sharktext.boldString(text);
             },
         },
-
-        // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
 
         smeltPorite: {
             name: "Smelt stuff to porite",
@@ -3740,8 +3763,7 @@ SharkGame.HomeActions = {
                     resource: "sand",
                     costFunction: "constant",
                     get priceIncrease() {
-                        const upgradeMod = SharkGame.Upgrades.purchased.includes(`superiorSmelting`) ? 1 : 10;
-                        return (5 - 1 * SharkGame.Aspects.syntheticTransmutation.level) * upgradeMod;
+                        return 20 - 4 * SharkGame.Aspects.syntheticTransmutation.level;
                     },
                 },
             ],
@@ -3833,7 +3855,8 @@ SharkGame.HomeActions = {
                 "How can something so small take up so much space?",
                 "Sponge forever!",
             ],
-            helpText: "Convince shrimp to assist you in the gathering of algae, which helps boost sponge production.",
+            helpText:
+                "Convince shrimp to assist you in the gathering of algae, which increases how much sponge you can keep at once.",
         },
 
         // RAY JOBS ////////////////////////////////////////////////////////////////////////////////
@@ -3882,14 +3905,20 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "ray", costFunction: "constant", priceIncrease: 1 },
-                { resource: "porite", costFunction: "linear", priceIncrease: 200 },
+                {
+                    resource: "porite",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`massProduction`) ? 10 : 50;
+                    },
+                },
             ],
             max: "shoveler",
             prereq: {
                 resource: {
                     ray: 1,
                 },
-                upgrade: ["superShovels"],
+                upgrade: ["secretSmithing"],
             },
             outcomes: [
                 "Shoveler instructed.",
@@ -3914,7 +3943,7 @@ SharkGame.HomeActions = {
 
         // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
 
-        getCatcher: {
+        /* getCatcher: {
             name: "Gear up catcher crab",
             effect: {
                 resource: {
@@ -3947,6 +3976,77 @@ SharkGame.HomeActions = {
                 "The crabs just seem happy to help.",
             ],
             helpText: "Grant a crab the tools and training to help them catch stuff coming from the vents.",
+        }, */
+
+        getCuriousCrab: {
+            name: "Recognize curious crab",
+            effect: {
+                resource: {
+                    curiousCrab: 1,
+                },
+            },
+            cost: [
+                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "coral", costFunction: "constant", priceIncrease: 10 },
+            ],
+            max: "curiousCrab",
+            prereq: {
+                resource: {
+                    coral: 5,
+                },
+            },
+            outcomes: [
+                "This crab is itching to know things.",
+                "The crab starts examining random debris on the seafloor.",
+                "This crab is very curious.",
+                "I need to know. I MUST KNOW!",
+                "This crab will not stop until everything is learned. Everything ever.",
+            ],
+            multiOutcomes: [
+                "The crabs just seem happy to help.",
+                "Curious ones identified.",
+                "Hmm...",
+                "They seem lost in collective thought.",
+                "The crabs begin talking with each other about some weird questions they came up with.",
+                "The crabs begin discussing some funny ideas that they had.",
+            ],
+            helpText: "Find a crab that is curious and recognize them as a curious crab.",
+        },
+
+        getResearcher: {
+            name: "Gear up researcher",
+            effect: {
+                resource: {
+                    researcher: 1,
+                },
+            },
+            cost: [
+                { resource: "curiousCrab", costFunction: "constant", priceIncrease: 1 },
+                {
+                    resource: "porite",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`massProduction`) ? 5 : 25;
+                    },
+                },
+            ],
+            max: "researcher",
+            prereq: {
+                upgrade: ["secretSmithing"],
+            },
+            outcomes: ["Ready for collaboration.", "These papers won't write themselves!"],
+            multiOutcomes: [
+                "Do you know who ate all the donuts?",
+                "Why do we all have to wear these <i>ridiculous ties?</i>",
+                "This is all within theoretical limits.",
+                "I hope those containment parameters are still nominal.",
+                "No, not headcrabs. Just regular crabs.",
+                "Yes, this all looks nominal.",
+                "I am rather looking forward to this analysis, aren't you?",
+                "Aren't you a bit worried about that exponential cascade scenario we discussed?",
+                "The crabs just seem happy to help.",
+            ],
+            helpText: "Grant a curious crab enough equipment to perform actual experiments.",
         },
 
         getBrood: {
@@ -3957,7 +4057,13 @@ SharkGame.HomeActions = {
                 },
             },
             cost: [
-                { resource: "crab", costFunction: "constant", priceIncrease: 20 },
+                {
+                    resource: "crab",
+                    costFunction: "constant",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`broodingBiology`) ? 5 : 20;
+                    },
+                },
                 { resource: "fish", costFunction: "linear", priceIncrease: 200 },
             ],
             max: "brood",
@@ -4036,7 +4142,13 @@ SharkGame.HomeActions = {
             },
             cost: [
                 { resource: "shrimp", costFunction: "constant", priceIncrease: 1 },
-                { resource: "porite", costFunction: "linear", priceIncrease: 10 },
+                {
+                    resource: "porite",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`massProduction`) ? 2 : 10;
+                    },
+                },
             ],
             max: "farmer",
             prereq: {
@@ -4062,6 +4174,117 @@ SharkGame.HomeActions = {
                 "Glory to the sponge. Glory to the shrimp mass.",
             ],
             helpText: "Dedicate a shrimp to the cultivation of plants.",
+        },
+
+        getAcolyte: {
+            name: "Indoctrinate algae acolyte",
+            effect: {
+                resource: {
+                    acolyte: 1,
+                },
+            },
+            cost: [
+                { resource: "shrimp", costFunction: "constant", priceIncrease: 1 },
+                { resource: "algae", costFunction: "linear", priceIncrease: 2500 },
+            ],
+            max: "acolyte",
+            prereq: {
+                upgrade: ["algaeAcolytes"],
+            },
+            outcomes: [
+                "Acolyte indoctrinated.",
+                "Another one begins their journey to algae enlightenment.",
+                "This one has awoken their third eye, or something like that.",
+                "This shrimp will now do whatever activities these shrimp do and cause more algae to appear because of it.",
+            ],
+            multiOutcomes: [
+                "Our organization grows.",
+                "I'm sure this cult behavior will have no negative repurcussions.",
+                "Algae goes up...",
+                "More algae. MORE.",
+                "This amount of algae is definitely sustainable and not going to hurt us in the long-run.",
+                "I want more sponge, and there's only one way I know to get it! More algae!",
+                "The algae must be pleased, or it will not grow.",
+                "Appease the greens.",
+            ],
+            helpText: "Indoctrinate a shrimp into the cult of algae to boost algae production.",
+        },
+
+        getSpongeFarm: {
+            name: "Construct sponge farm",
+            effect: {
+                resource: {
+                    spongeFarm: 1,
+                },
+            },
+            cost: [
+                { resource: "sponge", costFunction: "constant", priceIncrease: 1 },
+                {
+                    resource: "sand",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`landReform`) ? 50 : 250;
+                    },
+                },
+            ],
+            max: "spongeFarm",
+            prereq: {
+                upgrade: ["agriculture"],
+            },
+            outcomes: [
+                "Sponge farm constructed, sponge barn raised.",
+                "Now growing sponge in this general location.",
+                "Sand tilled. Sponge planted.",
+                "'Right here, this will be a farm!' And so it was.",
+            ],
+            multiOutcomes: [
+                "Do we really need to till the sand to grow sponge?",
+                "Grow, sponge! Grow!",
+                "I hope we have enough algae to support this level of production.",
+                "The shrimp are pleased.",
+                "Is anybody staffing these?",
+                "Farms are a-go.",
+                "Designated growing spots.",
+            ],
+            helpText: "Pick a spot and set up a sponge farm there.",
+        },
+
+        getCoralFarm: {
+            name: "Construct coral farm",
+            effect: {
+                resource: {
+                    coralFarm: 1,
+                },
+            },
+            cost: [
+                { resource: "coral", costFunction: "constant", priceIncrease: 1 },
+                {
+                    resource: "sand",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`landReform`) ? 50 : 250;
+                    },
+                },
+            ],
+            max: "coralFarm",
+            prereq: {
+                upgrade: ["coralCloning"],
+            },
+            outcomes: [
+                "Coral farm constructed, coral barn raised.",
+                "Now growing coral in this general location.",
+                "Sand tilled. Coral planted.",
+                "'Right here, this will be a farm!' And so it was.",
+            ],
+            multiOutcomes: [
+                "Do we really need to till the sand to grow coral?",
+                "Grow, coral! Grow!",
+                "The crabs are pleased.",
+                "Is anybody staffing these?",
+                "Farms are a-go.",
+                "Designated growing spots.",
+            ],
+            helpText: "Pick a spot and set up a coral farm there.",
         },
     },
 };
@@ -4103,7 +4326,7 @@ SharkGame.HomeActionCategories = {
             // "getProspector",
             "getScientist",
             "getLaser",
-            // getShoveler",
+            "getShoveler",
             "getPlanter",
             "getCollector",
             // "getMiller",
@@ -4121,7 +4344,9 @@ SharkGame.HomeActionCategories = {
             "getExtractionTeam",
             "getScholar",
             "getExtractor",
-            "getCatcher",
+            "getCuriousCrab",
+            "getResearcher",
+            "getAcolyte",
         ],
     },
 
@@ -4192,6 +4417,11 @@ SharkGame.HomeActionCategories = {
             "getCalciniumConverter",
             "getClamScavenger",
         ],
+    },
+
+    places: {
+        name: "Places",
+        actions: ["getSpongeFarm", "getCoralFarm"],
     },
 
     unique: {

@@ -21,7 +21,7 @@ SharkGame.ResourceTable = {
     world: {
         get name() {
             switch (world.worldType) {
-                case `violent`:
+                case `volcanic`:
                     return `vents`;
                 default:
                     return `the world`;
@@ -29,7 +29,7 @@ SharkGame.ResourceTable = {
         },
         get singleName() {
             switch (world.worldType) {
-                case `violent`:
+                case `volcanic`:
                     return `vents`;
                 default:
                     return `the world`;
@@ -39,6 +39,48 @@ SharkGame.ResourceTable = {
         color: "#FFFFFF",
         value: 123456789,
         forceIncome: true,
+    },
+
+    specialResourceOne: {
+        get name() {
+            switch (world.worldType) {
+                case `volcanic`:
+                    return `lack of algae`;
+                default:
+                    return `???`;
+            }
+        },
+        get singleName() {
+            switch (world.worldType) {
+                case `volcanic`:
+                    return `lack of algae`;
+                default:
+                    return `???`;
+            }
+        },
+        desc: "how are you seeing this",
+        color: "#FFFFFF",
+        value: 123456789,
+        forceIncome: true,
+    },
+
+    specialResourceTwo: {
+        get name() {
+            switch (world.worldType) {
+                default:
+                    return `???`;
+            }
+        },
+        get singleName() {
+            switch (world.worldType) {
+                default:
+                    return `???`;
+            }
+        },
+        desc: "how are you seeing this",
+        color: "#FFFFFF",
+        value: 123456789,
+        forceIncome: false,
     },
 
     aspectAffect: {
@@ -107,12 +149,15 @@ SharkGame.ResourceTable = {
     sponge: {
         name: "sponge",
         singleName: "sponge",
-        desc: "Soft, porous carnivores.",
-        color: "#ED9847",
-        income: {
-            sponge: 0.02,
-            algae: -0.02,
+        get desc() {
+            switch (world.worldType) {
+                case `volcanic`:
+                    return "Soft, porous carnivores. Need algae.";
+                default:
+                    return "Soft, porous carnivores.";
+            }
         },
+        color: "#ED9847",
         value: 18,
     },
 
@@ -163,7 +208,7 @@ SharkGame.ResourceTable = {
     coral: {
         name: "coral",
         singleName: "coral",
-        desc: "Color brought to life.",
+        desc: "Colorful carnivores.",
         color: "#CA354F",
         value: 3,
     },
@@ -171,7 +216,7 @@ SharkGame.ResourceTable = {
     algae: {
         name: "algae",
         singleName: "algae",
-        desc: "Slimy sponge food.",
+        desc: "Slimy sponge feeders.",
         color: "#549572",
         value: 0.4,
     },
@@ -475,7 +520,7 @@ SharkGame.ResourceTable = {
         value: 70,
     },
 
-    // VIOLENT
+    // volcanic
 
     shrimp: {
         name: "shrimp",
@@ -485,7 +530,7 @@ SharkGame.ResourceTable = {
         income: {
             algae: 0.5,
         },
-        jobs: ["queen", "farmer"],
+        jobs: ["queen", "farmer", "acolyte"],
         value: 500,
     },
 
@@ -500,11 +545,14 @@ SharkGame.ResourceTable = {
         value: 2000,
     },
 
-    catcher: {
-        name: "catcher crabs",
-        singleName: "catcher crab",
-        desc: "Trained in the fine art of...catching stuff.",
-        color: "#B5B135", // remember to set this
+    curiousCrab: {
+        name: "curious crabs",
+        singleName: "curious crab",
+        desc: "Insatiable learners.",
+        color: "#912E34", // remember to set this
+        income: {
+            science: 0.25,
+        },
         value: 4000, // remember to set this
     },
 
@@ -527,9 +575,47 @@ SharkGame.ResourceTable = {
     porite: {
         name: "porite",
         singleName: "porite",
-        desc: "Shiny, porous glass.",
+        desc: "Shiny glass with holes inside.",
         color: "#FDD5B4",
         value: 70, // remember to set this
+    },
+
+    researcher: {
+        name: "researcher crabs",
+        singleName: "researcher crab",
+        desc: "Don't you find this all rather fascinating?",
+        color: "#EEEEEE", // remember to set this
+        value: 4000, // remember to set this
+    },
+
+    acolyte: {
+        name: "algae acolytes",
+        singleName: "algae acolyte",
+        desc: "Praise be to algae.",
+        color: "#1D3D1A", // remember to set this
+        value: 4000, // remember to set this
+    },
+
+    spongeFarm: {
+        name: "sponge farms",
+        singleName: "sponge farm",
+        desc: "", // remember to set this
+        color: "#B38A46",
+        income: {
+            sponge: 0.5,
+        },
+        value: 4000, // remember to set this
+    },
+
+    coralFarm: {
+        name: "coral farms",
+        singleName: "coral farm",
+        desc: "", // remember to set this
+        color: "#6E323D", // remember to set this
+        income: {
+            coral: 2,
+        },
+        value: 4000, // remember to set this
     },
 
     // TEMPESTUOUS
@@ -856,7 +942,9 @@ SharkGame.ResourceTable = {
             planter: -0.001,
             farmer: -0.001,
             shoveler: -0.001,
-            catcher: -0.001,
+            acolyte: -0.001,
+            curiousCrab: -0.001,
+            researcher: -0.001,
             harvester: -0.001,
             treasurer: -0.001,
             explorer: -0.001,
@@ -1095,7 +1183,6 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
             nurse: -0.001,
             maker: -0.001,
             brood: -0.001,
-            world: -0.00125,
         },
     },
     tar: {
@@ -1105,14 +1192,10 @@ SharkGame.GeneratorIncomeAffectorsOriginal = {
             sandDigger: 0.99,
         },
     },
-    catcher: {
-        multiply: {
-            world: 0.05,
-        },
-    },
     farmer: {
         multiply: {
-            kelp: 0.05,
+            spongeFarm: 0.01,
+            coralFarm: 0.01,
         },
     },
     // cool tooltip test crab
@@ -1130,6 +1213,12 @@ SharkGame.GeneratorIncomeAffected = {
 };
 
 SharkGame.ResourceIncomeAffectorsOriginal = {
+    ice: {
+        multiply: {
+            ice: -0.00125,
+        },
+    },
+
     historian: {
         multiply: {
             science: 0.01,
@@ -1153,9 +1242,9 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
             seaApple: 0.05,
         },
     },
-    farmer: {
+    researcher: {
         multiply: {
-            algae: 0.05,
+            science: 0.02,
         },
     },
     shoveler: {
@@ -1163,6 +1252,16 @@ SharkGame.ResourceIncomeAffectorsOriginal = {
             sand: 0.05,
         },
     },
+    acolyte: {
+        multiply: {
+            algae: 0.02,
+        },
+    },
+    /*     shoveler: {
+        multiply: {
+            sand: 0.05,
+        },
+    }, */
     // cool tooltip test shark
     /*     shark: {
         multiply: {
@@ -1193,7 +1292,7 @@ SharkGame.ResourceSpecialProperties = {
 SharkGame.ResourceCategories = {
     harmful: {
         name: "Harmful",
-        disposeMessage: ["Oh, you'd like that, wouldn't you."],
+        disposeMessage: ["Oh you'd like that, wouldn't you."],
         resources: ["tar", "ice"],
     },
     scientific: {
@@ -1322,8 +1421,10 @@ SharkGame.ResourceCategories = {
             "sifter",
             "extractionTeam",
             "scholar",
-            "catcher",
+            "curiousCrab",
             "shoveler",
+            "researcher",
+            "acolyte",
             // "prospector",
             // "shoveler",
             // "miller",
@@ -1361,6 +1462,16 @@ SharkGame.ResourceCategories = {
             // "pulverizer",
         ],
     },
+    places: {
+        name: "Places",
+        disposeMessage: [
+            `Guess we'll just forget where these are.`,
+            `Wait...where was that place again?`,
+            `The location has been barred.`,
+            `Alright everyone, pack it up! Get outta here!`,
+        ],
+        resources: [`spongeFarm`, `coralFarm`],
+    },
     special: {
         name: "Special",
         disposeMessage: ["What have you done??"],
@@ -1369,7 +1480,7 @@ SharkGame.ResourceCategories = {
     hidden: {
         name: "Hidden",
         disposeMessage: ["Bad player! Stop it!"],
-        resources: ["world", "sacrifice", "aspectAffect"],
+        resources: ["world", "sacrifice", "aspectAffect", "specialResourceOne", "specialResourceTwo"],
     },
 };
 
@@ -1392,7 +1503,7 @@ SharkGame.InternalCategories = {
     },
     shrimps: {
         name: "Shrimp",
-        resources: ["shrimp", "farmer", "queen"],
+        resources: ["shrimp", "farmer", "queen", "acolyte"],
     },
     dolphins: {
         name: "Dolphins",

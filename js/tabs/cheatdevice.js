@@ -382,6 +382,7 @@ SharkGame.CheatsAndDebug = {
         }
 
         this.update();
+        SharkGame.persistentFlags.seenCheatsTab = true;
     },
 
     update() {
@@ -976,7 +977,7 @@ SharkGame.CheatsAndDebug = {
         });
         return "Added all upgrades. This might get weird.";
     },
-    addIdleTimePlease(time = Math.random() * 60000) {
+    addIdleTimePlease(time = Math.random() * 120000 + 30000) {
         SharkGame.flags.minuteHandTimer += time;
         res.minuteHand.updateDisplay();
     },

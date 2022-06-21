@@ -8,7 +8,7 @@ SharkGame.Lab = {
 
     get sceneImage() {
         switch (world.worldType) {
-            case `violent`:
+            case `volcanic`:
                 return "";
             default:
                 return "img/events/misc/scene-lab.png";
@@ -17,7 +17,7 @@ SharkGame.Lab = {
 
     get sceneDoneImage() {
         switch (world.worldType) {
-            case `violent`:
+            case `volcanic`:
                 return "";
             default:
                 return "img/events/misc/scene-lab-done.png";
@@ -26,8 +26,6 @@ SharkGame.Lab = {
 
     get discoverReq() {
         switch (world.worldType) {
-            case `violent`:
-                return { resource: { seaApple: 1 } };
             default:
                 return { resource: { science: 10 } };
         }
@@ -37,17 +35,17 @@ SharkGame.Lab = {
 
     get message() {
         switch (world.worldType) {
-            case `violent`:
-                return "Sort of just off to the side, there's a group effort underway to dissect sea apples and discuss stuff that we don't yet understand.";
+            case `volcanic`:
+                return "Sort of just off to the side, a group of curious crabs congregate and discuss stuff that we don't understand.";
             default:
                 return "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.";
         }
     },
     get messageDone() {
         switch (world.worldType) {
-            case `violent`:
+            case `volcanic`:
                 return (
-                    "Sort of just off to the side, the rays and crabs are compiling our completed work.<br/>" +
+                    "Sort of just off to the side, the researchers are compiling their work and filing it away.<br/>" +
                     "Looks like that's it! No more things to figure out."
                 );
             default:
@@ -73,6 +71,7 @@ SharkGame.Lab = {
     },
 
     resetUpgrades() {
+        SharkGame.Upgrades.purchaseQueue = undefined;
         SharkGame.Upgrades.purchased.splice(0);
 
         const upgradeObject = {};
@@ -122,25 +121,25 @@ SharkGame.Lab = {
         if (lab.allResearchDone()) {
             let message;
             switch (world.worldType) {
-                case `violent`:
+                case `volcanic`:
                     message = "We rest content, sure that our work is done.";
                     break;
                 default:
                     message = "The scientists rest content, sure that they're done with their work.";
             }
 
-            $("#buttonList").append($("<p>").html(message));
+            $("#buttonList").html($("<p>").html(message));
             if (isNotStart) lab.updateMessage();
         } else if (lab.listEmpty) {
             let message;
             switch (world.worldType) {
-                case `violent`:
-                    message = "We're out of ideas, but there are always more discoveries to be made.";
+                case `volcanic`:
+                    message = "The crabs are out of ideas, but there are always more discoveries to be made.";
                     break;
                 default:
                     message = "The scientists are out of ideas, but there are always more discoveries to be made.";
             }
-            $("#buttonList").append($("<p>").html(message));
+            $("#buttonList").html($("<p>").html(message));
 
             const hintedUpgrade = _.find(
                 upgradeTable,
@@ -254,7 +253,7 @@ SharkGame.Lab = {
             enableButton = res.checkResources(upgradeCost);
         }
 
-        const effects = SharkGame.Lab.getResearchEffects(upgradeData, !enableButton);
+        const effects = SharkGame.Lab.getResearchEffects(upgradeData);
         let label = upgradeData.name + "<br/>" + upgradeData.desc + "<br/>" + effects;
         const costText = sharktext.resourceListToString(upgradeCost, !enableButton, sharkcolor.getElementColor(upgradeName));
         if (costText !== "") {
@@ -396,6 +395,17 @@ SharkGame.Lab = {
                 upgradeElt.prependTo(list);
             }
 
+            if (!SharkGame.flags.upgradeTimes) {
+                SharkGame.flags.upgradeTimes = {};
+            }
+            const gotUpgradeTime = SharkGame.flags.upgradeTimes[upgradeId];
+            if (gotUpgradeTime) {
+                console.log(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(gotUpgradeTime)}`);
+            } else {
+                console.log(`Added upgrade ${upgrade.name} at: ${sharktext.formatTime(sharktime.getRunTime())}`);
+                SharkGame.flags.upgradeTimes[upgradeId] = sharktime.getRunTime();
+            }
+
             res.updateResourcesTable();
         }
     },
@@ -404,6 +414,7 @@ SharkGame.Lab = {
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
         const lab = SharkGame.Lab;
         let allDone = true;
+        // TODO: Use .every instead of .each
         $.each(upgradeTable, (upgradeId) => {
             if (lab.isUpgradePossible(upgradeId)) {
                 allDone = allDone && SharkGame.Upgrades.purchased.includes(upgradeId) && lab.isUpgradeVisible(upgradeId);
@@ -474,28 +485,31 @@ SharkGame.Lab = {
         return true;
     },
 
-    getResearchEffects(upgrade, _darken) {
+    getResearchEffects(upgrade) {
+        // The CSS for the effect is .medDesc which contains "filter: brightness(1.3)"
+        // In order to compensate, this code scales the background to be 1.3 times darker.
+        const color = sharkcolor.getVariableColor("--color-light").replace(/[^0-9a-f]/gi, "");
+        // Convert to rgb channels, convert from hex to decimal and scale it
+        let red = parseInt(color.substr(0, 2), 16) / 1.3;
+        let green = parseInt(color.substr(2, 2), 16) / 1.3;
+        let blue = parseInt(color.substr(4, 2), 16) / 1.3;
+        // Convert back to hex
+        red = parseInt(red).toString(16);
+        green = parseInt(green).toString(16);
+        blue = parseInt(blue).toString(16);
+        const darkerColour = "#" + red + green + blue;
+
         const effects = [];
         $.each(upgrade.effect, (effectType, effectsList) => {
             $.each(effectsList, (resource, degree) => {
-                // The CSS for the effect is .medDesc which contains "filter: brightness(1.3)"
-                // In order to compensate, this code scales the background to be 1.3 times darker.
-                const color = sharkcolor.getVariableColor("--color-light").replace(/[^0-9a-f]/gi, "");
-                // Convert to rgb channels, convert from hex to decimal and scale it
-                let red = parseInt(color.substr(0, 2), 16) / 1.3;
-                let green = parseInt(color.substr(2, 2), 16) / 1.3;
-                let blue = parseInt(color.substr(4, 2), 16) / 1.3;
-                // Convert back to hex
-                red = parseInt(red).toString(16);
-                green = parseInt(green).toString(16);
-                blue = parseInt(blue).toString(16);
-                const darkerColour = "#" + red + green + blue;
                 const effectText = SharkGame.ModifierReference.get(effectType).effectDescription(degree, resource, darkerColour);
                 if (world.doesResourceExist(resource) && effectText !== "") {
                     effects.push(effectText);
                 }
             });
         });
+        if (upgrade.customEffect) effects.push(upgrade.customEffect(darkerColour));
+
         return "<span class='medDesc' class='click-passthrough'>(Effects: " + (effects.length > 0 ? effects.join(", ") : "???") + ")</span>";
     },
 

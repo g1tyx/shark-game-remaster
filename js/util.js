@@ -179,6 +179,10 @@ SharkGame.TextUtil = {
         return "are";
     },
 
+    shouldHideNumberOfThis(name) {
+        return [`world`, `aspectAffect`, `specialResourceOne`, `specialResourceTwo`].includes(name);
+    },
+
     /** @param {string} string */
     boldString(string) {
         return `<span class='bold'>${string}</span>`;
@@ -475,6 +479,23 @@ SharkGame.ColorUtil = {
 
     getVariableColor(variable) {
         return getComputedStyle(document.body).getPropertyValue(variable).replace(/ /g, "");
+    },
+};
+
+SharkGame.TimeUtil = {
+    getRunTime(ignoreMinuteHandAndPause) {
+        const realRunTime = _.now() - SharkGame.timestampRunStart;
+        const pausedTime = SharkGame.persistentFlags.totalPausedTime + SharkGame.persistentFlags.currentPausedTime;
+        let storedTime = 0;
+        if (typeof SharkGame.flags.hourHandLeft === `number`) {
+            storedTime = SharkGame.flags.minuteHandTimer - SharkGame.flags.hourHandLeft;
+        }
+
+        if (ignoreMinuteHandAndPause) {
+            return realRunTime;
+        } else {
+            return realRunTime - pausedTime - storedTime;
+        }
     },
 };
 
