@@ -368,8 +368,15 @@ h4 {
     display: flex;
     flex-direction: column;
 
-    #game {
+    #game,
+    #devs {
         flex: 1 0 auto;
+    }
+
+    #devs > ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
     }
 
     #copyright {
