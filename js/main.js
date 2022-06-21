@@ -854,11 +854,13 @@ SharkGame.FunFacts = {
             pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
         });
 
+        let anyAvailableResource = false;
         $.each(this.resourceBased, (resource, facts) => {
             // purposefully dilute some facts if we are not on the starter world
             // I want these facts to be more likely relevant than not
-            if (!this.dilutedResources.includes(resource) || currentWorld === "start" || Math.random() < 0.25) {
-                if (world.doesResourceExist(resource) && res.getTotalResource(resource)) {
+            if (world.doesResourceExist(resource) && res.getTotalResource(resource)) {
+                anyAvailableResource = true;
+                if (!this.dilutedResources.includes(resource) || currentWorld === "start" || Math.random() < 0.25) {
                     _.each(facts, (fact) => {
                         pool.push(
                             sharktext.boldString(
@@ -876,17 +878,22 @@ SharkGame.FunFacts = {
                 }
             }
         });
-        // only 10% chance to include the 'default' facts
-        // this is because those facts are seen all over the place
-        // they would end up diluting the world-specific and resource-specific facts
-        //
-        // also acts as a failsafe in case there are no other facts to display
-        if (Math.random() < 0.1 || pool.length === 0) {
-            _.each(this.default, (fact) => {
-                pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
-            });
+
+        if (anyAvailableResource) {
+            // only 10% chance to include the 'default' facts
+            // this is because those facts are seen all over the place
+            // they would end up diluting the world-specific and resource-specific facts
+            //
+            // also acts as a failsafe in case there are no other facts to display
+            if (Math.random() < 0.1 || pool.length === 0) {
+                _.each(this.default, (fact) => {
+                    pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
+                });
+            }
+            return pool;
+        } else {
+            return ["Fun fact: <i>New fun facts are unlocked as you see new stuff. Keep playing to unlock some!</i>"];
         }
-        return pool;
     },
 
     worldBased: {
