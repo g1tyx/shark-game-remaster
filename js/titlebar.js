@@ -21,13 +21,13 @@ SharkGame.TitleBar = {
         },
     },
 
-    helpLink: {
+    /*     helpLink: {
         name: "help",
         main: true,
         onClick() {
             SharkGame.PaneHandler.showHelp();
         },
-    },
+    }, */
 
     skipLink: {
         name: "skip",
@@ -82,6 +82,20 @@ SharkGame.TitleBar = {
         name: "discord",
         main: false,
         link: "https://discord.gg/eYqApFkFPY",
+    },
+
+    hubLink: {
+        name: "back to hub",
+        main: false,
+        onClick() {
+            try {
+                SharkGame.Save.saveGame();
+            } catch (err) {
+                log.addError(err);
+            }
+            log.addMessage("Saved game.");
+            window.location.href = "https://shark.tobot.dev/";
+        },
     },
 
     /* noticeLink: {
