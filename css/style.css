@@ -202,7 +202,9 @@ h4 {
   display: flex;
   flex-direction: column;
 }
-#wrapper #game,
+#wrapper #game {
+  flex: 1 0 auto;
+}
 #wrapper #devs {
   align-items: center;
   display: flex;
