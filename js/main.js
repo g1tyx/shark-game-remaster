@@ -1290,6 +1290,6 @@ SharkGame.Changelog = {
 };
 
 $(() => {
-    main.init();
     $("#game").show();
+    main.init();
 });
