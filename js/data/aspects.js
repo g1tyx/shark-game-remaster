@@ -644,7 +644,11 @@ SharkGame.Aspects = {
             return 3 + level;
         },
         getEffect(level) {
-            return "The Minute Hand starts with " + sharktext.boldString(60 * level + "s") + " when entering a new world.";
+            return (
+                "The Minute Hand starts with " +
+                sharktext.boldString(60 * level + "s") +
+                " when entering a world (these do not increase your world time when used)."
+            );
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
