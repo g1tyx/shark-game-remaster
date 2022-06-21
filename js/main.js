@@ -1060,10 +1060,12 @@ SharkGame.FunFacts = {
 SharkGame.Changelog = {
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 202206??a": [
         "Added Volcanic worldtype.",
-        "The time taken to beat a world <b>doesn't increase when you are offline or in idle mode</b>. However, when you use the minute hand to <b><i>spend</i> time</b> earned from idling or being offline, that <b>DOES count against your time</b> for beating the world. However, any time gained from the <b>hour hand</b> aspect will NOT count against your time when used.",
+        "World-time doesn't increase when you are offline or idle. However, time used by the minute hand is now added to your world-time (unless that time is from the hour hand aspect).",
         "Added fun facts button! Press to randomly receive a fun fact.",
         "Stuff table tooltips now show how a resource slows or speeds up others.",
         "Removed alpha notice.",
+        "Added a link to the hub on the titlebar.",
+        "New credits.",
         "Fixed a bunch of miscellaneous bugs.",
         "Did other assorted tasks.",
     ],
