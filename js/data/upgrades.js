@@ -3138,10 +3138,10 @@ SharkGame.Upgrades = {
         },
         sustainableSolutions: {
             name: "Sustainable Solutions",
-            desc: `As in, find solutions that the shrimp prefer.`,
+            desc: "As in, find solutions that the shrimp prefer.",
             researchedMessage:
                 "So, as it turns out, the shrimp preference is merely to farm for sponge and coral instead of gathering them. That sounds about right.",
-            effectDesc: "Sponge farms times 32, coral farms times 2. We are focusing much harder on the farms now. Much, much harder.",
+            effectDesc: "Sponge farms times 32, coral farms times 2. We are diverting a lot of attention to the farms now. Maybe too much? Nah.",
             cost: {
                 science: 1250000,
                 sponge: 500000,
