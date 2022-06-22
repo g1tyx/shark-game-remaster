@@ -854,7 +854,7 @@ SharkGame.FunFacts = {
             this.worldBased[currentWorld] &&
             (!this.worldBased[currentWorld].areRequirementsMet || this.worldBased[currentWorld].areRequirementsMet())
         ) {
-            _.each(this.worldBased[currentWorld], (fact) => {
+            _.each(this.worldBased[currentWorld].messages, (fact) => {
                 pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
             });
         }
