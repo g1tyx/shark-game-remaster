@@ -238,7 +238,7 @@ SharkGame.Home = {
             {
                 name: "volcanic-monarchy",
                 unlock: { totalResource: { queen: 1 } },
-                message: "The shrimps follow a caste system with the king on top. They ask if you have a king, too.",
+                message: "The shrimps follow a caste system with the king of shrimps on top. They ask who your king is.",
             },
             {
                 name: "volcanic-shrimps",
