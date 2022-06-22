@@ -3652,6 +3652,7 @@ SharkGame.HomeActions = {
         prySponge: {
             removedBy: {
                 totalResourceThreshold: [{ resource: `sponge`, threshold: 200 }],
+                otherActions: ["prySponge2"],
             },
         },
 
