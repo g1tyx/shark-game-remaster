@@ -3522,7 +3522,7 @@ SharkGame.Upgrades = {
             name: "Final Draft",
             desc: "Third time's the charm. We're out of options here.",
             researchedMessage:
-                "You went personally. The king's guard captured you and brought you to him, but when started to speak, something made him lose his composure. Confusion replaced the hostility in his voice, and he let you speak instead.",
+                "You went personally. The king's guard captured you and brought you to him, but as he started to speak, he stopped suddenly. Confusion replaced the hostility in his voice as he examined you from afar, and he asked you to speak instead.",
             effectDesc: "You expressed that you didn't mean to replace him. He agreed to follow you to the city to see that for himself.",
             cost: {
                 science: 2e16,
