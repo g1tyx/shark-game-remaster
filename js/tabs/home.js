@@ -257,7 +257,7 @@ SharkGame.Home = {
                 message: "The king has finally caught wind of your plans, rumors say. They say he plans to destroy the entire frenzy.",
             },
             {
-                name: "volcanic-noticed",
+                name: "volcanic-acolytes",
                 unlock: { upgrade: ["algaeAcolytes"] },
                 message: "The acolytes gather. They pray for their king. They pray for their world. They pray for you.",
             },
