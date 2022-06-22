@@ -623,10 +623,50 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "marine-calcinium": {
+        frame: {
+            x: 1618,
+            y: 2042,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "marine-default": {
         frame: {
             x: 2,
             y: 1022,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "marine-lobsters-talk": {
+        frame: {
+            x: 2,
+            y: 2246,
             w: 400,
             h: 200,
         },
@@ -663,10 +703,150 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "volcanic-acolytes": {
+        frame: {
+            x: 406,
+            y: 2246,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "volcanic-beauty": {
+        frame: {
+            x: 810,
+            y: 2246,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "volcanic-hope": {
+        frame: {
+            x: 1214,
+            y: 2246,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "volcanic-monarchy": {
+        frame: {
+            x: 1618,
+            y: 2246,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "volcanic-noticed": {
+        frame: {
+            x: 2,
+            y: 2450,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "volcanic-shrimp-communication": {
+        frame: {
+            x: 406,
+            y: 2450,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "volcanic-shrimps": {
         frame: {
             x: 810,
             y: 1022,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "volcanic-smithing": {
+        frame: {
+            x: 810,
+            y: 2450,
             w: 400,
             h: 200,
         },
