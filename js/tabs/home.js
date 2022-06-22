@@ -253,7 +253,7 @@ SharkGame.Home = {
             },
             {
                 name: "volcanic-noticed",
-                unlock: { upgrade: ["firstDraft"] },
+                unlock: { upgrade: ["glassTempering"] },
                 message: "The king has finally caught wind of your plans, rumors say. They say he plans to destroy the entire frenzy.",
             },
             {
