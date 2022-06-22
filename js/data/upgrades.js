@@ -3439,6 +3439,7 @@ SharkGame.Upgrades = {
             required: {
                 upgrades: ["algaeAcolytes"],
             },
+            events: ["volcanicCrabReform"],
             customEffect(background) {
                 return `${sharktext.getResourceName(`researcher`, false, 2, background)} impact ×4`;
             },
