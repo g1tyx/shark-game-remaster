@@ -1559,6 +1559,14 @@ SharkGame.Sprites = {
         sourceSize: { w: 50, h: 50 },
         pivot: { x: 0, y: 0 },
     },
+    "actions/getCuriousCrab": {
+        frame: { x: 2982, y: 0, w: 50, h: 50 },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: 50, h: 50 },
+        sourceSize: { w: 50, h: 50 },
+        pivot: { x: 0, y: 0 },
+    },
     "actions/getDiver": {
         frame: { x: 574, y: 104, w: 50, h: 50 },
         rotated: false,
