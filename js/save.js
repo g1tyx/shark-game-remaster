@@ -172,7 +172,12 @@ SharkGame.Save = {
 
             // load world type
             if (saveData.world) {
-                world.worldType = saveData.world.type;
+                if (!Object.keys(SharkGame.WorldTypes).includes(saveData.world.type)) {
+                    world.worldType = "start";
+                    gateway.badWorld = true;
+                } else {
+                    world.worldType = saveData.world.type;
+                }
             }
 
             SharkGame.Upgrades.purchaseQueue = [];

@@ -20,8 +20,9 @@ SharkGame.Gateway = {
     },
 
     setup() {
-        if (SharkGame.gameOver) {
+        if (SharkGame.gameOver || gateway.badWorld) {
             main.endGame(true);
+            gateway.badWorld = false;
         } else {
             gateway.updateScoutingStatus();
             SharkGame.persistentFlags.wasOnScoutingMission = undefined;
