@@ -20,6 +20,9 @@ SharkGame.Gateway = {
     },
 
     setup() {
+        this.completedWorlds = this.completedWorlds.filter((worldType) => {
+            return Object.keys(SharkGame.WorldTypes).includes(worldType);
+        });
         if (SharkGame.gameOver || gateway.badWorld) {
             main.endGame(true);
             gateway.badWorld = false;
