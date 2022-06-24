@@ -102,6 +102,7 @@ declare global {
         multiOutcomes: string[];
         helpText: string;
         unauthorized?: boolean;
+        getSpecialTooltip?(): string;
     };
     type HomeActionTable = Record<HomeActionName, HomeAction>;
 
@@ -125,6 +126,8 @@ declare global {
             resources: ResourceName[];
             totals?: Record<ResourceName, number>;
         }>;
+        events?: EventName[];
+        customEffect?(background: string): string;
     };
     type UpgradeTable = Record<UpgradeName, Upgrade>;
 
