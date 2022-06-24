@@ -263,7 +263,7 @@ SharkGame.ResourceTable = {
         income: {
             fish: 1,
         },
-        jobs: ["scientist", "nurse"],
+        jobs: ["scientist", "nurse", "diver"],
         value: 1000,
     },
 
@@ -276,7 +276,7 @@ SharkGame.ResourceTable = {
             fish: 0.2,
             sand: 1,
         },
-        jobs: ["laser", "maker"],
+        jobs: ["laser", "maker", "scholar", "shoveler", "clamScavenger"],
         value: 1000,
     },
 
@@ -289,7 +289,7 @@ SharkGame.ResourceTable = {
             crystal: 0.02,
             coral: 0.01,
         },
-        jobs: ["planter", "brood"],
+        jobs: ["planter", "brood", "collector", "researcher", "curiousCrab", "seabedStripper"],
         value: 1000,
     },
 
@@ -442,6 +442,7 @@ SharkGame.ResourceTable = {
         income: {
             clam: 2,
         },
+        jobs: ["berrier", "calciniumConverter"],
         value: 1000,
     },
 
@@ -549,19 +550,20 @@ SharkGame.ResourceTable = {
         name: "curious crabs",
         singleName: "curious crab",
         desc: "Insatiable learners.",
-        color: "#912E34", // remember to set this
+        color: "#912E34",
         income: {
             science: 0.25,
         },
-        value: 4000, // remember to set this
+        jobs: ["researcher"],
+        value: 1030,
     },
 
     shoveler: {
         name: "shoveler rays",
         singleName: "shoveler ray",
         desc: "Let's get shoveling!",
-        color: "#C49E45", // remember to set this
-        value: 50000, // remember to set this
+        color: "#C49E45",
+        value: 7500,
     },
 
     farmer: {
@@ -569,7 +571,7 @@ SharkGame.ResourceTable = {
         singleName: "shrimp farmer",
         desc: "It's honest work.",
         color: "#DD7A49",
-        value: 50000, // remember to set this
+        value: 1500,
     },
 
     porite: {
@@ -577,45 +579,45 @@ SharkGame.ResourceTable = {
         singleName: "porite",
         desc: "Shiny glass with holes inside.",
         color: "#FDD5B4",
-        value: 70, // remember to set this
+        value: 150,
     },
 
     researcher: {
         name: "researcher crabs",
         singleName: "researcher crab",
         desc: "Don't you find this all rather fascinating?",
-        color: "#EEEEEE", // remember to set this
-        value: 4000, // remember to set this
+        color: "#EEEEEE",
+        value: 3750,
     },
 
     acolyte: {
         name: "algae acolytes",
         singleName: "algae acolyte",
         desc: "Praise be to algae.",
-        color: "#1D3D1A", // remember to set this
-        value: 4000, // remember to set this
+        color: "#1D3D1A",
+        value: 500,
     },
 
     spongeFarm: {
         name: "sponge farms",
         singleName: "sponge farm",
-        desc: "", // remember to set this
+        desc: "Peaceful fields for spongekind.",
         color: "#B38A46",
         income: {
             sponge: 0.5,
         },
-        value: 4000, // remember to set this
+        value: 768,
     },
 
     coralFarm: {
         name: "coral farms",
         singleName: "coral farm",
-        desc: "", // remember to set this
-        color: "#6E323D", // remember to set this
+        desc: "Coral corrals.",
+        color: "#6E323D",
         income: {
             coral: 2,
         },
-        value: 4000, // remember to set this
+        value: 753,
     },
 
     // TEMPESTUOUS
@@ -632,7 +634,7 @@ SharkGame.ResourceTable = {
         income: {
             coral: 0.2,
         },
-        jobs: ["treasurer", "biologist"],
+        jobs: ["treasurer", "biologist", "historian"],
         value: 1000,
     },
 
@@ -827,7 +829,7 @@ SharkGame.ResourceTable = {
         income: {
             clam: 2,
         },
-        jobs: ["collector", "scavenger"],
+        jobs: ["investigator", "scavenger"],
         value: 3000,
     },
 
@@ -997,6 +999,7 @@ SharkGame.ResourceTable = {
         income: {
             fish: 4,
         },
+        jobs: ["collective", "extractionTeam"],
         value: 3000,
     },
 
