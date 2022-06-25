@@ -906,10 +906,10 @@ SharkGame.FunFacts = {
         frigid: {},
         volcanic: {
             messages: [
+                "This world was originally called Violent, now it's Volcanic. Playtesters got confused and thought the world had violence, when really, it just has the threat of violence.",
                 "Hydrothermal vents do not spew fire in real life. They spew smoke.",
-                "Hydrothermal vents support a diverse array of sea life due to their high output of minerals.",
+                "Hydrothermal vents support a diverse array of sea life due to their high output of minerals. Bacteria eat these minerals, starting a food chain.",
                 "Hydrothermal vents are found at fault lines in the earth's crust, where water becomes superheated due to magma rising close to the ocean floor.",
-                "As a source of heat and minerals, hydrothermal vents support a wide variety of life around them in the deep sea stemming from bacteria who process those minerals.",
             ],
             areRequirementsMet() {
                 return SharkGame.Upgrades.purchased.includes("thermalVents");
@@ -917,10 +917,7 @@ SharkGame.FunFacts = {
         },
         shrouded: {},
         abandoned: {
-            messages: [
-                "This world was the first one to be remade for New Frontiers.",
-                "In the original shark game, the tar was gained passively, and machines produced a negligible amount.",
-            ],
+            messages: ["This world was the first one to be remade for New Frontiers."],
         },
         haven: {
             messages: ["Kelp paper is real. You cannot write on it though."],
@@ -991,11 +988,11 @@ SharkGame.FunFacts = {
             "Lobsters really do eat clams. They instinctively know how to crack them open.",
             "Lobsters can live for an extremely long time. Rarely, some will live longer than humans.",
             "Lobsters have teeth in their stomach, not in their mouth, and they chew with those teeth, too.",
-            "Lobsters have asymmetric claws. One of them, called the crusher, is used for...crushing. The other, called the pincer, is used for...pincing. It's pretty straightforward.",
+            "Lobsters have asymmetric claws. One of them, called the crusher, is used for...crushing. The other, called the pincer, is used for...pincing. Marine biologists were feeling creative, clearly.",
         ],
         shrimp: [
-            "There are real eusocial shrimps that live as in communities in sponges on reefs, complete with queens.",
-            "Shrimp are close relatives of lobsters. They have a lot of similarities, and in some ways, are just smaller, narrower lobsters.",
+            "There are real eusocial shrimps that live in communities in sponges on reefs, complete with queens.",
+            "Shrimp are close relatives of lobsters. They have a lot of similarities, and in some ways are just smaller, narrower lobsters.",
         ],
         eel: [
             // "Eels come in a wide range of sizes, from just a few inches to multiple meters.",
@@ -1004,7 +1001,7 @@ SharkGame.FunFacts = {
             "Chimaera are closely related to sharks and rays.",
             "Chimaera are deep-sea animals, usually found more than 500 meters (~1500 feet) below the surface of the ocean.",
             "Chimaera have a venomous spine in front of their dorsal fin.",
-            "Chimaera are not purple, they are completely pale. Deep-sea animals like chimaera are often pale because low light levels give them no reason to invest in any kind of colors.",
+            "Chimaera are not purple, they are completely pale, because deep-sea animals like chimaera have no reason to invest in any kind of colors, it's just too dark to care.",
         ],
         seaApple: [
             "Sea apples are a type of sea cucumber. They feed on debris and detritus.",
@@ -1022,10 +1019,10 @@ SharkGame.FunFacts = {
         calcinium: ["Calcinium was inspired by the appearance and texture of limestone."],
         laser: ["Sharks with lasers were overdone, okay? At least 'laser ray' is a pun."],
         coral: [
-            "Most coral eat plankton, but some can actually catch small fish.",
+            "Some coral can actually catch small fish.",
             "Coral is not a plant, it is an animal. A weird, stationary animal.",
             "Coral are primarily carnivores. They eat plankton (teeny tiny things that can't swim), grabbing them with little tentacles and pulling them into their mouths.",
-            // "Many kinds of coral have a mutualistic relationship with certain species of alage, who produce",
+            "Many kinds of coral have a mutualistic relationship with certain species of alage, who produce nutrients in exchange for carbon dioxide and shelter.",
         ],
         sponge: [
             "Sponges are incredibly distinct from all other animals. They are asymmetric, have no organs, and their cells can change specialization at will, which is true for no other animal.",
@@ -1035,13 +1032,14 @@ SharkGame.FunFacts = {
             "Many species of sponge have a mualistic realitionship with certain species of algae. The algaes use photosynthesis to produce food for the sponges.",
         ],
         algae: [
-            "Algae comes in many different shapes, sizes, and forms, like 'valonia ventricosa,' a species where every individual cell can grow larger than a grape.",
-            "Algae is neither plant nor animal. It is something else entirely - a protist.",
-            "Kelp is a kind of algae. In fact, all seaweed is algae.",
+            "Algae comes in many different shapes, sizes, and forms, like 'valonia ventricosa,' a species where every individual cell can grow larger than a grape. Look it up, it's insane.",
+            "Algae is neither plant nor animal. It is something else entirely (a protist?).",
+            "Kelp is a kind of algae. In fact, all seaweed is algae. The sea is mostly just advanced algae and a bunch of animals, with very few actual plants.",
         ],
         kelp: ["Kelp is not a plant. It's a kind of algae, and algae isn't a plant, so kelp isn't a plant."],
         arcana: ["Arcane, super-charged energy crystals are definitely not real."],
         ice: ["In the original shark game, ice used to eat away your resources instead of slowing their production."],
+        tar: ["In the original shark game, tar was gained passively. Machines produced basically none."],
     },
 
     default: [
