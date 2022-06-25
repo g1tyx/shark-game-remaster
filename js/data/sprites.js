@@ -1243,6 +1243,46 @@ SharkGame.Sprites = {
             h: 200,
         },
     },
+    "volcanic-shrimp-contact": {
+        frame: {
+            x: 1214,
+            y: 2450,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
+    "volcanic-shrimp-threat": {
+        frame: {
+            x: 1618,
+            y: 2450,
+            w: 400,
+            h: 200,
+        },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: {
+            x: 0,
+            y: 0,
+            w: 400,
+            h: 200,
+        },
+        sourceSize: {
+            w: 400,
+            h: 200,
+        },
+    },
     "haven-whales": {
         frame: {
             x: 1618,
