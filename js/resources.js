@@ -87,6 +87,12 @@ SharkGame.Resources = {
     },
 
     setup() {
+        // reapply all modifiers
+        SharkGame.ResourceMap.forEach((resource, resourceId) => {
+            $.each(resource.baseIncome, (generatedId) => {
+                res.reapplyModifiers(resourceId, generatedId);
+            });
+        });
         res.recalculateIncomeTable();
         res.reconstructResourcesTable();
     },

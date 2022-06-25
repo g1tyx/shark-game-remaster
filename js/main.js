@@ -334,11 +334,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // first set up the world because it adds the world resource
         SharkGame.World.setup();
 
+        // refund aspects if necessary
+        // create restrictions
+        SharkGame.AspectTree.setup();
+
         // now set up resources because a lot depends on it
         SharkGame.Resources.setup();
-
-        // refund aspects if necessary
-        SharkGame.AspectTree.setup();
 
         // initialise tabs
         // always set up lab first
