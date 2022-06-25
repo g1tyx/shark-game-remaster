@@ -1059,14 +1059,15 @@ SharkGame.FunFacts = {
 };
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 202206??a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220625a": [
         "Added Volcanic worldtype.",
-        "World-time doesn't increase when you are offline or idle. However, time used by the minute hand is now added to your world-time (unless that time is from the hour hand aspect).",
-        "Added fun facts button! Press to randomly receive a fun fact.",
+        "Added FUN FACTS! Press to receive a random fun fact! You get different ones based on where you are and what you own!",
+        "World-time doesn't increase when you are offline or idle. That time is added only if you use it through the minute hand (time from the hour hand aspect is excluded).",
         "Stuff table tooltips now show how a resource slows or speeds up others.",
+        "Began adding placeholder art to temporarily supplement actually completed art.",
         "Removed alpha notice.",
         "Added a link to the hub on the titlebar.",
-        "New credits.",
+        "New credits (see bottom of page).",
         "Fixed a bunch of miscellaneous bugs.",
         "Did other assorted tasks.",
     ],
