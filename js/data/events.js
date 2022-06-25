@@ -351,7 +351,11 @@ SharkGame.Events = {
             return "trigger";
         },
         trigger() {
-            res.reapplyModifiers("aspectAffect", "crystal");
+            if (world.worldType === "volcanic") {
+                res.reapplyModifiers("aspectAffect", "coral");
+            } else {
+                res.reapplyModifiers("aspectAffect", "crystal");
+            }
             return true;
         },
     },

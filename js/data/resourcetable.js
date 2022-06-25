@@ -89,10 +89,19 @@ SharkGame.ResourceTable = {
         desc: "what",
         income: {
             get crystal() {
-                if (SharkGame.Aspects.crystallineSkin.level) {
+                if (SharkGame.Aspects.crystallineSkin.level && world.worldType !== "volcanic") {
                     const crystalAmount = res.getResource("crystal");
                     if (crystalAmount < 25 * 2 ** SharkGame.Aspects.crystallineSkin.level) {
                         return (25 * 2 ** SharkGame.Aspects.crystallineSkin.level - crystalAmount) / 2;
+                    }
+                }
+                return 0;
+            },
+            get coral() {
+                if (SharkGame.Aspects.crystallineSkin.level && world.worldType === "volcanic") {
+                    const coralAmount = res.getResource("coral");
+                    if (coralAmount < 25 * 2 ** SharkGame.Aspects.crystallineSkin.level) {
+                        return (25 * 2 ** SharkGame.Aspects.crystallineSkin.level - coralAmount) / 2;
                     }
                 }
                 return 0;
