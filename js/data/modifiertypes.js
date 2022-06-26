@@ -496,7 +496,7 @@ SharkGame.ModifierTypes = {
                     return degree;
                 },
                 applyToInput(input, genDegree, _outDegree, _gen, out) {
-                    return input * (out !== "fish" ? genDegree : 1);
+                    return input * (out === "fish" ? genDegree : 1);
                 },
             },
         },
