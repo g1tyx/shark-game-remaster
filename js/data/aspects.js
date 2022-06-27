@@ -179,7 +179,6 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        // need to give out patience rewards to those who had pending patience
         max: 6,
         level: 0,
         name: "Patience",
@@ -199,6 +198,34 @@ SharkGame.Aspects = {
         },
         getUnlocked() {},
         prerequisites: ["meditation"],
+        clicked(_event) {
+            tree.handleClickedAspect(this);
+        },
+    },
+    theDial: {
+        posX: -125,
+        posY: 300,
+        width: 40,
+        height: 40,
+
+        max: 1,
+        level: 0,
+        name: "The Dial",
+        description: "No matter how long it takes, you will always reach the end.",
+        noRefunds: true,
+        core: true,
+        getCost(_level) {
+            return 40;
+        },
+        getEffect(_level) {
+            return "Unlock the ability to slow down time in exchange for a large multiplier on patience rewards.";
+        },
+        getUnlocked() {
+            /*             if (gateway.completedWorlds.length < 8) {
+                return "Scout all worlds to unlock this aspect.";
+            } */
+        },
+        prerequisites: ["patience"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },
@@ -630,8 +657,8 @@ SharkGame.Aspects = {
         },
     },
     theHourHand: {
-        posX: 75,
-        posY: 400,
+        posX: 350,
+        posY: 475,
         width: 40,
         height: 40,
 
@@ -648,7 +675,7 @@ SharkGame.Aspects = {
                 "The Minute Hand starts with " +
                 sharktext.boldString(60 * level + "s") +
                 " when entering a world. " +
-                (level === 1 ? "This doesn't" : "These don't") +
+                (level === 1 ? "This DOESN'T" : "These DON'T") +
                 " count against your world-time when used."
             );
         },
@@ -657,7 +684,71 @@ SharkGame.Aspects = {
                 return "Scout at least one world to unlock this aspect.";
             }
         },
-        prerequisites: ["pathOfEnlightenment"],
+        prerequisites: ["apotheosis"],
+        clicked(_event) {
+            tree.handleClickedAspect(this);
+        },
+    },
+    doubleTime: {
+        posX: 450,
+        posY: 550,
+        width: 40,
+        height: 40,
+
+        max: 5,
+        level: 0,
+        name: "Double Time",
+        description: "Why work twice as hard when you have twice as long?",
+        core: false,
+        getCost(level) {
+            return 3 * level + 3;
+        },
+        getEffect(level) {
+            return (
+                "The Minute Hand earns " +
+                sharktext.boldString(level + 1 + "×") +
+                " time from all sources (except The Hour Hand). " +
+                "Bonus time counts against your world-time when used."
+            );
+        },
+        getUnlocked() {
+            /*             if (gateway.completedWorlds.length < 8) {
+                return "Scout all worlds to unlock this aspect.";
+            } */
+        },
+        prerequisites: ["theHourHand"],
+        clicked(_event) {
+            tree.handleClickedAspect(this);
+        },
+    },
+    overtime: {
+        posX: 450,
+        posY: 600,
+        width: 40,
+        height: 40,
+
+        max: 5,
+        level: 0,
+        name: "Overtime",
+        description: "No time for breaks!",
+        core: false,
+        getCost(level) {
+            return 3 * level + 3;
+        },
+        getEffect(level) {
+            return (
+                "The Minute Hand gains " +
+                sharktext.boldString(sharktext.beautify(0.2 * level) + "s") +
+                " per second while disabled. " +
+                "Bonus time counts against your world-time when used."
+            );
+        },
+        getUnlocked() {
+            /*             if (gateway.completedWorlds.length < 8) {
+                return "Scout all worlds to unlock this aspect.";
+            } */
+        },
+        prerequisites: ["theHourHand"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },

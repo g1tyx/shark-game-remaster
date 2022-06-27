@@ -402,6 +402,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
                 res.minuteHand.allowMinuteHand();
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
+                if (SharkGame.Aspects.overtime.level) {
+                    res.minuteHand.updateMinuteHand(secondsElapsed * 200 * SharkGame.Aspects.overtime.level);
+                    res.minuteHand.addBonusTime(secondsElapsed * 200 * SharkGame.Aspects.overtime.level);
+                }
             } else {
                 main.processSimTime(secondsElapsed, true);
             }
@@ -521,7 +525,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             if (!SharkGame.persistentFlags.everIdled) {
                 res.minuteHand.allowMinuteHand();
             }
-            res.minuteHand.updateMinuteHand(_.now() - SharkGame.before);
+            res.minuteHand.updateMinuteHand((_.now() - SharkGame.before) * (1 + SharkGame.Aspects.overtime.level * 0.2));
+            res.minuteHand.addBonusTime((_.now() - SharkGame.before) * SharkGame.Aspects.overtime.level * 0.2);
             SharkGame.before = _.now();
             SharkGame.lastActivity = _.now();
             switch (SharkGame.Tabs.current) {
@@ -559,6 +564,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             if (res.minuteHand.active) {
                 res.minuteHand.updateMinuteHand(elapsedTime);
+            } else if (SharkGame.Aspects.overtime.level) {
+                res.minuteHand.updateMinuteHand(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
+                res.minuteHand.addBonusTime(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
             }
 
             // check if the sidebar needs to come back

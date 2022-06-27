@@ -489,6 +489,9 @@ SharkGame.TimeUtil = {
         if (typeof SharkGame.flags.hourHandLeft === `number`) {
             storedTime = SharkGame.flags.minuteHandTimer - SharkGame.flags.hourHandLeft;
         }
+        if (typeof SharkGame.flags.bonusTime === `number`) {
+            storedTime -= SharkGame.flags.bonusTime;
+        }
 
         if (ignoreMinuteHandAndPause) {
             return realRunTime;

@@ -841,6 +841,7 @@ SharkGame.Resources = {
             res.minuteHand.realMultiplier = 1;
             SharkGame.persistentFlags.everIdled = false;
             SharkGame.flags.minuteHandTimer = 0;
+            SharkGame.flags.bonusTime = 0;
             SharkGame.flags.hourHandLeft = 0;
             SharkGame.persistentFlags.selectedMultiplier = 2;
             this.active = false;
@@ -917,13 +918,19 @@ SharkGame.Resources = {
                     res.minuteHand.toggleMinuteHand();
                 }
             } else if (!res.minuteHand.active) {
-                SharkGame.flags.minuteHandTimer += timeElapsed;
+                SharkGame.flags.minuteHandTimer += timeElapsed * (1 + SharkGame.Aspects.doubleTime.level);
+                res.minuteHand.addBonusTime(timeElapsed * SharkGame.Aspects.doubleTime.level);
             } else {
                 const timeRemoved = timeElapsed * (res.minuteHand.realMultiplier - 1);
-                SharkGame.flags.hourHandLeft -= timeRemoved;
+
+                if (SharkGame.flags.hourHandLeft > 0) {
+                    SharkGame.flags.hourHandLeft -= timeRemoved;
+                }
+
                 if (SharkGame.flags.hourHandLeft < 0) {
                     SharkGame.flags.hourHandLeft = 0;
                 }
+
                 SharkGame.flags.minuteHandTimer -= timeRemoved;
                 if (SharkGame.flags.minuteHandTimer < 0) {
                     res.minuteHand.disableNextTick = true;
@@ -1059,6 +1066,11 @@ SharkGame.Resources = {
             if (res.minuteHand.active) {
                 res.minuteHand.toggleMinuteHand();
             }
+        },
+
+        addBonusTime(time) {
+            if (!SharkGame.flags.bonusTime) SharkGame.flags.bonusTime = 0;
+            SharkGame.flags.bonusTime += time;
         },
     },
 
