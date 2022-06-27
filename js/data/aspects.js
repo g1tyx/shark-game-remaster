@@ -80,8 +80,8 @@ SharkGame.Aspects = {
         },
     },
     tokenOfIndustry: {
-        posX: 300,
-        posY: 225,
+        posX: 250,
+        posY: 250,
         width: 40,
         height: 40,
 
@@ -95,7 +95,7 @@ SharkGame.Aspects = {
                 case 0:
                     return 1;
                 case 1:
-                    return 20;
+                    return 24;
                 case 2:
                     return 100;
             }
@@ -279,8 +279,8 @@ SharkGame.Aspects = {
         },
     },
     coordinatedCooperation: {
-        posX: 220,
-        posY: 90,
+        posX: 150,
+        posY: 200,
         width: 40,
         height: 40,
 
@@ -520,8 +520,8 @@ SharkGame.Aspects = {
         },
     },
     crystallineSkin: {
-        posX: 425,
-        posY: 150,
+        posX: 575,
+        posY: 300,
         width: 40,
         height: 40,
 
@@ -582,7 +582,7 @@ SharkGame.Aspects = {
     }, */
     internalCalculator: {
         posX: 575,
-        posY: 225,
+        posY: 200,
         width: 40,
         height: 40,
 
@@ -621,8 +621,8 @@ SharkGame.Aspects = {
         },
     },
     extensiveOrganization: {
-        posX: 550,
-        posY: 125,
+        posX: 700,
+        posY: 175,
         width: 40,
         height: 40,
 
@@ -658,7 +658,7 @@ SharkGame.Aspects = {
     },
     theHourHand: {
         posX: 350,
-        posY: 475,
+        posY: 200,
         width: 40,
         height: 40,
 
@@ -691,7 +691,7 @@ SharkGame.Aspects = {
     },
     doubleTime: {
         posX: 450,
-        posY: 550,
+        posY: 150,
         width: 40,
         height: 40,
 
@@ -723,7 +723,7 @@ SharkGame.Aspects = {
     },
     overtime: {
         posX: 450,
-        posY: 600,
+        posY: 75,
         width: 40,
         height: 40,
 

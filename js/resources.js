@@ -295,13 +295,14 @@ SharkGame.Resources = {
     getProductAmountFromGeneratorResource(generator, product, numGenerator = res.getResource(generator)) {
         const baseIncome = SharkGame.ResourceMap.get(generator).income[product];
         return (
-            baseIncome *
-            numGenerator *
-            res.getSpecialMultiplier() *
-            res.getNetworkIncomeModifier("generator", generator) *
-            res.getNetworkIncomeModifier("resource", product, baseIncome) *
-            cad.speed *
-            res.idleMultiplier
+            (baseIncome *
+                numGenerator *
+                res.getSpecialMultiplier() *
+                res.getNetworkIncomeModifier("generator", generator) *
+                res.getNetworkIncomeModifier("resource", product, baseIncome) *
+                cad.speed *
+                res.idleMultiplier) /
+            SharkGame.persistentFlags.dialSetting
         );
     },
 
@@ -1098,6 +1099,12 @@ SharkGame.Resources = {
             } else {
                 $("#tooltipbox").html("Click to <strong>pause</strong>, stopping most timers and all resources.");
             }
+        },
+    },
+
+    dial: {
+        init() {
+            SharkGame.persistentFlags.dialSetting = 1;
         },
     },
 

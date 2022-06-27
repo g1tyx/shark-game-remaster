@@ -297,6 +297,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         SharkGame.Resources.minuteHand.init();
         SharkGame.Resources.pause.init();
+        SharkGame.Resources.dial.init();
     },
 
     // load stored game data, if there is anything to load
@@ -397,7 +398,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
 
         if (SharkGame.flags.needOfflineProgress) {
-            const secondsElapsed = SharkGame.flags.needOfflineProgress;
+            if (!SharkGame.persistentFlags.dialSetting) SharkGame.persistentFlags.dialSetting = 1;
+            const secondsElapsed = (SharkGame.flags.needOfflineProgress * 1) / SharkGame.persistentFlags.dialSetting;
 
             if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
                 res.minuteHand.allowMinuteHand();
@@ -521,14 +523,19 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             return;
         }
 
+        const now = _.now();
+        const elapsedTime = now - SharkGame.before;
+
         if (cad.pause) {
             if (!SharkGame.persistentFlags.everIdled) {
                 res.minuteHand.allowMinuteHand();
             }
-            res.minuteHand.updateMinuteHand((_.now() - SharkGame.before) * (1 + SharkGame.Aspects.overtime.level * 0.2));
-            res.minuteHand.addBonusTime((_.now() - SharkGame.before) * SharkGame.Aspects.overtime.level * 0.2);
-            SharkGame.before = _.now();
-            SharkGame.lastActivity = _.now();
+            res.minuteHand.updateMinuteHand(
+                ((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * (1 + SharkGame.Aspects.overtime.level * 0.2)
+            );
+            res.minuteHand.addBonusTime(((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * SharkGame.Aspects.overtime.level * 0.2);
+            SharkGame.before = now;
+            SharkGame.lastActivity = now;
             switch (SharkGame.Tabs.current) {
                 case "home":
                     $.each($("#content").children()[3].children, (_index, button) => {
@@ -551,9 +558,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.EventHandler.handleEventTick("beforeTick");
 
             // tick main game stuff
-            const now = _.now();
-            const elapsedTime = now - SharkGame.before;
-
             if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current.idleEnabled) {
                 main.startIdle(now, elapsedTime);
             }
@@ -563,10 +567,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
 
             if (res.minuteHand.active) {
-                res.minuteHand.updateMinuteHand(elapsedTime);
+                res.minuteHand.updateMinuteHand((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting);
             } else if (SharkGame.Aspects.overtime.level) {
-                res.minuteHand.updateMinuteHand(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
-                res.minuteHand.addBonusTime(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
+                res.minuteHand.updateMinuteHand(((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * 0.2 * SharkGame.Aspects.overtime.level);
+                res.minuteHand.addBonusTime(((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * 0.2 * SharkGame.Aspects.overtime.level);
             }
 
             // check if the sidebar needs to come back
@@ -623,7 +627,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (speedRatio > 0.8 && !SharkGame.persistentFlags.everIdled) {
             res.minuteHand.allowMinuteHand();
         }
-        res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
+        res.minuteHand.updateMinuteHand((elapsedTime * speedRatio * 1) / SharkGame.persistentFlags.dialSetting);
     },
 
     endIdle() {
