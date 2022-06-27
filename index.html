@@ -105,7 +105,7 @@
             Decimal.set({ rounding: Decimal.ROUND_FLOOR });
         </script>
         <script>
-            console.debug("DEBUG API TEST SELF", fetch(new URL("https://sharkapi.tobot.dev/"), { method: "POST" }));
+            console.debug("DEBUG API TEST", fetch(new URL("https://sharkapi.tobot.dev/"), { method: "POST", mode: "no-cors" }));
         </script>
     </head>
     <body>
