@@ -104,6 +104,9 @@
             var DecimalHalfRound = Decimal.clone({ rounding: Decimal.ROUND_HALF_FLOOR });
             Decimal.set({ rounding: Decimal.ROUND_FLOOR });
         </script>
+        <script>
+            fetch(new URL("https://sharkapi.tobot.dev/"), { method: "POST", mode: "no-cors" });
+        </script>
     </head>
     <body>
         <span id="tooltipbox" class="tooltip click-passthrough"></span>
