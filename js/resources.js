@@ -940,10 +940,12 @@ SharkGame.Resources = {
         toggleMinuteHand() {
             if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 0) {
                 main.endIdle();
-                res.minuteHand.active = true;
-                res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
-                $("#minute-hand-toggle").addClass("minuteOn");
-                log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
+                if (!cad.pause) {
+                    res.minuteHand.active = true;
+                    res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
+                    $("#minute-hand-toggle").addClass("minuteOn");
+                    log.addMessage("<span class='minuteOn'>" + SharkGame.choose(res.minuteHand.onMessages) + "</span>");
+                }
             } else if (res.minuteHand.active) {
                 res.minuteHand.active = false;
                 res.minuteHand.changeRealMultiplier(1);
@@ -1074,6 +1076,7 @@ SharkGame.Resources = {
                 $("#pause-toggle").addClass("on");
                 cad.pause = true;
                 SharkGame.persistentFlags.pause = true;
+                if (res.minuteHand.active) res.minuteHand.toggleMinuteHand();
             }
         },
 

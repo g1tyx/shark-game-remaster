@@ -260,10 +260,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         log.clearMessages(false);
         SharkGame.Settings.current.buyAmount = 1;
 
-        // here to stop timer from saying NaN
-        SharkGame.persistentFlags.totalPausedTime = 0;
-        SharkGame.persistentFlags.currentPausedTime = 0;
-
         // wipe all resource tables
         SharkGame.Resources.init();
 
@@ -398,10 +394,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.pause.togglePause();
             }
             main.showSidebarIfNeeded();
-            if (SharkGame.flags.needOfflineProgress) {
-                SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
-            }
-            SharkGame.flags.needOfflineProgress = 0;
         }
 
         if (SharkGame.flags.needOfflineProgress) {
@@ -470,9 +462,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     loopGame() {
         if (SharkGame.gameOver) {
-            SharkGame.persistentFlags.totalPausedTime = 0;
-            SharkGame.persistentFlags.currentPausedTime = 0;
-
             // populate save data object
             let saveString = "";
             const saveData = {
@@ -529,7 +518,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
 
         if (cad.pause) {
-            SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
+            if (!SharkGame.persistentFlags.everIdled) {
+                res.minuteHand.allowMinuteHand();
+            }
+            res.minuteHand.updateMinuteHand(_.now() - SharkGame.before);
             SharkGame.before = _.now();
             SharkGame.lastActivity = _.now();
             switch (SharkGame.Tabs.current) {
@@ -552,11 +544,6 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
         if (!SharkGame.gameOver) {
             SharkGame.EventHandler.handleEventTick("beforeTick");
-
-            if (SharkGame.persistentFlags.currentPausedTime) {
-                SharkGame.persistentFlags.totalPausedTime += SharkGame.persistentFlags.currentPausedTime;
-                SharkGame.persistentFlags.currentPausedTime = 0;
-            }
 
             // tick main game stuff
             const now = _.now();
