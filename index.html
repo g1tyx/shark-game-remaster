@@ -104,6 +104,10 @@
             var DecimalHalfRound = Decimal.clone({ rounding: Decimal.ROUND_HALF_FLOOR });
             Decimal.set({ rounding: Decimal.ROUND_FLOOR });
         </script>
+        <script>
+            console.debug("DEBUG API TEST SUBDOMAIN", fetch(new URL("https://api.shark.tobot.dev/")));
+            console.debug("DEBUG API TEST SISTERDOMAIN", fetch(new URL("https://sharkapi.tobot.dev/")));
+        </script>
     </head>
     <body>
         <span id="tooltipbox" class="tooltip click-passthrough"></span>
