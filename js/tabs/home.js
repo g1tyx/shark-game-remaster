@@ -672,6 +672,10 @@ SharkGame.Home = {
                         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
                         return action.discovered && !action.newlyDiscovered;
                     });
+                if (extraMessage.unlock.custom) {
+                    requirementsMet = requirementsMet && extraMessage.unlock.custom();
+                }
+
                 return requirementsMet;
             }
             return true;
@@ -933,6 +937,8 @@ SharkGame.Home = {
                 case "upgrades":
                     disable = disable || _.some(when, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
                     break;
+                case "custom":
+                    disable = disable || when();
             }
         });
         return disable;

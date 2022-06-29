@@ -84,9 +84,10 @@ declare global {
 
     type HomeAction = {
         name: string;
-        effect: {
+        effect: Partial<{
             resource: Record<ResourceName, number>;
-        };
+            events: EventName[];
+        }>;
         cost: {
             resource: ResourceName;
             costFunction: CostFunction;
@@ -102,6 +103,12 @@ declare global {
         multiOutcomes: string[];
         helpText: string;
         unauthorized?: boolean;
+        removedBy?: Partial<{
+            totalResourceThreshold: Record<ResourceName, number>;
+            otherActions: HomeActionName[];
+            upgrades: UpgradeName[];
+            custom(): boolean;
+        }>;
         getSpecialTooltip?(): string;
     };
     type HomeActionTable = Record<HomeActionName, HomeAction>;
@@ -680,6 +687,7 @@ declare global {
                     totalResource: Record<ResourceName, number>;
                     homeAction: HomeActionName[];
                     upgrade: UpgradeName[];
+                    custom(): boolean;
                 }>;
             }[]
         >;
