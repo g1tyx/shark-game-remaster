@@ -478,13 +478,14 @@ SharkGame.Home = {
 
     init() {
         SharkGame.TabHandler.registerTab(this);
+        SharkGame.HomeActions.generated = {};
 
-        // populate action discoveries (and reset removals)
+        /*         // populate action discoveries (and reset removals)
         _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
             actionData.discovered = false;
             actionData.newlyDiscovered = false;
             actionData.isRemoved = false;
-        });
+        }); */
 
         home.currentExtraMessageIndex = -1;
         home.currentButtonTab = "all";
