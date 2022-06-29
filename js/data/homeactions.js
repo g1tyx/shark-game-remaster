@@ -3649,9 +3649,20 @@ SharkGame.HomeActions = {
         debugbutton: {},
 
         prySponge: {
+            effect: {
+                events: ["volcanicTallyPrySponge"],
+                resource: {
+                    get sponge() {
+                        return SharkGame.Aspects.apotheosis.level > 0 ? SharkGame.Aspects.apotheosis.level * 4 : 1;
+                    },
+                },
+            },
             removedBy: {
-                totalResourceThreshold: [{ resource: `sponge`, threshold: 200 }],
+                custom() {
+                    return SharkGame.flags.prySpongeGained > 200;
+                },
                 otherActions: ["prySponge2"],
+                upgrades: ["agriculture"],
             },
         },
 
@@ -4212,6 +4223,7 @@ SharkGame.HomeActions = {
         getSpongeFarm: {
             name: "Construct sponge farm",
             effect: {
+                events: ["volcanicBoughtFarm"],
                 resource: {
                     spongeFarm: 1,
                 },

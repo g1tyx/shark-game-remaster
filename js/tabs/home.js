@@ -227,7 +227,11 @@ SharkGame.Home = {
             },
             {
                 name: "volcanic-shrimp-threat",
-                unlock: { totalResource: { sponge: 200 } },
+                unlock: {
+                    custom() {
+                        return SharkGame.flags.prySpongeGained > 200 && !SharkGame.flags.gotFarmsBeforeShrimpThreat;
+                    },
+                },
                 message: `You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.`,
             },
             {
