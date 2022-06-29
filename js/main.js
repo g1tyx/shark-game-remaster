@@ -1048,6 +1048,11 @@ SharkGame.FunFacts = {
 };
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220629a": [
+        "Fixed a bug with a certain sponge button not appearing.",
+        "Fixed a bug with pressing buttons that don't exist anymore.",
+        "Updated the pause button, which now activates idle mode at will.",
+    ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220625a": [
         "Added Volcanic worldtype.",
         "Added FUN FACTS! Press to receive a random fun fact! You get different ones based on where you are and what you own!",
