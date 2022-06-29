@@ -709,7 +709,7 @@ SharkGame.Aspects = {
             return 2;
         },
         getEffect(_level) {
-            return "Unlock a pause button that freezes most timers and all resources.";
+            return "Unlock a pause button to toggle idle mode at will.";
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
