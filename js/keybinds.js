@@ -331,7 +331,7 @@ SharkGame.Keybinds = {
                             // linter will yell at me if i define a variable in the switch statement
                             // and this is a decent workaround
                             actionData = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
-                            if (!home.doesButtonGiveNegativeThing(actionData) && home.shouldHomeButtonBeUsable(actionData)) {
+                            if (!home.doesButtonGiveNegativeThing(actionData) && home.shouldHomeButtonBeUsable(actionData) && !actionData.isRemoved) {
                                 home.onHomeButton(null, actionName);
                             }
                         });
