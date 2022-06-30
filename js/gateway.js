@@ -357,20 +357,26 @@ SharkGame.Gateway = {
         );
 
         gatewayContent.append(
-            $("<p>").html(
-                `${seenWorldYet ? `A par time` : `This`} would grant you <strong>` +
-                    sharktext.beautify(
-                        Math.ceil(
-                            (1 + gateway.getGumptionBonus()) * ((seenWorldYet ? 2 : 4) + (selectedWorldData.bonus ? selectedWorldData.bonus : 0)) +
-                                SharkGame.Aspects.patience.level
-                        ),
-                        false,
-                        2
-                    ) +
-                    "</strong> " +
-                    sharktext.getResourceName("essence", undefined, undefined, sharkcolor.getElementColor("pane")) +
-                    " overall."
-            )
+            $("<p>")
+                .attr("id", "predicted-gain")
+                .html(
+                    `${seenWorldYet ? `A par time` : `This`} would grant you <strong>` +
+                        sharktext.beautify(
+                            Math.ceil(
+                                (1 + gateway.getGumptionBonus()) *
+                                    ((seenWorldYet ? 2 : 4) + (selectedWorldData.bonus ? selectedWorldData.bonus : 0)) +
+                                    SharkGame.Aspects.patience.level *
+                                        (SharkGame.persistentFlags.dialSetting > 1
+                                            ? Math.round((2 * Math.log(SharkGame.persistentFlags.dialSetting)) / Math.log(4))
+                                            : 1)
+                            ),
+                            false,
+                            2
+                        ) +
+                        "</strong> " +
+                        sharktext.getResourceName("essence", undefined, undefined, sharkcolor.getElementColor("pane")) +
+                        " overall."
+                )
         );
 
         // add world image
@@ -391,6 +397,35 @@ SharkGame.Gateway = {
             gatewayContent.append(
                 $("<p>").html("Par: <strong>" + selectedWorldData.par + " minutes</strong><br>Beat the world faster for extra essence.")
             );
+        }
+
+        if (SharkGame.Aspects.theDial.level) {
+            const dial = $("<input>")
+                .attr("id", "dial-slider")
+                .attr("list", "ticks")
+                .attr("type", "range")
+                .attr("min", 1)
+                .attr("max", 8)
+                .attr("step", 1)
+                .attr("value", Math.round(Math.log(SharkGame.persistentFlags.dialSetting) / Math.log(4)) + 1)
+                .on("input", gateway.dial.changeSetting);
+            gatewayContent.append(dial);
+            const ticks = $("<datalist>")
+                .attr("id", "ticks")
+                .append($("<option>").html(1))
+                .append($("<option>").html(2))
+                .append($("<option>").html(3))
+                .append($("<option>").html(4))
+                .append($("<option>").html(5))
+                .append($("<option>").html(6))
+                .append($("<option>").html(7))
+                .append($("<option>").html(8));
+            gatewayContent.append(ticks);
+            const dialLabel = $("<p>").attr("id", "dial-label").html(`gamespeed is ${SharkGame.persistentFlags.dialSetting}× slower<br>
+                patience rewards ×${
+                    SharkGame.persistentFlags.dialSetting > 1 ? Math.round((2 * Math.log(SharkGame.persistentFlags.dialSetting)) / Math.log(4)) : 1
+                }`);
+            gatewayContent.append(dialLabel);
         }
 
         // add confirm button
@@ -784,7 +819,11 @@ SharkGame.Gateway = {
 
     getPatienceReward(loadingFromSave) {
         if (!loadingFromSave && SharkGame.wonGame) {
-            return SharkGame.Aspects.patience.level * SharkGame.persistentFlags.dialSetting;
+            if (SharkGame.persistentFlags.dialSetting > 1) {
+                return (SharkGame.Aspects.patience.level * 2 * Math.log(SharkGame.persistentFlags.dialSetting)) / Math.log(4);
+            } else {
+                return SharkGame.Aspects.patience.level;
+            }
         }
         return 0;
     },
@@ -838,6 +877,46 @@ SharkGame.Gateway = {
             cad.debug();
         }
         SharkGame.persistentFlags.unlockedDebug = true;
+    },
+
+    dial: {
+        init() {
+            SharkGame.persistentFlags.dialSetting = 1;
+        },
+        changeSetting(_event, arbitrary) {
+            if (arbitrary) {
+                SharkGame.persistentFlags.dialSetting = arbitrary;
+            } else {
+                SharkGame.persistentFlags.dialSetting = Math.round(4 ** (document.getElementById("dial-slider").value - 1));
+            }
+            gateway.dial.updateVisuals();
+        },
+        updateVisuals() {
+            $("#dial-label").html(`gamespeed is ${SharkGame.persistentFlags.dialSetting}× slower<br>
+                patience rewards ×${
+                    SharkGame.persistentFlags.dialSetting > 1 ? Math.round((2 * Math.log(SharkGame.persistentFlags.dialSetting)) / Math.log(4)) : 1
+                }`);
+
+            const selectedWorldData = SharkGame.WorldTypes[gateway.selectedWorld];
+            const seenWorldYet = gateway.completedWorlds.includes(gateway.selectedWorld);
+            $("#predicted-gain").html(
+                `${seenWorldYet ? `A par time` : `This`} would grant you <strong>` +
+                    sharktext.beautify(
+                        Math.ceil(
+                            (1 + gateway.getGumptionBonus()) * ((seenWorldYet ? 2 : 4) + (selectedWorldData.bonus ? selectedWorldData.bonus : 0)) +
+                                SharkGame.Aspects.patience.level *
+                                    (SharkGame.persistentFlags.dialSetting > 1
+                                        ? Math.round((2 * Math.log(SharkGame.persistentFlags.dialSetting)) / Math.log(4))
+                                        : 1)
+                        ),
+                        false,
+                        2
+                    ) +
+                    "</strong> " +
+                    sharktext.getResourceName("essence", undefined, undefined, sharkcolor.getElementColor("pane")) +
+                    " overall."
+            );
+        },
     },
 };
 

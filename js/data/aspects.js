@@ -211,14 +211,20 @@ SharkGame.Aspects = {
         max: 1,
         level: 0,
         name: "The Dial",
-        description: "No matter how long it takes, you will always reach the end.",
+        description: "No matter how long it takes, you can do it.",
         noRefunds: true,
         core: true,
         getCost(_level) {
-            return 40;
+            return 25;
         },
         getEffect(_level) {
-            return "Unlock the ability to slow down time in exchange for a large multiplier on patience rewards.";
+            return (
+                "Unlock the choice to slow down time in exchange for a large " +
+                sharktext.boldString("multiplier") +
+                " on " +
+                sharktext.boldString("Patience") +
+                " rewards."
+            );
         },
         getUnlocked() {
             /*             if (gateway.completedWorlds.length < 8) {
