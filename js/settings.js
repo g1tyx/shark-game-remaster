@@ -255,6 +255,14 @@ SharkGame.Settings = {
         },
     },
 
+    truePause: {
+        defaultSetting: true,
+        name: "True Pause",
+        desc: "When using the pause button aspect, should the game not build up idle time?",
+        category: "OTHER",
+        options: [true, false],
+    },
+
     offlineModeActive: {
         defaultSetting: true,
         name: "Offline Progress",

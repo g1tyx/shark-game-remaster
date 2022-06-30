@@ -402,10 +402,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 res.pause.togglePause();
             }
             main.showSidebarIfNeeded();
-            if (SharkGame.flags.needOfflineProgress) {
+            if (SharkGame.flags.needOfflineProgress && SharkGame.Settings.current.truePause) {
                 SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
+                SharkGame.flags.needOfflineProgress = 0;
             }
-            SharkGame.flags.needOfflineProgress = 0;
         }
 
         if (SharkGame.flags.needOfflineProgress) {
@@ -533,7 +533,15 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         }
 
         if (cad.pause) {
-            SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
+            if (SharkGame.Settings.current.truePause) {
+                SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
+            } else {
+                if (!SharkGame.persistentFlags.everIdled) {
+                    res.minuteHand.allowMinuteHand();
+                }
+                res.minuteHand.updateMinuteHand(_.now() - SharkGame.before);
+            }
+
             SharkGame.before = _.now();
             SharkGame.lastActivity = _.now();
             switch (SharkGame.Tabs.current) {
