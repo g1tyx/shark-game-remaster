@@ -1069,6 +1069,9 @@ SharkGame.FunFacts = {
 };
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220630a": [
+        "Added a setting to disable idle time from the pause button.",
+    ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220629a": [
         "Fixed a bug with a certain sponge button not appearing.",
         "Fixed a bug with pressing buttons that don't exist anymore.",
