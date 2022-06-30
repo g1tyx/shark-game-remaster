@@ -1096,6 +1096,7 @@ SharkGame.Changelog = {
         "Swapped the order of some aspects on the tree.",
         "Revised the ending of the Abandoned world.",
         "Revised bits of the Shrouded world's story.",
+        "Abandoned world gives one bonus essence, bumping its scouting reward to 5 and non-scouting reward to 3.",
         "By popular demand, added auto-transmuter to Shrouded.",
         "Fixed some miscellaneous bugs.",
         "Ixbix - tweaked text visibility system",
