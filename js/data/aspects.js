@@ -247,7 +247,7 @@ SharkGame.Aspects = {
         name: "Path of Time",
         description: "Patience is the choice of those who prefer inaction.",
         getCost(level) {
-            return (level + 1) ** 2 + 1;
+            return 3 * level + 2;
         },
         getEffect(level) {
             return (
