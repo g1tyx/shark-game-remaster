@@ -1233,7 +1233,7 @@ SharkGame.Resources = {
                                 $("#tooltipbox").html(
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                         " efficiency x" +
-                                        (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                                        (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1)
                                 );
                             }
                             event.originalEvent.preventDefault();
@@ -1263,7 +1263,7 @@ SharkGame.Resources = {
                                 "all " +
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                     " gains x" +
-                                    (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                                    (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1)
                             );
                         }
                         event.originalEvent.preventDefault();
