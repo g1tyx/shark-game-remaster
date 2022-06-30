@@ -256,7 +256,7 @@ SharkGame.Settings = {
     },
 
     truePause: {
-        defaultSetting: true,
+        defaultSetting: false,
         name: "True Pause",
         desc: "When using the pause button aspect, should the game not build up idle time?",
         category: "OTHER",
