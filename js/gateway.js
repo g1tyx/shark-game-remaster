@@ -671,7 +671,17 @@ SharkGame.Gateway = {
         if (SharkGame.persistentFlags.lastRunTime) {
             return formatLess ? SharkGame.persistentFlags.lastRunTime : sharktext.formatTime(SharkGame.persistentFlags.lastRunTime);
         } else {
-            const time = SharkGame.timestampRunEnd - SharkGame.timestampRunStart;
+            if (!SharkGame.persistentFlags.totalPausedTime) {
+                SharkGame.persistentFlags.totalPausedTime = 0;
+            }
+            if (!SharkGame.persistentFlags.currentPausedTime) {
+                SharkGame.persistentFlags.currentPausedTime = 0;
+            }
+            const time =
+                SharkGame.timestampRunEnd -
+                SharkGame.timestampRunStart -
+                SharkGame.persistentFlags.totalPausedTime -
+                SharkGame.persistentFlags.currentPausedTime;
             return formatLess ? time : sharktext.formatTime(time);
         }
     },
@@ -774,7 +784,7 @@ SharkGame.Gateway = {
 
     getPatienceReward(loadingFromSave) {
         if (!loadingFromSave && SharkGame.wonGame) {
-            return SharkGame.Aspects.patience.level;
+            return SharkGame.Aspects.patience.level * SharkGame.persistentFlags.dialSetting;
         }
         return 0;
     },

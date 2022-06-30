@@ -268,6 +268,32 @@ SharkGame.Events = {
             res.buildIncomeNetwork();
         },
     },
+    volcanicTallyPrySponge: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            if (!SharkGame.flags.prySpongeGained) SharkGame.flags.prySpongeGained = 0;
+            SharkGame.flags.prySpongeGained += SharkGame.HomeActions.getActionData(
+                SharkGame.HomeActions.getActionTable(),
+                "prySponge"
+            ).effect.resource.sponge;
+        },
+    },
+    volcanicBoughtFarm: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            if (SharkGame.flags.prySpongeGained < 200) {
+                SharkGame.flags.gotFarmsBeforeShrimpThreat = true;
+            }
+        },
+    },
     revealBuyButtons: {
         handlingTime: "beforeTick",
         priority: 0,

@@ -227,7 +227,11 @@ SharkGame.Home = {
             },
             {
                 name: "volcanic-shrimp-threat",
-                unlock: { totalResource: { sponge: 200 } },
+                unlock: {
+                    custom() {
+                        return SharkGame.flags.prySpongeGained > 200 && !SharkGame.flags.gotFarmsBeforeShrimpThreat;
+                    },
+                },
                 message: `You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.`,
             },
             {
@@ -478,13 +482,14 @@ SharkGame.Home = {
 
     init() {
         SharkGame.TabHandler.registerTab(this);
+        SharkGame.HomeActions.generated = {};
 
-        // populate action discoveries (and reset removals)
+        /*         // populate action discoveries (and reset removals)
         _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
             actionData.discovered = false;
             actionData.newlyDiscovered = false;
             actionData.isRemoved = false;
-        });
+        }); */
 
         home.currentExtraMessageIndex = -1;
         home.currentButtonTab = "all";
@@ -671,6 +676,10 @@ SharkGame.Home = {
                         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
                         return action.discovered && !action.newlyDiscovered;
                     });
+                if (extraMessage.unlock.custom) {
+                    requirementsMet = requirementsMet && extraMessage.unlock.custom();
+                }
+
                 return requirementsMet;
             }
             return true;
@@ -932,6 +941,8 @@ SharkGame.Home = {
                 case "upgrades":
                     disable = disable || _.some(when, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
                     break;
+                case "custom":
+                    disable = disable || when();
             }
         });
         return disable;

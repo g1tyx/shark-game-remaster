@@ -75,13 +75,12 @@ $.extend(SharkGame, {
         "Shark Box",
         "Dolphin Heroes",
         "Maws",
-        "Sharky's Strange Crusade: Part 6",
+        "Part 6, Stone Ocean",
         "Sailor Crab",
         "League of Lobsters",
         "Eel Team Six",
         "Dungeons And Dolphins",
         "Gameshark",
-        "Sharkiplier Plays",
         "Five Nights in Frigid",
         "The Shark of Wall Street",
         ":the shark game:",
@@ -95,16 +94,21 @@ $.extend(SharkGame, {
         "To Be Continued",
         "what the crab doin",
         "#TeamSeas",
-        "2",
+        "Sharks of Rage",
+        "Bedrock Edition",
+        "Javascript Edition",
+        "You are a Shark",
+        "Mystery of Shark City",
+        "Modded",
+        "8 hours later...",
+        "Seas of Loathing",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "202206??a",
+    VERSION: "20220630a",
     ORIGINAL_VERSION: 0.71,
     VERSION_NAME: "The Volcanic Update",
     EPSILON: 1e-6, // floating point comparison is a joy
-    // agreed, already had to deal with it on recycler revisions
-    // did you know that reducing a float like 1.2512351261 to 1.25 by literally removing the decimal and multiplying by 100 gives you something like 125.0000001?
     BIGGEST_SAFE_NUMBER: 1000000000000,
     MAX: 1e300,
 
@@ -260,6 +264,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         log.clearMessages(false);
         SharkGame.Settings.current.buyAmount = 1;
 
+        // here to stop timer from saying NaN
+        SharkGame.persistentFlags.totalPausedTime = 0;
+        SharkGame.persistentFlags.currentPausedTime = 0;
+
         // wipe all resource tables
         SharkGame.Resources.init();
 
@@ -390,16 +398,21 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
+        if (!SharkGame.persistentFlags.dialSetting) SharkGame.persistentFlags.dialSetting = 1;
+
         if (SharkGame.persistentFlags.pause) {
             if (!cad.pause) {
                 res.pause.togglePause();
             }
             main.showSidebarIfNeeded();
+            if (SharkGame.flags.needOfflineProgress && SharkGame.Settings.current.truePause) {
+                SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
+                SharkGame.flags.needOfflineProgress = 0;
+            }
         }
 
         if (SharkGame.flags.needOfflineProgress) {
-            if (!SharkGame.persistentFlags.dialSetting) SharkGame.persistentFlags.dialSetting = 1;
-            const secondsElapsed = (SharkGame.flags.needOfflineProgress * 1) / SharkGame.persistentFlags.dialSetting;
+            const secondsElapsed = SharkGame.flags.needOfflineProgress;
 
             if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
                 res.minuteHand.allowMinuteHand();
@@ -409,7 +422,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     res.minuteHand.addBonusTime(secondsElapsed * 200 * SharkGame.Aspects.overtime.level);
                 }
             } else {
-                main.processSimTime(secondsElapsed, true);
+                main.processSimTime(secondsElapsed / SharkGame.persistentFlags.dialSetting, true);
             }
 
             // acknowledge long time gaps
@@ -468,6 +481,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
     loopGame() {
         if (SharkGame.gameOver) {
+            SharkGame.persistentFlags.totalPausedTime = 0;
+            SharkGame.persistentFlags.currentPausedTime = 0;
+
             // populate save data object
             let saveString = "";
             const saveData = {
@@ -527,13 +543,15 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         const elapsedTime = now - SharkGame.before;
 
         if (cad.pause) {
-            if (!SharkGame.persistentFlags.everIdled) {
-                res.minuteHand.allowMinuteHand();
+            if (SharkGame.Settings.current.truePause) {
+                SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
+            } else {
+                if (!SharkGame.persistentFlags.everIdled) {
+                    res.minuteHand.allowMinuteHand();
+                }
+                res.minuteHand.updateMinuteHand(elapsedTime * (1 + SharkGame.Aspects.overtime.level * 0.2));
+                res.minuteHand.addBonusTime(elapsedTime * SharkGame.Aspects.overtime.level * 0.2);
             }
-            res.minuteHand.updateMinuteHand(
-                ((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * (1 + SharkGame.Aspects.overtime.level * 0.2)
-            );
-            res.minuteHand.addBonusTime(((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * SharkGame.Aspects.overtime.level * 0.2);
             SharkGame.before = now;
             SharkGame.lastActivity = now;
             switch (SharkGame.Tabs.current) {
@@ -557,6 +575,11 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (!SharkGame.gameOver) {
             SharkGame.EventHandler.handleEventTick("beforeTick");
 
+            if (SharkGame.persistentFlags.currentPausedTime) {
+                SharkGame.persistentFlags.totalPausedTime += SharkGame.persistentFlags.currentPausedTime;
+                SharkGame.persistentFlags.currentPausedTime = 0;
+            }
+
             // tick main game stuff
             if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current.idleEnabled) {
                 main.startIdle(now, elapsedTime);
@@ -567,10 +590,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
 
             if (res.minuteHand.active) {
-                res.minuteHand.updateMinuteHand((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting);
+                res.minuteHand.updateMinuteHand(elapsedTime);
             } else if (SharkGame.Aspects.overtime.level) {
-                res.minuteHand.updateMinuteHand(((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * 0.2 * SharkGame.Aspects.overtime.level);
-                res.minuteHand.addBonusTime(((elapsedTime * 1) / SharkGame.persistentFlags.dialSetting) * 0.2 * SharkGame.Aspects.overtime.level);
+                res.minuteHand.updateMinuteHand(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
+                res.minuteHand.addBonusTime(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
             }
 
             // check if the sidebar needs to come back
@@ -627,7 +650,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         if (speedRatio > 0.8 && !SharkGame.persistentFlags.everIdled) {
             res.minuteHand.allowMinuteHand();
         }
-        res.minuteHand.updateMinuteHand((elapsedTime * speedRatio * 1) / SharkGame.persistentFlags.dialSetting);
+        res.minuteHand.updateMinuteHand(elapsedTime * speedRatio);
     },
 
     endIdle() {
@@ -1056,6 +1079,14 @@ SharkGame.FunFacts = {
 };
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220630a": [
+        "Added a setting to disable idle time from the pause button.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220629a": [
+        "Fixed a bug with a certain sponge button not appearing.",
+        "Fixed a bug with pressing buttons that don't exist anymore.",
+        "Updated the pause button, which now activates idle mode at will.",
+    ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220625a": [
         "Added Volcanic worldtype.",
         "Added FUN FACTS! Press to receive a random fun fact! You get different ones based on where you are and what you own!",
@@ -1075,6 +1106,7 @@ SharkGame.Changelog = {
         "Swapped the order of some aspects on the tree.",
         "Revised the ending of the Abandoned world.",
         "Revised bits of the Shrouded world's story.",
+        "Abandoned world gives one bonus essence, bumping its scouting reward to 5 and non-scouting reward to 3.",
         "By popular demand, added auto-transmuter to Shrouded.",
         "Fixed some miscellaneous bugs.",
         "Ixbix - tweaked text visibility system",

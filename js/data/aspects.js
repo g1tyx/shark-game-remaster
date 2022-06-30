@@ -658,7 +658,7 @@ SharkGame.Aspects = {
     },
     theHourHand: {
         posX: 350,
-        posY: 200,
+        posY: 175,
         width: 40,
         height: 40,
 
@@ -684,7 +684,7 @@ SharkGame.Aspects = {
                 return "Scout at least one world to unlock this aspect.";
             }
         },
-        prerequisites: ["apotheosis"],
+        prerequisites: ["tokenOfIndustry"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },
@@ -800,7 +800,7 @@ SharkGame.Aspects = {
             return 2;
         },
         getEffect(_level) {
-            return "Unlock a pause button that freezes most timers and all resources.";
+            return "Unlock a pause button to toggle idle mode at will.";
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
