@@ -680,8 +680,8 @@ SharkGame.Aspects = {
             return (
                 "The Minute Hand starts with " +
                 sharktext.boldString(60 * level + "s") +
-                " when entering a world. " +
-                (level === 1 ? "This DOESN'T" : "These DON'T") +
+                " when entering a world. This " +
+                sharktext.boldString("DOESN'T") +
                 " count against your world-time when used."
             );
         },
