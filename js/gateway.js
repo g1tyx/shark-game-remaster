@@ -671,7 +671,17 @@ SharkGame.Gateway = {
         if (SharkGame.persistentFlags.lastRunTime) {
             return formatLess ? SharkGame.persistentFlags.lastRunTime : sharktext.formatTime(SharkGame.persistentFlags.lastRunTime);
         } else {
-            const time = SharkGame.timestampRunEnd - SharkGame.timestampRunStart;
+            if (!SharkGame.persistentFlags.totalPausedTime) {
+                SharkGame.persistentFlags.totalPausedTime = 0;
+            }
+            if (!SharkGame.persistentFlags.currentPausedTime) {
+                SharkGame.persistentFlags.currentPausedTime = 0;
+            }
+            const time =
+                SharkGame.timestampRunEnd -
+                SharkGame.timestampRunStart -
+                SharkGame.persistentFlags.totalPausedTime -
+                SharkGame.persistentFlags.currentPausedTime;
             return formatLess ? time : sharktext.formatTime(time);
         }
     },

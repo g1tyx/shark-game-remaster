@@ -485,6 +485,7 @@ SharkGame.ColorUtil = {
 SharkGame.TimeUtil = {
     getRunTime(ignoreMinuteHandAndPause) {
         const realRunTime = _.now() - SharkGame.timestampRunStart;
+        const pausedTime = SharkGame.persistentFlags.totalPausedTime + SharkGame.persistentFlags.currentPausedTime;
         let storedTime = 0;
         if (typeof SharkGame.flags.hourHandLeft === `number`) {
             storedTime = SharkGame.flags.minuteHandTimer - SharkGame.flags.hourHandLeft;
@@ -493,7 +494,7 @@ SharkGame.TimeUtil = {
         if (ignoreMinuteHandAndPause) {
             return realRunTime;
         } else {
-            return realRunTime - storedTime;
+            return realRunTime - pausedTime - storedTime;
         }
     },
 };
