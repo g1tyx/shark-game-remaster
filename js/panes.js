@@ -450,9 +450,9 @@ SharkGame.PaneHandler = {
                             $.each(SharkGame.Settings.current, (settingName) => {
                                 if (SharkGame.Settings[settingName]) {
                                     SharkGame.Settings.current[settingName] = SharkGame.Settings[settingName].defaultSetting;
-                                }
-                                if (typeof SharkGame.Settings[settingName].onChange === "function") {
-                                    SharkGame.Settings[settingName].onChange();
+                                    if (typeof SharkGame.Settings[settingName].onChange === "function") {
+                                        SharkGame.Settings[settingName].onChange();
+                                    }
                                 }
                             });
                             SharkGame.Keybinds.resetKeybindsToDefault();
