@@ -1,13 +1,16 @@
 SharkGame.Keybinds = {
     defaultBinds: {
+        Period: "bind home ocean button",
         P: "pause",
+        A: "press all buying buttons",
+        L: "buy topmost upgrade",
+        R: "return all tokens",
         "Shift + 1": "switch to home tab",
         "Shift + 2": "switch to lab tab",
         "Shift + 3": "switch to grotto tab",
         "Shift + 4": "switch to recycler tab",
         "Shift + 5": "switch to gate tab",
         "Shift + 6": "switch to reflection tab",
-        Period: "bind home ocean button",
         "Shift + Z": "switch to buy 1",
         "Shift + X": "switch to buy 10",
         "Shift + C": "switch to buy 100",
