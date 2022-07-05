@@ -1024,6 +1024,7 @@ SharkGame.Resources = {
                 SharkGame.flags.minuteHandTimer += SharkGame.persistentFlags.requestedTime;
                 this.addBonusTime(SharkGame.persistentFlags.requestedTime);
                 SharkGame.flags.requestedTimeLeft = SharkGame.persistentFlags.requestedTime;
+                SharkGame.Log.addMessage(`Took ${this.formatMinuteTime(SharkGame.persistentFlags.requestedTime)} out of storage.`);
                 SharkGame.persistentFlags.requestedTime = 0;
             }
             this.updateDisplay();
