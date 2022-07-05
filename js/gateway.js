@@ -987,14 +987,18 @@ SharkGame.Gateway = {
                 $("#requested-time").html(`You would take ${sharktext.boldString(res.minuteHand.formatMinuteTime(requestedTime, true))} with you.`);
             }
 
-            const menuContent = $("<div>").append($("<p>").html("You have some idle time in storage."));
+            const menuContent = $("<div>").append(
+                $("<p>").html(`You have some ${SharkGame.Settings.current.idleEnabled ? "idle " : ""}time in storage.`)
+            );
             const timeSelection = $("<div>").attr("id", "minute-storage-selection");
 
             const timeLeft = res.minuteHand.formatMinuteTime(SharkGame.persistentFlags.minuteStorage, true);
             timeSelection.append($("<p>").html(`There is ${sharktext.boldString(timeLeft)} left.`));
 
             if (!gateway.completedWorlds.includes(worldtype)) {
-                timeSelection.append($("<p>").html(sharktext.boldString("Since you're going on a scouting mission, you can take up to 10 minutes.")));
+                timeSelection.append(
+                    $("<p>").html(sharktext.boldString("Since you're going on a scouting mission, you can take up to 10 minutes with you."))
+                );
             }
 
             timeSelection.append($("<p>").html("How much would you like to take with you to the next world?"));

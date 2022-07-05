@@ -210,7 +210,7 @@ SharkGame.Aspects = {
         noRefunds: true,
         core: true,
         getCost(_level) {
-            return 10;
+            return 8;
         },
         getEffect(_level) {
             return (
@@ -222,8 +222,8 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {
-            if (res.getTotalResource("essence") < 50) {
-                return "Earn 50 lifetime essence to unlock this aspect.";
+            if (res.getTotalResource("essence") < 32) {
+                return "Earn 32 lifetime essence to unlock this aspect.";
             }
         },
         prerequisites: ["patience"],
@@ -801,7 +801,11 @@ SharkGame.Aspects = {
             return 2;
         },
         getEffect(_level) {
-            return "Unlock a pause button to toggle idle mode at will.";
+            if (SharkGame.Settings.current.idleEnabled) {
+                return "Unlock a pause button to toggle idle mode at will.";
+            } else {
+                return "Unlock a pause button that freezes most timers and all resources.";
+            }
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {

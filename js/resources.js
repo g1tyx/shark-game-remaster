@@ -858,7 +858,7 @@ SharkGame.Resources = {
                 SharkGame.flags.hourHandLeft = 0;
             }
 
-            if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
+            if (!SharkGame.persistentFlags.everIdled) {
                 $("#minute-hand-div").empty();
             } else if ($("#minute-hand-toggle").length === 0) {
                 this.buildUI();
@@ -1072,9 +1072,15 @@ SharkGame.Resources = {
         },
 
         showTooltip() {
-            $("#tooltipbox").html(
-                "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
-            );
+            if (SharkGame.Settings.current.idleEnabled) {
+                $("#tooltipbox").html(
+                    "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                );
+            } else {
+                $("#tooltipbox").html(
+                    "This is the <strong>minute hand</strong>.<br>It stores time from various sources.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                );
+            }
         },
 
         toggleOff() {
