@@ -702,6 +702,7 @@ SharkGame.Gateway = {
             }
 
             if (SharkGame.Aspects.theDial.level) {
+                gatewayContent.append($("<hr>"));
                 const dial = $("<input>")
                     .attr("id", "dial-slider")
                     .attr("list", "ticks")
@@ -723,13 +724,26 @@ SharkGame.Gateway = {
                     .append($("<option>").html(7))
                     .append($("<option>").html(8));
                 gatewayContent.append(ticks);
-                const dialLabel = $("<p>").attr("id", "dial-label").html(`gamespeed is ${SharkGame.persistentFlags.dialSetting}× slower<br>
+                let dialLabel;
+                if (SharkGame.persistentFlags.dialSetting > 1) {
+                    dialLabel = $("<p>")
+                        .attr("id", "dial-label")
+                        .html(
+                            sharktext.boldString(`gamespeed is ${SharkGame.persistentFlags.dialSetting}× slower<br>
                     patience rewards ×${
                         SharkGame.persistentFlags.dialSetting > 1
                             ? Math.round((2 * Math.log(SharkGame.persistentFlags.dialSetting)) / Math.log(4))
                             : 1
-                    }`);
+                    }`)
+                        );
+                } else {
+                    dialLabel = $("<p>")
+                        .attr("id", "dial-label")
+                        .html("Adjust The Dial to modify Patience rewards.<br>...or don't. If you don't want to.");
+                }
+
                 gatewayContent.append(dialLabel);
+                gatewayContent.append($("<hr>"));
             }
 
             // add confirm button
@@ -1130,10 +1144,16 @@ SharkGame.Gateway = {
             gateway.dial.updateVisuals();
         },
         updateVisuals() {
-            $("#dial-label").html(`gamespeed is ${SharkGame.persistentFlags.dialSetting}× slower<br>
-                patience rewards ×${
+            if (SharkGame.persistentFlags.dialSetting > 1) {
+                $("#dial-label").html(
+                    sharktext.boldString(`gamespeed is ${SharkGame.persistentFlags.dialSetting}× slower<br>
+                Patience rewards ×${
                     SharkGame.persistentFlags.dialSetting > 1 ? Math.round((2 * Math.log(SharkGame.persistentFlags.dialSetting)) / Math.log(4)) : 1
-                }`);
+                }`)
+                );
+            } else {
+                $("#dial-label").html("Adjust The Dial to modify Patience rewards.<br>...or don't. If you don't want to.");
+            }
 
             const selectedWorldData = SharkGame.WorldTypes[gateway.selectedWorld];
             const seenWorldYet = gateway.completedWorlds.includes(gateway.selectedWorld);
