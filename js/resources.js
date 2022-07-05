@@ -879,7 +879,9 @@ SharkGame.Resources = {
             $("#minute-hand-toggle").html("<strong>TOGGLE</strong>");
             $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
             $("#minute-row-two").append($("<span>").attr("id", "minute-multiplier"));
-            $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+            $("#minute-hand-div").append(
+                $("<div>").attr("id", "minute-time") /* .on("mouseenter", res.minuteHand.showTimeTooltip).on("mouseleave", res.tableTextLeave) */
+            );
 
             $("#minute-row-two").append($("<span>").html("("));
             const slider = $("<input>")
@@ -1084,6 +1086,14 @@ SharkGame.Resources = {
                 }
             }
         },
+
+        /*         showTimeTooltip() {
+            if (SharkGame.Settings.current.showTooltips) {
+                $("#tooltipbox").html(`You have ${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer))} left.` +
+                (SharkGame.flags.hourHandLeft ? `<br>(${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.flags.hourHandLeft))} is from the hour hand.)` : "") +
+                `<br>You have ${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.persistentFlags.minuteStorage))} in storage.`);
+            }
+        }, */
 
         toggleOff() {
             if (res.minuteHand.active) {
