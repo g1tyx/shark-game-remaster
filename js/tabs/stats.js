@@ -280,9 +280,10 @@ SharkGame.Stats = {
                                 "'>" +
                                 (!(SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey] < 0) ? "+" : "") +
                                 sharktext.beautify(
-                                    incomeValue *
+                                    (incomeValue *
                                         res.getNetworkIncomeModifier("generator", resourceId) *
-                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                        res.getNetworkIncomeModifier("resource", incomeKey)) /
+                                        SharkGame.persistentFlags.dialSetting,
                                     false,
                                     2
                                 ) +
@@ -501,7 +502,11 @@ SharkGame.Stats = {
                         [
                             res.INCOME_COLOR,
                             baseIncomeChangeChar +
-                                sharktext.beautify(SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey], false, 2) +
+                                sharktext.beautify(
+                                    SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey] / SharkGame.persistentFlags.dialSetting,
+                                    false,
+                                    2
+                                ) +
                                 "/s",
                         ],
                         "inline",
@@ -553,9 +558,10 @@ SharkGame.Stats = {
                             res.INCOME_COLOR,
                             baseIncomeChangeChar +
                                 sharktext.beautify(
-                                    incomeValue *
+                                    (incomeValue *
                                         res.getNetworkIncomeModifier("generator", generatorName, incomeValue) *
-                                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue),
+                                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue)) /
+                                        SharkGame.persistentFlags.dialSetting,
                                     false,
                                     2
                                 ) +
