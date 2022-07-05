@@ -1072,14 +1072,16 @@ SharkGame.Resources = {
         },
 
         showTooltip() {
-            if (SharkGame.Settings.current.idleEnabled) {
-                $("#tooltipbox").html(
-                    "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
-                );
-            } else {
-                $("#tooltipbox").html(
-                    "This is the <strong>minute hand</strong>.<br>It stores time from various sources.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
-                );
+            if (SharkGame.Settings.current.showTooltips) {
+                if (SharkGame.Settings.current.idleEnabled) {
+                    $("#tooltipbox").html(
+                        "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                    );
+                } else {
+                    $("#tooltipbox").html(
+                        "This is the <strong>minute hand</strong>.<br>It stores time from various sources.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                    );
+                }
             }
         },
 
