@@ -524,6 +524,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.Save.importData(saveString);
 
             res.minuteHand.applyHourHand();
+            res.minuteHand.giveRequestedTime();
 
             try {
                 SharkGame.Save.saveGame();

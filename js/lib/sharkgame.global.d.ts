@@ -304,10 +304,17 @@ declare global {
         completedWorlds: WorldName[];
         planetPool: WorldName[];
         ui: {
-            showGateway(essenceRewarded: number, patienceReward: number): void;
+            showGateway(
+                essenceRewarded: number,
+                patienceReward: number,
+                speedReward: number,
+                gumptionRatio: number,
+                forceWorldBased: boolean,
+                storedTime: number
+            ): void;
             showRunEndInfo(containerDiv: JQuery<HTMLDivElement>): void;
             showAspects(): void;
-            prepareBasePane(baseReward: number, patienceReward: number, speedReward: number, gumptionBonus: number): void;
+            prepareBasePane(baseReward: number, patienceReward: number, speedReward: number, gumptionBonus: number, storedTime: number): void;
             showPlanets(foregoAnimation?: boolean): void;
             formatDestinyGamble(): void;
             confirmWorld(): void;
@@ -315,6 +322,7 @@ declare global {
             showPlanetAttributes(worldData: World, contentDiv: JQuery<HTMLDivElement>): void;
             showWorldVisitMenu(): void;
             updatePlanetButtons(): void;
+            showMinuteHandStorageExtraction(worldtype: WorldName): void;
         };
         init(): void;
         enterGate(loadingFromSave?: boolean): void;

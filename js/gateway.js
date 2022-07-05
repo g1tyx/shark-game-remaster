@@ -63,6 +63,13 @@ SharkGame.Gateway = {
             gateway.preparePlanetSelection(gateway.NUM_PLANETS_TO_SHOW);
         }
 
+        if (!SharkGame.persistentFlags.minuteStorage) SharkGame.persistentFlags.minuteStorage = 0;
+        if (!SharkGame.flags.minuteHandTimer) SharkGame.flags.minuteHandTimer = 0;
+        if (!SharkGame.flags.requestedTimeLeft) SharkGame.flags.requestedTimeLeft = 0;
+        if (!SharkGame.flags.hourHandLeft) SharkGame.flags.hourHandLeft = 0;
+        const storedTime = SharkGame.flags.minuteHandTimer - SharkGame.flags.requestedTimeLeft - SharkGame.flags.hourHandLeft;
+        SharkGame.persistentFlags.minuteStorage += storedTime;
+
         // make sure the player is flagged as having idled so the minute hand shows up from now on
         res.minuteHand.allowMinuteHand();
 
@@ -71,7 +78,7 @@ SharkGame.Gateway = {
         const speedReward = gateway.getSpeedReward(loadingFromSave);
         const gumptionBonus = gateway.getGumptionBonus(loadingFromSave);
 
-        gateway.ui.prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus);
+        gateway.ui.prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus, storedTime);
         gateway.grantEssenceReward(baseReward, patienceReward, speedReward);
 
         // RESET COMPLETED GATE REQUIREMENTS
@@ -352,7 +359,7 @@ SharkGame.Gateway = {
     },
 
     ui: {
-        showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus(), forceWorldBased = false) {
+        showGateway(baseReward, patienceReward, speedReward, gumptionRatio = gateway.getGumptionBonus(), forceWorldBased = false, storedTime = 0) {
             const gumptionBonus = Math.ceil(gumptionRatio * (baseReward + speedReward));
 
             // get some useful numbers
@@ -435,6 +442,13 @@ SharkGame.Gateway = {
                     )
                 )
             );
+            if (storedTime >= 1000) {
+                gatewayContent.append(
+                    $("<p>").html(
+                        `(By the way, you took ${sharktext.boldString(res.minuteHand.formatMinuteTime(storedTime))} of unused idle time with you.)`
+                    )
+                );
+            }
             if (numenHeld > 0) {
                 const numenName = numenHeld > 1 ? "numina" : "numen";
                 gatewayContent.append(
@@ -494,7 +508,7 @@ SharkGame.Gateway = {
             containerDiv.append($("<p>").html("<em>Time spent within last ocean:</em><br/>").append(gateway.getTimeInLastWorld()));
         },
 
-        prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus) {
+        prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus, storedTime) {
             // PREPARE GATEWAY PANE
             // set up classes
             let pane;
@@ -512,7 +526,7 @@ SharkGame.Gateway = {
 
             SharkGame.OverlayHandler.revealOverlay(1000, 1.0, () => {
                 gateway.cleanUp();
-                gateway.ui.showGateway(baseReward, patienceReward, speedReward, gumptionBonus, true);
+                gateway.ui.showGateway(baseReward, patienceReward, speedReward, gumptionBonus, true, storedTime);
                 if (gateway.shouldCheatsBeUnlocked()) {
                     gateway.unlockCheats();
                 }
@@ -734,9 +748,13 @@ SharkGame.Gateway = {
                     return doProceed;
                 }
                 if (gateway.completedWorlds.includes(gateway.selectedWorld) || checkAspects()) {
-                    // kick back to main to start up the game again
-                    world.worldType = gateway.selectedWorld;
-                    main.loopGame();
+                    if (SharkGame.persistentFlags.minuteStorage > 1000) {
+                        gateway.ui.showMinuteHandStorageExtraction(gateway.selectedWorld);
+                    } else {
+                        // kick back to main to start up the game again
+                        world.worldType = gateway.selectedWorld;
+                        main.loopGame();
+                    }
                 }
             });
             gatewayContent.append(confirmButtonDiv);
@@ -852,8 +870,13 @@ SharkGame.Gateway = {
 
             _.each(gateway.allowedWorlds, (planetName) => {
                 SharkGame.Button.makeButton(planetName + "VisitButton", "visit " + planetName, visitButtons, () => {
-                    world.worldType = planetName;
-                    main.loopGame();
+                    if (SharkGame.persistentFlags.minuteStorage > 1000) {
+                        gateway.ui.showMinuteHandStorageExtraction(planetName);
+                    } else {
+                        // kick back to main to start up the game again
+                        world.worldType = planetName;
+                        main.loopGame();
+                    }
                 });
             });
 
@@ -892,6 +915,205 @@ SharkGame.Gateway = {
                     }
                 }
             });
+        },
+
+        showMinuteHandStorageExtraction(worldtype) {
+            function getRequestedTime() {
+                let years = 0;
+                let months = 0;
+                let weeks = 0;
+                let days = 0;
+                let hours = 0;
+                let minutes = 0;
+                let seconds = 0;
+
+                if (!$.isEmptyObject($("#storage-years")) && $("#storage-years")[0] && $("#storage-years")[0].value) {
+                    years = Number($("#storage-years")[0].value);
+                }
+                if (!$.isEmptyObject($("#storage-months")) && $("#storage-months")[0] && $("#storage-months")[0].value) {
+                    months = Number($("#storage-months")[0].value);
+                }
+                if (!$.isEmptyObject($("#storage-weeks")) && $("#storage-weeks")[0] && $("#storage-weeks")[0].value) {
+                    weeks = Number($("#storage-weeks")[0].value);
+                }
+                if (!$.isEmptyObject($("#storage-days")) && $("#storage-days")[0] && $("#storage-days")[0].value) {
+                    days = Number($("#storage-days")[0].value);
+                }
+                if (!$.isEmptyObject($("#storage-hours")) && $("#storage-hours")[0] && $("#storage-hours")[0].value) {
+                    hours = Number($("#storage-hours")[0].value);
+                }
+                if (!$.isEmptyObject($("#storage-minutes")) && $("#storage-minutes")[0] && $("#storage-minutes")[0].value) {
+                    minutes = Number($("#storage-minutes")[0].value);
+                }
+                if (!$.isEmptyObject($("#storage-seconds")) && $("#storage-seconds")[0] && $("#storage-seconds")[0].value) {
+                    seconds = Number($("#storage-seconds")[0].value);
+                }
+
+                const result = (years * 29030400 + months * 2419200 + weeks * 604800 + days * 86400 + hours * 3600 + minutes * 60 + seconds) * 1000;
+                return result;
+            }
+
+            function updateRequestedTime() {
+                let requestedTime = getRequestedTime();
+                const storage = SharkGame.persistentFlags.minuteStorage;
+
+                if (requestedTime > storage) {
+                    requestedTime = storage;
+                }
+
+                if (requestedTime > 600000 && !gateway.completedWorlds.includes(worldtype)) {
+                    requestedTime = 600000;
+                }
+
+                $("#remaining-time").html(
+                    `According to your selection, you would leave ${sharktext.boldString(
+                        res.minuteHand.formatMinuteTime(storage - requestedTime, true)
+                    )} in storage.`
+                );
+                $("#requested-time").html(`You would take ${sharktext.boldString(res.minuteHand.formatMinuteTime(requestedTime, true))} with you.`);
+            }
+
+            const menuContent = $("<div>").append($("<p>").html("You have some idle time in storage."));
+            const timeSelection = $("<div>").attr("id", "minute-storage-selection");
+
+            const timeLeft = res.minuteHand.formatMinuteTime(SharkGame.persistentFlags.minuteStorage, true);
+            timeSelection.append($("<p>").html(`There is ${sharktext.boldString(timeLeft)} left.`));
+
+            if (!gateway.completedWorlds.includes(worldtype)) {
+                timeSelection.append($("<p>").html(sharktext.boldString("Since you're going on a scouting mission, you can take up to 10 minutes.")));
+            }
+
+            timeSelection.append($("<p>").html("How much would you like to take with you to the next world?"));
+
+            const times = timeLeft.split(" ");
+            times.reverse();
+            const precision = times.length;
+            /* eslint-disable no-fallthrough */
+            if (gateway.completedWorlds.includes(worldtype)) {
+                switch (precision) {
+                    case 7:
+                        timeSelection.append(
+                            $("<input>")
+                                .attr("id", "storage-years")
+                                .attr("type", "number")
+                                .attr("min", 0)
+                                .attr("max", 9999)
+                                .on("input", updateRequestedTime)
+                        );
+                        timeSelection.append($("<strong>").html("Y "));
+                    case 6:
+                        timeSelection.append(
+                            $("<input>")
+                                .attr("id", "storage-months")
+                                .attr("type", "number")
+                                .attr("min", 0)
+                                .attr("max", 9999)
+                                .on("input", updateRequestedTime)
+                        );
+                        timeSelection.append($("<strong>").html("M "));
+                    case 5:
+                        timeSelection.append(
+                            $("<input>")
+                                .attr("id", "storage-weeks")
+                                .attr("type", "number")
+                                .attr("min", 0)
+                                .attr("max", 9999)
+                                .on("input", updateRequestedTime)
+                        );
+                        timeSelection.append($("<strong>").html("W "));
+                    case 4:
+                        timeSelection.append(
+                            $("<input>")
+                                .attr("id", "storage-days")
+                                .attr("type", "number")
+                                .attr("min", 0)
+                                .attr("max", 9999)
+                                .on("input", updateRequestedTime)
+                        );
+                        timeSelection.append($("<strong>").html("D "));
+                    case 3:
+                        timeSelection.append(
+                            $("<input>")
+                                .attr("id", "storage-hours")
+                                .attr("type", "number")
+                                .attr("min", 0)
+                                .attr("max", 9999)
+                                .on("input", updateRequestedTime)
+                        );
+                        timeSelection.append($("<strong>").html("h "));
+                    case 2:
+                        timeSelection.append(
+                            $("<input>")
+                                .attr("id", "storage-minutes")
+                                .attr("type", "number")
+                                .attr("min", 0)
+                                .attr("max", 9999)
+                                .on("input", updateRequestedTime)
+                        );
+                        timeSelection.append($("<strong>").html("m "));
+                    case 1:
+                        timeSelection.append(
+                            $("<input>")
+                                .attr("id", "storage-seconds")
+                                .attr("type", "number")
+                                .attr("min", 0)
+                                .attr("max", 9999)
+                                .on("input", updateRequestedTime)
+                        );
+                        timeSelection.append($("<strong>").html("s"));
+                }
+            } else {
+                if (precision > 1) {
+                    timeSelection.append(
+                        $("<input>")
+                            .attr("id", "storage-minutes")
+                            .attr("type", "number")
+                            .attr("min", 0)
+                            .attr("max", 9999)
+                            .on("input", updateRequestedTime)
+                    );
+                    timeSelection.append($("<strong>").html("m "));
+                }
+                timeSelection.append(
+                    $("<input>")
+                        .attr("id", "storage-seconds")
+                        .attr("type", "number")
+                        .attr("min", 0)
+                        .attr("max", 9999)
+                        .on("input", updateRequestedTime)
+                );
+                timeSelection.append($("<strong>").html("s"));
+            }
+            /* eslint-enable no-fallthrough */
+            timeSelection.append(
+                $("<p>").html(sharktext.boldString("ONLY TAKE AS MUCH AS YOU NEED!<br>Anything that you take but don't use will be discarded."))
+            );
+            timeSelection.append($("<hr>"));
+            timeSelection.append($("<p>").attr("id", "remaining-time"));
+            timeSelection.append($("<p>").attr("id", "requested-time"));
+
+            menuContent.append(timeSelection);
+            SharkGame.Button.makeButton("minute-storage-confirm", "confirm", menuContent, () => {
+                let requestedTime = getRequestedTime();
+                const storage = SharkGame.persistentFlags.minuteStorage;
+                if (requestedTime > storage) {
+                    requestedTime = storage;
+                }
+
+                if (requestedTime > 600000 && !gateway.completedWorlds.includes(worldtype)) {
+                    requestedTime = 600000;
+                }
+
+                SharkGame.persistentFlags.minuteStorage -= requestedTime;
+                SharkGame.persistentFlags.requestedTime = requestedTime;
+
+                world.worldType = worldtype;
+                main.loopGame();
+            });
+
+            SharkGame.PaneHandler.swapCurrentPane("THE TIME BANK", menuContent, true, 500, true);
+            updateRequestedTime();
+            gateway.transitioning = false;
         },
     },
 

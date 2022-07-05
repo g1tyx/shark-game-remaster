@@ -926,10 +926,15 @@ SharkGame.Resources = {
 
                 if (SharkGame.flags.hourHandLeft > 0) {
                     SharkGame.flags.hourHandLeft -= timeRemoved;
+                } else if (SharkGame.flags.requestedTimeLeft > 0) {
+                    SharkGame.flags.requestedTimeLeft -= timeRemoved;
                 }
 
                 if (SharkGame.flags.hourHandLeft < 0) {
                     SharkGame.flags.hourHandLeft = 0;
+                }
+                if (SharkGame.flags.requestedTimeLeft < 0) {
+                    SharkGame.flags.requestedTimeLeft = 0;
                 }
 
                 SharkGame.flags.minuteHandTimer -= timeRemoved;
@@ -1008,11 +1013,21 @@ SharkGame.Resources = {
         applyHourHand() {
             const hourHand = 60000 * SharkGame.Aspects.theHourHand.level;
             SharkGame.flags.hourHandLeft = hourHand;
-            SharkGame.flags.minuteHandTimer = hourHand;
+            SharkGame.flags.minuteHandTimer += hourHand;
             this.updateDisplay();
         },
 
-        formatMinuteTime(milliseconds) {
+        giveRequestedTime() {
+            if (SharkGame.persistentFlags.requestedTime) {
+                SharkGame.flags.minuteHandTimer += SharkGame.persistentFlags.requestedTime;
+                this.addBonusTime(SharkGame.persistentFlags.requestedTime);
+                SharkGame.flags.requestedTimeLeft = SharkGame.persistentFlags.requestedTime;
+                SharkGame.persistentFlags.requestedTime = 0;
+            }
+            this.updateDisplay();
+        },
+
+        formatMinuteTime(milliseconds, alwaysRoundSeconds) {
             const numSeconds = Math.floor(milliseconds / 100) / 10;
             const numMinutes = Math.floor(numSeconds / 60);
             const numHours = Math.floor(numMinutes / 60);
@@ -1021,7 +1036,7 @@ SharkGame.Resources = {
             const numMonths = Math.floor(numWeeks / 4);
             const numYears = Math.floor(numMonths / 12);
 
-            const formatSeconds = (numSeconds >= 60 ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
+            const formatSeconds = (numSeconds >= 60 || alwaysRoundSeconds ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
             const formatMinutes = numMinutes > 0 ? (numMinutes % 60) + "m " : "";
             const formatHours = numHours > 0 ? (numHours % 24) + "h " : "";
             const formatDays = numDays > 0 ? (numDays % 7) + "D, " : "";
