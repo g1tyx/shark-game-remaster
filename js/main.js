@@ -1086,6 +1086,8 @@ SharkGame.Changelog = {
         "Changed the pricing and location of aspects on the tree.",
         "Disabling idle time accruing in the minute hand no longer completely removes it from the UI.",
         "Added a choice to use SI units.",
+        "Fixed a bug where tooltips would persist when changing tabs via hotkey.",
+        "Fixed a bug where the game throws errors when trying to disable buttons while paused.",
     ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220630a": [
         "Added a setting to disable idle time from the pause button.",
