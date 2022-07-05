@@ -1080,6 +1080,13 @@ SharkGame.FunFacts = {
 };
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 2022070?a": [
+        "Time in the minute hand can now persist between worlds, with a few caveats.",
+        "Added 3 new aspects that complement the changes to minute hand time.",
+        "Changed the pricing and location of aspects on the tree.",
+        "Disabling idle time accruing in the minute hand no longer completely removes it from the UI.",
+        "Added a choice to use SI units.",
+    ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220630a": [
         "Added a setting to disable idle time from the pause button.",
     ],
