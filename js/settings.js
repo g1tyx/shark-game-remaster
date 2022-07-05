@@ -114,6 +114,18 @@ SharkGame.Settings = {
 
     // APPEARANCE
 
+    notation: {
+        defaultSetting: "default",
+        name: "Number Notation",
+        desc: "How numbers should be formatted.",
+        category: "APPEARANCE",
+        options: ["default", /* "exponen", */ "SI"],
+        onChange() {
+            res.rebuildTable = true;
+            stats.recreateIncomeTable = true;
+        },
+    },
+
     colorCosts: {
         defaultSetting: "color",
         name: "Color Resource Names",
