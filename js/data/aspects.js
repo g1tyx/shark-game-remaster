@@ -713,8 +713,8 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {
-            if (res.getTotalResource("essence") < 50) {
-                return "Earn 50 lifetime essence to unlock this aspect.";
+            if (res.getTotalResource("essence") < 32) {
+                return "Earn 32 lifetime essence to unlock this aspect.";
             }
         },
         prerequisites: ["theHourHand"],
@@ -745,8 +745,8 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {
-            if (res.getTotalResource("essence") < 50) {
-                return "Earn 50 lifetime essence to unlock this aspect.";
+            if (res.getTotalResource("essence") < 32) {
+                return "Earn 32 lifetime essence to unlock this aspect.";
             }
         },
         prerequisites: ["theHourHand"],
