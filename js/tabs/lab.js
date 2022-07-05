@@ -96,6 +96,9 @@ SharkGame.Lab = {
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
 
         const tabMessageSel = $("<div>").attr("id", "tabMessage");
+        if (SharkGame.Settings.current.showTabImages) {
+            tabMessageSel.css("background-image", "url('" + lab.tabBg + "')");
+        }
         content.append(tabMessageSel);
         lab.updateMessage(true);
 
