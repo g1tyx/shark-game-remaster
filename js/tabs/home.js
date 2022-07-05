@@ -391,10 +391,9 @@ SharkGame.Home = {
                 message: "The sounds of explorers echo endlessly through the tunnels of the broken city. The eels say they are filled with hope.",
             },
             {
-                name: "shrouded-essence",
-                unlock: { totalResource: { sacrifice: 1000000000000000 } },
-                message:
-                    "You see without light. You hear without sound. You feel without touching. Everything pelts you from every direction. You can't make sense of it anymore. Any of it. It feels like it's all breaking down around you.",
+                name: "shrouded-truth",
+                unlock: { totalResource: { sacrifice: 9000000000000000 } },
+                message: "A team of eels get your attention. They show you something that they found in the caverns. It's a book on making arcana.",
             },
         ],
 

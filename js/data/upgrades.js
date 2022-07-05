@@ -1699,9 +1699,9 @@ SharkGame.Upgrades = {
             name: "Internal Inquiry",
             desc: "We haven't spoken to the squid about what happened. Maybe we should say something.",
             researchedMessage:
-                "They're not mad, just disappointed. They had hoped we would work together with them - they don't understand the controls either, as it turns out.",
+                "They're not mad, just disappointed. If we wanted to explore it, we could have just asked. They know how to operate it, but not how the technology works.",
             effectDesc:
-                "Squid and collectives x2, extraction teams x4. Reconciled with the squids. They told us what they know about the machine's inner workings.",
+                "Squid and collectives x2, extraction teams x4. Reconciled with the squids. They told us what they know about the machine's operation.",
             cost: {
                 science: 250000,
             },
@@ -1718,9 +1718,9 @@ SharkGame.Upgrades = {
         },
         rapidRecharging: {
             name: "Rapid Recharging",
-            desc: "Replace the battery. Melt the ice. Open the gate.",
+            desc: "The squid have provided us with a dead battery. We can reverse-engineer it to create a new one.",
             researchedMessage:
-                "A wave of heat washes over you as the switch is flipped. The ice around the village quickly vaporizes, and like magic, a giant bubble is carved in the surrounding glaciers.",
+                "A wave of heat washes over you as the battery is inserted. The ice around the village quickly vaporizes, and like magic, a giant bubble is carved in the surrounding glaciers.",
             effectDesc: "Battery has been replaced. All the nearby ice has melted and we can now begin using the gate.",
             cost: {
                 science: 3250000,
