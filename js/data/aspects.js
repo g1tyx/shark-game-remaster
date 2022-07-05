@@ -155,13 +155,8 @@ SharkGame.Aspects = {
         getCost(_level) {
             return 2;
         },
-        getEffect(level) {
-            switch (level) {
-                case 1:
-                    return "Reveals basic information about a world before you choose to visit it.";
-                // case 2:
-                //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
-            }
+        getEffect(_level) {
+            return "Reveals much more information about a world before you choose to visit it.";
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
@@ -185,7 +180,7 @@ SharkGame.Aspects = {
         description: "They say that good things come to those who wait.",
         core: true,
         getCost(level) {
-            return (level + 2) ** 2;
+            return level > 0 ? (level + 1) ** 2 : 4;
         },
         getEffect(level) {
             return (
@@ -211,11 +206,11 @@ SharkGame.Aspects = {
         max: 1,
         level: 0,
         name: "The Dial",
-        description: "No matter how long it takes, you can do it.",
+        description: "No matter how long it takes, you can still do it.",
         noRefunds: true,
         core: true,
         getCost(_level) {
-            return 25;
+            return 10;
         },
         getEffect(_level) {
             return (
@@ -227,9 +222,9 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {
-            /*             if (gateway.completedWorlds.length < 8) {
-                return "Scout all worlds to unlock this aspect.";
-            } */
+            if (res.getTotalResource("essence") < 50) {
+                return "Earn 50 lifetime essence to unlock this aspect.";
+            }
         },
         prerequisites: ["patience"],
         clicked(_event) {
@@ -718,9 +713,9 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {
-            /*             if (gateway.completedWorlds.length < 8) {
-                return "Scout all worlds to unlock this aspect.";
-            } */
+            if (res.getTotalResource("essence") < 50) {
+                return "Earn 50 lifetime essence to unlock this aspect.";
+            }
         },
         prerequisites: ["theHourHand"],
         clicked(_event) {
@@ -750,9 +745,9 @@ SharkGame.Aspects = {
             );
         },
         getUnlocked() {
-            /*             if (gateway.completedWorlds.length < 8) {
-                return "Scout all worlds to unlock this aspect.";
-            } */
+            if (res.getTotalResource("essence") < 50) {
+                return "Earn 50 lifetime essence to unlock this aspect.";
+            }
         },
         prerequisites: ["theHourHand"],
         clicked(_event) {
@@ -771,7 +766,7 @@ SharkGame.Aspects = {
         description: "Resourcefulness leads to prosperity.",
         core: true,
         getCost(level) {
-            return 5 + level;
+            return level !== 4 ? 5 + level : 4;
         },
         getEffect(level) {
             return (
