@@ -295,13 +295,14 @@ SharkGame.Resources = {
     getProductAmountFromGeneratorResource(generator, product, numGenerator = res.getResource(generator)) {
         const baseIncome = SharkGame.ResourceMap.get(generator).income[product];
         return (
-            baseIncome *
-            numGenerator *
-            res.getSpecialMultiplier() *
-            res.getNetworkIncomeModifier("generator", generator) *
-            res.getNetworkIncomeModifier("resource", product, baseIncome) *
-            cad.speed *
-            res.idleMultiplier
+            (baseIncome *
+                numGenerator *
+                res.getSpecialMultiplier() *
+                res.getNetworkIncomeModifier("generator", generator) *
+                res.getNetworkIncomeModifier("resource", product, baseIncome) *
+                cad.speed *
+                res.idleMultiplier) /
+            SharkGame.persistentFlags.dialSetting
         );
     },
 
@@ -841,6 +842,7 @@ SharkGame.Resources = {
             res.minuteHand.realMultiplier = 1;
             SharkGame.persistentFlags.everIdled = false;
             SharkGame.flags.minuteHandTimer = 0;
+            SharkGame.flags.bonusTime = 0;
             SharkGame.flags.hourHandLeft = 0;
             SharkGame.persistentFlags.selectedMultiplier = 2;
             this.active = false;
@@ -856,7 +858,7 @@ SharkGame.Resources = {
                 SharkGame.flags.hourHandLeft = 0;
             }
 
-            if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
+            if (!SharkGame.persistentFlags.everIdled) {
                 $("#minute-hand-div").empty();
             } else if ($("#minute-hand-toggle").length === 0) {
                 this.buildUI();
@@ -877,7 +879,9 @@ SharkGame.Resources = {
             $("#minute-hand-toggle").html("<strong>TOGGLE</strong>");
             $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
             $("#minute-row-two").append($("<span>").attr("id", "minute-multiplier"));
-            $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+            $("#minute-hand-div").append(
+                $("<div>").attr("id", "minute-time") /* .on("mouseenter", res.minuteHand.showTimeTooltip).on("mouseleave", res.tableTextLeave) */
+            );
 
             $("#minute-row-two").append($("<span>").html("("));
             const slider = $("<input>")
@@ -917,13 +921,24 @@ SharkGame.Resources = {
                     res.minuteHand.toggleMinuteHand();
                 }
             } else if (!res.minuteHand.active) {
-                SharkGame.flags.minuteHandTimer += timeElapsed;
+                SharkGame.flags.minuteHandTimer += timeElapsed * (1 + SharkGame.Aspects.doubleTime.level);
+                res.minuteHand.addBonusTime(timeElapsed * SharkGame.Aspects.doubleTime.level);
             } else {
                 const timeRemoved = timeElapsed * (res.minuteHand.realMultiplier - 1);
-                SharkGame.flags.hourHandLeft -= timeRemoved;
+
+                if (SharkGame.flags.hourHandLeft > 0) {
+                    SharkGame.flags.hourHandLeft -= timeRemoved;
+                } else if (SharkGame.flags.requestedTimeLeft > 0) {
+                    SharkGame.flags.requestedTimeLeft -= timeRemoved;
+                }
+
                 if (SharkGame.flags.hourHandLeft < 0) {
                     SharkGame.flags.hourHandLeft = 0;
                 }
+                if (SharkGame.flags.requestedTimeLeft < 0) {
+                    SharkGame.flags.requestedTimeLeft = 0;
+                }
+
                 SharkGame.flags.minuteHandTimer -= timeRemoved;
                 if (SharkGame.flags.minuteHandTimer < 0) {
                     res.minuteHand.disableNextTick = true;
@@ -1000,11 +1015,22 @@ SharkGame.Resources = {
         applyHourHand() {
             const hourHand = 60000 * SharkGame.Aspects.theHourHand.level;
             SharkGame.flags.hourHandLeft = hourHand;
-            SharkGame.flags.minuteHandTimer = hourHand;
+            SharkGame.flags.minuteHandTimer += hourHand;
             this.updateDisplay();
         },
 
-        formatMinuteTime(milliseconds) {
+        giveRequestedTime() {
+            if (SharkGame.persistentFlags.requestedTime) {
+                SharkGame.flags.minuteHandTimer += SharkGame.persistentFlags.requestedTime;
+                this.addBonusTime(SharkGame.persistentFlags.requestedTime);
+                SharkGame.flags.requestedTimeLeft = SharkGame.persistentFlags.requestedTime;
+                SharkGame.Log.addMessage(`Took ${this.formatMinuteTime(SharkGame.persistentFlags.requestedTime)} out of storage.`);
+                SharkGame.persistentFlags.requestedTime = 0;
+            }
+            this.updateDisplay();
+        },
+
+        formatMinuteTime(milliseconds, alwaysRoundSeconds) {
             const numSeconds = Math.floor(milliseconds / 100) / 10;
             const numMinutes = Math.floor(numSeconds / 60);
             const numHours = Math.floor(numMinutes / 60);
@@ -1013,7 +1039,7 @@ SharkGame.Resources = {
             const numMonths = Math.floor(numWeeks / 4);
             const numYears = Math.floor(numMonths / 12);
 
-            const formatSeconds = (numSeconds >= 60 ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
+            const formatSeconds = (numSeconds >= 60 || alwaysRoundSeconds ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
             const formatMinutes = numMinutes > 0 ? (numMinutes % 60) + "m " : "";
             const formatHours = numHours > 0 ? (numHours % 24) + "h " : "";
             const formatDays = numDays > 0 ? (numDays % 7) + "D, " : "";
@@ -1049,15 +1075,36 @@ SharkGame.Resources = {
         },
 
         showTooltip() {
-            $("#tooltipbox").html(
-                "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
-            );
+            if (SharkGame.Settings.current.showTooltips) {
+                if (SharkGame.Settings.current.idleEnabled) {
+                    $("#tooltipbox").html(
+                        "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                    );
+                } else {
+                    $("#tooltipbox").html(
+                        "This is the <strong>minute hand</strong>.<br>It stores time from various sources.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                    );
+                }
+            }
         },
+
+        /*         showTimeTooltip() {
+            if (SharkGame.Settings.current.showTooltips) {
+                $("#tooltipbox").html(`You have ${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer))} left.` +
+                (SharkGame.flags.hourHandLeft ? `<br>(${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.flags.hourHandLeft))} is from the hour hand.)` : "") +
+                `<br>You have ${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.persistentFlags.minuteStorage))} in storage.`);
+            }
+        }, */
 
         toggleOff() {
             if (res.minuteHand.active) {
                 res.minuteHand.toggleMinuteHand();
             }
+        },
+
+        addBonusTime(time) {
+            if (!SharkGame.flags.bonusTime) SharkGame.flags.bonusTime = 0;
+            SharkGame.flags.bonusTime += time;
         },
     },
 
@@ -1085,6 +1132,12 @@ SharkGame.Resources = {
             } else {
                 $("#tooltipbox").html("Click to <strong>pause</strong>, stopping most timers and all resources.");
             }
+        },
+    },
+
+    dial: {
+        init() {
+            SharkGame.persistentFlags.dialSetting = 1;
         },
     },
 
@@ -1214,7 +1267,7 @@ SharkGame.Resources = {
                                 $("#tooltipbox").html(
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                         " efficiency x" +
-                                        (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                                        (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1)
                                 );
                             }
                             event.originalEvent.preventDefault();
@@ -1244,7 +1297,7 @@ SharkGame.Resources = {
                                 "all " +
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                     " gains x" +
-                                    (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                                    (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1)
                             );
                         }
                         event.originalEvent.preventDefault();

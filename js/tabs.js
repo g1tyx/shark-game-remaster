@@ -32,6 +32,7 @@ SharkGame.TabHandler = {
     keybindSwitchTab(tab) {
         if (SharkGame.Tabs[tab].discovered) {
             SharkGame.TabHandler.changeTab(tab);
+            if (!$("#tooltipbox").hasClass("forIncomeTable")) home.onHomeUnhover();
         }
     },
 

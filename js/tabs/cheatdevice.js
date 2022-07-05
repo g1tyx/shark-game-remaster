@@ -979,6 +979,7 @@ SharkGame.CheatsAndDebug = {
     },
     addIdleTimePlease(time = Math.random() * 120000 + 30000) {
         SharkGame.flags.minuteHandTimer += time;
+        res.minuteHand.addBonusTime(time);
         res.minuteHand.updateDisplay();
     },
     forceAllExist() {

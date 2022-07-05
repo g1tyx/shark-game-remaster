@@ -191,6 +191,8 @@ SharkGame.TextUtil = {
     beautify(number, suppressDecimals, toPlaces) {
         if (cad.noNumberBeautifying) {
             return number.toExponential(5);
+        } else if (SharkGame.Settings.current.notation === "exponen") {
+            return number.toExponential(2);
         }
 
         let formatted;
@@ -223,7 +225,14 @@ SharkGame.TextUtil = {
                 formatted = "-" + formatted;
             }
         } else {
-            const suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc"];
+            let suffixes;
+            switch (SharkGame.Settings.current.notation) {
+                case "SI":
+                    suffixes = ["", "k", "M", "G", "T", "P", "E", "Z", "Y"];
+                    break;
+                default:
+                    suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp"];
+            }
             const digits = Math.floor(Math.log10(number));
             // Max for a case where the supported suffix is not specified
             const precision = Math.max(0, 2 - (digits % 3));
@@ -489,6 +498,9 @@ SharkGame.TimeUtil = {
         let storedTime = 0;
         if (typeof SharkGame.flags.hourHandLeft === `number`) {
             storedTime = SharkGame.flags.minuteHandTimer - SharkGame.flags.hourHandLeft;
+        }
+        if (typeof SharkGame.flags.bonusTime === `number`) {
+            storedTime -= SharkGame.flags.bonusTime;
         }
 
         if (ignoreMinuteHandAndPause) {

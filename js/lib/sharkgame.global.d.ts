@@ -303,21 +303,33 @@ declare global {
         allowedWorlds: WorldName[];
         completedWorlds: WorldName[];
         planetPool: WorldName[];
+        ui: {
+            showGateway(
+                essenceRewarded: number,
+                patienceReward: number,
+                speedReward: number,
+                gumptionRatio: number,
+                forceWorldBased: boolean,
+                storedTime: number
+            ): void;
+            showRunEndInfo(containerDiv: JQuery<HTMLDivElement>): void;
+            showAspects(): void;
+            prepareBasePane(baseReward: number, patienceReward: number, speedReward: number, gumptionBonus: number, storedTime: number): void;
+            showPlanets(foregoAnimation?: boolean): void;
+            formatDestinyGamble(): void;
+            confirmWorld(): void;
+            switchViews(callback: () => void): void;
+            showPlanetAttributes(worldData: World, contentDiv: JQuery<HTMLDivElement>): void;
+            showWorldVisitMenu(): void;
+            updatePlanetButtons(): void;
+            showMinuteHandStorageExtraction(worldtype: WorldName): void;
+        };
         init(): void;
         enterGate(loadingFromSave?: boolean): void;
         cleanUp(): void;
-        showGateway(essenceRewarded: number, patienceReward: number): void;
-        showRunEndInfo(containerDiv: JQuery<HTMLDivElement>): void;
-        showAspects(): void;
-        showPlanets(foregoAnimation?: boolean): void;
-        formatDestinyGamble(): void;
         rerollWorlds(): void;
-        confirmWorld(): void;
-        switchViews(callback: () => void): void;
         preparePlanetSelection(numPlanets: number): void;
-        updatePlanetButtons(): void;
         getVoiceMessage(): string;
-        showPlanetAttributes(worldData: World, contentDiv: JQuery<HTMLDivElement>): void;
         playerHasSeenResource(resource: ResourceName): boolean;
         markWorldCompleted(worldType: WorldName): void;
     };
