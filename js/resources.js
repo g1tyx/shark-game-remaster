@@ -1483,6 +1483,7 @@ SharkGame.Resources = {
         let decreaseText = "";
 
         $.each(furtherCondensedEffects.generators.decrease, (affectedGenerator, degree) => {
+            if (degree < 0) degree = 1 + degree;
             if (world.doesResourceExist(affectedGenerator) && res.getResource(affectedGenerator) > SharkGame.EPSILON) {
                 decreaseText += "<br>";
                 decreaseText +=
@@ -1493,6 +1494,7 @@ SharkGame.Resources = {
         });
 
         $.each(furtherCondensedEffects.resources.decrease, (affectedResource, degree) => {
+            if (degree < 0) degree = 1 + degree;
             if (world.doesResourceExist(affectedResource) && res.getResource(affectedResource) > SharkGame.EPSILON) {
                 decreaseText += "<br>";
                 decreaseText +=
