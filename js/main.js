@@ -557,12 +557,12 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.lastActivity = now;
             switch (SharkGame.Tabs.current) {
                 case "home":
-                    $.each($("#content").children()[3].children, (_index, button) => {
+                    $.each($("#buttonList").children(), (_index, button) => {
                         $(button).addClass("disabled");
                     });
                     break;
                 case "lab":
-                    $.each($("#content").children()[1].children[0].children, (_index, button) => {
+                    $.each($("#buttonList").children(), (_index, button) => {
                         $(button).addClass("disabled");
                     });
                     break;
