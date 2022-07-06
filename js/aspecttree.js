@@ -241,7 +241,6 @@ SharkGame.AspectTree = {
         function clickCallback(event) {
             const aspectId = event.currentTarget.getAttribute("data-aspectId");
             const aspect = SharkGame.Aspects[aspectId];
-            // console.debug(aspect);
 
             aspect.clicked(event);
 
@@ -295,12 +294,12 @@ SharkGame.AspectTree = {
             }
             aspectTableRowCurrent.append($(`<td>`).html(aspectData.level));
 
-            //aspectTableRowCurrent.classList.add("aspect-table-row");
-            //aspectTableRowCurrent.id = "aspect-table-row-" + aspectId;
+            // aspectTableRowCurrent.classList.add("aspect-table-row");
+            // aspectTableRowCurrent.id = "aspect-table-row-" + aspectId;
 
             const aspectTableRowNext = $("<tr>");
             if (!reqref.max) {
-                //${aspectData.level + 1}`
+                // ${aspectData.level + 1}`
                 aspectTableRowNext.append($(`<td>`).html(`NEXT: ${aspectData.getEffect(aspectData.level + 1)}`));
                 aspectTableRowNext.append($(`<td>`).html(`${aspectData.level + 1}`));
             } else {
@@ -377,7 +376,7 @@ SharkGame.AspectTree = {
                 false,
                 false,
                 false,
-                0 /*left*/,
+                0 /* left */,
                 null
             );
 
@@ -531,10 +530,10 @@ SharkGame.AspectTree = {
 
             context.save();
             context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).color;
-            context.fillText("on scouting missions", 440, 60);
-            context.fillText("you can only bring core aspects", 440, 75);
-            context.fillText("non-core aspects ->", 440, 110);
-            context.fillText("<- core aspects", 300, 110);
+            context.fillText("on scouting missions", 440, 10);
+            context.fillText("you can only bring core aspects", 440, 25);
+            context.fillText("non-core aspects ->", 440, 60);
+            context.fillText("<- core aspects", 300, 60);
             context.fillText("on scouting missions", 440, 710);
             context.fillText("you can only bring core aspects", 440, 725);
             context.fillText("non-core aspects ->", 440, 680);
@@ -821,7 +820,6 @@ SharkGame.AspectTree = {
     },
 
     updateTooltip(button) {
-        // console.log("test");
         const tooltipBox = $("#tooltipbox");
         const context = tree.context;
         if (button === undefined) {
@@ -899,7 +897,7 @@ SharkGame.AspectTree = {
                         costText = `NO REFUNDS`;
                     }
                 } else {
-                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost} ESSENCE</span>`;
                 }
 
                 const levelText =
@@ -921,7 +919,7 @@ SharkGame.AspectTree = {
                         costText = `REFUND VALUE: <span class="can-afford-aspect">${refundValue}</span>`;
                     }
                 } else {
-                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost}</span>`;
+                    costText = `COST: <span class='${reqref.affordable ? "can-afford-aspect" : "cant-afford-aspect"}'>${cost} ESSENCE</span>`;
                 }
 
                 const levelText =

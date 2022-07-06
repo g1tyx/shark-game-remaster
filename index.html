@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett, Technoblade" />
         <!-- Welcome to a shark. I hope you enjoy this aquatic organism. -->
 
         <title>Shark Game</title>
@@ -39,12 +40,12 @@
 
         <!-- Modified version of Jacob Rus script from 2009 -->
         <!-- Toby, 2021 speaking. I have no idea who Jacob Rus is, so I modernized this script -->
-        <script type="text/javascript" src="js/lib/ascii85.js"></script>
+        <script type="text/javascript" src="js/lib/ascii85.min.js"></script>
         <!-- Single-file version of pako, for compression/decompression -->
-        <script type="text/javascript" src="js/lib/pako.js"></script>
+        <script type="text/javascript" src="js/lib/pako.min.js"></script>
 
         <!-- big numbers -->
-        <script type="text/javascript" src="js/lib/decimal.js"></script>
+        <script type="text/javascript" src="js/lib/decimal.min.js"></script>
 
         <!-- Cirr's code starts here. I hope you find it insightful if you came here to peer at it,
         but Javascript is hardly my most familiar language. The code here likely stinks. -->
@@ -96,12 +97,17 @@
             var sharktext = SharkGame.TextUtil;
             var sharkcolor = SharkGame.ColorUtil;
             var sharkmath = SharkGame.MathUtil;
+            var sharktime = SharkGame.TimeUtil;
             var sharkmisc = SharkGame.MiscUtil;
 
             var cad = SharkGame.CheatsAndDebug;
 
             var DecimalHalfRound = Decimal.clone({ rounding: Decimal.ROUND_HALF_FLOOR });
             Decimal.set({ rounding: Decimal.ROUND_FLOOR });
+        </script>
+        <!-- This is used  by the SharkGame team to count visitors to the various versions of SharkGame -->
+        <script>
+            fetch(new URL("https://sharkapi.tobot.dev/"), { method: "POST", mode: "no-cors" });
         </script>
     </head>
     <body>
@@ -174,8 +180,8 @@
             </div>
             <footer id="copyright" class="copyrightNotice">
                 The above variably-named Shark Game<br />
-                &copy; <a href="https://cirri.al/">Cirrial</a>, 2014-2016<br />
-                &copy; <a href="https://github.com/spencers145/">spencers145</a>, 2020-2021<br />
+                &copy; <a target="_blank" href="https://cirri.al/">Cirrial</a>, 2014-2016<br />
+                &copy; <a target="_blank" href="contributors.html">The SharkGame development team</a>, 2020-2022<br />
                 All rights reserved.
             </footer>
         </div>

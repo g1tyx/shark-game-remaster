@@ -32,6 +32,7 @@ SharkGame.TabHandler = {
     keybindSwitchTab(tab) {
         if (SharkGame.Tabs[tab].discovered) {
             SharkGame.TabHandler.changeTab(tab);
+            if (!$("#tooltipbox").hasClass("forIncomeTable")) home.onHomeUnhover();
         }
     },
 
@@ -76,9 +77,20 @@ SharkGame.TabHandler = {
             }
 
             if (reqsMet) {
+                // special logic for special tabs
+                switch (tabName) {
+                    case `reflection`:
+                        if (!SharkGame.persistentFlags.seenReflection) log.addDiscovery("Discovered " + tab.name + "!");
+                        break;
+                    case `cheats`:
+                        if (!SharkGame.persistentFlags.seenCheatsTab) log.addDiscovery("Discovered " + tab.name + "!");
+                        break;
+                    default:
+                        log.addDiscovery("Discovered " + tab.name + "!");
+                }
+
                 // unlock tab!
                 this.discoverTab(tabName);
-                log.addDiscovery("Discovered " + tab.name + "!");
             }
         });
     },
@@ -103,7 +115,7 @@ SharkGame.TabHandler = {
         $("#contentMenu").empty();
         $("#contentMenu").append(
             `<ul id="tabList" class="${
-                SharkGame.Settings.current["minimizedTopbar"] ? "" : "notFixed"
+                SharkGame.Settings.current.minimizedTopbar ? "" : "notFixed"
             }"></ul></div><div id="tabBorder" class="clear-fix">`
         );
 
@@ -129,6 +141,11 @@ SharkGame.TabHandler = {
             code: tab,
             discoverReq: tab.discoverReq || {},
         };
+    },
+
+    updateRegistration(tab) {
+        SharkGame.Tabs[tab.tabId].name = tab.tabName;
+        SharkGame.Tabs[tab.tabId].discoverReq = tab.discoverReq || {};
     },
 
     createTabNavigation() {
@@ -181,6 +198,11 @@ SharkGame.TabHandler = {
 
     discoverTab(tab) {
         SharkGame.Tabs[tab].discovered = true;
+
+        if ((tab === `reflection` && SharkGame.persistentFlags.seenReflection) || (tab === `cheats` && SharkGame.persistentFlags.seenCheatsTab)) {
+            SharkGame.Tabs[tab].seen = true;
+        }
+
         // force a total redraw of the navigation
         this.createTabMenu();
     },

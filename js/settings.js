@@ -114,6 +114,18 @@ SharkGame.Settings = {
 
     // APPEARANCE
 
+    notation: {
+        defaultSetting: "default",
+        name: "Number Notation",
+        desc: "How numbers should be formatted.",
+        category: "APPEARANCE",
+        options: ["default", /* "exponen", */ "SI"],
+        onChange() {
+            res.rebuildTable = true;
+            stats.recreateIncomeTable = true;
+        },
+    },
+
     colorCosts: {
         defaultSetting: "color",
         name: "Color Resource Names",
@@ -161,7 +173,7 @@ SharkGame.Settings = {
         options: [true, false],
         category: "APPEARANCE",
         onChange() {
-            if (SharkGame.Settings.current["enableThemes"]) {
+            if (SharkGame.Settings.current.enableThemes) {
                 document.querySelector("body").classList.remove("no-theme");
             } else {
                 document.querySelector("body").classList.add("no-theme");
@@ -253,6 +265,14 @@ SharkGame.Settings = {
                 SharkGame.Main.checkForUpdateHandler = setInterval(main.checkForUpdates, 300000);
             }
         },
+    },
+
+    truePause: {
+        defaultSetting: false,
+        name: "True Pause",
+        desc: "When using the pause button aspect, should the game not build up idle time?",
+        category: "OTHER",
+        options: [true, false],
     },
 
     offlineModeActive: {

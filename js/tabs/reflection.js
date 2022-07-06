@@ -43,6 +43,7 @@ SharkGame.Reflection = {
         tabMessageSel.html(message);
 
         ref.updateAspectList();
+        SharkGame.persistentFlags.seenReflection = true;
     },
 
     update() {},

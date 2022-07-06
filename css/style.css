@@ -4,10 +4,8 @@
 .fill-available-width, #sidebar #resourceTableContainer table {
   width: 100%;
   width: fill-available;
-  width: -moz-available;
-  /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available;
-  /* Mozilla-based browsers will ignore this. */
+  width: -moz-available; /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
 }
 
 .clear-fix {
@@ -86,13 +84,13 @@
   --color-darker: #121a2b;
   --color-title: rgba(62, 73, 96, 0.2);
 }
-:root :not(.no-theme).violent {
-  --color-lighter: #975f5f;
-  --color-light: #714141;
-  --color-med: #6b2b2b;
-  --color-dark: #5c1919;
-  --color-darker: #450808;
-  --color-title: rgba(107, 43, 43, 0.2);
+:root :not(.no-theme).volcanic {
+  --color-lighter: #cf9d9d;
+  --color-light: #8f5252;
+  --color-med: #681e1e;
+  --color-dark: #521212;
+  --color-darker: #2b0707;
+  --color-title: rgba(104, 30, 30, 0.2);
 }
 
 /*------------------------------------------------------
@@ -110,6 +108,26 @@ body {
   text-align: center;
   min-height: 100%;
   overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: initial; /* without this you can't change any properties */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-med);
+}
+
+.gateway::-webkit-scrollbar-track {
+  background: #38a581;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-light);
+}
+
+.gateway::-webkit-scrollbar-thumb {
+  background-color: #60c9a7;
 }
 
 div {
@@ -186,6 +204,27 @@ h4 {
 }
 #wrapper #game {
   flex: 1 0 auto;
+}
+#wrapper #devs {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+#wrapper #devs > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+#wrapper #devs tr {
+  text-align: right;
+}
+#wrapper #devs tr td {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 50%;
+}
+#wrapper #devs tr td:nth-child(2) {
+  text-align: left;
 }
 #wrapper #copyright {
   flex-shrink: 0;
@@ -379,7 +418,7 @@ pre {
 
 #contentMenu {
   overflow: hidden;
-  height: 1.8em;
+  min-height: 1.8em;
 }
 #contentMenu ul {
   padding: 0;
@@ -1303,6 +1342,27 @@ button.respecMode.gateway, button.respecMode.newlyDiscovered {
   box-shadow: 0 0 3px 3px #60c9a7;
 }
 
+.disabledAspectDiv {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  border-radius: 0.5em;
+  background-color: #113228;
+  -webkit-box-shadow: 0 0 0.5em 0.5em #113228;
+  -moz-box-shadow: 0 0 0.5em 0.5em #113228;
+  box-shadow: 0 0 0.5em 0.5em #113228;
+  padding: 0.2em;
+  margin: 1.5em;
+  max-width: 14em;
+}
+.disabledAspectDiv .gatewayButton, .disabledAspectDiv button.newlyDiscovered, .disabledAspectDiv .gateway button, .gateway .disabledAspectDiv button,
+.disabledAspectDiv button.gateway {
+  -webkit-box-shadow: 0 0 3px 3px #38a581;
+  -moz-box-shadow: 0 0 3px 3px #38a581;
+  box-shadow: 0 0 3px 3px #38a581;
+}
+
 .planetDisplay {
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
@@ -1341,6 +1401,10 @@ button.planetButton:active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+
+#gatewayVoiceMessage {
+  font-size: 1.25em;
 }
 
 .tooltip {
@@ -1634,6 +1698,7 @@ button.planetButton:active {
 
 #minute-row-two {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .front {
@@ -1662,6 +1727,23 @@ button.planetButton:active {
 #keybind-overlay-container {
   float: left;
   margin-left: 1rem;
+}
+
+select {
+  background-color: var(--color-darker);
+  color: inherit;
+  border: none;
+  outline: none;
+  font-size: inherit;
+  text-align: right;
+  text-align-last: right;
+}
+select .evenMessage {
+  background-color: var(--color-dark);
+}
+
+option {
+  direction: rtl;
 }
 
 /*# sourceMappingURL=style.css.map */

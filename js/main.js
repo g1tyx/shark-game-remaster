@@ -1,6 +1,5 @@
 "use strict";
-/* eslint-disable-next-line no-var, no-use-before-define, no-shadow */
-var SharkGame = SharkGame || {};
+window.SharkGame = window.SharkGame || {};
 
 window.onmousemove = (event) => {
     SharkGame.lastActivity = _.now();
@@ -76,13 +75,12 @@ $.extend(SharkGame, {
         "Shark Box",
         "Dolphin Heroes",
         "Maws",
-        "Sharky's Strange Crusade: Part 6",
+        "Part 6, Stone Ocean",
         "Sailor Crab",
         "League of Lobsters",
         "Eel Team Six",
         "Dungeons And Dolphins",
         "Gameshark",
-        "Sharkiplier Plays",
         "Five Nights in Frigid",
         "The Shark of Wall Street",
         ":the shark game:",
@@ -96,15 +94,21 @@ $.extend(SharkGame, {
         "To Be Continued",
         "what the crab doin",
         "#TeamSeas",
+        "Sharks of Rage",
+        "Bedrock Edition",
+        "Javascript Edition",
+        "You are a Shark",
+        "Mystery of Shark City",
+        "Modded",
+        "8 hours later...",
+        "Seas of Loathing",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "202205??a",
+    VERSION: "20220630a",
     ORIGINAL_VERSION: 0.71,
-    VERSION_NAME: "The Marine Update",
+    VERSION_NAME: "The Volcanic Update",
     EPSILON: 1e-6, // floating point comparison is a joy
-    // agreed, already had to deal with it on recycler revisions
-    // did you know that reducing a float like 1.2512351261 to 1.25 by literally removing the decimal and multiplying by 100 gives you something like 125.0000001?
     BIGGEST_SAFE_NUMBER: 1000000000000,
     MAX: 1e300,
 
@@ -206,6 +210,14 @@ SharkGame.Main = {
         main.restoreGame("load");
         // then set up the game according to this data
         main.setUpGame();
+
+        const isSafari =
+            /constructor/i.test(window.HTMLElement) ||
+            (!window.safari || (typeof safari !== "undefined" && window.safari.pushNotification)).toString() === "[object SafariRemoteNotification]";
+        if (isSafari) {
+            console.info("Detected Safari browser!");
+            SharkGame.PaneHandler.addPaneToStack("Safari Notice", SharkGame.Panes.safariNotice);
+        }
     },
 
     // reset all game variables to their defaults
@@ -246,11 +258,11 @@ SharkGame.Main = {
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
 Mod of v ${SharkGame.ORIGINAL_VERSION}`
         );
-        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/alpha", (data) => {
+        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/dev", (data) => {
             SharkGame.COMMIT_SHA = data.sha;
         });
         log.clearMessages(false);
-        SharkGame.Settings.current["buyAmount"] = 1;
+        SharkGame.Settings.current.buyAmount = 1;
 
         // here to stop timer from saying NaN
         SharkGame.persistentFlags.totalPausedTime = 0;
@@ -292,6 +304,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         SharkGame.Keybinds.init();
 
         SharkGame.Resources.minuteHand.init();
+        SharkGame.Resources.pause.init();
+        SharkGame.Resources.dial.init();
     },
 
     // load stored game data, if there is anything to load
@@ -325,15 +339,17 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
         // first set up the world because it adds the world resource
         SharkGame.World.setup();
 
+        // refund aspects if necessary
+        // create restrictions
+        SharkGame.AspectTree.setup();
+
         // now set up resources because a lot depends on it
         SharkGame.Resources.setup();
 
-        // refund aspects if necessary
-        SharkGame.AspectTree.setup();
-
         // initialise tabs
-        SharkGame.Home.setup();
+        // always set up lab first
         SharkGame.Lab.setup();
+        SharkGame.Home.setup();
         SharkGame.Stats.setup();
         SharkGame.Recycler.setup();
         SharkGame.Gate.setup();
@@ -370,7 +386,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             main.autosaveHandler = setInterval(main.autosave, SharkGame.Settings.current.autosaveFrequency * 60000);
         }
 
-        window.addEventListener("beforeunload", main.autosave);
+        // window.addEventListener("beforeunload", main.autosave);
 
         if (SharkGame.Settings.current.updateCheck) {
             main.checkForUpdateHandler = setInterval(main.checkForUpdate, 300000);
@@ -382,24 +398,31 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
         });
 
+        if (!SharkGame.persistentFlags.dialSetting) SharkGame.persistentFlags.dialSetting = 1;
+
         if (SharkGame.persistentFlags.pause) {
             if (!cad.pause) {
                 res.pause.togglePause();
             }
             main.showSidebarIfNeeded();
-            if (SharkGame.flags.needOfflineProgress) {
+            if (SharkGame.flags.needOfflineProgress && SharkGame.Settings.current.truePause) {
                 SharkGame.persistentFlags.currentPausedTime += SharkGame.flags.needOfflineProgress * 1000;
+                SharkGame.flags.needOfflineProgress = 0;
             }
-            SharkGame.flags.needOfflineProgress = 0;
         }
 
         if (SharkGame.flags.needOfflineProgress) {
             const secondsElapsed = SharkGame.flags.needOfflineProgress;
 
             if (SharkGame.Settings.current.idleEnabled && !SharkGame.gameOver) {
+                res.minuteHand.allowMinuteHand();
                 res.minuteHand.updateMinuteHand(secondsElapsed * 1000);
+                if (SharkGame.Aspects.overtime.level) {
+                    res.minuteHand.updateMinuteHand(secondsElapsed * 200 * SharkGame.Aspects.overtime.level);
+                    res.minuteHand.addBonusTime(secondsElapsed * 200 * SharkGame.Aspects.overtime.level);
+                }
             } else {
-                main.processSimTime(secondsElapsed, true);
+                main.processSimTime(secondsElapsed / SharkGame.persistentFlags.dialSetting, true);
             }
 
             // acknowledge long time gaps
@@ -501,6 +524,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.Save.importData(saveString);
 
             res.minuteHand.applyHourHand();
+            res.minuteHand.giveRequestedTime();
 
             try {
                 SharkGame.Save.saveGame();
@@ -516,18 +540,29 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             return;
         }
 
+        const now = _.now();
+        const elapsedTime = now - SharkGame.before;
+
         if (cad.pause) {
-            SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
-            SharkGame.before = _.now();
-            SharkGame.lastActivity = _.now();
+            if (SharkGame.Settings.current.truePause) {
+                SharkGame.persistentFlags.currentPausedTime += _.now() - SharkGame.before;
+            } else {
+                if (!SharkGame.persistentFlags.everIdled) {
+                    res.minuteHand.allowMinuteHand();
+                }
+                res.minuteHand.updateMinuteHand(elapsedTime * (1 + SharkGame.Aspects.overtime.level * 0.2));
+                res.minuteHand.addBonusTime(elapsedTime * SharkGame.Aspects.overtime.level * 0.2);
+            }
+            SharkGame.before = now;
+            SharkGame.lastActivity = now;
             switch (SharkGame.Tabs.current) {
                 case "home":
-                    $.each($("#content").children()[3].children, (_index, button) => {
+                    $.each($("#buttonList").children(), (_index, button) => {
                         $(button).addClass("disabled");
                     });
                     break;
                 case "lab":
-                    $.each($("#content").children()[1].children[0].children, (_index, button) => {
+                    $.each($("#buttonList").children(), (_index, button) => {
                         $(button).addClass("disabled");
                     });
                     break;
@@ -547,10 +582,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             }
 
             // tick main game stuff
-            const now = _.now();
-            const elapsedTime = now - SharkGame.before;
-
-            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current["idleEnabled"]) {
+            if (now - SharkGame.lastActivity > SharkGame.IDLE_THRESHOLD && res.idleMultiplier === 1 && SharkGame.Settings.current.idleEnabled) {
                 main.startIdle(now, elapsedTime);
             }
 
@@ -560,6 +592,9 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
 
             if (res.minuteHand.active) {
                 res.minuteHand.updateMinuteHand(elapsedTime);
+            } else if (SharkGame.Aspects.overtime.level) {
+                res.minuteHand.updateMinuteHand(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
+                res.minuteHand.addBonusTime(elapsedTime * 0.2 * SharkGame.Aspects.overtime.level);
             }
 
             // check if the sidebar needs to come back
@@ -588,7 +623,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
             SharkGame.lastActivity = _.now();
         }
 
-        //see if resource table tooltip needs updating
+        // see if resource table tooltip needs updating
         if (document.getElementById("tooltipbox").className.split(" ").includes("forIncomeTable")) {
             if (document.getElementById("tooltipbox").attributes.current) {
                 res.tableTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
@@ -647,7 +682,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
     },
 
     checkForUpdate() {
-        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/alpha", (data) => {
+        $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/dev", (data) => {
             if (data.sha !== SharkGame.COMMIT_SHA) {
                 $("#updateGameBox")
                     .html(
@@ -824,38 +859,264 @@ SharkGame.Button = {
     },
 };
 
-SharkGame.FunFacts = [
-    "Shark Game's initial bare minimum code came from an abandoned idle game about bees. Almost no trace of bees remains!",
-    "The existence of resources that create resources that create resources in this game were inspired by Derivative Clicker!",
-    "Kitten Game was an inspiration for this game! This surprises probably no one. The very first message the game gives you is a nod of sorts.",
-    "There have been social behaviours observed in lemon sharks, and evidence that suggests they prefer company to being alone.",
-    "Sea apples are a type of sea cucumber.",
-    "Magic crystals are probably not real.",
-    "There is nothing suspicious about the machines.",
-    "There are many species of sharks that investigate things with their mouths. This can end badly for the subject of investigation.",
-    "Some shark species display 'tonic immobility' when rubbed on the nose. They stop moving, appear deeply relaxed, and can stay this way for up to 15 minutes before swimming away.",
-    "In some shark species eggs hatch within their mothers, and in some of these species the hatched babies eat unfertilised or even unhatched eggs.",
-    "Rays can be thought of as flattened sharks.",
-    "Rays are pancakes of the sea. (note: probably not true)",
-    "Chimaera are related to sharks and rays and have a venomous spine in front of their dorsal fin.",
-    "More people are killed by lightning every year than by sharks.",
-    "There are real eusocial shrimps that live as a community in sponges on reefs, complete with queens.",
-    "White sharks have been observed to have a variety of body language signals to indicate submission and dominance towards each other without violence.",
-    "Sharks with lasers were overdone, okay?",
-    "There is a surprising deficit of cookie in this game.",
-    "Remoras were banished from the oceans in the long bygone eras. The sharks hope they never come back.",
-    "A kiss from a shark can make you immortal. But only if they want you to be immortal.",
-    "A shark is worth one in the bush, and a bunch in the sea water. Don't put sharks in bushes.",
-];
+SharkGame.FunFacts = {
+    dilutedResources: ["shark", "ray", "crab", "fish"], // dilute these while not in starter to keep the fun facts fresher
+
+    showFact() {
+        log.addMessage(this.getFact());
+    },
+
+    getFact() {
+        const pool = this.getPool();
+        return SharkGame.choose(pool);
+    },
+
+    getPool() {
+        const pool = [];
+        const currentWorld = world.worldType;
+        if (
+            this.worldBased[currentWorld] &&
+            (!this.worldBased[currentWorld].areRequirementsMet || this.worldBased[currentWorld].areRequirementsMet())
+        ) {
+            _.each(this.worldBased[currentWorld].messages, (fact) => {
+                pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
+            });
+        }
+
+        let anyAvailableResource = false;
+        $.each(this.resourceBased, (resource, facts) => {
+            // purposefully dilute some facts if we are not on the starter world
+            // I want these facts to be more likely relevant than not
+            if (world.doesResourceExist(resource) && res.getTotalResource(resource)) {
+                anyAvailableResource = true;
+                if (!this.dilutedResources.includes(resource) || currentWorld === "start" || Math.random() < 0.25) {
+                    _.each(facts, (fact) => {
+                        pool.push(
+                            sharktext.boldString(
+                                `${sharktext.getResourceName(
+                                    resource,
+                                    false,
+                                    1,
+                                    SharkGame.Log.isNextMessageEven()
+                                        ? sharkcolor.getVariableColor("--color-dark")
+                                        : sharkcolor.getVariableColor("--color-med")
+                                )} fact: `
+                            ) + `<i>${fact}</i>`
+                        );
+                    });
+                }
+            }
+        });
+
+        if (anyAvailableResource) {
+            // only 10% chance to include the 'default' facts
+            // this is because those facts are seen all over the place
+            // they would end up diluting the world-specific and resource-specific facts
+            //
+            // also acts as a failsafe in case there are no other facts to display
+            if (Math.random() < 0.1 || pool.length === 0) {
+                _.each(this.default, (fact) => {
+                    pool.push(sharktext.boldString(`Fun fact: `) + `<i>${fact}</i>`);
+                });
+            }
+            return pool;
+        } else {
+            return ["Fun fact: <i>New fun facts are unlocked as you see new stuff. Keep playing to unlock some!</i>"];
+        }
+    },
+
+    worldBased: {
+        frigid: {},
+        volcanic: {
+            messages: [
+                "This world was originally called Violent, now it's Volcanic. Playtesters got confused and thought the world had violence, when really, it just has the threat of violence.",
+                "Hydrothermal vents do not spew fire in real life. They spew smoke.",
+                "Hydrothermal vents support a diverse array of sea life due to their high output of minerals. Bacteria eat these minerals, starting a food chain.",
+                "Hydrothermal vents are found at fault lines in the earth's crust, where water becomes superheated due to magma rising close to the ocean floor.",
+            ],
+            areRequirementsMet() {
+                return SharkGame.Upgrades.purchased.includes("thermalVents");
+            },
+        },
+        shrouded: {},
+        abandoned: {
+            messages: ["This world was the first one to be remade for New Frontiers."],
+        },
+        haven: {
+            messages: ["Kelp paper is real. You cannot write on it though."],
+            areRequirementsMet() {
+                return SharkGame.Upgrades.purchased.includes("sunObservation");
+            },
+        },
+        marine: {},
+    },
+
+    resourceBased: {
+        // add fish facts at some point
+        shark: [
+            "There are many species of sharks that investigate things with their mouths. This can end badly for the subject of investigation.",
+            "There have been social behaviours observed in lemon sharks, and evidence that suggests they prefer company to being alone.",
+            "Some shark species display 'tonic immobility' when rubbed on the nose. They stop moving, appear deeply relaxed, and can stay this way for up to 15 minutes before swimming away.",
+            "In some shark species eggs hatch within their mothers, and in some of these species the hatched babies eat unfertilised or even unhatched eggs.",
+            "More people are killed by lightning every year than by sharks.",
+            "White sharks have been observed to have a variety of body language signals to indicate submission and dominance towards each other without violence.",
+            "A kiss from a shark can make you immortal. But only if they want you to be immortal.",
+            "A shark is worth one in the bush, and a bunch in the sea water. Don't put sharks in bushes.",
+            "Sharks are very old, evolutionarily speaking. The first sharks emerged some time around 400 million years ago.",
+            "Sharks have very rough skin, like sandpaper. In fact, shark skin was literally used as sandpaper in the past.",
+        ],
+        crystal: ["Magic crystals are probably not real."],
+        ray: [
+            "Rays can be thought of as flattened sharks. The two are very closely related evolutionarily.",
+            "Rays are pancakes of the sea. (note: probably not true)",
+        ],
+        crab: [
+            "Throughout history, many species crustaceans have independently evovled into crabs for no discernable reason. The phenomenon is called carcinisation.",
+            "Some species of crab exhibit a kind of claw asymmetry. Called the crusher and cutter, they have different shapes that give their claws more specialized purposes.",
+        ],
+        octopus: [
+            "It's octopuses, not octopi.",
+            "Octopuses are capable of extremely advanced camoflague. They can change color, pattern, and texture to match their surroundings, enough to easily fool anything, even humans.",
+            "In novel circumstances, octopuses are capable of simple problem-solving. Some will step back and thoroughly analyze things when confused.",
+            "Octopuses can get bored in captivity. They may fiddle with toys or interact with humans for entertainment.",
+            "Octopuses have great dexterity. They can use their tentacles in a variety of ways to manipulate objects.",
+            "Octopuses have no bones whatsoever.",
+            "Each limb of an octopus is considered to individually have a brain to itself. They can be thought of as soldiers (little brains) being commanded by a general in the center (big brain).",
+        ],
+        dolphin: [
+            "Dolphins are considered some of the most intelligent animal problem-solvers, next to monkeys, elephants and parrots as examples.",
+            "Dolphins are not smug in real life. Probably. Maybe.",
+            "Dolphins are creative and capable of handling abstract concepts. In captivity, they can be asked to try inventing new tricks, and will often succeed.",
+            "Dolphins have been seen directly communicating with each other. In fact, it is believed that they hold full conversations with one another.",
+        ],
+        whale: [
+            "The top 10 largest animal species are all whales.",
+            "While some whales are active hunters, others are merely supersized filter feeders. This game's whales are of unspecified type.",
+            "Whales are very social creatures. Most whales travel in small groups called pods, which might make up clans, and then communities. Some whales, however, are solitary.",
+            "It is not completely understood why whales sing, but scientists agree it serves some kind of social purpose." /* Whales are observed to react to each other's songs and come to */,
+        ],
+        urchin: [
+            "Sea urchins primarily eat kelp. A lot of kelp.",
+            "Sea urchins have been observed to wear various items on top of themselves, such as rocks. If you give them little hats, they will wear those too. It is not agreed upon why they do this.",
+            "Most sea urchins are not venomous.",
+            "The spines on most sea urchins are not very sharp. You can hold many species urchins in your palm if you're careful.",
+        ],
+        squid: [
+            "Squid eat crabs. They're not eating yours out of politeness.",
+            "Giant squid are real. They live incredibly deep in the ocean.",
+            "Squid have no bones whatsoever.",
+            // Squid have camoflague look into it
+        ],
+        lobster: [
+            "Lobsters really do eat clams. They instinctively know how to crack them open.",
+            "Lobsters can live for an extremely long time. Rarely, some will live longer than humans.",
+            "Lobsters have teeth in their stomach, not in their mouth, and they chew with those teeth, too.",
+            "Lobsters have asymmetric claws. One of them, called the crusher, is used for...crushing. The other, called the pincer, is used for...pincing. Marine biologists were feeling creative, clearly.",
+        ],
+        shrimp: [
+            "There are real eusocial shrimps that live in communities in sponges on reefs, complete with queens.",
+            "Shrimp are close relatives of lobsters. They have a lot of similarities, and in some ways are just smaller, narrower lobsters.",
+        ],
+        eel: [
+            // "Eels come in a wide range of sizes, from just a few inches to multiple meters.",
+        ],
+        chimaera: [
+            "Chimaera are closely related to sharks and rays.",
+            "Chimaera are deep-sea animals, usually found more than 500 meters (~1500 feet) below the surface of the ocean.",
+            "Chimaera have a venomous spine in front of their dorsal fin.",
+            "Chimaera are not purple, they are completely pale, because deep-sea animals like chimaera have no reason to invest in any kind of colors, it's just too dark to care.",
+        ],
+        seaApple: [
+            "Sea apples are a type of sea cucumber. They feed on debris and detritus.",
+            "Sea apples are in no way actually attracted to kelp. It's just a convenient mechanic.",
+        ],
+        jellyfish: [
+            // "Sharks would definitely not have a way of acquiring most kinds of jellyfish in real life.",
+            "Jellyfish can be extremely dangerous. Some kinds of box jellyfish have fatal stings.",
+            // do more research into jellies
+        ],
+        sharkonium: ["There is nothing suspicious about the machines."],
+        porite: [
+            "The idea for porite comes from the structure of bones, which have spongey insides that reduce their weight while retaining their strength.",
+        ],
+        calcinium: ["Calcinium was inspired by the appearance and texture of limestone."],
+        laser: ["Sharks with lasers were overdone, okay? At least 'laser ray' is a pun."],
+        coral: [
+            "Some coral can actually catch small fish.",
+            "Coral is not a plant, it is an animal. A weird, stationary animal.",
+            "Coral are primarily carnivores. They eat plankton (teeny tiny things that can't swim), grabbing them with little tentacles and pulling them into their mouths.",
+            "Many kinds of coral have a mutualistic relationship with certain species of alage, who produce nutrients in exchange for carbon dioxide and shelter.",
+        ],
+        sponge: [
+            "Sponges are incredibly distinct from all other animals. They are asymmetric, have no organs, and their cells can change specialization at will, which is true for no other animal.",
+            "Sponges are incredibly, incredibly old, evolutionarily speaking. They probably date back at least 600 million years.",
+            "Sponge is not a plant, it is an animal. A weird, amorphous animal.",
+            "The pores in sponges are designed to help them filter water for food at maximum efficiency.",
+            "Many species of sponge have a mualistic realitionship with certain species of algae. The algaes use photosynthesis to produce food for the sponges.",
+        ],
+        algae: [
+            "Algae comes in many different shapes, sizes, and forms, like 'valonia ventricosa,' a species where every individual cell can grow larger than a grape. Look it up, it's insane.",
+            "Algae is neither plant nor animal. It is something else entirely (a protist?).",
+            "Kelp is a kind of algae. In fact, all seaweed is algae. The sea is mostly just advanced algae and a bunch of animals, with very few actual plants.",
+        ],
+        kelp: ["Kelp is not a plant. It's a kind of algae, and algae isn't a plant, so kelp isn't a plant."],
+        arcana: ["Arcane, super-charged energy crystals are definitely not real."],
+        ice: ["In the original shark game, ice used to eat away your resources instead of slowing their production."],
+        tar: ["In the original shark game, tar was gained passively. Machines produced basically none."],
+    },
+
+    default: [
+        "Shark Game's initial bare minimum code came from an abandoned idle game about bees. Almost no trace of bees remains!",
+        "The existence of resources that create resources that create resources in this game were inspired by Derivative Clicker!",
+        "Kitten Game was an inspiration for this game! This surprises probably no one. The very first message the game gives you is a nod of sorts.",
+        "There is a surprising deficit of cookie in this game.",
+        "Remoras were banished from the oceans in the long bygone eras. The sharks hope they never come back.",
+        "Fun facts will only talk about things you have already seen in-game.",
+        "Fun facts have always been in the game's code, but have never been exposed until this system for displaying them was added.",
+        "New Frontiers, this Shark Game mod, was inspired by the unfolding nature of the Candy Box games and A Dark Room.",
+        "Any timewalls in this game can be completely bypassed with good strategy.",
+        "This game has keybinds. They are more useful than you might think. Check the options menu.",
+    ],
+};
 
 SharkGame.Changelog = {
-    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20220603a": [
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 2022070?a": [
+        "Time in the minute hand can now persist between worlds, with a few caveats.",
+        "Added 3 new aspects that complement the changes to minute hand time.",
+        "Changed the pricing and location of aspects on the tree.",
+        "Disabling idle time accruing in the minute hand no longer completely removes it from the UI.",
+        "Added a choice to use SI units.",
+        "Fixed a bug where tooltips would persist when changing tabs via hotkey.",
+        "Fixed a bug where the game throws errors when trying to disable buttons while paused.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220630a": [
+        "Added a setting to disable idle time from the pause button.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220629a": [
+        "Fixed a bug with a certain sponge button not appearing.",
+        "Fixed a bug with pressing buttons that don't exist anymore.",
+        "Updated the pause button, which now activates idle mode at will.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220625a": [
+        "Added Volcanic worldtype.",
+        "Added FUN FACTS! Press to receive a random fun fact! You get different ones based on where you are and what you own!",
+        "World-time doesn't increase when you are offline or idle. That time is added only if you use it through the minute hand (time from the hour hand aspect is excluded).",
+        "Stuff table tooltips now show how a resource slows or speeds up others.",
+        "Began adding placeholder art to temporarily supplement actually completed art.",
+        "Removed alpha notice.",
+        "Added a link to the hub on the titlebar.",
+        "New credits (see bottom of page).",
+        "Fixed a bunch of miscellaneous bugs.",
+        "Did other assorted tasks.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20220603a": [
         "Added Marine worldtype.",
         "Planet descriptions are now much more vague until you've visited them.",
         "Distant Foresight greatly decreases vagueness of planet descriptions now.",
         "Swapped the order of some aspects on the tree.",
         "Revised the ending of the Abandoned world.",
         "Revised bits of the Shrouded world's story.",
+        "Abandoned world gives one bonus essence, bumping its scouting reward to 5 and non-scouting reward to 3.",
         "By popular demand, added auto-transmuter to Shrouded.",
         "Fixed some miscellaneous bugs.",
         "Ixbix - tweaked text visibility system",
@@ -890,11 +1151,9 @@ SharkGame.Changelog = {
     ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> 0.2 patch 20210814a": [
         "Added Shrouded worldtype.",
-        "Retooled Haven worldtype.",
-        "Changed the aspect tree and its aspects significantly. All aspects must be refunded because of this. Sorry!",
+        "Changed the aspect tree and its aspects significantly. All essence must be refunded and all aspects must be reset because of this. Sorry!",
         "Implemented a basic 'playstyle' choice. The game will adjust pacing to suit your choice.",
-        "Improved resource table tooltips.",
-        "You can now access the options menu in the gateway. (this took a surprising amount of work)",
+        "You can now access the options menu in the gateway.",
         "'Wipe Save' now doesn't reset any settings. Added a separate button to reset settings.",
         "Added sprites.",
         "Greatly improved game stability when dealing with large numbers (above a quadrillion).",

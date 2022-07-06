@@ -1,5 +1,4 @@
 "use strict";
-/** @type {Map<string, any>} */
 SharkGame.PlayerResources = new Map(); // stats about resources player has
 SharkGame.PlayerIncomeTable = new Map(); // every resource and how much is produced
 SharkGame.ResourceMap = new Map(); // every resource and what it produces at base income and after modifiers are applied
@@ -25,7 +24,18 @@ SharkGame.Resources = {
     init() {
         // set all the amounts and total amounts of resources to 0
         $.each(SharkGame.ResourceTable, (resourceId, resource) => {
-            SharkGame.ResourceMap.set(resourceId, _.cloneDeep(resource));
+            const resourceObject = _.cloneDeep(resource);
+            if (resourceObject.name)
+                Object.defineProperty(resourceObject, `name`, Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `name`));
+            if (resourceObject.singleName)
+                Object.defineProperty(
+                    resourceObject,
+                    `singleName`,
+                    Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `singleName`)
+                );
+            if (resourceObject.desc)
+                Object.defineProperty(resourceObject, `desc`, Object.getOwnPropertyDescriptor(SharkGame.ResourceTable[resourceId], `desc`));
+            SharkGame.ResourceMap.set(resourceId, resourceObject);
         });
 
         SharkGame.ResourceMap.forEach((resource, resourceId) => {
@@ -77,6 +87,12 @@ SharkGame.Resources = {
     },
 
     setup() {
+        // reapply all modifiers
+        SharkGame.ResourceMap.forEach((resource, resourceId) => {
+            $.each(resource.baseIncome, (generatedId) => {
+                res.reapplyModifiers(resourceId, generatedId);
+            });
+        });
         res.recalculateIncomeTable();
         res.reconstructResourcesTable();
     },
@@ -277,24 +293,27 @@ SharkGame.Resources = {
     },
 
     getProductAmountFromGeneratorResource(generator, product, numGenerator = res.getResource(generator)) {
+        const baseIncome = SharkGame.ResourceMap.get(generator).income[product];
         return (
-            SharkGame.ResourceMap.get(generator).income[product] *
-            numGenerator *
-            res.getSpecialMultiplier() *
-            res.getNetworkIncomeModifier("generator", generator) *
-            res.getNetworkIncomeModifier("resource", product) *
-            cad.speed *
-            res.idleMultiplier
+            (baseIncome *
+                numGenerator *
+                res.getSpecialMultiplier() *
+                res.getNetworkIncomeModifier("generator", generator) *
+                res.getNetworkIncomeModifier("resource", product, baseIncome) *
+                cad.speed *
+                res.idleMultiplier) /
+            SharkGame.persistentFlags.dialSetting
         );
     },
 
-    getNetworkIncomeModifier(network, resource) {
+    getNetworkIncomeModifier(network, resource, baseIncome) {
         switch (network) {
             case "generator":
                 network = SharkGame.GeneratorIncomeAffected;
                 break;
             case "resource":
                 network = SharkGame.ResourceIncomeAffected;
+                if (baseIncome && baseIncome < 0) return 1;
         }
 
         const node = network[resource];
@@ -598,9 +617,9 @@ SharkGame.Resources = {
 
         handleTokenDragStart(event) {
             event.originalEvent.dataTransfer.setData("tokenId", event.originalEvent.target.id);
-            //chrome forcing stinky workaround
+            // chrome forcing stinky workaround
             res.tokens.chromeForcesWorkarounds = event.originalEvent.target.id;
-            //event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
+            // event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
             event.originalEvent.dataTransfer.setData("tokenLocation", SharkGame.flags.tokens[this.id]);
             const image = document.createElement("img");
             image.src = "img/raw/general/theToken.png";
@@ -726,7 +745,8 @@ SharkGame.Resources = {
             const multiplier = (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1);
             if (targetId === "NA" || targetId.includes("token")) {
                 return;
-            } else if (targetId.includes("resource")) {
+            }
+            if (targetId.includes("resource")) {
                 res.applyModifier("theTokenForGenerators", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
             } else if (targetId.includes("income")) {
                 res.applyModifier("theTokenForResources", targetId.split("-")[1], reverseOrApply === "apply" ? multiplier : 1 / multiplier);
@@ -819,12 +839,14 @@ SharkGame.Resources = {
         },
 
         init() {
-            this.changeRealMultiplier(1);
+            res.minuteHand.realMultiplier = 1;
             SharkGame.persistentFlags.everIdled = false;
             SharkGame.flags.minuteHandTimer = 0;
+            SharkGame.flags.bonusTime = 0;
+            SharkGame.flags.hourHandLeft = 0;
             SharkGame.persistentFlags.selectedMultiplier = 2;
-            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
             this.active = false;
+            this.changeSelectedMultiplier(null, SharkGame.persistentFlags.selectedMultiplier);
             $("#minute-hand-div").empty();
         },
 
@@ -832,8 +854,11 @@ SharkGame.Resources = {
             if (_.isUndefined(SharkGame.flags.minuteHandTimer)) {
                 SharkGame.flags.minuteHandTimer = 0;
             }
+            if (_.isUndefined(SharkGame.flags.hourHandLeft)) {
+                SharkGame.flags.hourHandLeft = 0;
+            }
 
-            if (!SharkGame.Settings.current.idleEnabled || !SharkGame.persistentFlags.everIdled) {
+            if (!SharkGame.persistentFlags.everIdled) {
                 $("#minute-hand-div").empty();
             } else if ($("#minute-hand-toggle").length === 0) {
                 this.buildUI();
@@ -854,7 +879,9 @@ SharkGame.Resources = {
             $("#minute-hand-toggle").html("<strong>TOGGLE</strong>");
             $("#minute-hand-div").append($("<div>").attr("id", "minute-row-two"));
             $("#minute-row-two").append($("<span>").attr("id", "minute-multiplier"));
-            $("#minute-hand-div").append($("<div>").attr("id", "minute-time"));
+            $("#minute-hand-div").append(
+                $("<div>").attr("id", "minute-time") /* .on("mouseenter", res.minuteHand.showTimeTooltip).on("mouseleave", res.tableTextLeave) */
+            );
 
             $("#minute-row-two").append($("<span>").html("("));
             const slider = $("<input>")
@@ -894,9 +921,25 @@ SharkGame.Resources = {
                     res.minuteHand.toggleMinuteHand();
                 }
             } else if (!res.minuteHand.active) {
-                SharkGame.flags.minuteHandTimer += timeElapsed;
+                SharkGame.flags.minuteHandTimer += timeElapsed * (1 + SharkGame.Aspects.doubleTime.level);
+                res.minuteHand.addBonusTime(timeElapsed * SharkGame.Aspects.doubleTime.level);
             } else {
-                SharkGame.flags.minuteHandTimer -= timeElapsed * (res.minuteHand.realMultiplier - 1);
+                const timeRemoved = timeElapsed * (res.minuteHand.realMultiplier - 1);
+
+                if (SharkGame.flags.hourHandLeft > 0) {
+                    SharkGame.flags.hourHandLeft -= timeRemoved;
+                } else if (SharkGame.flags.requestedTimeLeft > 0) {
+                    SharkGame.flags.requestedTimeLeft -= timeRemoved;
+                }
+
+                if (SharkGame.flags.hourHandLeft < 0) {
+                    SharkGame.flags.hourHandLeft = 0;
+                }
+                if (SharkGame.flags.requestedTimeLeft < 0) {
+                    SharkGame.flags.requestedTimeLeft = 0;
+                }
+
+                SharkGame.flags.minuteHandTimer -= timeRemoved;
                 if (SharkGame.flags.minuteHandTimer < 0) {
                     res.minuteHand.disableNextTick = true;
                     // the net effect of this next statement is making the processing which
@@ -911,6 +954,8 @@ SharkGame.Resources = {
 
         toggleMinuteHand() {
             if (!res.minuteHand.active && SharkGame.flags.minuteHandTimer > 0) {
+                main.endIdle();
+                if (cad.pause) res.pause.togglePause();
                 res.minuteHand.active = true;
                 res.minuteHand.changeRealMultiplier(SharkGame.persistentFlags.selectedMultiplier);
                 $("#minute-hand-toggle").addClass("minuteOn");
@@ -968,11 +1013,24 @@ SharkGame.Resources = {
         },
 
         applyHourHand() {
-            SharkGame.flags.minuteHandTimer = 60000 * SharkGame.Aspects.theHourHand.level;
+            const hourHand = 60000 * SharkGame.Aspects.theHourHand.level;
+            SharkGame.flags.hourHandLeft = hourHand;
+            SharkGame.flags.minuteHandTimer += hourHand;
             this.updateDisplay();
         },
 
-        formatMinuteTime(milliseconds) {
+        giveRequestedTime() {
+            if (SharkGame.persistentFlags.requestedTime) {
+                SharkGame.flags.minuteHandTimer += SharkGame.persistentFlags.requestedTime;
+                this.addBonusTime(SharkGame.persistentFlags.requestedTime);
+                SharkGame.flags.requestedTimeLeft = SharkGame.persistentFlags.requestedTime;
+                SharkGame.Log.addMessage(`Took ${this.formatMinuteTime(SharkGame.persistentFlags.requestedTime)} out of storage.`);
+                SharkGame.persistentFlags.requestedTime = 0;
+            }
+            this.updateDisplay();
+        },
+
+        formatMinuteTime(milliseconds, alwaysRoundSeconds) {
             const numSeconds = Math.floor(milliseconds / 100) / 10;
             const numMinutes = Math.floor(numSeconds / 60);
             const numHours = Math.floor(numMinutes / 60);
@@ -981,7 +1039,7 @@ SharkGame.Resources = {
             const numMonths = Math.floor(numWeeks / 4);
             const numYears = Math.floor(numMonths / 12);
 
-            const formatSeconds = (numSeconds >= 60 ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
+            const formatSeconds = (numSeconds >= 60 || alwaysRoundSeconds ? Math.round(numSeconds % 60) : (numSeconds % 60).toFixed(1)) + "s";
             const formatMinutes = numMinutes > 0 ? (numMinutes % 60) + "m " : "";
             const formatHours = numHours > 0 ? (numHours % 24) + "h " : "";
             const formatDays = numDays > 0 ? (numDays % 7) + "D, " : "";
@@ -1017,19 +1075,44 @@ SharkGame.Resources = {
         },
 
         showTooltip() {
-            $("#tooltipbox").html(
-                "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
-            );
+            if (SharkGame.Settings.current.showTooltips) {
+                if (SharkGame.Settings.current.idleEnabled) {
+                    $("#tooltipbox").html(
+                        "This is the <strong>minute hand</strong>.<br>It stores offline and idle progress.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                    );
+                } else {
+                    $("#tooltipbox").html(
+                        "This is the <strong>minute hand</strong>.<br>It stores time from various sources.<br><br>Use the slider to adjust speed.<br>Press the button to unleash it."
+                    );
+                }
+            }
         },
+
+        /*         showTimeTooltip() {
+            if (SharkGame.Settings.current.showTooltips) {
+                $("#tooltipbox").html(`You have ${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.flags.minuteHandTimer))} left.` +
+                (SharkGame.flags.hourHandLeft ? `<br>(${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.flags.hourHandLeft))} is from the hour hand.)` : "") +
+                `<br>You have ${sharktext.boldString(res.minuteHand.formatMinuteTime(SharkGame.persistentFlags.minuteStorage))} in storage.`);
+            }
+        }, */
 
         toggleOff() {
             if (res.minuteHand.active) {
                 res.minuteHand.toggleMinuteHand();
             }
         },
+
+        addBonusTime(time) {
+            if (!SharkGame.flags.bonusTime) SharkGame.flags.bonusTime = 0;
+            SharkGame.flags.bonusTime += time;
+        },
     },
 
     pause: {
+        init() {
+            if (cad.pause) this.togglePause();
+        },
+
         togglePause() {
             if (cad.pause) {
                 $("#pause-toggle").removeClass("on");
@@ -1039,6 +1122,7 @@ SharkGame.Resources = {
                 $("#pause-toggle").addClass("on");
                 cad.pause = true;
                 SharkGame.persistentFlags.pause = true;
+                if (res.minuteHand.active) res.minuteHand.toggleMinuteHand();
             }
         },
 
@@ -1048,6 +1132,12 @@ SharkGame.Resources = {
             } else {
                 $("#tooltipbox").html("Click to <strong>pause</strong>, stopping most timers and all resources.");
             }
+        },
+    },
+
+    dial: {
+        init() {
+            SharkGame.persistentFlags.dialSetting = 1;
         },
     },
 
@@ -1177,7 +1267,7 @@ SharkGame.Resources = {
                                 $("#tooltipbox").html(
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                         " efficiency x" +
-                                        (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                                        (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1)
                                 );
                             }
                             event.originalEvent.preventDefault();
@@ -1207,7 +1297,7 @@ SharkGame.Resources = {
                                 "all " +
                                     sharktext.getResourceName(resourceKey, false, 69, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                                     " gains x" +
-                                    (SharkGame.Aspects.coordinatedCooperation.level + 2)
+                                    (SharkGame.Aspects.coordinatedCooperation.level + 2) * (SharkGame.Aspects.collectiveCooperation.level + 1)
                             );
                         }
                         event.originalEvent.preventDefault();
@@ -1275,22 +1365,142 @@ SharkGame.Resources = {
                 if (amount > 0) {
                     producertext += "<br>";
                     producertext +=
-                        (which === "world" || which === "aspectAffect"
-                            ? ""
-                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (sharktext.shouldHideNumberOfThis(which) ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(amount).bold();
                 } else if (amount < 0) {
                     consumertext += "<br>";
                     consumertext +=
-                        (which === "world" || which === "aspectAffect"
-                            ? ""
-                            : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
+                        (sharktext.shouldHideNumberOfThis(which) ? "" : "<strong>" + sharktext.beautify(res.getResource(which)) + "</strong> ") +
                         sharktext.getResourceName(which, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
                         "  <span class='littleTooltipText'>at</span>  " +
                         sharktext.beautifyIncome(-amount).bold();
                 }
+            }
+        });
+
+        const sendObject = {};
+        sendObject[resourceName] = res.getResource(resourceName);
+        const condensedEffects = res.condenseNode(sendObject);
+        const furtherCondensedEffects = { generators: { increase: {}, decrease: {} }, resources: { increase: {}, decrease: {} } };
+
+        $.each(condensedEffects.genAffect, (type, effects) => {
+            switch (type) {
+                case "increase":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        furtherCondensedEffects.generators.increase[affectedGenerator] = degree;
+                    });
+                    break;
+                case "decrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        furtherCondensedEffects.generators.decrease[affectedGenerator] = -degree;
+                    });
+                    break;
+                case "multincrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        if (typeof furtherCondensedEffects.generators.increase[affectedGenerator] !== `number`) {
+                            furtherCondensedEffects.generators.increase[affectedGenerator] = degree;
+                        } else {
+                            furtherCondensedEffects.generators.increase[affectedGenerator] += 1;
+                            furtherCondensedEffects.generators.increase[affectedGenerator] *= 1 + degree;
+                            furtherCondensedEffects.generators.increase[affectedGenerator] -= 1;
+                        }
+                    });
+                    break;
+                case "multdecrease":
+                    $.each(effects, (affectedGenerator, degree) => {
+                        if (typeof furtherCondensedEffects.generators.decrease[affectedGenerator] !== `number`) {
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] = -degree;
+                        } else {
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] += 1;
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] *= 1 + -degree;
+                            furtherCondensedEffects.generators.decrease[affectedGenerator] -= 1;
+                        }
+                    });
+                    break;
+            }
+        });
+        $.each(condensedEffects.resAffect, (type, effects) => {
+            switch (type) {
+                case "increase":
+                    $.each(effects, (affectedResource, degree) => {
+                        furtherCondensedEffects.resources.increase[affectedResource] = degree;
+                    });
+                    break;
+                case "decrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        furtherCondensedEffects.resources.decrease[affectedResource] = -degree;
+                    });
+                    break;
+                case "multincrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        if (typeof furtherCondensedEffects.resources.increase[affectedResource] !== `number`) {
+                            furtherCondensedEffects.resources.increase[affectedResource] = degree;
+                        } else {
+                            furtherCondensedEffects.resources.increase[affectedResource] += 1;
+                            furtherCondensedEffects.resources.increase[affectedResource] *= 1 + degree;
+                            furtherCondensedEffects.resources.increase[affectedResource] -= 1;
+                        }
+                    });
+                    break;
+                case "multdecrease":
+                    $.each(effects, (affectedResource, degree) => {
+                        if (typeof furtherCondensedEffects.resources.decrease[affectedResource] !== `number`) {
+                            furtherCondensedEffects.resources.decrease[affectedResource] = -degree;
+                        } else {
+                            furtherCondensedEffects.resources.decrease[affectedResource] += 1;
+                            furtherCondensedEffects.resources.decrease[affectedResource] *= 1 + -degree;
+                            furtherCondensedEffects.resources.decrease[affectedResource] -= 1;
+                        }
+                    });
+                    break;
+            }
+        });
+
+        let increaseText = "";
+
+        $.each(furtherCondensedEffects.generators.increase, (affectedGenerator, degree) => {
+            if (world.doesResourceExist(affectedGenerator) && res.getResource(affectedGenerator) > SharkGame.EPSILON) {
+                increaseText += "<br>";
+                increaseText +=
+                    sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` speed by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
+            }
+        });
+
+        $.each(furtherCondensedEffects.resources.increase, (affectedResource, degree) => {
+            if (world.doesResourceExist(affectedResource) && res.getResource(affectedResource) > SharkGame.EPSILON) {
+                increaseText += "<br>";
+                increaseText +=
+                    sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` gains by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
+            }
+        });
+
+        let decreaseText = "";
+
+        $.each(furtherCondensedEffects.generators.decrease, (affectedGenerator, degree) => {
+            if (degree < 0) degree = 1 + degree;
+            if (world.doesResourceExist(affectedGenerator) && res.getResource(affectedGenerator) > SharkGame.EPSILON) {
+                decreaseText += "<br>";
+                decreaseText +=
+                    sharktext.getResourceName(affectedGenerator, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` speed by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
+            }
+        });
+
+        $.each(furtherCondensedEffects.resources.decrease, (affectedResource, degree) => {
+            if (degree < 0) degree = 1 + degree;
+            if (world.doesResourceExist(affectedResource) && res.getResource(affectedResource) > SharkGame.EPSILON) {
+                decreaseText += "<br>";
+                decreaseText +=
+                    sharktext.getResourceName(affectedResource, false, 1, sharkcolor.getElementColor("tooltipbox", "background-color")) +
+                    ` gains by ` +
+                    sharktext.boldString(`${sharktext.beautify(Math.floor(100 * degree))}%`);
             }
         });
 
@@ -1313,6 +1523,18 @@ SharkGame.Resources = {
         if (consumertext !== "") {
             text +=
                 "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " CONSUMED BY</span>" + consumertext;
+        }
+
+        if ((increaseText || decreaseText) && (producertext || consumertext || isGeneratingText || isConsumingText)) {
+            text += "<br><span class='littleTooltipText'>and</span>";
+        }
+        if (increaseText !== "") {
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " INCREASING</span>" + increaseText;
+        }
+        if (decreaseText !== "") {
+            text +=
+                "<br><span class='littleTooltipText'>" + sharktext.getIsOrAre(resourceName, 2).toUpperCase() + " DECREASING</span>" + decreaseText;
         }
 
         if (SharkGame.ResourceMap.get(resourceName).desc) {
@@ -1346,8 +1568,7 @@ SharkGame.Resources = {
                         ? resourceCategories[affectedGeneratorCategory].resources
                         : [affectedGeneratorCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, affectedGenerator) => {
+                    $.each(nodes, (_key, affectedGenerator) => {
                         if (world.doesResourceExist(affectedGenerator) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rgad, affectedGenerator, type, affectorResource, value);
                         }
@@ -1368,8 +1589,7 @@ SharkGame.Resources = {
                         ? resourceCategories[affectedResourceCategory].resources
                         : [affectedResourceCategory];
                     // recursively reconstruct the table with the keys in the inverse order
-                    // eslint-disable-next-line id-length
-                    $.each(nodes, (_k, affectedResource) => {
+                    $.each(nodes, (_key, affectedResource) => {
                         if (world.doesResourceExist(affectedResource) && world.doesResourceExist(affectorResource)) {
                             res.addNetworkNode(rad, affectedResource, type, affectorResource, degree);
                         }

@@ -6,7 +6,10 @@
         "jquery": true,
         "es2021": true
     },
-    "extends": ["eslint:recommended", "prettier/prettier", "plugin:prettier/recommended"],
+    "parserOptions": {
+        "ecmaVersion": 2021
+    },
+    "extends": ["eslint:recommended", "standard", "plugin:prettier/recommended"],
     "globals": {
         "_": "readonly",
         "ascii85": "readonly",
@@ -28,6 +31,7 @@
         "sharkmath": "readonly",
         "sharkcolor": "readonly",
         "sharkmisc": "readonly",
+        "sharktime": "readonly",
         "cad": "readonly"
     },
     "ignorePatterns": ["js/lib/**"],
@@ -46,6 +50,6 @@
         "no-var": "error",
         "no-shadow": ["error", { "builtinGlobals": true, "hoist": "all", "allow": ["name", "event"] }],
         "eqeqeq": ["error", "smart"],
-        "id-length": ["error", { "min": 3, "exceptionPatterns": ["i", "id", "to", "dt", "P"] }]
+        "id-length": ["error", { "min": 3, "exceptionPatterns": ["i", "id", "to", "dt", "P", "A", "L", "R"] }]
     }
 }

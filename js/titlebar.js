@@ -21,21 +21,13 @@ SharkGame.TitleBar = {
         },
     },
 
-    changelogLink: {
-        name: "changelog",
-        main: false,
-        onClick() {
-            SharkGame.PaneHandler.showChangelog();
-        },
-    },
-
-    helpLink: {
+    /*     helpLink: {
         name: "help",
         main: true,
         onClick() {
             SharkGame.PaneHandler.showHelp();
         },
-    },
+    }, */
 
     skipLink: {
         name: "skip",
@@ -54,13 +46,29 @@ SharkGame.TitleBar = {
         },
     },
 
-    creditsLink: {
+    funFactsLink: {
+        name: "fun fact",
+        main: false,
+        onClick() {
+            SharkGame.FunFacts.showFact();
+        },
+    },
+
+    changelogLink: {
+        name: "changelog",
+        main: false,
+        onClick() {
+            SharkGame.PaneHandler.showChangelog();
+        },
+    },
+
+    /* creditsLink: {
         name: "credits",
         main: false,
         onClick() {
             SharkGame.PaneHandler.addPaneToStack("Credits", SharkGame.Panes.credits);
         },
-    },
+    }, */ // credits now at bottom of page
 
     donateLink: {
         name: "donate",
@@ -76,13 +84,27 @@ SharkGame.TitleBar = {
         link: "https://discord.gg/eYqApFkFPY",
     },
 
-    noticeLink: {
+    hubLink: {
+        name: "back to hub",
+        main: false,
+        onClick() {
+            try {
+                SharkGame.Save.saveGame();
+            } catch (err) {
+                log.addError(err);
+            }
+            log.addMessage("Saved game.");
+            window.location.href = "https://shark.tobot.dev/";
+        },
+    },
+
+    /* noticeLink: {
         name: "notice",
         main: false,
         onClick() {
             SharkGame.PaneHandler.addPaneToStack("v0.2 OPEN ALPHA NOTICE", SharkGame.Panes.notice);
         },
-    },
+    }, */
 };
 
 SharkGame.TitleBarHandler = {
@@ -101,7 +123,7 @@ SharkGame.TitleBarHandler = {
     },
 
     updateTopBar() {
-        if (SharkGame.Settings.current["minimizedTopbar"]) {
+        if (SharkGame.Settings.current.minimizedTopbar) {
             document.querySelector("body").classList.add("top-bar");
             $("#wrapper").removeClass("notMinimized");
             $("#tabList").removeClass("notFixed");

@@ -22,6 +22,10 @@ SharkGame.World = {
         res.setResource("world", 1);
         res.setTotalResource("world", 1);
         world.apply();
+        res.setResource("specialResourceOne", 1);
+        res.setTotalResource("specialResourceOne", 1);
+        res.setResource("specialResourceTwo", 1);
+        res.setTotalResource("specialResourceTwo", 1);
     },
 
     apply() {
@@ -85,10 +89,6 @@ SharkGame.World = {
         return SharkGame.WorldTypes[world.worldType].entry;
     },
 
-    /**
-     * @param {string} resourceName ID of resource to check
-     * @returns Whether or not the resource exists on the current planet
-     */
     doesResourceExist(resourceName) {
         return world.worldResources.get(resourceName).exists;
     },

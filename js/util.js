@@ -22,7 +22,7 @@ SharkGame.MathUtil = {
         if (typeof current === "object") {
             return available.dividedBy(cost).plus(current);
         }
-        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); //safety margin
+        available = Math.floor(Math.floor(available) * (1 - 1e-9) + 0.1); // safety margin
         return available / cost + current;
     },
 
@@ -46,7 +46,7 @@ SharkGame.MathUtil = {
         if (typeof current === "object") {
             return current.times(current).plus(current).plus(available.times(2).dividedBy(cost)).plus(0.25).squareRoot().minus(0.5);
         } else {
-            available = Math.floor(Math.floor(available) * (1 - 1e-9)); //safety margin
+            available = Math.floor(Math.floor(available) * (1 - 1e-9)); // safety margin
             return Math.sqrt(current * current + current + (2 * available) / cost + 0.25) - 0.5;
         }
     },
@@ -108,10 +108,10 @@ SharkGame.MathUtil = {
     },
 };
 
-//linear floor(sqrt(current^2 + current + 2 * price/k + 1/4) - 1/2)
-//exponential floor(log(b^old + (b-1) * price / k) / log(b))
-//linear total cost = k / 2 * (n^2 + n)
-//exponential total cost = k * (b^n - 1) / (b - 1)
+// linear floor(sqrt(current^2 + current + 2 * price/k + 1/4) - 1/2)
+// exponential floor(log(b^old + (b-1) * price / k) / log(b))
+// linear total cost = k / 2 * (n^2 + n)
+// exponential total cost = k * (b^n - 1) / (b - 1)
 
 SharkGame.TextUtil = {
     plural(number) {
@@ -121,7 +121,7 @@ SharkGame.TextUtil = {
     getDeterminer(name) {
         const firstLetter = SharkGame.ResourceMap.get(name).name.charAt(0);
 
-        //note to self: make the next line not suck
+        // note to self: make the next line not suck
         // Possibly add an "uncountable" property to resources somehow? Manual works fine though
         if (
             [
@@ -132,6 +132,7 @@ SharkGame.TextUtil = {
                 "spronge",
                 "delphinium",
                 "coralglass",
+                "porite",
                 "sharkonium",
                 "residue",
                 "tar",
@@ -151,7 +152,7 @@ SharkGame.TextUtil = {
     },
 
     getIsOrAre(name, amount = res.getResource(name)) {
-        //should make a universal list for these somewhere in textutil, ya?
+        // should make a universal list for these somewhere in textutil, ya?
         if (
             [
                 "sand",
@@ -161,6 +162,7 @@ SharkGame.TextUtil = {
                 "spronge",
                 "delphinium",
                 "coralglass",
+                "porite",
                 "sharkonium",
                 "residue",
                 "tar",
@@ -177,6 +179,10 @@ SharkGame.TextUtil = {
         return "are";
     },
 
+    shouldHideNumberOfThis(name) {
+        return [`world`, `aspectAffect`, `specialResourceOne`, `specialResourceTwo`].includes(name);
+    },
+
     /** @param {string} string */
     boldString(string) {
         return `<span class='bold'>${string}</span>`;
@@ -185,6 +191,8 @@ SharkGame.TextUtil = {
     beautify(number, suppressDecimals, toPlaces) {
         if (cad.noNumberBeautifying) {
             return number.toExponential(5);
+        } else if (SharkGame.Settings.current.notation === "exponen") {
+            return number.toExponential(2);
         }
 
         let formatted;
@@ -217,7 +225,14 @@ SharkGame.TextUtil = {
                 formatted = "-" + formatted;
             }
         } else {
-            const suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc"];
+            let suffixes;
+            switch (SharkGame.Settings.current.notation) {
+                case "SI":
+                    suffixes = ["", "k", "M", "G", "T", "P", "E", "Z", "Y"];
+                    break;
+                default:
+                    suffixes = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp"];
+            }
             const digits = Math.floor(Math.log10(number));
             // Max for a case where the supported suffix is not specified
             const precision = Math.max(0, 2 - (digits % 3));
@@ -308,9 +323,17 @@ SharkGame.TextUtil = {
             return textToColor || SharkGame.ResourceCategories[resourceName].name;
         }
         const resource = SharkGame.ResourceMap.get(resourceName);
-        const amount = arbitraryAmount ? arbitraryAmount : Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
+        const amount = arbitraryAmount || Math.floor(SharkGame.PlayerResources.get(resourceName).amount);
         let name = textToColor || (amount - 1 < SharkGame.EPSILON ? resource.singleName : resource.name);
         let extraStyle = "";
+
+        if (SharkGame.flags.egg) {
+            if (amount > 1) {
+                name = `eggs`;
+            } else {
+                name = `egg`;
+            }
+        }
 
         // easter egg logic
         if (name === "world") {
@@ -465,6 +488,26 @@ SharkGame.ColorUtil = {
 
     getVariableColor(variable) {
         return getComputedStyle(document.body).getPropertyValue(variable).replace(/ /g, "");
+    },
+};
+
+SharkGame.TimeUtil = {
+    getRunTime(ignoreMinuteHandAndPause) {
+        const realRunTime = _.now() - SharkGame.timestampRunStart;
+        const pausedTime = SharkGame.persistentFlags.totalPausedTime + SharkGame.persistentFlags.currentPausedTime;
+        let storedTime = 0;
+        if (typeof SharkGame.flags.hourHandLeft === `number`) {
+            storedTime = SharkGame.flags.minuteHandTimer - SharkGame.flags.hourHandLeft;
+        }
+        if (typeof SharkGame.flags.bonusTime === `number`) {
+            storedTime -= SharkGame.flags.bonusTime;
+        }
+
+        if (ignoreMinuteHandAndPause) {
+            return realRunTime;
+        } else {
+            return realRunTime - pausedTime - storedTime;
+        }
     },
 };
 

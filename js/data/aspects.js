@@ -1,23 +1,5 @@
 "use strict";
 
-/**
- * @type {Record<string, {
- *     requiredBy: string[] | undefined
- *     eventSprite: boolean // Whether to use the event spritesheet
- *     icon: string
- *     posX: number
- *     posY: number
- *     width: number
- *     height: number
- *     level: number
- *     prerequisites: string[]
- *     getCost(level: number): number
- *     getEffect(level: number): string
- *     getUnlocked(): string // tells you if miscellaneous requirements have been met. if they have, returns nothing. if they have not, returns a message stating why not.
- *     clicked(): void
- *     apply(time: string): void
- * }>
- */
 // idea: aspect which helps to reveal more of the tree
 SharkGame.Aspects = {
     apotheosis: {
@@ -98,8 +80,8 @@ SharkGame.Aspects = {
         },
     },
     tokenOfIndustry: {
-        posX: 300,
-        posY: 225,
+        posX: 250,
+        posY: 250,
         width: 40,
         height: 40,
 
@@ -113,7 +95,7 @@ SharkGame.Aspects = {
                 case 0:
                     return 1;
                 case 1:
-                    return 20;
+                    return 24;
                 case 2:
                     return 100;
             }
@@ -173,13 +155,8 @@ SharkGame.Aspects = {
         getCost(_level) {
             return 2;
         },
-        getEffect(level) {
-            switch (level) {
-                case 1:
-                    return "Reveals basic information about a world before you choose to visit it.";
-                //case 2:
-                //    return "Reveals basic information about a world before you choose to visit it, and identifies unknown resources.";
-            }
+        getEffect(_level) {
+            return "Reveals much more information about a world before you choose to visit it.";
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
@@ -197,14 +174,13 @@ SharkGame.Aspects = {
         width: 40,
         height: 40,
 
-        // need to give out patience rewards to those who had pending patience
         max: 6,
         level: 0,
         name: "Patience",
         description: "They say that good things come to those who wait.",
         core: true,
         getCost(level) {
-            return (level + 2) ** 2;
+            return level > 0 ? (level + 1) ** 2 : 4;
         },
         getEffect(level) {
             return (
@@ -221,6 +197,40 @@ SharkGame.Aspects = {
             tree.handleClickedAspect(this);
         },
     },
+    theDial: {
+        posX: -125,
+        posY: 300,
+        width: 40,
+        height: 40,
+
+        max: 1,
+        level: 0,
+        name: "The Dial",
+        description: "No matter how long it takes, you can still do it.",
+        noRefunds: true,
+        core: true,
+        getCost(_level) {
+            return 8;
+        },
+        getEffect(_level) {
+            return (
+                "Unlock the choice to slow down time in exchange for a large " +
+                sharktext.boldString("multiplier") +
+                " on " +
+                sharktext.boldString("Patience") +
+                " rewards."
+            );
+        },
+        getUnlocked() {
+            if (res.getTotalResource("essence") < 32) {
+                return "Earn 32 lifetime essence to unlock this aspect.";
+            }
+        },
+        prerequisites: ["patience"],
+        clicked(_event) {
+            tree.handleClickedAspect(this);
+        },
+    },
     pathOfTime: {
         posX: 450,
         posY: 250,
@@ -232,7 +242,7 @@ SharkGame.Aspects = {
         name: "Path of Time",
         description: "Patience is the choice of those who prefer inaction.",
         getCost(level) {
-            return (level + 1) ** 2 + 1;
+            return 3 * level + 2;
         },
         getEffect(level) {
             return (
@@ -270,8 +280,8 @@ SharkGame.Aspects = {
         },
     },
     coordinatedCooperation: {
-        posX: 220,
-        posY: 90,
+        posX: 150,
+        posY: 200,
         width: 40,
         height: 40,
 
@@ -504,15 +514,15 @@ SharkGame.Aspects = {
                 SharkGame.Button.makeButton("respecModeButton", "respec mode", $("#aspectTreeNavButtons"), tree.toggleRefundMode);
                 SharkGame.Button.makeButton("respecButton", "respec all", $("#aspectTreeNavButtons"), () => {
                     if (confirm("Are you sure you want to respec all refundable aspects?")) {
-                        tree.respecTree;
+                        tree.respecTree();
                     }
                 });
             }
         },
     },
     crystallineSkin: {
-        posX: 425,
-        posY: 150,
+        posX: 575,
+        posY: 300,
         width: 40,
         height: 40,
 
@@ -573,7 +583,7 @@ SharkGame.Aspects = {
     }, */
     internalCalculator: {
         posX: 575,
-        posY: 225,
+        posY: 200,
         width: 40,
         height: 40,
 
@@ -612,8 +622,8 @@ SharkGame.Aspects = {
         },
     },
     extensiveOrganization: {
-        posX: 550,
-        posY: 125,
+        posX: 700,
+        posY: 175,
         width: 40,
         height: 40,
 
@@ -632,7 +642,7 @@ SharkGame.Aspects = {
             }
         },
         getUnlocked() {
-            //return SharkGame.Gateway.completedWorlds.includes("tempestuous") ? "" : "Complete the Tempestuous worldtype to unlock this aspect.";
+            // return SharkGame.Gateway.completedWorlds.includes("tempestuous") ? "" : "Complete the Tempestuous worldtype to unlock this aspect.";
         },
         prerequisites: ["internalCalculator"],
         clicked(_event) {
@@ -648,8 +658,8 @@ SharkGame.Aspects = {
         },
     },
     theHourHand: {
-        posX: 75,
-        posY: 400,
+        posX: 350,
+        posY: 175,
         width: 40,
         height: 40,
 
@@ -662,14 +672,84 @@ SharkGame.Aspects = {
             return 3 + level;
         },
         getEffect(level) {
-            return "The Minute Hand starts with " + sharktext.boldString(60 * level + "s") + " when entering a new world.";
+            return (
+                "The Minute Hand starts with " +
+                sharktext.boldString(60 * level + "s") +
+                " when entering a world. This " +
+                sharktext.boldString("DOESN'T") +
+                " count against your world-time when used."
+            );
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {
                 return "Scout at least one world to unlock this aspect.";
             }
         },
-        prerequisites: ["pathOfEnlightenment"],
+        prerequisites: ["tokenOfIndustry"],
+        clicked(_event) {
+            tree.handleClickedAspect(this);
+        },
+    },
+    doubleTime: {
+        posX: 450,
+        posY: 150,
+        width: 40,
+        height: 40,
+
+        max: 5,
+        level: 0,
+        name: "Double Time",
+        description: "Why work twice as hard when you have twice as long?",
+        core: false,
+        getCost(level) {
+            return 3 * level + 3;
+        },
+        getEffect(level) {
+            return (
+                "The Minute Hand earns " +
+                sharktext.boldString(level + 1 + "×") +
+                " time from all sources (except The Hour Hand). " +
+                "Bonus time counts against your world-time when used."
+            );
+        },
+        getUnlocked() {
+            if (res.getTotalResource("essence") < 32) {
+                return "Earn 32 lifetime essence to unlock this aspect.";
+            }
+        },
+        prerequisites: ["theHourHand"],
+        clicked(_event) {
+            tree.handleClickedAspect(this);
+        },
+    },
+    overtime: {
+        posX: 450,
+        posY: 75,
+        width: 40,
+        height: 40,
+
+        max: 5,
+        level: 0,
+        name: "Overtime",
+        description: "No time for breaks!",
+        core: false,
+        getCost(level) {
+            return 3 * level + 3;
+        },
+        getEffect(level) {
+            return (
+                "The Minute Hand gains " +
+                sharktext.boldString(sharktext.beautify(0.2 * level) + "s") +
+                " per second while disabled. " +
+                "Bonus time counts against your world-time when used."
+            );
+        },
+        getUnlocked() {
+            if (res.getTotalResource("essence") < 32) {
+                return "Earn 32 lifetime essence to unlock this aspect.";
+            }
+        },
+        prerequisites: ["theHourHand"],
         clicked(_event) {
             tree.handleClickedAspect(this);
         },
@@ -686,7 +766,7 @@ SharkGame.Aspects = {
         description: "Resourcefulness leads to prosperity.",
         core: true,
         getCost(level) {
-            return 5 + level;
+            return level !== 4 ? 5 + level : 4;
         },
         getEffect(level) {
             return (
@@ -721,7 +801,11 @@ SharkGame.Aspects = {
             return 2;
         },
         getEffect(_level) {
-            return "Unlock a pause button that freezes most timers and all resources.";
+            if (SharkGame.Settings.current.idleEnabled) {
+                return "Unlock a pause button to toggle idle mode at will.";
+            } else {
+                return "Unlock a pause button that freezes most timers and all resources.";
+            }
         },
         getUnlocked() {
             if (gateway.completedWorlds.length < 2) {

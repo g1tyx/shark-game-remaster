@@ -114,7 +114,7 @@ SharkGame.Save = {
         saveData = this.decodeSave(saveDataString);
 
         if (saveData) {
-            //check for updates
+            // check for updates
             const currentVersion = SharkGame.Save.saveUpdaters.length - 1;
             if (!_.has(saveData, "saveVersion")) {
                 saveData = SharkGame.Save.saveUpdaters[0](saveData);
@@ -172,11 +172,17 @@ SharkGame.Save = {
 
             // load world type
             if (saveData.world) {
-                world.worldType = saveData.world.type;
+                if (!Object.keys(SharkGame.WorldTypes).includes(saveData.world.type)) {
+                    world.worldType = "start";
+                    gateway.badWorld = true;
+                } else {
+                    world.worldType = saveData.world.type;
+                }
             }
 
+            SharkGame.Upgrades.purchaseQueue = [];
             _.each(saveData.upgrades, (upgradeId) => {
-                SharkGame.Lab.addUpgrade(upgradeId, "load");
+                SharkGame.Upgrades.purchaseQueue.push(upgradeId);
             });
 
             // load aspects (need to have the cost reducer loaded before world init)
@@ -354,9 +360,9 @@ SharkGame.Save = {
     },
 
     saveUpdaters: [
-        //used to update saves and to make templates
+        // used to update saves and to make templates
         function update0(save) {
-            //no one is converting a real save to version 0, so it doesn't need real values
+            // no one is converting a real save to version 0, so it doesn't need real values
             save.saveVersion = 0;
             save.version = null;
             save.timestamp = null;
@@ -448,10 +454,10 @@ SharkGame.Save = {
             });
             // reformat tabs
             save.tabs = {
-                current: save.tabs["current"],
-                home: save.tabs["home"].discovered,
-                lab: save.tabs["lab"].discovered,
-                gate: save.tabs["gate"].discovered,
+                current: save.tabs.current,
+                home: save.tabs.home.discovered,
+                lab: save.tabs.lab.discovered,
+                gate: save.tabs.gate.discovered,
                 stats: false,
                 recycler: false,
             };
@@ -617,7 +623,7 @@ SharkGame.Save = {
         },
         function update6(save) {
             // forgot to add numen to saved resources (which is understandable given it can't actually be legitimately achieved at this point)
-            save.resources["numen"] = { amount: 0, totalAmount: 0 };
+            save.resources.numen = { amount: 0, totalAmount: 0 };
             // completely change how gate slot status is saved
             save.gateCostsMet = [false, false, false, false, false, false];
             return save;
@@ -655,7 +661,7 @@ SharkGame.Save = {
             _.each(["iterativeDesign", "superprocessing"], (upgradeId) => {
                 save.upgrades[upgradeId] = false;
             });
-            _.each(["start", "marine", "chaotic", "haven", "tempestuous", "violent", "abandoned", "shrouded", "frigid"], (worldType) => {
+            _.each(["start", "marine", "chaotic", "haven", "tempestuous", "volcanic", "abandoned", "shrouded", "frigid"], (worldType) => {
                 save.completedWorlds[worldType] = false;
             });
             return save;

@@ -83,10 +83,12 @@ SharkGame.Stats = {
         const genStats = $("#generalStats");
         genStats.append($("<h3>").html("General Stats"));
         const firstTime = main.isFirstTime();
-        genStats.append($("<p>").html("Time since you began:<br/><span id='gameTime' class='timeDisplay'></span>").addClass("medDesc"));
+        genStats.append(
+            $("<p>").html("Real time since you began your journey:<br/><span id='gameTime' class='timeDisplay'></span>").addClass("medDesc")
+        );
         if (!firstTime) {
             genStats.append(
-                $("<p>").html("Time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>").addClass("medDesc")
+                $("<p>").html("Relative time since you came through the gate:<br/><span id='runTime' class='timeDisplay'></span>").addClass("medDesc")
             );
             if (SharkGame.persistentFlags.scouting === false) {
                 genStats.append($("<p>").html(`Par: ${gateway.getPar()} minutes`).addClass("medDesc"));
@@ -112,18 +114,7 @@ SharkGame.Stats = {
             stats.recreateIncomeTable = false;
         }
 
-        // update run times
-        const currTime = _.now();
-        const gameTime = sharktext.formatTime(currTime - SharkGame.timestampGameStart);
-        if ($("#gameTime").html() !== gameTime) {
-            $("#gameTime").html(sharktext.formatTime(currTime - SharkGame.timestampGameStart));
-        }
-        const runTime = sharktext.formatTime(
-            currTime - SharkGame.timestampRunStart - SharkGame.persistentFlags.totalPausedTime - SharkGame.persistentFlags.currentPausedTime
-        );
-        if ($("#runTime").html() !== runTime) {
-            $("#runTime").html(runTime);
-        }
+        stats.updateTimers();
 
         if (document.getElementById("tooltipbox").attributes.current) {
             stats.networkTextEnter(null, document.getElementById("tooltipbox").attributes.current.value);
@@ -213,6 +204,19 @@ SharkGame.Stats = {
         }
     },
 
+    updateTimers() {
+        // update run times
+        const gameTime = sharktext.formatTime(_.now() - SharkGame.timestampGameStart);
+        if ($("#gameTime").html() !== gameTime) {
+            $("#gameTime").html(gameTime);
+        }
+
+        const runTime = sharktext.formatTime(sharktime.getRunTime());
+        if ($("#runTime").html() !== runTime) {
+            $("#runTime").html(runTime);
+        }
+    },
+
     updateIncomeTable() {
         SharkGame.ResourceMap.forEach((_resource, resourceId) => {
             if (res.getTotalResource(resourceId) > 0) {
@@ -244,10 +248,9 @@ SharkGame.Stats = {
                             cell = $("#table-amount-" + resourceId);
                         }
 
-                        newValue =
-                            resourceId !== "world" && resourceId !== "aspectAffect"
-                                ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(resourceId)).bold() + "</div>"
-                                : "";
+                        newValue = !sharktext.shouldHideNumberOfThis(resourceId)
+                            ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(resourceId)).bold() + "</div>"
+                            : "";
                         if (cell.html() !== newValue.replace(/'/g, '"')) {
                             cell.html(newValue);
                         }
@@ -277,9 +280,10 @@ SharkGame.Stats = {
                                 "'>" +
                                 (!(SharkGame.BreakdownIncomeTable.get(resourceId)[incomeKey] < 0) ? "+" : "") +
                                 sharktext.beautify(
-                                    incomeValue *
+                                    (incomeValue *
                                         res.getNetworkIncomeModifier("generator", resourceId) *
-                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                        res.getNetworkIncomeModifier("resource", incomeKey)) /
+                                        SharkGame.persistentFlags.dialSetting,
                                     false,
                                     2
                                 ) +
@@ -311,6 +315,7 @@ SharkGame.Stats = {
     },
 
     createIncomeTable() {
+        /** @type {JQuery<HTMLTableElement} */
         let incomesTable = $("#incomeTable");
         if (incomesTable.length === 0) {
             incomesTable = $("<table>").attr("id", "incomeTable");
@@ -370,7 +375,7 @@ SharkGame.Stats = {
                     $("<td>")
                         .attr("rowspan", subheadings)
                         .html(
-                            headingName !== "world" && headingName !== "aspectAffect"
+                            !sharktext.shouldHideNumberOfThis(headingName)
                                 ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(headingName)).bold() + "</div>"
                                 : ""
                         )
@@ -437,7 +442,7 @@ SharkGame.Stats = {
                 multipliers.aspect.push(res.getMultiplierProduct("aspect", generatorName, incomeKey));
             });
             $.each(multipliers, (category, values) => {
-                //thanks stackoverflow
+                // thanks stackoverflow
                 multipliers[category] =
                     values.filter((value, index, list) => {
                         return list.indexOf(value) === index;
@@ -463,7 +468,7 @@ SharkGame.Stats = {
                     resourceMapRow.append(
                         $("<td>")
                             .html(
-                                generatorName !== "world" && generatorName !== "aspectAffect"
+                                !sharktext.shouldHideNumberOfThis(generatorName)
                                     ? "<div style='text-align:right'>" + sharktext.beautify(res.getResource(subheadingKey)).bold() + "</div>"
                                     : ""
                             )
@@ -484,12 +489,25 @@ SharkGame.Stats = {
                         .addClass(rowStyle)
                 );
 
+                const baseIncomeChangeChar =
+                    incomeValue *
+                        res.getNetworkIncomeModifier("generator", generatorName, incomeValue) *
+                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue) <
+                    0
+                        ? ""
+                        : "+";
                 // which mode are we in?
                 if (SharkGame.Settings.current.grottoMode === "advanced") {
                     addCell(
                         [
                             res.INCOME_COLOR,
-                            changeChar + sharktext.beautify(SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey], false, 2) + "/s",
+                            baseIncomeChangeChar +
+                                sharktext.beautify(
+                                    SharkGame.ResourceMap.get(generatorName).baseIncome[incomeKey] / SharkGame.persistentFlags.dialSetting,
+                                    false,
+                                    2
+                                ) +
+                                "/s",
                         ],
                         "inline",
                         "advanced-base-income-" + generatorName + "-" + incomeKey
@@ -525,7 +543,8 @@ SharkGame.Stats = {
                     }
 
                     const resourceAffectMultiplier =
-                        res.getNetworkIncomeModifier("generator", generatorName) * res.getNetworkIncomeModifier("resource", incomeKey);
+                        res.getNetworkIncomeModifier("generator", generatorName, incomeValue) *
+                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue);
                     if (resourceAffectMultiplier !== 1) {
                         addCell(
                             [res.RESOURCE_AFFECT_MULTIPLIER_COLOR, "x" + sharktext.beautify(resourceAffectMultiplier, false, 2)],
@@ -537,11 +556,12 @@ SharkGame.Stats = {
                     addCell(
                         [
                             res.INCOME_COLOR,
-                            changeChar +
+                            baseIncomeChangeChar +
                                 sharktext.beautify(
-                                    incomeValue *
-                                        res.getNetworkIncomeModifier("generator", generatorName) *
-                                        res.getNetworkIncomeModifier("resource", incomeKey),
+                                    (incomeValue *
+                                        res.getNetworkIncomeModifier("generator", generatorName, incomeValue) *
+                                        res.getNetworkIncomeModifier("resource", incomeKey, incomeValue)) /
+                                        SharkGame.persistentFlags.dialSetting,
                                     false,
                                     2
                                 ) +
@@ -558,14 +578,14 @@ SharkGame.Stats = {
                     addCell(
                         [
                             res.TOTAL_INCOME_COLOR,
-                            (Math.min((realIncome / SharkGame.PlayerIncomeTable.get(incomeKey)) * 100, 100).toFixed(0) + "%").bold(),
+                            sharktext.boldString(Math.min((realIncome / SharkGame.PlayerIncomeTable.get(incomeKey)) * 100, 100).toFixed(0) + "%"),
                         ],
                         "inline",
                         "income-" + generatorName + "-" + incomeKey
                     );
                 } else {
                     addCell(
-                        [res.TOTAL_INCOME_COLOR, (changeChar + sharktext.beautifyIncome(realIncome)).bold()],
+                        [res.TOTAL_INCOME_COLOR, sharktext.boldString(changeChar + sharktext.beautifyIncome(realIncome))],
                         "inline",
                         "income-" + generatorName + "-" + incomeKey
                     );

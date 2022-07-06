@@ -332,7 +332,7 @@ SharkGame.CheatsAndDebug = {
         let container;
         let buttonContainer; // prettier gets angry at me if i try to declare these case-specific variables inside the case
         $.each(cad.cheatButtons, (buttonName, buttonData) => {
-            //const toAppendTo = buttonData.location === "right" ? $("#rightButtons") : $("#leftButtons");
+            // const toAppendTo = buttonData.location === "right" ? $("#rightButtons") : $("#leftButtons");
             const toAppendTo = $("#" + buttonData.category);
             switch (buttonData.type) {
                 case "up-down":
@@ -382,6 +382,7 @@ SharkGame.CheatsAndDebug = {
         }
 
         this.update();
+        SharkGame.persistentFlags.seenCheatsTab = true;
     },
 
     update() {
@@ -976,8 +977,9 @@ SharkGame.CheatsAndDebug = {
         });
         return "Added all upgrades. This might get weird.";
     },
-    addIdleTimePlease(time = Math.random() * 60000) {
+    addIdleTimePlease(time = Math.random() * 120000 + 30000) {
         SharkGame.flags.minuteHandTimer += time;
+        res.minuteHand.addBonusTime(time);
         res.minuteHand.updateDisplay();
     },
     forceAllExist() {
@@ -989,10 +991,11 @@ SharkGame.CheatsAndDebug = {
         return "Okay, here we go...";
     },
     doEgg() {
-        SharkGame.ResourceMap.forEach((resource) => {
-            resource.name = "eggs";
-            resource.singleName = "egg";
-        });
+        if (SharkGame.flags.egg) {
+            SharkGame.flags.egg = false;
+        } else {
+            SharkGame.flags.egg = true;
+        }
         res.reconstructResourcesTable();
         return "egg";
     },

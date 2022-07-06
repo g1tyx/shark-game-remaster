@@ -215,15 +215,66 @@ SharkGame.Home = {
             },
         ],
 
-        violent: [
+        volcanic: [
             {
-                name: "violent-default",
-                message: "Bursts of plenty from the scorching vents, but so hot. No place for the young.",
+                name: "volcanic-default",
+                message: "Scorching vents fill the sea with white and black smoke. There's not a shark in sight.",
             },
             {
-                name: "shrimp-one",
-                unlock: { resource: { shrimp: 50 }, homeAction: ["getShrimp"] },
-                message: "The shrimps are tiny, but hard-working. They live for their sponge hives.",
+                name: "volcanic-shrimp-contact",
+                unlock: { totalResource: { sponge: 1 } },
+                message: `You are approached by a single shrimp. They relay a message to you: stop harvesting sponges, or face the wrath of the king of shrimps.`,
+            },
+            {
+                name: "volcanic-shrimp-threat",
+                unlock: {
+                    custom() {
+                        return SharkGame.flags.prySpongeGained > 200 && !SharkGame.flags.gotFarmsBeforeShrimpThreat;
+                    },
+                },
+                message: `You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.`,
+            },
+            {
+                name: "volcanic-shrimp-communication",
+                unlock: { upgrade: ["consistentCommunication"] },
+                message: "The homes (sponges) left behind by shrimp joining the frenzy may now be taken for ourselves.",
+            },
+            {
+                name: "volcanic-monarchy",
+                unlock: { totalResource: { queen: 1 } },
+                message: "The shrimps follow a caste system with the king of shrimps on top. They ask who your king is.",
+            },
+            {
+                name: "volcanic-shrimps",
+                unlock: { upgrade: ["sustainableSolutions"] },
+                message:
+                    "The shrimp speak of an ancient visitor who violated their world, and how they wish to restore it. They work hard for their future.",
+            },
+            {
+                name: "volcanic-smithing",
+                unlock: { totalResource: { porite: 1 } },
+                message: "Porite: glassy hunks sealed on the outside but porous on the inside: it's lightweight, yet it stays strong.",
+            },
+            {
+                name: "volcanic-noticed",
+                unlock: { upgrade: ["glassTempering"] },
+                message: "The king has finally caught wind of your plans, rumors say. They say he plans to destroy the entire frenzy.",
+            },
+            {
+                name: "volcanic-acolytes",
+                unlock: { upgrade: ["algaeAcolytes"] },
+                message: "The acolytes gather. They pray for their king. They pray for their world. They pray for you.",
+            },
+            // Rumor has it that the king of shrimps guards the key to a secret, sacred gate in his sandcastle.
+            {
+                name: "volcanic-beauty",
+                unlock: { upgrade: ["finalDraft"] },
+                message: "The king is speechless. As he views the great industrial city, his subjects gather and cheer, celebrating his arrival.",
+            },
+            {
+                name: "volcanic-hope",
+                unlock: { upgrade: ["apologeticAmnesty"] },
+                message: `"Perhaps not all sharks are so vile," says the king of shrimps. "Perhaps, you will be different."`,
             },
         ],
 
@@ -340,10 +391,9 @@ SharkGame.Home = {
                 message: "The sounds of explorers echo endlessly through the tunnels of the broken city. The eels say they are filled with hope.",
             },
             {
-                name: "shrouded-essence",
-                unlock: { totalResource: { sacrifice: 1000000000000000 } },
-                message:
-                    "You see without light. You hear without sound. You feel without touching. Everything pelts you from every direction. You can't make sense of it anymore. Any of it. It feels like it's all breaking down around you.",
+                name: "shrouded-truth",
+                unlock: { totalResource: { sacrifice: 9000000000000000 } },
+                message: "A team of eels get your attention. They show you something that they found in the caverns. It's a book on making arcana.",
             },
         ],
 
@@ -414,12 +464,12 @@ SharkGame.Home = {
                 unlock: { upgrade: ["rapidRecharging"] },
                 message: "A wave of heat washes over you, and the dingy complex comes back to life. The gate turns on.",
             },
-            /*{
+            /* {
                 name: "frigid-end",
                 unlock: { upgrade: ["rapidRepairs"] },
                 message: "The gate opens. The squid bid you farewell.",
-            },*/
-            //another one: "the maw of the gate opens"
+            }, */
+            // another one: "the maw of the gate opens"
         ],
         /*
         {
@@ -431,13 +481,14 @@ SharkGame.Home = {
 
     init() {
         SharkGame.TabHandler.registerTab(this);
+        SharkGame.HomeActions.generated = {};
 
-        // populate action discoveries (and reset removals)
+        /*         // populate action discoveries (and reset removals)
         _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
             actionData.discovered = false;
             actionData.newlyDiscovered = false;
             actionData.isRemoved = false;
-        });
+        }); */
 
         home.currentExtraMessageIndex = -1;
         home.currentButtonTab = "all";
@@ -447,8 +498,8 @@ SharkGame.Home = {
         // rename home tab
         const tabName = SharkGame.WorldTypes[world.worldType].name + " Ocean";
         home.tabName = tabName;
-        if (SharkGame.Tabs["home"]) {
-            SharkGame.Tabs["home"].name = tabName;
+        if (SharkGame.Tabs.home) {
+            SharkGame.Tabs.home.name = tabName;
         }
         home.discoverActions();
     },
@@ -491,7 +542,7 @@ SharkGame.Home = {
         buttonTabDiv.empty();
         let tabAmount = 0;
 
-        if (!SharkGame.persistentFlags.revealedBuyButtons) return;
+        if (!SharkGame.persistentFlags.revealedButtonTabs) return;
 
         // add a header for each discovered category
         // make it a link if it's not the current tab
@@ -575,7 +626,6 @@ SharkGame.Home = {
                 buttonTabsArray.push(categoryName);
             }
         });
-        console.log(buttonTabsArray);
         return buttonTabsArray;
     },
 
@@ -625,6 +675,10 @@ SharkGame.Home = {
                         const action = SharkGame.HomeActions.getActionData(SharkGame.HomeActions.getActionTable(), actionName);
                         return action.discovered && !action.newlyDiscovered;
                     });
+                if (extraMessage.unlock.custom) {
+                    requirementsMet = requirementsMet && extraMessage.unlock.custom();
+                }
+
                 return requirementsMet;
             }
             return true;
@@ -875,15 +929,19 @@ SharkGame.Home = {
 
     shouldRemoveHomeButton(action) {
         let disable = false;
-        // eslint-disable-next-line id-length
-        $.each(action.removedBy, (kind, by) => {
+        $.each(action.removedBy, (kind, when) => {
             switch (kind) {
+                case "totalResourceThreshold":
+                    disable = disable || _.some(when, (resourceObject) => res.getTotalResource(resourceObject.resource) >= resourceObject.threshold);
+                    break;
                 case "otherActions":
-                    disable = disable || _.some(by, (otherAction) => home.areActionPrereqsMet(otherAction));
+                    disable = disable || _.some(when, (otherAction) => home.areActionPrereqsMet(otherAction));
                     break;
                 case "upgrades":
-                    disable = disable || _.some(by, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
+                    disable = disable || _.some(when, (upgrade) => SharkGame.Upgrades.purchased.includes(upgrade));
                     break;
+                case "custom":
+                    disable = disable || when();
             }
         });
         return disable;
@@ -998,9 +1056,19 @@ SharkGame.Home = {
             if (action.effect.resource) {
                 res.changeManyResources(action.effect.resource);
             }
+            if (action.effect.events) {
+                _.each(action.effect.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
+                });
+            }
             log.addMessage(SharkGame.choose(action.outcomes));
         } else if (amount.greaterThan(0)) {
             // cost action
+            if (action.effect.events) {
+                _.each(action.effect.events, (eventName) => {
+                    SharkGame.Events[eventName].trigger();
+                });
+            }
 
             // did the player just purchase sharkonium?
             if (actionName === "transmuteSharkonium") {
@@ -1229,7 +1297,7 @@ SharkGame.Home = {
             $.each(condensedObject.genAffect.increase, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1242,7 +1310,7 @@ SharkGame.Home = {
             $.each(condensedObject.genAffect.decrease, (affectedGenerator, degreePerPurchase) => {
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(buyingHowMuch * degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1261,7 +1329,7 @@ SharkGame.Home = {
                 degreePerPurchase = degreePerPurchase ** buyingHowMuch - 1;
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
@@ -1280,11 +1348,15 @@ SharkGame.Home = {
                 degreePerPurchase = 1 - degreePerPurchase ** buyingHowMuch;
                 text +=
                     sharktext.getResourceName(affectedGenerator, false, false, sharkcolor.getElementColor("tooltipbox", "background-color")) +
-                    sharktext.boldString(" income ") +
+                    sharktext.boldString(" speed ") +
                     " by " +
                     sharktext.boldString(sharktext.beautify(degreePerPurchase * 100) + "%") +
                     "<br>";
             });
+        }
+
+        if (actionData.getSpecialTooltip) {
+            text += actionData.getSpecialTooltip() + "<br>";
         }
 
         if (SharkGame.HomeActions.getActionTable()[actionName].helpText) {
@@ -1336,6 +1408,7 @@ SharkGame.Home = {
     },
 
     getCost(action, amount) {
+        /** @type {Record<Resource, number>} */
         const calcCost = {};
         const rawCost = action.cost;
 
