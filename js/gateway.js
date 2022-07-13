@@ -573,7 +573,7 @@ SharkGame.Gateway = {
                 if (SharkGame.Aspects.cleanSlate.level) {
                     SharkGame.Button.makeButton("respecModeButton", "respec mode", buttonDiv, tree.toggleRefundMode);
                     SharkGame.Button.makeButton("respecButton", "respec all", buttonDiv, () => {
-                        if (confirm("Are you sure you want to respec all refundable aspects?")) {
+                        if (confirm("您确定要重新指定所有可退还的位面吗？")) {
                             tree.respecTree();
                         }
                     });

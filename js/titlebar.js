@@ -35,11 +35,11 @@ SharkGame.TitleBar = {
         onClick() {
             if (main.isFirstTime()) {
                 // save people stranded on home world
-                if (confirm("Do you want to reset your game?")) {
+                if (confirm("你确定想重置你的游戏吗？")) {
                     // just reset
                     main.resetGame();
                 }
-            } else if (confirm("Is this world causing you too much trouble? Want to go back to the gateway?")) {
+            } else if (confirm("这个世界给你添麻烦了吗？ 想回到传送门？")) {
                 SharkGame.wonGame = false;
                 main.endGame();
             }

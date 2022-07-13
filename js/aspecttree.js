@@ -109,7 +109,7 @@ SharkGame.AspectTree = {
                 return "Respec ALL refundable aspects.";
             },
             clicked() {
-                if (confirm("Are you sure you want to respec ALL refundable aspects?")) {
+                if (confirm("您确定要重新指定所有可退还的位面吗？")) {
                     tree.respecTree();
                 }
             },
