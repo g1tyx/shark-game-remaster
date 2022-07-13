@@ -530,14 +530,14 @@ SharkGame.AspectTree = {
 
             context.save();
             context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).color;
-            context.fillText("on scouting missions", 440, 10);
-            context.fillText("you can only bring core aspects", 440, 25);
-            context.fillText("non-core aspects ->", 440, 60);
-            context.fillText("<- core aspects", 300, 60);
-            context.fillText("on scouting missions", 440, 710);
-            context.fillText("you can only bring core aspects", 440, 725);
-            context.fillText("non-core aspects ->", 440, 680);
-            context.fillText("<- core aspects", 300, 680);
+            context.fillText("侦察任务中", 440, 10);
+            context.fillText("只能携带核心位面", 440, 25);
+            context.fillText("非核心位面 ->", 440, 60);
+            context.fillText("<- 核心位面", 300, 60);
+            context.fillText("侦察任务中", 440, 710);
+            context.fillText("你只能携带核心位面", 440, 725);
+            context.fillText("非核心位面 ->", 440, 680);
+            context.fillText("<- 核心位面", 300, 680);
             context.restore();
         }
 
