@@ -754,7 +754,7 @@ SharkGame.Gateway = {
                     $.each(SharkGame.Aspects, (_aspectName, aspectData) => {
                         if (aspectData.level && !aspectData.core) {
                             doProceed = confirm(
-                                "Woah, hold on! Only CORE ASPECTS work when scouting, but you have some that aren't! If you continue, these non-core aspects will stop working until you leave. Are you sure that you want to proceed?"
+                                "哇，等一下！ 侦察时只有核心位面有效，但你有一些不是！ 如果你继续，这些非核心方面将停止工作，直到你离开。 您确定要继续吗？"
                             );
                             return false;
                         }
