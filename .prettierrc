@@ -8,6 +8,12 @@
             "options": {
                 "printWidth": 120
             }
+        },
+        {
+            "files": "chs.js",
+            "options": {
+                "quoteProps": "consistent"
+            }
         }
     ]
 }

@@ -1,3 +1,5 @@
+/* eslint-disable no-dupe-keys, no-unused-vars, no-useless-escape */
+/* eslint quote-props: ["error", "consistent"] */
 /*
 
  @name    : 锅巴汉化 - Web汉化插件
@@ -9,23 +11,23 @@
 
 */
 
-//1.汉化杂项
-var cnItems = {
-    _OTHER_: [],
+// 1.汉化杂项
+const cnItems = {
+    "_OTHER_": [],
 
-    //未分类：
-    'Save': '保存',
-    'Export': '导出',
-    'Import': '导入',
-    'Settings': '设置',
-    'Achievements': '成就',
-    'Statistics': '统计',
-    'Changelog': '更新日志',
-    'Hotkeys': '快捷键',
-    'ALL': '全部',
-    'Default': '默认',
-    'AUTO': '自动',
-    'default': '默认',
+    // 未分类：
+    "Save": "保存",
+    "Export": "导出",
+    "Import": "导入",
+    "Settings": "设置",
+    "Achievements": "成就",
+    "Statistics": "统计",
+    "Changelog": "更新日志",
+    "Hotkeys": "快捷键",
+    "ALL": "全部",
+    "Default": "默认",
+    "AUTO": "自动",
+    "default": "默认",
     "points": "点数",
     "Reset for +": "重置得到 + ",
     "Currently": "当前",
@@ -191,7 +193,8 @@ var cnItems = {
     "- Bark Shark -": "- 吠鲨 -",
     "- Shoal Sharker -": "- 浅滩鲨鱼 -",
     "fun fact": "趣事",
-    "New fun facts are unlocked as you see new stuff. Keep playing to unlock some!": "当你看到新的东西时，新的有趣的事实就会被解锁。 继续玩以解锁一些！",
+    "New fun facts are unlocked as you see new stuff. Keep playing to unlock some!":
+        "当你看到新的东西时，新的有趣的事实就会被解锁。 继续玩以解锁一些！",
     "A grey reef shark joins you.": "一条灰礁鲨加入您的行列。",
     "Ate a tilapia.": "吃了一条罗非鱼。",
     "Ate a yellowfin tuna.": "吃了一条黄鳍金枪鱼。",
@@ -253,11 +256,13 @@ var cnItems = {
     "New Frontiers v 20220630a - The Volcanic Update": "New Frontiers v 20220630a - 火山更新",
     "Saved game.": "游戏已保存。",
     "Some curious crabs come over.": "一些好奇的螃蟹过来了。",
-    "You approach what feels like an edge: like you could tip over at any moment, and fall deep into the abyss.": "你接近边缘的感觉：就像你随时可能翻倒，坠入深渊。",
+    "You approach what feels like an edge: like you could tip over at any moment, and fall deep into the abyss.":
+        "你接近边缘的感觉：就像你随时可能翻倒，坠入深渊。",
     "You have quite the group going now.": "你现在有相当多的团队。",
     "Your new tribe is at your command!": "你的新部落听你指挥！",
     "A scientist shark is revealed!": "科学家鲨鱼被发现！",
-    "After many painful years of study, a shark that has developed excellent skills in making excuses-- er, in science!": "经过多年痛苦的学习，一条鲨鱼在找借口位面已经发展出出色的技能——呃，在科学位面！",
+    "After many painful years of study, a shark that has developed excellent skills in making excuses-- er, in science!":
+        "经过多年痛苦的学习，一条鲨鱼在找借口位面已经发展出出色的技能——呃，在科学位面！",
     "Discovered Laboratory!": "发现实验室！",
     "fact:": "事实：",
     "Home Ocean": "海洋之家",
@@ -288,7 +293,8 @@ var cnItems = {
     "(Number of minutes between autosaves.)": "（自动保存之间的分钟数。）",
     "(Should page colors change for different planets?)": "（不同星球的页面颜色应该改变吗？）",
     "(Should resource names be bolded?)": "（资源名称应该加粗吗？）",
-    "(Should the game store idle progress for later use? (otherwise, it will not go idle and will have real offline progress))": "（游戏商店是否应该闲置进度以备后用？（否则不会闲置，会有真正的离线进度））",
+    "(Should the game store idle progress for later use? (otherwise, it will not go idle and will have real offline progress))":
+        "（游戏商店是否应该闲置进度以备后用？（否则不会闲置，会有真正的离线进度））",
     "(Should the minute hand glow a ton?)": "（分针应该发光一吨吗？）",
     "(Should the tooltip only show what one of each thing produces?)": "（工具提示是否应该只显示每件事产生的结果？）",
     "(Should there be ANY offline progress?)": "（应该有任何离线进度吗？）",
@@ -320,23 +326,34 @@ var cnItems = {
     "Train a shark in the fine art of research and the science of, well, science.": "训练鲨鱼研究美术和科学的科学。",
     "- what the crab doin -": "- 螃蟹在做什么 -",
     "A kiss from a shark can make you immortal. But only if they want you to be immortal.": "鲨鱼的吻可以让你永生。 但前提是他们希望你长生不老。",
-    "A shark is worth one in the bush, and a bunch in the sea water. Don't put sharks in bushes.": "一条鲨鱼在灌木丛中值一条，在海水中值一堆。 不要将鲨鱼放在灌木丛中。",
+    "A shark is worth one in the bush, and a bunch in the sea water. Don't put sharks in bushes.":
+        "一条鲨鱼在灌木丛中值一条，在海水中值一堆。 不要将鲨鱼放在灌木丛中。",
     "Fun fact:": "有趣的事实：",
-    "In some shark species eggs hatch within their mothers, and in some of these species the hatched babies eat unfertilised or even unhatched eggs.": "在一些鲨鱼物种中，卵在它们的母亲体内孵化，而在其中一些物种中，孵化的婴儿吃未受精甚至未孵化的卵。",
+    "In some shark species eggs hatch within their mothers, and in some of these species the hatched babies eat unfertilised or even unhatched eggs.":
+        "在一些鲨鱼物种中，卵在它们的母亲体内孵化，而在其中一些物种中，孵化的婴儿吃未受精甚至未孵化的卵。",
     "Magic crystals are probably not real.": "魔法水晶可能不是真的。",
-    "Rays can be thought of as flattened sharks. The two are very closely related evolutionarily.": "射线可以被认为是扁平的鲨鱼。 两者在进化上密切相关。",
+    "Rays can be thought of as flattened sharks. The two are very closely related evolutionarily.":
+        "射线可以被认为是扁平的鲨鱼。 两者在进化上密切相关。",
     "Rays are pancakes of the sea. (note: probably not true)": "鳐鱼是大海的煎饼。 （注：可能不是真的）",
-    "Sharks have very rough skin, like sandpaper. In fact, shark skin was literally used as sandpaper in the past.": "鲨鱼的皮肤非常粗糙，就像砂纸一样。 事实上，鲨鱼皮在过去实际上被用作砂纸。",
-    "Some shark species display 'tonic immobility' when rubbed on the nose. They stop moving, appear deeply relaxed, and can stay this way for up to 15 minutes before swimming away.": "一些鲨鱼物种在鼻子上摩擦时会表现出“强直不动”。 它们停止移动，看起来非常放松，并且可以保持这种状态长达 15 分钟，然后游走。",
-    "There are many species of sharks that investigate things with their mouths. This can end badly for the subject of investigation.": "有许多种类的鲨鱼用嘴来调查事物。 对于调查对象来说，这可能会以糟糕的方式结束。",
-    "There have been social behaviours observed in lemon sharks, and evidence that suggests they prefer company to being alone.": "在柠檬鲨身上观察到了社会行为，有证据表明它们更喜欢陪伴而不是独处。",
+    "Sharks have very rough skin, like sandpaper. In fact, shark skin was literally used as sandpaper in the past.":
+        "鲨鱼的皮肤非常粗糙，就像砂纸一样。 事实上，鲨鱼皮在过去实际上被用作砂纸。",
+    "Some shark species display 'tonic immobility' when rubbed on the nose. They stop moving, appear deeply relaxed, and can stay this way for up to 15 minutes before swimming away.":
+        "一些鲨鱼物种在鼻子上摩擦时会表现出“强直不动”。 它们停止移动，看起来非常放松，并且可以保持这种状态长达 15 分钟，然后游走。",
+    "There are many species of sharks that investigate things with their mouths. This can end badly for the subject of investigation.":
+        "有许多种类的鲨鱼用嘴来调查事物。 对于调查对象来说，这可能会以糟糕的方式结束。",
+    "There have been social behaviours observed in lemon sharks, and evidence that suggests they prefer company to being alone.":
+        "在柠檬鲨身上观察到了社会行为，有证据表明它们更喜欢陪伴而不是独处。",
     "- The Adventure Continues -": "- 冒险继续 -",
     "Any timewalls in this game can be completely bypassed with good strategy.": "这个游戏中的任何时间墙都可以通过好的策略完全绕过。",
-    "Some species of crab exhibit a kind of claw asymmetry. Called the crusher and cutter, they have different shapes that give their claws more specialized purposes.": "有些种类的螃蟹表现出一种爪不对称。 它们被称为破碎机和切割机，它们具有不同的形状，使它们的爪子具有更特殊的用途。",
+    "Some species of crab exhibit a kind of claw asymmetry. Called the crusher and cutter, they have different shapes that give their claws more specialized purposes.":
+        "有些种类的螃蟹表现出一种爪不对称。 它们被称为破碎机和切割机，它们具有不同的形状，使它们的爪子具有更特殊的用途。",
     "There is a surprising deficit of cookie in this game.": "在这场比赛中，饼干出现了惊人的赤字。",
-    "This game has keybinds. They are more useful than you might think. Check the options menu.": "这个游戏有键位。 它们比您想象的更有用。 检查选项菜单。",
-    "Throughout history, many species crustaceans have independently evovled into crabs for no discernable reason. The phenomenon is called carcinisation.": "纵观历史，许多甲壳类动物无缘无故独立进化成螃蟹。 这种现象称为致癌。",
-    "White sharks have been observed to have a variety of body language signals to indicate submission and dominance towards each other without violence.": "已经观察到白鲨具有多种肢体语言信号，以表明在没有暴力的情况下相互屈服和支配。",
+    "This game has keybinds. They are more useful than you might think. Check the options menu.":
+        "这个游戏有键位。 它们比您想象的更有用。 检查选项菜单。",
+    "Throughout history, many species crustaceans have independently evovled into crabs for no discernable reason. The phenomenon is called carcinisation.":
+        "纵观历史，许多甲壳类动物无缘无故独立进化成螃蟹。 这种现象称为致癌。",
+    "White sharks have been observed to have a variety of body language signals to indicate submission and dominance towards each other without violence.":
+        "已经观察到白鲨具有多种肢体语言信号，以表明在没有暴力的情况下相互屈服和支配。",
     "- Fin Idle -": "- 鳍闲置 -",
     "(Effects:": "(效果:",
     "Available Upgrades": "可用升级",
@@ -347,41 +364,51 @@ var cnItems = {
     "Fashion strange harness-tools for the rays.": "时尚奇怪的射线束工具。",
     "Make weird bottle things from the crystals we have. Maybe useful??": "用我们拥有的水晶制作奇怪的瓶子。 也许有用？？",
     "Researched Upgrades": "研究升级",
-    "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.": "就在旁边，科学鲨鱼聚集在一起，用你以前从未听过的词讨论事情。",
+    "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.":
+        "就在旁边，科学鲨鱼聚集在一起，用你以前从未听过的词讨论事情。",
     "speed × 2)": "速度 × 2)",
     "A power source for future technologies has been discovered.": "已经发现了未来技术的电源。",
     "Advances in agriculture will fuel future endeavors. Who knows what we'll do next!": "农业的进步将推动未来的努力。谁知道我们接下来会做什么！",
     "Agriculture": "农业",
-    "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. We're organized! Sort of!": "我们获得的所有货物现在都存储在一个大部分被淹没的洞穴系统中并逐项列出。我们有组织！有点！",
+    "All the goods we've acquired are now being stored and itemised in a mostly flooded cavern system. We're organized! Sort of!":
+        "我们获得的所有货物现在都存储在一个大部分被淹没的洞穴系统中并逐项列出。我们有组织！有点！",
     "Biology": "生物学",
-    "By heating things up and doing science things to them, maybe new things can be made!": "通过加热事情并对他们做科学的事情，也许可以创造出新的东西！",
-    "By storing things in a centralised location, we now finally have an idea of what we're doing...sort of.": "通过将东西存储在一个集中的位置，我们现在终于知道我们在做什么......有点。",
+    "By heating things up and doing science things to them, maybe new things can be made!":
+        "通过加热事情并对他们做科学的事情，也许可以创造出新的东西！",
+    "By storing things in a centralised location, we now finally have an idea of what we're doing...sort of.":
+        "通过将东西存储在一个集中的位置，我们现在终于知道我们在做什么......有点。",
     "Determine what it takes to plant kelp all over the seabed. Maybe this is useful.": "确定在海床上种植海带需要什么。也许这很有用。",
     "Discovered Grotto!": "发现石窟！",
     "Grotto": "石窟",
     "Investigate the boiling vents that just seem to keep on heating things up.": "调查那些似乎一直在加热的沸腾通风口。",
-    "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!": "当它们都在一个地方时，获取东西要容易得多。就像海洋现在是我们的洞穴一样！",
-    "It's about time to start moving the stores we have to a better place. We've found one but it needs setting up.": "是时候开始把我们必须的商店搬到一个更好的地方了。我们找到了一个，但它需要设置。",
+    "It is so much easier to get things when they're all in one place. It's like the ocean is our grotto now!":
+        "当它们都在一个地方时，获取东西要容易得多。就像海洋现在是我们的洞穴一样！",
+    "It's about time to start moving the stores we have to a better place. We've found one but it needs setting up.":
+        "是时候开始把我们必须的商店搬到一个更好的地方了。我们找到了一个，但它需要设置。",
     "Kelp Horticulture": "海带园艺",
     "Laser Rays": "激光射线",
     "Laser rays can now be geared up to burn the very sand to glassy crystal.": "现在可以调整激光射线将沙子烧成玻璃状晶体。",
-    "Not only did we find a whole bunch of weird things, the rays found that there was more sand!": "我们不仅发现了一大堆奇怪的东西，而且射线发现还有更多的沙子！",
+    "Not only did we find a whole bunch of weird things, the rays found that there was more sand!":
+        "我们不仅发现了一大堆奇怪的东西，而且射线发现还有更多的沙子！",
     "Rays are twice as effective with their specially adapted digging tools.": "使用专门改装的挖掘工具，光线的效率提高了一倍。",
-    "Rays are twice as effective with their understanding of the seabed and its varieties of sediment.": "射线对海床及其各种沉积物的了解是其两倍的效率。",
+    "Rays are twice as effective with their understanding of the seabed and its varieties of sediment.":
+        "射线对海床及其各种沉积物的了解是其两倍的效率。",
     "Scientists are twice as effective at making with the science.": "科学家在利用科学位面的效率是前者的两倍。",
     "- You are a Shark -": "- 你是一条鲨鱼 -",
     "(Effects: ???)": "(效果: ???)",
     "- Sharkfall -": "- 鲨鱼坠落（鲨掉） -",
     "Scientists are twice as effective with their new chemical insights.": "科学家们的新化学见解的效率提高了一倍。",
     "Seabed Geology": "海底地质",
-    "Sharks are twice as effective with their new biting gear. Turns out they work better outside the mouth!": "鲨鱼使用新的咬人装备的效果是原来的两倍。 事实证明，它们在嘴外效果更好！",
+    "Sharks are twice as effective with their new biting gear. Turns out they work better outside the mouth!":
+        "鲨鱼使用新的咬人装备的效果是原来的两倍。 事实证明，它们在嘴外效果更好！",
     "Storage Caverns": "储藏洞穴",
     "Thermal Vents": "散热孔",
     "Transmutation": "嬗变",
     "Underwater Chemistry": "水下化学",
     "What is a shark? What is inside a shark, except for large amounts of fish?": "什么是鲨鱼？ 除了大量的鱼，鲨鱼里面还有什么？",
     "- Revenge of the Crabs -": "- 螃蟹的复仇 -",
-    "(Listed below are resources, the income each resource gives you, and the total income you're getting from each thing.)": "（下面列出的是资源，每个资源给你的收入，以及你从每件事中获得的总收入。）",
+    "(Listed below are resources, the income each resource gives you, and the total income you're getting from each thing.)":
+        "（下面列出的是资源，每个资源给你的收入，以及你从每件事中获得的总收入。）",
     "AMOUNT": "数量",
     "Dispose of Stuff": "处理东西",
     "Disposing specialists returns them to their normal, previous lives.": "处置专家使他们恢复正常的以前的生活。",
@@ -400,20 +427,26 @@ var cnItems = {
     "Total Ocean Resources Acquired": "获得的海洋资源总量",
     "You can also dispose of those you don't need anymore.": "您也可以处理不再需要的那些。",
     "- League of Lobsters -": "- 龙虾联盟 -",
-    "Fun facts have always been in the game's code, but have never been exposed until this system for displaying them was added.": "有趣的事实一直存在于游戏的代码中，但直到添加了显示它们的系统后才被公开。",
-    "Remoras were banished from the oceans in the long bygone eras. The sharks hope they never come back.": "在很久以前的时代，雷莫拉斯被驱逐出海洋。 鲨鱼希望它们永远不会回来。",
-    "Sharks are very old, evolutionarily speaking. The first sharks emerged some time around 400 million years ago.": "从进化上讲，鲨鱼非常古老。 大约 4 亿年前，第一批鲨鱼出现了。",
+    "Fun facts have always been in the game's code, but have never been exposed until this system for displaying them was added.":
+        "有趣的事实一直存在于游戏的代码中，但直到添加了显示它们的系统后才被公开。",
+    "Remoras were banished from the oceans in the long bygone eras. The sharks hope they never come back.":
+        "在很久以前的时代，雷莫拉斯被驱逐出海洋。 鲨鱼希望它们永远不会回来。",
+    "Sharks are very old, evolutionarily speaking. The first sharks emerged some time around 400 million years ago.":
+        "从进化上讲，鲨鱼非常古老。 大约 4 亿年前，第一批鲨鱼出现了。",
     "There's nothing here.": "这里什么都没有。",
-    "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.": "显然我们本来可以问的。 我们了解了光线如何产生更多光线。 它有点像鲨鱼，真的，但是射线。",
+    "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.":
+        "显然我们本来可以问的。 我们了解了光线如何产生更多光线。 它有点像鲨鱼，真的，但是射线。",
     "Crab-specific gear has been invented to allow for kelp farming! This is possibly useful.": "已经发明了螃蟹专用装备来养殖海带！ 这可能很有用。",
     "Crabs can become kelp farmers and grow a living carpet across the bottom of the sea.": "螃蟹可以成为海带养殖户，在海底种植一条活生生的地毯。",
     "laser ray": "激光射线",
     "planter crab": "大闸蟹",
     "Ray Biology": "射线生物学",
-    "Rays and laser rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.": "射线和激光射线的效果是其两倍，并且可以使用射线制造器。 在整个事件如此尴尬之后，我们可能永远无法将鲨鱼鳐鱼的关系恢复到以前的状态。",
+    "Rays and laser rays are twice as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.":
+        "射线和激光射线的效果是其两倍，并且可以使用射线制造器。 在整个事件如此尴尬之后，我们可能永远无法将鲨鱼鳐鱼的关系恢复到以前的状态。",
     "- To Be Continued -": "- 未完待续 -",
     "Autosaved.": "自动保存。",
-    "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?": "鲨鱼的功效是两倍，可以买到护士鲨。 您是否知道鲨鱼卵实际上并不会仅仅因为鲨鱼愿意它们存在而形成吗？",
+    "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?":
+        "鲨鱼的功效是两倍，可以买到护士鲨。 您是否知道鲨鱼卵实际上并不会仅仅因为鲨鱼愿意它们存在而形成吗？",
     "Sun Observation": "太阳观测",
     "We must determine what is with the weird glare on the surface of the water.": "我们必须确定水面上奇怪的眩光是什么。",
     "- Heart of Sharkness -": "- 鲨鱼之心 -",
@@ -440,13 +473,15 @@ var cnItems = {
     "IS CONSUMED BY": "被消耗",
     "IS PRODUCING": "正在生产",
     "kelp": "海带",
-    "Kelp produces sea apples twice as fast. We can dissect sea apples and jellyfish for science. Also, sea apple isn't a fruit. Gross.": "海带生产海苹果的速度是后者的两倍。我们可以为科学解剖海苹果和水母。此外，海苹果不是水果。总的。",
+    "Kelp produces sea apples twice as fast. We can dissect sea apples and jellyfish for science. Also, sea apple isn't a fruit. Gross.":
+        "海带生产海苹果的速度是后者的两倍。我们可以为科学解剖海苹果和水母。此外，海苹果不是水果。总的。",
     "Laser ray online!": "镭射在线！",
     "Laser ray! With a laser ray! It's laser ray, with a laaaaaser raaaay!": "激光射线！用激光！这是激光射线，伴随着laaaaaser raaaay！",
     "laser rays": "激光射线",
     "Medical exam passed! Nurse shark is go!": "体检通过！护士鲨走了！",
     "More discoveries are needed.": "需要更多的发现。",
-    "More rays lets you get more rays which you can then use to get more rays.": "更多光线可以让您获得更多光线，然后您可以使用这些光线来获得更多光线。",
+    "More rays lets you get more rays which you can then use to get more rays.":
+        "更多光线可以让您获得更多光线，然后您可以使用这些光线来获得更多光线。",
     "nurse shark": "护士鲨",
     "nurse sharks": "护士鲨",
     "Planter crab equipped and ready to move a few feet and start planting some things!": "播种机螃蟹装备并准备移动几英尺并开始种植一些东西！",
@@ -458,7 +493,8 @@ var cnItems = {
     "Remove a ray from sand business and let them concentrate on making more rays.": "从沙子业务中移除一条射线，让他们专注于制造更多的射线。",
     "Remove a ray from sand detail and let them fuse sand into raw crystal.": "从沙子细节中移除光线，让它们将沙子融合成原始水晶。",
     "Remove a shark from fish duty and set them to shark making duty.": "将鲨鱼从鱼类职责中移除并将其设置为鲨鱼制作职责。",
-    "Results inconclusive! Further research required. It could be such a benefit for science!": "结果无定论！需要进一步研究。这可能对科学有如此大的好处！",
+    "Results inconclusive! Further research required. It could be such a benefit for science!":
+        "结果无定论！需要进一步研究。这可能对科学有如此大的好处！",
     "Safeguarding the future.": "为未来保驾护航。",
     "sea apple": "海苹果",
     "Shark manufacturer primed.": "鲨鱼制造商准备就绪。",
@@ -467,19 +503,23 @@ var cnItems = {
     "The shark community grows with time.": "鲨鱼社区随着时间的推移而发展。",
     "Train nurse shark": "训练护士鲨",
     "Xenobiology": "异种生物学",
-    "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.": "一种新的材料被发现了！ 它以其发现者 鲨鱼儿 博士的名字命名。",
+    "A new form of material has been discovered! It has been named after its discoverer, Dr. Sharkonium.":
+        "一种新的材料被发现了！ 它以其发现者 鲨鱼儿 博士的名字命名。",
     "Automation": "自动化",
-    "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.": "可以将我们周围的一些随机垃圾转化为未来的材料 鲨鱼儿",
+    "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.":
+        "可以将我们周围的一些随机垃圾转化为未来的材料 鲨鱼儿",
     "sea apples": "海苹果",
     "sharkonium": "鲨鱼藻",
     "Using sharkonium, we can make things to do things so we don't have to do the things!": "使用鲨鱼儿，我们可以做事做事，所以我们不必做事！",
     "Exploration": "勘探",
     "Feels sort of crab-like around here.": "感觉这里有点像螃蟹。",
     "More sharks to make more sharks to make more sharks...": "更多的鲨鱼来制造更多的鲨鱼来制造更多的鲨鱼......",
-    "Planter crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?": "播种机蟹的效果是其两倍。一个太阳值很多鱼吗？我们可以看到太阳，但它真的在哪里？它是由什么制成的？",
+    "Planter crabs are twice as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?":
+        "播种机蟹的效果是其两倍。一个太阳值很多鱼吗？我们可以看到太阳，但它真的在哪里？它是由什么制成的？",
     "processed": "处理",
     "Processing": "加工",
-    "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.": "鲨鱼科学发现了太阳！它还发现直视太阳会很痛。",
+    "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts.":
+        "鲨鱼科学发现了太阳！它还发现直视太阳会很痛。",
     "Study sea apples": "研究海苹果",
     "Swim beyond the home seas to see what can be found!": "游过家乡的海洋，看看能找到什么！",
     "The cause of science is advanced!": "科学事业先进！",
@@ -494,7 +534,8 @@ var cnItems = {
     "Carpet the seabed!": "铺在海底！",
     "Convert ordinary resources into sharkonium, building material of the future!": "将普通资源转化为鲨鱼儿，未来的建筑材料！",
     "Crab Biology": "螃蟹生物学",
-    "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??": "螃蟹是个谜。他们独处，挖掘水晶或放下植物。那是怎么回事？什么是螃蟹？？",
+    "Crabs are a mystery. They keep to themselves and dig up crystals or put down plants. What is even up with that? What ARE crabs??":
+        "螃蟹是个谜。他们独处，挖掘水晶或放下植物。那是怎么回事？什么是螃蟹？？",
     "Dissect the sea apples our kelp attracts to gain additional science. Research!": "解剖我们的海带吸引的海苹果以获得更多科学知识。研究！",
     "- Shark Souls -": "- 鲨鱼之魂 -",
     "A bunch of crabs pile together into some sort of weird cluster.": "一堆螃蟹堆积成某种奇怪的簇。",
@@ -502,10 +543,13 @@ var cnItems = {
     "A school of sharks!": "一群鲨鱼！",
     "crab brood": "蟹苗",
     "crab broods": "蟹苗",
-    "Crabs and planter crabs are four and two times as effective, respectively, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!": "螃蟹和大闸蟹的功效分别是四倍和两倍，并且有蟹苗可供选择。螃蟹很好，但它们也有点可怕和奇怪。还好他们站在我们这边！",
+    "Crabs and planter crabs are four and two times as effective, respectively, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!":
+        "螃蟹和大闸蟹的功效分别是四倍和两倍，并且有蟹苗可供选择。螃蟹很好，但它们也有点可怕和奇怪。还好他们站在我们这边！",
     "Form crab brood": "形成蟹苗",
-    "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.": "事实证明，螃蟹是友好的甲壳类动物，它们向鲨鱼揭示了螃蟹繁殖的秘密。它涉及鸡蛋或其他东西。蠕动的鸡蛋。",
-    "Kelp is not a plant. It's a kind of algae, and algae isn't a plant, so kelp isn't a plant.": "海带不是植物。它是一种藻类，藻类不是植物，所以海带也不是植物。",
+    "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.":
+        "事实证明，螃蟹是友好的甲壳类动物，它们向鲨鱼揭示了螃蟹繁殖的秘密。它涉及鸡蛋或其他东西。蠕动的鸡蛋。",
+    "Kelp is not a plant. It's a kind of algae, and algae isn't a plant, so kelp isn't a plant.":
+        "海带不是植物。它是一种藻类，藻类不是植物，所以海带也不是植物。",
     "Kelp kelp kelp kelp kelp kelp kelp kelp.": "海带海带海带海带海带海带海带。",
     "Meld several crabs into a terrifying, incomprehensible crab-producing brood cluster.": "将几只螃蟹融合成一个可怕的、难以理解的产蟹群。",
     "Nurse shark trained.": "护士鲨训练有素。",
@@ -522,10 +566,12 @@ var cnItems = {
     "- Mystery of Shark City -": "- 鲨鱼城之谜 -",
     "A college of sharks! They're a little smarter than a school.": "鲨鱼学院！ 他们比学校聪明一点。",
     "A cribble of crabs! Okay, no, that one's made up.": "一大堆螃蟹！ 好吧，不，那是编造的。",
-    "All these crabs are probably a little excessive. ...is what I could say, but I'm going to say this instead. MORE CRABS.": "所有这些螃蟹可能有点过分了。 ...是我可以说的，但我要说这个。 更多的螃蟹。",
+    "All these crabs are probably a little excessive. ...is what I could say, but I'm going to say this instead. MORE CRABS.":
+        "所有这些螃蟹可能有点过分了。 ...是我可以说的，但我要说这个。 更多的螃蟹。",
     "Crabs. Crabs. Crabs!": "螃蟹。 螃蟹。 螃蟹！",
     "I'm sorry to say, but you have crabs. Everywhere.": "对不起，你有螃蟹。 到处。",
-    "More ray makers means more rays. Do you understand what that means?! Do you?! It means more rays. Good. On the same page, then.": "更多的光线制造商意味着更多的光线。 你明白这意味着什么吗？！ 你？！ 这意味着更多的光线。 好的。 然后在同一页上。",
+    "More ray makers means more rays. Do you understand what that means?! Do you?! It means more rays. Good. On the same page, then.":
+        "更多的光线制造商意味着更多的光线。 你明白这意味着什么吗？！ 你？！ 这意味着更多的光线。 好的。 然后在同一页上。",
     "More sharks are on the way soon.": "很快就会有更多的鲨鱼出现。",
     "More sharks! MORE SHARKS!": "更多鲨鱼！ 更多鲨鱼！",
     "Pat the sand very gently and put kelp in it!": "轻轻拍打沙子，把海带放进去！",
@@ -543,15 +589,18 @@ var cnItems = {
     "Transmogrification revelation!": "变身启示录！",
     "Welcome to the future! The future is lasers!": "欢迎来到未来！ 未来是激光！",
     "and CONSUME": "和消耗",
-    "A campaign of risky, foolhardy expeditions to the deeps, to find whatever can be found.": "一场冒险而鲁莽的深海探险活动，以寻找可以找到的任何东西。",
+    "A campaign of risky, foolhardy expeditions to the deeps, to find whatever can be found.":
+        "一场冒险而鲁莽的深海探险活动，以寻找可以找到的任何东西。",
     "Are you happy with what you've done?": "你对你所做的事情满意吗？",
     "BASE INCOME": "基本收入",
     "Chasm Exploration": "峡谷探索",
-    "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!": "螃蟹的功效是其四倍。 你知道海洋实际上比大海还要大吗？ 卓越！",
+    "Crabs are four times as effective. Did you know oceans are actually even bigger than big? Remarkable!":
+        "螃蟹的功效是其四倍。 你知道海洋实际上比大海还要大吗？ 卓越！",
     "Crystal-rich deposits were found, as well as strange, deep chasms.": "发现了富含晶体的矿床，以及奇怪的深裂缝。",
     "Explore the vast reaches beyond the home ocean.": "探索家乡海洋之外的广阔海域。",
     "Far Exploration": "远方探索",
-    "Found lots of schools of fish! So many different schools! And such untapped sand reserves!": "发现了很多鱼群！ 这么多不同的学校！ 还有如此未开发的沙子储备！",
+    "Found lots of schools of fish! So many different schools! And such untapped sand reserves!":
+        "发现了很多鱼群！ 这么多不同的学校！ 还有如此未开发的沙子储备！",
     "is for upgrade effects.": "用于升级效果。",
     "Machines can be built to supplement population duties. This is efficient.": "可以建造机器来补充人口职责。 这是有效的。",
     "Now we don't have to do all the work, machines can do it for us! Future!!": "现在我们不必做所有的工作，机器可以为我们做！ 未来！！",
@@ -584,7 +633,8 @@ var cnItems = {
     "Go free, simple creatures!": "去自由，简单的生物！",
     "Goodbye, faithful workforce. There's plenty of other fish out in the sea.": "再见，忠实的员工。海里还有很多其他的鱼。",
     "Indiscriminate hunter.": "不分青红皂白的猎人。",
-    "Looks like you gave them quite the ray maker blow! 'Them' being the intangible enemy that is lacking in resources.": "看起来你给了他们相当大的光线制造者打击！ “他们”是缺乏资源的无形敌人。",
+    "Looks like you gave them quite the ray maker blow! 'Them' being the intangible enemy that is lacking in resources.":
+        "看起来你给了他们相当大的光线制造者打击！ “他们”是缺乏资源的无形敌人。",
     "machines": "机器",
     "More sharkonium!": "更多的鲨鱼儿！",
     "Ray suited up with a laaaaaaser!": "射线适合搭配激光光光光光光！",
@@ -595,13 +645,15 @@ var cnItems = {
     "Shark Machines": "鲨鱼机",
     "Sharkonium arise!": "鲨鱼儿 出现！",
     "The chasms beckon.": "鸿沟在召唤。",
-    "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.": "螃蟹孵化是一种罕见的现象，因为螃蟹的一些奇怪行为被驱使去寻找水晶，原因只有他们明白。",
+    "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.":
+        "螃蟹孵化是一种罕见的现象，因为螃蟹的一些奇怪行为被驱使去寻找水晶，原因只有他们明白。",
     "The digger begins to shuffle sand into its machine maw. Rays dart away.": "挖掘机开始将沙子推入机器的嘴里。射线飞奔而去。",
     "The quarry moves. But the machine is faster.": "采石场移动。但是机器速度更快。",
     "The ray singularity begins!": "射线奇点开始！",
     "The science advisors frantically murmur among themselves while disposing of the science.": "科学顾问们一边处理科学，一边疯狂地议论纷纷。",
     "The stuff is dumped in some random hole in the ocean.": "这些东西被倾倒在海洋中的某个随机洞中。",
-    "The survey sharks bite up their notes in frustration and begin counting everything all over again.": "调查鲨鱼沮丧地咬着他们的笔记，并开始重新计算一切。",
+    "The survey sharks bite up their notes in frustration and begin counting everything all over again.":
+        "调查鲨鱼沮丧地咬着他们的笔记，并开始重新计算一切。",
     "They return to what they once knew best.": "他们回到了他们曾经最了解的东西。",
     "This place is not your home. You remember a crystal blue ocean.": "这个地方不是你的家。你记得一个水晶般的蓝色海洋。",
     "This stuff is hopefully not toxic. Hopefully.": "这东西希望没有毒。希望。",
@@ -611,7 +663,8 @@ var cnItems = {
     "We didn't need that anyway. Right? I think we didn't.": "反正我们不需要那个。正确的？我想我们没有。",
     "Well I hope you know what you're doing.": "好吧，我希望你知道你在做什么。",
     "Well, it was good while it lasted.": "好吧，它持续的时间很好。",
-    "What is even the point of these things? Why are they named for fruit? They're squirming!": "这些事情的意义何在？为什么它们以水果命名？他们在蠕动！",
+    "What is even the point of these things? Why are they named for fruit? They're squirming!":
+        "这些事情的意义何在？为什么它们以水果命名？他们在蠕动！",
     "You sure you want to disrupt this accelerated growth curve?": "您确定要破坏这条加速增长的曲线吗？",
     "Engineering": "工程",
     "rid max amount of things": "消除最大数量的东西",
@@ -642,8 +695,10 @@ var cnItems = {
     "The foundation of a modern shark frenzy, perhaps, but also sort of taking up all the space.": "也许是现代鲨鱼狂热的基础，但也占据了所有空间。",
     "The machines want to know if they will dream.": "机器想知道它们是否会做梦。",
     "The other machines feel a little quieter and almost resentful.": "其他机器感觉更安静，几乎是怨恨。",
-    "Their equipment isn't salvageable, unfortunately, but that's how these things go. The ocean gives, and the ocean corrodes things away.": "不幸的是，他们的设备无法挽救，但事情就是这样。海洋给予，海洋腐蚀事物。",
-    "They might be happier this way. Or maybe they were happier before. Well, 50-50 odds!": "这样他们可能会更快乐。或者也许他们以前更快乐。好吧，50-50的赔率！",
+    "Their equipment isn't salvageable, unfortunately, but that's how these things go. The ocean gives, and the ocean corrodes things away.":
+        "不幸的是，他们的设备无法挽救，但事情就是这样。海洋给予，海洋腐蚀事物。",
+    "They might be happier this way. Or maybe they were happier before. Well, 50-50 odds!":
+        "这样他们可能会更快乐。或者也许他们以前更快乐。好吧，50-50的赔率！",
     "Well, someone else can deal with it now.": "好吧，其他人现在可以处理它。",
     "Well, they'll be waiting if you need them to take up their specialisation again.": "好吧，如果您需要他们再次接受他们的专业化，他们会等待。",
     "What does famine even mean, really?": "饥荒到底意味着什么？",
@@ -667,15 +722,18 @@ var cnItems = {
     "PhD approved!": "博士获批！",
     "The machines want to know if they will dream.": "机器想知道它们是否会做梦。",
     "The unending process.": "永无止境的过程。",
-    "Their equipment isn't salvageable, unfortunately, but that's how these things go. The ocean gives, and the ocean corrodes things away.": "不幸的是，他们的设备无法挽救，但事情就是这样。 海洋给予，海洋腐蚀事物。",
-    "They might be happier this way. Or maybe they were happier before. Well, 50-50 odds!": "这样他们可能会更快乐。 或者也许他们以前更快乐。 好吧，50-50的赔率！",
+    "Their equipment isn't salvageable, unfortunately, but that's how these things go. The ocean gives, and the ocean corrodes things away.":
+        "不幸的是，他们的设备无法挽救，但事情就是这样。 海洋给予，海洋腐蚀事物。",
+    "They might be happier this way. Or maybe they were happier before. Well, 50-50 odds!":
+        "这样他们可能会更快乐。 或者也许他们以前更快乐。 好吧，50-50的赔率！",
     "Well, they'll be waiting if you need them to take up their specialisation again.": "好吧，如果您需要他们再次接受他们的专业化，他们会等待。",
     "[This message has been censored for reasons of being mostly really gross.]": "[此消息已被审查，原因主要是非常粗俗。]",
     "A goblin shark joins you.": "一只地精鲨鱼加入了你。",
     "Crystal miner activated.": "水晶矿工启动。",
     "Rooted filters.": "根过滤器。",
     "- :the shark game: -": "- :鲨鱼游戏: -",
-    "All these makers. What are they making? What is it for? Oh. It's rays, and it's probably for sand or something.": "所有这些制造商。他们在做什么？它是干什么用的？哦。是射线，可能是为了沙子什么的。",
+    "All these makers. What are they making? What is it for? Oh. It's rays, and it's probably for sand or something.":
+        "所有这些制造商。他们在做什么？它是干什么用的？哦。是射线，可能是为了沙子什么的。",
     "bright": "明亮的",
     "change": "改变",
     "Check for updates:": "检查更新：",
@@ -685,7 +743,8 @@ var cnItems = {
     "export": "导出",
     "Framerate/TPS:": "帧率/TPS：",
     "Group Resources:": "集合资源：",
-    "Have you ever thought about what the rays wanted? Because this might have been what they wanted after all.": "你有没有想过光线想要什么？因为这可能毕竟是他们想要的。",
+    "Have you ever thought about what the rays wanted? Because this might have been what they wanted after all.":
+        "你有没有想过光线想要什么？因为这可能毕竟是他们想要的。",
     "import": "导入",
     "Import/Export Save:": "导入/导出保存：",
     "KEYBINDS": "键绑定",
@@ -750,14 +809,16 @@ var cnItems = {
     "Building a smarter, better shark!": "打造更聪明、更好的鲨鱼！",
     "Careful teeth record the discoveries!": "细心记录发现！",
     "MORE LASER RAYS FOR THE LASER ARMY-- oh. Well, this is good too.": "为激光大军提供更多激光射线——哦。 嗯，这个也不错。",
-    "Rapidly breeding aquatic wildlife is probably a severe ecological hazard. Good thing this isn't Earth's oceans, probably!": "快速繁殖的水生野生动物可能是一种严重的生态危害。 幸好这可能不是地球的海洋！",
+    "Rapidly breeding aquatic wildlife is probably a severe ecological hazard. Good thing this isn't Earth's oceans, probably!":
+        "快速繁殖的水生野生动物可能是一种严重的生态危害。 幸好这可能不是地球的海洋！",
     "Ray crystal processing initiative is growing stronger every day!": "雷晶加工的主动性与日俱增！",
     "There will be no end to the sharks!": "鲨鱼将永无止境！",
     "A sea of crabs on the bottom of the sea. Clickity clackity.": "海底的螃蟹海。 咔哒、咔哒。",
     "The broods swell in number. The sharks are uneasy, but the concern soon passes.": "族群数量激增。 鲨鱼们很不安，但担忧很快就过去了。",
     "- You Have To Name The Shark Game -": "- 你必须命名鲨鱼游戏 -",
     "Discovered Strange Gate!": "发现奇异之门！",
-    "A strange structure was found from clues within the chasms. The cost was great, but the discovery is greater!": "从裂缝中的线索中发现了一个奇怪的结构。 成本很高，但发现更大！",
+    "A strange structure was found from clues within the chasms. The cost was great, but the discovery is greater!":
+        "从裂缝中的线索中发现了一个奇怪的结构。 成本很高，但发现更大！",
     "Something ancient lurked in the depths.": "深处潜伏着某种古老的东西。",
     "Strange Gate": "奇异之门",
     "- Gameshark -": "- 游戏鲨鱼 -",
@@ -785,14 +846,18 @@ var cnItems = {
     "auto-transmuter": "自动转换器",
     "auto-transmuters": "自动转换器",
     "Auto-transmuters are prepared.": "自动转换器已准备就绪。",
-    "Construct a machine to automatically and efficiently transmute sand and crystal to sharkonium.": "建造一台机器来自动高效地将沙子和水晶转化为鲨鱼。",
-    "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.": "设计一个系统，将不需要的资源粉碎成组件粘贴，并将它们作为其他东西重用。",
+    "Construct a machine to automatically and efficiently transmute sand and crystal to sharkonium.":
+        "建造一台机器来自动高效地将沙子和水晶转化为鲨鱼。",
+    "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.":
+        "设计一个系统，将不需要的资源粉碎成组件粘贴，并将它们作为其他东西重用。",
     "Iterative Design": "迭代设计",
-    "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.": "机器的效率是原来的两倍。 现在可以创建撇渣器和自动变形器。",
+    "Machines are twice as effective. Skimmers and auto-transmuters are now possible to create.":
+        "机器的效率是原来的两倍。 现在可以创建撇渣器和自动变形器。",
     "Recycler": "回收商",
     "skimmer": "撇渣器",
     "The machines are twice as good now! We've figured out new designs in the process, too!": "现在的机器好两倍！ 我们也在这个过程中找到了新的设计！",
-    "The machines are useful, but they could be better. Let's build new ones, from scratch!": "这些机器很有用，但它们可能会更好。 让我们从头开始构建新的！",
+    "The machines are useful, but they could be better. Let's build new ones, from scratch!":
+        "这些机器很有用，但它们可能会更好。 让我们从头开始构建新的！",
     "- Deluxe -": "- 豪华 -",
     "ARE CONSUMED BY": "被消耗",
     "Auto-transmuter activated.": "自动变换器已启动。",
@@ -806,14 +871,19 @@ var cnItems = {
     "Shark swarm begins!": "鲨鱼群开始！",
     "Automated fishing.": "自动钓鱼。",
     "- Next Shark Game: Barkfest -": "- 下一个鲨鱼游戏：Barkfest -",
-    "All shark machines run twice as fast. Again! Scientists are 4 times faster as well.": "所有鲨鱼机器的运行速度都是两倍。 再次！ 科学家的速度也快了 4 倍。",
-    "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?": "可以通过一个可怕的机械巨口来回收材料，该机械巨口会吞噬附近的所有冒险。 未来？",
-    "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.": "事实证明，科学就是从错误中学习，或者科学家们是这么说的。 关于自己的错误。",
+    "All shark machines run twice as fast. Again! Scientists are 4 times faster as well.":
+        "所有鲨鱼机器的运行速度都是两倍。 再次！ 科学家的速度也快了 4 倍。",
+    "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?":
+        "可以通过一个可怕的机械巨口来回收材料，该机械巨口会吞噬附近的所有冒险。 未来？",
+    "As it turns out, science is about learning from mistakes, or so the scientists say. About their own mistakes.":
+        "事实证明，科学就是从错误中学习，或者科学家们是这么说的。 关于自己的错误。",
     "Discovered Recycler!": "发现回收站！",
     "residue": "残留物",
     "Superprocessing": "超处理",
-    "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.": "回收站并不是真的要同时处理数百万条鱼。 鉴于该交易相当普遍，我们可能应该对此采取一些措施。",
-    "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!": "坦率地说，这件事很可怕。 如果我是你，我不会在输入孔附近游泳。 也许它会有所帮助！",
+    "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.":
+        "回收站并不是真的要同时处理数百万条鱼。 鉴于该交易相当普遍，我们可能应该对此采取一些措施。",
+    "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!":
+        "坦率地说，这件事很可怕。 如果我是你，我不会在输入孔附近游泳。 也许它会有所帮助！",
     "- Dungeons And Dolphins -": "- 地牢与海豚 -",
     "CONTAINS:": "包含：",
     "Convert things into residue, and residue into things!": "变物为渣，渣为物！",
@@ -848,7 +918,8 @@ var cnItems = {
     "skip": "跳过",
     "special": "特殊",
     "that": "那",
-    "The tar clogs the gills of everyone here. This dying world drags everyone down with it.": "焦油堵塞了这里每个人的腮。 这个垂死的世界拖累了所有人。",
+    "The tar clogs the gills of everyone here. This dying world drags everyone down with it.":
+        "焦油堵塞了这里每个人的腮。 这个垂死的世界拖累了所有人。",
     "Token of Industry": "工业代币",
     "Unlock a": "解锁一个",
     "You are a shark in a murky dark green sea.": "你是深绿色海洋中的一条鲨鱼。",
@@ -873,10 +944,12 @@ var cnItems = {
     "collector crabs": "收藏蟹",
     "Crab understands how to snip sponge.": "螃蟹懂得如何剪海绵。",
     "Crab will now get sponges.": "螃蟹现在会得到海绵。",
-    "Crabs and sponge collectors are four times as effective, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!": "螃蟹和海绵收集器的效率是其四倍，并且可以使用螃蟹孵化器。螃蟹很好，但它们也有点可怕和奇怪。还好他们站在我们这边！",
+    "Crabs and sponge collectors are four times as effective, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!":
+        "螃蟹和海绵收集器的效率是其四倍，并且可以使用螃蟹孵化器。螃蟹很好，但它们也有点可怕和奇怪。还好他们站在我们这边！",
     "Crabs can now specialize in collecting sponge.": "螃蟹现在可以专门收集海绵。",
     "Curiousity is the seed of progress.": "好奇心是进步的种子。",
-    "Each limb of an octopus is considered to individually have a brain to itself. They can be thought of as soldiers (little brains) being commanded by a general in the center (big brain).": "章鱼的每一个肢体都被认为各自有一个大脑。他们可以被认为是士兵（小脑），由中央将军（大脑）指挥。",
+    "Each limb of an octopus is considered to individually have a brain to itself. They can be thought of as soldiers (little brains) being commanded by a general in the center (big brain).":
+        "章鱼的每一个肢体都被认为各自有一个大脑。他们可以被认为是士兵（小脑），由中央将军（大脑）指挥。",
     "Employ octopus": "使用章鱼",
     "esources affect each other.": "资源相互影响。",
     "Essence given is the total acquired for the entire game and not just for this world.": "提供的精华是整个游戏获得的总和，而不仅仅是这个世界。",
@@ -900,23 +973,29 @@ var cnItems = {
     "Got an ocean quahog.": "有一只海鲛。",
     "Grab a sponge from the seabed for future use.": "从海底抓起一块海绵以备将来使用。",
     "Harvesters of a dying world.": "垂死世界的收割者。",
-    "In novel circumstances, octopuses are capable of simple problem-solving. Some will step back and thoroughly analyze things when confused.": "在新环境下，章鱼能够简单地解决问题。有些人在困惑时会退后一步，彻底分析事情。",
+    "In novel circumstances, octopuses are capable of simple problem-solving. Some will step back and thoroughly analyze things when confused.":
+        "在新环境下，章鱼能够简单地解决问题。有些人在困惑时会退后一步，彻底分析事情。",
     "Instruct a crab on the proper way to collect sponges from rocks.": "指导螃蟹从岩石中收集海绵的正确方法。",
     "Instruct collector crab": "指导收藏蟹",
     "is for": "是为了",
     "is for how some": "是为了如何",
-    "It's hard to see, but there's a weird glare on the surface of the water, and we need to figure out what it means.": "很难看出来，但是水面上有一种奇怪的眩光，我们需要弄清楚它的含义。",
+    "It's hard to see, but there's a weird glare on the surface of the water, and we need to figure out what it means.":
+        "很难看出来，但是水面上有一种奇怪的眩光，我们需要弄清楚它的含义。",
     "It's octopuses, not octopi.": "是章鱼，不是章鱼。",
-    "Many species of sponge have a mualistic realitionship with certain species of algae. The algaes use photosynthesis to produce food for the sponges.": "许多种类的海绵与某些种类的藻类具有多重现实性。藻类利用光合作用为海绵生产食物。",
+    "Many species of sponge have a mualistic realitionship with certain species of algae. The algaes use photosynthesis to produce food for the sponges.":
+        "许多种类的海绵与某些种类的藻类具有多重现实性。藻类利用光合作用为海绵生产食物。",
     "octopus": "章鱼",
     "octopus investigator": "章鱼调查员",
     "octopus investigators": "章鱼调查员",
     "Octopus Methodology": "八达通方法论",
     "octopuses": "章鱼",
-    "Octopuses are capable of extremely advanced camoflague. They can change color, pattern, and texture to match their surroundings, enough to easily fool anything, even humans.": "章鱼能够进行极其先进的伪装。它们可以改变颜色、图案和纹理以匹配周围环境，足以轻松欺骗任何东西，甚至是人类。",
-    "Octopuses can get bored in captivity. They may fiddle with toys or interact with humans for entertainment.": "章鱼在圈养中会感到无聊。他们可能会摆弄玩具或与人类互动以娱乐。",
+    "Octopuses are capable of extremely advanced camoflague. They can change color, pattern, and texture to match their surroundings, enough to easily fool anything, even humans.":
+        "章鱼能够进行极其先进的伪装。它们可以改变颜色、图案和纹理以匹配周围环境，足以轻松欺骗任何东西，甚至是人类。",
+    "Octopuses can get bored in captivity. They may fiddle with toys or interact with humans for entertainment.":
+        "章鱼在圈养中会感到无聊。他们可能会摆弄玩具或与人类互动以娱乐。",
     "Octopuses can specialise in investigation, and octopuses work twice as efficiently.": "章鱼可以专注于调查，章鱼的工作效率是后者的两倍。",
-    "Octopuses have great dexterity. They can use their tentacles in a variety of ways to manipulate objects.": "章鱼的灵巧性很强。他们可以以多种方式使用触手来操纵物体。",
+    "Octopuses have great dexterity. They can use their tentacles in a variety of ways to manipulate objects.":
+        "章鱼的灵巧性很强。他们可以以多种方式使用触手来操纵物体。",
     "Octopuses have no bones whatsoever.": "章鱼没有骨头。",
     "One more educated individual, ready to do a surprisingly difficult task.": "一个受过更多教育的人，准备好完成一项令人惊讶的艰巨任务。",
     "orld effects.": "世界效应。",
@@ -945,15 +1024,20 @@ var cnItems = {
     "Sponge can be collected in the same way fish can be.": "可以像收集鱼一样收集海绵。",
     "Sponge Collection": "海绵系列",
     "Sponge is not a plant, it is an animal. A weird, amorphous animal.": "海绵不是植物，它是动物。一种奇怪的、无定形的动物。",
-    "Sponges are incredibly distinct from all other animals. They are asymmetric, have no organs, and their cells can change specialization at will, which is true for no other animal.": "海绵与所有其他动物截然不同。它们是不对称的，没有器官，它们的细胞可以随意改变特化，这对其他动物来说是不真实的。",
-    "Sponges are incredibly, incredibly old, evolutionarily speaking. They probably date back at least 600 million years.": "从进化的角度来看，海绵非常非常古老。它们可能至少可以追溯到 6 亿年前。",
+    "Sponges are incredibly distinct from all other animals. They are asymmetric, have no organs, and their cells can change specialization at will, which is true for no other animal.":
+        "海绵与所有其他动物截然不同。它们是不对称的，没有器官，它们的细胞可以随意改变特化，这对其他动物来说是不真实的。",
+    "Sponges are incredibly, incredibly old, evolutionarily speaking. They probably date back at least 600 million years.":
+        "从进化的角度来看，海绵非常非常古老。它们可能至少可以追溯到 6 亿年前。",
     "tar": "柏油",
-    "The existence of resources that create resources that create resources in this game were inspired by Derivative Clicker!": "在这个游戏中创造资源创造资源的资源的存在受到了衍生点击器的启​​发！",
+    "The existence of resources that create resources that create resources in this game were inspired by Derivative Clicker!":
+        "在这个游戏中创造资源创造资源的资源的存在受到了衍生点击器的启​​发！",
     "The octopus works tirelessly.": "章鱼不知疲倦地工作。",
-    "The octopuses speak of production and correct action. They speak of unity through efficiency. They regard us with cold, neutral eyes.": "章鱼讲的是生产和正确的行动。他们谈到通过效率实现统一。他们以冷漠、中立的眼光看待我们。",
+    "The octopuses speak of production and correct action. They speak of unity through efficiency. They regard us with cold, neutral eyes.":
+        "章鱼讲的是生产和正确的行动。他们谈到通过效率实现统一。他们以冷漠、中立的眼光看待我们。",
     "the world": "世界",
     "This world was the first one to be remade for New Frontiers.": "这个世界是第一个为 New Frontiers 重制的世界。",
-    "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.": "虽然与鲨鱼有亲缘关系，但我们对鳐鱼知之甚少。如果我们能解决这个问题。我们需要用沙坑做诱饵。",
+    "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.":
+        "虽然与鲨鱼有亲缘关系，但我们对鳐鱼知之甚少。如果我们能解决这个问题。我们需要用沙坑做诱饵。",
     "Welcome back! It's been 2 hours since you were seen around here!": "欢迎回来！自从你在这里被看到以来已经 2 小时了！",
     "A bigeye octopus joins you.": "一只大眼章鱼加入你的行列。",
     "An acquired taste.": "后天习得的味道。",
@@ -991,9 +1075,11 @@ var cnItems = {
     "worlds": "世界",
     "You are a shark in a thriving aquamarine sea.": "你是在一片欣欣向荣的海蓝宝石海洋中的一条鲨鱼。",
     "You are a shark in the space between worlds.": "你是世界之间空间的鲨鱼。",
-    "\"Excellence is pure habit. We are what we repeatedly do. Try again, and do better.\"": "“卓越是一种纯粹的习惯。我们就是我们反复做的事情。再试一次，做得更好。”",
-    "\"Never give in. Never surrender. Empty platitudes, perhaps, but sound advice nonetheless.\"": "“永远不要屈服。永远不要投降。也许是空洞的陈词滥调，但仍然是合理的建议。”",
-    "\"No matter. You will succeed in the future, no doubt.\"": "“没关系。你未来一定会成功的，毫无疑问。”",
+    '"Excellence is pure habit. We are what we repeatedly do. Try again, and do better."':
+        "“卓越是一种纯粹的习惯。我们就是我们反复做的事情。再试一次，做得更好。”",
+    '"Never give in. Never surrender. Empty platitudes, perhaps, but sound advice nonetheless."':
+        "“永远不要屈服。永远不要投降。也许是空洞的陈词滥调，但仍然是合理的建议。”",
+    '"No matter. You will succeed in the future, no doubt."': "“没关系。你未来一定会成功的，毫无疑问。”",
     "ASPECT TREE": "位面树",
     "Complete the Frigid worldtype to unlock this aspect.": "完成 严寒世界 类型以解锁此位面。",
     "CONFIRM": "确认",
@@ -1007,7 +1093,8 @@ var cnItems = {
     "Focus.": "重点。",
     "MAXIMUM LEVEL.": "最高级别。",
     "NEXT LEVEL:": "下一级：",
-    "NOTE: When you first visit a world, you are SCOUTING it. If you choose to replay it, you are NOT SCOUTING it.": "注意：当你第一次访问一个世界时，你正在侦察它。 如果你选择重播它，你就不是在侦察它。",
+    "NOTE: When you first visit a world, you are SCOUTING it. If you choose to replay it, you are NOT SCOUTING it.":
+        "注意：当你第一次访问一个世界时，你正在侦察它。 如果你选择重播它，你就不是在侦察它。",
     "Other worlds await.": "其他世界等待着。",
     "overall.": "全面的。",
     "proceed": "继续",
@@ -1042,23 +1129,26 @@ var cnItems = {
     "You have some idle time in storage.": "您在存储中有一些空闲时间。",
     "You would take": "你会带走",
     "- Part 6, Stone Ocean -": "- 第 6 节，石海 -",
-    "\"A sad event. There is plenty of time to redeem yourself.\"": "\“一个悲伤的事件。有足够的时间来赎回自己。\”",
+    '"A sad event. There is plenty of time to redeem yourself."': "“一个悲伤的事件。有足够的时间来赎回自己。”",
     "Game saved.": "游戏已保存",
     "- Five Nights in Frigid -": "- 寒冷的五夜 -",
     "A shiver of sharks! No, that's a legit name. Look it up.": "鲨鱼在颤抖!不，那是合法的名字。查一下。",
-    "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.": "建造一台机器，以完美的效率将鱼和沙子自动回收为残渣。",
+    "Construct a machine to automatically recycle fish and sand into residue with perfect efficiency.":
+        "建造一台机器，以完美的效率将鱼和沙子自动回收为残渣。",
     "Devour the sands. Consume.": "吞噬沙子。消耗。",
     "Giant machines blot out our sun.": "巨大的机器遮住了我们的太阳。",
     "Looks like that's it! No more things to figure out.": "看起来就是这样！没有更多的事情要弄清楚。",
     "One day there will be no fish left. Only the machines.": "终有一天，鱼也没有了。只有机器。",
     "skimmers": "撇渣器",
-    "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.": "就在旁边，科学鲨鱼悄悄地结束了他们伪装得很糟糕的聚会，假装在工作。",
+    "Sort of just off to the side, the science sharks quietly wrap up their badly disguised party and pretend to work.":
+        "就在旁边，科学鲨鱼悄悄地结束了他们伪装得很糟糕的聚会，假装在工作。",
     "The creations of sharks emerge from a pattern as old as their species.": "鲨鱼的创造起源于与其物种一样古老的模式。",
     "The crystal shall be harvested.": "水晶应该被收获。",
     "The fishing machines are more efficient than the sharks. But they aren't very smart.": "捕鱼机比鲨鱼更有效率。但他们不是很聪明。",
     "The machines increase in number.": "机器数量增加。",
     "The power of many, many sharks, in many, many devices.": "许多许多鲨鱼的力量，在许多许多设备中。",
-    "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.": "回收商的效率仅在一次插入 1000 万个材料时才开始下降，而不是 10 万个。基础效率现在为 100%。",
+    "The recycler's efficiency only starts dropping at 10 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.":
+        "回收商的效率仅在一次插入 1000 万个材料时才开始下降，而不是 10 万个。基础效率现在为 100%。",
     "The scientists rest content, sure that they're done with their work.": "科学家们满足于满足，确保他们完成了他们的工作。",
     "Today the shark is flesh. Tomorrow, machine.": "今天鲨鱼是肉。明天，机器。",
     "Transmutation is limited. The recycler is greater.": "转化是有限的。回收站更大。",
@@ -1071,11 +1161,11 @@ var cnItems = {
     "The lesser resource becomes the greatest of all.": "较小的资源成为最大的资源。",
     "You swim through the gate...": "你游过大门...",
     "You're not yet sure what this means.": "你还不确定这意味着什么。",
-    "\"What brings you here, strange one?\"": "“是什么把你带到这里来的，奇怪的人？”",
+    '"What brings you here, strange one?"': "“是什么把你带到这里来的，奇怪的人？”",
     "A foreboding circular structure, wide open.": "一个不祥的圆形结构，敞开。",
     "The water glows and shimmers within it. A gentle tug pulls at you.": "水在其中闪闪发光。 轻轻的拉扯拉扯着你。",
-    "\"Welcome to the end of the beginning.\"": "\"欢迎来到开头的结尾。\"",
-    "\"Your journey has only just begun.\"": "“你的旅程才刚刚开始。”",
+    '"Welcome to the end of the beginning."': '"欢迎来到开头的结尾。"',
+    '"Your journey has only just begun."': "“你的旅程才刚刚开始。”",
     "A par time would grant you": "标准时间会给你",
     "A vast, blue ocean, swarming with fish.": "广阔的蓝色海洋，鱼群成群。",
     "An arctic ocean dangling on the edge of frozen doom.": "悬在冰冻末日边缘的北冰洋。",
@@ -1095,18 +1185,21 @@ var cnItems = {
     "sea urchins": "海胆",
     "something dirty?": "脏东西？",
     "squid": "乌贼",
-    "The water here is dank and tinted green by an unrecognizable substance. Husks of machinery litter the ocean floor.": "这里的水很潮湿，被一种无法辨认的物质染成绿色。 机械外壳散落在海底。",
-    "The world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.": "世界大部分时间都结冰了，但一小块温暖的水似乎保留了这里生命所剩无几的机会。",
+    "The water here is dank and tinted green by an unrecognizable substance. Husks of machinery litter the ocean floor.":
+        "这里的水很潮湿，被一种无法辨认的物质染成绿色。 机械外壳散落在海底。",
+    "The world is mostly frozen, but a small pocket of warmer water seems to preserve what little chance life has here.":
+        "世界大部分时间都结冰了，但一小块温暖的水似乎保留了这里生命所剩无几的机会。",
     "This world has no": "这个世界没有",
     "worriless crustaceans?": "无忧无虑的甲壳类动物？",
     "You feel the presence of": "你感觉到存在",
-    "\"You can do better. You will do better. Believe.\"": "“你可以做得更好。你会做得更好。相信。”",
+    '"You can do better. You will do better. Believe."': "“你可以做得更好。你会做得更好。相信。”",
     "- Javascript Edition -": "- Javascript 版本 -",
     ", their jobs, and their fundamental machines by": "，他们的工作和他们的基本机器",
-    ", they will rapidly increase back to that amount. If they do not exist, this applies to an equivalent resource.": "，它们将迅速增加到该数量。 如果它们不存在，则这适用于等效资源。",
+    ", they will rapidly increase back to that amount. If they do not exist, this applies to an equivalent resource.":
+        "，它们将迅速增加到该数量。 如果它们不存在，则这适用于等效资源。",
     ". Effect caps at": ".效果上限为",
     ". If they do not exist, start with an equivalent.": ".如果它们不存在，请从等价物开始。",
-    "\"Mistakes are filled with lessons. Learn never to repeat them.\"": "“错误充满了教训。学会永远不要重蹈覆辙。”",
+    '"Mistakes are filled with lessons. Learn never to repeat them."': "“错误充满了教训。学会永远不要重蹈覆辙。”",
     "(this bonus is": "（这个奖励是",
     "additional": "附加",
     "Artificial materials are": "人造材料是",
@@ -1141,7 +1234,8 @@ var cnItems = {
     "Path of Time": "时间之路",
     "Patience": "耐心",
     "Patience is the choice of those who prefer inaction.": "耐心是那些喜欢无所作为的人的选择。",
-    "Professionals have standards. Be polite, be efficient, and have a plan to recruit everyone you meet.": "专业人士有标准。要有礼貌，要有效率，并有计划招募你遇到的每一个人。",
+    "Professionals have standards. Be polite, be efficient, and have a plan to recruit everyone you meet.":
+        "专业人士有标准。要有礼貌，要有效率，并有计划招募你遇到的每一个人。",
     "Resourcefulness leads to prosperity.": "足智多谋导致繁荣。",
     "Reveal all aspects which are not locked.": "显示所有未锁定的位面。",
     "Reveals much more information about a world before you choose to visit it.": "在您选择访问之前显示有关世界的更多信息。",
@@ -1175,27 +1269,35 @@ var cnItems = {
     "A jewel squid joins you.": "宝石鱿鱼加入了您的行列。",
     "A rock-boring urchin joins you.": "一个无聊的海胆加入你。",
     "A scaled squid joins you.": "有鳞的鱿鱼加入您的行列。",
-    "A small village of squid greets you respectfully. The water in this place is a little warmer, and you hear a quiet, ambient hum.": "一个小乌贼村恭敬地迎接你。这个地方的水有点温暖，你会听到安静的环境嗡嗡声。",
+    "A small village of squid greets you respectfully. The water in this place is a little warmer, and you hear a quiet, ambient hum.":
+        "一个小乌贼村恭敬地迎接你。这个地方的水有点温暖，你会听到安静的环境嗡嗡声。",
     "Attract an urchin who will gather kelp and sand. Urchins are used to the cold.": "吸引会收集海带和沙子的海胆。海胆习惯了寒冷。",
     "Attract urchin": "吸引海胆",
     "Civil Contact": "民事接触",
     "Enlist a squid to help us hunt down fish. Squid are used to the cold.": "招募鱿鱼来帮助我们捕捞鱼类。鱿鱼习惯了寒冷。",
     "Enlist squid": "招募鱿鱼",
-    "Found the squids. They can be enlisted to help catch fish. Also moved to a less frozen place.": "找到了鱿鱼。他们可以被招募来帮助捕鱼。也搬到了一个不那么冰冻的地方。",
+    "Found the squids. They can be enlisted to help catch fish. Also moved to a less frozen place.":
+        "找到了鱿鱼。他们可以被招募来帮助捕鱼。也搬到了一个不那么冰冻的地方。",
     "Frigid Ocean": "寒冷的海洋",
     "Giant shards of glassy ice surround you on all sides.": "巨大的玻璃状冰块四面环绕着你。",
     "harmful": "有害",
     "Hire a crab to find things that sharks overlook.": "雇一只螃蟹来寻找鲨鱼忽视的东西。",
     "sea urchin": "海胆",
-    "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile. They know nothing but the kelp.": "海胆沿着地面爬来爬去，收集海带并将其放在中央的一大堆中。他们只知道海带。",
+    "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile. They know nothing but the kelp.":
+        "海胆沿着地面爬来爬去，收集海带并将其放在中央的一大堆中。他们只知道海带。",
     "Urchin Attraction": "海胆景点",
-    "We can see these little spiny balls moving around on the ocean floor. What are they? Why are they everywhere?!": "我们可以看到这些带刺的小球在海底移动。这些是什么？为什么他们无处不在？！",
-    "We have made two miraculous discoveries: they're sentient (barely), and they are painful to touch.": "我们有两个神奇的发现：它们是有感觉的（几乎没有），而且触摸起来很痛苦。",
-    "We see a number of strange structures through the gap in the ice. What are we looking at, exactly?": "我们通过冰层的缝隙看到了许多奇怪的结构。我们到底在看什么？",
+    "We can see these little spiny balls moving around on the ocean floor. What are they? Why are they everywhere?!":
+        "我们可以看到这些带刺的小球在海底移动。这些是什么？为什么他们无处不在？！",
+    "We have made two miraculous discoveries: they're sentient (barely), and they are painful to touch.":
+        "我们有两个神奇的发现：它们是有感觉的（几乎没有），而且触摸起来很痛苦。",
+    "We see a number of strange structures through the gap in the ice. What are we looking at, exactly?":
+        "我们通过冰层的缝隙看到了许多奇怪的结构。我们到底在看什么？",
     "We visited the structures, and it turns out it's an entire civilization!": "我们参观了这些建筑，结果发现它是一个完整的文明！",
-    "We've managed to attract the attention of one of the sea urchins, and it's bringing stuff to us. I think it likes us?? Maybe???": "我们成功地吸引了其中一只海胆的注意，它给我们带来了一些东西。我觉得它喜欢我们？？也许？？？",
+    "We've managed to attract the attention of one of the sea urchins, and it's bringing stuff to us. I think it likes us?? Maybe???":
+        "我们成功地吸引了其中一只海胆的注意，它给我们带来了一些东西。我觉得它喜欢我们？？也许？？？",
     "Weird teeth-wear has been developed, and sharks can now catch fish better as a result.": "奇怪的牙齿磨损已经出现，因此鲨鱼现在可以更好地捕鱼。",
-    "While scanning the horizon, you notice a gap in the ice. You peer through it, and spot something else.": "在扫描地平线时，你注意到冰上有一个缝隙。你通过它窥视，并发现其他东西。",
+    "While scanning the horizon, you notice a gap in the ice. You peer through it, and spot something else.":
+        "在扫描地平线时，你注意到冰上有一个缝隙。你通过它窥视，并发现其他东西。",
     "You are a shark in a freezing white sea.": "你是冰冷的白海中的一条鲨鱼。",
     "A burrowing urchin joins you.": "一只会挖洞的顽童加入你的行列。",
     "A comb-finned squid joins you.": "梳翅乌贼加入您的行列。",
@@ -1287,7 +1389,8 @@ var cnItems = {
     "The effect from tokens of industry is": "行业代币的影响是",
     "The Minute Hand earns": "分针赚取",
     "The Minute Hand gains": "分针获得",
-    "time from all sources (except The Hour Hand). Bonus time counts against your world-time when used.": "所有来源的时间（时针除外）。使用时，奖励时间会计入您的世界时间。",
+    "time from all sources (except The Hour Hand). Bonus time counts against your world-time when used.":
+        "所有来源的时间（时针除外）。使用时，奖励时间会计入您的世界时间。",
     "Unlock a pause button that freezes most timers and all resources.": "解锁可冻结大多数计时器和所有资源的暂停按钮。",
     "Unlock a third token (tokens cannot stack on the same resource).": "解锁第三个令牌（令牌不能堆叠在同一资源上）。",
     "Unlock the choice to slow down time in exchange for a large": "解锁选择放慢时间换取大",
@@ -1317,58 +1420,56 @@ var cnItems = {
     "": "",
     "": "",
 
-    //树游戏
-    'Loading...': '加载中...',
-    'ALWAYS': '一直',
-    'HARD RESET': '硬重置',
-    'Export to clipboard': '导出到剪切板',
-    'INCOMPLETE': '不完整',
-    'HIDDEN': '隐藏',
-    'AUTOMATION': '自动',
-    'NEVER': '从不',
-    'ON': '打开',
-    'OFF': '关闭',
-    'SHOWN': '显示',
-    'Play Again': '再次游戏',
-    'Keep Going': '继续',
-    'The Modding Tree Discord': '模型树Discord',
-    'You have': '你有',
-    'It took you {{formatTime(player.timePlayed)}} to beat the game.': '花费了 {{formatTime(player.timePlayed)}} 时间去通关游戏.',
-    'Congratulations! You have reached the end and beaten this game, but for now...': '恭喜你！ 您已经结束并通关了本游戏，但就目前而言...',
-    'Main Prestige Tree server': '主声望树服务器',
-    'Reach {{formatWhole(ENDGAME)}} to beat the game!': '达到 {{formatWhole(ENDGAME)}} 去通关游戏!',
+    // 树游戏
+    "Loading...": "加载中...",
+    "ALWAYS": "一直",
+    "HARD RESET": "硬重置",
+    "Export to clipboard": "导出到剪切板",
+    "INCOMPLETE": "不完整",
+    "HIDDEN": "隐藏",
+    "AUTOMATION": "自动",
+    "NEVER": "从不",
+    "ON": "打开",
+    "OFF": "关闭",
+    "SHOWN": "显示",
+    "Play Again": "再次游戏",
+    "Keep Going": "继续",
+    "The Modding Tree Discord": "模型树Discord",
+    "You have": "你有",
+    "It took you {{formatTime(player.timePlayed)}} to beat the game.": "花费了 {{formatTime(player.timePlayed)}} 时间去通关游戏.",
+    "Congratulations! You have reached the end and beaten this game, but for now...": "恭喜你！ 您已经结束并通关了本游戏，但就目前而言...",
+    "Main Prestige Tree server": "主声望树服务器",
+    "Reach {{formatWhole(ENDGAME)}} to beat the game!": "达到 {{formatWhole(ENDGAME)}} 去通关游戏!",
     "Loading... (If this takes too long it means there was a serious error!": "正在加载...（如果这花费的时间太长，则表示存在严重错误！",
-    'Loading... (If this takes too long it means there was a serious error!)←': '正在加载...（如果时间太长，则表示存在严重错误！）←',
-    'Main\n\t\t\t\tPrestige Tree server': '主\n\t\t\t\t声望树服务器',
-    'The Modding Tree\n\t\t\t\t\t\t\tDiscord': '模型树\n\t\t\t\t\t\t\tDiscord',
-    'Please check the Discord to see if there are new content updates!': '请检查 Discord 以查看是否有新的内容更新！',
-    'aqua': '水色',
-    'AUTOMATION, INCOMPLETE': '自动化，不完整',
-    'LAST, AUTO, INCOMPLETE': '最后，自动，不完整',
-    'NONE': '无',
-    'P: Reset for': 'P: 重置获得',
-    'Git游戏': 'Git游戏',
-    'QQ群号': 'QQ群号',
+    "Loading... (If this takes too long it means there was a serious error!)←": "正在加载...（如果时间太长，则表示存在严重错误！）←",
+    "Main\n\t\t\t\tPrestige Tree server": "主\n\t\t\t\t声望树服务器",
+    "The Modding Tree\n\t\t\t\t\t\t\tDiscord": "模型树\n\t\t\t\t\t\t\tDiscord",
+    "Please check the Discord to see if there are new content updates!": "请检查 Discord 以查看是否有新的内容更新！",
+    "aqua": "水色",
+    "AUTOMATION, INCOMPLETE": "自动化，不完整",
+    "LAST, AUTO, INCOMPLETE": "最后，自动，不完整",
+    "NONE": "无",
+    "P: Reset for": "P: 重置获得",
+    "Git游戏": "Git游戏",
+    "QQ群号": "QQ群号",
     "The above variably-named Shark Game": "The above variably-named Shark Game",
     "Cirrial": "Cirrial",
-    'x': 'x',
-    'All rights reserved.': 'All rights reserved.',
+    "x": "x",
+    "All rights reserved.": "All rights reserved.",
     "spencers145": "spencers145",
-    'QQ群号:': 'QQ群号:',
-    'U': 'U',
-    'R': 'R',
-    'W': 'W',
-    's': '秒',
-    'm': '分',
-    '': '',
-    '': '',
-    '': '',
+    "QQ群号:": "QQ群号:",
+    "U": "U",
+    "R": "R",
+    "W": "W",
+    "s": "秒",
+    "m": "分",
+    "": "",
+    "": "",
+    "": "",
+};
 
-}
-
-
-//需处理的前缀
-var cnPrefix = {
+// 需处理的前缀
+const cnPrefix = {
     "\n": "",
     "                   ": "",
     "                  ": "",
@@ -1389,7 +1490,7 @@ var cnPrefix = {
     "   ": "",
     "  ": "",
     " ": "",
-    //树游戏
+    // 树游戏
     "\t\t\t": "\t\t\t",
     "\n\n\t\t": "\n\n\t\t",
     "\n\t\t": "\n\t\t",
@@ -1436,10 +1537,10 @@ var cnPrefix = {
     "": "",
     "": "",
     "": "",
-}
+};
 
-//需处理的后缀
-var cnPostfix = {
+// 需处理的后缀
+const cnPostfix = {
     "                   ": "",
     "                  ": "",
     "                 ": "",
@@ -1471,12 +1572,12 @@ var cnPostfix = {
     "": "",
     "": "",
     "": "",
-}
+};
 
-//需排除的，正则匹配
-var cnExcludeWhole = [
+// 需排除的，正则匹配
+const cnExcludeWhole = [
     /^(\d+)$/,
-    /^\s*$/, //纯空格
+    /^\s*$/, // 纯空格
     /^([\d\.]+)e(\d+)$/,
     /^([\d\.]+):([\d\.]+)$/,
     /^([\d\.]+):([\d\.]+):([\d\.]+)$/,
@@ -1512,65 +1613,63 @@ var cnExcludeWhole = [
     /^e([\d\.]+)e([\d\.,]+)$/,
     /^x([\d\.]+)e([\d\.,]+)$/,
     /^([\d\.]+)e([\d\.,]+)x$/,
-    /^[\u4E00-\u9FA5]+$/
+    /^[\u4E00-\u9FA5]+$/,
 ];
-var cnExcludePostfix = [
-]
+const cnExcludePostfix = [];
 
-//正则替换，带数字的固定格式句子
-//纯数字：(\d+)
-//逗号：([\d\.,]+)
-//小数点：([\d\.]+)
-//原样输出的字段：(.+)
-//换行加空格：\n(.+)
-var cnRegReplace = new Map([
-    [/^([\d\.]+) hours ([\d\.]+) minutes ([\d\.]+) seconds$/, '$1 小时 $2 分钟 $3 秒'],
-    [/^You are gaining (.+) elves per second$/, '你每秒获得 $1 精灵'],
-    [/^Welcome back! It's been (.+) hours since you were seen around here!$/, '欢迎回来！ $1 小时没见到你了！'],
-    [/^You have (.+) points$/, '你有 $1 点数'],
-    [/^Next at (.+) points$/, '下一个在 $1 点数'],
-    [/^buy (.+) max$/, '购买最大值的 $1'],
-    [/^eat (.+) max$/, '吃掉最大值的 $1'],
-    [/^Took (.+)m (.+)s out of storage.$/, '从存储中取出 $1分 $2秒。'],
-	[/^([\d\.]+)\/sec$/, '$1\/秒'],
-	[/^\+([\d\.]+)\/s$/, '\+$1\/秒'],
-	[/^\+([\d\.]+)K\/s$/, '\+$1K\/秒'],
-	[/^\-([\d\.]+)\/s$/, '\-$1\/秒'],
-	[/^\-([\d\.]+)K\/s$/, '\-$1K\/秒'],
-	[/^([\d\.,]+)\/sec$/, '$1\/秒'],
-	[/^([\d\.,]+) OOMs\/sec$/, '$1 OOMs\/秒'],
-	[/^([\d\.]+) OOMs\/sec$/, '$1 OOMs\/秒'],
-	[/^([\d\.]+)e([\d\.,]+)\/sec$/, '$1e$2\/秒'],
-    [/^requires ([\d\.]+) more research points$/, '需要$1个研究点'],
-    [/^([\d\.]+)e([\d\.,]+) points$/, '$1e$2 点数'],
-    [/^Dispose of Stuff$/, '处理东西'],
-    [/^Dispose of (.+)$/, '处理 $1'],
-    [/^level ([\d\.]+)$/, '等级 $1'],
-    [/^rid ([\d\.]+)$/, '消除 $1'],
-    [/^eat ([\d\.]+)$/, '吃掉 $1'],
-    [/^bug ([\d\.]+)$/, '购买 $1'],
-    [/^rid (.+) max$/, '消除最大的 $1'],
-    [/^buy ([\d\.]+) amount of things$/, '购买 $1 次'],
-    [/^([\d\.]+) time$/, '$1 次'],
-    [/^\(([\d\.]+)m ([\d\.]+)s\)$/, '（$1分 $2秒）'],
-    [/^([\d\.]+) elves$/, '$1 精灵'],
-    [/^Remove ([\d\.]+)$/, '移除 $1'],
-    [/^cheat ([\d\.]+)$/, '作弊 $1'],
-    [/^cheat ([\d\.]+) amount of things$/, '作弊 $1 件东西'],
-    [/^Now autosaving every ([\d\.]+) minutes.$/, '现在每 $1 分钟自动保存一次。'],
-    [/^([\d\.]+)e([\d\.,]+) elves$/, '$1e$2 精灵'],
-    [/^([\d\.,]+) ESSENCE$/, '$1 精华'],
-    [/^([\d\.,]+) minutes$/, '$1 分钟'],
-    [/^([\d\.,]+) elves$/, '$1 精灵'],
-    [/^\*(.+) to electricity gain$/, '\*$1 到电力增益'],
-    [/^Cost: (.+)$/, '成本：$1'],
-    [/^Cost: (.+) points$/, '成本：$1 点数'],
-    [/^Req: (.+) elves$/, '要求：$1 精灵'],
-    [/^Req: (.+) \/ (.+) elves$/, '要求：$1 \/ $2 精灵'],
-    [/^Usages: (\d+)\/$/, '用途：$1\/'],
-    [/^workers: (\d+)\/$/, '工人：$1\/'],
+// 正则替换，带数字的固定格式句子
+// 纯数字：(\d+)
+// 逗号：([\d\.,]+)
+// 小数点：([\d\.]+)
+// 原样输出的字段：(.+)
+// 换行加空格：\n(.+)
+const cnRegReplace = new Map([
+    [/^([\d\.]+) hours ([\d\.]+) minutes ([\d\.]+) seconds$/, "$1 小时 $2 分钟 $3 秒"],
+    [/^You are gaining (.+) elves per second$/, "你每秒获得 $1 精灵"],
+    [/^Welcome back! It's been (.+) hours since you were seen around here!$/, "欢迎回来！ $1 小时没见到你了！"],
+    [/^You have (.+) points$/, "你有 $1 点数"],
+    [/^Next at (.+) points$/, "下一个在 $1 点数"],
+    [/^buy (.+) max$/, "购买最大值的 $1"],
+    [/^eat (.+) max$/, "吃掉最大值的 $1"],
+    [/^Took (.+)m (.+)s out of storage.$/, "从存储中取出 $1分 $2秒。"],
+    [/^([\d\.]+)\/sec$/, "$1/秒"],
+    [/^\+([\d\.]+)\/s$/, "+$1/秒"],
+    [/^\+([\d\.]+)K\/s$/, "+$1K/秒"],
+    [/^\-([\d\.]+)\/s$/, "-$1/秒"],
+    [/^\-([\d\.]+)K\/s$/, "-$1K/秒"],
+    [/^([\d\.,]+)\/sec$/, "$1/秒"],
+    [/^([\d\.,]+) OOMs\/sec$/, "$1 OOMs/秒"],
+    [/^([\d\.]+) OOMs\/sec$/, "$1 OOMs/秒"],
+    [/^([\d\.]+)e([\d\.,]+)\/sec$/, "$1e$2/秒"],
+    [/^requires ([\d\.]+) more research points$/, "需要$1个研究点"],
+    [/^([\d\.]+)e([\d\.,]+) points$/, "$1e$2 点数"],
+    [/^Dispose of Stuff$/, "处理东西"],
+    [/^Dispose of (.+)$/, "处理 $1"],
+    [/^level ([\d\.]+)$/, "等级 $1"],
+    [/^rid ([\d\.]+)$/, "消除 $1"],
+    [/^eat ([\d\.]+)$/, "吃掉 $1"],
+    [/^bug ([\d\.]+)$/, "购买 $1"],
+    [/^rid (.+) max$/, "消除最大的 $1"],
+    [/^buy ([\d\.]+) amount of things$/, "购买 $1 次"],
+    [/^([\d\.]+) time$/, "$1 次"],
+    [/^\(([\d\.]+)m ([\d\.]+)s\)$/, "（$1分 $2秒）"],
+    [/^([\d\.]+) elves$/, "$1 精灵"],
+    [/^Remove ([\d\.]+)$/, "移除 $1"],
+    [/^cheat ([\d\.]+)$/, "作弊 $1"],
+    [/^cheat ([\d\.]+) amount of things$/, "作弊 $1 件东西"],
+    [/^Now autosaving every ([\d\.]+) minutes.$/, "现在每 $1 分钟自动保存一次。"],
+    [/^([\d\.]+)e([\d\.,]+) elves$/, "$1e$2 精灵"],
+    [/^([\d\.,]+) ESSENCE$/, "$1 精华"],
+    [/^([\d\.,]+) minutes$/, "$1 分钟"],
+    [/^([\d\.,]+) elves$/, "$1 精灵"],
+    [/^\*(.+) to electricity gain$/, "*$1 到电力增益"],
+    [/^Cost: (.+)$/, "成本：$1"],
+    [/^Cost: (.+) points$/, "成本：$1 点数"],
+    [/^Req: (.+) elves$/, "要求：$1 精灵"],
+    [/^Req: (.+) \/ (.+) elves$/, "要求：$1 / $2 精灵"],
+    [/^Usages: (\d+)\/$/, "用途：$1/"],
+    [/^workers: (\d+)\/$/, "工人：$1/"],
     // [/^(.+)([\d\.,]+)$/, '$1$2'],
     // [/^(.+)([\d\.]+)$/, '$1$2'],
     // [/^(.+)([\d\.]+)K$/, '$1$2K'],
-
 ]);
