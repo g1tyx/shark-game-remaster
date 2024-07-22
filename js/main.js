@@ -134,8 +134,8 @@ $.extend(SharkGame, {
     flags: {},
     persistentFlags: {},
 
-    spriteIconPath: "https://github.com/Toby222/SharkGame/blob/alpha/img/sprites.png?raw=true",
-    spriteHomeEventPath: "https://github.com/Toby222/SharkGame/blob/alpha/img/homemessagesprites.png?raw=true",
+    spriteIconPath: "../img/sprites.png?raw=true",
+    spriteHomeEventPath: "../img/homemessagesprites.png?raw=true",
 
     /**
      *
