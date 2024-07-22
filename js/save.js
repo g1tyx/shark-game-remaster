@@ -13,6 +13,7 @@ SharkGame.Save = {
             world: { type: world.worldType },
             aspects: {},
             gateway: { betweenRuns: SharkGame.gameOver, wonGame: SharkGame.wonGame },
+            memories: { world: {}, persistent: {}, stats: {} },
         };
 
         SharkGame.PlayerResources.forEach((resource, resourceId) => {
@@ -48,6 +49,9 @@ SharkGame.Save = {
         saveData.planetPool = _.cloneDeep(gateway.planetPool);
 
         saveData.keybinds = SharkGame.Keybinds.keybinds;
+
+        saveData.memories.world = _.cloneDeep(SharkGame.Memories.worldMemories);
+        saveData.memories.persistent = _.cloneDeep(SharkGame.Memories.persistentMemories);
 
         // add timestamp
         saveData.timestampLastSave = _.now();
@@ -178,6 +182,12 @@ SharkGame.Save = {
                 } else {
                     world.worldType = saveData.world.type;
                 }
+            }
+
+            // recall memories
+            if (saveData.memories) {
+                mem.worldMemories = saveData.memories.world || mem.worldMemories;
+                mem.persistentMemories = saveData.memories.persistent || mem.persistentMemories;
             }
 
             SharkGame.Upgrades.purchaseQueue = [];

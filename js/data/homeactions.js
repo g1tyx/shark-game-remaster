@@ -36,7 +36,7 @@ SharkGame.HomeActions = {
     },
 
     generateActionTable(worldType = world.worldType) {
-        const defaultActions = SharkGame.HomeActions.default;
+        const defaultActions = SharkGame.MiscUtil.cloneDeep(SharkGame.HomeActions.default);
 
         if (!_.has(SharkGame.HomeActions, worldType)) {
             return defaultActions;
@@ -44,10 +44,10 @@ SharkGame.HomeActions = {
 
         /** @type {Record<HomeActionName, HomeAction>} */
         const finalTable = {};
-        const worldActions = SharkGame.HomeActions[worldType];
+        const worldActions = SharkGame.MiscUtil.cloneDeep(SharkGame.HomeActions[worldType]);
 
         // _.has
-        _.each(Object.getOwnPropertyNames(worldActions), (actionName) => {
+        _.each(Reflect.ownKeys(worldActions), (actionName) => {
             if (!_.has(defaultActions, actionName)) {
                 finalTable[actionName] = worldActions[actionName];
             } else {
@@ -127,7 +127,6 @@ SharkGame.HomeActions = {
                 "Ate a marlin.",
                 "Ate an orange roughy.",
                 "Ate a shark.",
-                "Ate a swordfish.",
                 "Ate a tilefish.",
                 "Ate a tuna.",
                 "Ate a swedish fish.",
@@ -318,6 +317,7 @@ SharkGame.HomeActions = {
                 "This is perhaps maybe insightful!",
                 "Why are we even doing this? Who knows! Science!",
                 "What is even the point of these things? Why are they named for fruit? They're squirming!",
+                "Results still inconclusive! Unsurpsingly...",
             ],
             helpText: "Dissect the sea apples our kelp attracts to gain additional science. Research!",
         },
@@ -1925,22 +1925,6 @@ SharkGame.HomeActions = {
             helpText: "Fuse valuable resources into delphinium, which is kinda like sharkonium. Except worse.",
         },
 
-        craftPapyrus: {
-            name: "Craft kelp papyrus",
-            effect: {
-                resource: {
-                    papyrus: 1,
-                },
-            },
-            cost: [{ resource: "kelp", costFunction: "constant", priceIncrease: 15 }],
-            max: "papyrus",
-            prereq: {
-                upgrade: ["kelpPapyrus"],
-            },
-            outcomes: ["foobar."],
-            helpText: "Using the power of the sun somehow, make crunchy, solid kelp sheets for writing stuff down.",
-        },
-
         // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
 
         getShark: {},
@@ -3283,6 +3267,7 @@ SharkGame.HomeActions = {
                 "This is perhaps maybe insightful!",
                 "Why are we even doing this? Who knows! Science!",
                 "What is even the point of these things? Why are they named for fruit? They're squirming!",
+                "Results still inconclusive! Unsurpsingly...",
             ],
             helpText: "Dissect the sea apples our kelp attracts to gain additional science. Research!",
         },
@@ -4089,7 +4074,6 @@ SharkGame.HomeActions = {
                 "[This message has been censored for reasons of being mostly really gross.]",
                 "Eggs, eggs everywhere, but never stop and think.",
                 "Writhing crab pile. Didn't expect those words next to each other today, did you.",
-                "The crab brood is a rarely witnessed phenomenon, due to being some strange behaviour of crabs that have been driven to seek crystals for reasons only they understand.",
             ],
             multiOutcomes: [
                 "The broods grow. The swarm rises.",
@@ -4298,6 +4282,311 @@ SharkGame.HomeActions = {
             helpText: "Pick a spot and set up a coral farm there.",
         },
     },
+    tempestuous: {
+        catchFish: {},
+
+        debugbutton: {},
+
+        // CONVERSIONS ////////////////////////////////////////////////////////////////////////////////
+
+        seagrassToScience: {
+            name: "Study seagrass flowers",
+            effect: {
+                resource: {
+                    get science() {
+                        return SharkGame.Upgrades.purchased.includes(`supernaturalSeagrass`) ? 10 : 1;
+                    },
+                },
+            },
+            cost: [{ resource: "seagrass", costFunction: "constant", priceIncrease: 2 }],
+            max: "seagrass",
+            prereq: {
+                resource: {
+                    seagrass: 1,
+                },
+                upgrade: ["xenobiology"],
+            },
+            outcomes: [
+                "There's science inside these things, surely!",
+                "The cause of science is advanced!",
+                "This is perhaps maybe insightful!",
+                "Why are we even doing this? Who knows! Science!",
+                "Results still inconclusive! Unsurpsingly...",
+                "Quick question. What's a flower?",
+                "At least it's not gross.",
+                "We would learn a lot more from these if they weren't so absolutely tiny.",
+            ],
+            helpText: "Dissect seagrass flowers to further the cause of science. This is research, probably!",
+        },
+
+        // MAKE ADVANCED RESOURCES  ///////////////////////////////////////////////////////////////////////////////
+
+        transmuteSharkonium: {},
+
+        // BUY ANIMALS ////////////////////////////////////////////////////////////////////////////////
+
+        getShark: {},
+
+        getManta: {},
+
+        getCrab: {},
+
+        getBillfish: {
+            name: "Fetch billfish",
+            effect: {
+                resource: {
+                    billfish: 1,
+                },
+            },
+            cost: [{ resource: "fish", costFunction: "linear", priceIncrease: 10 }],
+            max: "billfish",
+            prereq: {
+                resource: {
+                    fish: 10,
+                },
+                upgrade: ["cavernousContact"],
+            },
+            outcomes: [
+                "A swordfish joins you.",
+                "A sailfish joins you.",
+                "A black marlin joins you.",
+                "A blue marlin joins you.",
+                "A white marlin joins you.",
+                "A shortbill spearfish joins you.",
+                "A striped marlin joins you.",
+                "A roundscale spearfish joins you.",
+                "A longbill spearfish joins you.",
+            ],
+            multiOutcomes: [
+                "The billfish cometh! En garde, storm!",
+                "You swear you heard the clink of swords from within the school you just summoned.",
+                "Brave the storm, friends. Brave the storm.",
+                "This swarm shall save the sea.",
+                "More! More! The fish will flow.",
+                "Better you all than me.",
+                "What are these guys so enthusiastic for?",
+                "A flotilla of swordfish! No, seriously.",
+                "A school of billfish emerges from the back of the cave.",
+            ],
+            helpText: "Fetch a billfish from the back of the cave and ask them to help us catch fish.",
+        },
+
+        // SHARK JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getScientist: {
+            prereq: {
+                upgrade: ["statsDiscovery"],
+            },
+        },
+
+        getNurse: {},
+
+        // RAY JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getLaser: {
+            cost: [
+                { resource: "ray", costFunction: "constant", priceIncrease: 1 },
+                {
+                    resource: "crystal",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`laserLenses`) ? 10 : 50;
+                    },
+                },
+            ],
+        },
+
+        getMaker: {},
+
+        // CRAB JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getStormgoer: {
+            name: "Gear up crab stormgoer",
+            effect: {
+                resource: {
+                    stormgoer: 1,
+                },
+            },
+            cost: [
+                { resource: "crab", costFunction: "constant", priceIncrease: 1 },
+                { resource: "seagrass", costFunction: "constant", priceIncrease: 10 },
+                {
+                    resource: "sand",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return SharkGame.Upgrades.purchased.includes(`heavySifting`) ? 25 : 100;
+                    },
+                },
+            ],
+            max: "stormgoer",
+            prereq: {
+                resource: {
+                    crab: 1,
+                },
+                upgrade: ["sandbagging"],
+            },
+            outcomes: [
+                "Here comes one crab ready to NOT collect crystals just because.",
+                "Heavy-duty crab coming right up.",
+                "This crustacean is ready to pick grass for a living.",
+                "Grass me up, stormgoer.",
+                "This one goes into the storm.",
+                "We salute you, little one.",
+                "Bon voyage, little one.",
+            ],
+            multiOutcomes: [
+                "The crabs are reassured that yes, indeed, the sandbags are securely attached.",
+                "You have to wonder how they manage to carry all that around.",
+                "Surely, that's enough sandbags.",
+                "These ones go into the storm.",
+                "The crabs double check their sandbags, then set off into the great unknown.",
+                "How much sand did this cost us again?",
+                "Snip snip snip.",
+                "Snip snap snip.",
+            ],
+            helpText: "Weigh down a crab with sand to keep it from being carried away in the storm.",
+        },
+
+        getBrood: {},
+
+        // BILLFISH JOBS ////////////////////////////////////////////////////////////////////////////////
+
+        getBillfishPair: {
+            name: "Match billfish pair",
+            effect: {
+                resource: {
+                    billfishPair: 1,
+                },
+            },
+            cost: [
+                { resource: "billfish", costFunction: "constant", priceIncrease: 2 },
+                { resource: "fish", costFunction: "linear", priceIncrease: 250 },
+            ],
+            max: "billfishPair",
+            prereq: {
+                upgrade: ["billfishBiology"],
+            },
+            outcomes: [
+                "Billfish paired.",
+                "Two of one makes one of...two...or something.",
+                "I pronouce you bill and fish.",
+                "Found a match!",
+            ],
+            multiOutcomes: [
+                "Paired some billfish.",
+                "Two by two.",
+                "Finding a compatible pair is seriously harder than it looks.",
+            ],
+            helpText: "Do a bit of matchmaking and pair up two billfish to continue the circle of life.",
+        },
+
+        getBillfishExplorer: {
+            name: "Equip billfish explorer",
+            effect: {
+                resource: {
+                    billfishExplorer: 1,
+                },
+            },
+            cost: [
+                { resource: "billfish", costFunction: "constant", priceIncrease: 1 },
+                { resource: "seagrass", costFunction: "linear", priceIncrease: 1000 },
+                { resource: "crystal", costFunction: "linear", priceIncrease: 25 },
+            ],
+            max: "billfishExplorer",
+            prereq: {
+                upgrade: ["powerfulPropulsion"],
+            },
+            outcomes: [
+                "Stay safe out there.",
+                "The explorer gives you a determined look, then darts away.",
+                "This one charges right into the storm.",
+                "The explorer tucks some blank maps away and dashes out of the cave.",
+                "The billfish reviews the plan one more time, then charges head first into the current.",
+            ],
+            multiOutcomes: [
+                "Fortune favors the bold.",
+                "The school dashes out into the open water.",
+                "They seem so calm about it.",
+                "The team grabs a big stack of blank maps and quickly swims away.",
+                "Seeing this many in a group...perhaps our propulsion system is a little overcomplicated.",
+                "The fitting process for these things are a nightmare.",
+                "The group valiantly swims out of the cave into the storm.",
+            ],
+            helpText: "Rig a complex propulsion system to a billfish and train them to chart surrounding waters.",
+            removedBy: {
+                upgrades: ["cartographicCompleteness"],
+            },
+        },
+
+        getBillfishMechanic: {
+            name: "Instruct billfish mechanic",
+            effect: {
+                resource: {
+                    billfishMechanic: 1,
+                },
+            },
+            cost: [
+                { resource: "billfish", costFunction: "constant", priceIncrease: 1 },
+                { resource: "crystal", costFunction: "linear", priceIncrease: 500 },
+            ],
+            max: "billfishMechanic",
+            prereq: {
+                upgrade: ["engineering"],
+            },
+            outcomes: [
+                "This one has read the instruction manual, and is ready to break I MEAN improve stuff.",
+                "Tighten this here, and that there, and then this, aaaand...you broke it.",
+                "Loosen this screw here, and that bolt there, aaaand...I can't tell the difference.",
+                "This one starts a routine maintenance check on a fish machine.",
+                "This one starts a routine maintenance check on a sand digger.",
+                "The mechanic is ready to mechan...ize. Or whatever.",
+                "The mechanic goes to a machine, realizes they forgot their toolbox, and rapidly swims back in the other direction.",
+                "New mechanic, fresh from the doc room.",
+            ],
+            multiOutcomes: [
+                "Mechanics acquired.",
+                "Mechanics make our operation run like a well-oiled machine. That's great and all, but what's oil?",
+                "They all know so many big words. Is this really necessary?",
+                "The mechanics swarm on a sand digger, and immeidately break it, only to then fix it better than it started.",
+                "The crystal toolsets for these guys are so expensive! But sharkonium would be worse, so, no complaints.",
+                "They prepare to tinker.",
+                "The mechanics begin observing machines from all angles.",
+                "I wonder what they're actually doing. I can't really understand any of it, personally.",
+                "They look like they have no idea what they're doing, but they always get results.",
+            ],
+            helpText: "Train a billfish to operate our machines, and give it the resources needed to tinker with them.",
+        },
+
+        // SHARK MACHINES ////////////////////////////////////////////////////////////////////////////////
+
+        getSandDigger: {
+            cost: [
+                {
+                    resource: "sand",
+                    costFunction: "linear",
+                    get priceIncrease() {
+                        return 500 - 250 * SharkGame.Aspects.amorphousAssembly.level;
+                    },
+                },
+                { resource: "sharkonium", costFunction: "linear", priceIncrease: 50 },
+            ],
+        },
+
+        getFishMachine: {
+            cost: [{ resource: "sharkonium", costFunction: "linear", priceIncrease: 25 }],
+        },
+
+        getAutoTransmuter: {},
+
+        getSkimmer: {
+            prereq: {
+                resource: {
+                    junk: 1,
+                },
+                upgrade: ["recyclerDiscovery"],
+            },
+        },
+    },
 };
 
 SharkGame.HomeActionCategories = {
@@ -4309,7 +4598,7 @@ SharkGame.HomeActionCategories = {
 
     basic: {
         name: "Basic",
-        actions: ["catchFish", "debugbutton", "prySponge", "getClam", "getJellyfish"],
+        actions: ["catchFish", "debugbutton", "prySponge", "prySponge2", "getClam", "getJellyfish"],
     },
 
     frenzy: {
@@ -4327,6 +4616,7 @@ SharkGame.HomeActionCategories = {
             "getOctopus",
             "getSquid",
             "getUrchin",
+            "getBillfish",
         ],
     },
 
@@ -4358,6 +4648,9 @@ SharkGame.HomeActionCategories = {
             "getCuriousCrab",
             "getResearcher",
             "getAcolyte",
+            "getBillfishExplorer",
+            "getBillfishMechanic",
+            "getStormgoer",
         ],
     },
 
@@ -4374,6 +4667,7 @@ SharkGame.HomeActionCategories = {
             "getPit",
             "getCollective",
             "getSpawner",
+            "getBillfishPair",
         ],
     },
 
@@ -4394,6 +4688,9 @@ SharkGame.HomeActionCategories = {
             "fuseAncientPart",
             "makeSacrifice",
             "fuseCalcinium",
+            "toggleAutoSmelt",
+            "smeltPorite",
+            "seagrassToScience",
         ],
     },
 

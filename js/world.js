@@ -79,10 +79,7 @@ SharkGame.World = {
     applyGateCosts() {
         const worldInfo = SharkGame.WorldTypes[world.worldType];
 
-        // get multiplier
-        const gateCostMultiplier = world.getGateCostMultiplier();
-
-        SharkGame.Gate.createSlots(worldInfo.gateRequirements, gateCostMultiplier);
+        SharkGame.Gate.createSlots(worldInfo.gateRequirements);
     },
 
     getWorldEntryMessage() {
@@ -95,10 +92,6 @@ SharkGame.World = {
 
     forceExistence(resourceName) {
         world.worldResources.get(resourceName).exists = true;
-    },
-
-    getGateCostMultiplier() {
-        return 1;
     },
 
     isScoutingMission() {

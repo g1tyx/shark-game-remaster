@@ -74,6 +74,7 @@ SharkGame.Recycler = {
 
         main.createBuyButtons("eat", container, "prepend");
         rec.createButtons();
+        rec.update();
     },
 
     update() {

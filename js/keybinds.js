@@ -1,6 +1,7 @@
 SharkGame.Keybinds = {
     defaultBinds: {
         Period: "bind home ocean button",
+        Escape: "close current pane",
         P: "pause",
         A: "press all buying buttons",
         L: "buy topmost upgrade",
@@ -26,6 +27,7 @@ SharkGame.Keybinds = {
     actions: [
         `nothing`,
         `bind home ocean button`,
+        `close current pane`,
         `press all buying buttons`,
         `buy topmost upgrade`,
         `return all tokens`,
@@ -208,6 +210,9 @@ SharkGame.Keybinds = {
                     if (!this.bindModeLock) {
                         this.toggleBindMode(true);
                     }
+                    break;
+                case "close current pane":
+                    SharkGame.PaneHandler.tryClosePane();
                     break;
                 case "pause":
                     if (SharkGame.Aspects.meditation.level && !SharkGame.gameOver) {

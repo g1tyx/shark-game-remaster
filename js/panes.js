@@ -342,7 +342,7 @@ SharkGame.PaneHandler = {
                         if (importText === "") {
                             SharkGame.PaneHandler.nextPaneInStack();
                             log.addError("You need to paste something in first!");
-                        } else if (confirm("你绝对确定吗？ 这将覆盖您当前的进度。")) {
+                        } else if (confirm("Are you absolutely sure? This will override your current save.")) {
                             SharkGame.Save.importData(importText);
                         }
                     })
@@ -377,7 +377,7 @@ SharkGame.PaneHandler = {
                         .addClass(`option-button`)
                         .on(`click`, () => {
                             if (SharkGame.Save.savedGameExists(`Backup${tag}`)) {
-                                if (!confirm(`此插槽中已经有存档。 是否覆盖它？`)) {
+                                if (!confirm(`There is already a save in this slot. Overwrite it?`)) {
                                     return;
                                 }
                             }
@@ -446,7 +446,7 @@ SharkGame.PaneHandler = {
                     .html("wipe")
                     .addClass("option-button")
                     .on("click", () => {
-                        if (confirm("您确定要将设置擦除为默认值吗？")) {
+                        if (confirm("Are you absolutely sure you want to wipe your settings to default?")) {
                             $.each(SharkGame.Settings.current, (settingName) => {
                                 if (SharkGame.Settings[settingName]) {
                                     SharkGame.Settings.current[settingName] = SharkGame.Settings[settingName].defaultSetting;
@@ -476,7 +476,7 @@ SharkGame.PaneHandler = {
                     .html("wipe")
                     .addClass("option-button")
                     .on("click", () => {
-                        if (confirm("您确定要清除存档吗？\n它会永远消失！")) {
+                        if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
                             main.resetGame();
                         }
                     })

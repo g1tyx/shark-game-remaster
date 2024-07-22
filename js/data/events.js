@@ -399,4 +399,148 @@ SharkGame.Events = {
             return true;
         },
     },
+    tempestuousHandleStorm: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.World.worldType !== "tempestuous") {
+                return "remove";
+            }
+            return "trigger";
+        },
+        trigger() {
+            if (!SharkGame.flags.storm) {
+                SharkGame.flags.storm = {
+                    fish: -0.02,
+                    sand: -0.02,
+                    crystal: -0.02,
+                    shark: -0.02,
+                    ray: -0.02,
+                    crab: -0.02,
+                };
+            }
+
+            const storm = SharkGame.ResourceMap.get("world");
+            const predictedTimeUntilNextTick = res.getGameSpeedModifier();
+            if (!storm.baseIncome) {
+                storm.baseIncome = {};
+                storm.income = {};
+            }
+            $.each(SharkGame.flags.storm, (resourceName, removalRatio) => {
+                if (world.doesResourceExist(resourceName)) {
+                    storm.baseIncome[resourceName] =
+                        (predictedTimeUntilNextTick * res.getResource(resourceName) * removalRatio) / (1 - predictedTimeUntilNextTick * removalRatio);
+                }
+                res.reapplyModifiers("world", resourceName);
+            });
+            $.each(SharkGame.flags.storm, (name, ratio) => {
+                if (ratio === 0) {
+                    delete SharkGame.flags.storm[name];
+                }
+            });
+            return true;
+        },
+    },
+    tempestuousFindCave: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            if (!SharkGame.flags.storm) {
+                SharkGame.flags.storm = {
+                    fish: -0.02,
+                    sand: -0.02,
+                    crystal: -0.02,
+                    shark: -0.02,
+                    ray: -0.02,
+                    crab: -0.02,
+                };
+            }
+            _.each(["fish", "sand", "crystal", "shark", "ray", "crab"], (resourceName) => {
+                SharkGame.flags.storm[resourceName] = 0;
+                const resourceAmount = res.getResource(resourceName);
+                res.setResource(resourceName, Math.floor(resourceAmount));
+            });
+        },
+    },
+    tempestuousGiveSeagrass: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            if (!SharkGame.flags.gaveSeagrass) {
+                SharkGame.flags.gaveSeagrass = true;
+                res.changeResource("seagrass", 20);
+            }
+        },
+    },
+    tempestuousEmergencySeagrass: {
+        handlingTime: "afterTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.World.worldType !== "tempestuous") {
+                return "remove";
+            } else if (SharkGame.flags.gaveSeagrass && res.getResource("seagrass") < 10 && res.getResource("stormgoer") < 1) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            res.setResource("seagrass", 20);
+        },
+    },
+    tempestuousMapSequence: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            if (SharkGame.World.worldType !== "tempestuous") {
+                return "remove";
+            } else if (SharkGame.Upgrades.purchased.includes("cartographicCompleteness")) {
+                return "trigger";
+            }
+            return "pass";
+        },
+        trigger() {
+            res.setResource("map", 1);
+            res.setTotalResource("map", 1);
+            res.changeResource("billfish", res.getResource("billfishExplorer"));
+            SharkGame.Lab.addUpgrade("senseOfDirection");
+            SharkGame.Lab.addUpgrade("routing");
+            SharkGame.Lab.addUpgrade("universalNavigation");
+
+            _.each(res.tokens.list, (token) => {
+                if (
+                    SharkGame.flags.tokens[token.attr("id")].includes("chart") ||
+                    SharkGame.flags.tokens[token.attr("id")].includes("billfishExplorer")
+                )
+                    res.tokens.tryReturnToken(null, false, token);
+            });
+            SharkGame.flags.mapSequenceCompleted = true;
+
+            res.setResource("chart", 0);
+            res.setTotalResource("chart", 0);
+            res.setResource("billfishExplorer", 0);
+            res.setTotalResource("billfishExplorer", 0);
+            SharkGame.PlayerResources.get("chart").discovered = false;
+            res.reconstructResourcesTable();
+            SharkGame.TabHandler.setUpTab();
+        },
+    },
+    tempestuousInternalExploration: {
+        handlingTime: "beforeTick",
+        priority: 0,
+        getAction() {
+            return "remove";
+        },
+        trigger() {
+            SharkGame.GeneratorIncomeAffectors.billfishMechanic.multiply.sandDigger *= 5;
+            SharkGame.GeneratorIncomeAffectors.billfishMechanic.multiply.fishMachine *= 5;
+            res.clearNetworks();
+            res.buildIncomeNetwork();
+        },
+    },
 };

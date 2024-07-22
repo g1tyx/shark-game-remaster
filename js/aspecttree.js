@@ -26,51 +26,19 @@ const BOTTOM_EDGE = -150;
 const SPRITE_SHEET = new Image();
 const EVENT_SPRITE_SHEET = new Image();
 
-SPRITE_SHEET.src = "img/sharksprites.png";
-EVENT_SPRITE_SHEET.src = "img/sharkeventsprites.png";
-
-function clamp(num, min, max) {
-    return num <= min ? min : num >= max ? max : num;
-}
+SPRITE_SHEET.src = "https://github.com/Toby222/SharkGame/blob/alpha/img/sprites.png?raw=true";
+EVENT_SPRITE_SHEET.src = "https://github.com/Toby222/SharkGame/blob/alpha/img/homemessagesprites.png?raw=true";
 
 SharkGame.AspectTree = {
-    dragStart: { posX: 0, posY: 0 },
-    cameraZoom: 1,
-    cameraOffset: { posX: 0, posY: 0 },
     /** @type {CanvasRenderingContext2D} */
     context: undefined,
+    pointerType: "mouse",
+    previousButton: undefined,
     staticButtons: {
-        zoom: {
-            posX: 10,
-            posY: 10,
-            width: 30,
-            height: 30,
-
-            name: "Zoom",
-            description: "Change the zoom level.",
-            getEffect() {
-                if (tree.cameraZoom === 1) {
-                    return "Zoom out.";
-                } else {
-                    return "Zoom in.";
-                }
-            },
-            clicked() {
-                if (tree.cameraZoom === 1) {
-                    tree.cameraZoom = 0.5;
-                } else {
-                    tree.cameraZoom = 1;
-                }
-                tree.updateTooltip(this);
-            },
-            getOn() {
-                return tree.cameraZoom !== 1;
-            },
-        },
         respec: {
             posX: 10,
             get posY() {
-                return tree.staticButtons.zoom.posY + tree.staticButtons.zoom.height + 10;
+                return 10;
             },
             width: 30,
             height: 30,
@@ -109,7 +77,7 @@ SharkGame.AspectTree = {
                 return "Respec ALL refundable aspects.";
             },
             clicked() {
-                if (confirm("您确定要重新指定所有可退还的位面吗？")) {
+                if (confirm("Are you sure you want to respec ALL refundable aspects?")) {
                     tree.respecTree();
                 }
             },
@@ -213,13 +181,6 @@ SharkGame.AspectTree = {
         tree.generateRequirementReference();
     },
 
-    resetTreeCamera() {
-        // remember to figure out this nonsense
-        this.dragStart = { posX: 0, posY: 0 };
-        this.cameraZoom = 1;
-        this.cameraOffset = { posX: 0, posY: 0 };
-    },
-
     drawTree(disableCanvas = true) {
         if (disableCanvas) {
             return tree.drawTable();
@@ -281,7 +242,7 @@ SharkGame.AspectTree = {
             aspectTableDescriptionRow.append($(`<td>`));
             aspectTableDescriptionRow.append(
                 $(`<td>`)
-                    .html(!reqref.max ? aspectData.getCost(aspectData.level) : "n/A")
+                    .html(!reqref.max ? aspectData.getCost(aspectData.level) : "N/A")
                     .attr("rowspan", "3")
             );
 
@@ -304,7 +265,7 @@ SharkGame.AspectTree = {
                 aspectTableRowNext.append($(`<td>`).html(`${aspectData.level + 1}`));
             } else {
                 aspectTableRowNext.append($(`<td>`).html(`NEXT: Already at maximum level.`));
-                aspectTableRowNext.append($(`<td>`).html(`n/A`));
+                aspectTableRowNext.append($(`<td>`).html(`N/A`));
             }
 
             _.each([aspectTableDescriptionRow, aspectTableRowNext, aspectTableRowCurrent], (row) => {
@@ -328,68 +289,38 @@ SharkGame.AspectTree = {
         canvas.setAttribute("width", "800px");
         canvas.setAttribute("height", "600px");
 
-        $(canvas).on("mouseenter mousemove mouseleave", tree.updateMouse);
-
-        $(canvas).on("mousedown", tree.startPan);
-
+        $(canvas).on("mouseenter mousemove mouseleave wheel click touchstart touchmove touchend touchcancel", tree.updateMouse);
         $(canvas).on("click", tree.click);
-        $(canvas).on("click", tree.updateMouse);
 
         tree.context = canvas.getContext("2d", { alpha: false, desynchronized: true });
 
-        // tree doesn't work with touch screens so convert touch events to mouse events
-        // https://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
-        function touchHandler(event) {
-            const touches = event.changedTouches;
-            const first = touches[0];
-            let type = "";
-            switch (event.type) {
-                case "touchstart":
-                    type = "mousedown";
-                    break;
-                case "touchmove":
-                    type = "mousemove";
-                    break;
-                case "touchend":
-                    type = "mouseup";
-                    break;
-                default:
-                    return;
-            }
-
-            // initMouseEvent(type, canBubble, cancelable, view, clickCount,
-            //                screenX, screenY, clientX, clientY, ctrlKey,
-            //                altKey, shiftKey, metaKey, button, relatedTarget);
-
-            const simulatedEvent = document.createEvent("MouseEvent");
-            simulatedEvent.initMouseEvent(
-                type,
-                true,
-                true,
-                window,
-                1,
-                first.screenX,
-                first.screenY,
-                first.clientX,
-                first.clientY,
-                false,
-                false,
-                false,
-                false,
-                0 /* left */,
-                null
-            );
-
-            first.target.dispatchEvent(simulatedEvent);
-            event.preventDefault();
-        }
-
-        canvas.addEventListener("touchstart", touchHandler, true);
-        canvas.addEventListener("touchmove", touchHandler, true);
-        canvas.addEventListener("touchend", touchHandler, true);
-        canvas.addEventListener("touchcancel", touchHandler, true);
+        $("body").css("overscroll-behavior-x", "none");
 
         return canvas;
+    },
+
+    initTree() {
+        this.panzoom = panzoom($("canvas")[0], {
+            maxZoom: 2,
+            minZoom: 0.8,
+            bounds: {
+                top: BOTTOM_EDGE + CANVAS_HEIGHT,
+                right: LEFT_EDGE - CANVAS_WIDTH,
+                bottom: TOP_EDGE - CANVAS_HEIGHT,
+                left: RIGHT_EDGE + CANVAS_WIDTH,
+            },
+            boundsDisabledForZoom: true,
+            smoothScroll: {
+                amplitude: 0.05,
+            },
+            onTouch: () => false,
+            beforeMouseDown: (event) => event.target.id !== "treeCanvas" || this.getButtonUnderMouse(event) !== undefined,
+            beforeWheel: (event) => event.target.id !== "treeCanvas",
+        });
+        this.panzoom.on("transform", () => {
+            requestAnimationFrame(tree.render);
+        });
+        tree.render();
     },
 
     /**
@@ -398,8 +329,8 @@ SharkGame.AspectTree = {
      */
     getCursorPositionInCanvas(canvas, event) {
         const rect = canvas.getBoundingClientRect();
-        const posX = event.clientX - rect.left;
-        const posY = event.clientY - rect.top;
+        const posX = (event.clientX || event.targetTouches[0]?.clientX || event.changedTouches[0].clientX) - rect.left;
+        const posY = (event.clientY || event.targetTouches[0]?.clientY || event.changedTouches[0].clientY) - rect.top;
         const result = { posX, posY };
         return result;
     },
@@ -408,8 +339,7 @@ SharkGame.AspectTree = {
     getButtonUnderMouse(event) {
         const context = tree.context;
         const mousePos = tree.getCursorPositionInCanvas(context.canvas, event);
-        const offset = tree.cameraOffset;
-        const zoom = tree.cameraZoom;
+        const transform = this.panzoom.getTransform();
 
         // this fixes one piece of the sticky tooltip bug on the tree
         if (gateway.transitioning) {
@@ -431,23 +361,21 @@ SharkGame.AspectTree = {
             ) {
                 return;
             }
-            return (
-                CANVAS_WIDTH / 2 - (CANVAS_WIDTH / 2 - mousePos.posX) / zoom - offset.posX >= posX &&
-                CANVAS_HEIGHT / 2 - (CANVAS_HEIGHT / 2 - mousePos.posY) / zoom - offset.posY >= posY &&
-                CANVAS_WIDTH / 2 - (CANVAS_WIDTH / 2 - mousePos.posX) / zoom - offset.posX <= posX + width &&
-                CANVAS_HEIGHT / 2 - (CANVAS_HEIGHT / 2 - mousePos.posY) / zoom - offset.posY <= posY + height
-            );
+
+            const computedY = (mousePos.posY - transform.y) / transform.scale;
+            const computedX = (mousePos.posX - transform.x) / transform.scale;
+
+            return computedX >= posX && computedY >= posY && computedX <= posX + width && computedY <= posY + height;
         });
         return aspect;
     },
 
-    previousButton: undefined,
     /** @param {MouseEvent} event */
     updateMouse(event) {
-        const button = tree.getButtonUnderMouse(event);
-        if (button !== tree.previousButton) {
+        const button = event.type === "mouseleave" ? undefined : tree.getButtonUnderMouse(event);
+        tree.updateTooltip(button);
+        if (button === undefined) {
             tree.previousButton = button;
-            tree.updateTooltip(button);
         }
     },
 
@@ -457,40 +385,21 @@ SharkGame.AspectTree = {
         if (button === undefined) {
             return;
         }
-        if (typeof button.clicked === "function") {
+
+        // If it was clicked using touch, first touch on a button opens the tooltip and second touch purchases
+        // if unsure, treat it as a touch
+        const isMouseClick = event.pointerType === "mouse" || event.originalEvent.mozInputSource === 1 || event.originalEvent.mozInputSource === 2;
+        if (typeof button.clicked === "function" && (isMouseClick || tree.previousButton?.name === button?.name)) {
             button.clicked(event);
         }
+        tree.previousButton = button;
         requestAnimationFrame(tree.render);
-    },
-
-    /** @param {MouseEvent} event */
-    startPan(event) {
-        if (tree.getButtonUnderMouse(event) !== undefined) {
-            return;
-        }
-        tree.dragStart.posX = event.clientX / tree.cameraZoom - tree.cameraOffset.posX;
-        tree.dragStart.posY = event.clientY / tree.cameraZoom - tree.cameraOffset.posY;
-        $(tree.context.canvas).on("mousemove", tree.pan);
-        $(tree.context.canvas).on("mouseup mouseleave", tree.endPan);
-    },
-
-    /** @param {MouseEvent} event */
-    pan(event) {
-        const offsetX = clamp(event.clientX / tree.cameraZoom - tree.dragStart.posX, RIGHT_EDGE, LEFT_EDGE - CANVAS_WIDTH);
-        const offsetY = clamp(event.clientY / tree.cameraZoom - tree.dragStart.posY, BOTTOM_EDGE, TOP_EDGE - CANVAS_HEIGHT);
-        tree.cameraOffset.posX = offsetX;
-        tree.cameraOffset.posY = offsetY;
-        requestAnimationFrame(tree.render);
-    },
-
-    endPan() {
-        $(tree.context.canvas).off("mousemove", tree.pan);
-        $(tree.context.canvas).off("mouseup mouseleave", tree.endPan);
     },
 
     render() {
         const context = tree.context;
         if (context === undefined) return;
+        const transform = tree.panzoom.getTransform();
 
         // For some reason, it scrolls indefinitely if you don't set this every frame
         // I have no idea how or why
@@ -513,9 +422,8 @@ SharkGame.AspectTree = {
         context.fillRect(0, 0, context.canvas.width, context.canvas.height);
         context.restore();
 
-        context.translate(context.canvas.width / 2, context.canvas.height / 2);
-        context.scale(tree.cameraZoom, tree.cameraZoom);
-        context.translate(-context.canvas.width / 2 + tree.cameraOffset.posX, -context.canvas.height / 2 + tree.cameraOffset.posY);
+        context.translate(transform.x, transform.y);
+        context.scale(transform.scale, transform.scale);
 
         if (gateway.completedWorlds.length >= 3) {
             context.save();
@@ -530,14 +438,14 @@ SharkGame.AspectTree = {
 
             context.save();
             context.fillStyle = getComputedStyle(document.getElementById("backToGateway")).color;
-            context.fillText("侦察任务中", 440, 10);
-            context.fillText("只能携带核心位面", 440, 25);
-            context.fillText("非核心位面 ->", 440, 60);
-            context.fillText("<- 核心位面", 300, 60);
-            context.fillText("侦察任务中", 440, 710);
-            context.fillText("你只能携带核心位面", 440, 725);
-            context.fillText("非核心位面 ->", 440, 680);
-            context.fillText("<- 核心位面", 300, 680);
+            context.fillText("on scouting missions", 440, 10);
+            context.fillText("you can only bring core aspects", 440, 25);
+            context.fillText("non-core aspects ->", 440, 60);
+            context.fillText("<- core aspects", 300, 60);
+            context.fillText("on scouting missions", 440, 710);
+            context.fillText("you can only bring core aspects", 440, 725);
+            context.fillText("non-core aspects ->", 440, 680);
+            context.fillText("<- core aspects", 300, 680);
             context.restore();
         }
 
@@ -621,9 +529,9 @@ SharkGame.AspectTree = {
         // Static buttons
         context.save();
         // revert zooming
-        context.translate(context.canvas.width / 2 - tree.cameraOffset.posX, context.canvas.height / 2 - tree.cameraOffset.posY);
-        context.scale(1 / tree.cameraZoom, 1 / tree.cameraZoom);
-        context.translate(-context.canvas.width / 2, -context.canvas.height / 2);
+
+        context.scale(1 / transform.scale, 1 / transform.scale);
+        context.translate(-transform.x, -transform.y);
 
         context.lineWidth = 1;
         context.fillStyle = buttonColor;
@@ -822,6 +730,8 @@ SharkGame.AspectTree = {
     updateTooltip(button) {
         const tooltipBox = $("#tooltipbox");
         const context = tree.context;
+        // tooltips aren't needed on the aspect table
+        if (!context) return;
         if (button === undefined) {
             context.canvas.style.cursor = "grab";
             tooltipBox.empty().removeClass("forAspectTree forAspectTreeUnpurchased forAspectTreeAffordable");

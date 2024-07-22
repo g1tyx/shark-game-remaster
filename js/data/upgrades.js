@@ -57,18 +57,18 @@ SharkGame.Upgrades = {
     generateUpgradeTable(worldType = world.worldType) {
         /** @type {UpgradeTable} */
         let finalTable = {};
-        const defaultUpgrades = SharkGame.Upgrades.default;
+        const defaultUpgrades = SharkGame.MiscUtil.cloneDeep(SharkGame.Upgrades.default);
         if (_.has(SharkGame.Upgrades, worldType)) {
-            const worldUpgrades = SharkGame.Upgrades[worldType];
-            _.each(Object.getOwnPropertyNames(worldUpgrades), (upgradeName) => {
+            const worldUpgrades = SharkGame.MiscUtil.cloneDeep(SharkGame.Upgrades[worldType]);
+            _.each(Reflect.ownKeys(worldUpgrades), (upgradeName) => {
                 if (defaultUpgrades[upgradeName]) {
                     finalTable[upgradeName] = {};
-                    const names = Object.getOwnPropertyNames(worldUpgrades[upgradeName]);
+                    const names = Reflect.ownKeys(worldUpgrades[upgradeName]);
                     _.each(names, (theName) => {
                         const descriptor = Object.getOwnPropertyDescriptor(worldUpgrades[upgradeName], theName);
                         Object.defineProperty(finalTable[upgradeName], theName, descriptor);
                     });
-                    const defaultNames = Object.getOwnPropertyNames(defaultUpgrades[upgradeName]);
+                    const defaultNames = Reflect.ownKeys(defaultUpgrades[upgradeName]);
                     _.each(defaultNames, (theName) => {
                         if (!finalTable[upgradeName][theName]) {
                             const descriptor = Object.getOwnPropertyDescriptor(defaultUpgrades[upgradeName], theName);
@@ -2743,7 +2743,7 @@ SharkGame.Upgrades = {
                 science: 1e9,
             },
             required: {
-                upgrades: ["iterativeDesign"],
+                upgrades: ["iterativeDesign", "pearlConversion"],
             },
             customEffect(background) {
                 return `${sharktext.getResourceName(`clam`, false, 2, background)} to ${sharktext.getResourceName(
@@ -3204,7 +3204,7 @@ SharkGame.Upgrades = {
             name: "Secret Smelting",
             desc: "The shrimps in our frenzy have a secret recipe...",
             researchedMessage:
-                "It's called porite, and it's made with sand and sponges. Unfortunately, it's a lot of sand. Forunately, this is the ocean.",
+                "It's called porite, and it's made with sand and sponges. Unfortunately, it's a lot of sand. Fortunately, this is the ocean.",
             effectDesc: `Learned the secret of porite from the shrimp. Glass has never been so useful, probably.`,
             cost: {
                 sponge: 40000000,
@@ -3293,7 +3293,7 @@ SharkGame.Upgrades = {
         },
         superSmelting: {
             name: "Super Smelting",
-            desc: "Vents make heat. Glass needs heat. Oh wait a minute, I have an idea!",
+            desc: "Vents make heat. Glass needs heat. ...this gives me an idea!",
             researchedMessage: "Using the giant geothermal vents as supersized forges, we can mass-produce porite!",
             effectDesc:
                 "Gained the ability to skim sand and sponge production to auto-smelt porite! See, I told you those vents would be a source for future technology!",
@@ -3311,7 +3311,7 @@ SharkGame.Upgrades = {
             desc: "We need to convince the king not to kill us. Diplomacy seems like the only good option.",
             researchedMessage: `We sent a letter with a ray. The ray came back in a panic, holding another note. The king is not impressed by our "vapid flattery."`,
             effectDesc:
-                "Tried and failed to resolve this issue via diplomacy. Our messanger has been inconsolable. They won't tell us what happened. This has stressed out the rays and shovelers, who are both working twice as hard.",
+                "Tried and failed to resolve this issue via diplomacy. Our messenger has been inconsolable. They won't tell us what happened. This has stressed out the rays and shovelers, who are both working twice as hard.",
             cost: {
                 science: 7.5e9,
             },
@@ -3722,5 +3722,793 @@ SharkGame.Upgrades = {
                 },
             },
         }, */
+    },
+    tempestuous: {
+        statsDiscovery: {
+            name: "A Cave",
+            desc: "You spot a cave.",
+            researchedMessage: "Finally, some rest.",
+            effectDesc:
+                "Found a place to stay that's not being assaulted by horrible wind. The frenzy can make short trips outside without much risk.",
+            cost: {
+                fish: 500,
+            },
+            required: {},
+            events: ["tempestuousFindCave"],
+        },
+        crystalBite: {
+            name: "Crystal Bite-Gear",
+            desc: "Bite the crystals we have into something to help biting!",
+            researchedMessage: "Weird teeth-wear has been developed, and sharks can now catch fish better as a result.",
+            effectDesc: "Sharks are twice as effective with their new biting gear. Turns out they work better outside the mouth!",
+            cost: {
+                science: 50,
+                fish: 10,
+                crystal: 5,
+            },
+            required: {
+                seen: ["science"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                },
+            },
+        },
+        cavernousContact: {
+            name: "Cavernous Contact",
+            desc: "The scientists have reported noises from the dark backside of the cave.",
+            researchedMessage: "Found weird long-nose fish. Long, pointy noses... It was an awkward first encounter.",
+            effectDesc: "Billfish can be recruited to brave the storm for more fish.",
+            cost: {
+                science: 50,
+                fish: 250,
+            },
+            required: {
+                upgrades: ["crystalBite"],
+            },
+        },
+        crystalSpade: {
+            name: "Crystal Spades",
+            desc: "Fashion strange harness-tools for the rays.",
+            researchedMessage: "The rays can now bother the sand more effectively, and dig up more sand now!",
+            effectDesc: "Rays are twice as effective with their specially adapted digging tools.",
+            cost: {
+                science: 50,
+                sand: 500,
+                crystal: 5,
+            },
+            required: {
+                seen: ["science"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    ray: 2,
+                },
+            },
+        },
+        crystalContainer: {
+            name: "Crystal Containers",
+            desc: "Make weird bottle things from the crystals we have. Maybe useful??",
+            researchedMessage: "Well, things can go into these containers that aren't water. This makes science easier!",
+            effectDesc: "Scientists are twice as effective at making with the science.",
+            cost: {
+                science: 100,
+                crystal: 50,
+            },
+            required: {
+                seen: ["science"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    scientist: 2,
+                },
+            },
+        },
+        crystalSpear: {
+            name: "Crystal Spear",
+            desc: "Our spear-wielding friends could use an upgrade.",
+            researchedMessage: "We've designed various pointy implements for billfish to use. A sharper slash is a better slash.",
+            effectDesc: "Billfish catch fish two and a half times faster thanks to a diversified toolset.",
+            cost: {
+                science: 125,
+                fish: 1000,
+                crystal: 25,
+            },
+            required: {
+                upgrades: ["cavernousContact"],
+                seen: ["billfish"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    billfish: 2.5,
+                },
+            },
+        },
+        seabedGeology: {
+            name: "Seabed Geology",
+            desc: "The billfish have volunteered to survey the seafloor for us. It's a risky mission, but it's a necessary one.",
+            researchedMessage:
+                "They came back with a bunch of weird stuff, but were particularly happy about 'seagrass'. They say it will come in handy.",
+            effectDesc: "Rays are twice as effective with their understanding of the seabed and its varieties of sediment. Also got seagrass. Yay?",
+            cost: {
+                science: 250,
+                sand: 750,
+            },
+            required: {
+                upgrades: ["cavernousContact", "crystalContainer"],
+                seen: ["billfish"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    ray: 2,
+                },
+            },
+            events: ["tempestuousGiveSeagrass"],
+        },
+        underwaterChemistry: {
+            name: "Underwater Chemistry",
+            desc: "With the weird bottles, we can now put things and other things into them and see what happens.",
+            researchedMessage: "Well, nothing useful was determined, but if we keep on doing it we make tremendous leaps for science!",
+            effectDesc: "Scientists are twice as effective with their new chemical insights.",
+            cost: {
+                science: 250,
+                crystal: 50,
+            },
+            required: {
+                upgrades: ["crystalContainer"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    scientist: 2,
+                },
+            },
+        },
+        sandbagging: {
+            name: "Sandbagging",
+            desc: "If crabs venture out too far, they risk getting lost. The billfish have a suggestion.",
+            researchedMessage: "The billfish showed us how to tie seagrass into bundles. By filling them with sand, we can weigh down crabs!",
+            effectDesc: "We can equip crabs with sandbags to make them into stormgoers. They can venture much farther from the cave.",
+            cost: {
+                science: 500,
+                sand: 5000,
+                seagrass: 10,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+        },
+        xenobiology: {
+            name: "Xenobiology",
+            desc: "This seagrass stuff is mostly just green or whatever, but what are these THINGS growing on it?",
+            researchedMessage: "Flowers! What does that even mean!? Further research required. It could be such a benefit for science!",
+            effectDesc: "We can now dissect seagrass flowers to further the cause of science.",
+            cost: {
+                science: 1250,
+                seagrass: 500,
+            },
+            required: {
+                upgrades: ["sandbagging"],
+                seen: ["stormgoer"],
+            },
+        },
+        biology: {
+            name: "Biology",
+            desc: "What is a shark? What is inside a shark, except for large amounts of fish?",
+            researchedMessage: "With a new understanding of their own biology, sharks can now specialise in the manufacture of new sharks.",
+            effectDesc:
+                "Sharks are twice as effective, and nurse sharks can be bought. Did you know shark eggs don't actually form just because a shark wills them to exist?",
+            cost: {
+                science: 3250,
+            },
+            required: {
+                upgrades: ["xenobiology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    shark: 2,
+                },
+            },
+        },
+        crabBiology: {
+            name: "Crab Biology",
+            desc: "Crabs are a mystery. They keep to themselves and dig up crystals or tear up grass. What is even up with that? What ARE crabs??",
+            researchedMessage:
+                "It turns out crabs are friendly crustaceans that have revealed to the sharks the secrets of crab generation. It involves eggs, or something. Squirmy eggs.",
+            effectDesc:
+                "Crabs and crab stormgoers are four and two times as effective, respectively, and crab broods are available. Crabs are alright but they are also sort of terrifying and weird. Good thing they're on our side!",
+            cost: {
+                science: 3500,
+                seagrass: 1750,
+            },
+            required: {
+                upgrades: ["biology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    crab: 4,
+                    stormgoer: 2,
+                },
+            },
+        },
+        billfishBiology: {
+            name: "Billfish Biology",
+            desc: "We still don't know much about our lance-wielding friends. They zip around in the water and slash at stuff, but what are they REALLY?",
+            researchedMessage:
+                "We refuse to accept the narrative the billfish are pushing on us, but the scientists are adamant. They say they are literally just fish with big noses.",
+            effectDesc:
+                "Billfish are four times more effective, and billfish pairs are available. I swear, our scientists must be losing it - these things are not fish, surely.",
+            cost: {
+                science: 4000,
+                fish: 20000,
+            },
+            required: {
+                upgrades: ["biology"],
+                seen: ["billfish"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    billfish: 4,
+                },
+            },
+        },
+        rayBiology: {
+            name: "Ray Biology",
+            desc: "Though kindred to the sharks, we know so little about the rays. If only we could fix this. We need to bait a sand trap.",
+            researchedMessage:
+                "Apparently we could have just asked. We learned how rays make more rays. It's kinda similar to sharks, really, but rays.",
+            effectDesc:
+                "Rays are four times as effective, and ray makers are available. We may never repair the shark-ray relations to their former state after how awkward this whole affair was.",
+            cost: {
+                science: 8000,
+                sand: 25000,
+            },
+            required: {
+                upgrades: ["biology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    ray: 4,
+                },
+            },
+        },
+        thermalVents: {
+            name: "Thermal Vents",
+            desc: "Investigate the boiling vents that just seem to keep on heating things up.",
+            researchedMessage: "This is a wondrous, unending source of heat! Something good must come from this.",
+            effectDesc: "A power source for future technologies has been discovered.",
+            cost: {
+                science: 10000,
+                sand: 40000,
+            },
+            required: {
+                upgrades: ["seabedGeology"],
+            },
+        },
+        laserRays: {
+            name: "Laser Rays",
+            desc: "Using arcane shark mystery science, capture the heat of the vents for use by rays.",
+            researchedMessage: "The rays can now be granted gear that will let them fuse sand into crystal! Future!",
+            effectDesc: "Laser rays can now be geared up to burn the very sand to glassy crystal.",
+            cost: {
+                science: 1000,
+                sand: 20000,
+                crystal: 100,
+            },
+            required: {
+                upgrades: ["thermalVents"],
+            },
+        },
+        heavySifting: {
+            name: "Heavy Sifting",
+            desc: "The billfish have pointed out that our method of sandbagging could still use a little work.",
+            researchedMessage:
+                "The billfish showed us their seagrass sifters, and we helped them build more. Now we filter the heaviest sand for sandbagging, and leave the rest for smelting!",
+            effectDesc:
+                "Stormgoers cost 75% less sand, rays are 4 times as effective at picking up sand, and laser rays are 8 times better at fusing it. We have so, so much to learn about sand...",
+            cost: {
+                science: 35000,
+                seagrass: 15000,
+            },
+            required: {
+                upgrades: ["crabBiology", "laserRays"],
+            },
+            effect: {
+                sandMultiplier: {
+                    ray: 4,
+                },
+                incomeBoost: {
+                    laser: 8,
+                },
+            },
+            customEffect(background) {
+                return `${sharktext.getResourceName(`stormgoer`, false, 2, background)} cost 75% less ${sharktext.getResourceName(
+                    `sand`,
+                    false,
+                    2,
+                    background
+                )}`;
+            },
+        },
+        sunObservation: {
+            name: "Sun Observation",
+            desc: "We must determine what is with the weird glare on the surface of the water.",
+            researchedMessage:
+                "Shark science has discovered the sun! It has also discovered that looking directly into the sun hurts. But the plants seem to like it.",
+            effectDesc:
+                "Stormgoers and scientists are four times as effective. Is a suns worth many fish? We can see a sun, but where is it really? And what is it made of?",
+            cost: {
+                science: 50000,
+            },
+            required: {
+                upgrades: ["crabBiology"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    stormgoer: 4,
+                    scientist: 4,
+                },
+            },
+        },
+        magicBottles: {
+            name: "Magic Bottles",
+            desc: "The billfish have found something very, very strange outside: bottles full of wind!",
+            researchedMessage: "With enough study, we were finally able to reproduce them. Now the question is, what to do with them?",
+            effectDesc: "We can now make magic bottles that spew endless wind. Further study is DEFINITELY required.",
+            cost: {
+                science: 250000,
+                crystal: 20000,
+            },
+            required: {
+                upgrades: ["xenobiology", "crystalSpear"],
+            },
+        },
+        powerfulPropulsion: {
+            name: "Powerful Propulsion",
+            desc: "We have no idea what's out there. If only we could find a way to fight the storm...",
+            researchedMessage:
+                "Eureka! Using our newly-made magic bottles, we've devised a mechanism that can turn billfish into high-speed explorers!",
+            effectDesc:
+                "Bottles and an elaborate system of pulleys to operate them can make billfish into explorers. It's time to go see what's out there.",
+            cost: {
+                seagrass: 300000,
+                crystal: 2500,
+            },
+            required: {
+                upgrades: ["magicBottles"],
+            },
+        },
+        senseOfDirection: {
+            name: "Sense of Direction",
+            desc: "Just because we can move in the storm does not mean we can get anything done in it.",
+            researchedMessage: "Our scientists have devised a method of charting that should help us stay oriented. No more getting lost! Maybe!",
+            effectDesc:
+                "Explorers are five times as effective and scientists are 32 times as effective - and as a bonus, we can actually read the maps now!",
+            cost: {
+                science: 500000,
+                chart: 80,
+            },
+            required: {
+                seen: ["chart"],
+                upgrades: ["sunObservation", "powerfulPropulsion"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    billfishExplorer: 5,
+                    scientist: 32,
+                },
+            },
+        },
+        laserLenses: {
+            name: "Laser Lenses",
+            desc: "Some ray 'accidentally' shot through a bottle with a laser, and we noticed that the point of impact was distorted... Maybe this is useful.",
+            researchedMessage: "It turns out that a more focused beam is also a hotter beam. And hotter probably equals better.",
+            effectDesc:
+                "Thanks to more focused beams, laser rays need a lot less equipment to start smelting. We shall call this new field of science 'sharkoptics!' Okay, no, we won't.",
+            cost: {
+                science: 1000000,
+                crystal: 25000,
+            },
+            required: {
+                upgrades: ["powerfulPropulsion"],
+            },
+            customEffect(background) {
+                return `${sharktext.getResourceName(`laser`, false, 2, background)} cost 80% less ${sharktext.getResourceName(
+                    `crystal`,
+                    false,
+                    2,
+                    background
+                )}`;
+            },
+        },
+        crystalClippers: {
+            name: "Crystal Clippers",
+            desc: "How did we not think of this sooner?",
+            researchedMessage: "Crystal clippers deployed. The stormgoers rejoice.",
+            effectDesc: "Stormgoers are three times as effective at picking up seagrass thanks to actual tools.",
+            cost: {
+                science: 1000000,
+                crystal: 50000,
+            },
+            required: {
+                upgrades: ["senseOfDirection"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    stormgoer: 3,
+                },
+            },
+        },
+        exploration: {
+            name: "Exploration",
+            desc: "Swim beyond the home seas to see what can be found!",
+            researchedMessage: "Found lots of vents, grass, and more empty space! There's really not much out here.",
+            effectDesc: "Explorers are four times as effective and scientists are twice as effective. Did you know oceans are big? Fascinating!",
+            cost: {
+                science: 5000000,
+                fish: 2000000,
+            },
+            required: {
+                upgrades: ["senseOfDirection"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    billfishExplorer: 4,
+                    scientist: 2,
+                },
+            },
+        },
+        routing: {
+            name: "Routing",
+            desc: "We can't see a complete picture yet, be we have just enough that we can see all the best paths to take.",
+            researchedMessage:
+                "Using the charts we currently have, we've developed a system for moving explorers around with optimal pacing and distribution.",
+            effectDesc:
+                "Explorers are twice as effective and scientists are four times as effective. So long as everyone follows their instructions. (we can hope)",
+            cost: {
+                science: 5000000,
+                chart: 2500,
+            },
+            required: {
+                upgrades: ["senseOfDirection"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    billfishExplorer: 2,
+                    scientist: 4,
+                },
+            },
+        },
+        heatHarnesses: {
+            name: "Heat Harnesses",
+            desc: "We've found a lot of vents, but we can't really use them since they're so far away. The billfish point out that crystals retain heat.",
+            researchedMessage: "Crystal vests! Remarkable! If we can't go to the heat, we'll just bring the heat to us!",
+            effectDesc:
+                "Laser rays operate eight times as fast. The heat harnesses will harness heat. Then we will harness heat harness heat to heat things.",
+            cost: {
+                science: 25000000,
+                crystal: 175000,
+            },
+            required: {
+                upgrades: ["laserLenses"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    laser: 8,
+                },
+            },
+        },
+        superclippers: {
+            name: "Superclippers",
+            desc: "Bigger.",
+            researchedMessage:
+                "After a few failed designs (too small), we have landed on a comically sized pair of scissors that will surely increase productivity.",
+            effectDesc: "Stormgoers clip eight times as much seagrass. You should have seen the look on their faces.",
+            cost: {
+                science: 75000000,
+                crystal: 1000000,
+            },
+            required: {
+                upgrades: ["crystalClippers"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    stormgoer: 8,
+                },
+            },
+        },
+        farExploration: {
+            name: "Far Exploration",
+            desc: "Explore the vast reaches beyond the home ocean.",
+            researchedMessage: "Mostly nothing still. But we're not done yet.",
+            effectDesc: "Explorers are eight times as effective. Did you know oceans are actually even bigger than big? Remarkable!",
+            cost: {
+                science: 125000000,
+                fish: 2500000,
+            },
+            required: {
+                upgrades: ["exploration"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    billfishExplorer: 8,
+                },
+            },
+        },
+        universalNavigation: {
+            name: "Universal Navigation",
+            desc: "With an even bigger view of the world, we need to re-examine our routing techniques.",
+            researchedMessage: "This is getting complicated, though we doubt the billfish will struggle with these new instructions.",
+            effectDesc: "Explorers are eight times as effective. One way or another, we will uncover the secrets of this world.",
+            cost: {
+                chart: 50000,
+            },
+            required: {
+                upgrades: ["routing"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    billfishExplorer: 8,
+                },
+            },
+        },
+        cartographicCompleteness: {
+            name: "Cartographic Completeness",
+            desc: "Once we've charted enough of the world, we can assemble the pieces into a map.",
+            researchedMessage: "We've done it! The grand map is assembled, and...what's that? You found something?",
+            effectDesc:
+                "All explorers have been dismissed and all charts have been assembled into a single super-map. Nothing else to find, I guess.",
+            cost: {
+                chart: 1000000,
+            },
+            required: {
+                upgrades: ["powerfulPropulsion"],
+                seen: ["chart"],
+            },
+            customEffect(background) {
+                return `1 ${sharktext.getResourceName(`map`, false, 1, background)}`;
+            },
+        },
+        theExpedition: {
+            name: "The Expedition",
+            desc: "This is it. That door is the key to everything, I just know it.",
+            researchedMessage:
+                "We've discovered the giant weather machine making the superstorm. If we want to stop the storm, we'll need to start by understanding this facility.",
+            effectDesc:
+                "Moved our base of operations to the inside of the weather machine. We'll have to find a way to shut it down from the inside.",
+            cost: {
+                science: 2e8,
+                fish: 5000000,
+            },
+            required: {
+                upgrades: ["cartographicCompleteness"],
+            },
+        },
+        supernaturalSeagrass: {
+            name: "Supernatural Seagrass",
+            desc: "The stormgoer crabs have adjourned a meeting discussing the new seagrass in this area. They tell us there's something off about it.",
+            researchedMessage: "Indeed, something's strange; this seagrass is immune to undersea currents! MUCH more study is required.",
+            effectDesc: "Studying seagrass now gives 10 times the science that it used to. MAGIC SUPER SCIENCE, GO!",
+            cost: {
+                seagrass: 50000000,
+            },
+            required: {
+                upgrades: ["theExpedition"],
+            },
+            customEffect(background) {
+                return `${sharktext.getResourceName(`science`, false, 1, background)} from ${sharktext.getResourceName(
+                    `seagrass`,
+                    false,
+                    1,
+                    background
+                )} ×10`;
+            },
+        },
+        secretStudies: {
+            name: "Secret Studies",
+            desc: "This place is BRIMMING with the weirdest stuff. The scientists seem especially interested in 'documents.' What?",
+            researchedMessage:
+                "Our scientists, with the help of the billfish, have learned to interpret these strange things. Perhaps we can learn something?",
+            effectDesc: "Learned to read these so-called 'documents.' What are the scientists so riled up about? Are they magic or something?",
+            cost: {
+                science: 3.5e8,
+            },
+            required: {
+                upgrades: ["theExpedition"],
+            },
+        },
+        transmutation: {
+            name: "Transmutation",
+            desc: "The documents in this place contain the recipe for a strange, new material. If we want to understand the machine, we should probably start here.",
+            researchedMessage: "Huzzah! We've replicated this strange material, and named after the first synthesizer, Dr. Sharkonium!",
+            effectDesc: "Enables transmutation of some random junk we have lying around into sharkonium, material of the future.",
+            cost: {
+                science: 4e8,
+                crystal: 5000000,
+                sand: 10000000,
+            },
+            required: {
+                upgrades: ["secretStudies"],
+            },
+        },
+        automation: {
+            name: "Automation",
+            desc: "Our documents say we can use sharkonium to do things so we dont have to do the things!",
+            researchedMessage:
+                "Now we don't have to do all the work - well, mostly. One of these schematics doesn't work because of the winds... Otherwise, FUTURE!!",
+            effectDesc: "Machines can be built to supplement population duties. This is efficient.",
+            cost: {
+                sharkonium: 750000,
+            },
+            required: {
+                upgrades: ["transmutation"],
+            },
+        },
+        sharkoniumReceptors: {
+            name: "Sharkonium Receptors",
+            desc: "Using our new miracle material, we believe we can enhance the lasers that our rays work with.",
+            researchedMessage:
+                "Upgraded laser containers can withstand a higher temperature with a more intense beam. Powering up, please stand by...",
+            effectDesc: "Laser rays are twice as efficient. It's that whole 'hotter equals better' thing again.",
+            cost: {
+                science: 7.5e8,
+                sharkonium: 1e6,
+            },
+            required: {
+                upgrades: ["transmutation"],
+            },
+            effect: {
+                incomeBoost: {
+                    laser: 2,
+                },
+            },
+        },
+        engineering: {
+            name: "Engineering",
+            desc: "The machines suck, but we're not sure how to make them much better.",
+            researchedMessage: "After some intense studying, the billfish have volunteered to help us run the machines!",
+            effectDesc: "Billfish mechanics can now tinker with machines to keep them running optimally! Auto-transmuters are also possible now.",
+            cost: {
+                science: 1e9,
+                sharkonium: 5e6,
+            },
+            required: {
+                upgrades: ["automation"],
+                seen: ["fishMachine", "sandDigger"],
+            },
+            effect: {},
+        },
+        heatCoils: {
+            name: "Heat Coils",
+            desc: "The bowels of the machine contain numerous parts that act like hydrothermal vents.",
+            researchedMessage:
+                "Specialized coupling instruments have given us a method for extracting heat - and maybe this does something to the weather machine, who knows!",
+            effectDesc:
+                "Laser rays transmute four times as fast, and let me tell you, having the heat right next to us is sooooooo much better than across the ocean.",
+            cost: {
+                science: 1.25e9,
+                sand: 1.5e8,
+            },
+            required: {
+                upgrades: ["sharkoniumReceptors"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    laser: 16,
+                },
+            },
+        },
+        internalExploration: {
+            name: "Internal Exploration",
+            desc: "Our documents tell us an important piece of the puzzle lies deep inside the facility.",
+            researchedMessage:
+                "The maps led us to a massive generator that's been completely destroyed, and a strange, malfunctioning gate. We don't yet know what this means for us.",
+            effectDesc: "Mechanics are five times as effective at tinkering. We now also know that the facility has no power.",
+            cost: {
+                science: 2e9,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+            events: ["tempestuousInternalExploration"],
+            customEffect(background) {
+                return `${sharktext.getResourceName(`billfishMechanic`, false, 1, background)} impact ×5`;
+            },
+        },
+        recyclerDiscovery: {
+            name: "Recycler",
+            desc: "Devise a system of pulverising unwanted resources into a component paste, and reusing them as something else.",
+            researchedMessage:
+                "Well this thing is frankly terrifying. I wouldn't swim anywhere near the input holes if I were you. Maybe it'll help though!",
+            effectDesc: "Allows recycling of materials by virtue of a horrifying mechanical maw that consumes all that ventures near it. Future?",
+            cost: {
+                science: 4e9,
+                sharkonium: 2.5e7,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+        },
+        iterativeDesign: {
+            name: "Iterative Design",
+            desc: "Our billfish friends are naturals at this. They have organized a committee to suggest an improved set of designs.",
+            researchedMessage:
+                "Eureka! These new designs are brilliant, I think! I can't understand what's going on anymore! Half of what they said has gone over our heads.",
+            effectDesc: "All shark machines run four times as fast, but now laser rays now run 4 times faster too. Yay!",
+            cost: {
+                science: 8e9,
+                sharkonium: 4e8,
+            },
+            required: {
+                upgrades: ["engineering"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    fishMachine: 4,
+                    sandDigger: 4,
+                    autoTransmuter: 4,
+                    laser: 4,
+                },
+            },
+        },
+        superprocessing: {
+            name: "Superprocessing",
+            desc: "The recycler wasn't really meant for millions of fish at once. Seeing as that transaction is fairly common, we should probably do something about it.",
+            researchedMessage: "Eureka! If we make the big things bigger, and the grinders grindier, we can process way more material at once!",
+            effectDesc:
+                "The recycler's efficiency only starts dropping at 100 million material inserted at once, instead of 100 thousand. The base efficiency is now 100%.",
+            cost: {
+                science: 12e9,
+                junk: 1e9,
+            },
+            required: {
+                upgrades: ["recyclerDiscovery"],
+            },
+        },
+        schematicSalvaging: {
+            name: "Schematic Salvaging",
+            desc: "Among the documents we found in the generator room is the disorganized, scattered operator's manual. It's in our best interest to put it back together.",
+            researchedMessage:
+                "The manual, right here, it says that the machine goes haywire when it runs out of power! So we don't need to shut it down, we need to <i>turn it on!</i>",
+            effectDesc:
+                "With the power off, everything's caught in a magical feedback loop. We fix this place, we fix the world. Who would build such a dangerous machine?",
+            cost: {
+                science: 17.5e9,
+            },
+            required: {
+                upgrades: ["internalExploration"],
+            },
+        },
+        supernaturalHarvest: {
+            name: "Supernatural Harvest",
+            desc: "There's magic inside this grass, surely.",
+            researchedMessage: "Indeed, there is! But we have no idea how to use it. So we'll just wrap stuff in it and hope for the best.",
+            effectDesc: "New, magic sandbags make stormgoers 99 times better at harvesting stuff. We genuinely have no idea! It just works.",
+            cost: {
+                seagrass: 4e9,
+            },
+            required: {
+                upgrades: ["supernaturalSeagrass", "internalExploration"],
+            },
+            effect: {
+                incomeMultiplier: {
+                    stormgoer: 99,
+                },
+            },
+        },
+        cumulusControl: {
+            name: "Cumulus Control",
+            desc: "Let's put an end to this madness. If we power up the facility, it should finally stop the storm.",
+            researchedMessage:
+                "As the lights flicker on, an intense feeling of relief washes over you. You can sense it. The storm has stopped...and the gate is open.",
+            effectDesc:
+                "The billfish are swimming wildly outside. Their frenzied cheering makes anything you try to say inaudible. From one storm, and into the next...",
+            cost: {
+                science: 4e12,
+            },
+            required: {
+                upgrades: ["schematicSalvaging", "iterativeDesign"],
+            },
+        },
     },
 };

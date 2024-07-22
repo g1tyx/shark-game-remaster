@@ -8,7 +8,12 @@ SharkGame.Lab = {
 
     get sceneImage() {
         switch (world.worldType) {
-            case `volcanic`:
+            case "tempestuous":
+                if (res.getTotalResource("scientist") < 1) {
+                    return "";
+                }
+                return "img/events/misc/scene-lab.png";
+            case "volcanic":
                 return "";
             default:
                 return "img/events/misc/scene-lab.png";
@@ -17,7 +22,7 @@ SharkGame.Lab = {
 
     get sceneDoneImage() {
         switch (world.worldType) {
-            case `volcanic`:
+            case "volcanic":
                 return "";
             default:
                 return "img/events/misc/scene-lab-done.png";
@@ -26,6 +31,8 @@ SharkGame.Lab = {
 
     get discoverReq() {
         switch (world.worldType) {
+            case "tempestuous":
+                return { resource: { crab: 5 } };
             default:
                 return { resource: { science: 10 } };
         }
@@ -35,7 +42,12 @@ SharkGame.Lab = {
 
     get message() {
         switch (world.worldType) {
-            case `volcanic`:
+            case "tempestuous":
+                if (res.getTotalResource("scientist") < 1) {
+                    return "Sort of just off to the side, there's a cave.";
+                }
+                return "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.";
+            case "volcanic":
                 return "Sort of just off to the side, a group of curious crabs congregate and discuss stuff that we don't understand.";
             default:
                 return "Sort of just off to the side, the science sharks congregate and discuss things with words you've never heard before.";
@@ -136,6 +148,13 @@ SharkGame.Lab = {
         } else if (lab.listEmpty) {
             let message;
             switch (world.worldType) {
+                case "tempestuous":
+                    if (res.getTotalResource("scientist") < 1) {
+                        message = "We're in the cave. Now what?";
+                    } else {
+                        message = "The scientists are out of ideas, but there are always more discoveries to be made.";
+                    }
+                    break;
                 case `volcanic`:
                     message = "The crabs are out of ideas, but there are always more discoveries to be made.";
                     break;
@@ -155,8 +174,12 @@ SharkGame.Lab = {
 
             if (hintedUpgrade === undefined) return;
             let hintResource;
-            if (_.has(hintedUpgrade, "required.seen"))
+            if (_.has(hintedUpgrade, "required.seen")) {
                 hintResource = _.find(hintedUpgrade.required.seen, (resource) => world.doesResourceExist(resource));
+            } else if (_.has(hintedUpgrade, "required.totals")) {
+                hintResource = _.find(Object.keys(hintedUpgrade.required.totals), (resource) => world.doesResourceExist(resource));
+            }
+
             if (hintResource) {
                 $("#buttonList").append(
                     $("<p>").html(
@@ -166,7 +189,7 @@ SharkGame.Lab = {
                     )
                 );
             } else {
-                log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade}), but no valid hint resource.`);
+                log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade.name}), but no valid hint resource.`);
             }
         }
     },
@@ -420,7 +443,7 @@ SharkGame.Lab = {
         // TODO: Use .every instead of .each
         $.each(upgradeTable, (upgradeId) => {
             if (lab.isUpgradePossible(upgradeId)) {
-                allDone = allDone && SharkGame.Upgrades.purchased.includes(upgradeId) && lab.isUpgradeVisible(upgradeId);
+                allDone = allDone && SharkGame.Upgrades.purchased.includes(upgradeId);
             }
         });
         return allDone;
@@ -467,10 +490,6 @@ SharkGame.Lab = {
             // (recursive) check requisite techs
             isPossible = isPossible && _.every(upgradeData.required.upgrades, (upgrade) => lab.isUpgradePossible(upgrade));
 
-            isPossible =
-                isPossible &&
-                _.every(upgradeData.required.totals, (requiredTotal, resourceName) => res.getTotalResource(resourceName) >= requiredTotal);
-
             // check resource cost
             isPossible = isPossible && _.every(upgradeData.cost, (_amount, resource) => world.doesResourceExist(resource));
         }
@@ -480,12 +499,17 @@ SharkGame.Lab = {
 
     isUpgradeVisible(upgradeId) {
         const upgrade = SharkGame.Upgrades.getUpgradeData(SharkGame.Upgrades.getUpgradeTable(), upgradeId);
+        let isVisible = true;
         if (_.has(upgrade, "required.seen")) {
             // Checks if any of the required resources has been seen
             // change to _.every to make it require all to have been seen
-            return _.some(upgrade.required.seen, (requiredSeen) => res.getTotalResource(requiredSeen) > 0);
+            isVisible = isVisible && _.some(upgrade.required.seen, (requiredSeen) => res.getTotalResource(requiredSeen) > 0);
         }
-        return true;
+        if (_.has(upgrade, "required.totals")) {
+            isVisible =
+                isVisible && _.every(upgrade.required.totals, (requiredTotal, resourceName) => res.getTotalResource(resourceName) >= requiredTotal);
+        }
+        return isVisible || SharkGame.Upgrades.purchased.includes(upgradeId);
     },
 
     getResearchEffects(upgrade) {

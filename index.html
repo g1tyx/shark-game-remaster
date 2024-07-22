@@ -12,7 +12,7 @@
         <meta property="og:url" content="https://cirri.al/sharks/" />
         <meta property="og:url" content="https://shark.tobot.tech/" />
         -->
-        <!-- <meta property="og:url" content="https://spencers145.github.io/SharkGame/" /> -->
+        <meta property="og:url" content="https://spencers145.github.io/SharkGame/" />
 
         <meta property="og:image" itemprop="image" content="img/sharkgame.png" />
         <meta property="og:image:secure_url" itemprop="image" content="img/sharkgame.png" />
@@ -47,6 +47,9 @@
         <!-- big numbers -->
         <script type="text/javascript" src="js/lib/decimal.min.js"></script>
 
+        <!-- for aspect tree -->
+        <script type="text/javascript" src="js/lib/panzoom.js"></script>
+
         <!-- Cirr's code starts here. I hope you find it insightful if you came here to peer at it,
         but Javascript is hardly my most familiar language. The code here likely stinks. -->
 
@@ -55,14 +58,17 @@
 
         <script type="text/javascript" src="js/data/resourcetable.js"></script>
         <script type="text/javascript" src="js/data/homeactions.js"></script>
+        <script type="text/javascript" src="js/data/homemessages.js"></script>
         <script type="text/javascript" src="js/data/worldtypes.js"></script>
         <script type="text/javascript" src="js/data/upgrades.js"></script>
         <script type="text/javascript" src="js/data/events.js"></script>
         <script type="text/javascript" src="js/data/modifiertypes.js"></script>
         <script type="text/javascript" src="js/data/aspects.js"></script>
         <script type="text/javascript" src="js/data/sprites.js"></script>
+        <script type="text/javascript" src="js/data/homemessagesprites.js"></script>
 
         <script type="text/javascript" src="js/overlay.js"></script>
+        <script type="text/javascript" src="js/facts.js"></script>
         <script type="text/javascript" src="js/eventhandler.js"></script>
         <script type="text/javascript" src="js/keybinds.js"></script>
         <script type="text/javascript" src="js/resources.js"></script>
@@ -75,6 +81,7 @@
         <script type="text/javascript" src="js/settings.js"></script>
         <script type="text/javascript" src="js/gateway.js"></script>
         <script type="text/javascript" src="js/aspecttree.js"></script>
+        <script type="text/javascript" src="js/memories.js"></script>
 
         <script type="text/javascript" src="js/tabs/home.js"></script>
         <script type="text/javascript" src="js/tabs/lab.js"></script>
@@ -93,6 +100,7 @@
             var home = SharkGame.Home;
             var tree = SharkGame.AspectTree;
             var log = SharkGame.Log;
+            var mem = SharkGame.Memories;
 
             var sharktext = SharkGame.TextUtil;
             var sharkcolor = SharkGame.ColorUtil;
@@ -104,10 +112,6 @@
 
             var DecimalHalfRound = Decimal.clone({ rounding: Decimal.ROUND_HALF_FLOOR });
             Decimal.set({ rounding: Decimal.ROUND_FLOOR });
-        </script>
-        <!-- This is used  by the SharkGame team to count visitors to the various versions of SharkGame -->
-        <script>
-            fetch(new URL("https://sharkapi.tobot.dev/"), { method: "POST", mode: "no-cors" });
         </script>
     </head>
     <body>
@@ -181,7 +185,7 @@
             <footer id="copyright" class="copyrightNotice">
                 The above variably-named Shark Game<br />
                 &copy; <a target="_blank" href="https://cirri.al/">Cirrial</a>, 2014-2016<br />
-                &copy; <a target="_blank" href="contributors.html">The SharkGame development team</a>, 2020-2022<br />
+                &copy; <a target="_blank" href="contributors.html">The SharkGame development team</a>, 2020-2024<br />
                 All rights reserved.
             </footer>
         </div>
@@ -201,5 +205,6 @@ var _hmt = _hmt || [];
 })();
 </script>
     </div>
+
     </body>
 </html>

@@ -31,7 +31,7 @@ SharkGame.WorldTypes = {
         },
         entry: "You enter a familiar blue sea, all your previous knowledge a dim memory.",
         style: "default",
-        includedResources: ["sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines", "essence", "world", "aspectAffect"],
+        includedResources: ["basics", "sharks", "rays", "crabs", "basicmaterials", "kelpstuff", "sharkmachines"],
         modifiers: [],
         // initial gate cost, scaled by planetary level
         gateRequirements: {
@@ -60,7 +60,7 @@ SharkGame.WorldTypes = {
         entry: "You enter a serene blue sea, all your previous knowledge a dim memory.",
         style: "default",
         includedResources: [
-            "essence",
+            "basics",
             "sharks",
             "rays",
             "crabs",
@@ -70,7 +70,6 @@ SharkGame.WorldTypes = {
             "sharkmachines",
             "clam",
             "lobstermachines",
-            "aspectAffect",
         ],
         absentResources: ["laser"],
         modifiers: [{ type: "multiplier", modifier: "planetaryResourceBoost", resource: "fish", amount: 2 }],
@@ -101,7 +100,7 @@ SharkGame.WorldTypes = {
         entry: "Remembering nothing, you find yourself in a beautiful atoll. Life will be good here.",
         style: "haven",
         includedResources: [
-            "essence",
+            "basics",
             "sharks",
             "rays",
             "crabs",
@@ -112,9 +111,6 @@ SharkGame.WorldTypes = {
             "dolphinmachines",
             "coral",
             "chorus",
-            "essence",
-            "world",
-            "aspectAffect",
         ],
         absentResources: ["laser"],
         modifiers: [
@@ -127,37 +123,34 @@ SharkGame.WorldTypes = {
     tempestuous: {
         name: "Tempestuous",
         desc: "A swirling maelstrom where nothing rests.",
-        shortDesc: "stormy grey",
+        vagueDesc: "Feels turbulent.",
+        shortDesc: "swirling grey",
+        foresight: {
+            vagueLongDesc: "It's hard to feel out this place. Everything's constantly moving.",
+            longDesc:
+                "A terrible storm has taken up residence here. It's hard to think, much less get anything done, with all the strong currents whipping stuff around.",
+            missing: ["kelp", "seaApple", "crystalMiner"],
+            present: ["billfish", "seagrass"],
+        },
         entry: "You recall nothing and know only the storms. The unrelenting, restless storms scattering your possessions and allies.",
         style: "tempestuous",
-        /* includedResources: [
+        includedResources: [
+            "basics",
             "sharks",
             "rays",
             "crabs",
-            "basicmaterials",
-            "kelpstuff",
+            "stormgoer",
+            "billfishes", // gramatically awful but thats just how it is
             "sharkmachines",
-        ], */
-        modifiers: [
-            { type: "multiplier", modifier: "planetaryIncome", resource: "sand", amount: -0.5 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "kelp", amount: -0.5 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "coral", amount: -0.1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "algae", amount: -1 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "frenzy", amount: -0.001 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "specialists", amount: -0.0005 },
-            { type: "multiplier", modifier: "planetaryIncome", resource: "breeders", amount: -0.0005 },
-            { type: "multiplier", modifier: "planetaryResourceBoost", resource: "stuff", amount: 0.5 },
+            "basicmaterials",
+            "seagrass",
+            "chart",
+            "map",
         ],
-        gateRequirements: {
-            slots: {
-                junk: 1e9,
-                coral: 5e7,
-                spronge: 1e6,
-                delphinium: 1e6,
-                sharkonium: 1e6,
-                crystal: 5e7,
-            },
-        },
+        absentResources: ["planter", "crystalMiner"],
+        modifiers: [{ type: "multiplier", modifier: "planetaryIncomeMultiplier", resource: "sandDigger", amount: 24 }],
+        gateRequirements: { upgrades: ["cumulusControl"] },
+        par: 55,
     },
     volcanic: {
         name: "Volcanic",
@@ -173,6 +166,7 @@ SharkGame.WorldTypes = {
         entry: "The burning waters sear the last traces of your past experiences from you. From beneath, the vents spew forth a heavy cloud of smoke.",
         style: "volcanic",
         includedResources: [
+            "basics",
             "rays",
             "shoveler",
             "crabs",
@@ -186,10 +180,6 @@ SharkGame.WorldTypes = {
             "sponge",
             "algae",
             "coral",
-            "essence",
-            "world",
-            "aspectAffect",
-            "specialResourceOne",
         ],
         absentResources: ["crystal", "laser", "planter"],
         modifiers: [{ type: "multiplier", modifier: "planetaryFishMultiplier", resource: "ray", amount: 15 }],
@@ -206,7 +196,7 @@ SharkGame.WorldTypes = {
             get longDesc() {
                 return (
                     "The water here is dank and tinted green by " +
-                    (gateway.completedWorlds.indexOf("abandoned") > -1
+                    (gateway.isWorldBeaten("abandoned")
                         ? sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("pane")) + "."
                         : "an unrecognizable substance.") +
                     " Husks of machinery litter the ocean floor."
@@ -217,7 +207,7 @@ SharkGame.WorldTypes = {
             get tip() {
                 return (
                     "This ocean is polluted with " +
-                    (gateway.completedWorlds.indexOf("abandoned") > -1
+                    (gateway.isWorldBeaten("abandoned")
                         ? sharktext.getResourceName("tar", undefined, undefined, sharkcolor.getElementColor("pane"))
                         : "an unrecognizable substance" + ". It is only harmful when machines produce it.")
                 );

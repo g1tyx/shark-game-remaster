@@ -7,491 +7,15 @@ SharkGame.Home = {
     tabBg: "img/bg/bg-homesea.png",
 
     currentButtonTab: null,
-    currentExtraMessageIndex: null,
 
     buttonNamesList: [],
-
-    // Priority: later messages display if available, otherwise earlier ones.
-    extraMessages: {
-        // FIRST RUN
-        start: [
-            {
-                name: "start-you-are-a-shark",
-                message: "You feel a bit hungry.",
-            },
-            {
-                name: "start-shark",
-                unlock: { totalResource: { fish: 5 } },
-                message: "You attract the attention of a shark. Maybe they can help you catch fish!",
-            },
-            {
-                name: "start-sharks",
-                unlock: { resource: { shark: 2 } },
-                message: "More sharks swim over, curious and watchful.",
-            },
-            {
-                name: "start-ray",
-                unlock: { resource: { shark: 5 } },
-                message: "Some rays drift over.",
-            },
-            {
-                name: "start-quite-the-group",
-                unlock: { resource: { shark: 6, ray: 2 } },
-                message: "You have quite the group going now.",
-            },
-            {
-                name: "start-crab",
-                unlock: { resource: { shark: 10, ray: 4 } },
-                message: "Some curious crabs come over.",
-            },
-            {
-                name: "start-tribe",
-                unlock: { resource: { shark: 12, ray: 4, crab: 5 } },
-                message: "Your new tribe is at your command!",
-            },
-            {
-                name: "start-crystals",
-                unlock: { resource: { shark: 1, crystal: 10 } },
-                message: "The crystals are shiny. Some sharks stare at them curiously.",
-            },
-            {
-                name: "start-science",
-                unlock: { resource: { scientist: 1 } },
-                message: "The science sharks swim in their own school.",
-            },
-            {
-                name: "start-discoveries",
-                unlock: { upgrade: ["crystalContainer"] },
-                message: "More discoveries are needed.",
-            },
-            {
-                name: "start-nurse",
-                unlock: { resource: { nurse: 1 } },
-                message: "The shark community grows with time.",
-            },
-            {
-                name: "start-exploration",
-                unlock: { upgrade: ["exploration"] },
-                message: "You hear faint songs and cries in the distance.",
-            },
-            {
-                name: "start-machines",
-                unlock: { upgrade: ["automation"] },
-                message: "Machines to do things for you.<br>Machines to do things faster than you or any shark.",
-            },
-            {
-                name: "start-chasm",
-                unlock: { upgrade: ["farExploration"] },
-                message: "This place is not your home. You remember a crystal blue ocean.<br>The chasms beckon.",
-            },
-            {
-                name: "start-gate",
-                unlock: { upgrade: ["gateDiscovery"] },
-                message: "The gate beckons. The secret must be unlocked.",
-            },
-        ],
-
-        // LATER RUNS
-        marine: [
-            {
-                name: "marine-default",
-                message: "Schools of fish fill the vast expanse. This place feels so familiar.",
-            },
-            {
-                name: "marine-noticed-lobsters",
-                unlock: { upgrade: ["crystalContainer"] },
-                message: "You notice some creatures on the ocean floor. They laze about and ignore your presence.",
-            },
-            {
-                name: "marine-noticed-lobsters-2",
-                unlock: { upgrade: ["seabedGeology"] },
-                message: "You notice some creatures on the ocean floor. They laze about and ignore your presence.",
-            },
-            {
-                name: "marine-lobsters",
-                unlock: { totalResource: { lobster: 1 } },
-                message: "The lobsters work, but seem carefree. They worry about nothing.",
-            },
-            {
-                name: "marine-lobsters-talk",
-                unlock: { totalResource: { lobster: 125 } },
-                message: "When the lobsters talk, they speak of the good old days. They talk a lot.",
-            },
-            {
-                name: "marine-calcinium",
-                unlock: { totalResource: { calcinium: 1 } },
-                message: "Calcinium. It's rough, hard, and chalky. It feels fragile, but isn't.",
-            },
-            {
-                name: "marine-robotics",
-                unlock: { totalResource: { clamScavenger: 1 } },
-                message: "A cold, rough limb fishes clams out of the seabed. The lobsters watch intently.",
-            },
-            {
-                // do color transition 1 here
-                name: "marine-bioengineering",
-                unlock: { upgrade: ["bioengineering"] },
-                message:
-                    "Stone-to-brain interface. Shelbernetic enhancements. Population automation. The lobsters say that calcinium is an extension of life itself.",
-            },
-            {
-                // second color transition
-                name: "marine-sentience",
-                unlock: { upgrade: ["sentientCircuitBoards"] },
-                message: "All of us have boards now. Children are born half-machine. The lobsters call it effective.",
-                // we can't understand it, no, we could never hope to understand it like the lobsters do
-                // 'they [the circuits] even die...just like us.'
-            },
-            {
-                // final color transition
-                name: "marine-abandoned",
-                unlock: { upgrade: ["mobiusShells"] },
-                message: "Murk spills out of the frenzy. A rancid fog begins to descend. This dying world drags everyone down with it.",
-            },
-        ],
-
-        haven: [
-            {
-                name: "haven-default",
-                message: "These oceans are rich with life. A thriving reef surrounds you.",
-            },
-            {
-                name: "haven-dolphin-observes",
-                unlock: { totalResource: { coral: 75 } },
-                message: "A... thing observes us from afar. What the heck is that??",
-                scales: true,
-            },
-            {
-                name: "haven-dolphins",
-                unlock: { totalResource: { dolphin: 1 }, homeAction: ["getDolphin"] },
-                message:
-                    "A dolphin joins the frenzy. We told it to go get fish, but it came back with coral. It insists that the coral is more valuable.",
-            },
-            {
-                name: "haven-dolphin-empire",
-                unlock: { totalResource: { dolphin: 20 } },
-                message:
-                    "The dolphin pods that work with us speak of a star-spanning empire of their kind. They ask where our empire is. And they smile.",
-                scales: true,
-            },
-            {
-                name: "haven-papyrus",
-                unlock: { upgrade: ["sunObservation"] },
-                message: "Pieces of condensed kelp (???) are washing up in the currents.<br/>Something is carved into them.",
-            },
-            {
-                name: "haven-stories",
-                unlock: { upgrade: ["delphineHistory"] },
-                message:
-                    "The dolphin's self-indulgent tales make frequent references to a mystical gate. And, they don't know where it is. Of course they don't.",
-            },
-            {
-                name: "haven-whales",
-                unlock: { totalResource: { whale: 1 }, homeAction: ["getWhale"] },
-                message: "The whales speak rarely to us, working in silence as they sing to the ocean. What do they sing for?",
-            },
-            {
-                name: "haven-history",
-                unlock: { upgrade: ["retroactiveRecordkeeping"] },
-                message:
-                    "The grand sum of all dolphin knowledge is laid out before us,<br/>and it is pitifully small. The original collections have been lost to time.",
-            },
-            {
-                name: "haven-song",
-                unlock: { upgrade: ["whaleSong"] },
-                message: "The whale song fills you with the same feeling as the gates. But so much smaller.",
-            },
-            {
-                name: "haven-done",
-                unlock: { resource: { chorus: 1 } },
-                message: "The great song booms across the open water, carrying itself to all corners of the ocean.<br/>The gate reacts.",
-            },
-        ],
-
-        tempestuous: [
-            {
-                name: "tempestuous-default",
-                message: "The storm never ends, and many are lost to its violent throes.",
-            },
-        ],
-
-        volcanic: [
-            {
-                name: "volcanic-default",
-                message: "Scorching vents fill the sea with white and black smoke. There's not a shark in sight.",
-            },
-            {
-                name: "volcanic-shrimp-contact",
-                unlock: { totalResource: { sponge: 1 } },
-                message: `You are approached by a single shrimp. They relay a message to you: stop harvesting sponges, or face the wrath of the king of shrimps.`,
-            },
-            {
-                name: "volcanic-shrimp-threat",
-                unlock: {
-                    custom() {
-                        return SharkGame.flags.prySpongeGained > 200 && !SharkGame.flags.gotFarmsBeforeShrimpThreat;
-                    },
-                },
-                message: `You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.`,
-            },
-            {
-                name: "volcanic-shrimp-communication",
-                unlock: { upgrade: ["consistentCommunication"] },
-                message: "The homes (sponges) left behind by shrimp joining the frenzy may now be taken for ourselves.",
-            },
-            {
-                name: "volcanic-monarchy",
-                unlock: { totalResource: { queen: 1 } },
-                message: "The shrimps follow a caste system with the king of shrimps on top. They ask who your king is.",
-            },
-            {
-                name: "volcanic-shrimps",
-                unlock: { upgrade: ["sustainableSolutions"] },
-                message:
-                    "The shrimp speak of an ancient visitor who violated their world, and how they wish to restore it. They work hard for their future.",
-            },
-            {
-                name: "volcanic-smithing",
-                unlock: { totalResource: { porite: 1 } },
-                message: "Porite: glassy hunks sealed on the outside but porous on the inside: it's lightweight, yet it stays strong.",
-            },
-            {
-                name: "volcanic-noticed",
-                unlock: { upgrade: ["glassTempering"] },
-                message: "The king has finally caught wind of your plans, rumors say. They say he plans to destroy the entire frenzy.",
-            },
-            {
-                name: "volcanic-acolytes",
-                unlock: { upgrade: ["algaeAcolytes"] },
-                message: "The acolytes gather. They pray for their king. They pray for their world. They pray for you.",
-            },
-            // Rumor has it that the king of shrimps guards the key to a secret, sacred gate in his sandcastle.
-            {
-                name: "volcanic-beauty",
-                unlock: { upgrade: ["finalDraft"] },
-                message: "The king is speechless. As he views the great industrial city, his subjects gather and cheer, celebrating his arrival.",
-            },
-            {
-                name: "volcanic-hope",
-                unlock: { upgrade: ["apologeticAmnesty"] },
-                message: `"Perhaps not all sharks are so vile," says the king of shrimps. "Perhaps, you will be different."`,
-            },
-        ],
-
-        abandoned: [
-            {
-                name: "abandoned-default",
-                message: "The tar clogs the gills of everyone here. This dying world drags everyone down with it.",
-            },
-            {
-                name: "abandoned-octopus-scrutinizes",
-                unlock: { upgrade: ["statsDiscovery"] },
-                message: "An octopus wanders over. It scrutinizes your attempt at organization.",
-            },
-            {
-                name: "abandoned-octopus",
-                unlock: { totalResource: { octopus: 1 } },
-                message: "The octopus works tirelessly.",
-            },
-            {
-                name: "abandoned-octopuses",
-                unlock: { totalResource: { octopus: 8 } },
-                message: "More octopuses join. They work in perfect unison.",
-            },
-            {
-                name: "abandoned-production",
-                unlock: { upgrade: ["octopusMethodology"] },
-                message:
-                    "The octopuses speak of production and correct action. They speak of unity through efficiency. They regard us with cold, neutral eyes.",
-            },
-            {
-                name: "abandoned-spronge",
-                unlock: { resource: { spronge: 1 } },
-                message: "Residue pumps through spronge like blood. It pulses and throbs.",
-            },
-            {
-                name: "abandoned-exploration",
-                unlock: { upgrade: ["exploration"] },
-                message: "Great spires loom in the distance. Loose cables are strung together on the horizon.",
-            },
-            {
-                name: "abandoned-gate",
-                unlock: { upgrade: ["farAbandonedExploration"] },
-                message:
-                    "This gate stands inert and lifeless like the city around it. The slots are already filled, but it looks like it's turned off.",
-            },
-            {
-                name: "abandoned-reverse-engineering",
-                unlock: { upgrade: ["reverseEngineering"] },
-                message:
-                    "The components spin and whirr and click together, but their purpose eludes us. What secrets are you hiding in your mechanisms?",
-            },
-            {
-                name: "abandoned-high-energy-fusion",
-                unlock: { upgrade: ["highEnergyFusion"] },
-                message: "The light is blinding, but the output is worth it. The pieces of a broken past unite to create a brighter future.",
-            },
-            {
-                name: "abandoned-done",
-                unlock: { upgrade: ["artifactAssembly"] },
-                message: "...",
-            },
-            {
-                name: "abandoned-tar-one",
-                unlock: { resource: { tar: 5 } },
-                message: "The tar is killing everything! Maybe a filter could save us?",
-            },
-            {
-                name: "abandoned-tar-two",
-                unlock: { resource: { tar: 200 } },
-                message: "Only machines will remain. All is lost. <span class='smallDesc'>All is lost.</span>",
-            },
-        ],
-
-        shrouded: [
-            {
-                name: "shrouded-default",
-                message: "The crystals are easier to find, but the darkness makes it hard to find anything else.",
-            },
-            {
-                name: "shrouded-eel-onlookers",
-                unlock: { upgrade: ["crystalContainer"] },
-                message: "Divers have reported sightings of wiggly things on the ocean floor. They dart into their holes when approached.",
-            },
-            {
-                name: "shrouded-eels",
-                unlock: { totalResource: { eel: 1 } },
-                message: "The eels chatter among their hiding places. They like the sharks.",
-            },
-            {
-                name: "shrouded-distant-chimaeras",
-                unlock: { upgrade: ["exploration"] },
-                message: "In the fog of darkness, the shapes of strange creatures can be made out. They dart away when light approaches.",
-            },
-            {
-                name: "shrouded-chimaeras",
-                unlock: { totalResource: { chimaera: 1 } },
-                message:
-                    "The chimaeras imply they are ancient kin of the shark kind, reunited through wild coincidence. We don't understand, but they seem to think we do.",
-            },
-            {
-                name: "shrouded-arcana",
-                unlock: { totalResource: { arcana: 5 } },
-                message: "These hadal artifacts glow faintly, only in pitch blackness. That glow makes you feel something that you don't understand.",
-            },
-            {
-                name: "shrouded-power",
-                unlock: { totalResource: { sacrifice: 100 } },
-                message:
-                    "Every broken shard disintegrates in a blinding flash of light. That familiar feeling washes over you with every sacrifice. The sharp snap of broken arcana echoes in your mind.",
-            },
-            {
-                name: "shrouded-city",
-                unlock: { upgrade: ["arcaneHeart"] },
-                message: "The sounds of explorers echo endlessly through the tunnels of the broken city. The eels say they are filled with hope.",
-            },
-            {
-                name: "shrouded-truth",
-                unlock: { totalResource: { sacrifice: 9000000000000000 } },
-                message: "A team of eels get your attention. They show you something that they found in the caverns. It's a book on making arcana.",
-            },
-        ],
-
-        frigid: [
-            {
-                name: "frigid-default",
-                message: "Giant shards of glassy ice surround you on all sides.",
-            },
-            {
-                name: "frigid-ice-one",
-                unlock: { resource: { ice: 100 } },
-                message: "You feel tired.",
-            },
-            {
-                name: "frigid-icy-doom",
-                unlock: { resource: { ice: 500 } },
-                message: "So cold. So hungry. <span class='smallDesc'>So hopeless.</span>",
-            },
-            {
-                name: "frigid-distant-village",
-                unlock: { totalResource: { science: 8 } },
-                message: "While scanning the horizon, you notice a gap in the ice. You peer through it, and spot something else.",
-                scales: true,
-            },
-            {
-                name: "frigid-village",
-                unlock: { upgrade: ["civilContact"] },
-                message:
-                    "A small village of squid greets you respectfully. The water in this place is a little warmer, and you hear a quiet, ambient hum.",
-            },
-            {
-                name: "frigid-urchins",
-                unlock: { totalResource: { urchin: 2 } },
-                message:
-                    "The urchins scuttle along the ground and hop about, gathering kelp and placing it into a large, central pile. They know nothing but the kelp.",
-            },
-            {
-                name: "frigid-teamwork",
-                unlock: { totalResource: { extractionTeam: 1 } },
-                message: "The squid champion the value of teamwork and the necessity of cooperation. They say they follow by example.",
-            },
-            {
-                name: "frigid-machine",
-                unlock: { totalResource: { squid: 125 } },
-                message:
-                    "In the center of the settlement lies a vibrating...thing, and a strange gate. The thing buzzes loudly, casting enormous energy across the water.",
-                scales: true,
-            },
-            {
-                name: "frigid-squid",
-                unlock: { totalResource: { squid: 250 } },
-                message: "The squid speak of an ancient visitor who saved their world. They ask if you too, have seen this visitor.",
-                scales: true,
-            },
-            {
-                name: "frigid-suspicion",
-                unlock: { upgrade: ["automation"] },
-                message: "The squid describe the machine with fascination. They ask if we feel the same. They see something we do not.",
-            },
-            {
-                name: "frigid-battery",
-                unlock: { upgrade: ["internalInquiry"] },
-                message:
-                    "Buried deep within the complex lies a massive, dimly glowing battery. The squid say replacing it will get the machine running at full power.",
-            },
-            {
-                name: "frigid-heat-returns",
-                unlock: { upgrade: ["rapidRecharging"] },
-                message: "A wave of heat washes over you, and the dingy complex comes back to life. The gate turns on.",
-            },
-            /* {
-                name: "frigid-end",
-                unlock: { upgrade: ["rapidRepairs"] },
-                message: "The gate opens. The squid bid you farewell.",
-            }, */
-            // another one: "the maw of the gate opens"
-        ],
-        /*
-        {
-            message:
-                "The jagged seafloor looks ancient, yet pristine.<br>Sponges thrive in great numbers on the rocks.",
-        },
-        */
-    },
 
     init() {
         SharkGame.TabHandler.registerTab(this);
         SharkGame.HomeActions.generated = {};
 
-        /*         // populate action discoveries (and reset removals)
-        _.each(SharkGame.HomeActions.getActionTable(), (actionData) => {
-            actionData.discovered = false;
-            actionData.newlyDiscovered = false;
-            actionData.isRemoved = false;
-        }); */
-
-        home.currentExtraMessageIndex = -1;
         home.currentButtonTab = "all";
+        home.lastValidMessage = "";
     },
 
     setup() {
@@ -509,19 +33,30 @@ SharkGame.Home = {
         const content = $("#content");
         const tabMessage = $("<div>").attr("id", "tabMessage");
         content.append(tabMessage);
-        home.currentExtraMessageIndex = -1;
-        home.updateMessage(true);
+
+        if (!SharkGame.flags.seenHomeMessages) {
+            SharkGame.flags.seenHomeMessages = [];
+        }
+        if (!SharkGame.flags.selectedHomeMessage) {
+            SharkGame.flags.selectedHomeMessage = SharkGame.HomeMessages.messages[world.worldType][0].name;
+        }
+
+        home.tickHomeMessages(true);
+
         // button tabs
         const buttonTabDiv = $("<div>").attr("id", "homeTabs");
         content.append(buttonTabDiv);
         home.createButtonTabs();
+
         // buy amount buttons
         if (SharkGame.persistentFlags.revealedBuyButtons) {
             main.createBuyButtons("buy", content, "append");
         }
+
         // button list
         const buttonList = $("<div>").attr("id", "buttonList").addClass("homeScreen");
         content.append(buttonList);
+
         // background art!
         if (SharkGame.Settings.current.showTabImages) {
             tabMessage.css("background-image", "url('" + home.tabBg + "')");
@@ -649,11 +184,30 @@ SharkGame.Home = {
         return tabs[currentTabIndex - 1];
     },
 
-    updateMessage(suppressAnimation) {
-        const worldType = SharkGame.WorldTypes[world.worldType];
-        const events = home.extraMessages[world.worldType];
+    tickHomeMessages(isDuringTabSwitch) {
+        const lastValidMessage = home.getLastValidMessage();
+        home.lastValidMessage = lastValidMessage.name;
+        home.updateMemories();
 
-        const selectedIndex = _.findLastIndex(events, (extraMessage) => {
+        const currentMessageData =
+            SharkGame.HomeMessages.messages[world.worldType][SharkGame.Memories.messageLookup.get(SharkGame.flags.selectedHomeMessage)];
+
+        // if there's an unseen message, change to it
+        const anyUnseen = home.areThereAnyUnseenHomeMessages();
+        if (anyUnseen || ((lastValidMessage.transient || currentMessageData.transient) && currentMessageData.name !== lastValidMessage.name)) {
+            home.updateMessage(home.lastValidMessage, isDuringTabSwitch);
+            _.each(mem.worldMemories, (memory) => {
+                if (!SharkGame.flags.seenHomeMessages.includes(memory)) SharkGame.flags.seenHomeMessages.push(memory);
+            });
+        } else if (isDuringTabSwitch) {
+            home.updateMessage(SharkGame.flags.selectedHomeMessage, true);
+        }
+
+        home.updateMessageSelectors();
+    },
+
+    getLastValidMessage() {
+        const lastValidMessageData = _.findLast(SharkGame.HomeMessages.messages[world.worldType], (extraMessage) => {
             // check if all requirements met
             if (_.has(extraMessage, "unlock")) {
                 let requirementsMet = true;
@@ -684,39 +238,149 @@ SharkGame.Home = {
             return true;
         });
 
-        // only edit DOM if necessary
-        if (home.currentExtraMessageIndex !== selectedIndex) {
-            home.currentExtraMessageIndex = selectedIndex;
-            const messageData = events[selectedIndex];
-            const tabMessage = $("#tabMessage");
-            let sceneDiv;
-            if (SharkGame.Settings.current.showTabImages) {
-                sceneDiv = $("#tabSceneImage");
-                if (sceneDiv.length === 0) {
-                    sceneDiv = $("<div>").attr("id", "tabSceneImage");
-                }
+        return lastValidMessageData;
+    },
+
+    updateMemories() {
+        SharkGame.Memories.addMemory(world.worldType, home.lastValidMessage);
+    },
+
+    findNextHomeMessage() {
+        const currentIndex = SharkGame.Memories.messageLookup.get(SharkGame.flags.selectedHomeMessage);
+        const messages = SharkGame.HomeMessages.messages[world.worldType].slice(
+            currentIndex + 1,
+            SharkGame.HomeMessages.messages[world.worldType].length
+        );
+        const nextMessage = _.find(messages, (messageData) => {
+            return mem.worldMemories[world.worldType].includes(messageData.name);
+        });
+
+        return nextMessage && !nextMessage.transient ? nextMessage.name : false;
+    },
+
+    findPreviousHomeMessage() {
+        const currentIndex = SharkGame.Memories.messageLookup.get(SharkGame.flags.selectedHomeMessage);
+        const messages = SharkGame.HomeMessages.messages[world.worldType].slice(0, currentIndex);
+        const previousMessage = _.findLast(messages, (messageData) => {
+            return mem.worldMemories[world.worldType].includes(messageData.name);
+        });
+
+        return previousMessage ? previousMessage.name : false;
+    },
+
+    incrementHomeMessage() {
+        const next = home.findNextHomeMessage();
+        if (next) {
+            home.updateMessage(next);
+            return true;
+        }
+        return false;
+    },
+
+    decrementHomeMessage() {
+        if (!home.getLastValidMessage().transient) {
+            const previous = home.findPreviousHomeMessage();
+            if (previous) {
+                home.updateMessage(previous);
+                return true;
             }
+        }
+        return false;
+    },
+
+    areThereAnyUnseenHomeMessages() {
+        let foundAny = false;
+        _.each(mem.worldMemories[world.worldType], (memoryName) => {
+            if (!SharkGame.flags.seenHomeMessages.includes(memoryName)) foundAny = true;
+        });
+        return foundAny;
+    },
+
+    updateMessage(requestedMessage, suppressAnimation) {
+        const worldType = SharkGame.WorldTypes[world.worldType];
+        const homeMessages = SharkGame.HomeMessages.messages[world.worldType];
+
+        const messageData = homeMessages[SharkGame.Memories.messageLookup.get(requestedMessage)];
+        const tabMessage = $("#tabMessage");
+
+        let sceneDiv = $("#tabSceneDiv");
+        let sceneImageDiv = $("#tabSceneImage");
+
+        if (tabMessage[0].children.length === 0) {
+            sceneDiv = $("<div>").attr("id", "tabSceneDiv");
+            if (SharkGame.Settings.current.showTabImages) {
+                sceneImageDiv = $("<div>").attr("id", "tabSceneImage");
+            }
+            // ⯇ ⯈
+            SharkGame.Button.makeButton("sceneLeft", "⯇", sceneDiv, () => {
+                home.decrementHomeMessage();
+            });
+            sceneDiv.append(sceneImageDiv);
+            SharkGame.Button.makeButton("sceneRight", "⯈", sceneDiv, () => {
+                home.incrementHomeMessage();
+            });
+            sceneDiv.append($("<div>").html("").attr("id", "tabSceneTracker"));
+
             let message = "<strong class='medDesc'>You are a shark in a " + worldType.shortDesc + " sea.</strong>";
             message += "<br><strong id='extraMessage'><br></strong>";
             tabMessage.html(message).prepend(sceneDiv);
+        }
 
-            const extraMessageSel = $("#extraMessage");
-            if (!suppressAnimation && SharkGame.Settings.current.showAnimations) {
-                extraMessageSel.animate({ opacity: 0 }, 200, () => {
-                    $(extraMessageSel).animate({ opacity: 1 }, 200).html(messageData.message);
-                });
-                sceneDiv.animate({ opacity: 0 }, 500, () => {
-                    if (SharkGame.Settings.current.showTabImages) {
-                        SharkGame.changeSprite(SharkGame.spriteHomeEventPath, messageData.name, sceneDiv, "missing");
-                    }
-                    $(sceneDiv).animate({ opacity: 1 }, 500);
-                });
-            } else {
-                extraMessageSel.html(events[selectedIndex].message);
+        const extraMessageSel = $("#extraMessage");
+        if (!suppressAnimation && SharkGame.Settings.current.showAnimations) {
+            extraMessageSel.animate({ opacity: 0 }, 300, () => {
+                $(extraMessageSel).animate({ opacity: 1 }, 300).html(messageData.message);
+            });
+            sceneImageDiv.animate({ opacity: 0 }, 300, () => {
                 if (SharkGame.Settings.current.showTabImages) {
-                    SharkGame.changeSprite(SharkGame.spriteHomeEventPath, messageData.name, sceneDiv, "missing");
+                    SharkGame.changeSprite(SharkGame.spriteHomeEventPath, "home/" + messageData.name, sceneImageDiv, "home/missing");
                 }
+                $(sceneImageDiv).animate({ opacity: 1 }, 300);
+            });
+        } else {
+            extraMessageSel.html(messageData.message);
+            if (SharkGame.Settings.current.showTabImages) {
+                SharkGame.changeSprite(SharkGame.spriteHomeEventPath, "home/" + messageData.name, sceneImageDiv, "home/missing");
+            } else {
+                sceneImageDiv.empty();
             }
+        }
+
+        SharkGame.flags.selectedHomeMessage = requestedMessage;
+        if (!SharkGame.flags.seenHomeMessages.includes(requestedMessage)) SharkGame.flags.seenHomeMessages.push(requestedMessage);
+        home.updateMessageTracker();
+        home.updateMessageSelectors();
+    },
+
+    updateMessageSelectors() {
+        if (!home.findNextHomeMessage()) {
+            $("#sceneRight").addClass("disabled");
+        } else {
+            $("#sceneRight").removeClass("disabled");
+        }
+
+        if (!home.findPreviousHomeMessage() || home.getLastValidMessage().transient) {
+            $("#sceneLeft").addClass("disabled");
+        } else {
+            $("#sceneLeft").removeClass("disabled");
+        }
+    },
+
+    updateMessageTracker() {
+        const tracker = $("#tabSceneTracker");
+        tracker.empty();
+
+        if (!home.getLastValidMessage().transient) {
+            _.each(SharkGame.HomeMessages.messages[world.worldType], (messageData) => {
+                // console.log(messageData.name);
+                if (SharkGame.flags.seenHomeMessages.includes(messageData.name) && !messageData.transient) {
+                    tracker.append(
+                        $("<div>")
+                            .html("•")
+                            .addClass(messageData.name === SharkGame.flags.selectedHomeMessage ? "" : "inactive")
+                    );
+                }
+            });
         }
     },
 
@@ -752,7 +416,7 @@ SharkGame.Home = {
         });
 
         // update home message
-        home.updateMessage();
+        home.tickHomeMessages();
 
         // update hovering messages
         if (document.getElementById("tooltipbox").className.split(" ").includes("forHomeButtonOrGrotto")) {

@@ -6,7 +6,7 @@ SharkGame.Gateway = {
     transitioning: false,
     selectedWorld: "",
 
-    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded", "marine", "volcanic"],
+    allowedWorlds: ["abandoned", "haven", "frigid", "shrouded", "marine", "volcanic", "tempestuous"],
 
     completedWorlds: [],
 
@@ -80,6 +80,9 @@ SharkGame.Gateway = {
 
         gateway.ui.prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus, storedTime);
         gateway.grantEssenceReward(baseReward, patienceReward, speedReward);
+
+        // store memories
+        SharkGame.Memories.elevateMemories();
 
         // RESET COMPLETED GATE REQUIREMENTS
         SharkGame.Gate.completedRequirements = {};
@@ -345,6 +348,10 @@ SharkGame.Gateway = {
         res.changeResource("essence", Math.ceil((1 + gumptionBonus) * (essenceReward + speedReward) + patienceReward));
     },
 
+    isWorldBeaten(worldType = "") {
+        return gateway.completedWorlds.indexOf(worldType) > -1;
+    },
+
     shouldCheatsBeUnlocked() {
         return res.getTotalResource("essence") >= 1000 && !SharkGame.persistentFlags.unlockedDebug;
     },
@@ -396,7 +403,7 @@ SharkGame.Gateway = {
                     $("<p>").html(
                         "You completed this world " +
                             sharktext.beautify(gateway.getMinutesBelowPar()) +
-                            " minutes faster than par, granting you <span class='essenceCount'>" +
+                            ` minute${gateway.getMinutesBelowPar() === 1 ? "" : "s"} faster than par, granting you <span class='essenceCount'>` +
                             sharktext.beautify(speedReward) +
                             "</span> additional essence."
                     )
@@ -505,7 +512,21 @@ SharkGame.Gateway = {
         },
 
         showRunEndInfo(containerDiv) {
-            containerDiv.append($("<p>").html("<em>Time spent within last ocean:</em><br/>").append(gateway.getTimeInLastWorld()));
+            if (gateway.getTimeInLastWorld(true) < 0) {
+                containerDiv.append(
+                    $("<p>").html(
+                        `You appear to have experienced a major bug that causes negative world-times.<br> The source of this bug is unknown.<br>` +
+                            `Please take a screenshot and join the discord. Send it in the #bugs-and-issues channel.<br> Enjoy the free essence, I guess?<br>` +
+                            `actual start time: ${SharkGame.timestampRunStart}   true pause time: ${SharkGame.persistentFlags.totalPausedTime}   current paused time: ${SharkGame.persistentFlags.currentPausedTime}<br>` +
+                            `minute hand: ${SharkGame.flags.minuteHandTimer}    hour hand: ${SharkGame.flags.hourHandLeft}    bonus: ${SharkGame.flags.bonusTime}<br>` +
+                            `calculated run time: ${gateway.getTimeInLastWorld(true)}   actual likely time: ${
+                                _.now() - SharkGame.timestampRunStart
+                            }<br>`
+                    )
+                );
+            } else {
+                containerDiv.append($("<p>").html(`<em>Time spent within last ocean:</em><br/>${gateway.getTimeInLastWorld()}`));
+            }
         },
 
         prepareBasePane(baseReward, patienceReward, speedReward, gumptionBonus, storedTime) {
@@ -558,9 +579,6 @@ SharkGame.Gateway = {
             aspectTreeContent.append($("<p>").html("Your will flows into solid shapes beyond your control.<br>Focus."));
             aspectTreeContent.append(tree.drawTree(SharkGame.Settings.current.doAspectTable === "table"));
 
-            tree.resetTreeCamera();
-            tree.render();
-
             const buttonDiv = $("<div>").attr("id", "aspectTreeNavButtons").addClass("gatewayButtonList");
 
             // add return to gateway button
@@ -573,7 +591,7 @@ SharkGame.Gateway = {
                 if (SharkGame.Aspects.cleanSlate.level) {
                     SharkGame.Button.makeButton("respecModeButton", "respec mode", buttonDiv, tree.toggleRefundMode);
                     SharkGame.Button.makeButton("respecButton", "respec all", buttonDiv, () => {
-                        if (confirm("您确定要重新指定所有可退还的位面吗？")) {
+                        if (confirm("Are you sure you want to respec all refundable aspects?")) {
                             tree.respecTree();
                         }
                     });
@@ -590,6 +608,10 @@ SharkGame.Gateway = {
             aspectTreeContent.append(buttonDiv);
 
             SharkGame.PaneHandler.swapCurrentPane("ASPECT TREE", aspectTreeContent, true, 500, true);
+
+            if (SharkGame.Settings.current.doAspectTable === "tree") {
+                tree.initTree();
+            }
 
             gateway.transitioning = false;
         },
@@ -754,7 +776,7 @@ SharkGame.Gateway = {
                     $.each(SharkGame.Aspects, (_aspectName, aspectData) => {
                         if (aspectData.level && !aspectData.core) {
                             doProceed = confirm(
-                                "哇，等一下！ 侦察时只有核心位面有效，但你有一些不是！ 如果你继续，这些非核心方面将停止工作，直到你离开。 您确定要继续吗？"
+                                "Woah, hold on! Only CORE ASPECTS work when scouting, but you have some that aren't! If you continue, these non-core aspects will stop working until you leave. Are you sure that you want to proceed?"
                             );
                             return false;
                         }
@@ -1198,7 +1220,8 @@ SharkGame.Gateway.PresenceFeelings = {
     eel: "slithering hunters?",
     tar: "something dirty?",
     algae: "something slimy?",
-    // swordfish: "wary hunters",
+    seagrass: "some plants?",
+    billfish: "resolute survivalists?",
 };
 
 SharkGame.Gateway.Messages = {
@@ -1271,7 +1294,6 @@ SharkGame.Gateway.Messages = {
         marine: [
             "Did your last ocean feel all too familiar?",
             "Do you bring life, or do you bring death, worldbuilder?",
-            "Do you wonder where the remnants of the lobsters' past are?",
             "A tragedy; or, perhaps, merely the cost of progress.",
             "We confront our mistakes as choices. We repeat them, or we do not.",
         ],
@@ -1286,9 +1308,8 @@ SharkGame.Gateway.Messages = {
         tempestuous: [
             "You braved the maelstrom and came from it unscathed.",
             "Charge through the whirlpool. Give no quarter to the storm.",
-            "The revolt was unavoidable. It was merely a matter of time.",
-            "Do you wonder why the swordfish obeyed?",
-            "Do you wonder what the swordfish were so startled by?",
+            "Do you wonder who built the great machine?",
+            "The billfish are fast, but not brave. It was you who gave them their courage.",
         ],
         volcanic: [
             "The boiling ocean only stirred you on.",

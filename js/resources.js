@@ -295,14 +295,12 @@ SharkGame.Resources = {
     getProductAmountFromGeneratorResource(generator, product, numGenerator = res.getResource(generator)) {
         const baseIncome = SharkGame.ResourceMap.get(generator).income[product];
         return (
-            (baseIncome *
-                numGenerator *
-                res.getSpecialMultiplier() *
-                res.getNetworkIncomeModifier("generator", generator) *
-                res.getNetworkIncomeModifier("resource", product, baseIncome) *
-                cad.speed *
-                res.idleMultiplier) /
-            SharkGame.persistentFlags.dialSetting
+            baseIncome *
+            numGenerator *
+            res.getSpecialMultiplier() *
+            res.getNetworkIncomeModifier("generator", generator) *
+            res.getNetworkIncomeModifier("resource", product, baseIncome) *
+            res.getGameSpeedModifier()
         );
     },
 
@@ -341,6 +339,10 @@ SharkGame.Resources = {
             }
         }
         return multiplier;
+    },
+
+    getGameSpeedModifier() {
+        return (cad.speed * res.idleMultiplier) / SharkGame.persistentFlags.dialSetting;
     },
 
     getSpecialMultiplier() {
@@ -412,7 +414,7 @@ SharkGame.Resources = {
             category.name !== "Hidden" &&
             _.some(category.resources, (resourceName) => {
                 const resource = SharkGame.PlayerResources.get(resourceName);
-                return (resource.totalAmount > 0 || resource.discovered) && world.doesResourceExist(resourceName);
+                return resource && (resource.totalAmount > 0 || resource.discovered) && world.doesResourceExist(resourceName);
             })
         );
     },
@@ -492,7 +494,7 @@ SharkGame.Resources = {
             // loop over table rows, update values
             SharkGame.PlayerResources.forEach((resource, resourceName) => {
                 const oldValue = $("#amount-" + resourceName).html();
-                const newValue = "⠀" + sharktext.beautify(resource.amount, true);
+                const newValue = "&nbsp;" + sharktext.beautify(resource.amount, true);
                 if (oldValue !== newValue.replace(/'/g, '"')) {
                     $("#amount-" + resourceName).html(newValue);
                 }
@@ -501,7 +503,7 @@ SharkGame.Resources = {
                 if (Math.abs(income) > SharkGame.EPSILON) {
                     const changeChar = income > 0 ? "+" : "";
                     const newIncome =
-                        "⠀" +
+                        "&nbsp;" +
                         "<span class='click-passthrough' style='color:" +
                         res.INCOME_COLOR +
                         "'>" +
@@ -523,7 +525,7 @@ SharkGame.Resources = {
         list: [],
         chromeForcesWorkarounds: "",
 
-        init() {
+        setup() {
             if (!SharkGame.flags.tokens) {
                 SharkGame.flags.tokens = {};
             }
@@ -569,7 +571,7 @@ SharkGame.Resources = {
 
         makeToken(type = "nobody cares", initialLocation = "NA") {
             const identifier = "token-" + (this.list.length + 1);
-            const token = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", null, "general/missing-action")
+            const token = SharkGame.changeSprite(SharkGame.spriteIconPath, "general/slottedmarker", null, "general/missing-action")
                 .attr("id", identifier)
                 .attr("type", type)
                 .attr("draggable", true)
@@ -607,7 +609,7 @@ SharkGame.Resources = {
                 if (!duringLoad && SharkGame.flags.tokens[token.attr("id")] !== "RETURNME") {
                     res.tokens.unmarkLocation(SharkGame.flags.tokens[token.attr("id")], token.attr("id"));
                 }
-                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", token, "general/missing-action");
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/slottedmarker", token, "general/missing-action");
                 token.attr("draggable", true);
                 SharkGame.flags.tokens[token.attr("id")] = "NA";
                 res.tokens.updateTokenDescriptions();
@@ -622,7 +624,7 @@ SharkGame.Resources = {
             // event.originalEvent.dataTransfer.setData("tokenType", event.originalEvent.target.type);
             event.originalEvent.dataTransfer.setData("tokenLocation", SharkGame.flags.tokens[this.id]);
             const image = document.createElement("img");
-            image.src = "img/raw/general/theToken.png";
+            image.src = "img/small/general/theToken.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
             res.tokens.updateColorfulDropZones();
             res.tableTextLeave();
@@ -633,7 +635,7 @@ SharkGame.Resources = {
             res.tokens.chromeForcesWorkarounds = $("#" + this.id).attr("tokenId");
             event.originalEvent.dataTransfer.setData("tokenLocation", event.originalEvent.target.id);
             const image = document.createElement("img");
-            image.src = "img/raw/general/theToken.png";
+            image.src = "img/small/general/theToken.png";
             event.originalEvent.dataTransfer.setDragImage(image, 0, 0);
             res.tokens.updateColorfulDropZones();
             res.tableTextLeave();
@@ -677,9 +679,9 @@ SharkGame.Resources = {
                     if (tokenLocation === "NA") {
                         textToDisplay += "in its slot.";
                     } else if (tokenLocation.includes("income")) {
-                        textToDisplay += "boosting all " + tokenLocation.split("-")[1] + " gains.";
+                        textToDisplay += "boosting all " + sharktext.getResourceName(tokenLocation.split("-")[1], false, 1) + " gains.";
                     } else if (tokenLocation.includes("resource")) {
-                        textToDisplay += "boosting " + tokenLocation.split("-")[1] + " efficiency.";
+                        textToDisplay += "boosting " + sharktext.getResourceName(tokenLocation.split("-")[1], false, 1) + " efficiency.";
                     }
                 });
                 $("#token-description").html(textToDisplay);
@@ -691,7 +693,7 @@ SharkGame.Resources = {
         reapplyToken(token) {
             if (SharkGame.flags.tokens) {
                 $("#" + SharkGame.flags.tokens[token.attr("id")])
-                    .css("background-image", "url(img/raw/general/theToken.png)")
+                    .css("background-image", "url(img/small/general/theToken.png)")
                     .attr("draggable", true)
                     .attr("tokenId", token.attr("id"));
             }
@@ -715,12 +717,12 @@ SharkGame.Resources = {
         markLocation(originalId, newId) {
             res.tokens.applyTokenEffect(newId, originalId, "apply");
             if (newId.includes("token")) {
-                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/theToken", $("#" + newId), "general/missing-action");
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/slottedmarker", $("#" + newId), "general/missing-action");
                 $("#" + newId).attr("draggable", true);
                 SharkGame.flags.tokens[newId] = "NA";
             } else {
                 $("#" + newId)
-                    .css("background-image", "url(img/raw/general/theToken.png)")
+                    .css("background-image", "url(img/small/general/theToken.png)")
                     .attr("draggable", true)
                     .attr("tokenId", originalId);
                 SharkGame.flags.tokens[originalId] = newId;
@@ -730,7 +732,7 @@ SharkGame.Resources = {
 
         unmarkLocation(locationPrevious, id) {
             if (locationPrevious === "NA") {
-                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/holeoverlay", $("#" + id), "general/missing-action");
+                SharkGame.changeSprite(SharkGame.spriteIconPath, "general/hole", $("#" + id), "general/missing-action");
                 $("#" + id).attr("draggable", false);
             } else {
                 $("#" + locationPrevious)
@@ -1284,7 +1286,7 @@ SharkGame.Resources = {
             row.append(
                 $("<td>")
                     .attr("id", "amount-" + resourceKey)
-                    .html("⠀" + sharktext.beautify(playerResources.amount))
+                    .html("&nbsp;" + sharktext.beautify(playerResources.amount))
             );
 
             const incomeId = $("<td>")
@@ -1315,7 +1317,7 @@ SharkGame.Resources = {
             if (Math.abs(income) > SharkGame.EPSILON) {
                 const changeChar = income > 0 ? "+" : "";
                 incomeId.html(
-                    "⠀<span class='click-passthrough' style='color:" +
+                    "&nbsp;<span class='click-passthrough' style='color:" +
                         res.INCOME_COLOR +
                         "'>" +
                         changeChar +

@@ -7,7 +7,15 @@ SharkGame.Gate = {
     tabBg: "img/bg/bg-gate.png",
 
     discoverReq: {
-        upgrade: ["gateDiscovery", "farAbandonedExploration", "farHavenExploration", "rapidRecharging", "arcaneCompass", "apologeticAmnesty"],
+        upgrade: [
+            "gateDiscovery",
+            "farAbandonedExploration",
+            "farHavenExploration",
+            "rapidRecharging",
+            "arcaneCompass",
+            "apologeticAmnesty",
+            "internalExploration",
+        ],
     },
 
     message: "A foreboding circular structure, closed shut.<br/>There are many slots, and a sign you know to mean 'insert items here'.",
@@ -45,7 +53,7 @@ SharkGame.Gate = {
         SharkGame.Gate.completedRequirements = {};
     },
 
-    createSlots(gateRequirements, gateCostMultiplier) {
+    createSlots(gateRequirements) {
         const gate = SharkGame.Gate;
         const req = gate.requirements;
         const creq = gate.completedRequirements;
@@ -54,7 +62,7 @@ SharkGame.Gate = {
             req.slots = {};
             sharkmisc.tryAddProperty(creq, `slots`, {});
             $.each(gateRequirements.slots, (resourceId, requiredAmount) => {
-                req.slots[resourceId] = Math.floor(requiredAmount * gateCostMultiplier);
+                req.slots[resourceId] = Math.floor(requiredAmount);
                 sharkmisc.tryAddProperty(creq.slots, resourceId, false);
             });
         }
