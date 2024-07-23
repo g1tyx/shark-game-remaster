@@ -26,8 +26,8 @@ const BOTTOM_EDGE = -150;
 const SPRITE_SHEET = new Image();
 const EVENT_SPRITE_SHEET = new Image();
 
-SPRITE_SHEET.src = "../img/sprites.png?raw=true";
-EVENT_SPRITE_SHEET.src = "../img/homemessagesprites.png?raw=true";
+SPRITE_SHEET.src = "https://g1tyx.github.io/shark-game-remaster/img/sprites.png?raw=true";
+EVENT_SPRITE_SHEET.src = "https://g1tyx.github.io/shark-game-remaster/img/homemessagesprites.png?raw=true";
 
 SharkGame.AspectTree = {
     /** @type {CanvasRenderingContext2D} */

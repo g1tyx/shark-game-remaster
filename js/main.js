@@ -134,8 +134,8 @@ $.extend(SharkGame, {
     flags: {},
     persistentFlags: {},
 
-    spriteIconPath: "../img/sprites.png?raw=true",
-    spriteHomeEventPath: "../img/homemessagesprites.png?raw=true",
+    spriteIconPath: "https://g1tyx.github.io/shark-game-remaster/img/sprites.png?raw=true",
+    spriteHomeEventPath: "https://g1tyx.github.io/shark-game-remaster/img/homemessagesprites.png?raw=true",
 
     /**
      *
