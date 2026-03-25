@@ -218,11 +218,11 @@ SharkGame.ModifierTypes = {
                     return current + degree;
                 },
                 effectDescription(degree, resource, background) {
-                    return `Add ${degree} ${sharktext.getResourceName(`coral`, false, false, background)}/s to ${sharktext.getResourceName(
+                    return `Add ${degree} ${sharktext.getResourceName("coral", false, false, background)}/s to ${sharktext.getResourceName(
                         resource,
                         false,
                         69,
-                        background
+                        background,
                     )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -248,11 +248,11 @@ SharkGame.ModifierTypes = {
                     return current + degree;
                 },
                 effectDescription(degree, resource, background) {
-                    return `Add ${degree} ${sharktext.getResourceName(`jellyfish`, false, false, background)}/s to ${sharktext.getResourceName(
+                    return `Add ${degree} ${sharktext.getResourceName("jellyfish", false, false, background)}/s to ${sharktext.getResourceName(
                         resource,
                         false,
                         69,
-                        background
+                        background,
                     )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -278,11 +278,11 @@ SharkGame.ModifierTypes = {
                     return current + degree;
                 },
                 effectDescription(degree, resource, background) {
-                    return `Add ${degree} ${sharktext.getResourceName(`fish`, false, false, background)}/s to ${sharktext.getResourceName(
+                    return `Add ${degree} ${sharktext.getResourceName("fish", false, false, background)}/s to ${sharktext.getResourceName(
                         resource,
                         false,
                         69,
-                        background
+                        background,
                     )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -308,11 +308,11 @@ SharkGame.ModifierTypes = {
                     return current + degree;
                 },
                 effectDescription(degree, resource, background) {
-                    return `Add ${degree} ${sharktext.getResourceName(`sponge`, false, false, background)}/s to ${sharktext.getResourceName(
+                    return `Add ${degree} ${sharktext.getResourceName("sponge", false, false, background)}/s to ${sharktext.getResourceName(
                         resource,
                         false,
                         69,
-                        background
+                        background,
                     )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -338,11 +338,11 @@ SharkGame.ModifierTypes = {
                     return current + degree;
                 },
                 effectDescription(degree, resource, background) {
-                    return `Add ${degree} ${sharktext.getResourceName(`algae`, false, false, background)}/s to ${sharktext.getResourceName(
+                    return `Add ${degree} ${sharktext.getResourceName("algae", false, false, background)}/s to ${sharktext.getResourceName(
                         resource,
                         false,
                         69,
-                        background
+                        background,
                     )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {
@@ -368,11 +368,11 @@ SharkGame.ModifierTypes = {
                     return current + degree;
                 },
                 effectDescription(degree, resource, background) {
-                    return `Add ${degree} ${sharktext.getResourceName(`sand`, false, false, background)}/s to ${sharktext.getResourceName(
+                    return `Add ${degree} ${sharktext.getResourceName("sand", false, false, background)}/s to ${sharktext.getResourceName(
                         resource,
                         false,
                         69,
-                        background
+                        background,
                     )}`;
                 },
                 getEffect(_genDegree, _outDegree, _gen, _out) {

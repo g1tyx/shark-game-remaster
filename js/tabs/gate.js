@@ -9,8 +9,8 @@ SharkGame.Gate = {
     discoverReq: {
         upgrade: [
             "gateDiscovery",
-            "farAbandonedExploration",
-            "farHavenExploration",
+            "farExploration",
+            "farExploration",
             "rapidRecharging",
             "arcaneCompass",
             "apologeticAmnesty",
@@ -60,7 +60,7 @@ SharkGame.Gate = {
 
         if (gateRequirements.slots) {
             req.slots = {};
-            sharkmisc.tryAddProperty(creq, `slots`, {});
+            sharkmisc.tryAddProperty(creq, "slots", {});
             $.each(gateRequirements.slots, (resourceId, requiredAmount) => {
                 req.slots[resourceId] = Math.floor(requiredAmount);
                 sharkmisc.tryAddProperty(creq.slots, resourceId, false);
@@ -69,7 +69,7 @@ SharkGame.Gate = {
 
         if (gateRequirements.upgrades) {
             req.upgrades = [];
-            sharkmisc.tryAddProperty(creq, `upgrades`, {});
+            sharkmisc.tryAddProperty(creq, "upgrades", {});
             $.each(gateRequirements.upgrades, (_index, upgradeId) => {
                 req.upgrades.push(upgradeId);
                 sharkmisc.tryAddProperty(creq.upgrades, upgradeId, false);
@@ -78,7 +78,7 @@ SharkGame.Gate = {
 
         if (gateRequirements.resources) {
             req.resources = {};
-            sharkmisc.tryAddProperty(creq, `resources`, {});
+            sharkmisc.tryAddProperty(creq, "resources", {});
             $.each(gateRequirements.resources, (resourceId, requiredAmount) => {
                 req.resources[resourceId] = requiredAmount;
                 sharkmisc.tryAddProperty(creq.resources, resourceId, false);
@@ -103,7 +103,7 @@ SharkGame.Gate = {
                             resource,
                             false,
                             false,
-                            sharkcolor.getElementColor("tooltipbox", "background-color")
+                            sharkcolor.getElementColor("tooltipbox", "background-color"),
                         );
                         SharkGame.Button.makeHoverscriptButton(
                             "gateCost-" + resource,
@@ -111,7 +111,7 @@ SharkGame.Gate = {
                             buttonList,
                             gate.onGateButton,
                             gate.onHover,
-                            gate.onUnhover
+                            gate.onUnhover,
                         );
                     }
                 });
@@ -216,18 +216,18 @@ SharkGame.Gate = {
         if (amount < required) {
             button.html(
                 `Need <span class='click-passthrough' style='color:#FFDE0A'>${sharktext.beautify(
-                    required - amount
+                    required - amount,
                 )}</span> more ${sharktext.getResourceName(
                     resourceName,
                     false,
                     false,
-                    sharkcolor.getElementColor(button.attr("id"), "background-color")
+                    sharkcolor.getElementColor(button.attr("id"), "background-color"),
                 )} for ${sharktext.getResourceName(
                     resourceName,
                     false,
                     false,
-                    sharkcolor.getElementColor(button.attr("id"), "background-color")
-                )} slot`
+                    sharkcolor.getElementColor(button.attr("id"), "background-color"),
+                )} slot`,
             );
         }
     },
@@ -244,7 +244,7 @@ SharkGame.Gate = {
                 sharktext.getResourceName(resourceName, false, false, sharkcolor.getElementColor(button.attr("id"), "background-color")) +
                 " into " +
                 sharktext.getResourceName(resourceName, false, false, sharkcolor.getElementColor(button.attr("id"), "background-color")) +
-                " slot"
+                " slot",
         );
     },
 

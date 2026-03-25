@@ -148,7 +148,6 @@ SharkGame.HomeMessages = {
                 name: "haven-dolphin-observes",
                 unlock: { totalResource: { coral: 75 } },
                 message: "A... thing observes us from afar. What the heck is that??",
-                scales: true,
             },
             {
                 name: "haven-dolphins",
@@ -161,7 +160,6 @@ SharkGame.HomeMessages = {
                 unlock: { totalResource: { dolphin: 20 } },
                 message:
                     "The dolphin pods that work with us speak of a star-spanning empire of their kind. They ask where our empire is. And they smile.",
-                scales: true,
             },
             {
                 name: "haven-papyrus",
@@ -276,7 +274,7 @@ SharkGame.HomeMessages = {
             {
                 name: "volcanic-shrimp-contact",
                 unlock: { totalResource: { sponge: 1 } },
-                message: `You are approached by a single shrimp. They relay a message to you: stop harvesting sponges, or face the wrath of the king of shrimps.`,
+                message: "You are approached by a single shrimp. They relay a message to you: stop harvesting sponges, or face the wrath of the king of shrimps.",
             },
             {
                 name: "volcanic-shrimp-threat",
@@ -285,12 +283,12 @@ SharkGame.HomeMessages = {
                         return SharkGame.flags.prySpongeGained > 200 && !SharkGame.flags.gotFarmsBeforeShrimpThreat;
                     },
                 },
-                message: `You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.`,
+                message: "You are approached by an army of shrimp. They relay a very clear message to you: cooperate, or be destroyed. You decide to stop harvesting sponges.",
             },
             {
                 name: "volcanic-shrimp-communication",
                 unlock: { upgrade: ["consistentCommunication"] },
-                message: "The homes (sponges) left behind by shrimp joining the frenzy may now be taken for ourselves.",
+                message: "The sponge homes left behind by shrimp joining the frenzy may now be taken for ourselves.",
             },
             {
                 name: "volcanic-monarchy",
@@ -327,7 +325,7 @@ SharkGame.HomeMessages = {
             {
                 name: "volcanic-hope",
                 unlock: { upgrade: ["apologeticAmnesty"] },
-                message: `"Perhaps not all sharks are so vile," says the king of shrimps. "Perhaps, you will be different."`,
+                message: "\"Perhaps not all sharks are so vile,\" says the king of shrimps. \"Perhaps, you will be different.\"",
             },
         ],
 
@@ -348,7 +346,7 @@ SharkGame.HomeMessages = {
             },
             {
                 name: "abandoned-octopuses",
-                unlock: { totalResource: { octopus: 8 } },
+                unlock: { totalResource: { octopus: 16 } },
                 message: "More octopuses join. They work in perfect unison.",
             },
             {
@@ -387,7 +385,7 @@ SharkGame.HomeMessages = {
             {
                 name: "abandoned-done",
                 unlock: { upgrade: ["artifactAssembly"] },
-                message: "...",
+                message: "The gate buzzes to life, glowing ethereally. If you squint, you can barely make out a blue ocean on the other side.",
             },
             {
                 name: "abandoned-tar-one",
@@ -397,7 +395,7 @@ SharkGame.HomeMessages = {
             },
             {
                 name: "abandoned-tar-two",
-                unlock: { resource: { tar: 200 } },
+                unlock: { resource: { tar: 500 } },
                 message: "Only machines will remain. All is lost. <span class='smallDesc'>All is lost.</span>",
                 transient: true,
             },
@@ -448,8 +446,7 @@ SharkGame.HomeMessages = {
             {
                 name: "shrouded-truth",
                 unlock: { totalResource: { sacrifice: 9000000000000000 } },
-                message:
-                    "A team of eels get your attention. They have something from the caverns: it's a disaster report, alongside mentions of a set of giant arcane batteries.",
+                message: "A team of eels get your attention. They have something from the caverns: it's a book, filled with images of pink crystals.",
             },
         ],
 
@@ -460,7 +457,7 @@ SharkGame.HomeMessages = {
             },
             {
                 name: "frigid-ice-one",
-                unlock: { resource: { ice: 100 } },
+                unlock: { resource: { ice: 20 } },
                 message: "You feel tired.",
             },
             {
@@ -472,7 +469,6 @@ SharkGame.HomeMessages = {
                 name: "frigid-distant-village",
                 unlock: { totalResource: { science: 8 } },
                 message: "While scanning the horizon, you notice a gap in the ice. You peer through it, and spot something else.",
-                scales: true,
             },
             {
                 name: "frigid-village",
@@ -496,13 +492,11 @@ SharkGame.HomeMessages = {
                 unlock: { totalResource: { squid: 125 } },
                 message:
                     "In the center of the settlement lies a vibrating...thing, and a strange gate. The thing buzzes loudly, casting enormous energy across the water.",
-                scales: true,
             },
             {
                 name: "frigid-squid",
                 unlock: { totalResource: { squid: 250 } },
                 message: "The squid speak of an ancient visitor who saved their world. They ask if you too, have seen this visitor.",
-                scales: true,
             },
             {
                 name: "frigid-suspicion",

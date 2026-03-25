@@ -55,7 +55,7 @@ SharkGame.Lab = {
     },
     get messageDone() {
         switch (world.worldType) {
-            case `volcanic`:
+            case "volcanic":
                 return (
                     "Sort of just off to the side, the researchers are compiling their work and filing it away.<br/>" +
                     "Looks like that's it! No more things to figure out."
@@ -136,7 +136,7 @@ SharkGame.Lab = {
         if (lab.allResearchDone()) {
             let message;
             switch (world.worldType) {
-                case `volcanic`:
+                case "volcanic":
                     message = "We rest content, sure that our work is done.";
                     break;
                 default:
@@ -155,7 +155,7 @@ SharkGame.Lab = {
                         message = "The scientists are out of ideas, but there are always more discoveries to be made.";
                     }
                     break;
-                case `volcanic`:
+                case "volcanic":
                     message = "The crabs are out of ideas, but there are always more discoveries to be made.";
                     break;
                 default:
@@ -169,7 +169,7 @@ SharkGame.Lab = {
                     lab.isUpgradePossible(upgradeId) &&
                     !lab.isUpgradeVisible(upgradeId) &&
                     _.has(upgrade, "required.upgrades") &&
-                    _.every(upgrade.required.upgrades, (requiredUpgradeId) => SharkGame.Upgrades.purchased.includes(requiredUpgradeId))
+                    _.every(upgrade.required.upgrades, (requiredUpgradeId) => SharkGame.Upgrades.purchased.includes(requiredUpgradeId)),
             );
 
             if (hintedUpgrade === undefined) return;
@@ -185,8 +185,8 @@ SharkGame.Lab = {
                     $("<p>").html(
                         "You get the feeling that " +
                             sharktext.getResourceName(hintResource, false, 2, sharkcolor.getElementColor("buttonList")) +
-                            " may be the key."
-                    )
+                            " may be the key.",
+                    ),
                 );
             } else {
                 log.addError(`There is a possible, undiscovered upgrade (${hintedUpgrade.name}), but no valid hint resource.`);
@@ -237,7 +237,7 @@ SharkGame.Lab = {
                         upgradeId,
                         upgrade.name + "<br/>" + upgrade.desc + "<br/>" + effects,
                         buttonList,
-                        lab.onLabButton
+                        lab.onLabButton,
                     );
                     lab.updateLabButton(upgradeId);
                     if (SharkGame.Settings.current.showAnimations) {
@@ -250,7 +250,7 @@ SharkGame.Lab = {
                                 {
                                     duration: 50,
                                     done: (anim) => (anim.elem.style = null),
-                                }
+                                },
                             );
                     }
                 }
@@ -339,7 +339,7 @@ SharkGame.Lab = {
         const upgradeTable = SharkGame.Upgrades.getUpgradeTable();
         let upgrade;
 
-        if (typeof upgradeId === `object`) {
+        if (typeof upgradeId === "object") {
             if ($(this).hasClass("disabled")) return;
 
             upgradeId = $(this).attr("id");

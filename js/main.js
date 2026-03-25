@@ -73,7 +73,7 @@ $.extend(SharkGame, {
         "Revenge of the Crabs",
         "Shark Box",
         "Dolphin Heroes",
-        "Maws",
+        "MAWS",
         "Part 6, Stone Ocean",
         "Sailor Crab",
         "League of Lobsters",
@@ -91,21 +91,25 @@ $.extend(SharkGame, {
         "DUNGEONS",
         "The Adventure Continues",
         "To Be Continued",
-        "what the crab doin",
-        "#TeamSeas",
         "Sharks of Rage",
-        "Bedrock Edition",
-        "Javascript Edition",
+        "Bedrock? Edition",
+        "Java(script) Edition",
         "You are a Shark",
         "Mystery of Shark City",
         "Seas of Loathing",
         "Raiders of the Lost Shark",
+        "Dead Sharks Tell No Tales",
+        "At Sharks End",
+        "On Sharker Tides",
+        "Curse of the Shark",
+        "Have I Played These Sharks Before?",
+        "Hollow Shark: Shark Song",
     ],
     GAME_NAME: null,
     ACTUAL_GAME_NAME: "Shark Game",
-    VERSION: "20220712a",
+    VERSION: "20250127a",
     ORIGINAL_VERSION: 0.71,
-    VERSION_NAME: "The Volcanic Update",
+    VERSION_NAME: "The Tempetuous Update",
     EPSILON: 1e-6, // floating point comparison is a joy
     BIGGEST_SAFE_NUMBER: 1000000000000,
     MAX: 1e300,
@@ -134,8 +138,8 @@ $.extend(SharkGame, {
     flags: {},
     persistentFlags: {},
 
-    spriteIconPath: "https://g1tyx.github.io/shark-game-remaster/img/sprites.png?raw=true",
-    spriteHomeEventPath: "https://g1tyx.github.io/shark-game-remaster/img/homemessagesprites.png?raw=true",
+    spriteIconPath: "https://github.com/Toby222/SharkGame/blob/alpha/img/sprites.png?raw=true",
+    spriteHomeEventPath: "https://github.com/Toby222/SharkGame/blob/alpha/img/homemessagesprites.png?raw=true",
 
     /**
      *
@@ -265,7 +269,7 @@ SharkGame.Main = {
         $("#gameName").html("- " + SharkGame.GAME_NAME + " -");
         $("#versionNumber").html(
             `New Frontiers v ${SharkGame.VERSION} - ${SharkGame.VERSION_NAME}<br/>\
-Mod of v ${SharkGame.ORIGINAL_VERSION}`
+Mod of v ${SharkGame.ORIGINAL_VERSION}`,
         );
         $.getJSON("https://api.github.com/repos/Toby222/SharkGame/commits/alpha", (data) => {
             SharkGame.COMMIT_SHA = data.sha;
@@ -711,7 +715,7 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .html(
                         `You see a new update swimming towards you.<br> On it you can just make out the words <br>"${
                             data.commit.message.split("\n")[0]
-                        }". <br>Click to update.`
+                        }". <br>Click to update.`,
                     )
                     .on("click", () => {
                         try {
@@ -756,8 +760,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                 $("<li>").append(
                     $("<button>")
                         .addClass("min" + (disableButton ? " disabled" : ""))
-                        .attr("id", "buy-" + amount)
-                )
+                        .attr("id", "buy-" + amount),
+                ),
             );
             let label = customLabel ? customLabel + " " : "buy ";
             if (amount < 0) {
@@ -788,10 +792,10 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     thisButton.addClass("disabled");
                 })
                 .on("mouseenter", () => {
-                    $(`#tooltipbox`).html(`${label} amount of things`);
+                    $("#tooltipbox").html(`${label} amount of things`);
                 })
                 .on("mouseleave", () => {
-                    $(`#tooltipbox`).html(``);
+                    $("#tooltipbox").html("");
                 });
         });
         buttonList.append(
@@ -801,8 +805,8 @@ Mod of v ${SharkGame.ORIGINAL_VERSION}`
                     .attr("id", "custom-input")
                     .attr("value", 1)
                     .attr("min", "1")
-                    .attr("disabled", SharkGame.Settings.current.buyAmount !== "custom")
-            )
+                    .attr("disabled", SharkGame.Settings.current.buyAmount !== "custom"),
+            ),
         );
         document.getElementById("custom-input").addEventListener("input", main.onCustomChange);
         if (SharkGame.Settings.current.customSetting) {
@@ -906,6 +910,60 @@ SharkGame.Button = {
 };
 
 SharkGame.Changelog = {
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20250630a": [
+        "Fix broken progression of Abandoned Ocean",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20250629a": [
+        "Added a lot of missing sprites courtesy of <a href='https://github.com/glowkate'>Glowkate</a> and <a href='https://www.youtube.com/@biggestbrian'>BiggestBrian</a>",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20250127a": [
+        "Added a new home message sprite courtesy of <a href='https://github.com/glowkate'>Glowkate</a>.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20241214a": [
+        "Added another 2 new sprites courtesy of <a href='https://github.com/glowkate'>Glowkate</a>.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20241128a": [
+        "Added another another new sprite courtesy of <a href='https://www.youtube.com/@WorkerDroneMainBattleTrain'>Main Battle Train</a>.",
+        "Added another 2 new sprites courtesy of <a href='https://github.com/glowkate'>Glowkate</a>.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20241119a": [
+        "Added another new sprite courtesy of <a href='https://www.youtube.com/@WorkerDroneMainBattleTrain'>Main Battle Train</a>.",
+        "Added another new sprite courtesy of <a href='https://github.com/glowkate'>Glowkate</a>.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20241106a": [
+        "Added a new sprite courtesy of <a href='https://www.youtube.com/@WorkerDroneMainBattleTrain'>Main Battle Train</a>.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20240909a": [
+        "Added another one new sprite courtesy of <a href='https://github.com/glowkate'>Glowkate</a>!",
+        "Added a heap of new fun facts.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20240906a": [
+        "Added another 4 new sprites courtesy of <a href='https://github.com/glowkate'>Glowkate</a>!",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20240819a": [
+        "Added another new sprite courtesy of <a href='https://github.com/glowkate'>Glowkate</a>.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20240818a": [
+        "Added another new home message image, courtesy of <a href='https://x.com/stormwalker124'>stormwalker</a>.",
+        "Added a sprite for billfish pairs courtesy of <a href='https://github.com/glowkate'>Glowkate</a>.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20240805a": [
+        "Added a new home message image, courtesy of <a href='https://x.com/stormwalker124'>stormwalker</a>.",
+        "Fixed a bug where a home message image in Haven wasn't appearing.",
+    ],
+    "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20240803a": [
+        "Added a new upgrade to the starter world: Crystal Scoops, to increase the speed of that world dramatically and make for slightly more interesting crab-to-laser-ray competition.",
+        "Added 4 new home message images, courtesy of <a href='https://x.com/stormwalker124'>stormwalker</a>.",
+        "This happened silently in January, but: fixed the negative world time bug.",
+        "Made a few changes to older ones.",
+        "Fixed the shrimp home message image not appearing.",
+        "Fixed the lobster home message image not appearing.",
+        "Fixed the sponge filter sprite not appearing.",
+        "Fixed the pry sponge sprite disappearing in Volcanic.",
+        "Edited some home message requirements.",
+        "Edited the home message text at the end of Shrouded and Abandoned.",
+        "Edited some of the random game tab names.",
+    ],
     "<a href='https://github.com/Toby222/SharkGame'>New Frontiers</a> patch 20230618a": [
         "Added Tempestuous worldtype.",
         "Added home message history. You may now freely scroll back and forth between previously seen home messages while in a world.",

@@ -41,7 +41,6 @@ SharkGame.Panes = {
     donate:
         "<h2>You can donate to various projects and organizations below to help support sea life:</h2>" +
         "<span class='smallDescAllowClicks'>(seems only fitting, given the original game was made for a charity event)</span>" +
-        "<p><strong>#TeamSeas</strong> is a project which is using donations to take over 30 million pounds of trash out of the ocean. You can <a href='https://teamseas.org/'>donate to #TeamSeas here</a>.</p>" +
         "<p><strong>The Shark Trust</strong> is an organization that exists solely to advocate for research into, education about, and fair treatment of sharks. You can <a href='https://www.sharktrust.org/Listing/Category/donate' target='_blank'>donate to the Shark Trust here</a>.</p>" +
         "<p><span class='smallDescAllowClicks'>(But if you'd rather, you can also " +
         "<a href='https://www.paypal.com/cgi-bin/" +
@@ -91,8 +90,8 @@ SharkGame.PaneHandler = {
                         .attr("id", "paneHeaderCloseButton")
                         .addClass("min close-button")
                         .html("✕")
-                        .on("click", SharkGame.PaneHandler.nextPaneInStack)
-                )
+                        .on("click", SharkGame.PaneHandler.nextPaneInStack),
+                ),
         );
         pane.append(titleDiv);
         pane.append($("<div>").attr("id", "paneHeaderEnd").addClass("clear-fix"));
@@ -133,7 +132,7 @@ SharkGame.PaneHandler = {
                 panehandler.currentPane[1],
                 panehandler.currentPane[2],
                 panehandler.currentPane[3],
-                panehandler.currentPane[4]
+                panehandler.currentPane[4],
             );
         } else {
             panehandler.hidePane();
@@ -172,7 +171,7 @@ SharkGame.PaneHandler = {
     },
 
     isPaneUp() {
-        return !$(`#pane`).is(`:hidden`) && $(`#pane`).html();
+        return !$("#pane").is(":hidden") && $("#pane").html();
     },
 
     isCurrentPaneCloseable() {
@@ -202,7 +201,7 @@ SharkGame.PaneHandler = {
 
         // begin fading in/displaying overlay if it isn't already visible
         const overlay = $("#overlay");
-        const overlayOpacity = $(`#overlay`).hasClass(`gateway`) ? 1.0 : customOpacity || 0.5;
+        const overlayOpacity = $("#overlay").hasClass("gateway") ? 1.0 : customOpacity || 0.5;
 
         SharkGame.OverlayHandler.revealOverlay(fadeInTime, overlayOpacity);
 
@@ -287,7 +286,7 @@ SharkGame.PaneHandler = {
 
         $.each(categories, (category, settings) => {
             optionsTable.append(
-                $("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString(category) + "</span></h3>")
+                $("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString(category) + "</span></h3>"),
             );
             _.each(settings, (settingName) => {
                 const setting = SharkGame.Settings[settingName];
@@ -300,7 +299,7 @@ SharkGame.PaneHandler = {
                 optionRow.append(
                     $("<td>")
                         .addClass("optionLabel")
-                        .html(setting.name + ":" + "<br/><span class='smallDesc'>(" + setting.desc + ")</span>")
+                        .html(setting.name + ":" + "<br/><span class='smallDesc'>(" + setting.desc + ")</span>"),
                 );
 
                 const currentSetting = SharkGame.Settings.current[settingName];
@@ -314,8 +313,8 @@ SharkGame.PaneHandler = {
                                 .attr("id", "optionButton-" + settingName + "-" + index)
                                 .addClass("option-button" + (isSelectedOption ? " disabled" : ""))
                                 .html(typeof optionValue === "boolean" ? (optionValue ? "on" : "off") : optionValue)
-                                .on("click", SharkGame.PaneHandler.onOptionClick)
-                        )
+                                .on("click", SharkGame.PaneHandler.onOptionClick),
+                        ),
                     );
                 });
 
@@ -328,8 +327,8 @@ SharkGame.PaneHandler = {
         let row = $("<tr>");
         row.append(
             $("<td>").html(
-                "Import/Export Save:<br/><span class='smallDesc'>(Turn your save into text for other people to load, or as a backup.)</span>"
-            )
+                "Import/Export Save:<br/><span class='smallDesc'>(Turn your save into text for other people to load, or as a backup.)</span>",
+            ),
         );
         row.append(
             $("<td>").append(
@@ -345,8 +344,8 @@ SharkGame.PaneHandler = {
                         } else if (confirm("Are you absolutely sure? This will override your current save.")) {
                             SharkGame.Save.importData(importText);
                         }
-                    })
-            )
+                    }),
+            ),
         );
         row.append(
             $("<td>").append(
@@ -356,8 +355,8 @@ SharkGame.PaneHandler = {
                     .on("click", function callback() {
                         if ($(this).hasClass("disabled")) return;
                         $("#importExportField").val(SharkGame.Save.exportData());
-                    })
-            )
+                    }),
+            ),
         );
         // add the actual text box
         row.append($("<td>").attr("colSpan", 4).append($("<input>").attr("type", "text").attr("id", "importExportField")));
@@ -369,33 +368,33 @@ SharkGame.PaneHandler = {
         row.append($("<td>").html("Save Backups:<br/><span class='smallDesc'>(Create a backup save.)</span>"));
         row2.append($("<td>").html("Load Backups:<br/><span class='smallDesc'>(Load a backup save.)</span>"));
 
-        _.each([`1`, `2`, `3`], (tag) => {
+        _.each(["1", "2", "3"], (tag) => {
             row.append(
-                $(`<td>`).append(
-                    $(`<button>`)
+                $("<td>").append(
+                    $("<button>")
                         .html(`save ${tag}`)
-                        .addClass(`option-button`)
-                        .on(`click`, () => {
+                        .addClass("option-button")
+                        .on("click", () => {
                             if (SharkGame.Save.savedGameExists(`Backup${tag}`)) {
-                                if (!confirm(`There is already a save in this slot. Overwrite it?`)) {
+                                if (!confirm("There is already a save in this slot. Overwrite it?")) {
                                     return;
                                 }
                             }
                             SharkGame.Save.createTaggedSave(`Backup${tag}`);
-                            $(`#load${tag}`).removeClass(`disabled`);
-                        })
-                )
+                            $(`#load${tag}`).removeClass("disabled");
+                        }),
+                ),
             );
 
-            const loadButton = $(`<button>`)
+            const loadButton = $("<button>")
                 .html(`load ${tag}`)
-                .attr(`id`, `load${tag}`)
-                .addClass(`option-button`)
-                .on(`click`, () => {
-                    if (!$(`#load${tag}`).hasClass(`disabled`) && SharkGame.Save.savedGameExists(`Backup${tag}`)) {
+                .attr("id", `load${tag}`)
+                .addClass("option-button")
+                .on("click", () => {
+                    if (!$(`#load${tag}`).hasClass("disabled") && SharkGame.Save.savedGameExists(`Backup${tag}`)) {
                         if (
                             confirm(
-                                `Are you absolutely sure you want to load this save${SharkGame.Save.getTaggedSaveCharacteristics(`Backup${tag}`)}?`
+                                `Are you absolutely sure you want to load this save${SharkGame.Save.getTaggedSaveCharacteristics(`Backup${tag}`)}?`,
                             )
                         ) {
                             SharkGame.Save.loadTaggedSave(`Backup${tag}`);
@@ -404,33 +403,33 @@ SharkGame.PaneHandler = {
                 });
 
             if (!SharkGame.Save.savedGameExists(`Backup${tag}`)) {
-                loadButton.addClass(`disabled`);
+                loadButton.addClass("disabled");
             }
 
-            row2.append($(`<td>`).append(loadButton));
+            row2.append($("<td>").append(loadButton));
         });
 
         optionsTable.append(row);
 
         if (SharkGame.persistentFlags.unlockedDebug) {
-            const loadButton = $(`<button>`)
-                .html(`load pre-cheats backup`)
-                .attr(`id`, `loadCheats`)
-                .addClass(`option-button`)
-                .on(`click`, () => {
-                    if (!$(`#loadCheats`).hasClass(`disabled`) && SharkGame.Save.savedGameExists(`BackupCheats`)) {
+            const loadButton = $("<button>")
+                .html("load pre-cheats backup")
+                .attr("id", "loadCheats")
+                .addClass("option-button")
+                .on("click", () => {
+                    if (!$("#loadCheats").hasClass("disabled") && SharkGame.Save.savedGameExists("BackupCheats")) {
                         if (
                             confirm(
-                                `Are you absolutely sure you want to load this save${SharkGame.Save.getTaggedSaveCharacteristics(`BackupCheats`)}?`
+                                `Are you absolutely sure you want to load this save${SharkGame.Save.getTaggedSaveCharacteristics("BackupCheats")}?`,
                             )
                         ) {
-                            SharkGame.Save.loadTaggedSave(`BackupCheats`);
+                            SharkGame.Save.loadTaggedSave("BackupCheats");
                         }
                     }
                 });
 
-            if (!SharkGame.Save.savedGameExists(`BackupCheats`)) {
-                loadButton.addClass(`disabled`);
+            if (!SharkGame.Save.savedGameExists("BackupCheats")) {
+                loadButton.addClass("disabled");
             }
             row2.append(loadButton);
         }
@@ -459,8 +458,8 @@ SharkGame.PaneHandler = {
                             SharkGame.PaneHandler.nextPaneInStack();
                             SharkGame.PaneHandler.showOptions();
                         }
-                    })
-            )
+                    }),
+            ),
         );
         optionsTable.append(row);
 
@@ -468,7 +467,7 @@ SharkGame.PaneHandler = {
         // add save wipe
         row = $("<tr>");
         row.append(
-            $("<td>").html("Wipe Save:<br/><span class='smallDesc'>(Completely wipe your main save and reset the game. COMPLETELY. FOREVER.)</span>")
+            $("<td>").html("Wipe Save:<br/><span class='smallDesc'>(Completely wipe your main save and reset the game. COMPLETELY. FOREVER.)</span>"),
         );
         row.append(
             $("<td>").append(
@@ -479,8 +478,8 @@ SharkGame.PaneHandler = {
                         if (confirm("Are you absolutely sure you want to wipe your save?\nIt'll be gone forever!")) {
                             main.resetGame();
                         }
-                    })
-            )
+                    }),
+            ),
         );
         optionsTable.append(row);
 
@@ -494,8 +493,8 @@ SharkGame.PaneHandler = {
                         .addClass("option-button")
                         .on("click", () => {
                             cad.debug();
-                        })
-                )
+                        }),
+                ),
             );
             row.append(
                 $("<td>").append(
@@ -504,13 +503,13 @@ SharkGame.PaneHandler = {
                         .addClass("option-button")
                         .on("click", () => {
                             cad.hideDebug();
-                        })
-                )
+                        }),
+                ),
             );
             optionsTable.prepend(row);
 
             optionsTable.prepend(
-                $("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString(`CHEATS and DEBUG`) + "</span></h3>")
+                $("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString("CHEATS and DEBUG") + "</span></h3>"),
             );
         }
 
@@ -523,12 +522,12 @@ SharkGame.PaneHandler = {
                     .addClass("option-button")
                     .on("click", () => {
                         SharkGame.PaneHandler.showKeybinds();
-                    })
-            )
+                    }),
+            ),
         );
         optionsTable.prepend(row);
 
-        optionsTable.prepend($("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString(`KEYBINDS`) + "</span></h3>"));
+        optionsTable.prepend($("<tr>").html("<h3><br><span style='text-decoration: underline'>" + sharktext.boldString("KEYBINDS") + "</span></h3>"));
 
         return optionsTable;
     },
@@ -562,53 +561,53 @@ SharkGame.PaneHandler = {
             SharkGame.Keybinds.waitForKey = false;
         }
 
-        const keybindTable = $(`<table>`).attr(`id`, `keybindTable`);
+        const keybindTable = $("<table>").attr("id", "keybindTable");
 
-        let row = $(`<tr>`);
+        let row = $("<tr>");
         row.append(
-            $(`<td>`).append(
-                $(`<button>`)
-                    .html(`new bind`)
-                    .attr(`id`, `new-bind-button`)
-                    .on(`click`, function () {
-                        $(this).html(`press some keys...`);
+            $("<td>").append(
+                $("<button>")
+                    .html("new bind")
+                    .attr("id", "new-bind-button")
+                    .on("click", function () {
+                        $(this).html("press some keys...");
                         SharkGame.Keybinds.waitForKey = true;
-                    })
-            )
+                    }),
+            ),
         );
         keybindTable.append(row);
 
         $.each(SharkGame.Keybinds.keybinds, (boundKey, boundAction) => {
-            row = $(`<tr>`).attr(`id`, SharkGame.Keybinds.compressKeyID(boundKey));
-            row.append($(`<td>`).html(boundKey));
+            row = $("<tr>").attr("id", SharkGame.Keybinds.compressKeyID(boundKey));
+            row.append($("<td>").html(boundKey));
 
             if (SharkGame.Keybinds.actions.includes(boundAction)) {
-                const selector = $("<select>").on(`change`, function () {
+                const selector = $("<select>").on("change", function () {
                     SharkGame.Keybinds.addKeybind(boundKey, $(this)[0].value);
                     console.debug(`bound ${boundKey} to ${$(this)[0].value}`);
                 });
                 _.each(SharkGame.Keybinds.actions, (potentialBoundAction, i) => {
                     selector.append(
-                        `<option${i % 2 === 0 ? ' class="evenMessage"' : ""} ${boundAction === potentialBoundAction ? ` selected` : ``}>` +
+                        `<option${i % 2 === 0 ? ' class="evenMessage"' : ""} ${boundAction === potentialBoundAction ? " selected" : ""}>` +
                             potentialBoundAction +
-                            "</option>"
+                            "</option>",
                     );
                 });
                 row.append(selector);
             } else {
-                row.append($(`<td>`).html(SharkGame.Keybinds.cleanActionID(boundAction)));
+                row.append($("<td>").html(SharkGame.Keybinds.cleanActionID(boundAction)));
             }
 
             row.append(
-                $(`<td>`).append(
+                $("<td>").append(
                     $("<button>")
                         .addClass("min close-button")
                         .html("✕")
-                        .on(`click`, () => {
+                        .on("click", () => {
                             $(`#${SharkGame.Keybinds.compressKeyID(boundKey)}`).remove();
                             delete SharkGame.Keybinds.keybinds[boundKey];
-                        })
-                )
+                        }),
+                ),
             );
             keybindTable.append(row);
         });
@@ -643,9 +642,9 @@ SharkGame.PaneHandler = {
             $("<div>")
                 .attr("id", "aspectInnerWarning")
                 .append(
-                    "Uh oh!<br>Your save has aspects that are no longer in the game!<br>I'm sorry, but there's only one way we can fix this:<br>your <strong>aspects</strong> have been <strong>refunded</strong><br>so that you can <strong>replace them</strong> with <strong>new ones</strong>.<br><br>Remember that you can use the <strong>skip</strong> button<br>in the top-left of the screen to go back to the gateway.<br>"
+                    "Uh oh!<br>Your save has aspects that are no longer in the game!<br>I'm sorry, but there's only one way we can fix this:<br>your <strong>aspects</strong> have been <strong>refunded</strong><br>so that you can <strong>replace them</strong> with <strong>new ones</strong>.<br><br>Remember that you can use the <strong>skip</strong> button<br>in the top-left of the screen to go back to the gateway.<br>",
                 )
-                .addClass("paneContentDiv")
+                .addClass("paneContentDiv"),
         );
         SharkGame.Button.makeButton(
             "confirmUnderstood",
@@ -654,7 +653,7 @@ SharkGame.PaneHandler = {
             () => {
                 SharkGame.PaneHandler.nextPaneInStack();
                 SharkGame.missingAspects = false;
-            }
+            },
         );
         this.addPaneToStack("THAT'S NOT GOOD...", aspectWarnDiv, true);
     },
